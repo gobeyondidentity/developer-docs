@@ -62,11 +62,6 @@ const sidebars = {
           type: 'link',
           label: 'Library Source Code', 
           href: 'https://github.com/gobeyondidentity/bi-sdk-swift/',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/swift/embedded-sdk/',
         }],
       },
       {
@@ -85,11 +80,6 @@ const sidebars = {
           type: 'link',
           label: 'Library Source Code', 
           href: 'https://github.com/gobeyondidentity/bi-sdk-swift/',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/swift/embedded-ui-sdk/',
         }],
       },
       {
@@ -113,11 +103,6 @@ const sidebars = {
           type: 'link',
           label: 'Live Demo', 
           href: 'https://acme-app.byndid.com',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/swift/authenticator-sdk/',
         }],
       }],
     },
@@ -135,11 +120,6 @@ const sidebars = {
           type: 'link',
           label: 'Library Source Code', 
           href: 'https://github.com/byndid/bi-sdk-android/',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/android/embedded-sdk',
         }],
       },
       {
@@ -158,11 +138,6 @@ const sidebars = {
           type: 'link',
           label: 'Library Source Code', 
           href: 'https://github.com/gobeyondidentity/bi-sdk-android',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/android/authenticator-sdk',
         }],
       },
       {
@@ -181,11 +156,6 @@ const sidebars = {
           type: 'link',
           label: 'Library Source Code', 
           href: 'https://github.com/gobeyondidentity/bi-sdk-android/tree/main/embedded-ui',
-        },
-        {
-          type: 'link',
-          label: 'Full API Reference', 
-          href: '/sdk/android/embedded-ui-sdk',
         }],
       }],
     },

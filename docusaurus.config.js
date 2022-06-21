@@ -10,7 +10,7 @@ const config = {
   tagline: "Digital keys for all your devices",
   url: "https://developers.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "warn",
+  onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
