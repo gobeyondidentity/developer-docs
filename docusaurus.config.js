@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Beyond Identity Developer Documentation",
-  tagline: "Digital keys for all your devices",
+  tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
   url: "https://developers.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
