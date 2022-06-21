@@ -61,7 +61,7 @@ Registration and recovery are not offered as functions in the Embedded SDK. Inst
 
 After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a `redirect url` specified by your tenant. Once the user is redirected, intercept the redirect with `<intent-filter>`.
 
-See [Registration Redirect URI](registration-redirect-uri) for more information.
+See [Registration Redirect URI](docs/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 :::warning
 Deep Links offer a potential attack as Android allows any URL Scheme to be claimed by multiple apps and thus malicious apps can hijack sensitive data. Use a App Links for your redirect url.

@@ -102,7 +102,7 @@ Registration and recovery are not offered as functions in the Embedded SDK. Inst
 
 ## Intercepting A Redirect From A New or Recovered User
 
-After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI] (doc:registration-redirect-uri) for more information.
+After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI] (docs/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 ### Usage
 
