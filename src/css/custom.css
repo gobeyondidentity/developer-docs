@@ -29,12 +29,63 @@
   font-size: 110%;
 }
 
+.mycard {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  border: 1px red solid;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  max-width: 100%;
+}
+
+.square {
+  padding: 16px !important;
+  display: flex;
+  position: relative;
+  margin-top: 1em;
+}
+
+.square:hover {
+  box-shadow: rgba(3,27,78,.1)0 10px 20px!important;
+  background-color: #fff!important;
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+.card__link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 0;
+  max-width: 100%;
+  display: inline-block;
+}
+
+.card__svg{
+  
+}
+
+.card__title {
+  color: #5077c5;
+  font-weight: bold;
+}
+
+.card__body {
+  color: --ifm-color-primary-lightest;
+}
 
 @font-face {
   font-family: acre;
   src: url(/font/acre.otf);
 }
-
 
 .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.1);
