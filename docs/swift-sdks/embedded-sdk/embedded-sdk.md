@@ -88,8 +88,6 @@ See Apple’s documentation on Supporting Universal Links In Your App for all op
 
 #### Usage
 
-[Embedded.shared.registerCredentials](/sdk/swift/embedded-sdk/Embedded/#embedded.registercredentials(_:callback:))
-
 ```swift
 Embedded.shared.registerCredentials(url) { result in
     switch result {
@@ -113,8 +111,6 @@ Optional `PKCE` support is available to mitigate authorization code injection. U
 Make sure to use your configured confidential clientID in initialization.
 
 #### Usage
-
-[Embedded.shared.authorize](/sdk/swift/embedded-sdk/Embedded/#embedded.authorize(pkcechallenge:scope:callback:))
 
 ```swift
 Embedded.shared.authorize(
@@ -141,8 +137,6 @@ To use OIDC client connections for Public Client authentication, please ensure t
 
 #### Usage
 
-[Embedded.shared.authenticate](/sdk/swift/embedded-sdk/Embedded/#embedded.authenticate(callback:))
-
 ```swift
 Embedded.shared.authenticate { result in
     switch result {
@@ -165,8 +159,6 @@ In order to add a new device, the user must first export a `Credential` from a d
 On a successful export, you’ll receive an `ExtendCredentialsStatus` indicating the extending status. The first time a token is received, the callback will fire with a status of `.started(CredentialToken, QRCode?)`. Every 90 seconds, the token is cycled and `.tokenUpdated(CredentialToken, QRCode?)` will fire with a new token. A status of `.done` indicates that a `Credential` extension completed successfully. Upon receiving a `CredentialToken` and/or `QRCode`, it is up to you to display one or both to the user.
 
 #### Usage
-
-[Embedded.shared.extendCredentials](/api-docs/sdk/swift/embedded-sdk/Embedded/#embedded.extendcredentials(handles:callback:))
 
 ```swift
 Embedded.shared.extendCredentials(handles: [Credential.handle]) { result in
@@ -196,8 +188,6 @@ Once an extension is started, it needs to be either completed or canceled. This 
 
 #### Usage
 
-[Embedded.shared.cancelExtendCredentials](/sdk/swift/embedded-sdk/Embedded/#embedded.cancelextendcredentials(callback:))
-
 ```swift
 Embedded.shared.cancelExtendCredentials() { result in
     switch result {
@@ -219,8 +209,6 @@ Once a credential extension is initiated, you can handle importing the code on a
 In either case, you’ll need to take the 9 digit code and initialize a `CredentialToken` to pass into the import function. A successful import will return a list of imported credentials.
 
 #### Usage 
-
-[Embedded.shared.registerCredentials](/sdk/swift/embedded-sdk/Embedded/#embedded.registercredentials(token:callback:))
 
 ```swift
 Embedded.shared.registerCredentials(token: tokenToImport) { result in

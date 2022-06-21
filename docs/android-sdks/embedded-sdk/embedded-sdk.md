@@ -51,7 +51,7 @@ dependencies {
 
 If the user has never set up an account with Beyond Identity, then the user will need to complete a registration flow. If the user previously had credentials but have since been deleted and no other device has a credential, then the user should complete the recovery flow.
 
-In either case, the end result is that the user creates a [Credential](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk.models/-credential/index.html) on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Keystore. When a user sets up an account with Beyond Identity, the device in which they register creates A Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
+In either case, the end result is that the user creates a Credential on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Keystore. When a user sets up an account with Beyond Identity, the device in which they register creates A Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
 
 Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
 - [User Sign-Up Flow](/docs/integration-guides/user-sign-up-flow)
@@ -61,15 +61,13 @@ Registration and recovery are not offered as functions in the Embedded SDK. Inst
 
 After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a `redirect url` specified by your tenant. Once the user is redirected, intercept the redirect with `<intent-filter>`.
 
-See [Registration Redirect URI](registration-redirect-uri) for more information.
+See [Registration Redirect URI](docs/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 :::warning
 Deep Links offer a potential attack as Android allows any URL Scheme to be claimed by multiple apps and thus malicious apps can hijack sensitive data. Use a App Links for your redirect url.
 :::
 
 #### Usage
-
-[EmbeddedSdk.registerCredentialsWithUrl](/api-docs/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/register-credentials-with-url.html)
 
 ```
 EmbeddedSdk.registerCredentialsWithUrl(url: String) { result ->
@@ -92,8 +90,6 @@ Optional PkceResponse support is available to mitigate authorization code inject
 
 #### Usage
 
-[EmbeddedSdk.authorize](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/authorize.html)
-
 ```
 EmbeddedSdk.authorize(
     clientId: String,
@@ -112,8 +108,6 @@ This flow authenticates and authorizes the user by completing the authorization 
 On successful authentication, you'll receive a TokenResponse containing the `accessToken` and JWT `idToken`.
 
 #### Usage
-
-[EmbeddedSdk.authenticate](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/authenticate.html)
 
 ```
 EmbeddedSdk.authenticate(
@@ -136,8 +130,6 @@ On a successful extend, you'll receive updates through ExportCredentialListener 
 
 ### Usage
 
-[EmbeddedSdk.extendCredentials](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/extend-credentials.html)
-
 ```
 EmbeddedSdk.extendCredentials(
     credentialHandles = listOf("sdk-demo"),
@@ -153,8 +145,6 @@ Once extendCredentials is started, it needs to be either completed or canceled. 
 
 ### Usage
 
-[EmbeddedSdk.cancelExtendCredentials](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/cancel-extend-credentials.html)
-
 ```
 EmbeddedSdk.cancelExtendCredentials() { result ->
     result.onSuccess { }
@@ -167,8 +157,6 @@ EmbeddedSdk.cancelExtendCredentials() { result ->
 Once the user had successfully exported a Credential, the user may either scan the `rendezvousTokenBitmap` or enter the provided `rendezvousToken` into their other device. If a QRCode is scanned, then the `CredentialToken` will need to be extracted to pass to the import function. A successful import will return a list of imported credentials.
 
 ### Usage
-
-[EmbeddedSdk.registerCredentialsWithToken](/sdk/android/embedded-sdk/-embedded%20-s-d-k/com.beyondidentity.embedded.sdk/-embedded-sdk/register-credentials-with-token.html)
 
 ```
 EmbeddedSdk.registerCredentialsWithToken(token: String) { result ->

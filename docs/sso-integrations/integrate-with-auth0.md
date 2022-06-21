@@ -79,7 +79,7 @@ SSO Issuer is the domain URL in Auth0.
 
 ## Add Beyond Identity as an Identity Provider
 
-Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](/docs/integrate-with-auth0#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](/docs/integrate-with-auth0#custom-social-oauth20-connection). 
+Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](integrate-with-auth0#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](integrate-with-auth0#custom-social-oauth20-connection). 
 
 ### Create an Inbound OIDC client in Beyond Identity
 
