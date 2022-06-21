@@ -1,0 +1,201 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ciam/ciam.proto",
+    "version": "version not set"
+  },
+  "servers": [
+    {
+      "url": "//api.byndid.com/"
+    }
+  ],
+  "paths": {
+    "/v1/manage/recover-user": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Recover User",
+        "operationId": "RecoverUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ciamRecoverUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ciamUser"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/v1/manage/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create User",
+        "operationId": "CreateUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ciamCreateUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ciamUser"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "ciamCreateUserRequest": {
+        "required": [
+          "binding_token_delivery_method",
+          "display_name",
+          "email",
+          "external_id",
+          "user_name"
+        ],
+        "type": "object",
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "description": "This is the identifier which corresponds to the user in your database."
+          },
+          "email": {
+            "type": "string",
+            "description": "This is the email address for the user. An email will be sent to the user to enable them to enrol in Beyond Identity."
+          },
+          "user_name": {
+            "type": "string",
+            "description": "Internal field to identify the user.  When signing in, this will be returned as the subject field of the ID token."
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Internal field to identify the user's name."
+          },
+          "binding_token_delivery_method": {
+            "type": "string",
+            "description": "Delivery method of the binding token. Can only be 'email'"
+          }
+        }
+      },
+      "ciamRecoverUserRequest": {
+        "required": [
+          "binding_token_delivery_method",
+          "external_id"
+        ],
+        "type": "object",
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "description": "This is the identifier which corresponds to the user in your database."
+          },
+          "binding_token_delivery_method": {
+            "type": "string",
+            "description": "Delivery method of the binding token. Can only be 'email'"
+          }
+        }
+      },
+      "ciamUser": {
+        "type": "object",
+        "properties": {
+          "internal_id": {
+            "type": "string",
+            "description": "This is the internal ID of the user within your Beyond Identity directory."
+          },
+          "external_id": {
+            "type": "string",
+            "description": "This is the external ID passed in the user creation call, generally a unique identifier into an external directory of users."
+          },
+          "email": {
+            "type": "string",
+            "description": "This is the email address of the user passed in the user creation call."
+          },
+          "user_name": {
+            "type": "string",
+            "description": "This is the user name of the user passed in the user creation call."
+          },
+          "display_name": {
+            "type": "string",
+            "description": "This is the display name of the user passed in the user creation call."
+          },
+          "date_created": {
+            "type": "string",
+            "description": "This is the timestamp for when the user was originally created.",
+            "format": "date-time"
+          },
+          "date_modified": {
+            "type": "string",
+            "description": "This is the timestamp for the last update to the user entry.",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ciamUserStatus"
+          }
+        }
+      },
+      "ciamUserStatus": {
+        "type": "string",
+        "description": "One of `USER_STATUS_ACTIVE`, `USER_STATUS_SUSPENDED`, or `USER_STATUS_DELETED`. New users are always created with the status `USER_STATUS_ACTIVE`.",
+        "default": "USER_STATUS_UNSET",
+        "enum": [
+          "USER_STATUS_UNSET",
+          "USER_STATUS_ACTIVE",
+          "USER_STATUS_SUSPENDED",
+          "USER_STATUS_DELETED"
+        ]
+      }
+    }
+  },
+  "x-readme": {
+    "explorer-enabled": true,
+    "proxy-enabled": true,
+    "samples-enabled": true
+  }
+}
