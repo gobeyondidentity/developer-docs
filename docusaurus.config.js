@@ -10,7 +10,7 @@ const config = {
   tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
   url: "https://developers.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
@@ -21,6 +21,9 @@ const config = {
       "docusaurus-preset-openapi",
       /** @type {import('docusaurus-preset-openapi').Options} */
       ({
+        api: {
+          path: "openapi.yaml"
+        },
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
