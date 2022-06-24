@@ -51,7 +51,14 @@
 
 .square:hover {
   box-shadow: rgba(3,27,78,.1)0 10px 20px!important;
-  background-color: #fff!important;
+  background-color: #fff !important;
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+html[data-theme="dark"] .square:hover {
+  box-shadow: rgba(3,27,78,.1)0 10px 20px!important;
+  background-color: #000 !important;
   transform: scale(1.01);
   cursor: pointer;
 }
