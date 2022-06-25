@@ -1,0 +1,3998 @@
+openapi: 3.0.1
+info:
+  title: Beyond Identity API
+  description: |
+    The Beyond Identity API defines methods for managing realms, directories, credentials, and applications.
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: support@beyondidentity.com
+  license:
+    name: Apache 2.0
+    url: 'http://license.com/'
+  version: v1
+servers:
+  - url: 'https://api-us.beyondidentity.run/v1'
+    description: "Rolling"
+  - url: 'https://api-us.beyondidentity.com/v1'
+    description: "Production"
+tags:
+  - name: Tenants
+    description: Tenant methods.
+  - name: Realms
+    description: Realm methods.
+  - name: Groups
+    description: Group methods.
+  - name: Identities
+    description: Identity methods.
+  - name: Credentials
+    description: Credential methods.
+  - name: Credential Binding Jobs
+    description: Credential binding job methods.
+  - name: Themes
+    description: Theme methods.
+  - name: Applications
+    description: Application methods.
+  - name: Authenticator Configs
+    description: Authenticator configuration methods.
+  - name: Resource Servers
+    description: Resource server methods.
+paths:
+  '/tenants/{tenant_id}':
+    get:
+      tags:
+        - Tenants
+      operationId: GetTenant
+      summary: Get a tenant.
+      description: Gets a tenant.
+      security:
+        - ManagementAuth:
+            - 'tenants:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Tenants
+      operationId: UpdateTenant
+      summary: Update a tenant.
+      description: |
+        Updates a tenant. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      security:
+        - ManagementAuth:
+            - 'tenants:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+      requestBody:
+        description: Updates to the specified tenant.
+        content:
+          application/json:
+            schema:
+              title: Update Tenant Request
+              description: Request for UpdateTenant.
+              type: object
+              properties:
+                tenant:
+                  $ref: '#/components/schemas/Tenant'
+              required:
+                - tenant
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Tenants
+      operationId: DeleteTenant
+      summary: Delete a tenant.
+      description: |
+        Deletes a tenant. Tenants may only be deleted if they have no realms.
+      security:
+        - ManagementAuth:
+            - 'tenants:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+      responses:
+        '200':
+          description: OK.
+          content: "{}"
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Failed precondition. All child resources must be deleted prior to deleting the tenant. The error details will include a ResourceInfo for each direct child resource of the tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms':
+    post:
+      tags:
+        - Realms
+      operationId: CreateRealm
+      summary: Create a realm.
+      description: |
+        Creates a realm for a tenant. Values in the request body for immutable or output-only fields will be ignored.
+      security:
+        - ManagementAuth:
+            - 'realms:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+      requestBody:
+        description: Realm to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Realm Request
+              description: Request for CreateRealm.
+              type: object
+              properties:
+                realm:
+                  $ref: '#/components/schemas/Realm'
+              required:
+                - realm
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Realm'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Realms
+      operationId: ListRealms
+      summary: List realms.
+      description: |
+        Lists realms belonging to a tenant. There is no defined ordering of the
+        list of realms in the response.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - ManagementAuth:
+            - 'realms:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRealmsResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}':
+    get:
+      tags:
+        - Realms
+      operationId: GetRealm
+      summary: Get a realm.
+      description: Gets a realm belonging to a tenant.
+      security:
+        - ManagementAuth:
+            - 'realms:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Realm'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Realms
+      operationId: UpdateRealm
+      summary: Update a realm.
+      description: |
+        Updates a realm belonging to a tenant. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      security:
+        - ManagementAuth:
+            - 'realms:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        description: Updates to the specified realm.
+        content:
+          application/json:
+            schema:
+              title: Update Realm Request
+              description: Request for UpdateRealm.
+              type: object
+              properties:
+                realm:
+                  $ref: '#/components/schemas/Realm'
+              required:
+                - realm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Realm'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Realms
+      operationId: DeleteRealm
+      summary: Delete a realm.
+      description: |
+        Deletes a realm belonging to a tenant. Realms may only be deleted if they have no identities or groups.
+      security:
+        - ManagementAuth:
+            - 'realms:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      responses:
+        '200':
+          description: OK.
+          content: "{}"
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Failed precondition. All child resources must be deleted prior to deleting the realm. The error details will include a ResourceInfo for each direct child resource of the realm.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/groups':
+    post:
+      tags:
+        - Groups
+      operationId: CreateGroup
+      summary: Create a group.
+      description: |
+        Creates a group within a realm. Values in the request body for immutable or output-only fields will be ignored.
+      security:
+        - ManagementAuth:
+            - 'groups:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        description: Group to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Group Request
+              description: Request for CreateGroup.
+              type: object
+              properties:
+                group:
+                  $ref: '#/components/schemas/Group'
+              required:
+                - group
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Groups
+      operationId: ListGroups
+      summary: List groups.
+      description: |
+        Lists groups within a realm. There is no defined ordering of the list of
+        groups in the response.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - ManagementAuth:
+            - 'groups:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupsResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}':
+    get:
+      tags:
+        - Groups
+      operationId: GetGroup
+      summary: Get a group.
+      description: Gets a group within a realm.
+      security:
+        - ManagementAuth:
+            - 'groups:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Groups
+      operationId: UpdateGroup
+      summary: Update a group.
+      description: |
+        Updates a group within a realm. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      security:
+        - ManagementAuth:
+            - 'groups:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+      requestBody:
+        description: Updates to the specified group.
+        content:
+          application/json:
+            schema:
+              title: Update Group Request
+              description: Request for UpdateGroup.
+              type: object
+              properties:
+                group:
+                  $ref: '#/components/schemas/Group'
+              required:
+                - group
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Groups
+      operationId: DeleteGroup
+      summary: Delete a group.
+      description: |
+        Deletes a group within a realm. Groups may only be deleted if they have no members.
+      security:
+        - ManagementAuth:
+            - 'groups:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+      responses:
+        '200':
+          description: OK.
+          content: "{}"
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Failed precondition. All child resources must be deleted prior to deleting the group. The error details will include a ResourceInfo for each direct child resource of the group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listMembers':
+    get:
+      tags:
+        - Groups
+      operationId: ListGroupMembers
+      summary: List group members.
+      description: Lists the identities that belong to a group.
+      security:
+        - ManagementAuth:
+            - 'groups:read'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupMembersResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:addMembers':
+    post:
+      tags:
+        - Groups
+      operationId: AddGroupMembers
+      summary: Add members to a group.
+      description: Adds members to a group.
+      security:
+        - ManagementAuth:
+            - 'groups:update'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+      requestBody:
+        description: Required fields for adding members to a group.
+        content:
+          application/json:
+            schema:
+              title: Add Group Members Request
+              description: Request for AddGroupMembers.
+              type: object
+              properties:
+                identity_ids:
+                  description: IDs of the identities to be added to the group.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+              required:
+                - identity_ids
+      responses:
+        '200':
+          description: Group members were added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing each missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:deleteMembers':
+    post:
+      tags:
+        - Groups
+      operationId: DeleteGroupMembers
+      summary: Deletes members from a group.
+      description: Deletes members from a group.
+      security:
+        - ManagementAuth:
+            - 'groups:update'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+      requestBody:
+        description: Required fields for deleting members from a group.
+        content:
+          application/json:
+            schema:
+              title: Delete Group Members Request
+              description: Request for DeleteGroupMembers.
+              type: object
+              properties:
+                identity_ids:
+                  description: IDs of the identities to be removed from the group.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+              required:
+                - identity_ids
+      responses:
+        '200':
+          description: Group members were deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing each missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities':
+    post:
+      tags:
+        - Identities
+      operationId: CreateIdentity
+      summary: Create an identity.
+      description: |
+        Creates an identity within a realm. Values in the request body for immutable or output-only fields will be ignored.
+      security:
+        - ManagementAuth:
+            - 'identities:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        description: Identity to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Identity Request
+              description: Request for CreateIdentity.
+              type: object
+              properties:
+                identity:
+                  $ref: '#/components/schemas/Identity'
+              required:
+                - identity
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identity'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Identities
+      operationId: ListIdentities
+      summary: List identities.
+      description: |
+        Lists identities within a realm. There is no defined ordering of the
+        list of identities in the response.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - ManagementAuth:
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListIdentitiesResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}':
+    get:
+      tags:
+        - Identities
+      operationId: GetIdentity
+      summary: Get an identity.
+      description: Gets an identity within a realm.
+      security:
+        - ManagementAuth:
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identity'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Identities
+      operationId: UpdateIdentity
+      summary: Update an identity.
+      description: |
+        Updates an identity within a realm. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      security:
+        - ManagementAuth:
+            - 'identities:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+      requestBody:
+        description: Updates to the specified identity.
+        content:
+          application/json:
+            schema:
+              title: Update Identity Request
+              description: Request for UpdateIdentity.
+              type: object
+              properties:
+                identity:
+                  $ref: '#/components/schemas/Identity'
+              required:
+                - identity
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identity'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Identities
+      operationId: DeleteIdentity
+      summary: Delete an identity.
+      description: |
+        Deletes an identity within a realm. Identities may only be deleted if they have no credentials.
+      security:
+        - ManagementAuth:
+            - 'identities:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+      responses:
+        '200':
+          description: OK.
+          content: "{}"
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Failed precondition. All child resources must be deleted prior to deleting the identity. The error details will include a ResourceInfo for each direct child resource of the identity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}:listGroups':
+    get:
+      tags:
+        - Identities
+      operationId: ListIdentityGroups
+      summary: List an identity's groups.
+      description: List the groups to which an identity belongs.
+      security:
+        - ManagementAuth:
+            - 'identities:read'
+            - 'groups:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListIdentityGroupsResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}':
+    get:
+      tags:
+        - Credentials
+      operationId: GetCredential
+      summary: Get a credential.
+      description: Gets a credential.
+      security:
+        - ManagementAuth:
+            - 'credentials:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/credential_id'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credential'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}:revoke':
+    post:
+      tags:
+        - Credentials
+      operationId: RevokeCredential
+      summary: Revoke a credential.
+      description: Revokes a credential
+      security:
+        - ManagementAuth:
+            - 'credentials:revoke'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/credential_id'
+      responses:
+        '200':
+          description: Credential was successfully revoked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credential'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credentials':
+    get:
+      tags:
+        - Credentials
+      operationId: ListCredentials
+      summary: List credentials.
+      description: |
+        Lists credentials.
+        Supports filtering (using the `filter` request parameter) by the following attributes: `state`, `jwk_thumbprint`. See the Credential resource schema for details about those attributes.
+      security:
+        - ManagementAuth:
+            - 'credentials:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id_or_wildcard'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCredentialsResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credential-binding-jobs':
+    get:
+      tags:
+        - Credential Binding Jobs
+      operationId: ListCredentialBindingJobs
+      summary: List credential binding jobs.
+      description: Lists credential binding jobs.
+      security:
+        - ManagementAuth:
+            - 'credential-binding-jobs:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id_or_wildcard'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCredentialBindingJobsResponse'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs/{credential_binding_job_id}':
+    get:
+      tags:
+        - Credential Binding Jobs
+      operationId: GetCredentialBindingJob
+      summary: Get a credential binding job.
+      description: Gets a credential binding job.
+      security:
+        - ManagementAuth:
+            - 'credential-binding-jobs:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/credential_binding_job_id'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialBindingJob'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/themes':
+    post:
+      tags:
+        - Themes
+      description: |
+        Create a theme for a realm. All are optional and will be populated with  defaults if not provided.
+      operationId: CreateTheme
+      security:
+        - ManagementAuth:
+            - 'themes:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        description: Theme to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Theme Request
+              description: Request for CreateTheme.
+              type: object
+              properties:
+                theme:
+                  $ref: '#/components/schemas/Theme'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            A theme already exists for this realm, multiple themes per realm are  currently not supported.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/themes/active':
+    get:
+      tags:
+        - Themes
+      description: |
+        Get the active theme for a realm. If the realm has not specified an active theme a default theme will be returned. In that case, the returned theme will not have the id field populated.
+      operationId: GetActiveTheme
+      security:
+        - ManagementAuth:
+            - 'themes:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/themes/{theme_id}':
+    get:
+      tags:
+        - Themes
+      description: Get a theme.
+      operationId: GetTheme
+      security:
+        - ManagementAuth:
+            - 'themes:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/theme_id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Themes
+      description: Update a theme.
+      operationId: UpdateTheme
+      security:
+        - ManagementAuth:
+            - 'themes:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/theme_id'
+      requestBody:
+        description: Theme to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Theme Request
+              description: Request for CreateTheme.
+              type: object
+              properties:
+                theme:
+                  $ref: '#/components/schemas/Theme'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the missing resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/applications':
+    get:
+      operationId: ListApplications
+      tags:
+        - Applications
+      summary: Lists Applications by Realm.
+      description: Lists Applications by Realm.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: The list operation was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApplicationsResponse'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: CreateApplication
+      tags:
+        - Applications
+      summary: Creates a new Application.
+      description: Creates a new Application.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApplicationRequest'
+      responses:
+        '200':
+          description: The Application has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}':
+    get:
+      operationId: GetApplication
+      tags:
+        - Applications
+      summary: Finds an Application by its ID.
+      description: Finds an Application by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/application_id'
+      responses:
+        '200':
+          description: The Application has been found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The Application was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: UpdateApplication
+      tags:
+        - Applications
+      summary: Updates an Application by its ID.
+      description: Updates an Application by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/application_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApplicationRequest'
+      responses:
+        '200':
+          description: The Application has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The application was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: DeleteApplication
+      tags:
+        - Applications
+      summary: Deletes an Application by its ID.
+      description: Deletes an Application by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/application_id'
+      responses:
+        '200':
+          description: The Application was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The application was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs':
+    get:
+      operationId: ListAuthenticatorConfig
+      tags:
+        - Authenticator Configs
+      summary: Lists Authenticator Configs by Realm.
+      description: Lists Authenticator Configs by Realm.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: The list operation was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAuthenticatorConfigsResponse'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: CreateAuthenticatorConfig
+      tags:
+        - Authenticator Configs
+      summary: Creates a new Authenticator Config.
+      description: Creates a new Authenticator Config.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthenticatorConfigRequest'
+      responses:
+        '200':
+          description: The authenticator config has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatorConfig'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs/{authenticator_config_id}':
+    get:
+      operationId: GetAuthenticatorConfig
+      tags:
+        - Authenticator Configs
+      summary: Finds an Authenticator Config by its ID.
+      description: Finds an Authenticator Config by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/authenticator_config_id'
+      responses:
+        '200':
+          description: The Authenticator Config has been found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatorConfig'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The authenticator config was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: UpdateAuthenticatorConfig
+      tags:
+        - Authenticator Configs
+      summary: Updates an Authenticator Config by its ID.
+      description: Updates an Authenticator Config by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/authenticator_config_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAuthenticatorConfigRequest'
+      responses:
+        '200':
+          description: The Authenticator Config has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatorConfig'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The authenticator config was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: DeleteAuthenticatorConfig
+      tags:
+        - Authenticator Configs
+      summary: Deletes an Authenticator Config by its ID.
+      description: Deletes an Authenticator Config by its ID.
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/authenticator_config_id'
+      responses:
+        '200':
+          description: The Authenticator Config was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatorConfig'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The authenticator config was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/resource-servers':
+    get:
+      summary: Lists resource servers by realm.
+      description: Lists resource servers by realm.
+      tags:
+        - Resource Servers
+      operationId: ListResourceServers
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResourceServersResponse'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Creates a new Resource Server.
+      description: Creates a new Resource Server.
+      tags:
+        - Resource Servers
+      operationId: CreateResourceServer
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceServerRequest'
+        required: true
+      responses:
+        '200':
+          description: The resource server has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceServer'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}':
+    get:
+      summary: Finds a Resource Server by its ID.
+      description: Finds a Resource Server by its ID.
+      tags:
+        - Resource Servers
+      operationId: GetResourceServer
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+      responses:
+        '200':
+          description: The resource server has been found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceServer'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource server not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Deletes a Resource Server by its ID.
+      description: Deletes a Resource Server by its ID.
+      tags:
+        - Resource Servers
+      operationId: DeleteResourceServer
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+      responses:
+        '200':
+          description: The resource server has been found and deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceServer'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource server not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Updates a Resource Server by its ID.
+      description: Updates a Resource Server by its ID.
+      tags:
+        - Resource Servers
+      operationId: update_rs
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceServerRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceServer'
+        '400':
+          description: The request is malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: An invalid Authorization token has been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            The supplied authorization token doesn't allow the requested operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource server not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    tenant_id:
+      name: tenant_id
+      in: path
+      description: ID of the tenant.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    realm_id:
+      name: realm_id
+      in: path
+      description: ID of the realm.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    group_id:
+      name: group_id
+      in: path
+      description: ID of the group.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    identity_id:
+      name: identity_id
+      in: path
+      description: ID of the identity.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    identity_id_or_wildcard:
+      name: identity_id_or_wildcard
+      in: path
+      description: Either the ID of an identity or the wildcard string "-".
+      required: true
+      schema:
+        type: string
+    credential_id:
+      name: credential_id
+      in: path
+      description: ID of the credential.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    credential_binding_job_id:
+      name: credential_binding_job_id
+      in: path
+      description: ID of the credential binding job.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    theme_id:
+      name: theme_id
+      in: path
+      description: ID of the theme
+      required: true
+      schema:
+        type: string
+    application_id:
+      name: application_id
+      in: path
+      required: true
+      description: The ID of the Application to find.
+      schema:
+        type: string
+    authenticator_config_id:
+      name: authenticator_config_id
+      in: path
+      required: true
+      description: The ID of the Authenticator Config to find.
+      schema:
+        type: string
+    resource_server_id:
+      name: resource_server_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    filter:
+      name: filter
+      in: query
+      description: |
+        Filter for list methods.
+
+        Filters follow the SCIM grammar from RFC7644
+        https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2 .
+      schema:
+        type: string
+    page_size:
+      name: page_size
+      in: query
+      description: |
+        Page size for list methods. The response will include at most this many results but may include fewer. If this value is omitted, the response will include up to the maximum number of results allowed by the method.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+        default: 0
+    page_token:
+      name: page_token
+      in: query
+      description: |
+        Page token for list methods, received from a previous request to a list endpoint. This token may be used to retrieve the subsequent page of the previous request. All other parameters to the list endpoint should match the original request that provided this token unless otherwise specified.
+      schema:
+        type: string
+    skip:
+      name: skip
+      in: query
+      description: |
+        Offset for list methods. This is the zero-based index of the first result.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+        default: 0
+  schemas:
+    Tenant:
+      title: Tenant
+      description: Representation of a customer entity.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the tenant. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        display_name:
+          type: string
+          description: |
+            Display name of the tenant. This name is only used for display purposes.
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the tenant was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the tenant was last updated. This field is output-only.
+          readOnly: true
+    Realm:
+      title: Realm
+      description: |
+        A realm provides a namespace for tenant resources. Each tenant may have many realms, each of which is required to be logically isolated from other realms.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the realm. This is automatically generated on creation. This field is immutable and output-only. This field is unique within the tenant.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the realm's tenant. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        display_name:
+          type: string
+          description: |
+            Display name of the realm. This name is only used for display purposes.
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the realm was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the realm was last updated. This field is immutable and output-only.
+          readOnly: true
+    Group:
+      title: Group
+      description: Representation of a collection of identities inside a realm/tenant.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the group. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the group's tenant. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        realm_id:
+          type: string
+          description: |
+            ID of the group's realm. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        display_name:
+          type: string
+          description: |
+            Display name of the group. This name is used for display purposes.
+        description:
+          type: string
+          description: |
+            A description of what the point of the group is.
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the group was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the group was last updated. This field is output-only.
+          readOnly: true
+    Identity:
+      title: Identity
+      description: Representation of a user identity.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the identity. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the identity's tenant. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        realm_id:
+          type: string
+          description: |
+            ID of the identity's realm. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        display_name:
+          type: string
+          description: |
+            Display name of the identity. This name is only used for display purposes.
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the identity was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the identity was last updated. This field is output-only.
+          readOnly: true
+        traits:
+          description: |
+            A collection of properties to describe an identity. This oneOf is a growing list that consumers should expect to change regularly, and confirm that the  "version" property contains the version they are expecting.
+          oneOf:
+            - $ref: '#/components/schemas/Traits_v0'
+          discriminator:
+            propertyName: version
+            mapping:
+              traits_v0: ./traits_v0.yaml
+    Traits_v0:
+      title: Traits_v0
+      description: Set of traits associated with an identity.
+      type: object
+      properties:
+        version:
+          type: string
+          description: |
+            The version of the traits schema. This value must be provided on all  writes.
+        username:
+          type: string
+          description: A required unique username for an identity in the realm.
+        primary_email_address:
+          type: string
+          description: Email address serving as primary contact for identity.
+      required:
+        - version
+    ListRealmsResponse:
+      title: List Realms Response
+      description: Response for ListRealms.
+      type: object
+      properties:
+        realms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Realm'
+          maxItems: 1000
+          description: |
+            An unordered array of realms corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - realms
+        - total_size
+    ListIdentitiesResponse:
+      title: List Identities Response
+      description: Response for ListIdentities.
+      type: object
+      properties:
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identity'
+          maxItems: 1000
+          description: |
+            An unordered array of identities corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - identities
+        - total_size
+    ListIdentityGroupsResponse:
+      title: List Identity Groups Response
+      description: Response for ListIdentityGroups.
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          maxItems: 1000
+          description: |
+            An unordered array of groups corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - groups
+        - total_size
+    ListGroupsResponse:
+      title: List Groups Response
+      description: Response for ListGroups.
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          maxItems: 1000
+          description: |
+            An unordered array of groups corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - groups
+        - total_size
+    ListGroupMembersResponse:
+      title: List Group Members Response
+      description: Response for ListGroupMembers.
+      type: object
+      properties:
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identity'
+          maxItems: 1000
+          description: |
+            An unordered array of identities corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - identities
+        - total_size
+    Credential:
+      title: Credential
+      description: Representation of a Beyond Identity credential.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the credential. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the credential's tenant. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        realm_id:
+          type: string
+          description: |
+            ID of the credential's realm. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        identity_id:
+          type: string
+          description: |
+            ID of the identity to which the credential is bound. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        state:
+          type: string
+          description: |
+            The current state of the credential.
+
+            `ACTIVE` represents a credential that can be used to authenticate against BeyondIdentity.
+
+            `REVOKED` represents a credential that has been revoked and cannot be used to authenticate against BeyondIdentity.
+          readOnly: true
+        csr_type:
+          type: string
+          description: |
+            The type of certificate signing request that created this credential.
+
+            `X509` indicates that the CSR was delivered in the form of an X.509 certificate (deprecated).
+
+            `JWT` indicates that the CSR was delivered in the form of a JWT.
+
+            `WEBAUTHN` indicates that the CSR was delivered in the form of a WebAuthn attestation response.
+          readOnly: true
+        jwk_json:
+          type: string
+          description: |
+            The public key of the Credential in JWK format, as specified by RFC-7517. This field is immutable and output-only.
+          readOnly: true
+        jwk_thumbprint:
+          type: string
+          description: |
+            Base64 URL encoding of the JWK thumbprint of the public key, as specified by RFC-7638. This field is immutable and output-only.
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the credential was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the credential was last updated. This field is output-only.
+          readOnly: true
+    CredentialBindingJob:
+      title: CredentialBindingJob
+      description: A CredentialBindingJob manages the binding of a credential to an identity.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the credential binding job. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the tenant associated with the credential binding job. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        realm_id:
+          type: string
+          description: |
+            ID of the realm associated with the credential binding job. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        identity_id:
+          type: string
+          description: |
+            ID of the identity associated with the credential binding job. This is automatically set on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        delivery_method:
+          type: string
+          description: |
+            The method by which a credential binding link is delivered to the target authenticator or identity.
+            `RETURN` indicates that a credential binding link will be returned to the caller upon creation of the credential binding job.
+        state:
+          type: string
+          description: |
+            The current state of the credential binding job.
+            `COMPLETE` indicates that a credential was successfully bound to an identity.
+
+            `LINK_OPENED` indicates that the credential binding link associated with the job was opened by its target identity.
+
+            `LINK_SENT` indicates that the credential binding link associated with the job was sent to its target authenticator or identity.
+
+            `REQUEST_DELIVERED` indicates that the credential binding request has been successfully delivered to its target authenticator.
+          readOnly: true
+        post_binding_redirect_uri:
+          type: string
+          description: |
+            The URI to which the caller will be redirected after successfully binding a credential to an identity. Optional.
+        authenticator_config_id:
+          type: string
+          description: |
+            The ID of the authenticator configuration to be used to build the credential binding job.
+        expire_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the credential binding link associated with the job will expire. This field is immutable and output-only.
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the credential was created. This field is immutable and output-only.
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the credential was last updated. This field is output-only.
+          readOnly: true
+    ListCredentialsResponse:
+      title: List Credentials Response
+      description: Response for ListCredentials.
+      type: object
+      properties:
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
+          maxItems: 1000
+          description: |
+            An unordered array of credentials corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - credentials
+        - total_size
+    ListCredentialBindingJobsResponse:
+      title: List Credential Binding Jobs Response
+      description: Response for ListCredentialBindingJobs.
+      type: object
+      properties:
+        credential_binding_jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialBindingJob'
+          maxItems: 1000
+          description: |
+            An unordered array of credential binding jobs corresponding to the filter from the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - credential_binding_jobs
+        - total_size
+    Theme:
+      title: Theme
+      description: |
+        A theme for customization of application interfaces and emails.
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the theme. This is automatically generated on creation. If the theme does not have an id this indicates that it is the default theme. This field is immutable and output-only.
+          readOnly: true
+        tenant_id:
+          type: string
+          description: |
+            ID of the theme's tenant. This is automatically set on creation. This field is immutable and output-only.
+          readOnly: true
+        realm_id:
+          type: string
+          description: |
+            ID of the theme's realm. This is automatically set on creation. This field is immutable and output-only.
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the theme was created. This field is immutable and output-only.
+          readOnly: true
+        email_realm_name:
+          type: string
+          description: |
+            Realm name that is used in email templates.
+        logo_url_light:
+          type: string
+          description: |
+            URL to for resolving the logo image for light mode.
+        logo_url_dark:
+          type: string
+          description: |
+            URL to for resolving the logo image for dark mode.
+        support_url:
+          type: string
+          format: url
+          description: |
+            URL for customer support portal.
+    CreateApplicationRequest:
+      description: Represents an Application as a request body.
+      type: object
+      required:
+        - display_name
+        - protocol_config
+      properties:
+        protocol_config:
+          description: Represents an Application protocol configuration.
+          allOf:
+            - description: Represents an Application protocol configuration.
+              oneOf:
+                - description: OAuth2 protocol configuration.
+                  type: object
+                  required:
+                    - allowed_scopes
+                    - confidentiality
+                    - grant_type
+                    - redirect_uris
+                    - token_configuration
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - oauth2
+                    allowed_scopes:
+                      description: Scopes which are allowed for this Application.
+                      type: array
+                      items:
+                        type: string
+                    confidentiality:
+                      description: 'Determines the confidentiality of this Application. Public applications do not use a client secret, but Confidential ones do.'
+                      allOf:
+                        - $ref: '#/components/schemas/Confidentiality'
+                    token_endpoint_auth_method:
+                      description: 'Indicator of the requested authentication method for the token endpoint. Allowed values:  <br /> - confidentiality : public -> token_endpoint_auth_method: none  <br /> - confidentiality : confidential -> token_endpoint_auth_method: client_secret_basic or client_secret_post  <br /> When token_endpoint_auth_method is null value will be defaulted based on confidentiality:  <br /> - public : none <br /> - confidential: client_secret_basic'
+                      allOf:
+                        - $ref: '#/components/schemas/TokenEndpointAuthMethod'
+                      nullable: true
+                    grant_type:
+                      description: 'Array of allowed grant types for this Application. Not all combinations of values are supported, e.g. authorization_code and client_credentials cannot be used together.'
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GrantType'
+                    redirect_uris:
+                      description: 'A list of valid URIs to redirect the resource owner''s user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.'
+                      type: array
+                      items:
+                        type: string
+                    token_configuration:
+                      description: Properties of a token issued for an application.
+                      allOf:
+                        - $ref: '#/components/schemas/TokenConfiguration'
+                - description: OIDC protocol configuration.
+                  type: object
+                  required:
+                    - allowed_scopes
+                    - confidentiality
+                    - grant_type
+                    - redirect_uris
+                    - token_configuration
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - oidc
+                    allowed_scopes:
+                      description: Scopes which are allowed for this Application.
+                      type: array
+                      items:
+                        type: string
+                    confidentiality:
+                      description: 'Determines the confidentiality of this Application. Public applications do not use a client secret, but Confidential ones do.'
+                      allOf:
+                        - $ref: '#/components/schemas/Confidentiality'
+                    token_endpoint_auth_method:
+                      description: Indicator of the requested authentication method for the token endpoint.
+                      allOf:
+                        - $ref: '#/components/schemas/TokenEndpointAuthMethod'
+                      nullable: true
+                    grant_type:
+                      description: 'Array of allowed grant types for this Application. Not all combinations of values are supported, e.g. authorization_code and client_credentials cannot be used together.'
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GrantType'
+                    redirect_uris:
+                      description: 'A list of valid URIs to redirect the resource owner''s user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.'
+                      type: array
+                      items:
+                        type: string
+                    token_configuration:
+                      description: Properties of a token issued for an application.
+                      allOf:
+                        - $ref: '#/components/schemas/TokenConfiguration'
+        authenticator_config:
+          description: Describes all the ways someone can authenticate into an application.
+          type: string
+          format: uuid
+          nullable: true
+        resource_server:
+          description: The resource server this Application is part of.
+          type: string
+          format: uuid
+          nullable: true
+        is_managed:
+          description: 'Managed Application may not be modified by the user. It is managed by Beyond Identity. For example, the admin console is a managed Application.'
+          default: false
+          type: boolean
+        display_name:
+          description: Application name for display purposes.
+          type: string
+    CreateAuthenticatorConfigRequest:
+      description: Represents an Authenticator Config as a response body.
+      type: object
+      required:
+        - config
+      properties:
+        config:
+          description: Configuration option for authenticator.
+          allOf:
+            - description: Represents possible configuration options.
+              oneOf:
+                - description: Configuration options for the hosted web authenticator.
+                  type: object
+                  required:
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - hosted_web
+                - description: Configuration options for the platform authenticator.
+                  type: object
+                  required:
+                    - type
+                    - custom_url_scheme
+                    - universal_url
+                    - web_server_urls
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - platform
+                    custom_url_scheme:
+                      description: Scheme for the authenticator.
+                      type: string
+                    universal_url:
+                      description: A universal URL associated with the authenticator application.
+                      type: string
+                    web_server_urls:
+                      description: Web  server urls on the user"s machine.
+                      type: array
+                      items:
+                        type: string
+                - description: Configuration options for the embedded SDK authenticator.
+                  type: object
+                  required:
+                    - type
+                    - invoke_url
+                    - trusted_origins
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - embedded
+                    invoke_url:
+                      description: URL to invoke during the authentication flow.
+                      type: string
+                    trusted_origins:
+                      description: Origins in the allowlist.
+                      type: array
+                      items:
+                        type: string
+    CreateResourceServerRequest:
+      description: Represents a resource server as a request body. A resource server is the entity hosting protected resources that a client is attempting to access.
+      type: object
+      required:
+        - display_name
+        - identifier
+        - scopes
+      properties:
+        identifier:
+          description: The identifier of this resource server entity. This is usually used in minted tokens as the audience field. The value must be unique per realm.
+          type: string
+        scopes:
+          description: The list of scopes supported by this resource server.
+          type: array
+          items:
+            type: string
+        is_managed:
+          description: Managed resource server may only be changed by internal Beyond Identity services.
+          default: false
+          type: boolean
+        display_name:
+          description: Resource server name for display purposes.
+          type: string
+    UpdateApplicationRequest:
+      description: Represents an Application as an update request body.
+      type: object
+      required:
+        - display_name
+        - protocol_config
+      properties:
+        protocol_config:
+          description: Represents an Application protocol configuration.
+          allOf:
+            - description: Represents an Application protocol configuration.
+              oneOf:
+                - $ref: '#/components/schemas/CreateApplicationRequest/properties/protocol_config/allOf/0/oneOf/0'
+                - $ref: '#/components/schemas/CreateApplicationRequest/properties/protocol_config/allOf/0/oneOf/1'
+        authenticator_config:
+          description: Describes all the ways someone can authenticate into an application.
+          type: string
+          format: uuid
+          nullable: true
+        display_name:
+          description: Application name for display purposes.
+          type: string
+    UpdateAuthenticatorConfigRequest:
+      description: Represents an Authenticator Config as a response body.
+      type: object
+      required:
+        - config
+      properties:
+        config:
+          description: Configuration option for authenticator.
+          allOf:
+            - description: Represents possible configuration options.
+              oneOf:
+                - $ref: '#/components/schemas/CreateAuthenticatorConfigRequest/properties/config/allOf/0/oneOf/0'
+                - $ref: '#/components/schemas/CreateAuthenticatorConfigRequest/properties/config/allOf/0/oneOf/1'
+                - $ref: '#/components/schemas/CreateAuthenticatorConfigRequest/properties/config/allOf/0/oneOf/2'
+    UpdateResourceServerRequest:
+      description: Represents a resource server as an update request body. A resource server is the entity hosting protected resources that a client is attempting to access.
+      type: object
+      required:
+        - scopes
+      properties:
+        scopes:
+          description: The new list of scopes supported by this resource server.
+          type: array
+          items:
+            type: string
+        display_name:
+          description: Resource server name for display purposes.
+          type: string
+          nullable: true
+    Confidentiality:
+      description: The confidentiality of the Application when treated as OAuth or OIDC client.
+      type: string
+      enum:
+        - confidential
+        - public
+    GrantType:
+      description: The type of grant supported by an Application when treated as an OAuth or OIDC client.
+      type: string
+      enum:
+        - authorization_code
+        - client_credentials
+    SigningAlgorithm:
+      description: Signing algorithm to use for an Application token.
+      type: string
+      enum:
+        - RS256
+    SubjectField:
+      description: Represents the choice which data should be used to populate the subject field of an id token.
+      type: string
+      enum:
+        - ID
+        - EMAIL
+    TokenConfiguration:
+      description: Properties of a token issued for an application.
+      type: object
+      required:
+        - expires_after
+      properties:
+        expires_after:
+          description: 'Time after minting, in seconds, for which the token will be considered valid.'
+          type: integer
+          format: uint
+          minimum: 0
+        token_signing_algorithm:
+          description: Signing algorithm to use for this token.
+          default: RS256
+          allOf:
+            - $ref: '#/components/schemas/SigningAlgorithm'
+        subject_field:
+          description: Property of a principal which is used to fill the subject of a token issued for this Application.
+          default: ID
+          allOf:
+            - $ref: '#/components/schemas/SubjectField'
+    TokenEndpointAuthMethod:
+      description: Indicator of the requested authentication method for the token endpoint.
+      type: string
+      enum:
+        - client_secret_basic
+        - none
+        - client_secret_post
+    Application:
+      description: Represents an Application as a response body.
+      type: object
+      required:
+        - display_name
+        - id
+        - is_managed
+        - protocol_config
+        - realm_id
+        - tenant_id
+      properties:
+        id:
+          description: The ID of this Application.
+          type: string
+          format: uuid
+        realm_id:
+          description: The ID of the Realm that this Application belongs to.
+          type: string
+        tenant_id:
+          description: The ID of the Tenant that this Application belongs to.
+          type: string
+        protocol_config:
+          description: Represents an Application protocol configuration.
+          allOf:
+            - description: Represents an Application protocol configuration.
+              oneOf:
+                - description: OAuth2 protocol configuration.
+                  type: object
+                  required:
+                    - allowed_scopes
+                    - client_id
+                    - confidentiality
+                    - grant_type
+                    - redirect_uris
+                    - token_configuration
+                    - token_endpoint_auth_method
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - oauth2
+                    allowed_scopes:
+                      description: Scopes which are allowed for this Application.
+                      type: array
+                      items:
+                        type: string
+                    client_id:
+                      description: The client ID to use to refer to this Application.
+                      type: string
+                    client_secret:
+                      description: 'Present if and only if confidentiality is "confidential", and only when this type is used as a response to a Create request. Invalid if passed in a request in any context.'
+                      type: string
+                      nullable: true
+                    confidentiality:
+                      description: 'Determines the confidentiality of this Application. Public applications do not use a client secret, but Confidential ones do.'
+                      allOf:
+                        - $ref: '#/components/schemas/Confidentiality'
+                    token_endpoint_auth_method:
+                      description: Indicator of the requested authentication method for the token endpoint.
+                      allOf:
+                        - $ref: '#/components/schemas/TokenEndpointAuthMethod'
+                    grant_type:
+                      description: 'Array of allowed grant types for this Application. Not all combinations of values are supported, e.g. authorization_code and client_credentials cannot be used together.'
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GrantType'
+                    redirect_uris:
+                      description: 'A list of valid URIs to redirect the resource owner''s user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.'
+                      type: array
+                      items:
+                        type: string
+                    token_configuration:
+                      description: Properties of a token issued for an application.
+                      allOf:
+                        - $ref: '#/components/schemas/TokenConfiguration'
+                - description: OIDC protocol configuration.
+                  type: object
+                  required:
+                    - allowed_scopes
+                    - client_id
+                    - confidentiality
+                    - grant_type
+                    - redirect_uris
+                    - token_configuration
+                    - token_endpoint_auth_method
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - oidc
+                    allowed_scopes:
+                      type: array
+                      items:
+                        type: string
+                    client_id:
+                      type: string
+                    client_secret:
+                      type: string
+                      nullable: true
+                    confidentiality:
+                      $ref: '#/components/schemas/Confidentiality'
+                    token_endpoint_auth_method:
+                      $ref: '#/components/schemas/TokenEndpointAuthMethod'
+                    grant_type:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GrantType'
+                    redirect_uris:
+                      type: array
+                      items:
+                        type: string
+                    token_configuration:
+                      $ref: '#/components/schemas/TokenConfiguration'
+        authenticator_config:
+          description: Describes all the ways someone can authenticate into an application.
+          type: string
+          format: uuid
+          nullable: true
+        is_managed:
+          description: Managed Application may not be modified by the user. It is managed by Beyond Identity.
+          type: boolean
+        resource_server:
+          description: The resource server this Application is part of.
+          type: string
+          format: uuid
+          nullable: true
+        display_name:
+          description: Application name for display purposes.
+          type: string
+    AuthenticatorConfig:
+      description: Represents an Authenticator Config as a response body.
+      type: object
+      required:
+        - config
+        - id
+        - realm_id
+        - tenant_id
+      properties:
+        id:
+          description: The ID of this Authenticator Config.
+          type: string
+          format: uuid
+        realm_id:
+          description: The ID of the Realm that this Authenticator Config belongs to.
+          type: string
+        tenant_id:
+          description: The ID of the Tenant that this Authenticator Config belongs to.
+          type: string
+        config:
+          description: Configuration options for authenticator.
+          allOf:
+            - description: Represents possible configuration options.
+              oneOf:
+                - description: Configuration options for the hosted web authenticator.
+                  type: object
+                  required:
+                    - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - hosted_web
+                - description: Configuration options for the platform authenticator.
+                  type: object
+                  required:
+                    - type
+                    - custom_url_scheme
+                    - universal_url
+                    - web_server_urls
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - platform
+                    custom_url_scheme:
+                      description: Scheme for the authenticator.
+                      type: string
+                    universal_url:
+                      description: A universal URL associated with the authenticator application.
+                      type: string
+                    web_server_urls:
+                      description: Web  server urls on the user"s machine.
+                      type: array
+                      items:
+                        type: string
+                - description: Configuration options for the embedded SDK authenticator.
+                  type: object
+                  required:
+                    - type
+                    - invoke_url
+                    - trusted_origins
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - embedded
+                    invoke_url:
+                      description: URL to invoke during the authentication flow.
+                      type: string
+                    trusted_origins:
+                      description: Origins in the allowlist.
+                      type: array
+                      items:
+                        type: string
+    ListApplicationsResponse:
+      description: Represents a list of Applications as a response body.
+      type: object
+      required:
+        - applications
+        - total_size
+      properties:
+        applications:
+          description: The applications that are in the list.
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+        total_size:
+          description: The total number of Applications contained by the Realm.
+          type: integer
+          format: uint
+          minimum: 0
+        next_page_token:
+          description: The value to be passed as the page_token parameter to retrieve the next page.
+          type: string
+          nullable: true
+    ListAuthenticatorConfigsResponse:
+      description: Represents a list of Authenticator Configs as a response body.
+      type: object
+      required:
+        - authenticator_configs
+        - total_size
+      properties:
+        authenticator_configs:
+          description: The authenticator configs which are part of the response.
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthenticatorConfig'
+        total_size:
+          description: The total number of Authenticator Configs contained by the Realm.
+          type: integer
+          format: uint
+          minimum: 0
+        next_page_token:
+          description: The value to be passed as the page_token parameter to retrieve the next page.
+          type: string
+          nullable: true
+    ListResourceServersResponse:
+      description: Represents a list of Resource Servers as a response body.
+      type: object
+      required:
+        - resource_servers
+        - total_size
+      properties:
+        resource_servers:
+          description: The Resource Servers which are part of the response.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceServer'
+        total_size:
+          description: The total number of Resource Servers contained by the Realm.
+          type: integer
+          format: uint
+          minimum: 0
+        next_page_token:
+          description: The value to be passed as the page_token parameter to retrieve the next page.
+          type: string
+          nullable: true
+    ResourceServer:
+      description: Represents a resource server as a response body. A resource server is the entity hosting protected resources that a client is attempting to access.
+      type: object
+      required:
+        - display_name
+        - id
+        - identifier
+        - is_managed
+        - realm
+        - scopes
+        - tenant
+      properties:
+        id:
+          description: The ID of this Resource Server.
+          type: string
+          format: uuid
+        tenant:
+          description: The ID of the Tenant that this Resource Server belongs to.
+          type: string
+        realm:
+          description: The ID of the Realm that this Resource Server belongs to.
+          type: string
+        identifier:
+          description: The identifier of this resource server entity. This is usually used in minted tokens as the audience field. The value must be unique per realm.
+          type: string
+        scopes:
+          description: The list of scopes supported by this resource server.
+          type: array
+          items:
+            type: string
+        is_managed:
+          description: Managed resource server may only be changed by internal Beyond Identity services.
+          type: boolean
+        display_name:
+          description: Resource server name for display purposes.
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: |
+            Human-readable HTTP status code name, stylized as lower snake case (e.g. bad_request).
+        message:
+          type: string
+          description: |
+            Human-readable message describing the error.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+      required:
+        - code
+        - message
+    ErrorDetail:
+      title: Error Detail
+      description: |
+        Additional details for errors designed to support client applications.
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+          description: Type of the error detail.
+      required:
+        - type
+    FieldViolations:
+      title: Field Violations
+      description: Invalid request fields.
+      allOf:
+        - $ref: '#/components/schemas/ErrorDetail'
+        - type: object
+          properties:
+            field_violations:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: The name of the field specifying an invalid value.
+                  description:
+                    type: string
+                    description: A description of the field violation.
+                required:
+                  - field
+                  - description
+              minItems: 1
+    ResourceInfo:
+      title: Resource Information
+      description: Resource information.
+      allOf:
+        - $ref: '#/components/schemas/ErrorDetail'
+        - type: object
+          properties:
+            resource_type:
+              type: string
+              description: The type of the resource.
+            id:
+              type: string
+              description: The ID of the resource.
+            description:
+              type: string
+              description: |
+                A description of the failure as it relates to this resource. For example, this may indicate that the resource is not found or that a precondition failed.
+          required:
+            - resource_type
+            - id
+            - description
+  securitySchemes:
+    ManagementAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - ManagementAuth: []

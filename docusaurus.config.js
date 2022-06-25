@@ -10,7 +10,7 @@ const config = {
   tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
   url: "https://developers.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
@@ -21,22 +21,47 @@ const config = {
       "docusaurus-preset-openapi",
       /** @type {import('docusaurus-preset-openapi').Options} */
       ({
-        docs: {
-          sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/gobeyondidentity/developer-docs",
+        api: {
+          id: 'first', // omitted => default instance
+          path: 'api/v0/openapi.json',
+          routeBasePath: 'api/v0',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/gobeyondidentity/developer-docs",
+        docs: {
+          id: "first",
+          path: 'nodocs',
+          routeBasePath: 'nodocs',
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
       }),
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'default',
+        path: 'docs',
+        routeBasePath: 'docs',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: "https://github.com/gobeyondidentity/developer-docs/blob/v1",
+        lastVersion: 'current',
+        versions: {
+          current: {
+            label: 'v1',
+            path: 'v1',
+          },
+        },
+      },
+    ],
+    [
+      'docusaurus-plugin-openapi',
+      {
+        id: 'second',
+        path: 'api/v1/openapi.yaml',
+        routeBasePath: 'api/v1',
+      },
     ],
   ],
 
@@ -53,12 +78,17 @@ const config = {
         },
         items: [
           {
+            type: 'docsVersionDropdown',
+            position: 'left',
+            dropdownActiveClassDisabled: true,
+          },
+          {
             type: "doc",
             docId: "introduction",
             position: "left",
             label: "Documentation",
           },
-          { to: "/api", label: "REST API", position: "left" },
+          { to: "/api/v1", label: "REST API v1", position: "left" },
           {
             href: "https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ",
             label: "Join Slack",
@@ -79,7 +109,7 @@ const config = {
             items: [
               {
                 label: "REST API",
-                to: "/api",
+                to: "/api/v1",
               },
             ],
           },
