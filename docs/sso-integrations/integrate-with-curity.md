@@ -1,5 +1,5 @@
 ---
-title: Integrrate With Curity
+title: Integrate With Curity
 sidebar_position: 4
 ---
 
