@@ -1,6 +1,6 @@
 ---
-title: Integrrate With Curity
-sidebar_position: 3
+title: Integrate With Curity
+sidebar_position: 4
 ---
 
 # Introduction
