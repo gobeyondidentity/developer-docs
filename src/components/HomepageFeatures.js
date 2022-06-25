@@ -12,7 +12,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/getting-started/create-a-tenant"
+      "/docs/v1/getting-started"
     )
   },
   {
