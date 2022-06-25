@@ -1,6 +1,6 @@
 ---
 title: Integrate With KeyCloak
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Introduction
