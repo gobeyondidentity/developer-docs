@@ -1,5 +1,10 @@
 {
   "mySidebar": [
+    {
+      "type": "link",
+      "label": "REST API v0",
+      "href": "/api/v0"
+    },
     "introduction",
     {
       "type": "category",
