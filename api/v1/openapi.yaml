@@ -11,10 +11,10 @@ info:
     url: 'http://license.com/'
   version: v1
 servers:
-  - url: 'https://api-us.beyondidentity.run/v1'
-    description: "Rolling"
   - url: 'https://api-us.beyondidentity.com/v1'
     description: "Production"
+  - url: 'https://api-us.beyondidentity.run/v1'
+    description: "Rolling"
 tags:
   - name: Tenants
     description: Tenant methods.
