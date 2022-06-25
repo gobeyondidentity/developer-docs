@@ -3,7 +3,7 @@
 	"info": {
 		"description": "Beyond Identity API",
 		"title": "Beyond Identity API",
-		"version": "0.1.55"
+		"version": "v0"
 	},
 	"servers": [
 		{
