@@ -46,6 +46,13 @@ const config = {
         routeBasePath: 'docs',
         sidebarPath: require.resolve('./sidebars.js'),
         editUrl: "https://github.com/gobeyondidentity/developer-docs",
+        lastVersion: 'current',
+        versions: {
+          current: {
+            label: 'v1',
+            path: 'v1',
+          },
+        },
       },
     ],
     [
@@ -54,7 +61,6 @@ const config = {
         id: 'second',
         path: 'api/v1/openapi.yaml',
         routeBasePath: 'api/v1',
-        // ... other options
       },
     ],
   ],
@@ -74,16 +80,14 @@ const config = {
           {
             type: 'docsVersionDropdown',
             position: 'left',
-            dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
             dropdownActiveClassDisabled: true,
           },
-          // {
-          //   type: "doc",
-          //   docId: "introduction",
-          //   position: "left",
-          //   label: "Documentation",
-          // },
-          { to: "/docs/introduction", label: "Documentation", position: "left" },
+          {
+            type: "doc",
+            docId: "introduction",
+            position: "left",
+            label: "Documentation",
+          },
           { to: "/api/v0", label: "REST API v0", position: "left" },
           { to: "/api/v1", label: "REST API v1", position: "left" },
           {
