@@ -45,7 +45,7 @@ const config = {
         path: 'docs',
         routeBasePath: 'docs',
         sidebarPath: require.resolve('./sidebars.js'),
-        editUrl: "https://github.com/gobeyondidentity/developer-docs",
+        editUrl: "https://github.com/gobeyondidentity/developer-docs/blob/v1",
         lastVersion: 'current',
         versions: {
           current: {
