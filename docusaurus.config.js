@@ -109,7 +109,7 @@ const config = {
             items: [
               {
                 label: "REST API",
-                to: "/api",
+                to: "/api/v1",
               },
             ],
           },
