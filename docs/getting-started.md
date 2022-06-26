@@ -5,7 +5,7 @@ sidebar_position: 1
 
 ### Create an Account 
 
-Navigate here to [Create an account](https://www.beyondidentity.com/developers).
+Navigate here to [Create an account](https://www.beyondidentity.com/developers/signup).
 
 Once your account has been created with Beyond Identity, you can continue to create an API token. 
 
@@ -43,7 +43,7 @@ Command to clone example app
 Command to Configure OAuth Client ID and Secret on sample app
 ```
 
-### Run sample app
+### Download sample app
 
 ``` bash
 Command to Run sample app

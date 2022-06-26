@@ -23,6 +23,7 @@ const sidebars = {
     },
     'introduction',
     'getting-started',
+    'hello-world-app',
     {
       type: 'category',
       label: 'Web SDKs',
