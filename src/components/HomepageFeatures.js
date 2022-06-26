@@ -24,7 +24,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/core-concepts/credentials"
+      "/docs/v1/platform-overview/architecture"
     )
   },
   {
