@@ -24,7 +24,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/core-concepts/credentials"
+      "/docs/v1/platform-overview/architecture"
     )
   },
   {
@@ -51,7 +51,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/api"
+      "/api/v1"
     )
   },
   {
@@ -63,7 +63,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/getting-started/create-a-tenant"
+      "/tutorials/tutorial1"
     )
   },
   {

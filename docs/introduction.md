@@ -3,20 +3,17 @@ title: Introduction
 sidebar_position: 1
 ---
 
-## Overview
-
-Welcome to the Beyond Identity Developer docs. The place where you can find product guides for Beyond Identity's strong authentication product. 
-
-These guides provide the information and tools to implement authentication user journeys. 
+Welcome to the Beyond Identity Developer docs. The place where you can find guides for Beyond Identity's strong authentication product. 
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
-## About Beyond Identity
+## What is Beyond Identity
+
 Beyond Identity helps customers deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers at registration, login, and recovery, as well as from your database.
 
-Unique to Beyond Identity, customers never have to pick up a second device to enroll or perform multifactor authentication, passwords are never used on user flows. They can be removed from your database, and you can implement risk-based access controls using granular user and device risk captured in real-time.
+Unique to Beyond Identity, customers never have to pick up a second device to enroll or perform multifactor authentication, passwords are never used and can be removed from your database, and you can implement risk-based access controls using granular user and device risk captured in real-time.
 
-Backed by a cloud-native architecture, our platform was built for enterprise workloads. All SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app. 
+Built on a cloud-native architecture, Beyond Identity's platform was built for enterprise workloads. All SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app. 
 
 ## How it Works
 Beyond Identity allows developers to implement strong authentication from multiple devices based on public-private keypairs. All keys are cryptographically linked to the user and can be centrally managed using our APIs. 
