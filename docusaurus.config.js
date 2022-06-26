@@ -56,6 +56,15 @@ const config = {
       },
     ],
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'tutorials', // these are the default docs, any versioning will happen here 
+        path: 'tutorials',
+        routeBasePath: 'tutorials',
+        sidebarPath: require.resolve('./sidebarsTutorials.js'),
+      },
+    ],
+    [
       'docusaurus-plugin-openapi', // this is v1 of the API, to create a new version, duplicate this entry
       {
         id: 'second', 
@@ -88,6 +97,7 @@ const config = {
             position: "left",
             label: "Documentation",
           },
+          { to: "/tutorials/tutorial1", label: "Tutorials", position: "left" },
           { to: "/api/v1", label: "REST API v1", position: "left" },
           {
             href: "https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ",
