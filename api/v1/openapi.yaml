@@ -2,8 +2,14 @@ openapi: 3.0.1
 info:
   title: Beyond Identity API
   description: |
-    The Beyond Identity API defines methods for managing realms, directories, credentials, and applications.
-  termsOfService: 'http://swagger.io/terms/'
+    The Beyond Identity API defines methods for managing:
+     - [realms](/api/v1/list-realms) -- environments where all other data lives.
+     - [identities](/api/v1/list-identities) -- users, machines. Credentials can be bound to identities. 
+     - [credentials](/api/v1/list-credentials) -- credentials are securely stored on users devices and can be used to proof users are authorized to access their account. 
+     - [applications](/api/v1/lists-applications-by-realm) -- applications represent external apps connected to a Beyond Identity realm. 
+
+    Click on the sidebar items to see details for each endpoint we support. 
+
   contact:
     email: support@beyondidentity.com
   version: v1
