@@ -3,6 +3,8 @@ title: Getting Started
 sidebar_position: 1
 ---
 
+## Get an account
+
 ### Create an Account 
 
 Navigate here to [Create an account](https://www.beyondidentity.com/developers/signup).
@@ -31,6 +33,10 @@ Command to create an identity
 Command to create an OAuth Application
 ```
 
+You're done with the account configuration. If you want to learn more about what you just did, go here. 
+
+## Try it out
+
 ### Clone example app
 
 ``` bash
@@ -39,13 +45,17 @@ Command to clone example app
 
 ### Configure OAuth Client ID and Secret on sample app
 
+This is done by running `npm configure` or somethigng where we ask them for the right stuff and place it in the correct location. 
+
 ``` bash
 Command to Configure OAuth Client ID and Secret on sample app
 ```
 
-### Download sample app
+### Run sample app
 
 ``` bash
 Command to Run sample app
 ```
+
+This is going to open a browser for them, and the sample app will have instructions on what do to next. 
 

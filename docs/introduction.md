@@ -15,6 +15,13 @@ Unique to Beyond Identity, customers never have to pick up a second device to en
 
 Built on a cloud-native architecture, Beyond Identity's platform was built for enterprise workloads. All SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app. 
 
+
+## Why does Beyond Identity exist?
+
+Flesh this out. 
+Belief that public private key pairs are fundamentally a better way to authenticate. Fido is a step in the right direction, we want to generalize it. 
+
+
 ## How it Works
 Beyond Identity allows developers to implement strong authentication from multiple devices based on public-private keypairs. All keys are cryptographically linked to the user and can be centrally managed using our APIs. 
 
