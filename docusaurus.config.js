@@ -115,15 +115,6 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Docs",
-            items: [
-              {
-                label: "REST API",
-                to: "/api/v1",
-              },
-            ],
-          },
-          {
             title: "Community",
             items: [
               {
@@ -154,7 +145,6 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Beyond Identity, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
