@@ -59,6 +59,10 @@ html[data-theme="dark"] .square:hover {
   cursor: pointer;
 }
 
+.menu {
+  background-color: #35afe508;
+}
+
 .card__link {
   position: absolute;
   left: 0;

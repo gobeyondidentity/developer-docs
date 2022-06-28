@@ -30,3 +30,6 @@ In this page we cover how as a developer, you can implement the Beyond Identity 
 - We do when it makes sense. In other cases we public private keys, with other mechanisms that are not WebAuthn. 
 
 
+
+
+Idea: link to comparisons to other products
