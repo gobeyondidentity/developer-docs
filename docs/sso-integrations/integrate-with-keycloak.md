@@ -3,7 +3,7 @@ title: Integrate With KeyCloak
 sidebar_position: 3
 ---
 
-# Introduction
+# Integrate With Keycloak
 
 This document provides information on how to configure Beyond Identity as a new OIDC identity provider for your Keycloak instance.
 
@@ -21,7 +21,7 @@ Before continuing, make sure you have the following:
 
 You can request a tenant [here](/docs/getting-started/create-a-tenant) if you do not already have access.
 
-# Configuration
+## Configuration
 
 To integrate with Keycloak:
 

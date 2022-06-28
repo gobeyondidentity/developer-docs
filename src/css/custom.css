@@ -19,12 +19,18 @@
 }
 
 .navbar {
-  height: 85px;
+  height: 95px;
 }
 
 .navbar__title {
-  font-size: 130%;
+  font-size: 140%;
 }
+
+.navbar__logo {
+  width: 3em;
+  height: 3em;
+}
+
 .navbar__item {
   font-size: 110%;
 }
