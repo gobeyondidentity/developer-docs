@@ -3,7 +3,7 @@ title: Integrate With Auth0
 sidebar_position: 1
 ---
 
-# Introduction
+# Integrate With Auth0
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Auth0 environment.
 

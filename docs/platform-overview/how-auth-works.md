@@ -10,14 +10,29 @@ In this page we cover how as a developer, you can implement the Beyond Identity 
 
 ## How to establish Device Trust
 
+### Which OSes and Platforms do we support? 
 
-## How do we create Passkeys
+We can support: 
+
+- Web applications via our Web SDK
+- iOS applications via our iOS SDK 
+- Android Applications via our Android SDK
+- React Native apps [coming soon!]
+- Flutter apps [coming soon!]
+
+[maybe this is just a row of icons and we link to each SDK]
+
+## How are Passkeys used
+
+### How do we create Passkeys
 
 
-## How do users authenticate with Passkeys
+### How do users authenticate with Passkeys
 
 
 ## What does the user need to know about Passkeys
+
+Here we briefly show the UI of using keys, we clarify that user have the ability to put passkeys on multiple devices. We briefly describe the mechanisms by whihch they do that and link to the specific articles that describe that in detail. 
 
 
 ## How does this integrate with my existing systems
@@ -30,3 +45,6 @@ In this page we cover how as a developer, you can implement the Beyond Identity 
 - We do when it makes sense. In other cases we public private keys, with other mechanisms that are not WebAuthn. 
 
 
+
+
+Idea: link to comparisons to WebAUthn by itself. 

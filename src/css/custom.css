@@ -19,12 +19,18 @@
 }
 
 .navbar {
-  height: 85px;
+  height: 95px;
 }
 
 .navbar__title {
-  font-size: 130%;
+  font-size: 140%;
 }
+
+.navbar__logo {
+  width: 3em;
+  height: 3em;
+}
+
 .navbar__item {
   font-size: 110%;
 }
@@ -57,6 +63,10 @@ html[data-theme="dark"] .square:hover {
   background-color: #000 !important;
   transform: scale(1.01);
   cursor: pointer;
+}
+
+.menu {
+  background-color: #35afe508;
 }
 
 .card__link {

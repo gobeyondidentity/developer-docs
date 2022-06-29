@@ -3,7 +3,7 @@ title: Integrate With Curity
 sidebar_position: 4
 ---
 
-# Introduction
+# Integrate With Curity
 
 This short guide provides details on how to configure Beyond Identity as an Identity Provider in the Curity Identity Server.
 
@@ -15,7 +15,7 @@ This short guide provides details on how to configure Beyond Identity as an Iden
 
 * An installation of the Beyond Identity Platform Authenticator.
 
-# Configuration
+## Configuration
 
 ### Beyond Identity
 
@@ -41,7 +41,7 @@ If the Getting Started Guide is followed an OAuth client should have been config
 6. Set `Client Authentication Method` to client-secret
 7. Enable `Use HTTP Basic Authentication`
 
-# Test using OAuth.tools
+## Test using OAuth.tools
 
 Assign the new authenticator to an OAuth client that has the Code Flow enabled in the Curity Identity Server.
 
