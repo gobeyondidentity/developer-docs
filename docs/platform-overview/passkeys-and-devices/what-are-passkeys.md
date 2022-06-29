@@ -9,7 +9,7 @@ sidebar_position: 1
 ## What is a Passkey?
 
 [Content needed]
-A passkey is a public private key pair, stored on a hardware root of trust or it's equivalent on devices that don't provide one. To learn more go here: [link to how keys are stored]
+A passkey is a public private key pair, stored in your devices hardware root of trust. To learn more go here: [link to how keys are stored]
 
 A passkey can be used to link a specific device and an identity. 
 Passkeys are digital keys tha cannot be removed from the device in which they are created. 
