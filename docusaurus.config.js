@@ -31,6 +31,7 @@ const config = {
           path: 'nodocs',
           routeBasePath: 'nodocs',
         },
+        blog: false,
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
