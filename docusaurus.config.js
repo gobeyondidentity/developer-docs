@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "Beyond Identity Developer Documentation",
   tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
-  url: "https://developers.beyondidentity.com",
+  url: "https://developer.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
@@ -41,7 +41,7 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'default', // these are the default docs, any versioning will happen here 
+        id: 'default', // these are the default docs, any versioning will happen here
         path: 'docs',
         routeBasePath: 'docs',
         sidebarPath: require.resolve('./sidebars.js'),
@@ -58,7 +58,7 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'guides', // these are the default docs, any versioning will happen here 
+        id: 'guides', // these are the default docs, any versioning will happen here
         path: 'guides',
         routeBasePath: 'guides',
         sidebarPath: require.resolve('./sidebarsGuides.js'),
@@ -67,7 +67,7 @@ const config = {
     [
       'docusaurus-plugin-openapi', // this is v1 of the API, to create a new version, duplicate this entry
       {
-        id: 'second', 
+        id: 'second',
         path: 'api/v1/openapi.yaml',
         routeBasePath: 'api/v1',
       },
