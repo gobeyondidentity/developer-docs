@@ -1,11 +1,11 @@
 ---
-title: Overview
-sidebar_position: 1
+title: Architecture
+sidebar_position: 2
 ---
 
 Beyond Identity relies on two components: The Beyond Identity Cloud, and Beyond Identity Authenticators. The Beyond Identity Cloud hosts user directories, authentication servers, event logs, and policy rules. Beyond Identity Authenticators are SDKs that should be embedded in your application so that they can ask Beyond Identity Cloud "Is Identity X allowed to do Action Y given Tenant Policy Z" 
 
-## Beyond Identity Cloud Model
+## Beyond Identity Cloud
 
 [insert Beyond Identity Cloud Model graphic]
 
@@ -35,3 +35,15 @@ A group is a logical collection of identities. A realm can have many groups. An 
 ### Applications
 An application in the Beyond Identity Cloud represents your application (e.g. AcmeCorp Android App, Todo-List iOS App, etc) that has embedded a Beyond Identity SDK. A realm can have many applications.
 
+## Beyond Identity Authenticators
+
+### Embeddable SDKs
+The SDKs are primarily responsible for handling all cryptographic operations that occur on the end users device such as creating passkeys, and logging in with a passkey. Currently Beyond Identity provides SDKs for the following platforms:
+ - Web (Javascript)
+ - iOS (Swift)
+ - Android (Kotlin)
+ - React Native (Coming Soon)
+ - Flutter (Coming Soon)
+
+### Hosted Web Authenticator (Early Access)
+The hosted web authenticator is a Beyond Identity hosted page that contains the javascript SDK. Think of this as a wallet, hosted by Beyond Identity Cloud, that can be used to hold an identity's credentials. 
