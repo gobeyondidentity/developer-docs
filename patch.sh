@@ -9,8 +9,8 @@ if [ "$(uname)" = "Darwin" ]; then
       exit
   fi
   grep -rl '#fff' ./build/ | xargs gsed -i 's/#fff\+/#ffffff/g'
-  echo "RUNNING!!!"
+  grep -rl '#aaa' ./build/ | xargs gsed -i 's/#aaa\+/#aaaaaa/g'
 else
   grep -rl '#fff' ./build/ | xargs sed -i 's/#fff\+/#ffffff/g'
-  echo "LINUX RUNNING@@@@!!1"
+  grep -rl '#aaa' ./build/ | xargs sed -i 's/#aaa\+/#aaaaaa/g'
 fi

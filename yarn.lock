@@ -1699,6 +1699,16 @@
   resolved "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
+"@reduxjs/toolkit@^1.7.1":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.2.tgz#352fd17bc858af51d21ce8d28183a930cab9e638"
+  integrity sha512-CtPw5TkN1pHRigMFCOS/0qg3b/yfPV5qGCsltVnIz7bx4PKTJlGHYfIxm97qskLknMzuGfjExaYdXJ77QTL0vg==
+  dependencies:
+    immer "^9.0.7"
+    redux "^4.1.2"
+    redux-thunk "^2.4.1"
+    reselect "^4.1.5"
+
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://registry.npmjs.org/@sideway/address/-/address-4.1.4.tgz"
@@ -3080,6 +3090,11 @@ cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
+
 crypto-random-string@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-2.0.0.tgz"
@@ -3370,10 +3385,10 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
-docusaurus-plugin-openapi@^0.4.0, docusaurus-plugin-openapi@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/docusaurus-plugin-openapi/-/docusaurus-plugin-openapi-0.4.2.tgz"
-  integrity sha512-XpH7p8kA1bpFwV0LF1c0o0mGH3mx296l2sYGyracR441J6+E34/D83w8Oms3tm8ahBWqXRlrlvPCH2Z6LkTBPA==
+docusaurus-plugin-openapi@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-openapi/-/docusaurus-plugin-openapi-0.5.0.tgz#218d8d68e06c67aa83737c3bf547e05d027baa7a"
+  integrity sha512-xVLuXKMFgyAYl4D9NOzKpEsoblmZsU1g+BgEWLWzgqkaj1WdBNTDzrcoxgJ/gtVUhjaCLpeu1PDiPoy00OH/xg==
   dependencies:
     "@docusaurus/mdx-loader" "^2.0.0-beta.14"
     "@docusaurus/plugin-content-docs" "^2.0.0-beta.14"
@@ -3390,32 +3405,34 @@ docusaurus-plugin-openapi@^0.4.0, docusaurus-plugin-openapi@^0.4.2:
     remark-admonitions "^1.2.1"
     webpack "^5.61.0"
 
-docusaurus-plugin-proxy@^0.4.0:
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/docusaurus-plugin-proxy/-/docusaurus-plugin-proxy-0.4.2.tgz"
-  integrity sha512-+6uLVldvTslD11bQ2QgsIMt1jnRnvKUbG2wDGvnIYp5jadb/RQNgyLiU7KMWFeVmPufqmdhNCqoTxZqZmEX7Hw==
+docusaurus-plugin-proxy@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-proxy/-/docusaurus-plugin-proxy-0.5.0.tgz#fabf0d89148ee24f7d8e5cebdf1d5d27b4cd2d40"
+  integrity sha512-lT0lDmtq3pvIwnFMS/ycg7Ca5Fz3XNPrlvcvunWKDOWzyQHRZ4kpxkwpqCsrOS7JvrP/J0ySZWVDlsDvEbyYOg==
 
-docusaurus-preset-openapi@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/docusaurus-preset-openapi/-/docusaurus-preset-openapi-0.4.0.tgz"
-  integrity sha512-SkABfMv8Y2Nc2bCadN9jSYf3ToNn2VaMsRYi/GcXJdEoSLl2qnDxw9yQsBUmvV7AuN7MOYJ+C5GBRNaPNM6+iA==
+docusaurus-preset-openapi@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-preset-openapi/-/docusaurus-preset-openapi-0.5.0.tgz#4b595cdd7e325de852f047680789f533559b9335"
+  integrity sha512-u3zh73hJbHL6h64KDteItoQCDcQyHh8cycYrvg6hnkeBicZ3IWXYNMEczYbEUb+Yrp7tUIm81q44TtIk6qF1iQ==
   dependencies:
     "@docusaurus/preset-classic" "^2.0.0-beta.14"
-    docusaurus-plugin-openapi "^0.4.0"
-    docusaurus-plugin-proxy "^0.4.0"
-    docusaurus-theme-openapi "^0.4.0"
+    docusaurus-plugin-openapi "^0.5.0"
+    docusaurus-plugin-proxy "^0.5.0"
+    docusaurus-theme-openapi "^0.5.0"
 
-docusaurus-theme-openapi@^0.4.0:
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/docusaurus-theme-openapi/-/docusaurus-theme-openapi-0.4.2.tgz"
-  integrity sha512-dSnu3oUYUVhdZ8qbeQyk2KmzKNH4dVbQ+qISEVxdc0lRRzsbTvL5Y4yRh2PY2X4ILVVtAVnvLmrxkxt6Pa6/ZQ==
+docusaurus-theme-openapi@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-theme-openapi/-/docusaurus-theme-openapi-0.5.0.tgz#5ce62a477e85780913b8251711571ae7346c4cec"
+  integrity sha512-DD3NR/e9VKKE3xcIrkRvYl4ler78pdgzh5VqefFanY4Jd6uNGL+rSZDn2QxS8y5kqSWaaME/0gNFmX94BRuP+A==
   dependencies:
     "@mdx-js/react" "^1.6.21"
     "@monaco-editor/react" "^4.3.1"
+    "@reduxjs/toolkit" "^1.7.1"
     buffer "^6.0.3"
     clsx "^1.1.1"
-    docusaurus-plugin-openapi "^0.4.2"
-    immer "^9.0.6"
+    crypto-js "^4.1.1"
+    docusaurus-plugin-openapi "^0.5.0"
+    immer "^9.0.7"
     lodash "^4.17.20"
     monaco-editor "^0.31.1"
     postman-code-generators "^1.0.0"
@@ -3424,7 +3441,6 @@ docusaurus-theme-openapi@^0.4.0:
     process "^0.11.10"
     react-magic-dropzone "^1.0.1"
     react-redux "^7.2.0"
-    redux "^4.0.5"
     redux-devtools-extension "^2.13.8"
     webpack "^5.61.0"
 
@@ -4519,7 +4535,7 @@ ignore@^5.2.0:
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.2.0.tgz"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
 
-immer@^9.0.6:
+immer@^9.0.6, immer@^9.0.7:
   version "9.0.15"
   resolved "https://registry.npmjs.org/immer/-/immer-9.0.15.tgz"
   integrity sha512-2eB/sswms9AEUSkOm4SbV5Y7Vmt/bKRwByd52jfLkW4OLYeaTP3EEiJ9agqU0O/tq6Dk62Zfj+TJSqfm1rLVGQ==
@@ -6609,7 +6625,12 @@ redux-devtools-extension@^2.13.8:
   resolved "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.9.tgz"
   integrity sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==
 
-redux@^4.0.0, redux@^4.0.5:
+redux-thunk@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.1.tgz#0dd8042cf47868f4b29699941de03c9301a75714"
+  integrity sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==
+
+redux@^4.0.0, redux@^4.1.2:
   version "4.2.0"
   resolved "https://registry.npmjs.org/redux/-/redux-4.2.0.tgz"
   integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
@@ -6848,6 +6869,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
+
+reselect@^4.1.5:
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.6.tgz#19ca2d3d0b35373a74dc1c98692cdaffb6602656"
+  integrity sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==
 
 resolve-from@^4.0.0:
   version "4.0.0"
