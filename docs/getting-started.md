@@ -1,8 +1,8 @@
 ---
-title: Getting Started
-sidebar_position: 1
+title: Quickstart Guide - Hello World!
+sidebar_position: 2
 ---
-
+In this guide we will show you how to build a hello world application. It will educate you on how to create passkeys and login with them.
 ## Get an account
 
 ### Create an Account 
