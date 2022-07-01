@@ -56,14 +56,17 @@
     --ifm-font-family-base: var(--font-medium);
     --ifm-heading-font-weight: normal;
     --ifm-font-size-base: 100%;
-    --ifm-button-font-weight: normal;
     --ifm-footer-background-color: var(--adam-blue);
+    /* buttons */
+    --ifm-button-border-radius: 0;
+    --ifm-button-border-width: 0;
+    --ifm-button-font-weight: normal;
+    --ifm-button-background-color: var(--beyond-blue);
+    --ifm-button-transition-duration: 250ms;
 }
 
 body {
-    background: var(--white);
     line-height: 1.4;
-    color: var(--black);
     -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
@@ -75,8 +78,29 @@ strong {
     font-family: var(--font-bold);
 }
 
-.button {
-    font-family: var(--font-bold);
+.button,
+.button:visited {
+    color: var(--white);
+    font-family: var(--font-medium);
+    transition-timing-function: ease-in-out;
+}
+.button:hover,
+.button:focus,
+.button:active {
+    background-color: var(--adam-blue);
+}
+
+.button--secondary,
+.button--secondary:visited {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.button--secondary:hover,
+.button--secondary:focus,
+.button--secondary:active {
+    background-color: var(--adam-blue);
+    color: var(--white);
 }
 
 .navbar {
@@ -103,6 +127,10 @@ strong {
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: saturation; */
+}
+
+html[data-theme="dark"] .hero {
+    color: var(--white);
 }
 
 .square {
