@@ -2,45 +2,163 @@ openapi: 3.0.1
 info:
   title: Beyond Identity API
   description: |
-    The Beyond Identity API defines methods for managing:
-     - [realms](/api/v1/list-realms) -- environments where all other data lives.
-     - [identities](/api/v1/list-identities) -- users, machines. Credentials can be bound to identities. 
-     - [credentials](/api/v1/list-credentials) -- credentials are securely stored on users devices and can be used to proof users are authorized to access their account. 
-     - [applications](/api/v1/lists-applications-by-realm) -- applications represent external apps connected to a Beyond Identity realm. 
+    # Introduction
 
-    Click on the sidebar items to see details for each endpoint we support. 
+    The Beyond Identity API defines methods for managing realms, directories,
+    credentials, and applications.
 
+    All of the functionality available in the Beyond Identity Admin Console is
+    also available through the API.
+
+    ## Requests and Responses
+
+    The Beyond Identity API is generally structured as a resource-oriented API.
+    All requests should be made over HTTPS. Resources are returned as JSON
+    objects.
+
+    To create a new resource, requests should use the `POST` method. Create
+    requests include all of the necessary attributes to create a new resource.
+    Create operations return the created resource in the response.
+
+    To retrieve a single resource or a collection of resources, requests should
+    use the `GET` method. When retrieving a collection of resources, the
+    response will include an array of JSON objects keyed on the plural name of
+    the requested resource.
+
+    To update an resource, requests should use the `PATCH` method. Update
+    operations support partial updating so requests may specify only the
+    attributes which should be updated. Update operations return the updated
+    resource in the response.
+
+    To delete a resource, requests should use the `DELETE` method. Note that
+    delete operations return an empty response instead of returning the
+    resource in the response.
+
+    ### Example Response for a Realm
+
+    ```
+    {
+      "id": "a448fe493e02fa9f",
+      "tenant_id": "000168dc50bdce49",
+      "display_name": "Test Realm",
+      "create_time": "2022-06-22T21:46:08.930278Z",
+      "update_time": "2022-06-22T21:46:08.930278Z"
+    }
+    ```
+
+    ### Example Response for a Collection of Realms
+
+    ```
+    {
+      "realms": [
+        {
+          "id": "a448fe493e02fa9f",
+          "tenant_id": "000168dc50bdce49",
+          "display_name": "Test Realm",
+          "create_time": "2022-06-22T21:46:08.930278Z",
+          "update_time": "2022-06-22T21:46:08.930278Z"
+        }
+      ],
+      "total_size": 1
+    }
+    ```
+
+    ## HTTP Statuses
+
+    The API returns standard HTTP statuses and error codes.
+
+    Statuses in the 200 range indicate that the request was successfully
+    fulfilled and there were no errors.
+
+    Statuses in the 400 range indicate that there was an issue with the request
+    that may be addressed by the client. For example, client errors may
+    indicate that the request was missing proper authorization or that the
+    request was malformed.
+
+    Statuses in the 500 range indicate that the server encountered an internal
+    issue and was unable to fulfill the request.
+
+    All error responses include a JSON object which may contain additional
+    details. These may be used by the client to determine the exact cause of
+    the error.
+
+    ### Error Response Example
+
+    ```
+    HTTP/1.1 400 Bad Request
+    {
+      "code": "bad_request",
+      "message": "invalid parameters"
+      "details": [
+        {
+          "field_violations": [
+            {
+              "description": "missing",
+              "field": "group.display_name"
+            }
+          ],
+          "type": "FieldViolations"
+        }
+      ],
+    }
+    ```
+
+    # Authentication
+
+    All Beyond Identity API endpoints require authentication through
+    OAuth 2.0. To generate an access token, issue an authorization
+    request to your configured application.
+
+    ```
+    curl https://api.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize \
+      -X POST \
+      -u $CLIENT_ID:$CLIENT_SECRET \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "grant_type=code&scope=$SCOPES"
+    ```
+
+    The access token must be provided in the `Authorization` header of the
+    API request.
+
+    ```
+    curl https://api.beyondidentity.com/v1/... \
+      -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
+    ```
   contact:
     email: support@beyondidentity.com
-  version: v1
+  version: 1.0.0
 servers:
-  - url: 'https://api-us.beyondidentity.com/v1'
-    description: "Production"
-  - url: 'https://api-us.beyondidentity.run/v1'
-    description: "Rolling"
+  - url: 'https://api.beyondidentity.com'
 tags:
   - name: Tenants
-    description: Tenant methods.
+    description: |
+      A tenant represents an organization in the Beyond Identity Cloud. Tenants contain all data necessary for that organization to operate.
   - name: Realms
-    description: Realm methods.
+    description: |
+      A realm is a unique administrative domain within a tenant. Realms may be used to define multiple development environments or for isolated administrative domains.
   - name: Groups
-    description: Group methods.
+    description: |
+      A group is a logical collection of identities. Groups are commonly used as a predicate in a policy rule.
   - name: Identities
-    description: Identity methods.
+    description: |
+      An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity.
   - name: Credentials
-    description: Credential methods.
+    description: |
+      A credential is also known as a passkey. This is the public-private key pair that belongs to an identity.
   - name: Credential Binding Jobs
-    description: Credential binding job methods.
+    description: |
+      A credential binding job defines the state of binding a new credential to an identity. The state includes creation of the credential binding job to delivery of the credential binding method to completion of the credential binding.
   - name: Themes
-    description: Theme methods.
+    description: Theme methods
   - name: Applications
-    description: Application methods.
-  - name: Authenticator Configs
-    description: Authenticator configuration methods.
+    description: |
+      An application represents a client application that uses Beyond Identity for authentication.
+  - name: Authenticator Configurations
+    description: Authenticator configuration methods
   - name: Resource Servers
-    description: Resource server methods.
+    description: Resource server methods
 paths:
-  '/tenants/{tenant_id}':
+  '/v1/tenants/{tenant_id}':
     get:
       tags:
         - Tenants
@@ -80,9 +198,10 @@ paths:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: tenant_id
-                          - description: missing
+                            description: missing
         '401':
           description: Unauthorized.
           content:
@@ -117,10 +236,10 @@ paths:
                     code: not_found
                     message: realm not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Tenant
-                      id: 000176d94fd7b4d1
-                      description: tenant not found
+                      - type: ResourceInfo
+                        resource_type: Tenant
+                        id: 000176d94fd7b4d1
+                        description: tenant not found
         '500':
           description: Server error.
           content:
@@ -172,7 +291,7 @@ paths:
                 $ref: '#/components/schemas/Tenant'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -189,9 +308,10 @@ paths:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: tenant.display_name
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -200,7 +320,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -209,7 +329,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -218,7 +338,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Tenant Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -227,15 +347,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms':
     post:
       tags:
         - Realms
       operationId: CreateRealm
       summary: Create a New Realm
       description: |
-        To create a realm, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. Values in the request body for read-only fields will be ignored.
+        To create a realm, send a POST request to `/v1/tenants/$TENANT_ID/realms`. Values in the request body for read-only fields will be ignored.
       security:
         - ManagementAuth:
             - 'realms:create'
@@ -277,15 +397,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: realm.display_name
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -294,7 +415,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -303,7 +424,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -312,7 +433,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Tenant Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -321,7 +442,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     get:
       tags:
         - Realms
@@ -329,9 +450,10 @@ paths:
       summary: List All Realms for a Tenant
       description: |
         To list all realms for a tenant, send a GET request to
-        `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. The response will contain at
-        most 1000 items and may contain a page tokent o query the remaining items.
-        There is no defined ordering of the list of realms in the response.
+        `/v1/tenants/$TENANT_ID/realms`. The response will contain at most 200
+        items and may contain a page token to query the remaining items. If page
+        size is not specified, the response will contain 20 items. There is no
+        defined ordering of the list of realms in the response.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -344,7 +466,6 @@ paths:
             - 'realms:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -374,7 +495,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -383,7 +504,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -392,7 +513,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -401,7 +522,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Tenant Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -410,8 +531,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}':
     get:
       tags:
         - Realms
@@ -435,7 +556,7 @@ paths:
                 $ref: '#/components/schemas/Realm'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -448,9 +569,10 @@ paths:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: realm_id
-                          - description: missing
+                            description: missing
         '401':
           description: Unauthorized.
           content:
@@ -459,7 +581,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -468,7 +590,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -483,7 +605,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       tags:
         - Realms
@@ -524,7 +646,7 @@ paths:
                 $ref: '#/components/schemas/Realm'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -533,9 +655,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -544,7 +666,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -553,7 +675,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -566,10 +688,10 @@ paths:
                     code: not_found
                     message: realm not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Realm
-                      id: 19a95130480dfa79
-                      description: realm not found
+                      - type: ResourceInfo
+                        resource_type: Realm
+                        id: 19a95130480dfa79
+                        description: realm not found
         '500':
           description: Server error.
           content:
@@ -578,7 +700,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       tags:
         - Realms
@@ -610,7 +732,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -619,7 +741,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -628,7 +750,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -648,15 +770,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/groups':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups':
     post:
       tags:
         - Groups
       operationId: CreateGroup
       summary: Create a New Group
       description: |
-        To create a group, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID`. Values in the request body for read-only fields will be ignored.
+        To create a group, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`. Values in the request body for read-only fields will be ignored.
       security:
         - ManagementAuth:
             - 'groups:create'
@@ -707,15 +829,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: group.description
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -724,7 +847,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -733,7 +856,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -742,7 +865,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -751,7 +874,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     get:
       tags:
         - Groups
@@ -760,8 +883,9 @@ paths:
       description: |
         To list all groups for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`. The response will contain
-        at most 1000 items and may contain a page token to query the remaining
+        at most 200 items and may contain a page token to query the remaining
         items. There is no defined ordering of the list of groups in the response.
+        If page size is not specified, the response will contain 20 items.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -775,7 +899,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -807,7 +930,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -816,7 +939,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -825,7 +948,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -834,7 +957,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -843,8 +966,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}':
     get:
       tags:
         - Groups
@@ -869,7 +992,7 @@ paths:
                 $ref: '#/components/schemas/Group'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -882,9 +1005,10 @@ paths:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: group_id
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -893,7 +1017,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -902,7 +1026,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -915,10 +1039,10 @@ paths:
                     code: not_found
                     message: group not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Group
-                      id: 4822738be6b7f658
-                      description: group not found
+                      - type: ResourceInfo
+                        resource_type: Group
+                        id: 4822738be6b7f658
+                        description: group not found
         '500':
           description: Server error.
           content:
@@ -927,7 +1051,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       tags:
         - Groups
@@ -969,7 +1093,7 @@ paths:
                 $ref: '#/components/schemas/Group'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -978,9 +1102,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -989,7 +1113,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -998,7 +1122,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1007,7 +1131,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Group Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1016,7 +1140,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       tags:
         - Groups
@@ -1043,7 +1167,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1052,7 +1176,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1061,7 +1185,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1070,7 +1194,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Group Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -1090,15 +1214,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listMembers':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listMembers':
     get:
       tags:
         - Groups
       operationId: ListGroupMembers
       summary: List All Members for a Group
       description: |
-        To list members belonging to a group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`. There is no defined ordering of the list of identities in the response.
+        To list members belonging to a group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of identities in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
@@ -1109,7 +1233,6 @@ paths:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -1144,7 +1267,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1153,7 +1276,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1162,7 +1285,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1171,7 +1294,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Group Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1180,8 +1303,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:addMembers':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:addMembers':
     post:
       tags:
         - Groups
@@ -1230,7 +1353,7 @@ paths:
                 $ref: '#/components/schemas/Group'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -1239,15 +1362,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: identity_ids
-                          - description: array exceeds 1000 elements
+                            description: array exceeds 1000 elements
         '401':
           description: Unauthorized.
           content:
@@ -1256,7 +1380,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1265,7 +1389,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1274,7 +1398,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Group Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1283,8 +1407,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:deleteMembers':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:deleteMembers':
     post:
       tags:
         - Groups
@@ -1333,7 +1457,7 @@ paths:
                 $ref: '#/components/schemas/Group'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -1342,9 +1466,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AaddMembers/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AaddMembers/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1353,7 +1477,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1362,7 +1486,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1371,7 +1495,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Group Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '500':
           description: Internal.
           content:
@@ -1380,15 +1504,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities':
     post:
       tags:
         - Identities
       operationId: CreateIdentity
       summary: Create a New Identity
       description: |
-        To create an identity, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. Values in the request body for read-only fields will be ignored.
+        To create an identity, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`. Values in the request body for read-only fields will be ignored.
         If the request conflicts with an existing resource, you will receive a 409 error.
       security:
         - ManagementAuth:
@@ -1446,15 +1570,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: identity.display_name
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -1463,7 +1588,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1472,7 +1597,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1481,7 +1606,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -1501,7 +1626,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     get:
       tags:
         - Identities
@@ -1510,9 +1635,10 @@ paths:
       description: |
         To list all identities for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`. The response will
-        contain at most 1000 items and may contain a page token to query the
+        contain at most 200 items and may contain a page token to query the
         remaining items. There is no defined ordering of the list of identities in
-        the response.
+        the response. If page size is not specified, the response will contain 20
+        items.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -1526,7 +1652,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -1561,7 +1686,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1570,7 +1695,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1579,7 +1704,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1588,7 +1713,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1597,8 +1722,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}':
     get:
       tags:
         - Identities
@@ -1623,7 +1748,7 @@ paths:
                 $ref: '#/components/schemas/Identity'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -1636,9 +1761,10 @@ paths:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: identity_id
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -1647,7 +1773,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1656,7 +1782,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
             Not found. The error details will include a ResourceInfo describing the missing resource.
@@ -1670,10 +1796,10 @@ paths:
                     code: not_found
                     message: identity not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Identity
-                      id: e372db224c06e850
-                      description: identity not found
+                      - type: ResourceInfo
+                        resource_type: Identity
+                        id: e372db224c06e850
+                        description: identity not found
         '500':
           description: Internal.
           content:
@@ -1682,7 +1808,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       tags:
         - Identities
@@ -1727,7 +1853,7 @@ paths:
                 $ref: '#/components/schemas/Identity'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -1736,9 +1862,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1747,7 +1873,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1756,7 +1882,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1777,7 +1903,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       tags:
         - Identities
@@ -1804,7 +1930,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1813,7 +1939,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1822,7 +1948,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1831,7 +1957,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Identity Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -1840,7 +1966,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Identity Has Memberships:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/delete/responses/409/content/application~1json/examples/Group%20Has%20Members'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/delete/responses/409/content/application~1json/examples/Group%20Has%20Members'
         '500':
           description: Server error.
           content:
@@ -1849,15 +1975,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}:listGroups':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}:listGroups':
     get:
       tags:
         - Identities
       operationId: ListIdentityGroups
       summary: List All Memberships for an Identity
       description: |
-        To list the groups to which an identity belongs, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`. There is no defined ordering of the list of groups in the response.
+        To list the groups to which an identity belongs, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of groups in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
@@ -1868,7 +1994,6 @@ paths:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/identity_id'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -1900,7 +2025,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1909,7 +2034,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -1918,7 +2043,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -1927,7 +2052,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Identity Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1936,8 +2061,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}':
     get:
       tags:
         - Credentials
@@ -1986,15 +2111,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: credential_id
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2003,7 +2129,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2012,7 +2138,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
             Not found. The error details will include a ResourceInfo describing the missing resource.
@@ -2026,12 +2152,12 @@ paths:
                     code: not_found
                     message: credential not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Credential
-                      id: 51c3c2d2907d6b40
-                      description: credential not found
+                      - type: ResourceInfo
+                        resource_type: Credential
+                        id: 51c3c2d2907d6b40
+                        description: credential not found
                 Identity Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
           description: Internal.
           content:
@@ -2040,8 +2166,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}:revoke':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials/{credential_id}:revoke':
     post:
       tags:
         - Credentials
@@ -2067,7 +2193,7 @@ paths:
                 $ref: '#/components/schemas/Credential'
               examples:
                 Success:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
@@ -2076,9 +2202,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2087,7 +2213,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2096,7 +2222,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
             Not found. The error details will include a ResourceInfo describing the missing resource.
@@ -2106,9 +2232,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Credential Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/404/content/application~1json/examples/Credential%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/404/content/application~1json/examples/Credential%20Not%20Found'
                 Identity Not Found:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
           description: Internal.
           content:
@@ -2117,22 +2243,17 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credentials':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credentials':
     get:
       tags:
         - Credentials
       operationId: ListCredentials
       summary: List All Credentials for an Identity
       description: |
-        To list all credentials for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`. There is no defined ordering of the list of credential binding jobs in the response.
+        To list all credentials for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credentials in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
-        The `filter` parameter supports the following attributes:
-          - `state`
-          - `jwk_thumbprint`
-
-        See the Credential resource schema for details about those attributes.
       security:
         - ManagementAuth:
             - 'credentials:read'
@@ -2140,7 +2261,6 @@ paths:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/identity_id_or_wildcard'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -2156,7 +2276,7 @@ paths:
                 Success:
                   value:
                     credentials:
-                      - $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
                     total_size: 1
         '400':
           description: Bad request.
@@ -2166,15 +2286,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: identity_id
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2183,7 +2304,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2192,7 +2313,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Internal.
           content:
@@ -2201,8 +2322,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs':
     post:
       tags:
         - Credential Binding Jobs
@@ -2252,7 +2373,7 @@ paths:
                 Success:
                   value:
                     credential_binding_job:
-                      - $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
                     credential_binding_link: 'http://example.com/v1/tenants/000183a77dd50fa9/realms/cdf4862dc4d49791/identities/87fabad6956c6d4b/credential-binding-jobs/c4fc2d753ca22b14:invokeAuthenticator?token=1St9IKIIrYyQ8sOSeuk5UkbLKnBJhuD4I7nWIqt-BNANDEFS-XVuOHxB7TFdZcRm'
         '400':
           description: Bad request.
@@ -2262,9 +2383,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2273,7 +2394,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2282,7 +2403,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
             Not found. The error details will include a ResourceInfo describing the missing resource.
@@ -2296,10 +2417,10 @@ paths:
                     code: not_found
                     message: identity not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Identity
-                      id: 51c3c2d2907d6b40
-                      description: identity not found
+                      - type: ResourceInfo
+                        resource_type: Identity
+                        id: 51c3c2d2907d6b40
+                        description: identity not found
         '409':
           description: |
             Already exists. The error details will include a ResourceInfo describing the conflicting resource.
@@ -2322,15 +2443,15 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credential-binding-jobs':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credential-binding-jobs':
     get:
       tags:
         - Credential Binding Jobs
       operationId: ListCredentialBindingJobs
       summary: List All Credential Binding Jobs for an Identity
       description: |
-        To list all credential binding jobs for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. There is no defined ordering of the list of credential binding jobs in the response.
+        To list all credential binding jobs for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credential binding jobs in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
@@ -2340,7 +2461,6 @@ paths:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/identity_id_or_wildcard'
-        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -2356,7 +2476,7 @@ paths:
                 Success:
                   value:
                     credential_binding_jobs:
-                      - $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
                     total_size: 1
         '400':
           description: Bad request.
@@ -2366,9 +2486,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2377,7 +2497,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2386,7 +2506,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Internal.
           content:
@@ -2395,8 +2515,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs/{credential_binding_job_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs/{credential_binding_job_id}':
     get:
       tags:
         - Credential Binding Jobs
@@ -2442,15 +2562,16 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Malformed Request:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
                     message: invalid parameters
                     details:
-                      - field_violations:
+                      - type: FieldViolations
+                        field_violations:
                           - field: credential_binding_job_id
-                          - description: empty
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2459,7 +2580,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2468,7 +2589,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
             Not found. The error details will include a ResourceInfo describing the missing resource.
@@ -2482,10 +2603,10 @@ paths:
                     code: not_found
                     message: credential binding job not found
                     details:
-                      type: ResourceInfo
-                      resource_type: Credential Binding Job
-                      id: 3103ba9a652b755e
-                      description: credential binding job not found
+                      - type: ResourceInfo
+                        resource_type: Credential Binding Job
+                        id: 3103ba9a652b755e
+                        description: credential binding job not found
         '500':
           description: Internal.
           content:
@@ -2494,8 +2615,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/themes':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/themes':
     post:
       tags:
         - Themes
@@ -2527,56 +2648,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Theme'
-              example:
-                id: 88ef08fb-c3f9-44e2-b174-fbb239e1dc47
-                tenant_id: f36448f2ff094881
-                realm_id: aa6aabe6989bc4a5
-                create_time: '2022-07-28T18:00:00.000Z'
-                email_realm_name: test realm
-                logo_url_light: 'https://example.com/logo_url_light.png'
-                logo_url_dark: 'https://example.com/logo_url_dark.png'
-                support_url: 'https://example.com/support'
+              examples:
+                Success:
+                  value:
+                    id: 88ef08fb-c3f9-44e2-b174-fbb239e1dc47
+                    tenant_id: f36448f2ff094881
+                    realm_id: aa6aabe6989bc4a5
+                    email_realm_name: test realm
+                    logo_url_light: 'https://example.com/logo_url_light.png'
+                    logo_url_dark: 'https://example.com/logo_url_dark.png'
+                    support_url: 'https://example.com/support'
+                    create_time: '2022-07-28T18:00:00.000Z'
         '400':
           description: |
-            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+            Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  value:
+                    code: bad_request
+                    message: Bad Request
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: theme ID
+                            description: theme ID must be a valid ID
         '401':
           description: Unauthorized.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
-          description: |
-            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          description: Forbidden.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '404':
-          description: |
-            The resource was not found. The error details will include a ResourceInfo describing the required resource that was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '409':
-          description: |
-            A theme already exists for this realm, multiple themes per realm are currently not supported.
+          description: Conflict.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Theme Already Exists:
+                  value:
+                    code: conflict
+                    message: theme already exists for this realm
         '500':
           description: Server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/themes/active':
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/themes/active':
     get:
       tags:
         - Themes
@@ -2597,28 +2735,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Theme'
-              example:
-                $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/example'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
         '401':
           description: Unauthorized.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: |
-            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+            Forbidden.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/themes/{theme_id}':
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/themes/{theme_id}':
     get:
       tags:
         - Themes
@@ -2630,8 +2778,20 @@ paths:
         - ManagementAuth:
             - 'themes:read'
       parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
+        - name: tenant_id
+          in: path
+          description: A unique identifier for a tenant.
+          required: true
+          schema:
+            type: string
+            example: 000176d94fd7b4d1
+        - name: realm_id
+          in: path
+          description: A unique identifier for a realm.
+          required: true
+          schema:
+            type: string
+            example: 19a95130480dfa79
         - $ref: '#/components/parameters/theme_id'
       responses:
         '200':
@@ -2640,57 +2800,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Theme'
-              example:
-                $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/example'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
         '400':
-          description: |
-            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          description: Bad request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                code: not_found
-                details:
-                  - description: theme not found
-                    id: 72d0af37-a9bb-410c-b8a7-9aa127fd8739
-                    resource_type: Theme
-                    type: ResourceInfo
-                message: theme not found
+                $ref: '#/components/schemas/FieldViolations'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
-          description: Unauthenticated.
+          description: Unauthorized.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
-          description: |
-            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          description: Forbidden.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+            The resource was not found.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                code: bad_request
-                message: Bad Request
-                details:
-                  - type: FieldViolations
-                    field_violations:
-                      - field: email_realm_name
-                        description: provided email_realm_name must not be empty
+                $ref: '#/components/schemas/ResourceInfo'
+              examples:
+                Theme Not Found:
+                  value:
+                    code: not_found
+                    message: theme not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Theme
+                        id: 72d0af37-a9bb-410c-b8a7-9aa127fd8739
+                        description: theme not found
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       tags:
         - Themes
@@ -2702,8 +2867,8 @@ paths:
         - ManagementAuth:
             - 'themes:update'
       parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/parameters/0'
+        - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/parameters/1'
         - $ref: '#/components/parameters/theme_id'
       requestBody:
         description: Theme to be updated.
@@ -2723,42 +2888,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Theme'
-              example:
-                $ref: '#/paths/~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/example'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
         '400':
-          description: |
-            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations. If the request failed due to a failed precondition, the error details will include a ResourceInfo.
+          description: Bad request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/FieldViolations'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
-          description: |
-            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          description: Forbidden.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            The resource was not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          description: The resource was not found.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ResourceInfo'
+              examples:
+                Theme Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/responses/404/content/application~1json/examples/Theme%20Not%20Found'
         '500':
           description: Server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/applications':
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/applications':
     get:
       operationId: ListApplications
       tags:
@@ -2798,7 +2976,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2807,7 +2985,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Server error.
           content:
@@ -2816,7 +2994,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     post:
       operationId: CreateApplication
       tags:
@@ -2864,7 +3042,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2873,7 +3051,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Server error.
           content:
@@ -2882,8 +3060,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}':
     get:
       operationId: GetApplication
       tags:
@@ -2914,7 +3092,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2923,7 +3101,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -2938,7 +3116,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       operationId: UpdateApplication
       tags:
@@ -2981,7 +3159,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -2990,7 +3168,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3005,7 +3183,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       operationId: DeleteApplication
       tags:
@@ -3032,7 +3210,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3041,7 +3219,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3056,8 +3234,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs':
     get:
       operationId: ListAuthenticatorConfig
       tags:
@@ -3097,7 +3275,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3106,7 +3284,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Server error.
           content:
@@ -3115,7 +3293,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     post:
       operationId: CreateAuthenticatorConfig
       tags:
@@ -3163,7 +3341,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3172,7 +3350,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Server error.
           content:
@@ -3181,8 +3359,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs/{authenticator_config_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs/{authenticator_config_id}':
     get:
       operationId: GetAuthenticatorConfig
       tags:
@@ -3213,7 +3391,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3222,7 +3400,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3237,7 +3415,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       operationId: UpdateAuthenticatorConfig
       tags:
@@ -3280,7 +3458,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3289,7 +3467,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3304,7 +3482,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       operationId: DeleteAuthenticatorConfig
       tags:
@@ -3337,7 +3515,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3346,7 +3524,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3361,8 +3539,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/resource-servers':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers':
     get:
       summary: List All Resource Servers For a Realm
       description: |
@@ -3402,7 +3580,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3411,7 +3589,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Internal server error.
           content:
@@ -3420,7 +3598,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     post:
       summary: Create a New Resource Server
       description: |
@@ -3468,7 +3646,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3477,7 +3655,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
           description: Internal server error.
           content:
@@ -3486,8 +3664,8 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}':
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}':
     get:
       summary: Retrieve an Existing Resource Server
       description: |
@@ -3524,7 +3702,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3533,7 +3711,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3548,7 +3726,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     delete:
       summary: Delete a Resource Server
       description: |
@@ -3581,7 +3759,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3590,7 +3768,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3605,7 +3783,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     patch:
       summary: Patch a Resource Server
       description: |
@@ -3654,7 +3832,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Missing Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
         '403':
           description: Forbidden.
           content:
@@ -3663,7 +3841,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Insufficient Authorization:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
           description: The resource was not found.
           content:
@@ -3678,7 +3856,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Internal Error:
-                  $ref: '#/paths/~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
 components:
   parameters:
     tenant_id:
@@ -3765,16 +3943,6 @@ components:
       required: true
       schema:
         type: string
-    filter:
-      name: filter
-      in: query
-      description: |
-        Filter for list methods.
-
-        Filters follow the SCIM grammar from RFC7644
-        https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2.
-      schema:
-        type: string
     page_size:
       name: page_size
       in: query
@@ -3784,7 +3952,6 @@ components:
         type: integer
         format: uint32
         minimum: 0
-        default: 0
     page_token:
       name: page_token
       in: query
@@ -3997,13 +4164,12 @@ components:
           items:
             $ref: '#/components/schemas/Realm'
           maxItems: 1000
-          description: |
-            An unordered array of realms corresponding to the filter from the request.
+          description: An unordered array of realms corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
           example: 100
         next_page_token:
           type: string
@@ -4022,13 +4188,12 @@ components:
           items:
             $ref: '#/components/schemas/Identity'
           maxItems: 1000
-          description: |
-            An unordered array of identities corresponding to the filter from the request.
+          description: An unordered array of identities corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
           example: 100
         next_page_token:
           type: string
@@ -4047,13 +4212,12 @@ components:
           items:
             $ref: '#/components/schemas/Group'
           maxItems: 1000
-          description: |
-            An unordered array of groups corresponding to the filter from the request.
+          description: An unordered array of groups corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
           example: 100
         next_page_token:
           type: string
@@ -4072,13 +4236,12 @@ components:
           items:
             $ref: '#/components/schemas/Group'
           maxItems: 1000
-          description: |
-            An unordered array of groups corresponding to the filter from the request.
+          description: An unordered array of groups corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
           example: 100
         next_page_token:
           type: string
@@ -4097,13 +4260,12 @@ components:
           items:
             $ref: '#/components/schemas/Identity'
           maxItems: 1000
-          description: |
-            An unordered array of identities corresponding to the filter from the request.
+          description: An unordered array of identities corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
           example: 100
         next_page_token:
           type: string
@@ -4148,6 +4310,7 @@ components:
         state:
           type: string
           description: |
+            Enum: "ACTIVE" "REVOKED"
             A string representing the current state of the credential.
             The value `ACTIVE` indicates that the credential that can be used to authenticate against BeyondIdentity.
             The value `REVOKED` indicates that the credential that has been revoked and cannot be used to authenticate against BeyondIdentity.
@@ -4156,6 +4319,7 @@ components:
         csr_type:
           type: string
           description: |
+            Enum: "JWT" "WEBAUTHN"
             A string representing the type of certificate signing request that created this credential.
             The value `JWT` indicates that the CSR was delivered in the form of a JWT.
             The value `WEBAUTHN` indicates that the CSR was delivered in the form of a WebAuthn attestation response.
@@ -4181,14 +4345,14 @@ components:
           type: string
           format: date-time
           description: |
-            A timestamp that represents when the credential was created. This field is immutable and output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential was created. This is automatically generated on creation. This field is output-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
         update_time:
           type: string
           format: date-time
           description: |
-            A timestamp that represents when the credential was last updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential was last updated. This is automatically updated when the credential is updated. This field is output-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
     CredentialBindingJob:
@@ -4227,10 +4391,11 @@ components:
         delivery_method:
           type: string
           description: |
-            The method by which a credential binding link is delivered to the target authenticator or identity. The value `RETURN` indicates that a credential binding link will be returned to the caller upon creation of the credential binding job. The value `EMAIL` indicates that a credential binding link will be sent to the email address associated with the identity.
+            Enum: "RETURN" "EMAIL" The method by which a credential binding link is delivered to the target authenticator or identity. The value `RETURN` indicates that a credential binding link will be returned to the caller upon creation of the credential binding job. The value `EMAIL` indicates that a credential binding link will be sent to the email address associated with the identity.
         state:
           type: string
           description: |
+            Enum: "LINK_OPENED" "LINK_SENT" "REQUEST_DELIVERED" "COMPLETE"
             A string representing the current state of the credential binding job.
             The value `COMPLETE` indicates that a credential has been successfully bound to an identity.
             The value `LINK_OPENED` indicates that the credential binding link associated with the job has been opened by its target identity.
@@ -4261,14 +4426,14 @@ components:
           type: string
           format: date-time
           description: |
-            A timestamp that represents when the credential binding job was created. This field is immutable and output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential binding job was created. This is automatically generated on creation. This field is output-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
         update_time:
           type: string
           format: date-time
           description: |
-            A timestamp that represents when the credential binding job was last updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential binding job was last updated. This is automatically updated when the credential binding job is updated. This field is output-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
     ListCredentialsResponse:
@@ -4282,12 +4447,12 @@ components:
             $ref: '#/components/schemas/Credential'
           maxItems: 1000
           description: |
-            An unordered array of credentials corresponding to the filter from the request.
+            An unordered array of credentials corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
         next_page_token:
           type: string
           description: |
@@ -4306,12 +4471,12 @@ components:
             $ref: '#/components/schemas/CredentialBindingJob'
           maxItems: 1000
           description: |
-            An unordered array of credential binding jobs corresponding to the filter from the request.
+            An unordered array of credential binding jobs corresponding to the request.
         total_size:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the filter from the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
         next_page_token:
           type: string
           description: |
@@ -4372,7 +4537,7 @@ components:
         - public
     GrantType:
       description: |
-        The type of grant supported by an Application when treated as an OAuth or OIDC client.
+        The type of grant supported by an application when treated as an OAuth or OIDC client.
       type: string
       enum:
         - authorization_code
@@ -4384,32 +4549,33 @@ components:
         - expires_after
       properties:
         expires_after:
-          description: |
-            Time after minting, in seconds, for which the token will be considered valid.
           type: integer
           format: uint
+          description: |
+            Time after minting, in seconds, for which the token will be considered valid.
           minimum: 0
         token_signing_algorithm:
-          description: Signing algorithm to use for an application token.
           type: string
           enum:
             - RS256
+          description: Signing algorithm to use for an application token.
           default: RS256
         subject_field:
-          description: |
-            Property of a principal which is used to fill the subject of a token issued for this application.
           type: string
           enum:
             - ID
             - EMAIL
+          description: |
+            Property of a principal which is used to fill the subject of a token issued for this application.
           default: ID
     TokenEndpointAuthMethod:
-      description: Indicator of the requested authentication method for the token endpoint.
+      description: |
+        Indicator of the requested authentication method for the token endpoint.
       type: string
       enum:
         - client_secret_basic
-        - none
         - client_secret_post
+        - none
     Application:
       title: Application
       type: object
@@ -4443,35 +4609,34 @@ components:
                   enum:
                     - oauth2
                 allowed_scopes:
-                  description: Scopes which are allowed for this application.
                   type: array
                   items:
                     type: string
+                  description: Scopes which are allowed for this application.
                 client_id:
-                  description: The client ID to use to refer to this application.
                   type: string
+                  description: The client ID to use to refer to this application.
                   readOnly: true
                 client_secret:
-                  description: |
-                    Present if and only if confidentiality is "confidential", and only when this type is used as a response to a Create request. Invalid if passed in a request in any context.
                   type: string
+                  description: Present only when confidentiality is `confidential`.
                   readOnly: true
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
                 token_endpoint_auth_method:
                   $ref: '#/components/schemas/TokenEndpointAuthMethod'
                 grant_type:
-                  description: |
-                    Array of allowed grant types for this Application. Not all combinations of values are supported, e.g. authorization_code and client_credentials cannot be used together.
                   type: array
                   items:
                     $ref: '#/components/schemas/GrantType'
-                redirect_uris:
                   description: |
-                    A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
+                    Allowed grant types for this application. Note that Not all combinations of values are supported. For example, `authorization_code` and `client_credentials` cannot be used together.
+                redirect_uris:
                   type: array
                   items:
                     type: string
+                  description: |
+                    A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
             - description: OIDC protocol configuration.
@@ -4487,10 +4652,15 @@ components:
                   type: array
                   items:
                     type: string
+                  description: Scopes which are allowed for this application.
                 client_id:
                   type: string
+                  description: The client ID to use to refer to this application.
+                  readOnly: true
                 client_secret:
                   type: string
+                  description: Present only when confidentiality is `confidential`.
+                  readOnly: true
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
                 token_endpoint_auth_method:
@@ -4499,10 +4669,14 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/GrantType'
+                  description: |
+                    Allowed grant types for this application. Note that Not all combinations of values are supported. For example, `authorization_code` and `client_credentials` cannot be used together.
                 redirect_uris:
                   type: array
                   items:
                     type: string
+                  description: |
+                    A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
         authenticator_config_id:
@@ -4565,16 +4739,16 @@ components:
                   enum:
                     - platform
                 custom_url_scheme:
+                  type: string
                   description: Scheme for the authenticator.
-                  type: string
                 universal_url:
-                  description: A universal URL associated with the authenticator application.
                   type: string
+                  description: A universal URL associated with the authenticator application.
                 web_server_urls:
-                  description: Web server urls on the user's machine.
                   type: array
                   items:
                     type: string
+                  description: Web server URLs on the user's machine.
             - description: Configuration options for the embedded SDK authenticator.
               type: object
               required:
@@ -4587,13 +4761,13 @@ components:
                   enum:
                     - embedded
                 invoke_url:
-                  description: URL to invoke during the authentication flow.
                   type: string
+                  description: URL to invoke during the authentication flow.
                 trusted_origins:
-                  description: Origins in the allowlist.
                   type: array
                   items:
                     type: string
+                  description: Origins in the allowlist.
     ListApplicationsResponse:
       description: Represents a list of Applications as a response body.
       type: object
@@ -4675,18 +4849,18 @@ components:
             A unique identifier for the resource server's realm. This is automatically set on creation. This field is output-only.
           readOnly: true
         identifier:
+          type: string
           description: |
             The identifier of this resource server entity. This is usually used in minted tokens as the audience field. The value must be unique per realm.
-          type: string
         scopes:
-          description: The list of scopes supported by this resource server.
           type: array
           items:
             type: string
+          description: The list of scopes supported by this resource server.
         is_managed:
+          type: boolean
           description: |
             A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is output-only.
-          type: boolean
           readOnly: true
         display_name:
           type: string

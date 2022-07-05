@@ -37,6 +37,23 @@ const config = {
         },
       }),
     ],
+    [
+      'redocusaurus',
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            spec: 'api/v1/openapi.yaml',
+            route: 'api/v1',
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: '#5077c5',
+        },
+      },
+    ],
   ],
   plugins: [
     [
@@ -63,14 +80,6 @@ const config = {
         path: 'guides',
         routeBasePath: 'guides',
         sidebarPath: require.resolve('./sidebarsGuides.js'),
-      },
-    ],
-    [
-      'docusaurus-plugin-openapi', // this is v1 of the API, to create a new version, duplicate this entry
-      {
-        id: 'second',
-        path: 'api/v1/openapi.yaml',
-        routeBasePath: 'api/v1',
       },
     ],
   ],
