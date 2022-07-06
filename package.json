@@ -11,6 +11,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-lite-youtube-embed": "^2.2.2",
+    "redocusaurus": "^1.2.2",
     "url": "^0.11.0"
   },
   "scripts": {
