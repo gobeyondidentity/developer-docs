@@ -14,7 +14,7 @@ The high level flow for creating a passkey is:
 	- A developer can use the Beyond Identity API to send a passkey creation email to the end user. 
 3. The passkey creation link is passed to the Beyond Identity SDK bindCredential() function. Upon success a private key will be generated, stored in the device's hardware trust module, and the public key will be stored in the Beyond Identity cloud. 
 
-### Create a passkey via in-line delivery
+### Method 1 - Create a passkey via in-line delivery
 A developer can use the Beyond Identity API to generate a passkey creation link, and deliver the link to the end user however they see fit. This is the suggested method if you want the end user to create a passkey without having to leave your application. 
 
 #### Step 1) Create a passkey creation link for the identity
@@ -69,7 +69,7 @@ embeddedSdk
 Upon success a private key will have been created in the device's hardware trust module, and public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device. 
 
 
-### Deliver a passkey creation link via Beyond Identity Email Provider
+### Method 2 - Create a passkey via Beyond Identity Email Provider
 A developer can use the Beyond Identity API to send a passkey creation email to the end user. A high level flow for creating a passkey with this method looks like:
 1. The developer makes a request to the Beyond Identity API
 2. Beyond Identity Cloud sends an e-mail to the target end user. The email contains a passkey creation link in the email.
