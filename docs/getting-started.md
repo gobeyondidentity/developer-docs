@@ -27,12 +27,7 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 3. Download and install brew https://brew.sh/
 
-4. Install angular cli tool. https://angular.io/cli
-``` bash
-npm install -g @angular/cli
-```
-
-5. Install jq and curl. 
+4. Install jq and curl. 
 ``` bash
 brew install jq curl
 ```
@@ -80,7 +75,7 @@ source .env && node server.js
 
 4. In a separate window start the angular frontend
 ``` bash
-ng serve
+npm run start
 ```
 
 5. Open a web browser and go to [http://localhost:4200](http://localhost:4200)
