@@ -68,9 +68,9 @@ export VDC_REGION=us
 npm install
 ```
 
-2. Copy the beyond identity SDK wasm file with
+2. Build the frontend application
 ``` bash
-npm run copy:wasm
+npm run build
 ```
 
 3. Source the .env file and start the backend
