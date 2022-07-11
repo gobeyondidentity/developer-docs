@@ -7,6 +7,10 @@ Welcome to developer docs for Beyond Identity Secure Customers. This is where yo
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
+## Just looking to get going? 
+
+Follow our [Getting Started guide](/docs/v1/getting-started). 
+
 ## What is Beyond Identity
 
 Beyond Identity helps companies deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers, employees, developers, and contractors. 
