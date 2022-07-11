@@ -1,8 +1,9 @@
 ---
-title: Quickstart Guide - Hello World!
+title: Getting Started
 sidebar_position: 2
 ---
 In this guide we will show you how to create a tenant and connect the Beyond Identity Example Application to it. The Beyond Identity Example Application will demonstrate common workflows such as creating a passkey and using it to authenticate.
+
 ## Tenant Setup
 
 ### Create a Tenant
@@ -11,7 +12,12 @@ Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/sig
 Once your tenant has been created with Beyond Identity, you can continue to create an API token. 
 
 ### Create an API token
-Create an API Token for your tenant by going to Applications -> "Beyond Identity Management API" -> "API Tokens". Create a token and save it, we'll need it later. 
+Create an API Token for your tenant by: 
+
+1. Click **Applications**.
+2. Click **Beyond Identity Management API**.
+3. Click **API Tokens**.
+4. **Create a token and save it**, we'll need it later. 
 
 ### Get your Tenant ID
 You will receive an email from Beyond Identity that contains your Tenant ID.
