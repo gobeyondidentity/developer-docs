@@ -3,7 +3,7 @@ title: Architecture
 sidebar_position: 1
 ---
 
-Beyond Identity relies on two components: The Beyond Identity Cloud, and Beyond Identity Authenticators. The Beyond Identity Cloud hosts user directories, authentication servers, event logs, and policy rules. Beyond Identity Authenticators are SDKs that should be embedded in your application so that they can ask Beyond Identity Cloud "Is Identity X allowed to do Action Y given Tenant Policy Z" 
+Beyond Identity relies on two components: The Beyond Identity Cloud, and Beyond Identity SDKs. The Beyond Identity Cloud hosts the administrative console, user directories, OAuth servers, public keys, event logs, and policy rules. Beyond Identity SDKs, embedded in your application, are primarily responsible for handling all cryptographic operations on the device.
 
 ## Beyond Identity Cloud
 
