@@ -19,7 +19,7 @@ The private key cannot be tampered with, viewed, or removed from the device in w
 
 You can use Beyond Identity to prompt for a biometric authentication at sign-up to increase identity assurance. However, Beyond Identity does not provide identity verification as a native capability within our platform. 
 
-If your application requires identity verification, those requirements must be met before an identity is provisioned in the Beyond Identity directory. 
+If your application requires identity verification, those requirements should be met before a passkey is created for the identity.
 
 
 ### Universal passkey and trusted devices
