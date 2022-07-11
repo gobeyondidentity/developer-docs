@@ -60,22 +60,22 @@ export VDC_REGION=us
 ```
 
 ### Start the backend and frontend
-1. Install dependencies with
+1. Install dependencies with:
 ``` bash
 yarn install
 ```
 
-2. Build the frontend application
+2. Build the frontend application:
 ``` bash
 yarn run build
 ```
 
-3. In a separate window start the frontend
+3. Start the server and frontend application:
 ``` bash
 yarn run start
 ```
 
-4. Open a web browser and go to [http://localhost:3002](http://localhost:3002)
+4. Open a web browser and navigate to [http://localhost:3002](http://localhost:3002)
 
 ## What's next? 
 
