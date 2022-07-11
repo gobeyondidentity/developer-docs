@@ -1,5 +1,5 @@
 ---
-title: Overview
+title: Kotlin SDK
 sidebar_position: 1
 ---
 
