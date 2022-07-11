@@ -82,7 +82,7 @@ The `authenticate` function expects a URL. This Beyond Identity specific URL is 
 ```javascript
 EmbeddedSdk.authenticate(
     url: String,
-    onSelectCredential: OnSelectCredential,
+    onSelectCredential: (List<Credential>, ((CredentialID?) -> Unit)) -> Unit,
 ) { result ->
     result.onSuccess { }
     result.onFailure { }
