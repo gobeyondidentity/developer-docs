@@ -10,11 +10,23 @@ info:
     All of the functionality available in the Beyond Identity Admin Console is
     also available through the API.
 
+    This API is currently in the early-access stage and is under active
+    development. Feedback and suggestions are encouraged and should be directed
+    to support@beyondidentity.com.
+
     ## Requests and Responses
 
+    To interact with the Beyond Identity API, all requests should be made over
+    HTTPS.
+
     The Beyond Identity API is generally structured as a resource-oriented API.
-    All requests should be made over HTTPS. Resources are returned as JSON
-    objects.
+    Resources are represented as JSON objects and are used as both inputs to
+    and outputs from API methods.
+
+    Resource fields may be described as read-only and immutable. A read-only
+    field is only provided on the response. An immutable field is only assigned
+    once and may not be changed after. For example, system-generated IDs are
+    described as both read-only and immutable.
 
     To create a new resource, requests should use the `POST` method. Create
     requests include all of the necessary attributes to create a new resource.
@@ -78,9 +90,13 @@ info:
     Statuses in the 500 range indicate that the server encountered an internal
     issue and was unable to fulfill the request.
 
-    All error responses include a JSON object which may contain additional
-    details. These may be used by the client to determine the exact cause of
-    the error.
+    All error responses include a JSON object with a `code` field and a
+    `message` field. `code` contains a human-readable name for the HTTP status
+    code and `message` contains a high-level description of the error. The
+    error object may also contain additional error details which may be used by
+    the client to determine the exact cause of the error. Refer to each API
+    method's examples to determine the specific error detail types supported
+    for that method.
 
     ### Error Response Example
 
@@ -106,16 +122,25 @@ info:
     # Authentication
 
     All Beyond Identity API endpoints require authentication through
-    OAuth 2.0. To generate an access token, issue an authorization
-    request to your configured application.
+    OAuth 2.0 or OIDC. The simplest way to acquire an access token is through the
+    Beyond Identity Admin Console. Under the "Applications" tab, select the
+    "Beyond Identity Management API" application, navigate to the "API Tokens"
+    tab, and then click on "Create token".
+
+    Alternatively, an access token may also be generated directly via the API by
+    requesting a token for the "Beyond Identity Management API" Application.
 
     ```
-    curl https://api.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize \
+    curl https://auth-us.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/token \
       -X POST \
-      -u $CLIENT_ID:$CLIENT_SECRET \
+      -H "Authorization": "Basic: base64($CLIENT_ID:$CLIENT_SECRET)" \
       -H "Content-Type: application/x-www-form-urlencoded" \
-      -d "grant_type=code&scope=$SCOPES"
+      -d "grant_type=client_credentials&scope=$SCOPES"
     ```
+
+    This will work for any Application that you have configured to provide access to the
+    Beyond Identity Management API Resource Server. The "Beyond Identity Management API"
+    application is provided by default as part of the tenant onboarding process.
 
     The access token must be provided in the `Authorization` header of the
     API request.
@@ -149,14 +174,17 @@ tags:
     description: |
       A credential binding job defines the state of binding a new credential to an identity. The state includes creation of the credential binding job to delivery of the credential binding method to completion of the credential binding.
   - name: Themes
-    description: Theme methods
+    description: |
+      A theme is a collection of configurable assets that unifies the end user login experience with your brand and products. It is primarily used to change the styling of the credential binding email.
   - name: Applications
     description: |
-      An application represents a client application that uses Beyond Identity for authentication.
+      An application represents a client application that uses Beyond Identity for authentication. This could be a native app, a single-page application, regular web application, or machine-to-machine application credentials.
   - name: Authenticator Configurations
-    description: Authenticator configuration methods
+    description: |
+      A authenticator configuration prescribes how an end user may authenticate themselves to Beyond Identity. Beyond Identity provides a Hosted Web Authenticator which will work out-of-the-box, as well as SDKs that can be embedded into an end user application.
   - name: Resource Servers
-    description: Resource server methods
+    description: |
+      A resource server represents that API or server hosting a set of protected resources, and is capable of accepting and responding to protected resource requests using access tokens. Clients can enable these APIs to be consumed from authorized applications.
 paths:
   '/v1/tenants/{tenant_id}':
     get:
@@ -167,7 +195,7 @@ paths:
       description: |
         To retrieve an existing tenant, send a GET request to `/v1/tenants/$TENANT_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'tenants:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -201,7 +229,7 @@ paths:
                       - type: FieldViolations
                         field_violations:
                           - field: tenant_id
-                            description: missing
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -234,7 +262,7 @@ paths:
                 Tenant Not Found:
                   value:
                     code: not_found
-                    message: realm not found
+                    message: tenant not found
                     details:
                       - type: ResourceInfo
                         resource_type: Tenant
@@ -257,9 +285,9 @@ paths:
       operationId: UpdateTenant
       summary: Patch a Tenant
       description: |
-        To update only specific attributes of an existing tenant, send a PATCH request to `/v1/tenants/$TENANT_ID`. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+        To update only specific attributes of an existing tenant, send a PATCH request to `/v1/tenants/$TENANT_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'tenants:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -357,7 +385,7 @@ paths:
       description: |
         To create a realm, send a POST request to `/v1/tenants/$TENANT_ID/realms`. Values in the request body for read-only fields will be ignored.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'realms:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -462,7 +490,7 @@ paths:
         Page tokens expire after one week. Requests which specify an expired page
         token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'realms:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -541,7 +569,7 @@ paths:
       description: |
         To retrieve an existing realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'realms:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -572,7 +600,7 @@ paths:
                       - type: FieldViolations
                         field_violations:
                           - field: realm_id
-                            description: missing
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -597,6 +625,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  value:
+                    code: not_found
+                    message: realm not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Realm
+                        id: 19a95130480dfa79
+                        description: realm not found
         '500':
           description: Server error.
           content:
@@ -612,9 +650,9 @@ paths:
       operationId: UpdateRealm
       summary: Patch a Realm
       description: |
-        To update only specific attributes of an existing realm, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+        To update only specific attributes of an existing realm, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'realms:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -684,14 +722,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  value:
-                    code: not_found
-                    message: realm not found
-                    details:
-                      - type: ResourceInfo
-                        resource_type: Realm
-                        id: 19a95130480dfa79
-                        description: realm not found
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -707,10 +738,10 @@ paths:
       operationId: DeleteRealm
       summary: Delete a Realm
       description: |
-        Deletes a realm belonging to a tenant. Realms may only be deleted if they have no identities or groups. Deletes an identity within a realm. Identities may only be deleted if they have no credentials. To delete a realm, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. To be deleted, a realm must not have any identities or groups. All associated resources must first be deleted or you will receive a 409 error.
+        To delete a realm, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. To be deleted, a realm must not have any identities or groups. All associated resources must first be deleted or you will receive a 409 error.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'realms:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -724,6 +755,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -750,7 +784,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -780,7 +814,7 @@ paths:
       description: |
         To create a group, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`. Values in the request body for read-only fields will be ignored.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -865,7 +899,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -894,7 +928,7 @@ paths:
         Page tokens expire after one week. Requests which specify an expired page
         token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -957,7 +991,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -976,7 +1010,7 @@ paths:
       description: |
         To retrieve an existing group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1060,7 +1094,7 @@ paths:
       description: |
         To update only specific attributes of an existing group, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1150,7 +1184,7 @@ paths:
         To delete a group, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID`. To be deleted, a group must not have any members. Any existing members must first be deleted or you will receive a 409 error.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1222,11 +1256,11 @@ paths:
       operationId: ListGroupMembers
       summary: List All Members for a Group
       description: |
-        To list members belonging to a group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of identities in the response. If page size is not specified, the response will contain 20 items.
+        To list members belonging to a group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of members in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:read'
             - 'identities:read'
       parameters:
@@ -1255,9 +1289,9 @@ paths:
                         create_time: 2022-04-12T05:53:07.119Z
                         update_time: 2022-06-16T14:31:03.770Z
                         traits:
-                          version: traits_v0
+                          type: traits_v0
                           username: test
-                          email: test@email.com
+                          primary_email_address: test@example.com
                     total_size: 1
         '400':
           description: Bad request.
@@ -1313,7 +1347,7 @@ paths:
       description: |
         To add members to a group, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:addMembers`. The request must contain at least one and no more than 1000 identity IDs.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:update'
             - 'identities:read'
       parameters:
@@ -1417,7 +1451,7 @@ paths:
       description: |
         To delete members from a group, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:deleteMembers`. The request must contain at least one and no more than 1000 identity IDs.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'groups:update'
             - 'identities:read'
       parameters:
@@ -1497,7 +1531,7 @@ paths:
                 Group Not Found:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -1515,7 +1549,7 @@ paths:
         To create an identity, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`. Values in the request body for read-only fields will be ignored.
         If the request conflicts with an existing resource, you will receive a 409 error.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1538,9 +1572,9 @@ paths:
                   identity:
                     display_name: Test Identity
                     traits:
-                      version: traits_v0
+                      type: traits_v0
                       username: test
-                      email: test@email.com
+                      primary_email_address: test@example.com
       responses:
         '200':
           description: |
@@ -1559,9 +1593,9 @@ paths:
                     create_time: 2022-04-12T05:53:07.119Z
                     update_time: 2022-06-16T14:31:03.770Z
                     traits:
-                      version: traits_v0
+                      type: traits_v0
                       username: test
-                      email: test@email.com
+                      primary_email_address: test@example.com
         '400':
           description: Bad request.
           content:
@@ -1606,7 +1640,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '409':
           description: Conflict.
           content:
@@ -1647,7 +1681,7 @@ paths:
         Page tokens expire after one week. Requests which specify an expired page
         token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1674,9 +1708,9 @@ paths:
                         create_time: 2022-04-12T05:53:07.119Z
                         update_time: 2022-06-16T14:31:03.770Z
                         traits:
-                          version: traits_v0
+                          type: traits_v0
                           username: test
-                          email: test@email.com
+                          primary_email_address: test@example.com
                     total_size: 1
         '400':
           description: Bad request.
@@ -1713,7 +1747,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Realm Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/patch/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -1732,7 +1766,7 @@ paths:
       description: |
         To retrieve an existing identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1784,8 +1818,7 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+          description: The resource was not found.
           content:
             application/json:
               schema:
@@ -1801,7 +1834,7 @@ paths:
                         id: e372db224c06e850
                         description: identity not found
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -1815,10 +1848,10 @@ paths:
       operationId: UpdateIdentity
       summary: Patch an Identity
       description: |
-        To update only specific attributes of an existing identity, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+        To update only specific attributes of an existing identity, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
         If the request conflicts with an existing resource, you will receive a 409 error.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1841,8 +1874,8 @@ paths:
                 value:
                   identity:
                     traits:
-                      version: traits_v0
-                      email: test@email.com
+                      type: traits_v0
+                      primary_email_address: test@example.com
       responses:
         '200':
           description: |
@@ -1889,12 +1922,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Identity Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '409':
           description: Conflict.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Username Already Exists:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/409/content/application~1json/examples/Username%20Already%20Exists'
         '500':
           description: Server error.
           content:
@@ -1913,7 +1952,7 @@ paths:
         To delete an identity, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. To be deleted, an identity must not be a member of any groups. The identity must must first be removed from all groups or you will receive a 409 error.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -1966,7 +2005,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Identity Has Memberships:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/delete/responses/409/content/application~1json/examples/Group%20Has%20Members'
+                  value:
+                    code: conflict
+                    message: identity has children
         '500':
           description: Server error.
           content:
@@ -1987,7 +2028,7 @@ paths:
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'identities:read'
             - 'groups:read'
       parameters:
@@ -2069,9 +2110,9 @@ paths:
       operationId: GetCredential
       summary: Retrieve an Existing Credential
       description: |
-        To retrieve an existing credential, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`/credentials/$CREDENTIAL_ID`.
+        To retrieve an existing credential, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials/$CREDENTIAL_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credentials:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -2095,11 +2136,7 @@ paths:
                     identity_id: e85de356dc78843a
                     state: ACTIVE
                     csr_type: JWT
-                    jwk_json:
-                      '\"crv\":\"P-256\"': null
-                      '\"kty\":\"EC\"': null
-                      '\"x\":\"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g\"': null
-                      '\"y\":\"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ\"': null
+                    jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
                     jwk_thumbprint: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
                     create_time: 2022-03-14T03:42:52.905Z
                     update_time: 2022-06-14T05:55:23.823Z
@@ -2110,8 +2147,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Malformed Request:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
@@ -2140,8 +2175,7 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+          description: The resource was not found.
           content:
             application/json:
               schema:
@@ -2156,8 +2190,6 @@ paths:
                         resource_type: Credential
                         id: 51c3c2d2907d6b40
                         description: credential not found
-                Identity Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
           description: Internal.
           content:
@@ -2176,7 +2208,7 @@ paths:
       description: |
         To revoke a credential, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials/$CREDENTIAL_ID:revoke`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credentials:revoke'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -2201,8 +2233,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Malformed Request:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
@@ -2224,8 +2254,7 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+          description: The resource was not found.
           content:
             application/json:
               schema:
@@ -2233,10 +2262,8 @@ paths:
               examples:
                 Credential Not Found:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/404/content/application~1json/examples/Credential%20Not%20Found'
-                Identity Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs/post/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -2244,23 +2271,23 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credentials':
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials':
     get:
       tags:
         - Credentials
       operationId: ListCredentials
       summary: List All Credentials for an Identity
       description: |
-        To list all credentials for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credentials in the response. If page size is not specified, the response will contain 20 items.
+        To list all credentials for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`. `$IDENTITY_ID` may be a wildcard (`-`) to request all credentials across all identities within the realm. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credentials in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credentials:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/identity_id_or_wildcard'
+        - $ref: '#/components/parameters/identity_id'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -2276,7 +2303,16 @@ paths:
                 Success:
                   value:
                     credentials:
-                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      - id: 81490afab171aef0
+                        realm_id: 7df92e4a38ba0993
+                        tenant_id: 0001b42d80372976
+                        identity_id: e85de356dc78843a
+                        state: ACTIVE
+                        csr_type: JWT
+                        jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
+                        jwk_thumbprint: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
+                        create_time: 2022-03-14T03:42:52.905Z
+                        update_time: 2022-06-14T05:55:23.823Z
                     total_size: 1
         '400':
           description: Bad request.
@@ -2285,8 +2321,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Malformed Request:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
@@ -2332,7 +2366,7 @@ paths:
       description: |
         To create an identity, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. Values in the request body for read-only fields will be ignored.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credential-binding-jobs:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -2353,7 +2387,8 @@ paths:
                 - job
       responses:
         '200':
-          description: OK.
+          description: |
+            The response will be a JSON object with a key called `credential_binding_job`. The value of this will be an object containing the standard attributes associated with a credential binding job. If the `delivery_method` of the credential binding job is `RETURN`, the response will also contain a key called `credential_binding_link` that contains a link to facilitate the credential binding process.
           content:
             application/json:
               schema:
@@ -2366,15 +2401,39 @@ paths:
                   credential_binding_link:
                     type: string
                     description: |
-                      A unique URL to be delivered to an identity to facilitate the credential binding process. This field is only present if the CredentialBindingJob deliveryMethod is 'RETURN'.
+                      A unique URL to be delivered to an identity to facilitate the credential binding process.  This field is only present if the credential binding job's `delivery_method` is `RETURN`.
                 required:
                   - credential_binding_job
               examples:
-                Success:
+                Delivery Method Return:
                   value:
                     credential_binding_job:
-                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      id: c4fc2d753ca22b14
+                      realm_id: cdf4862dc4d49791
+                      tenant_id: 000183a77dd50fa9
+                      identity_id: 87fabad6956c6d4b
+                      delivery_method: RETURN
+                      state: COMPLETE
+                      post_binding_redirect_uri: 'http://example.com/callback'
+                      authenticator_config_id: 67bb0acf12e5c899
+                      expire_time: 2022-03-21T03:42:52.905Z
+                      create_time: 2022-03-14T03:42:52.905Z
+                      update_time: 2022-03-15T05:55:23.823Z
                     credential_binding_link: 'http://example.com/v1/tenants/000183a77dd50fa9/realms/cdf4862dc4d49791/identities/87fabad6956c6d4b/credential-binding-jobs/c4fc2d753ca22b14:invokeAuthenticator?token=1St9IKIIrYyQ8sOSeuk5UkbLKnBJhuD4I7nWIqt-BNANDEFS-XVuOHxB7TFdZcRm'
+                Delivery Method Email:
+                  value:
+                    credential_binding_job:
+                      id: c4fc2d753ca22b14
+                      realm_id: cdf4862dc4d49791
+                      tenant_id: 000183a77dd50fa9
+                      identity_id: 87fabad6956c6d4b
+                      delivery_method: EMAIL
+                      state: COMPLETE
+                      post_binding_redirect_uri: 'http://example.com/callback'
+                      authenticator_config_id: 67bb0acf12e5c899
+                      expire_time: 2022-03-21T03:42:52.905Z
+                      create_time: 2022-03-14T03:42:52.905Z
+                      update_time: 2022-03-15T05:55:23.823Z
         '400':
           description: Bad request.
           content:
@@ -2385,7 +2444,7 @@ paths:
                 Malformed Request:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2405,12 +2464,11 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+          description: The resource was not found.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ResourceInfo'
               examples:
                 Identity Not Found:
                   value:
@@ -2421,22 +2479,24 @@ paths:
                         resource_type: Identity
                         id: 51c3c2d2907d6b40
                         description: identity not found
-        '409':
-          description: |
-            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '422':
-          description: |
-            Unprocessable entity. The error details will include a ResourceInfo describing the unprocessable resource.
+          description: Unprocessable entity.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Identity Missing Email Address:
+                  value:
+                    code: unprocessable_entity
+                    message: Identity missing email address
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Identity
+                        id: 69f4d38f840c13ab
+                        description: Identity missing email address
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -2444,23 +2504,22 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id_or_wildcard}/credential-binding-jobs':
     get:
       tags:
         - Credential Binding Jobs
       operationId: ListCredentialBindingJobs
       summary: List All Credential Binding Jobs for an Identity
       description: |
-        To list all credential binding jobs for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credential binding jobs in the response. If page size is not specified, the response will contain 20 items.
+        To list all credential binding jobs for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. `$IDENTITY_ID` may be a wildcard (`-`) to request all credential binding jobs across all identities within the realm. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credential binding jobs in the response. If page size is not specified, the response will contain 20 items.
         When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credential-binding-jobs:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/identity_id_or_wildcard'
+        - $ref: '#/components/parameters/identity_id'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -2476,7 +2535,17 @@ paths:
                 Success:
                   value:
                     credential_binding_jobs:
-                      - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credential-binding-jobs~1%7Bcredential_binding_job_id%7D/get/responses/200/content/application~1json/examples/Success'
+                      - id: 81490afab171aef0
+                        realm_id: 7df92e4a38ba0993
+                        tenant_id: 0001b42d80372976
+                        identity_id: e85de356dc78843a
+                        delivery_method: EMAIL
+                        state: COMPLETE
+                        post_binding_redirect_uri: 'http://example.com/callback'
+                        authenticator_config_id: 67bb0acf12e5c899
+                        expire_time: 2022-03-21T03:42:52.905Z
+                        create_time: 2022-03-14T03:42:52.905Z
+                        update_time: 2022-03-15T05:55:23.823Z
                     total_size: 1
         '400':
           description: Bad request.
@@ -2485,10 +2554,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Malformed Request:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id_or_wildcard%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2508,7 +2575,7 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -2525,7 +2592,7 @@ paths:
       description: |
         To retrieve an existing credential binding job, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`/credential-binding-jobs/$CREDENTIAL_BINDING_JOB_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'credential-binding-jobs:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -2561,8 +2628,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
-                Malformed Request:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
                   value:
                     code: bad_request
@@ -2591,8 +2656,7 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            Not found. The error details will include a ResourceInfo describing the missing resource.
+          description: The resource was not found.
           content:
             application/json:
               schema:
@@ -2604,11 +2668,11 @@ paths:
                     message: credential binding job not found
                     details:
                       - type: ResourceInfo
-                        resource_type: Credential Binding Job
+                        resource_type: CredentialBindingJob
                         id: 3103ba9a652b755e
                         description: credential binding job not found
         '500':
-          description: Internal.
+          description: Server error.
           content:
             application/json:
               schema:
@@ -2623,9 +2687,10 @@ paths:
       summary: Create a New Theme
       description: |
         To create a theme, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/$THEME_ID`. Values in the request body for read-only fields will be ignored. All non-read-only fields are optional and will be populated with defaults if unspecified.
+        Currently, each realm only supports a single theme. If a theme already exists for the realm, you will receive a 409 error.
       operationId: CreateTheme
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'themes:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -2641,9 +2706,18 @@ paths:
               properties:
                 theme:
                   $ref: '#/components/schemas/Theme'
+            examples:
+              Create Theme:
+                value:
+                  theme:
+                    email_realm_name: Realm Administrators
+                    logo_url_light: 'https://example.com/logo_url_light.png'
+                    logo_url_dark: 'https://example.com/logo_url_dark.png'
+                    support_url: 'https://example.com/support'
       responses:
         '200':
-          description: A JSON of a `theme` object which was created.
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a theme.
           content:
             application/json:
               schema:
@@ -2654,14 +2728,13 @@ paths:
                     id: 88ef08fb-c3f9-44e2-b174-fbb239e1dc47
                     tenant_id: f36448f2ff094881
                     realm_id: aa6aabe6989bc4a5
-                    email_realm_name: test realm
+                    email_realm_name: Realm Administrators
                     logo_url_light: 'https://example.com/logo_url_light.png'
                     logo_url_dark: 'https://example.com/logo_url_dark.png'
                     support_url: 'https://example.com/support'
-                    create_time: '2022-07-28T18:00:00.000Z'
+                    create_time: 2022-07-28T18:00:00.000Z
         '400':
-          description: |
-            Bad request.
+          description: Bad request.
           content:
             application/json:
               schema:
@@ -2670,12 +2743,12 @@ paths:
                 Invalid Parameters:
                   value:
                     code: bad_request
-                    message: Bad Request
+                    message: invalid parameters
                     details:
                       - type: FieldViolations
                         field_violations:
-                          - field: theme ID
-                            description: theme ID must be a valid ID
+                          - field: theme_id
+                            description: theme_id must be a valid ID
         '401':
           description: Unauthorized.
           content:
@@ -2694,6 +2767,22 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  value:
+                    code: not_found
+                    message: realm not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Realm
+                        id: 19a95130480dfa79
+                        description: realm not found
         '409':
           description: Conflict.
           content:
@@ -2723,79 +2812,15 @@ paths:
         To retrieve the active theme for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/active`. If the realm has not specified the active theme, a default theme will be returned.
       operationId: GetActiveTheme
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'themes:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
       responses:
         '200':
-          description: A JSON of a `theme` object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Theme'
-              examples:
-                Success:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
           description: |
-            Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/v1/tenants/{tenant_id}/realms/{realm_id}/themes/{theme_id}':
-    get:
-      tags:
-        - Themes
-      summary: Retrive an Existing Theme
-      description: |
-        To retrieve an existing theme, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/$THEME_ID`.
-      operationId: GetTheme
-      security:
-        - ManagementAuth:
-            - 'themes:read'
-      parameters:
-        - name: tenant_id
-          in: path
-          description: A unique identifier for a tenant.
-          required: true
-          schema:
-            type: string
-            example: 000176d94fd7b4d1
-        - name: realm_id
-          in: path
-          description: A unique identifier for a realm.
-          required: true
-          schema:
-            type: string
-            example: 19a95130480dfa79
-        - $ref: '#/components/parameters/theme_id'
-      responses:
-        '200':
-          description: A JSON of a `theme` object.
+            The response will be a JSON object containing the standard attributes associated with a theme.
           content:
             application/json:
               schema:
@@ -2803,15 +2828,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldViolations'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2831,22 +2847,14 @@ paths:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
         '404':
-          description: |
-            The resource was not found.
+          description: The resource was not found.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceInfo'
+                $ref: '#/components/schemas/Error'
               examples:
-                Theme Not Found:
-                  value:
-                    code: not_found
-                    message: theme not found
-                    details:
-                      - type: ResourceInfo
-                        resource_type: Theme
-                        id: 72d0af37-a9bb-410c-b8a7-9aa127fd8739
-                        description: theme not found
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -2856,34 +2864,25 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-    patch:
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/themes/{theme_id}':
+    get:
       tags:
         - Themes
-      summary: Patch a Theme
+      summary: Retrive an Existing Theme
       description: |
-        To update only specific attributes of an existing theme, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/$THEME_ID`. Values in the request body for immutable or output-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
-      operationId: UpdateTheme
+        To retrieve an existing theme, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/$THEME_ID`.
+      operationId: GetTheme
       security:
-        - ManagementAuth:
-            - 'themes:update'
+        - BearerAuth:
+            - 'themes:read'
       parameters:
-        - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/parameters/0'
-        - $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/parameters/1'
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/theme_id'
-      requestBody:
-        description: Theme to be updated.
-        content:
-          application/json:
-            schema:
-              title: Update Theme Request
-              description: Request for UpdateTheme.
-              type: object
-              properties:
-                theme:
-                  $ref: '#/components/schemas/Theme'
       responses:
         '200':
-          description: A JSON of a `theme` object which was updated.
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a theme.
           content:
             application/json:
               schema:
@@ -2896,7 +2895,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldViolations'
+                $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
@@ -2923,7 +2922,100 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResourceInfo'
+                $ref: '#/components/schemas/Error'
+              examples:
+                Theme Not Found:
+                  value:
+                    code: not_found
+                    message: theme not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Theme
+                        id: 72d0af37-a9bb-410c-b8a7-9aa127fd8739
+                        description: theme not found
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    patch:
+      tags:
+        - Themes
+      summary: Patch a Theme
+      description: |
+        To update only specific attributes of an existing theme, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/themes/$THEME_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      operationId: UpdateTheme
+      security:
+        - BearerAuth:
+            - 'themes:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/theme_id'
+      requestBody:
+        description: Theme to be updated.
+        content:
+          application/json:
+            schema:
+              title: Update Theme Request
+              description: Request for UpdateTheme.
+              type: object
+              properties:
+                theme:
+                  $ref: '#/components/schemas/Theme'
+            examples:
+              Update Email Realm Name:
+                value:
+                  theme:
+                    email_realm_name: Realm Administrators
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a theme.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
               examples:
                 Theme Not Found:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes~1%7Btheme_id%7D/get/responses/404/content/application~1json/examples/Theme%20Not%20Found'
@@ -2943,11 +3035,12 @@ paths:
         - Applications
       summary: Lists All Applications for a Realm
       description: |
-        To list all applications for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`. There is no defined ordering of the list of groups in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
+        To list all applications for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`.
+        There is no defined ordering of the list of applications in the response.
+        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'applications:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3001,9 +3094,10 @@ paths:
         - Applications
       summary: Create a New Application
       description: |
-        To create an application, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID`. Values in the request body for read-only fields will be ignored.
+        To create an application, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`. Values in the request body for read-only fields will be ignored.
+        At present, there are only two supported protocol types for applications, `oauth2` and `oidc`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'applications:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3070,7 +3164,7 @@ paths:
       description: |
         To retrieve an existing application, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'applications:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3125,7 +3219,7 @@ paths:
       description: |
         To update only specific attributes of an existing application, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'applications:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3193,7 +3287,7 @@ paths:
         To delete an application, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID`.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'applications:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3243,10 +3337,10 @@ paths:
       summary: Lists All Authenticator Configurations for a Realm
       description: |
         To list all authenticator configurations for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs`. There is no defined ordering of the list of authenticator configurations in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
+        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'authenticator-configs:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3302,7 +3396,7 @@ paths:
       description: |
         To create an authenticator configuration, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs`. Values in the request body for read-only fields will be ignored.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'authenticator-configs:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3369,7 +3463,7 @@ paths:
       description: |
         To retrieve an existing authenticator configuration, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs/$AUTHENTICATOR_CONFIG_ID`.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'authenticator-configs:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3424,7 +3518,7 @@ paths:
       description: |
         To update only specific attributes of an existing authenticator configuration, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs/$AUTHENTICATOR_CONFIG_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'authenticator-configs:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3492,7 +3586,7 @@ paths:
         To delete an authenticator configuration, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs/$AUTHENTICATOR_CONFIG_ID`.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'authenticator-configs:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3545,13 +3639,13 @@ paths:
       summary: List All Resource Servers For a Realm
       description: |
         To list all resource servers for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers`. There is no defined ordering of the list of resource servers in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
+        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
         Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
       tags:
         - Resource Servers
       operationId: ListResourceServers
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'resource-servers:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3607,7 +3701,7 @@ paths:
         - Resource Servers
       operationId: CreateResourceServer
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'resource-servers:create'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3674,7 +3768,7 @@ paths:
         - Resource Servers
       operationId: GetResourceServer
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'resource-servers:read'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3736,7 +3830,7 @@ paths:
         - Resource Servers
       operationId: DeleteResourceServer
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'resource-servers:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3792,7 +3886,7 @@ paths:
         - Resource Servers
       operationId: UpdateResourceServer
       security:
-        - ManagementAuth:
+        - BearerAuth:
             - 'resource-servers:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
@@ -3891,18 +3985,10 @@ components:
       schema:
         type: string
         example: e372db224c06e850
-    identity_id_or_wildcard:
-      name: identity_id_or_wildcard
-      in: path
-      description: Either the ID of an identity or the wildcard string "-".
-      required: true
-      schema:
-        type: string
-        example: 00c7f49d8334d31b
     credential_id:
       name: credential_id
       in: path
-      description: A unique ID that can be used to identify and reference a credential.
+      description: A unique identifier for a credential.
       required: true
       schema:
         type: string
@@ -3910,7 +3996,7 @@ components:
     credential_binding_job_id:
       name: credential_binding_job_id
       in: path
-      description: A unique ID that can be used to identify and reference a credential binding job.
+      description: A unique identifier for a credential binding job.
       required: true
       schema:
         type: string
@@ -3918,7 +4004,7 @@ components:
     theme_id:
       name: theme_id
       in: path
-      description: ID of the theme.
+      description: A unique identifier for a theme.
       required: true
       schema:
         type: string
@@ -3973,12 +4059,13 @@ components:
     Tenant:
       title: Tenant
       type: object
-      description: Representation of a customer entity.
+      description: |
+        A tenant represents an organization in the Beyond Identity Cloud. Tenants contain all data necessary for that organization to operate.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for the tenant. This is automatically generated on creation. This field is output-only.
+            A unique identifier for the tenant. This is automatically generated on creation. This field is immutable and read-only.
           readOnly: true
           example: 000176d94fd7b4d1
         display_name:
@@ -3990,31 +4077,32 @@ components:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the tenant was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the tenant was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-01-28T12:00:02.423Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the tenant was last updated. This is automatically updated when the tenant is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the tenant was last updated. This is automatically updated when the tenant is updated. This field is read-only.
           readOnly: true
           example: 2022-04-19T15:17:21.186Z
     Realm:
       title: Realm
       type: object
-      description: Representation of a logically isolated namespace within a tenant.
+      description: |
+        A realm is a unique administrative domain within a tenant. Realms may be used to define multiple development environments or for isolated administrative domains.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for the realm. This is automatically generated on creation. This field is output-only. This field is unique within the tenant.
+            A unique identifier for the realm. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the tenant.
           readOnly: true
           example: 19a95130480dfa79
         tenant_id:
           type: string
           description: |
-            A unique identifier of the realm's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier of the realm's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 0001f1f460b1ace6
         display_name:
@@ -4026,37 +4114,38 @@ components:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the realm was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the realm was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-05-18T18:00:01.167Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the realm was last updated. This is automatically updated when the realm is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the realm was last updated. This is automatically updated when the realm is updated. This field is read-only.
           readOnly: true
           example: 2022-05-19T14:23:01.327Z
     Group:
       title: Group
       type: object
-      description: Representation of a collection of identities within a realm.
+      description: |
+        A group is a logical collection of identities. Groups are commonly used as a predicate in a policy rule.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for a group. This is automatically generated on creation. This field is output-only. This field is unique within the realm.
+            A unique identifier for a group. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: 81490afab171aef0
         tenant_id:
           type: string
           description: |
-            A unique identifier for the group's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier for the group's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 0001b42d80372976
         realm_id:
           type: string
           description: |
-            A unique identifier for the group's realm. This is automatically set on creation. This field is output-only.
+            A unique identifier for the group's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 7df92e4a38ba0993
         display_name:
@@ -4073,37 +4162,38 @@ components:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the group was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the group was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-03-14T03:42:52.905Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the group was last updated. This is automatically updated when the group is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the group was last updated. This is automatically updated when the group is updated. This field is read-only.
           readOnly: true
           example: 2022-06-14T05:55:23.823Z
     Identity:
       title: Identity
       type: object
-      description: Representation of a user identity.
+      description: |
+        An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for the identity. This is automatically generated on creation. This field is output-only. This field is unique within the realm.
+            A unique identifier for the identity. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: e372db224c06e850
         tenant_id:
           type: string
           description: |
-            A unique identifier for the identity's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier for the identity's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 0001f1f460b1ace6
         realm_id:
           type: string
           description: |
-            A unique identifier for the identity's realm. This is automatically set on creation. This field is output-only.
+            A unique identifier for the identity's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 8f5bec58229e6f29
         display_name:
@@ -4115,34 +4205,34 @@ components:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the identity was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the identity was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-04-12T05:53:07.119Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the identity was last updated. This is automatically updated when the identity is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the identity was last updated. This is automatically updated when the identity is updated. This field is read-only.
           readOnly: true
           example: 2022-06-16T14:31:03.770Z
         traits:
           description: |
-            A collection of properties to describe an identity. All traits contain a `version` key which describes the specific traits schema.
+            A collection of properties to describe an identity. All traits contain a `type` key which describes the specific traits schema.
           oneOf:
             - $ref: '#/components/schemas/Traits_v0'
           discriminator:
-            propertyName: version
+            propertyName: type
             mapping:
-              traits_v0: ./traits_v0.yaml
+              traits_v0: '#/components/schemas/Traits_v0'
     Traits_v0:
       title: Traits_v0
       description: Set of traits associated with an identity.
       type: object
       properties:
-        version:
+        type:
           type: string
           description: |
-            The version of the traits schema. This value must be provided on all writes.
+            The type of the traits schema. This value must be provided on all writes.
           example: traits_v0
         username:
           type: string
@@ -4151,9 +4241,9 @@ components:
         primary_email_address:
           type: string
           description: Email address serving as primary contact for identity.
-          example: test@email.com
+          example: test@example.com
       required:
-        - version
+        - type
     ListRealmsResponse:
       title: List Realms Response
       description: Response for ListRealms.
@@ -4163,7 +4253,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Realm'
-          maxItems: 1000
+          maxItems: 200
           description: An unordered array of realms corresponding to the request.
         total_size:
           type: integer
@@ -4187,7 +4277,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Identity'
-          maxItems: 1000
+          maxItems: 200
           description: An unordered array of identities corresponding to the request.
         total_size:
           type: integer
@@ -4211,7 +4301,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
-          maxItems: 1000
+          maxItems: 200
           description: An unordered array of groups corresponding to the request.
         total_size:
           type: integer
@@ -4235,7 +4325,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
-          maxItems: 1000
+          maxItems: 200
           description: An unordered array of groups corresponding to the request.
         total_size:
           type: integer
@@ -4259,7 +4349,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Identity'
-          maxItems: 1000
+          maxItems: 200
           description: An unordered array of identities corresponding to the request.
         total_size:
           type: integer
@@ -4276,164 +4366,188 @@ components:
         - total_size
     Credential:
       title: Credential
-      description: Representation of a Beyond Identity credential.
+      description: |
+        A credential is also known as a passkey. This is the public-private key pair that belongs to an identity.
       type: object
       properties:
         id:
           type: string
           description: |
-            A unique ID that can be used to identify and reference a credential. This is automatically generated on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for a credential. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: f3e87aa26a696372
         tenant_id:
           type: string
           description: |
-            The ID of the tenant to which the credential belongs. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: f1a7309c1e3d1e85
         realm_id:
           type: string
           description: |
-            The ID of the realm to which the credential belongs. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: d65cc516f7f22fdd
         identity_id:
           type: string
           description: |
-            The ID of the identity to which the credential is bound. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential's identity. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 4a2719e73d6d972d
         state:
           type: string
+          enum:
+            - ACTIVE
+            - REVOKED
           description: |
-            Enum: "ACTIVE" "REVOKED"
             A string representing the current state of the credential.
-            The value `ACTIVE` indicates that the credential that can be used to authenticate against BeyondIdentity.
-            The value `REVOKED` indicates that the credential that has been revoked and cannot be used to authenticate against BeyondIdentity.
+
+            The value `ACTIVE` indicates that the credential can be used to
+            authenticate with Beyond Identity.
+
+            The value `REVOKED` indicates that the credential has been revoked and
+            cannot be used to authenticate with Beyond Identity.
           readOnly: true
           example: ACTIVE
         csr_type:
           type: string
+          enum:
+            - JWT
+            - WEBAUTHN
           description: |
-            Enum: "JWT" "WEBAUTHN"
-            A string representing the type of certificate signing request that created this credential.
+            A string representing the type of certificate signing request that
+            created this credential.
+
             The value `JWT` indicates that the CSR was delivered in the form of a JWT.
-            The value `WEBAUTHN` indicates that the CSR was delivered in the form of a WebAuthn attestation response.
+
+            The value `WEBAUTHN` indicates that the CSR was delivered in the form of a
+            WebAuthn attestation response.
           readOnly: true
           example: JWT
         jwk_json:
           type: string
           description: |
-            The public key of the Credential in JWK format, as specified by RFC-7517. This field is immutable and output-only.
+            The public key of the Credential in JWK format, as specified by RFC-7517. This field is immutable and read-only.
           readOnly: true
-          example:
-            '\"crv\":\"P-256\"': null
-            '\"kty\":\"EC\"': null
-            '\"x\":\"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g\"': null
-            '\"y\":\"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ\"': null
+          example: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
         jwk_thumbprint:
           type: string
           description: |
-            The base64 URL encoding of the JWK thumbprint of the public key, as specified by RFC-7638. This field is immutable and output-only.
+            The base64 URL encoding of the JWK thumbprint of the public key, as specified by RFC-7638. This field is immutable and read-only.
           readOnly: true
           example: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
         create_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the credential was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the credential was last updated. This is automatically updated when the credential is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential was last updated. This is automatically updated when the credential is updated. This field is read-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
     CredentialBindingJob:
       title: CredentialBindingJob
-      description: A Credential Binding Job manages the binding of a credential to an identity.
+      description: |
+        A credential binding job defines the state of binding a new credential to an identity. The state includes creation of the credential binding job to delivery of the credential binding method to completion of the credential binding.
       type: object
       properties:
         id:
           type: string
           description: |
-            A unique ID that can be used to identify and reference a credential binding job. This is automatically generated on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for a credential binding job. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: 86b4f51481f09321
         tenant_id:
           type: string
           description: |
-            The ID of the tenant to which the credential binding job belongs. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential binding job's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: ce5ace5fc7e14d6a
         realm_id:
           type: string
           description: |
-            The ID of the realm to which the credential binding job belongs. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential binding job's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 9602e246c2ead9b2
         identity_id:
           type: string
           description: |
-            The ID of the identity to which the credential binding job belongs. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            A unique identifier for the credential binding job's identity. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 3d227b0d5949969d
         delivery_method:
           type: string
+          enum:
+            - RETURN
+            - EMAIL
           description: |
-            Enum: "RETURN" "EMAIL" The method by which a credential binding link is delivered to the target authenticator or identity. The value `RETURN` indicates that a credential binding link will be returned to the caller upon creation of the credential binding job. The value `EMAIL` indicates that a credential binding link will be sent to the email address associated with the identity.
+            The method by which a credential binding link is delivered to the target
+            authenticator or identity.
+
+            The value `RETURN` indicates that a credential binding link will be
+            returned to the caller upon creation of the credential binding job.
+
+            The value `EMAIL` indicates that a credential binding link will be sent
+            to the email address associated with the identity.
         state:
           type: string
+          enum:
+            - LINK_OPENED
+            - LINK_SENT
+            - REQUEST_DELIVERED
+            - COMPLETE
           description: |
-            Enum: "LINK_OPENED" "LINK_SENT" "REQUEST_DELIVERED" "COMPLETE"
             A string representing the current state of the credential binding job.
-            The value `COMPLETE` indicates that a credential has been successfully bound to an identity.
-            The value `LINK_OPENED` indicates that the credential binding link associated with the job has been opened by its target identity.
-            The value `LINK_SENT` indicates that the credential binding link associated with the job has been sent to its target authenticator or identity.
-            The value `REQUEST_DELIVERED` indicates that the credential binding request has been successfully delivered to its target authenticator.
+
+            The value `COMPLETE` indicates that a credential has been successfully
+            bound to an identity.
+
+            The value `LINK_OPENED` indicates that the credential binding link
+            associated with the job has been opened by its target identity.
+
+            The value `LINK_SENT` indicates that the credential binding link
+            associated with the job has been sent to its target authenticator or
+            identity.
+
+            The value `REQUEST_DELIVERED` indicates that the credential binding
+            request has been successfully delivered to its target authenticator.
           readOnly: true
           example: COMPLETE
         post_binding_redirect_uri:
           type: string
           description: |
-            The URI to which the caller will be redirected after successfully binding a credential to an identity. Optional.
+            The URI to which the caller will be redirected after successfully binding a credential to an identity. This field is optional. If not specified, the authenticator will not attempt to redirect to a new location after binding.
           example: 'http://example.com/callback'
         authenticator_config_id:
           type: string
           description: |
-            The ID of the authenticator configuration to be used to build the credential binding job. This is automatically set on creation. This field is immutable and output-only.
-          minLength: 1
+            The ID of the authenticator configuration to be used to build the credential binding job. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 76e9eab521a8b734
         expire_time:
           type: string
           format: date-time
           description: |
-            A timestamp that represents when the credential binding link associated with the credential binding job will expire. This field is immutable and output-only.
+            A timestamp that represents when the credential binding link associated with the credential binding job will expire. This field is immutable and read-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
         create_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the credential binding job was created. This is automatically generated on creation. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential binding job was created. This is automatically generated on creation. This field is read-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
         update_time:
           type: string
           format: date-time
           description: |
-            A time value given in ISO8601 combined date and time format that represents when the credential binding job was last updated. This is automatically updated when the credential binding job is updated. This field is output-only.
+            A time value given in ISO8601 combined date and time format that represents when the credential binding job was last updated. This is automatically updated when the credential binding job is updated. This field is read-only.
           readOnly: true
           example: 2022-05-12T20:29:47.636Z
     ListCredentialsResponse:
@@ -4445,7 +4559,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Credential'
-          maxItems: 1000
+          maxItems: 200
           description: |
             An unordered array of credentials corresponding to the request.
         total_size:
@@ -4469,7 +4583,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CredentialBindingJob'
-          maxItems: 1000
+          maxItems: 200
           description: |
             An unordered array of credential binding jobs corresponding to the request.
         total_size:
@@ -4487,57 +4601,83 @@ components:
     Theme:
       title: Theme
       description: |
-        A theme for customization of application interfaces and emails.
+        A theme is a collection of configurable assets that unifies the end user login experience with your brand and products. It is primarily used to change the styling of the credential binding email.
       type: object
       properties:
         id:
           type: string
           description: |
-            ID of the theme. This is automatically generated on creation. If the theme does not have an id this indicates that it is the default theme. This field is immutable and output-only.
+            A unique identifier for a theme. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
+          example: 88ef08fb-c3f9-44e2-b174-fbb239e1dc47
         tenant_id:
           type: string
           description: |
-            ID of the theme's tenant. This is automatically set on creation. This field is immutable and output-only.
+            A unique identifier for the theme's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: 0001b42d80372976
         realm_id:
           type: string
           description: |
-            ID of the theme's realm. This is automatically set on creation. This field is immutable and output-only.
+            A unique identifier for the theme's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: 7df92e4a38ba0993
         create_time:
           type: string
           format: date-time
           description: |
-            Timestamp of when the theme was created. This field is immutable and output-only.
+            Timestamp of when the theme was created. This field is immutable and read-only.
           readOnly: true
+          example: 2022-07-28T18:00:00.000Z
         email_realm_name:
           type: string
-          description: |
-            Realm name that is used in email templates.
+          description: Realm name that is used in email templates.
+          example: Realm Administrators
         logo_url_light:
           type: string
-          description: |
-            URL to for resolving the logo image for light mode.
+          description: URL for resolving the logo image for light mode.
+          example: 'https://example.com/logo_url_light.png'
         logo_url_dark:
           type: string
-          description: |
-            URL to for resolving the logo image for dark mode.
+          description: URL for resolving the logo image for dark mode.
+          example: 'https://example.com/logo_url_dark.png'
         support_url:
           type: string
           format: url
-          description: |
-            URL for customer support portal.
+          description: URL for the customer support portal.
+          example: 'https://example.com/support'
     Confidentiality:
       description: |
-        The confidentiality of the application when treated as OAuth or OIDC client.
+        The confidentiality of the client, as prescribed by OAuth 2.0 and
+        OIDC. Confidentiality is based on a client's ability to authenticate
+        securely with the authorization server (i.e., ability to
+        maintain the confidentiality of their client credentials). Allowable
+        values are:
+        - confidential: Clients capable of maintaining the confidentiality
+        of their credentials (e.g., client implemented on a secure server with
+        restricted access to the client credentials), or capable of secure
+        client authentication using other means.
+        - public: Clients incapable of maintaining the confidentiality of their
+        credentials (e.g., clients executing on the device used by the
+        resource owner, such as an installed native application or a web
+        browser-based application), and incapable of secure client
+        authentication via any other means.
       type: string
       enum:
         - confidential
         - public
     GrantType:
       description: |
-        The type of grant supported by an application when treated as an OAuth or OIDC client.
+        The type of grant supported by an application on the `token`
+        endpoint. Allowable values are:
+        - `authorization_code`: The authorization code grant type defined
+          in OAuth 2.0, Section 4.1. Namely, the client may authorize to the
+          `token` endpoint with a grant code which it obtains via the `authorize`
+          endpoint.
+        - `client_credentials`: The client credentials grant type defined
+          in OAuth 2.0, Section 4.4. Namely, the client may authorize to the
+          `token` endpoint with a client credentials tuple of `client_id` and
+          `client_secret`.
       type: string
       enum:
         - authorization_code
@@ -4558,19 +4698,28 @@ components:
           type: string
           enum:
             - RS256
-          description: Signing algorithm to use for an application token.
+          description: |
+            Signing algorithm to use for an application token. The only allowable value at present is `RS256`.
           default: RS256
         subject_field:
           type: string
           enum:
-            - ID
-            - EMAIL
+            - id
+            - email
+            - username
           description: |
             Property of a principal which is used to fill the subject of a token issued for this application.
-          default: ID
+          default: id
     TokenEndpointAuthMethod:
       description: |
-        Indicator of the requested authentication method for the token endpoint.
+        Indicator of the requested authentication method for the
+        token endpoint. Allowable values are:
+        - `client_secret_post`: The client uses the HTTP POST parameters
+           as defined in OAuth 2.0, Section 2.3.1. Namely, `client_id`
+           and `client_secret` are sent in the body of the POST request.
+        - `client_secret_basic`: The client uses HTTP Basic as defined in
+           OAuth 2.0, Section 2.3.1. Namely, `client_id` and `client_secret`
+           are sent in the Basic Authorization header.
       type: string
       enum:
         - client_secret_basic
@@ -4584,17 +4733,17 @@ components:
         id:
           type: string
           description: |
-            A unique identifier for an application. This is automatically generated on creation. This field is output-only.
+            A unique identifier for an application. This is automatically generated on creation. This field is read-only.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the application's realm. This is automatically set on creation. This field is output-only.
+            A unique identifier for the application's realm. This is automatically set on creation. This field is read-only.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the application's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier for the application's tenant. This is automatically set on creation. This field is read-only.
           readOnly: true
         protocol_config:
           description: Represents an Application protocol configuration.
@@ -4612,14 +4761,17 @@ components:
                   type: array
                   items:
                     type: string
-                  description: Scopes which are allowed for this application.
+                  description: |
+                    Scopes to which this application can grant access. If this application references a resource server, this set of scopes must be a subset of the resource server's available scopes. If this application does not reference a resource server, then this application can only be used for authentication and thereby `scopes` must necessarily be empty.
                 client_id:
                   type: string
-                  description: The client ID to use to refer to this application.
+                  description: |
+                    The client ID for this application. This is automatically set on creation. This field is output-only.
                   readOnly: true
                 client_secret:
                   type: string
-                  description: Present only when confidentiality is `confidential`.
+                  description: |
+                    The client secret to authenticate as this application; typically, as a Basic Authorization header. This is automatically set on creation. This field is output-only. This field is present only when confidentiality is `confidential`.
                   readOnly: true
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
@@ -4629,8 +4781,7 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/GrantType'
-                  description: |
-                    Allowed grant types for this application. Note that Not all combinations of values are supported. For example, `authorization_code` and `client_credentials` cannot be used together.
+                  description: Allowed grant types for this application.
                 redirect_uris:
                   type: array
                   items:
@@ -4652,14 +4803,17 @@ components:
                   type: array
                   items:
                     type: string
-                  description: Scopes which are allowed for this application.
+                  description: |
+                    Scopes to which this application can grant access. If this application references a resource server, this set of scopes must be a subset of the resource server's available scopes. If this application does not reference a resource server, then this application can only be used for authentication and thereby `scopes` must necessarily be empty. Note that OIDC requests may accept OpenID Connect standard scopes as well as resource server scopes, but the OpenID Connect scopes should not be defined on the application itself. Currently, the only OpenID Connect supported scope is `openid`.
                 client_id:
                   type: string
-                  description: The client ID to use to refer to this application.
+                  description: |
+                    The client ID for this application. This is automatically set on creation. This field is output-only.
                   readOnly: true
                 client_secret:
                   type: string
-                  description: Present only when confidentiality is `confidential`.
+                  description: |
+                    The client secret to authenticate as this application; typically, as a Basic Authorization header. This is automatically set on creation. This field is output-only. This field is present only when confidentiality is `confidential`.
                   readOnly: true
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
@@ -4669,8 +4823,7 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/GrantType'
-                  description: |
-                    Allowed grant types for this application. Note that Not all combinations of values are supported. For example, `authorization_code` and `client_credentials` cannot be used together.
+                  description: Allowed grant types for this application.
                 redirect_uris:
                   type: array
                   items:
@@ -4682,16 +4835,16 @@ components:
         authenticator_config_id:
           type: string
           description: |
-            A unique identifier for the application's authentication configuration.
+            A unique identifier for the application's authenticator configuration. This field is unused for `oidc` and `oauth2` applications when `grant_type=client_credentials`.
         is_managed:
           type: boolean
           description: |
-            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is output-only.
+            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is read-only.
           readOnly: true
         resource_server_id:
           type: string
           description: |
-            A unique identifier for the application's resource server. This is automatically set on creation. This field is output-only.
+            A unique identifier for the application's resource server. At present, the only available resource server is for the Beyond Identity Management API. Referencing this resource server from an application will allow that application to grant access to Beyond Identity's APIs. When not present, this application may provide authentication (identity) but not authorization (access).
         display_name:
           type: string
           description: |
@@ -4699,28 +4852,30 @@ components:
     AuthenticatorConfig:
       title: Authenticator Configuration
       type: object
-      description: Representation of an authenticator configuration.
+      description: |
+        Representation of an authenticator configuration. This prescribes how an identity may authenticate themselves with Beyond Identity.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for an authenticator configuration. This is automatically generated on creation. This field is output-only.
+            A unique identifier for an authenticator configuration. This is automatically generated on creation. This field is read-only.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the authenticator configuration's realm. This is automatically set on creation. This field is output-only.
+            A unique identifier for the authenticator configuration's realm. This is automatically set on creation. This field is read-only.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is read-only.
           readOnly: true
         config:
           description: |
             An object specifying the settings for the supported authenticator type.
           oneOf:
-            - description: Configuration options for the hosted web authenticator.
+            - description: |
+                Configuration options for the hosted web authenticator. This authenticator is maintained by Beyond Identity and requires no additional configuration from the caller.
               type: object
               required:
                 - type
@@ -4729,26 +4884,6 @@ components:
                   type: string
                   enum:
                     - hosted_web
-            - description: Configuration options for the platform authenticator.
-              type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - platform
-                custom_url_scheme:
-                  type: string
-                  description: Scheme for the authenticator.
-                universal_url:
-                  type: string
-                  description: A universal URL associated with the authenticator application.
-                web_server_urls:
-                  type: array
-                  items:
-                    type: string
-                  description: Web server URLs on the user's machine.
             - description: Configuration options for the embedded SDK authenticator.
               type: object
               required:
@@ -4767,7 +4902,8 @@ components:
                   type: array
                   items:
                     type: string
-                  description: Origins in the allowlist.
+                  description: |
+                    Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is typically used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
     ListApplicationsResponse:
       description: Represents a list of Applications as a response body.
       type: object
@@ -4831,36 +4967,38 @@ components:
     ResourceServer:
       title: Resource Server
       type: object
-      description: Representation of a resource server.
+      description: |
+        Representation of a resource server. It is the server hosting the protected resources, capable of accepting and responding to protected resource requests using access tokens. The client uses the access tokens minted from the application to access those resources hosted by the resource server. This means a resource server most often represents an API.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for a resource server. This is automatically generated on creation. This field is output-only.
+            A unique identifier for a resource server. This is automatically generated on creation. This field is read-only.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is output-only.
+            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is read-only.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the resource server's realm. This is automatically set on creation. This field is output-only.
+            A unique identifier for the resource server's realm. This is automatically set on creation. This field is read-only.
           readOnly: true
         identifier:
           type: string
           description: |
-            The identifier of this resource server entity. This is usually used in minted tokens as the audience field. The value must be unique per realm.
+            The identifier of this resource server entity. This value should be unique per realm and is often presented as a URI, as it should be a unique identifier for an API to which access is being gated. This identifier will be returned in the `audience` claim of all tokens minted that provide access to scopes owned by this resource server. The client is responsible for validating tokens are intended for them via this `audience` claim. Tokens minted for the Beyond Identity Management API will use the audience `beyondidentity`, which is reserved and may not be used for any other resource servers.
         scopes:
           type: array
           items:
             type: string
-          description: The list of scopes supported by this resource server.
+          description: |
+            The list of scopes supported by this resource server. For the Beyond Identity Management API, this will include scopes for all publicly available endpoints. Note that applications may not provide access to scopes that are not defined on a resource server that they reference; this is the superset of all allowable application scopes in a given realm.
         is_managed:
           type: boolean
           description: |
-            A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is output-only.
+            A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is read-only.
           readOnly: true
         display_name:
           type: string
@@ -4941,9 +5079,11 @@ components:
             - id
             - description
   securitySchemes:
-    ManagementAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: |
+        See the [Authentication](#section/Authentication) section for details.
 security:
-  - ManagementAuth: []
+  - BearerAuth: []
