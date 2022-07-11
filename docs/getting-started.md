@@ -20,31 +20,28 @@ Create an API Token for your tenant by:
 4. **Create a token and save it**, we'll need it later. 
 
 ### Get your Tenant ID
-You will receive an email from Beyond Identity that contains your Tenant ID.
+To get your Tenant ID and Realm ID: 
 
-## Beyond Identity Example Application Setup
+1. On your left navigation bar click **Home**. 
+2. Click **Edit Realm** on the top right side of your screen, copy the Tenant ID and Realm ID values. 
 
-### Pre-requisites
-The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. Youll need standard developer tools to get it up and running.
+You will also receive an email from Beyond Identity that contains your Tenant and Realm ID's for later reference.
 
-1. Download and install git https://git-scm.com/downloads
+## Run the example application
 
-2. Download and install nodejs https://nodejs.org/en/download/
+You can review [pre-requisites](#pre-requisites) if needed. 
 
-3. Download and install brew https://brew.sh/
+### Cloning the repo
 
-4. Install jq and curl. 
-``` bash
-brew install jq curl
-```
+The git repository for the example application is https://github.com/gobeyondidentity/bi-getting-started.
 
-### Clone the Beyond Identity Example Application
-The git repository for the example application is https://github.com/gobeyondidentity/bi-getting-started
 ``` bash
 git clone git@github.com:gobeyondidentity/bi-getting-started.git
+cd bi-getting-started
 ```
 
 ### Run the tenant configuration script
+
 This script will generate the necessary configuration to connect the example application to your tenant. 
 ``` bash
 TENANT_ID=<your-tenant-id> API_TOKEN=<your-api-token> ./configure-tenant.sh
@@ -62,27 +59,43 @@ export APP_CLIENT_SECRET=wNY-T33IqCL0PEflitmPkFZE2GpwXDiVXPDpXPfP8BU
 export VDC_REGION=us
 ```
 
-
 ### Start the backend and frontend
 1. Install dependencies with
 ``` bash
-npm install
+yarn install
 ```
 
 2. Build the frontend application
 ``` bash
-npm run build
+yarn run build
 ```
 
-3. Source the .env file and start the backend
+3. In a separate window start the frontend
 ``` bash
-source .env && node server.js
+yarn run start
 ```
 
-4. In a separate window start the angular frontend
+4. Open a web browser and go to [http://localhost:3002](http://localhost:3002)
+
+## What's next? 
+
+You can use the example application above to create one or more Passkeys and log in with them. 
+
+### Questions? Want to see more?
+
+**[Join our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
+
+### Pre-requisites
+The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. Youll need standard developer tools to get it up and running.
+
+1. Download and install git https://git-scm.com/downloads
+
+2. Download and install nodejs https://nodejs.org/en/download/
+
+3. Download and install brew https://brew.sh/
+
+4. Install jq and curl. 
 ``` bash
-npm run start
+brew install jq curl
 ```
-
-5. Open a web browser and go to [http://localhost:4200](http://localhost:4200)
 
