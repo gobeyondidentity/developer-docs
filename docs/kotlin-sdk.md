@@ -82,11 +82,19 @@ The `authenticate` function expects a URL. This Beyond Identity specific URL is 
 ```javascript
 EmbeddedSdk.authenticate(
     url: String,
-    onSelectCredential: OnSelectCredential,
+    onSelectCredential: (List<Credential>, ((CredentialID?) -> Unit)) -> Unit,
 ) { result ->
     result.onSuccess { }
     result.onFailure { }
 }
+
+// Example
+EmbeddedSdk.authenticate("some_url", { credentials, onSelectCredentialId ->
+    // Where you can perform some logic here to select a credential, or
+    // present UI to a user to enable them to select a credential.
+    val foundCredential = credentials.find { it.identity.username == "some_username" }
+    onSelectCredentialId(foundCredential?.id)
+})
 ```
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
