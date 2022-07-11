@@ -24,7 +24,7 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 ## Sample App
 
 :::note 
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example/ExampleApp/EmbeddedExample) for the Embedded SDK.
+Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-android) for the Embedded SDK.
 :::
 
 ## Installation
