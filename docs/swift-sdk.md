@@ -30,7 +30,7 @@ https://github.com/gobeyondidentity/bi-sdk-swift
 1. With [Swift Package Manager](https://swift.org/package-manager),
    add the following `dependency` to your `Package.swift`:
 
-```swift
+```javascript
 dependencies: [
     .package(url: "https://github.com/gobeyondidentity/bi-sdk-swift.git", from: [version])
 ]
@@ -42,17 +42,17 @@ dependencies: [
 
 Add the pod to your Podfile:
 
-```swift 
+```javascript
 pod 'BeyondIdentityEmbedded'
 ```
 
 And then run:
-```swift 
+```javascript
 pod install
 ```
 
 After installing import with
-```swift
+```javascript
 import BeyondIdentityEmbedded
 ```
 
@@ -60,7 +60,8 @@ import BeyondIdentityEmbedded
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
-```swift
+<!-- javascript is used here since swift doesn't highlight at all. -->
+```javascript
 Embedded.initialize(
     allowedDomains: [String] = ["beyondidentity.com"],
     biometricAskPrompt: String,
@@ -75,7 +76,7 @@ The `bindCredential` function expects a URL. This can either be a binding creden
 
 #### Usage
 
-```swift
+```javascript
 Embedded.shared.bindCredential(
     url: URL,
     callback: @escaping(Result<BindCredentialResponse, BISDKError>) -> Void
@@ -84,7 +85,7 @@ Embedded.shared.bindCredential(
 
 Where the response type consists of an object containing a `Credential` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a credential.
 
-```swift
+```javascript
 struct BindCredentialResponse: Codable, Equatable {
     let credential: AuthNCredential
     let postBindingRedirectURI: URL?
@@ -97,7 +98,7 @@ The `authenticate` function expects a URL. This Beyond Identity specific URL is 
 
 #### Usage
 
-```swift
+```javascript
 Embedded.shared.authenticate(
     url: URL,
     onSelectCredential: @escaping ([Credential], @escaping ((CredentialID?) -> Void)) -> Void,
@@ -117,7 +118,7 @@ Embedded.shared.authenticate(url: URL(string: "some_url")!) { credentials, onSel
 
 Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-```swift
+```javascript
 struct BiAuthenticateResponse: Codable, Equatable {
     let redirectURL: URL
     let message: String?
@@ -130,7 +131,7 @@ struct BiAuthenticateResponse: Codable, Equatable {
 
 This function is used to validate if a given URL is able to be used by the `bindCredential` function.
 
-```swift
+```javascript
 if (Embedded.shared.isBindCredentialUrl(url)) {
     // bind the credential using `bindCredential`
 }
@@ -152,7 +153,7 @@ if (Embedded.shared.isAuthenticateUrl(url)) {
 
 The `getCredentials` function enables you to get all credentials currently bound to the device.
 
-```swift
+```javascript
 Embedded.shared.getCredentials(
     callback: @escaping (Result<[Credential], BISDKError>) -> Void
 )
