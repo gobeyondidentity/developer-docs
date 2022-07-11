@@ -7,8 +7,6 @@ Beyond Identity relies on two components: The Beyond Identity Cloud, and Beyond 
 
 ## Beyond Identity Cloud
 
-[insert Beyond Identity Cloud Model graphic]
-
 ### Tenant
 A tenant represents an organization in the Beyond Identity Cloud. A tenant contains all data necessary for that organization to operate.
 
@@ -32,7 +30,7 @@ An identity can have many credentials of different types.
 #### Credential Type: Passkey
 A passkey is a public-private key pair that belongs to an identity. The public key is stored in Beyond Identity Cloud. The private key never leaves the device. All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. An identity can have multiple passkeys. An identity with 3 devices would have 3 passkeys, one for each device. 
 
-#### Credential Type: GPG Key (Early Access)
+#### Credential Type: GPG Key (Coming Soon)
 A GPG key is cryptographically tied to an identitiy's passkey. Beyond Identity's SDKs act as a gpg signing agent using the private key on the device. 
 
 #### Credential Type: SSH Key (Coming Soon)
@@ -53,4 +51,4 @@ The embedded SDKs are primarily responsible for handling all cryptographic opera
  - Android (Kotlin)
 
 ### Hosted Web Authenticator (Early Access)
-The hosted web authenticator is a Beyond Identity hosted page that embeds the javascript SDK. Think of this as a wallet, hosted by Beyond Identity Cloud, that can be used to hold an identity's credentials. The hosted web authenticator is hosted at https://auth-us.beyondidentity.com/authenticator
+The hosted web authenticator is a Beyond Identity hosted page that embeds the javascript SDK. Think of this as a wallet, hosted by Beyond Identity Cloud, that can be used to hold an identity's passkeys. The hosted web authenticator is hosted at https://auth-us.beyondidentity.com/authenticator
