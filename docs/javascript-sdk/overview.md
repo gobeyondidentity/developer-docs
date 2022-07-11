@@ -158,6 +158,8 @@ The `getCredentials` function enables you to get all credentials currently bound
 const allCredentials = await embedded.getCredentials();
 ```
 
+Where the response is a `[Credential]`.
+
 ### Deleting a Credential
 
 The `deleteCredential` function allows you to delete a credential given its ID.
