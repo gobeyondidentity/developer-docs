@@ -17,8 +17,6 @@ We can support:
 - Web applications via our Web SDK
 - iOS applications via our iOS SDK 
 - Android Applications via our Android SDK
-- React Native apps [coming soon!]
-- Flutter apps [coming soon!]
 
 [maybe this is just a row of icons and we link to each SDK]
 
