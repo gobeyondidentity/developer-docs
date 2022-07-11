@@ -17,7 +17,7 @@ Create an API Token for your tenant by:
 1. Click **Applications**.
 2. Click **Beyond Identity Management API**.
 3. Click **API Tokens**.
-4. **Create a token and save it**, we'll need it later. 
+4. **Create a token and click the copy button**, we'll need it later. 
 
 ### Get your Tenant ID
 To get your Tenant ID and Realm ID: 
