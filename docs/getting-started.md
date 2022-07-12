@@ -18,7 +18,7 @@ Log into the [Admin Console](https://console-us.beyondidentity.com) using the Pa
 1. Click **Applications**.
 2. Click **Beyond Identity Management API**.
 3. Click **API Tokens**.
-4. **Create a token and save it**, we'll need it later. 
+4. **Create a token and click the copy button**, we'll need it later. 
 
 ### Get your Tenant ID
 To get your Tenant ID and Realm ID: 
@@ -61,22 +61,17 @@ export VDC_REGION=us
 ```
 
 ### Start the backend and frontend
-1. Install dependencies with
+1. Install dependencies with:
 ``` bash
 yarn install
 ```
 
-2. Build the frontend application
+2. Build and run the frontend application:
 ``` bash
-yarn run build
+yarn start
 ```
 
-3. In a separate window start the frontend
-``` bash
-yarn run start
-```
-
-4. Open a web browser and go to [http://localhost:3002](http://localhost:3002)
+3. Open a web browser and navigate to [http://localhost:3002](http://localhost:3002)
 
 ## What's next? 
 
