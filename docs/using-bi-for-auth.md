@@ -49,9 +49,9 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
    - Email: <email_address>
 
-   - Username: <email_address>
+   - Username: <user_name>
 
-   - Name: <name>
+   - Name: <full_name>
 
 ### Craft your authorize URL
 
