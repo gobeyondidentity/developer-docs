@@ -23,7 +23,7 @@ const config = {
       ({
         api: {
           id: 'first', // omitted => default instance
-          path: 'api/v0/openapi.json',
+          path: 'static/api/v0/openapi.json',
           routeBasePath: 'api/v0',
         },
         docs: {
@@ -43,7 +43,8 @@ const config = {
         // Plugin Options for loading OpenAPI files
         specs: [
           {
-            spec: 'api/v1/openapi.yaml',
+            spec: 'static/api/v1/openapi.yaml',
+            url: 'api/v1/openapi.yaml',
             route: 'api/v1',
           },
         ],
@@ -137,7 +138,7 @@ const config = {
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/beyondidentity",
+                href: "https://twitter.com/BI_Developers",
               },
             ],
           },
@@ -146,7 +147,7 @@ const config = {
             items: [
               {
                 label: "Blog",
-                href: "https://www.beyondidentity.com/blog",
+                href: "https://www.beyondidentity.com/developers/blog",
               },
               {
                 label: "GitHub",
