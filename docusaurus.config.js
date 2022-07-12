@@ -10,8 +10,8 @@ const config = {
   tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: "error",
+  onBrokenMarkdownLinks: "error",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
   projectName: "developer-docs", // Usually your repo name.

@@ -16,7 +16,7 @@ The Beyond Identity platform has two components.
 This guide provides information on how to implement the Beyond Identity Web Authenticator as the passwordless authentication method for a web application using the OIDC / OAuth2.0 protocol. If you have previous experience of integrating with a social provider for authentication then the process will be very familiar. 
 
 ### Prerequisites
-* Access to a [Beyond Identity tenant](/docs/getting-started/create-a-tenant) 
+* Access to a [Beyond Identity tenant](/docs/v0/getting-started/create-a-tenant) 
 * Access to a client library that implements the OpenID Connect standard in the implementer’s language of choice. 
 
 
@@ -24,7 +24,7 @@ This guide provides information on how to implement the Beyond Identity Web Auth
 
 To register new users for use with the platform authenticator you will need to create a self-service sign-up flow using the [API](ref:createuser) or provision users manually via the admin console for testing purposes. 
 
-We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-Up Flow](/docs/integration-guides/user-sign-up-flow) guide or take a look at the [Create User](ref:createuser) endpoint.
+We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-Up Flow](/docs/v0/integration-guides/user-sign-up-flow) guide or take a look at the [Create User](ref:createuser) endpoint.
 
 You can see an example self-service registration flow on the [Live Demo Application](https://www.solemate.me) we have provided.
 
@@ -34,7 +34,7 @@ When implementing authentication with the Web Authenticator, users need to be re
 
 The `registration_redirect_uri` for the hosted Web Authenticator is `https://authenticator.byndid.com/register`
 
-You can follow this guide on how to set the [Registration Redirect URI](/docs/getting-started/account-configuration/registration-redirect-uri) correctly for your tenant. This guide also provides details on how to set the `registration_redirect_uri` when using both the Web and platform/SDK authenticators. 
+You can follow this guide on how to set the [Registration Redirect URI](/docs/v0/getting-started/account-configuration/registration-redirect-uri) correctly for your tenant. This guide also provides details on how to set the `registration_redirect_uri` when using both the Web and platform/SDK authenticators. 
 
 
 ## Authentication
@@ -115,7 +115,7 @@ The 9 digit code will be displayed
 
 ### User Recovery
 
-You will need to implement a self-service recovery flow for users who no longer have access to their credential (lost/stolen device). We have provided some guidance on how we recommended creating a self service recovery flow with Beyond Identity's APIs. You can follow the [User Recovery Flow](/docs/integration-guides/user-recovery-flow) guide or take a look at the [Recover User](ref:recoveruser-1) endpoint.
+You will need to implement a self-service recovery flow for users who no longer have access to their credential (lost/stolen device). We have provided some guidance on how we recommended creating a self service recovery flow with Beyond Identity's APIs. You can follow the [User Recovery Flow](/docs/v0/integration-guides/user-recovery-flow) guide or take a look at the [Recover User](ref:recoveruser-1) endpoint.
 
 
 

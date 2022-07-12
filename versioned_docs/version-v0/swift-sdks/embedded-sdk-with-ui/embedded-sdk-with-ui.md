@@ -18,7 +18,7 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 ```
 
 
-The EmbeddedUI SDK provides view wrappers around the [Embedded SDK](https://developer.beyondidentity.com/docs/ios-swift-embedded-sdk) functions.
+The EmbeddedUI SDK provides view wrappers around the [Embedded SDK](https://developer.beyondidentity.com/docs/v0/ios-swift-embedded-sdk) functions.
 
 A single `BeyondIdentityButton` handles login, recovery, and credential creation or migration. A `BeyondIdentitySettings` supplements your app settings screen handling credential creation, recovery or migration as well as the ability to view existing credential information, delete an existing credential or display a QR code to add the credential to another device. 
 

@@ -67,15 +67,15 @@ Embedded.initialize(
 
 If the user has never set up an account with Beyond Identity, then the user will need to complete a registration flow. If the user previously had credentials but have since been deleted and no other device has a credential, then the user should complete the recovery flow.
 
-In either case, the end result is that the user creates a [Credential](/docs/core-concepts/credentials) on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Secure Enclave. When a user sets up an account with Beyond Identity, the device in which they register creates a Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
+In either case, the end result is that the user creates a [Credential](/docs/v0/core-concepts/credentials) on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Secure Enclave. When a user sets up an account with Beyond Identity, the device in which they register creates a Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
 
 Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
-- [User Sign-Up Flow](/docs/integration-guides/user-sign-up-flow)
-- [User Recovery Flow](/docs/integration-guides/user-recovery-flow)
+- [User Sign-Up Flow](/docs/v0/integration-guides/user-sign-up-flow)
+- [User Recovery Flow](/docs/v0/integration-guides/user-recovery-flow)
 
 ### Intercepting A Redirect From A New or Recovered User
 
-After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](/docs/getting-started/account-configuration/registration-redirect-uri) for more information.
+After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](/docs/v0/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 Once the user is redirected, intercept the redirect in either your AppDelegate or SceneDelegate.
 

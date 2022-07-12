@@ -12,7 +12,7 @@ Before you start this guide you should have the following resources:
 * An OIDC or OAuth2.0 plugin/library for your application tech stack
 * A Beyond Identity Tenant with an `API_TOKEN`.
 
-To create a user in your Beyond Identity directory, use the manage users API, by issuing a `HTTP POST` to `https://api.byndid.com/v1/manage/users`. See API definition [here](/api/create-user)
+To create a user in your Beyond Identity directory, use the manage users API, by issuing a `HTTP POST` to `https://api.byndid.com/v1/manage/users`. See API definition [here](/api/v0/create-user)
 
 Beyond identity requires an `API_TOKEN` in order to create a user so this request must be called from your secure backend. We recommend implementing a self service sign-up flow similar to the digram provided below.
 

@@ -62,12 +62,12 @@ In either case, the end result is that the user creates a Credential on the devi
 
 Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
 
-- [User Sign-Up Flow](/docs/integration-guides/user-sign-up-flow)
-- [User Recovery Flow](/docs/integration-guides/user-recovery-flow)
+- [User Sign-Up Flow](/docs/v0/integration-guides/user-sign-up-flow)
+- [User Recovery Flow](/docs/v0/integration-guides/user-recovery-flow)
 
 ## Intercepting A Redirect From A New or Recovered User
 
-After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](/docs/getting-started/account-configuration/registration-redirect-uri) for more information.
+After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](/docs/v0/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 ### Usage
 
