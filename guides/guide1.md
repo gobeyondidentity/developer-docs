@@ -1,8 +1,9 @@
 ---
-title: Sending Enrollment emails
+title: Sending Enrollment Emails
 sidebar_position: 1
 ---
 
+Break this into documents 
 ### Get An Admin Token
 
 ```bash
