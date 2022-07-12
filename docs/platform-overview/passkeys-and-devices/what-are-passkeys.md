@@ -3,9 +3,6 @@ title: Universal passkeys and devices
 sidebar_position: 1
 ---
 
-[ROUGH DRAFT, needs fleshing out and editing]
-
-
 ## What is a universal Passkey?
 
 A universal passkey is a public and private key pair. The private key is generated, stored, and never leaves the user’s devices’ hardware root of trust (i.e. secure enclave). The public key is sent to the Beyond Identity cloud. 
