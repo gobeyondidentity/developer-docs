@@ -85,7 +85,7 @@ The `BeyondIdentityButton` first determines if a credential exists on the device
 If a credential does not exist then the user has three options: 
 
 #### 1. Create a new credential
-If the user wishes to create a new credential or replace the current credential with a new one, UI is provided up until registration. Instead, `BiEvent.CredentialSetup` is posted. This action should navigate the user to a registration screen provided by the developer where the Beyond Identity [create `user` API ](/api/create-user) is called. An email will be sent to the user to register a new credential.
+If the user wishes to create a new credential or replace the current credential with a new one, UI is provided up until registration. Instead, `BiEvent.CredentialSetup` is posted. This action should navigate the user to a registration screen provided by the developer where the Beyond Identity [create `user` API ](/api/v0/create-user) is called. An email will be sent to the user to register a new credential.
 
 ```Kotlin
 //...
@@ -104,7 +104,7 @@ class MyClass : AppCompatActivity(), BiObserver {
 ![UI that shows up when you tap on the Continue with passwordless login button.](/assets/android-embed-login.png)
 
 #### 2. Recover an existing credential
-If the user wishes to recover an existing credential, UI is provided up until recovery. Instead, `BiEvent.CredentialRecovery` will be posted. This action should navigate the user to a recovery screen where the Beyond Identity [`recover-user` API](/api/recover-user) is called. An email will be sent to the user to recover an existing credential.
+If the user wishes to recover an existing credential, UI is provided up until recovery. Instead, `BiEvent.CredentialRecovery` will be posted. This action should navigate the user to a recovery screen where the Beyond Identity [`recover-user` API](/api/v0/recover-user) is called. An email will be sent to the user to recover an existing credential.
 
 ```Kotlin
 

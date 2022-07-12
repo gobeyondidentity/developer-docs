@@ -5,13 +5,13 @@ sidebar_position: 2
 
 ## Introduction
 
-The Beyond Identity Authenticator is a native branded authenticator app which uses our core technology to authenticate users without a password. You can read up on our core technology [here](/docs/introduction#how-it-works) . The Authenticator is available on iOS, Android, Windows, MacOS and Linux and can be downloaded from our [download page](https://app.byndid.com/downloads).
+The Beyond Identity Authenticator is a native branded authenticator app which uses our core technology to authenticate users without a password. You can read up on our core technology [here](/docs/v0/introduction#how-it-works) . The Authenticator is available on iOS, Android, Windows, MacOS and Linux and can be downloaded from our [download page](https://app.byndid.com/downloads).
 
 This guide provides information on how to:
 * Implement Beyond Identity as a passwordless authentication method for a Customer Identity Access Management (CIAM) use case.
 * Integrate with Beyond Identity using the OIDC / OAuth2.0 protocol
 
-You should continue with this guide if you want to implement passwordless authentication for a custom web application using Beyond Identity's platform authenticator. If you are looking to integrate a native iOS or Android app with the platform authentication please head over to the [Android Authenticator SDK](/docs/android-sdks/authenticator-sdk) or the [iOS Swift Authenticator SDK](/docs/swift-sdks/embedded-sdk) 
+You should continue with this guide if you want to implement passwordless authentication for a custom web application using Beyond Identity's platform authenticator. If you are looking to integrate a native iOS or Android app with the platform authentication please head over to the [Android Authenticator SDK](/docs/v0/android-sdks/authenticator-sdk) or the [iOS Swift Authenticator SDK](/docs/v0/swift-sdks/embedded-sdk) 
 
 ### Prerequisites 
 
@@ -82,6 +82,6 @@ The UserInfo endpoint can be used to retrieve other values associated with the u
 
 To register new users for use with the platform authenticator you will need to create a self-service sign-up flow or provision users manually either via the admin console or [API](ref:createuser).
 
-We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-up flow](/docs/integration-guides/user-sign-up-flow) guide or take a look at the [Create User](ref:createuser) endpoint.
+We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-up flow](/docs/v0/integration-guides/user-sign-up-flow) guide or take a look at the [Create User](ref:createuser) endpoint.
 
 
