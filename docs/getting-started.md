@@ -131,7 +131,7 @@ You can use the example application above to create one or more Passkeys and log
 
 ## Configure your local environment (Windows)
 
-For instructions on macOS and Linux jump to: [macOS and Linux](#on-macos-and-linux-2)
+For instructions on macOS and Linux jump to: [macOS and Linux](#configure-your-local-environment-macos-and-linux)
 
 ### Create a Realm
 
