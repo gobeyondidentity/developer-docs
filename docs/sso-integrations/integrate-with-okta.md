@@ -95,10 +95,10 @@ The endpoints are as follows:
 
 |Name|Value|
 |---|---|
-|Issuer| https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}|
-|Authorization endpoint| https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize|
-|Token endpoint| https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token|
-|JWKS endpoint| https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/.well-known/jwks.json|
+|Issuer| https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}|
+|Authorization endpoint| https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/authorize|
+|Token endpoint| https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/token|
+|JWKS endpoint| https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/.well-known/jwks.json|
 
 For Authentication settings set the following for IdP Username: `idpuser.externalId`
 
