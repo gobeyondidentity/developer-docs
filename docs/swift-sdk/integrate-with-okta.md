@@ -30,13 +30,14 @@ session.start()
 
  - Step 2: Invoke URL
 
-During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`.
+During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
 
 ```javascript
 let session = ASWebAuthenticationSession(
     url: viewModel.oktaURL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
+    guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
     Embedded.shared.authenticate(
         url: url,
         onSelectCredential: presentCredentialSelection
@@ -71,7 +72,6 @@ Embedded.shared.authenticate(
         newSession.start()
                 
     case let .failure(error):
-        self.responseLabel.text = error.localizedDescription
     }
 }
 ```
@@ -83,6 +83,10 @@ let session = ASWebAuthenticationSession(
     url: viewModel.oktaURL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
+    guard Embedded.shared.isAuthenticateUrl(url) else { 
+        print("url is not valid")
+        return
+    }
     Embedded.shared.authenticate(
         url: url,
         onSelectCredential: presentCredentialSelectionToUser
@@ -99,7 +103,7 @@ let session = ASWebAuthenticationSession(
             newSession.start()
                     
         case let .failure(error):
-            self.responseLabel.text = error.localizedDescription
+            print(error)
         }
     }
 }
