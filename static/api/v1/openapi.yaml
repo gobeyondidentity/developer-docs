@@ -12,7 +12,40 @@ info:
 
     This API is currently in the early-access stage and is under active
     development. Feedback and suggestions are encouraged and should be directed
-    to support@beyondidentity.com.
+    to the
+    [Beyond Identity Developer Slack Channel](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ).
+
+    # Authentication
+
+    All Beyond Identity API endpoints require authentication through
+    OAuth 2.0 or OIDC. The simplest way to acquire an access token is through
+    the Beyond Identity Admin Console. Under the "Applications" tab, select the
+    "Beyond Identity Management API" application, navigate to the "API Tokens"
+    tab, and then click on "Create token".
+
+    Alternatively, an access token may also be generated directly via the API by
+    requesting a token for the "Beyond Identity Management API" Application.
+
+    ```
+    curl https://auth-us.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/token \
+      -X POST \
+      -u "$CLIENT_ID:$CLIENT_SECRET" --basic \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "grant_type=client_credentials&scope=$SCOPES"
+    ```
+
+    This will work for any application that you have configured to provide
+    access to the Beyond Identity Management API Resource Server. The "Beyond
+    Identity Management API" application is provided by default as part of the
+    tenant onboarding process.
+
+    The access token must be provided in the `Authorization` header of the
+    API request.
+
+    ```
+    curl https://api.beyondidentity.com/v1/... \
+      -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
+    ```
 
     ## Requests and Responses
 
@@ -98,7 +131,62 @@ info:
     method's examples to determine the specific error detail types supported
     for that method.
 
-    ### Error Response Example
+    ### Invalid Access Token Example
+
+    If the provided access token is invalid, you will receive a 401 error.
+    This error indicates that the token is not recognized and was not generated
+    by Beyond Identity.
+
+    ```
+    HTTP/1.1 401 Unauthorized
+    {
+      "code": "unauthorized",
+      "message": "unauthorized"
+    }
+    ```
+
+    ### Permission Denied Example
+
+    If the provided access token does not have access to the requested resource,
+    you will receive a 403 error. Access tokens are scoped at a minimum to your
+    tenant. Any request for resources outside of your tenant will result in this
+    error.
+
+    ```
+    HTTP/1.1 403 Forbidden
+    {
+      "code": "forbidden",
+      "message": "forbidden"
+    }
+    ```
+
+    ### Missing Resource Example
+
+    If the requested resource does not exist, you will receive a 404 error. The
+    specific API method may return additional details about the missing
+    resource.
+
+    ```
+    HTTP/1.1 404 Not Found
+    {
+      "code": "not_found",
+      "message": "group not found"
+      "details": [
+        {
+          "type": "ResourceInfo",
+          "resource_type": "Group",
+          "id": "4822738be6b7f658",
+          "description": "group not found"
+        }
+      ],
+    }
+    ```
+
+    ### Invalid Parameters Example
+
+    If the request body contains invalid parameters, you will receive a 400
+    error. The specific API method may return additional details about the
+    invalid parameter.
 
     ```
     HTTP/1.1 400 Bad Request
@@ -107,47 +195,16 @@ info:
       "message": "invalid parameters"
       "details": [
         {
+          "type": "FieldViolations"
           "field_violations": [
             {
               "description": "missing",
               "field": "group.display_name"
             }
           ],
-          "type": "FieldViolations"
         }
       ],
     }
-    ```
-
-    # Authentication
-
-    All Beyond Identity API endpoints require authentication through
-    OAuth 2.0 or OIDC. The simplest way to acquire an access token is through the
-    Beyond Identity Admin Console. Under the "Applications" tab, select the
-    "Beyond Identity Management API" application, navigate to the "API Tokens"
-    tab, and then click on "Create token".
-
-    Alternatively, an access token may also be generated directly via the API by
-    requesting a token for the "Beyond Identity Management API" Application.
-
-    ```
-    curl https://auth-us.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/token \
-      -X POST \
-      -H "Authorization": "Basic: base64($CLIENT_ID:$CLIENT_SECRET)" \
-      -H "Content-Type: application/x-www-form-urlencoded" \
-      -d "grant_type=client_credentials&scope=$SCOPES"
-    ```
-
-    This will work for any Application that you have configured to provide access to the
-    Beyond Identity Management API Resource Server. The "Beyond Identity Management API"
-    application is provided by default as part of the tenant onboarding process.
-
-    The access token must be provided in the `Authorization` header of the
-    API request.
-
-    ```
-    curl https://api.beyondidentity.com/v1/... \
-      -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
     ```
   contact:
     email: support@beyondidentity.com
@@ -184,7 +241,7 @@ tags:
       A authenticator configuration prescribes how an end user may authenticate themselves to Beyond Identity. Beyond Identity provides a Hosted Web Authenticator which will work out-of-the-box, as well as SDKs that can be embedded into an end user application.
   - name: Resource Servers
     description: |
-      A resource server represents that API or server hosting a set of protected resources, and is capable of accepting and responding to protected resource requests using access tokens. Clients can enable these APIs to be consumed from authorized applications.
+      A resource server represents an API server that hosts a set of protected resources and is capable of accepting and responding to protected resource requests using access tokens. Clients can enable these APIs to be consumed from authorized applications.
 paths:
   '/v1/tenants/{tenant_id}':
     get:
@@ -214,22 +271,6 @@ paths:
                     display_name: Test Tenant
                     create_time: 2022-01-28T12:00:02.423Z
                     update_time: 2022-04-19T15:17:21.186Z
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: tenant_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -252,22 +293,6 @@ paths:
                   value:
                     code: forbidden
                     message: forbidden
-        '404':
-          description: The resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Tenant Not Found:
-                  value:
-                    code: not_found
-                    message: tenant not found
-                    details:
-                      - type: ResourceInfo
-                        resource_type: Tenant
-                        id: 000176d94fd7b4d1
-                        description: tenant not found
         '500':
           description: Server error.
           content:
@@ -358,15 +383,6 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '404':
-          description: The resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Tenant Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -453,15 +469,6 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '404':
-          description: The resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Tenant Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -478,10 +485,13 @@ paths:
       summary: List All Realms for a Tenant
       description: |
         To list all realms for a tenant, send a GET request to
-        `/v1/tenants/$TENANT_ID/realms`. The response will contain at most 200
-        items and may contain a page token to query the remaining items. If page
-        size is not specified, the response will contain 20 items. There is no
-        defined ordering of the list of realms in the response.
+        `/v1/tenants/$TENANT_ID/realms`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of realms in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -523,7 +533,14 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  value:
+                    code: bad_request
+                    message: invalid parameters
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: page_token
+                            description: invalid page token
         '401':
           description: Unauthorized.
           content:
@@ -542,15 +559,6 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '404':
-          description: The resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Tenant Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/404/content/application~1json/examples/Tenant%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -585,22 +593,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/post/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: realm_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -749,15 +741,6 @@ paths:
       responses:
         '200':
           description: The action was successful and the response body is empty.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -916,10 +899,11 @@ paths:
       summary: List All Groups for a Realm
       description: |
         To list all groups for a realm, send a GET request to
-        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`. The response will contain
-        at most 200 items and may contain a page token to query the remaining
-        items. There is no defined ordering of the list of groups in the response.
-        If page size is not specified, the response will contain 20 items.
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will contain 20 items.
+        There is no defined ordering of the list of groups in the response. Note that the maximum and default page sizes are subject to change.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -964,7 +948,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1027,22 +1011,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups/post/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: group_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -1193,15 +1161,6 @@ paths:
       responses:
         '200':
           description: The action was successful and the response body is empty.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1256,9 +1215,21 @@ paths:
       operationId: ListGroupMembers
       summary: List All Members for a Group
       description: |
-        To list members belonging to a group, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of members in the response. If page size is not specified, the response will contain 20 items.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
+        To list members belonging to a group, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of members in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
       security:
         - BearerAuth:
             - 'groups:read'
@@ -1301,7 +1272,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1668,11 +1639,13 @@ paths:
       summary: List All Identities for a Realm
       description: |
         To list all identities for a realm, send a GET request to
-        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`. The response will
-        contain at most 200 items and may contain a page token to query the
-        remaining items. There is no defined ordering of the list of identities in
-        the response. If page size is not specified, the response will contain 20
-        items.
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of identities in
+        the response.  Note that the maximum and default page sizes are subject to
+        change.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -1720,7 +1693,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -1783,22 +1756,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities/post/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: identity_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -1961,15 +1918,6 @@ paths:
       responses:
         '200':
           description: The action was successful and the response body is empty.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2024,9 +1972,21 @@ paths:
       operationId: ListIdentityGroups
       summary: List All Memberships for an Identity
       description: |
-        To list the groups to which an identity belongs, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of groups in the response. If page size is not specified, the response will contain 20 items.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
+        To list the groups to which an identity belongs, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of groups in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
       security:
         - BearerAuth:
             - 'identities:read'
@@ -2066,7 +2026,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2096,6 +2056,106 @@ paths:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D/get/responses/404/content/application~1json/examples/Identity%20Not%20Found'
         '500':
           description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials':
+    get:
+      tags:
+        - Credentials
+      operationId: ListCredentials
+      summary: List All Credentials for an Identity
+      description: |
+        To list all credentials for an identity, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`.
+        `$IDENTITY_ID` may be a wildcard (`-`) to request all credentials across all
+        identities within the realm.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of credentials in
+        the response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'credentials:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with a key called `credentials` and `total_size`. `credential` will be set to an array of credential objects, each of which contain the standard credential attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCredentialsResponse'
+              examples:
+                Success:
+                  value:
+                    credentials:
+                      - id: 81490afab171aef0
+                        realm_id: 7df92e4a38ba0993
+                        tenant_id: 0001b42d80372976
+                        identity_id: e85de356dc78843a
+                        state: ACTIVE
+                        csr_type: JWT
+                        jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
+                        jwk_thumbprint: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
+                        create_time: 2022-03-14T03:42:52.905Z
+                        update_time: 2022-06-14T05:55:23.823Z
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  value:
+                    code: bad_request
+                    message: invalid parameters
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: page_token
+                            description: invalid page token
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '500':
+          description: Internal.
           content:
             application/json:
               schema:
@@ -2140,22 +2200,6 @@ paths:
                     jwk_thumbprint: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
                     create_time: 2022-03-14T03:42:52.905Z
                     update_time: 2022-06-14T05:55:23.823Z
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: credential_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2226,15 +2270,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2264,92 +2299,6 @@ paths:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials~1%7Bcredential_id%7D/get/responses/404/content/application~1json/examples/Credential%20Not%20Found'
         '500':
           description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials':
-    get:
-      tags:
-        - Credentials
-      operationId: ListCredentials
-      summary: List All Credentials for an Identity
-      description: |
-        To list all credentials for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`. `$IDENTITY_ID` may be a wildcard (`-`) to request all credentials across all identities within the realm. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credentials in the response. If page size is not specified, the response will contain 20 items.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
-      security:
-        - BearerAuth:
-            - 'credentials:read'
-      parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/identity_id'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/page_token'
-        - $ref: '#/components/parameters/skip'
-      responses:
-        '200':
-          description: |
-            The response will be a JSON object with a key called `credentials` and `total_size`. `credential` will be set to an array of credential objects, each of which contain the standard credential attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCredentialsResponse'
-              examples:
-                Success:
-                  value:
-                    credentials:
-                      - id: 81490afab171aef0
-                        realm_id: 7df92e4a38ba0993
-                        tenant_id: 0001b42d80372976
-                        identity_id: e85de356dc78843a
-                        state: ACTIVE
-                        csr_type: JWT
-                        jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
-                        jwk_thumbprint: UW-uVNL0mP1vcLjHrTBxibNgCEe_PD0HIsE3FrbYjPA=
-                        create_time: 2022-03-14T03:42:52.905Z
-                        update_time: 2022-06-14T05:55:23.823Z
-                    total_size: 1
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: identity_id
-                            description: empty string
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '500':
-          description: Internal.
           content:
             application/json:
               schema:
@@ -2444,7 +2393,14 @@ paths:
                 Malformed Request:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  value:
+                    code: bad_request
+                    message: invalid parameters
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: job.authenticator_config_id
+                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2510,9 +2466,23 @@ paths:
       operationId: ListCredentialBindingJobs
       summary: List All Credential Binding Jobs for an Identity
       description: |
-        To list all credential binding jobs for an identity, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`. `$IDENTITY_ID` may be a wildcard (`-`) to request all credential binding jobs across all identities within the realm. The response will contain at most 200 items and may contain a page token to query the remaining items. There is no defined ordering of the list of credential binding jobs in the response. If page size is not specified, the response will contain 20 items.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
+        To list all credential binding jobs for an identity, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`.
+        `$IDENTITY_ID` may be a wildcard (`-`) to request all credential binding
+        jobs across all identities within the realm.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of credential
+        binding jobs in the response. Note that the maximum and default page sizes
+        are subject to change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
       security:
         - BearerAuth:
             - 'credential-binding-jobs:read'
@@ -2621,22 +2591,6 @@ paths:
                     expire_time: 2022-03-21T03:42:52.905Z
                     create_time: 2022-03-14T03:42:52.905Z
                     update_time: 2022-03-15T05:55:23.823Z
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: credential_binding_job_id
-                            description: empty string
         '401':
           description: Unauthorized.
           content:
@@ -2743,12 +2697,12 @@ paths:
                 Invalid Parameters:
                   value:
                     code: bad_request
-                    message: invalid parameters
+                    message: Bad Request
                     details:
                       - type: FieldViolations
                         field_violations:
-                          - field: theme_id
-                            description: theme_id must be a valid ID
+                          - field: theme.email_realm_name
+                            description: provided email_realm_name must not be empty
         '401':
           description: Unauthorized.
           content:
@@ -2890,15 +2844,6 @@ paths:
               examples:
                 Success:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/200/content/application~1json/examples/Success'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1themes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3029,65 +2974,6 @@ paths:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/applications':
-    get:
-      operationId: ListApplications
-      tags:
-        - Applications
-      summary: Lists All Applications for a Realm
-      description: |
-        To list all applications for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`.
-        There is no defined ordering of the list of applications in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
-      security:
-        - BearerAuth:
-            - 'applications:read'
-      parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/page_token'
-      responses:
-        '200':
-          description: |
-            The response will be a JSON object with a key called `applications` and `total_size`. `applications` will be set to an array of application objects, each of which contains the standard application attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListApplicationsResponse'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     post:
       operationId: CreateApplication
       tags:
@@ -3146,6 +3032,88 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    get:
+      operationId: ListApplications
+      tags:
+        - Applications
+      summary: List All Applications for a Realm
+      description: |
+        To list all applications for a realm, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`.
+
+        The response will contain at most 100 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 100 items. There is no defined ordering of the list of applications
+        in the response.  Note that the maximum and default page sizes are subject
+        to change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'applications:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with a key called `applications` and `total_size`. `applications` will be set to an array of application objects, each of which contains the standard application attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApplicationsResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error.
           content:
@@ -3282,7 +3250,7 @@ paths:
       operationId: DeleteApplication
       tags:
         - Applications
-      summary: Deletes an Application
+      summary: Delete an Application
       description: |
         To delete an application, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID`.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
@@ -3330,64 +3298,6 @@ paths:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/authenticator-configs':
-    get:
-      operationId: ListAuthenticatorConfig
-      tags:
-        - Authenticator Configurations
-      summary: Lists All Authenticator Configurations for a Realm
-      description: |
-        To list all authenticator configurations for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs`. There is no defined ordering of the list of authenticator configurations in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
-      security:
-        - BearerAuth:
-            - 'authenticator-configs:read'
-      parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/page_token'
-      responses:
-        '200':
-          description: |
-            The response will be a JSON object with a key called `authenticator_configs` and `total_size`. `authenticator_configs` will be set to an array of authenticator configuration objects, each of which contains the standard authenticator configuration attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListAuthenticatorConfigsResponse'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
     post:
       operationId: CreateAuthenticatorConfig
       tags:
@@ -3445,6 +3355,88 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    get:
+      operationId: ListAuthenticatorConfigs
+      tags:
+        - Authenticator Configurations
+      summary: List All Authenticator Configurations for a Realm
+      description: |
+        To list all authenticator configurations for a realm, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs`.
+
+        The response will contain at most 100 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 100 items. There is no defined ordering of the list of authenticator
+        configurations in the response. Note that the maximum and default page sizes
+        are subject to change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'authenticator-configs:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with a key called `authenticator_configs` and `total_size`. `authenticator_configs` will be set to an array of authenticator configuration objects, each of which contains the standard authenticator configuration attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAuthenticatorConfigsResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error.
           content:
@@ -3635,71 +3627,13 @@ paths:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers':
-    get:
-      summary: List All Resource Servers For a Realm
-      description: |
-        To list all resource servers for a realm, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers`. There is no defined ordering of the list of resource servers in the response.
-        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request. At present, the maximum number of items returned is 100, which is also the amount that will be returned if page size is not specified.
-        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
+    post:
+      operationId: CreateResourceServer
       tags:
         - Resource Servers
-      operationId: ListResourceServers
-      security:
-        - BearerAuth:
-            - 'resource-servers:read'
-      parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/page_token'
-      responses:
-        '200':
-          description: |
-            The response will be a JSON object containing the standard attributes associated with a resource server.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListResourceServersResponse'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '500':
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-    post:
       summary: Create a New Resource Server
       description: |
         To create a resource server, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers`. Values in the request body for read-only fields will be ignored.
-      tags:
-        - Resource Servers
-      operationId: CreateResourceServer
       security:
         - BearerAuth:
             - 'resource-servers:create'
@@ -3750,8 +3684,90 @@ paths:
               examples:
                 Insufficient Authorization:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
-          description: Internal server error.
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    get:
+      operationId: ListResourceServers
+      tags:
+        - Resource Servers
+      summary: List All Resource Servers For a Realm
+      description: |
+        To list all resource servers for a realm, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers`.
+
+        The response will contain at most 100 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 100 items. There is no defined ordering of the list of resource
+        servers in the response.  Note that the maximum and default page sizes are
+        subject to change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a resource server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResourceServersResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error.
           content:
             application/json:
               schema:
@@ -3761,12 +3777,12 @@ paths:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}':
     get:
+      operationId: GetResourceServer
+      tags:
+        - Resource Servers
       summary: Retrieve an Existing Resource Server
       description: |
         To retrieve an existing resource server, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID`.
-      tags:
-        - Resource Servers
-      operationId: GetResourceServer
       security:
         - BearerAuth:
             - 'resource-servers:read'
@@ -3821,24 +3837,40 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-    delete:
-      summary: Delete a Resource Server
-      description: |
-        To delete a resource server, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID`.
-        A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
+    patch:
+      operationId: UpdateResourceServer
       tags:
         - Resource Servers
-      operationId: DeleteResourceServer
+      summary: Patch a Resource Server
+      description: |
+        To update only specific attributes of an existing resource server, send a a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
       security:
         - BearerAuth:
-            - 'resource-servers:delete'
+            - 'resource-servers:update'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/resource_server_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Update Resource Server Request
+              description: Request for UpdateResourceServer.
+              type: object
+              properties:
+                resource_server:
+                  $ref: '#/components/schemas/ResourceServer'
+              required:
+                - resource_server
       responses:
         '200':
-          description: The action was successful and the response body is empty.
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a resource server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceServer'
         '400':
           description: Bad request.
           content:
@@ -3878,40 +3910,24 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-    patch:
-      summary: Patch a Resource Server
-      description: |
-        To update only specific attributes of an existing resource server, send a a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+    delete:
+      operationId: DeleteResourceServer
       tags:
         - Resource Servers
-      operationId: UpdateResourceServer
+      summary: Delete a Resource Server
+      description: |
+        To delete a resource server, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID`.
+        A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
         - BearerAuth:
-            - 'resource-servers:update'
+            - 'resource-servers:delete'
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
         - $ref: '#/components/parameters/resource_server_id'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: Update Resource Server Request
-              description: Request for UpdateResourceServer.
-              type: object
-              properties:
-                resource_server:
-                  $ref: '#/components/schemas/ResourceServer'
-              required:
-                - resource_server
       responses:
         '200':
-          description: |
-            The response will be a JSON object containing the standard attributes associated with a resource server.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResourceServer'
+          description: The action was successful and the response body is empty.
         '400':
           description: Bad request.
           content:
@@ -4653,23 +4669,29 @@ components:
         securely with the authorization server (i.e., ability to
         maintain the confidentiality of their client credentials). Allowable
         values are:
-        - confidential: Clients capable of maintaining the confidentiality
-        of their credentials (e.g., client implemented on a secure server with
-        restricted access to the client credentials), or capable of secure
-        client authentication using other means.
-        - public: Clients incapable of maintaining the confidentiality of their
-        credentials (e.g., clients executing on the device used by the
-        resource owner, such as an installed native application or a web
-        browser-based application), and incapable of secure client
-        authentication via any other means.
+        - `confidential`: Clients capable of maintaining the confidentiality
+          of their credentials (e.g., client implemented on a secure server with
+          restricted access to the client credentials), or capable of secure
+          client authentication using other means.
+        - `public`: Clients incapable of maintaining the confidentiality of their
+          credentials (e.g., clients executing on the device used by the
+          resource owner, such as an installed native application or a web
+          browser-based application), and incapable of secure client
+          authentication via any other means.
       type: string
       enum:
         - confidential
         - public
     GrantType:
+      type: array
+      items:
+        type: string
+        enum:
+          - authorization_code
+          - client_credentials
       description: |
-        The type of grant supported by an application on the `token`
-        endpoint. Allowable values are:
+        Grant types supported by this application's `token` endpoint. Allowable values
+        are:
         - `authorization_code`: The authorization code grant type defined
           in OAuth 2.0, Section 4.1. Namely, the client may authorize to the
           `token` endpoint with a grant code which it obtains via the `authorize`
@@ -4678,10 +4700,6 @@ components:
           in OAuth 2.0, Section 4.4. Namely, the client may authorize to the
           `token` endpoint with a client credentials tuple of `client_id` and
           `client_secret`.
-      type: string
-      enum:
-        - authorization_code
-        - client_credentials
     TokenConfiguration:
       description: Properties of a token issued for an application.
       type: object
@@ -4724,31 +4742,32 @@ components:
       enum:
         - client_secret_basic
         - client_secret_post
-        - none
     Application:
       title: Application
       type: object
-      description: Representation of an application.
+      description: |
+        An application represents a client application that uses Beyond Identity for authentication. This could be a native app, a single-page application, regular web application, or machine-to-machine application credentials.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for an application. This is automatically generated on creation. This field is read-only.
+            A unique identifier for an application. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the application's realm. This is automatically set on creation. This field is read-only.
+            A unique identifier for the application's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the application's tenant. This is automatically set on creation. This field is read-only.
+            A unique identifier for the application's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         protocol_config:
-          description: Represents an Application protocol configuration.
+          description: Represents an application protocol configuration.
           oneOf:
-            - description: OAuth2 protocol configuration.
+            - title: OAuth 2.0
+              description: OAuth2 protocol configuration.
               type: object
               required:
                 - type
@@ -4778,10 +4797,7 @@ components:
                 token_endpoint_auth_method:
                   $ref: '#/components/schemas/TokenEndpointAuthMethod'
                 grant_type:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/GrantType'
-                  description: Allowed grant types for this application.
+                  $ref: '#/components/schemas/GrantType'
                 redirect_uris:
                   type: array
                   items:
@@ -4790,7 +4806,8 @@ components:
                     A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
-            - description: OIDC protocol configuration.
+            - title: OIDC
+              description: OIDC protocol configuration.
               type: object
               required:
                 - type
@@ -4820,10 +4837,7 @@ components:
                 token_endpoint_auth_method:
                   $ref: '#/components/schemas/TokenEndpointAuthMethod'
                 grant_type:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/GrantType'
-                  description: Allowed grant types for this application.
+                  $ref: '#/components/schemas/GrantType'
                 redirect_uris:
                   type: array
                   items:
@@ -4839,7 +4853,7 @@ components:
         is_managed:
           type: boolean
           description: |
-            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is read-only.
+            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         resource_server_id:
           type: string
@@ -4858,23 +4872,24 @@ components:
         id:
           type: string
           description: |
-            A unique identifier for an authenticator configuration. This is automatically generated on creation. This field is read-only.
+            A unique identifier for an authenticator configuration. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the authenticator configuration's realm. This is automatically set on creation. This field is read-only.
+            A unique identifier for the authenticator configuration's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is read-only.
+            A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         config:
           description: |
             An object specifying the settings for the supported authenticator type.
           oneOf:
-            - description: |
+            - title: Web Authenticator
+              description: |
                 Configuration options for the hosted web authenticator. This authenticator is maintained by Beyond Identity and requires no additional configuration from the caller.
               type: object
               required:
@@ -4884,7 +4899,8 @@ components:
                   type: string
                   enum:
                     - hosted_web
-            - description: Configuration options for the embedded SDK authenticator.
+            - title: Embedded SDK Authenticator
+              description: Configuration options for the embedded SDK authenticator.
               type: object
               required:
                 - type
@@ -4903,87 +4919,102 @@ components:
                   items:
                     type: string
                   description: |
-                    Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is typically used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
+                    Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
     ListApplicationsResponse:
-      description: Represents a list of Applications as a response body.
+      title: List Applications Response
+      description: Response for ListApplications.
       type: object
-      required:
-        - applications
-        - total_size
       properties:
         applications:
-          description: The applications that are in the list.
           type: array
           items:
             $ref: '#/components/schemas/Application'
+          maxItems: 100
+          description: |
+            An unordered array of applications corresponding to the request.
         total_size:
-          description: The total number of Applications contained by the Realm.
           type: integer
-          format: uint
-          minimum: 0
+          format: uint32
+          description: |
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
+          example: 100
         next_page_token:
-          description: The value to be passed as the page_token parameter to retrieve the next page.
           type: string
-    ListAuthenticatorConfigsResponse:
-      description: Represents a list of Authenticator Configs as a response body.
-      type: object
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
       required:
-        - authenticator_configs
+        - applications
         - total_size
+    ListAuthenticatorConfigsResponse:
+      title: List Authenticator Configurations Response
+      description: Response for ListAuthenticatorConfigs.
+      type: object
       properties:
         authenticator_configs:
-          description: The authenticator configs which are part of the response.
           type: array
           items:
             $ref: '#/components/schemas/AuthenticatorConfig'
+          maxItems: 100
+          description: |
+            An unordered array of authenticator configurations corresponding to the request.
         total_size:
-          description: The total number of Authenticator Configs contained by the Realm.
           type: integer
-          format: uint
-          minimum: 0
+          format: uint32
+          description: |
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
+          example: 100
         next_page_token:
-          description: The value to be passed as the page_token parameter to retrieve the next page.
           type: string
-    ListResourceServersResponse:
-      description: Represents a list of Resource Servers as a response body.
-      type: object
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
       required:
-        - resource_servers
+        - authenticator_configs
         - total_size
+    ListResourceServersResponse:
+      title: List Resource Servers Response
+      description: Response for ListResourceServers.
+      type: object
       properties:
         resource_servers:
-          description: The Resource Servers which are part of the response.
           type: array
           items:
             $ref: '#/components/schemas/ResourceServer'
+          maxItems: 100
+          description: |
+            An unordered array of resource servers corresponding to the request.
         total_size:
-          description: The total number of Resource Servers contained by the Realm.
           type: integer
-          format: uint
-          minimum: 0
+          format: uint32
+          description: |
+            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
+          example: 100
         next_page_token:
-          description: The value to be passed as the page_token parameter to retrieve the next page.
           type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - resource_servers
+        - total_size
     ResourceServer:
       title: Resource Server
       type: object
       description: |
-        Representation of a resource server. It is the server hosting the protected resources, capable of accepting and responding to protected resource requests using access tokens. The client uses the access tokens minted from the application to access those resources hosted by the resource server. This means a resource server most often represents an API.
+        A resource server represents an API server that hosts a set of protected resources and is capable of accepting and responding to protected resource requests using access tokens. Clients can enable these APIs to be consumed from authorized applications.
       properties:
         id:
           type: string
           description: |
-            A unique identifier for a resource server. This is automatically generated on creation. This field is read-only.
+            A unique identifier for a resource server. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
         tenant_id:
           type: string
           description: |
-            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is read-only.
+            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         realm_id:
           type: string
           description: |
-            A unique identifier for the resource server's realm. This is automatically set on creation. This field is read-only.
+            A unique identifier for the resource server's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         identifier:
           type: string
@@ -4994,11 +5025,11 @@ components:
           items:
             type: string
           description: |
-            The list of scopes supported by this resource server. For the Beyond Identity Management API, this will include scopes for all publicly available endpoints. Note that applications may not provide access to scopes that are not defined on a resource server that they reference; this is the superset of all allowable application scopes in a given realm.
+            The list of scopes supported by this resource server. For the Beyond Identity Management API, this will include scopes for all publicly available endpoints.  Note that applications may not provide access to scopes that are not defined on a resource server that they reference; this is the superset of all allowable application scopes in a given realm.
         is_managed:
           type: boolean
           description: |
-            A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is read-only.
+            A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
         display_name:
           type: string
