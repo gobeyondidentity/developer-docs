@@ -4,9 +4,8 @@ sidebar_position: 2
 ---
 In this guide we will show you how to create a tenant and connect the Beyond Identity Example Application to it. The Beyond Identity Example Application will demonstrate common workflows such as creating a passkey and using it to authenticate.
 
-# Tenant Setup
+# Create a Tenant
 
-## Create a Tenant
 Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
 
 Once your tenant has been created with Beyond Identity, you can continue to clone the app, get a `tenant_id` and API token.
@@ -34,6 +33,8 @@ cd bi-getting-started
 --- 
 
 ## Get your Tenant ID
+Log into the [Admin Console](https://console-us.beyondidentity.com) using the Passkey obtained from the step above. 
+
 To get your Tenant ID and Realm ID: 
 
 1. On your left navigation bar click **Home**. 
@@ -61,12 +62,12 @@ set TENANT_ID=<tenant_id_from_above>
 
 ## Create an API token
 
-Log into the [Admin Console](https://console-us.beyondidentity.com) using the Passkey obtained from the step above and create an API Token for your tenant by: 
+From the [Admin Console](https://console-us.beyondidentity.com), create an API Token for your tenant by: 
 
 1. Click **Applications**.
 2. Click **Beyond Identity Management API**.
 3. Click **API Tokens**.
-4. **Create a token and click the copy button**, we'll need it later. 
+4. **Create a token and click the copy button**, use the API Token to set the environment variables as shown below. 
 
 ### **On macOS and Linux**
 
@@ -155,7 +156,7 @@ curl -v -H "Authorization: Bearer %API_TOKEN%" -d "{\"realm\" : { \"display_name
 Grab the Realm ID from the response and set an environment variable for it:
 
 ```bash
-set REALM_ID=<realm-id>
+set REALM_ID=<realm-id-from-above>
 ```
 
 ### Create an Authenticator Configuration
@@ -186,7 +187,7 @@ curl -v -H "Authorization: Bearer %API_TOKEN%"  -d "{ \"authenticator_config\" :
 Grab the Authenticator Configuration ID from the response and set an environment variable for it:
 
 ```bash
-set AUTH_CONFIG_ID=<authenticator-config-id>
+set AUTH_CONFIG_ID=<authenticator-config-id-from-above>
 ```
 
 ### Create an Application
@@ -207,8 +208,8 @@ curl -v -H "Authorization: Bearer %API_TOKEN%" -d "{ \"application\": { \"protoc
         "type": "oidc",
         "allowed_scopes":
         [],
-        "client_id": "8qwi78xeHtcgSmM16I3H7eNN",  // <= CLIENT_ID
-        "client_secret": "KGkJiGVqdplvm_KtLZrpulckYsd6EFTwPHP9Ld6aa4aUDWqO", // <= CLIENT_SECRET
+        "client_id": "8qwi78xeHtcgSmM16I3H7eNN",  // <= APP_CLIENT_ID
+        "client_secret": "KGkJiGVqdplvm_KtLZrpulckYsd6EFTwPHP9Ld6aa4aUDWqO", // <= APP_CLIENT_SECRET
         "confidentiality": "confidential",
         "token_endpoint_auth_method": "client_secret_basic",
         "grant_type":
@@ -235,9 +236,9 @@ curl -v -H "Authorization: Bearer %API_TOKEN%" -d "{ \"application\": { \"protoc
 Grab the `Application ID`, `Client ID` and `Client Secret` from the response and set an environment variable each one of them:
 
 ```bash
-set APPLICATION_ID=<app-id>
-set APP_CLIENT_ID=<client-id>
-set APP_CLIENT_SECRET=<client-secret>
+set APPLICATION_ID=<app-id-from-above>
+set APP_CLIENT_ID=<client-id-from-above>
+set APP_CLIENT_SECRET=<client-secret-from-above>
 ```
 
 # Running the example application
