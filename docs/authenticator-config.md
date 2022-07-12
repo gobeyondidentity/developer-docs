@@ -33,6 +33,12 @@ When creating a new identity, it's possible to validate that identity using an e
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
 ```
 
+:::tip Disambiguating URLs
+Need a way to disambiguate our URLs from the rest of the URLs at your routing layer? Our SDKs provide these two functions for your convenience:
+- `isAuthenticateUrl(url)`
+- `isBindCredentialUrl(url)`
+:::
+
 #### Authentication
 
 At some point during an OAuth2/OIDC flow, you'll be asked to redirect somewhere to `authenticate` and validate your identity. This is similar to loging into some service using your google or github account. In the case of Beyond Identity, your identity is tied to a credential on a device, so the URL that we need to redirect to is the application containing our embedded SDK. The URL that is redirected into your app will take on the following form:
