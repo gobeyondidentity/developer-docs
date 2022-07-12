@@ -3,9 +3,11 @@ title: Sending Enrollment Emails
 sidebar_position: 1
 ---
 
+In Beyond Identity, Passkeys are created within the devices default Browser or specific SDK instance associated with an [Application](/api/v1#tag/Applications). An [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) indicates to the system how the Passkey will be bound. 
+
 ### Create an Authenticator Configuration
 
-Creates an [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) for a [realm](/docs/v1/platform-overview/architecture#realms). The authenticator configuration `id` will be required for the next step. 
+To start, you'll need to create an [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) of type `hosted_web` for a given [Realm](/docs/v1/platform-overview/architecture#realms). The authenticator configuration `id` will be required for the next step. 
 
 **Request example for a new configuration:**
 
@@ -27,7 +29,7 @@ curl -X POST \
 
 ```json
 {
-    "id": "4e129fc8-29eb-440a-9c43-5e6bd419e416", // authenticator_config_id
+    "id": "4e129fc8-29eb-440a-9c43-5e6bd419e416", // <-- authenticator_config_id
     "realm_id": "1893ca3144993842",
     "tenant_id": "00010f21d92c5114",
     "config": {
@@ -38,8 +40,9 @@ curl -X POST \
 
 ### Create a Credential Binding Job
 
-Creates a [Credential Binding Job](/api/v1#tag/Credential-Binding-Jobs) of type `EMAIL` for given [identity](http://localhost:3000/api/v1#tag/Identities). The identity must be Active and have a valid email associated with it. 
+Next, you'll need to create a [Credential Binding Job](/api/v1#tag/Credential-Binding-Jobs) of type `EMAIL` for a given [identity](http://localhost:3000/api/v1#tag/Identities). The identity must be Active and have a valid email associated with it. 
 
+To complete this step you'll need the `${identity_id}` for which the Passkey is being created. You can find the correct value by logging into the [Admin Console](https://console-us.beyondidentity.com), or use the API to [list all identities](/api/v1/#tag/Identities).
 
 **Request example to create an credential binding job of type Email:**
 
@@ -74,3 +77,5 @@ curl -X POST \
   }
 }
 ```
+
+If the above call succeeds, an email will be sent to the email adddress associated with `${identity_id}`. 
