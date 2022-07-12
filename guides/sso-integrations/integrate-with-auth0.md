@@ -241,23 +241,19 @@ function(accessToken, ctx, cb) {
 
 **Setting up test users**
 
-Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](ref:createuser) API. See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
+Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User API](https://developer.beyondidentity.com/api/create-user). See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
 
 https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
-1. In the **Admin Portal** under the **Directory** tab, select **Add User**.
+- In the 'Beyond Identity Console' under the 'Identities' tab, select 'Add Identity'.
 
-2. Enter the following values:
+- Enter the following values:
 
-   * External ID:** user_id in Auth0, for example: oidc | Beyond-Identity | <email_address>**
+   - Email: <email_address>
 
-   * Email: **<email_address>**
+   - Username: <email_address>
 
-   * Username: **<email_address>**
-
-   * Display Name: **<Full_Name>**
-
-**Note:** The External ID format above must be adhered to as this will be the user ID of the user in Auth0.
+   - Name: <name>
 
 ## User Deprovisioning
 
