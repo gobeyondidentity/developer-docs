@@ -87,7 +87,7 @@ Where the response type consists of an object containing a `Credential` and an o
 
 ```javascript
 struct BindCredentialResponse: Codable, Equatable {
-    let credential: AuthNCredential
+    let credential: Credential
     let postBindingRedirectURI: URL?
 }
 ```
@@ -119,7 +119,7 @@ Embedded.shared.authenticate(url: URL(string: "some_url")!) { credentials, onSel
 Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 ```javascript
-struct BiAuthenticateResponse: Codable, Equatable {
+struct AuthenticateResponse: Codable, Equatable {
     let redirectURL: URL
     let message: String?
 }
