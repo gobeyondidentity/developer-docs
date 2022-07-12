@@ -1,11 +1,21 @@
 ---
-title: Web Authentication guide
+title: Sending Enrollment Emails
 sidebar_position: 1
 ---
 
 Break this into documents 
+### Get An Admin Token
 
 ### Setting up a new user
+```bash
+
+```
+
+### Get Tenant ID and Realm ID
+
+```bash
+
+```
 
 ### Creating a passkey on the user's device
 
