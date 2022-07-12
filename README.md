@@ -15,15 +15,8 @@ This is a public repository. If you find any issues, please fork and submit a pu
 $ yarn install
 ```
 
-### Local Development
+### Running the docs
 
 ```
 $ yarn build && yarn serve
 ```
-
-### Adding Packages
-
-```
-$ yarn add <package-name>
-```
-
