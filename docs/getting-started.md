@@ -2,7 +2,7 @@
 title: Getting Started
 sidebar_position: 2
 ---
-In this guide we will show you how to create a tenant and connect the Beyond Identity Example Application to it. The Beyond Identity Example Application will demonstrate common workflows such as creating a passkey and using it to authenticate.
+In this guide we will show you how to create a tenant and connect the [Beyond Identity Demo Application](https://github.com/gobeyondidentity/bi-getting-started) to it. This app will demonstrate common workflows such as creating a passkey and using it to authenticate.
 
 ## Tenant Setup
 
