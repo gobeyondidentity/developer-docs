@@ -14,6 +14,10 @@ After a tenant and a local Passkey is created, you will be automatically redirec
 
 ### Create a new realm
 
+Realms are unique administrative domains within a tenant. All new tenants have a default realm called `Beyond Identity Admin` which should not be used to configure for delegate IDP purposes. 
+
+To configure an Okta integration, please create a new realm as shown below. 
+
 1. Click the drop down on the top left corner and add a new realm. 
 
 ![sso-okta-select-tenant](/assets/sso-okta-select-tenant.png)
