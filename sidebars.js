@@ -35,6 +35,7 @@ const sidebars = {
         dirName: 'apis'
       }]
     },
+    'authenticator-config',
     'javascript-sdk',
     'swift-sdk',
     'kotlin-sdk',
