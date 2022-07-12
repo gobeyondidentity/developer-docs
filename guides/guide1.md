@@ -3,22 +3,9 @@ title: Sending Enrollment Emails
 sidebar_position: 1
 ---
 
-Break this into documents 
-### Get An Admin Token
-
-```bash
-
-```
-
-### Get Tenant ID and Realm ID
-
-```bash
-
-```
-
 ### Create an Authenticator Configuration
 
-[What is this and why]
+Creates an [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) for a [realm](/docs/v1/platform-overview/architecture#realms). The authenticator configuration `id` will be required for the next step. 
 
 **Request example for a new configuration:**
 
