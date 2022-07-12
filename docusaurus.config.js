@@ -138,7 +138,7 @@ const config = {
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/beyondidentity",
+                href: "https://twitter.com/BI_Developers",
               },
             ],
           },
@@ -147,7 +147,7 @@ const config = {
             items: [
               {
                 label: "Blog",
-                href: "https://www.beyondidentity.com/blog",
+                href: "https://www.beyondidentity.com/developers/blog",
               },
               {
                 label: "GitHub",
