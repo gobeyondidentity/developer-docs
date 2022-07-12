@@ -15,11 +15,11 @@ The steps in this guide were tested using KeyCloak v10.0.0.
 Before continuing, make sure you have the following:
 
 * A Keycloak instance with Administration Console access allowing you to configure a new Identity Provider under an existing or new realm in your Keycloak instance.
-* Access to a Beyond Identity Tenant and a [OIDC client](/docs/getting-started/account-configuration/oidc-configuration) configured:
-   - `Client ID`
-   - `Client Secret`
 
-You can request a tenant [here](/docs/getting-started/create-a-tenant) if you do not already have access.
+* ### Create a Tenant
+Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
+
+Once your tenant has been created with Beyond Identity, you can continue to create an Application. 
 
 ## Configuration
 

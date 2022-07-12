@@ -54,14 +54,14 @@ If the user has never set up an account with Beyond Identity, then the user will
 In either case, the end result is that the user creates a Credential on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Keystore. When a user sets up an account with Beyond Identity, the device in which they register creates A Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
 
 Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
-- [User Sign-Up Flow](/docs/integration-guides/user-sign-up-flow)
-- [User Recovery Flow](/docs/integration-guides/user-recovery-flow)
+- [User Sign-Up Flow](/docs/v0/integration-guides/user-sign-up-flow)
+- [User Recovery Flow](/docs/v0/integration-guides/user-recovery-flow)
 
 ### Intercepting A Redirect From A New or Recovered User
 
 After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a `redirect url` specified by your tenant. Once the user is redirected, intercept the redirect with `<intent-filter>`.
 
-See [Registration Redirect URI](docs/getting-started/account-configuration/registration-redirect-uri) for more information.
+See [Registration Redirect URI](/docs/v0/getting-started/account-configuration/registration-redirect-uri) for more information.
 
 :::warning
 Deep Links offer a potential attack as Android allows any URL Scheme to be claimed by multiple apps and thus malicious apps can hijack sensitive data. Use a App Links for your redirect url.

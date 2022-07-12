@@ -15,11 +15,11 @@ The steps in this guide were tested using KeyCloak v10.0.0.
 Before continuing, make sure you have the following:
 
 * A Keycloak instance with Administration Console access allowing you to configure a new Identity Provider under an existing or new realm in your Keycloak instance.
-* Access to a Beyond Identity Tenant and a [OIDC client](/docs/getting-started/account-configuration/oidc-configuration) configured:
+* Access to a Beyond Identity Tenant and a [OIDC client](/docs/v0/getting-started/account-configuration/oidc-configuration) configured:
    - `Client ID`
    - `Client Secret`
 
-You can request a tenant [here](/docs/getting-started/create-a-tenant) if you do not already have access.
+You can request a tenant [here](/docs/v0/getting-started/create-a-tenant) if you do not already have access.
 
 # Configuration
 
@@ -91,7 +91,7 @@ To integrate with Keycloak:
 
 Token Exchange is Technology Preview in Keycloak and is not fully supported yet. This feature is disabled by default. Refer to the following instructions to enable this feature:
 
-https://www.keycloak.org/docs/latest/securing_apps/#_token-exchange 
+https://www.keycloak.org/docs/v0/latest/securing_apps/#_token-exchange 
 
 The following steps are required if you want to embed the Beyond Identity SDKs within native applications. When using the embedded SDK the authentication occurs directly between the native application and the Beyond Identity cloud, if Keycloak is being used as your CIAM SSO, the Beyond Identity user also needs to be authenticated with your SSO.
 
@@ -177,5 +177,5 @@ Replace the following placeholders shown above with your information:
 
 For more information on token exchange configuration, see the Keycloak documentation: 
 
-https://www.keycloak.org/docs/latest/securing_apps/#external-token-to-internal-token-exchange
+https://www.keycloak.org/docs/v0/latest/securing_apps/#external-token-to-internal-token-exchange
 
