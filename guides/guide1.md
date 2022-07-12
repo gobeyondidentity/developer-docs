@@ -16,17 +16,71 @@ Break this into documents
 
 ```
 
-### Creating a passkey on the user's device
+### Create an Authenticator Configuration
 
-#### Creating a passkey via inline binding
+[What is this and why]
 
-#### Creating up a passkey via email
+**Request example for a new configuration:**
 
+```bash
+curl -X POST \
+-H "Authorization: Bearer ${api_token}" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{ 
+  "authenticator_config": {
+    "config": {
+      "type": "hosted_web"
+    }
+  }
+}' "https://api-{$region}.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/authenticator-configs"
+```
 
+**Response example for a new configuration:**
 
-### Log in using a passkey
+```json
+{
+    "id": "4e129fc8-29eb-440a-9c43-5e6bd419e416", // authenticator_config_id
+    "realm_id": "1893ca3144993842",
+    "tenant_id": "00010f21d92c5114",
+    "config": {
+        "type": "hosted_web"
+    }
+}
+```
 
-### Add a passkey to a new device
+### Create a Credential Binding Job
 
-### Set up unique branding for your app
+**Request example to create an credential binding job of type Email:**
 
+```bash
+curl -X POST \
+-H "Authorization: Bearer ${api_token}" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{
+  "job": {
+    "delivery_method": "EMAIL",
+    "authenticator_config_id": "${authenticator_config_id}"
+  }
+}' "https://api-{$region}.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/identities/${identity_id}/credential-binding-jobs"
+```
+
+**Response example for a successful email sent:**
+
+```bash
+{
+  "credential_binding_job": {
+    "authenticator_config_id": "4e129fc8-29eb-440a-9c43-5e6bd419e416",
+    "create_time": "2022-07-11T21:10:33.383828Z",
+    "delivery_method": "EMAIL",
+    "expire_time": "2022-07-18T21:10:33.381786Z",
+    "id": "57d73b5909ede35a",
+    "identity_id": "9ca7716e846cfa97",
+    "realm_id": "1893ca3144993842",
+    "state": "LINK_SENT",
+    "tenant_id": "00010f21d92c5114",
+    "update_time": "2022-07-11T21:10:33.383828Z"
+  }
+}
+```
