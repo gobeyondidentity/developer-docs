@@ -3,18 +3,18 @@ title: Integrate With Okta
 sidebar_position: 2
 ---
 
-This guide describes how to configure Beyond Identity using Okta as the OIDC authentication flow. 
+This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
 
 ### Prerequisites
 
- - [Integrate With Okta](../sso-integrations/integrate-with-okta)
+ - [Integrate With Okta](../../sso-integrations/integrate-with-okta)
  - [Swift SDK Overview](overview)
 
-Before calling [`Embedded.shared.authenticate`](#authorize-with-okta), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
+Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
 
 ### Authorize With Okta
 
- - Step 1: Okta URL
+ - Step 1: Okta Authorize URL
 
 To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
 
