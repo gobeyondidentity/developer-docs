@@ -208,14 +208,14 @@ function(accessToken, ctx, cb) {
 6. The connection is then saved and the ‘Applications’ tab will be displayed. You can now configure which applications should use this connection. Use the toggle switches to enable the connection for the applications you wish to use Beyond identity with. 
 
 7. If you are using Auth0 hosted pages, the button text and button logo must be be updated. Auth0 only supports this via the API at the point rather than through the UI. You can follow the Auth0 docs here to configure this last part:
-   * https://auth0.com/docs/connections/social/oauth2#modify-the-icon-and-display-name
+   * https://auth0.com/docs/v0/connections/social/oauth2#modify-the-icon-and-display-name
    * The Beyond Identity logo URL is: https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png
 
 **Note:** We recommend labelling the button ‘Beyond Identity’ or ‘Passwordless’.
 
 8. If you are using your own login form, you can add the button manually and call the authorize endpoint specifying the connection parameter where the connection is the name of the connection you just created as documented here:
-   * https://auth0.com/docs/connections/social/oauth2#log-in-using-the-custom-connection
-   * Auth0’s API reference: https://auth0.com/docs/api/authentication#social 
+   * https://auth0.com/docs/v0/connections/social/oauth2#log-in-using-the-custom-connection
+   * Auth0’s API reference: https://auth0.com/docs/v0/api/authentication#social 
 
 ### Enable the Beyond Identity connection in Auth0
 

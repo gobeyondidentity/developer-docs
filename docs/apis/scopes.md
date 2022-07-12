@@ -3,70 +3,35 @@ title: Scopes
 sidebar_position: 2
 ---
 
-### Tenants
-- `tenants:read`: **TODO**: Description of the scope
+Requests to the Beyond Identity Management API must be authorized and contain appropriate scopes for the actions being taken. The scopes required for a given request are intended to be intuitive based on the API being called. They are formatted as `<resource>:<action>`, where `resource` will map exactly to the resource being requested (in the URL), and `action` will be a CRUD action (Create, Read, Update, Delete) that can be performed on that resource.
 
-### Realms
-- `realms:create`: **TODO**: Description of the scope
-- `realms:read`: **TODO**: Description of the scope
-- `realms:update`: **TODO**: Description of the scope
-- `realms:delete`: **TODO**: Description of the scope
+For example, the following curl request would require the scope `applications:read`:
 
-### Identities
-- `identities:create`: **TODO**: Description of the scope
-- `identities:read`: **TODO**: Description of the scope
-- `identities:update`: **TODO**: Description of the scope
-- `identities:delete`: **TODO**: Description of the scope
+```
+curl https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID \
+  -X GET \
+  -H "Authorization": "Bearer: $TOKEN" \
+```
 
-### Groups
-- `groups:create`: **TODO**: Description of the scope
-- `groups:read`: **TODO**: Description of the scope
-- `groups:update`: **TODO**: Description of the scope
-- `groups:delete`: **TODO**: Description of the scope
+## Scope Types
 
-### Applications
-- `applications:create`: **TODO**: Description of the scope
-- `applications:read`: **TODO**: Description of the scope
-- `applications:update`: **TODO**: Description of the scope
-- `applications:delete`: **TODO**: Description of the scope
+- `<resource>:read`
+	- Allows for the retrieval of the resource information via a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>/$RESOURCE_ID`.
+		- For realms, paths omit `/<resource>/$RESOURCE_ID`
+		- For tenants, paths omit `/realms/$REALM_ID/<resource>/$RESOURCE_ID`
+	- This same scope also gates requests to list more than one of the resource via a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>`. 
+	- Requests to list multiple resources will always be filtered to the tenant and realm for which they are requested.
 
-### Authenticator Configs
-- `authenticator-configs:create`: **TODO**: Description of the scope
-- `authenticator-configs:read`: **TODO**: Description of the scope
-- `authenticator-configs:update`: **TODO**: Description of the scope
-- `authenticator-configs:delete`: **TODO**: Description of the scope
+- `<resource>:create`
+	- Allows for the creation of a new resource via a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>`.
+	- Resource creation may involve the auto-population of one or many fields on the resource itself. At a minimum, this will include an identifier (`id`) field. Such fields would not be allowable to be sent on creation but will be returned in the API response. Documentation of which fields are available for which resources is available in our [API documentation](https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1).
+	- Note that the resource creation request returns the same response as the read request. Therefore, while it is allowable to provide `<resource>:create` without `<resource>:read`, it is not self-consistent and so is not advisable.
 
-### Create
-- `policy-v1:create`: **TODO**: Description of the scope
-- `policy-v1:read`: **TODO**: Description of the scope
+- `<resource>:update`
+	- Allows for the updating of an existing resource via a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>/$RESOURCE_ID`.
+	- Resource patching may disallow the updating of certain fields. Documentation of which fields are available for which resources is available in our [API documentation](https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1).
+	- Note that the resource update request returns the same response as the read request. Therefore, while it is allowable to provide `<resource>:update` without `<resource>:read`, it is not self-consistent and so is not advisable.
 
-### Resource Servers
-- `resource-servers:create`: **TODO**: Description of the scope
-- `resource-servers:read`: **TODO**: Description of the scope
-- `resource-servers:update`: **TODO**: Description of the scope
-- `resource-servers:delete`: **TODO**: Description of the scope
-
-### API Tokens
-- `tokens:create`: **TODO**: Description of the scope
-- `tokens:read`: **TODO**: Description of the scope
-- `tokens:update`: **TODO**: Description of the scope
-- `tokens:delete`: **TODO**: Description of the scope
-- `tokens:introspect`: **TODO**: Description of the scope
-
-### Credentials
-- `credentials:read`: **TODO**: Description of the scope
-- `credentials:revoke`: **TODO**: Description of the scope
-- `credential-binding-jobs:create`: **TODO**: Description of the scope
-- `credential-binding-jobs:read`: **TODO**: Description of the scope
-
-### Themes
-- `themes:create`: **TODO**: Description of the scope
-- `themes:read`: **TODO**: Description of the scope
-- `themes:update`: **TODO**: Description of the scope
-
-### Events
-- `events:read`: **TODO**: Description of the scope
-
-### Console Configs
-- `console-configs:read`: **TODO**: Description of the scope
-- `console-configs:update`: **TODO**: Description of the scope
+- `<resource>:delete`
+	- Allows for the deletion of an existing resource via a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>/$RESOURCE_ID`.
+	- Deletion requests return empty responses.

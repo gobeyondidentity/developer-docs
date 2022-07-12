@@ -11,7 +11,7 @@ This short guide provides details on how to configure Beyond Identity as an Iden
 
 * An installation of the Curity Identity Server. A good starting point is to follow the [Getting Started Guide.](https://curity.io/resources/getting-started/)
 
-* Access to a Beyond Identity Tenant and an [OIDC client](/docs/getting-started/account-configuration/oidc-configuration) configured. Make sure to note the `Client ID` & `Client Secret`. Request a tenant [here](/docs/getting-started/create-a-tenant) if you do not already have access.
+* Access to a Beyond Identity Tenant and an [OIDC client](/docs/v0/getting-started/account-configuration/oidc-configuration) configured. Make sure to note the `Client ID` & `Client Secret`. Request a tenant [here](/docs/v0/getting-started/create-a-tenant) if you do not already have access.
 
 * An installation of the Beyond Identity Platform Authenticator.
 

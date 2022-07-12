@@ -12,7 +12,8 @@ Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/sig
 Once your tenant has been created with Beyond Identity, you can continue to create an API token. 
 
 ### Create an API token
-Create an API Token for your tenant by: 
+
+Log into the [Admin Console](https://console-us.beyondidentity.com) using the Passkey obtained from the step above and create an API Token for your tenant by: 
 
 1. Click **Applications**.
 2. Click **Beyond Identity Management API**.

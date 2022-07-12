@@ -3,7 +3,7 @@ title: Set Registration Redirect URI
 sidebar_position: 2
 ---
 
-This URI lets us know where to redirect new users when they register using an email. Whenever a new user registers using Beyond Identity, we send out an email to verify their identity. By default, the link in that email redirects a user to our [Native Platform Authenticator](/docs/web-sdks/platform-authenticator). In order to redirect to your own iOS/Android application, you will need to specify this URI to be either an app scheme or a universal url / app link.
+This URI lets us know where to redirect new users when they register using an email. Whenever a new user registers using Beyond Identity, we send out an email to verify their identity. By default, the link in that email redirects a user to our [Native Platform Authenticator](/docs/v0/web-sdks/platform-authenticator). In order to redirect to your own iOS/Android application, you will need to specify this URI to be either an app scheme or a universal url / app link.
 
 ### iOS Setup Instructions
 
@@ -37,7 +37,7 @@ In order to support registration on both iOS and Android, there are a couple of 
 
 ### Updating Registration Redirect URI
 
-See [Account Configuration](/docs/getting-started/account-configuration) in order to update the registration redirect URI once you've gone through the above steps.
+See [Account Configuration](/docs/v0/getting-started/account-configuration) in order to update the registration redirect URI once you've gone through the above steps.
 
 ### Debugging
 

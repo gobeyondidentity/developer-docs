@@ -3,31 +3,79 @@ title: Sending Enrollment Emails
 sidebar_position: 1
 ---
 
-Break this into documents 
-### Get An Admin Token
+In Beyond Identity, Passkeys are created within the devices default Browser or specific SDK instance associated with an [Application](/api/v1#tag/Applications). An [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) indicates to the system how the Passkey will be bound. 
 
-### Setting up a new user
-```bash
+### Create an Authenticator Configuration
 
-```
+To start, you'll need to create an [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) of type `hosted_web` for a given [Realm](/docs/v1/platform-overview/architecture#realms). The authenticator configuration `id` will be required for the next step. 
 
-### Get Tenant ID and Realm ID
+**Request example for a new configuration:**
 
 ```bash
-
+curl -X POST \
+-H "Authorization: Bearer ${api_token}" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{ 
+  "authenticator_config": {
+    "config": {
+      "type": "hosted_web"
+    }
+  }
+}' "https://api-{$region}.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/authenticator-configs"
 ```
 
-### Creating a passkey on the user's device
+**Response example for a new configuration:**
 
-#### Creating a passkey via inline binding
+```json
+{
+    "id": "4e129fc8-29eb-440a-9c43-5e6bd419e416", // <-- authenticator_config_id
+    "realm_id": "1893ca3144993842",
+    "tenant_id": "00010f21d92c5114",
+    "config": {
+        "type": "hosted_web"
+    }
+}
+```
 
-#### Creating up a passkey via email
+### Create a Credential Binding Job
 
+Next, you'll need to create a [Credential Binding Job](/api/v1#tag/Credential-Binding-Jobs) of type `EMAIL` for a given [identity](http://localhost:3000/api/v1#tag/Identities). The identity must be Active and have a valid email associated with it. 
 
+To complete this step you'll need the `${identity_id}` for which the Passkey is being created. You can find the correct value by logging into the [Admin Console](https://console-us.beyondidentity.com), or use the API to [list all identities](/api/v1/#tag/Identities).
 
-### Log in using a passkey
+**Request example to create an credential binding job of type Email:**
 
-### Add a passkey to a new device
+```bash
+curl -X POST \
+-H "Authorization: Bearer ${api_token}" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{
+  "job": {
+    "delivery_method": "EMAIL",
+    "authenticator_config_id": "${authenticator_config_id}"
+  }
+}' "https://api-{$region}.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/identities/${identity_id}/credential-binding-jobs"
+```
 
-### Set up unique branding for your app
+**Response example for a successful email sent:**
 
+```bash
+{
+  "credential_binding_job": {
+    "authenticator_config_id": "4e129fc8-29eb-440a-9c43-5e6bd419e416",
+    "create_time": "2022-07-11T21:10:33.383828Z",
+    "delivery_method": "EMAIL",
+    "expire_time": "2022-07-18T21:10:33.381786Z",
+    "id": "57d73b5909ede35a",
+    "identity_id": "9ca7716e846cfa97",
+    "realm_id": "1893ca3144993842",
+    "state": "LINK_SENT",
+    "tenant_id": "00010f21d92c5114",
+    "update_time": "2022-07-11T21:10:33.383828Z"
+  }
+}
+```
+
+If the above call succeeds, an email will be sent to the email adddress associated with `${identity_id}`. 
