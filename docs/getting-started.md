@@ -24,17 +24,17 @@ Log into the [Admin Console](https://console-us.beyondidentity.com) using the Pa
 To get your Tenant ID and Realm ID: 
 
 1. On your left navigation bar click **Home**. 
-2. Click **Edit Realm** on the top right side of your screen, copy the Tenant ID and Realm ID values. 
+2. Click **Edit Realm** on the top right side of your screen, copy the `Tenant ID` and `Realm ID` values. 
 
-You will also receive an email from Beyond Identity that contains your Tenant and Realm ID's for later reference.
+You will also receive an email from Beyond Identity that contains your `Tenant and Realm ID's` for later reference.
 
 ## Run the example application
 
-You can review [pre-requisites](#pre-requisites) if needed. 
+You can review the [pre-requisites](#pre-requisites) if you need help configuring your environment. 
 
 ### Cloning the repo
 
-The git repository for the example application is https://github.com/gobeyondidentity/bi-getting-started.
+The source code for the example application is hosted in Github: https://github.com/gobeyondidentity/bi-getting-started.
 
 ``` bash
 git clone git@github.com:gobeyondidentity/bi-getting-started.git
@@ -84,14 +84,21 @@ You can use the example application above to create one or more Passkeys and log
 ### Pre-requisites
 The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. Youll need standard developer tools to get it up and running.
 
-1. Download and install git https://git-scm.com/downloads
+1. Download and install `git`: https://git-scm.com/downloads
 
-2. Download and install nodejs https://nodejs.org/en/download/
+2. Download and install `nodejs`: https://nodejs.org/en/download/
 
-3. Download and install brew https://brew.sh/
+3. Install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
 
-4. Install jq and curl. 
+#### **macOS**
+
+4. Download and install `brew`: https://brew.sh/
+
+5. Install `jq` and `curl`. 
 ``` bash
 brew install jq curl
 ```
+
+
+
 
