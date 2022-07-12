@@ -1,0 +1,108 @@
+---
+title: Integrate With Okta
+sidebar_position: 2
+---
+
+This guide describes how to configure Beyond Identity using Okta as the OIDC authentication flow. 
+
+### Prerequisites
+
+ - [Integrate With Okta](../sso-integrations/integrate-with-okta)
+ - [Swift SDK Overview](overview)
+
+Before calling [`Embedded.shared.authenticate`](#authorize-with-okta), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
+
+### Authorize With Okta
+
+ - Step 1: Okta URL
+
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+
+```javascript
+let session = ASWebAuthenticationSession(
+    url: viewModel.oktaURL,
+    callbackURLScheme: viewModel.callbackScheme
+    completionHandler: { (url, error) in }
+)
+session.presentationContextProvider = self
+session.start()
+```
+
+ - Step 2: Invoke URL
+
+During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`.
+
+```javascript
+let session = ASWebAuthenticationSession(
+    url: viewModel.oktaURL,
+    callbackURLScheme: viewModel.callbackScheme
+){ (url, error) in
+    Embedded.shared.authenticate(
+        url: url,
+        onSelectCredential: presentCredentialSelection
+    ) { result in
+        switch result {
+        case let .success(response):         
+        case let .failure(error):
+        }
+    }
+}
+```
+
+ - Step 3: Redirect URL
+
+To complete the authentication flow, launch another `ASWebAuthenticationSession` using the `redirectURL` returned from a successful authenticate response. The authorization code and the state parameter are attached to this URL.
+
+```javascript
+Embedded.shared.authenticate(
+    url: url,
+    onSelectCredential: presentCredentialSelectionToUser
+) { result in
+    switch result {
+    case let .success(response):
+        let newSession = ASWebAuthenticationSession(
+            url: response.redirectURL, 
+            callbackURLScheme: viewModel.callbackScheme
+        ) { (url, error)  in
+            // This URL contains authorization code and state parameters
+            // Exchange the authorization code for an id_token using Okta's token endpoint.
+        }
+        newSession.presentationContextProvider = self
+        newSession.start()
+                
+    case let .failure(error):
+        self.responseLabel.text = error.localizedDescription
+    }
+}
+```
+
+### Full Example
+
+```javascript
+let session = ASWebAuthenticationSession(
+    url: viewModel.oktaURL,
+    callbackURLScheme: viewModel.callbackScheme
+){ (url, error) in
+    Embedded.shared.authenticate(
+        url: url,
+        onSelectCredential: presentCredentialSelectionToUser
+    ) { result in
+        switch result {
+        case let .success(response):
+            let newSession = ASWebAuthenticationSession(
+                url: response.redirectURL, 
+                callbackURLScheme: viewModel.callbackScheme
+            ) { (url, error)  in
+                parseForIDToken(url)
+            }
+            newSession.presentationContextProvider = self
+            newSession.start()
+                    
+        case let .failure(error):
+            self.responseLabel.text = error.localizedDescription
+        }
+    }
+}
+session.presentationContextProvider = self
+session.start()
+```
