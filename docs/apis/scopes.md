@@ -7,7 +7,7 @@ Requests to the Beyond Identity Management API must be authorized and contain ap
 
 For example, the following curl request would require the scope `applications:read`:
 
-```
+```bash
 curl https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID \
   -X GET \
   -H "Authorization": "Bearer: $TOKEN" \
