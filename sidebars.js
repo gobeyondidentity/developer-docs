@@ -18,6 +18,7 @@ const sidebars = {
   mySidebar: [
     'introduction',
     'getting-started',
+    'using-bi-for-auth',
     {
       type: 'category',
       label: 'Platform Overview',
