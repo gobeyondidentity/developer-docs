@@ -36,8 +36,13 @@ You can review the [pre-requisites](#pre-requisites) if you need help configurin
 
 The source code for the example application is hosted in Github: https://github.com/gobeyondidentity/bi-getting-started.
 
-``` bash
-git clone git@github.com:gobeyondidentity/bi-getting-started.git
+```bash
+git clone https://github.com/gobeyondidentity/bi-getting-started.git
+```
+
+Change directory into the repo: 
+
+```bash
 cd bi-getting-started
 ```
 
@@ -62,14 +67,14 @@ export VDC_REGION=us
 
 ### Start the backend and frontend
 1. Install dependencies with:
-``` bash
-yarn install
-```
+	``` bash
+	yarn install
+	```
 
 2. Build and run the frontend application:
-``` bash
-yarn start
-```
+	``` bash
+	yarn start
+	```
 
 3. Open a web browser and navigate to [http://localhost:3002](http://localhost:3002)
 
@@ -95,9 +100,9 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 4. Download and install `brew`: https://brew.sh/
 
 5. Install `jq` and `curl`. 
-``` bash
-brew install jq curl
-```
+	``` bash
+	brew install jq curl
+	```
 
 
 
