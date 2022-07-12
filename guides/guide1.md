@@ -38,6 +38,9 @@ curl -X POST \
 
 ### Create a Credential Binding Job
 
+Creates a [Credential Binding Job](/api/v1#tag/Credential-Binding-Jobs) of type `EMAIL` for given [identity](http://localhost:3000/api/v1#tag/Identities). The identity must be Active and have a valid email associated with it. 
+
+
 **Request example to create an credential binding job of type Email:**
 
 ```bash
