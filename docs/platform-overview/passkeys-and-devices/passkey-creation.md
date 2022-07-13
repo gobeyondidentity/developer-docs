@@ -16,7 +16,7 @@ The high level flow for creating a passkey is:
 A developer can use the Beyond Identity API to generate a passkey creation link, and deliver the link to the end user however they see fit. This is the suggested method if you want the end user to create a passkey without having to leave your application. 
 
 #### Step 1) Create a passkey creation link for the identity
-*Request*
+**Request**
 ``` bash
 curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
 	-H 'Content-Type: application/json' \
@@ -28,7 +28,7 @@ curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm
 		}
 	} '
 ```
-*Response*
+**Response**
 ``` bash
 HTTP/1.1 200 OK
 {
@@ -76,7 +76,7 @@ A developer can use the Beyond Identity API to send a passkey creation email to 
 
 #### Step 1) Create a passkey creation link, specifying delivery_method:EMAIL
 Specify the delivery_method to be "EMAIL". This request will send an email to the primary_email_address of the identity. 
-*Request*
+**Request**
 ``` bash
 curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
 	-H 'Content-Type: application/json' \
@@ -88,7 +88,7 @@ curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm
 		}
 	} '
 ```
-*Response*
+**Response**
 ``` bash
 HTTP/1.1 200 OK
 {

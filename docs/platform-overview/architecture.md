@@ -14,12 +14,12 @@ A Beyond Identity tenant represents an organization in the Beyond Identity Cloud
 A tenant can have many realms. A realm is a unique administrative domain within a tenant. Some tenants will only need the use of a single realm, in this case a realm and a tenant may seem synonymous. Common use cases for realms include:
  - A need for multiple development environments - staging, QA, production - an admin could create a realm for each,
  - The desire to provide separated services based on different administrative domains (holding company delegating realms to its various companies, company delegating realms to its various brands, etc), and
- - The desire to separate Beyond Identity Console and Management API identities, credentials and policies from those for an end-user application.
+ - The desire to separate Admin Console and API identities, credentials and policies from those for an end-user application.
 
 Each Realm contains a unique set of Directory, Policy, Event, Application, and Branding objects.
 
 ### Admin Realm
-When your tenant is deployed an initial Realm is specially created and populated for you - the “Beyond Identity Admin” Realm.  It is populated with your initial Admin identity and credential, Console authorization Policy, Console application configuration and Management API configuration.
+When your tenant is deployed an initial Realm is specially created and populated for you - the “Beyond Identity Admin” Realm.  It is populated with your initial Admin identity and credential, Console authorization Policy, Console application configuration and API configuration.
 
 It is possible that you never need to create another Realm for your use case.
 
