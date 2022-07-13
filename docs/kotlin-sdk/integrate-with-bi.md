@@ -1,6 +1,6 @@
 ---
-title: Integrate With Okta
-sidebar_position: 3
+title: Integrate With Beyond Identity
+sidebar_position: 2
 ---
 
 **[ROUGH DRAFT, needs review for accuracy and editing]**
@@ -10,28 +10,25 @@ This flow should be used if a client is using Beyond Identity for authentication
 
 ### Prerequisites
 
- - [Integrate With Okta](../sso-integrations/integrate-with-okta)
- - [Kotlin SDK](../kotlin-sdk)
+ - [Using Beyond Identity for Authentication](../using-bi-for-auth)
 
-Before calling [`EmbeddedSdk.authenticate()`](../kotlin-sdk#authentication), we must [Authorize With Okta](../kotlin-sdk/integrate-with-okta#authorize-with-okta)
+Before calling [`EmbeddedSdk.authenticate()`](../kotlin-sdk#authentication), we must authorize with Beyond Identity
 
-### Authorize With Okta
+### Authorize With Beyond Identity
 
- - Step 1: Okta URL
+ - Step 1: Authorization URL
 
-To start the authorization flow, launch a [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the Oauth2 Authorization Request URL provided by Okta.
-
-![Okta Identity Provider](../screenshots/Okta%20Identity%20Provider.png)
+To start the authorization flow, launch a [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the authorization request URL you made in the pre-requisites.
 
 ```
 val webView = WebView(activity)
 ...
-webView.loadUrl(OKTA_URL)
+webView.loadUrl(BI_AUTH_URL)
 ```
 
  - Step 2: Invoke URL
 
-Create a [`WebViewClient`](https://developer.android.com/reference/android/webkit/WebViewClient) and override [`shouldOverrideUrlLoading`](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20android.webkit.WebResourceRequest)). A URL with the Invoke URL scheme should be returned from Okta. When the webpage loads the URL, call [`EmbeddedSdk.authenticate()`](../kotlin-sdk#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../kotlin-sdk#authenticate-url-validation).
+Create a [`WebViewClient`](https://developer.android.com/reference/android/webkit/WebViewClient) and override [`shouldOverrideUrlLoading`](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20android.webkit.WebResourceRequest)). A URL with the Invoke URL scheme should be returned from Beyond Identity. When the webpage loads the URL, call [`EmbeddedSdk.authenticate()`](../kotlin-sdk#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../kotlin-sdk#authenticate-url-validation).
 
 ```
 webView.webViewClient = object : WebViewClient() {
@@ -57,7 +54,7 @@ webView.webViewClient = object : WebViewClient() {
 
  - Step 3: Redirect URL
 
-To complete the authorization flow, launch another [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL. These can be exchanged for an id_token using Okta's [token endpoint](https://developer.okta.com/docs/reference/api/oidc/#token).
+To complete the authorization flow, launch another [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL. These can be exchanged for an id_token using Beyond Identity's token endpoint. You can find a reference to this in the pre-requisites.
 
 ```
 EmbeddedSdk.authenticate(
@@ -105,5 +102,5 @@ webView.webViewClient = object : WebViewClient() {
     }
 }
 
-webView.loadUrl(OKTA_URL)
+webView.loadUrl(BI_AUTH_URL)
 ```
