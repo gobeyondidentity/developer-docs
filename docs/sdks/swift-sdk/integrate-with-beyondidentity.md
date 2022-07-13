@@ -1,30 +1,27 @@
 ---
-title: Integrate With Okta
-sidebar_position: 3
+title: Integrate With Beyond Identity
+sidebar_position: 2
 ---
 
-This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
+This guide describes how to configure Beyond Identity as the primary IdP.
 
 ### Prerequisites
 
- - [Integrate With Okta](../../sso-integrations/integrate-with-okta)
+ - [Configure A Beyond Identity Application](../../?)
  - [Swift SDK Overview](overview)
 
-Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
-
-### Authorize With Okta
-
+### Authorize With Beyond Identity
  - Step 1: Configuring the Authenticator Config
 
 Make sure the [Authentication Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
- - Step 2: Okta Authorize URL
+ - Step 2: Beyond Identity Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load your crafted Beyond Identity [Authorization URL](??).
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.beyondIdentityURL,
     callbackURLScheme: viewModel.callbackScheme
     completionHandler: { (url, error) in }
 )
@@ -34,11 +31,11 @@ session.start()
 
  - Step 3: Invoke URL
 
-During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
+During the session completionHandler, a URL with the invoke URL scheme should be returned. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.beyondIdentityURL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
@@ -70,7 +67,7 @@ Embedded.shared.authenticate(
             callbackURLScheme: viewModel.callbackScheme
         ) { (url, error)  in
             // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using Okta's token endpoint.
+            // Exchange the authorization code for an id_token using your Beyond Identity Token Endpoint.
         }
         newSession.presentationContextProvider = self
         newSession.start()
@@ -84,7 +81,7 @@ Embedded.shared.authenticate(
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.beyondIdentityURL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else { 
