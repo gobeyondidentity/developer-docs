@@ -33,15 +33,13 @@ Click the drop down on the top left corner and add a new realm. [[Screenshot](./
   - A URL to any page in your web application
 
 - After the protocol configuration is finished, modify your authenticator config
-  - [Authenticator Config Reference](https://developer-docs-git-v1-beyondidentity.vercel.app/docs/v1/platform-overview/authenticator-config#embedded)
+  - [Authenticator Config Reference](../platform-overview/authenticator-config#embedded)
 
-[[Created App Screenshot](./screenshots/AppCreated.jpg)]
+- Click on create and your app should be created [[Created App Screenshot](./screenshots/AppCreated.jpg)]
 
 ### Create a test identity
 
-Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](https://developer.beyondidentity.com/api/create-user) API. See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
-
-https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
+Before users can start authenticating with Beyond Identity, they must be provisioned in Beyond Identity. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](https://developer.beyondidentity.com/api/create-user) API. We'll step through using the Beyond Identity Console.
 
 - In the 'Beyond Identity Console' under the 'Identities' tab, select 'Add Identity'.
 
@@ -70,5 +68,5 @@ An application that is configured as public will need additional query parameter
 
 ```
 &code_challenge=[SHA256 hash of code_verifier]
-&code_challenge_method=[S256|plain]
+&code_challenge_method=S256
 ```
