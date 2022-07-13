@@ -3,7 +3,7 @@ title: Scopes
 sidebar_position: 2
 ---
 
-Requests to the Beyond Identity Management API must be authorized and contain appropriate scopes for the actions being taken. The scopes required for a given request are intended to be intuitive based on the API being called. They are formatted as `<resource>:<action>`, where `resource` will map exactly to the resource being requested (in the URL), and `action` will be a CRUD action (Create, Read, Update, Delete) that can be performed on that resource.
+Requests to the APIs must be authorized and contain appropriate scopes for the actions being taken. The scopes required for a given request are intended to be intuitive based on the API being called. They are formatted as `<resource>:<action>`, where `resource` will map exactly to the resource being requested (in the URL), and `action` will be a CRUD action (Create, Read, Update, Delete) that can be performed on that resource.
 
 For example, the following curl request would require the scope `applications:read`:
 
