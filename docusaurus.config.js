@@ -169,7 +169,7 @@ const config = {
         // Public API key: it is safe to commit it
         apiKey: 'bbddcf64f82147a7adaa021dd3e7f88b',
 
-        indexName: 'develper.beyondidentity.com',
+        indexName: 'developer.beyondidentity.com',
 
         // Optional: see doc section below
         contextualSearch: false,
