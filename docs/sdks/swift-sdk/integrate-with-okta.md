@@ -13,8 +13,11 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
 
 ### Authorize With Okta
+ - Step 1: Configuring the Authenticator Config
 
- - Step 1: Okta Authorize URL
+Make sure the [Authentication Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+
+ - Step 2: Okta Authorize URL
 
 To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
 
@@ -28,7 +31,7 @@ session.presentationContextProvider = self
 session.start()
 ```
 
- - Step 2: Invoke URL
+ - Step 3: Invoke URL
 
 During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
 
@@ -50,7 +53,7 @@ let session = ASWebAuthenticationSession(
 }
 ```
 
- - Step 3: Redirect URL
+ - Step 4: Redirect URL
 
 To complete the authentication flow, launch another `ASWebAuthenticationSession` using the `redirectURL` returned from a successful authenticate response. The authorization code and the state parameter are attached to this URL.
 
