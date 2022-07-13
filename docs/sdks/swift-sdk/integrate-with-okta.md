@@ -13,6 +13,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
 
 ### Authorize With Okta
+
  - Step 1: Configuring the Authenticator Config
 
 Make sure the [Authentication Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.

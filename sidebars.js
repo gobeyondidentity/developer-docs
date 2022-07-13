@@ -75,17 +75,17 @@ const sidebars = {
       type: 'category',
       label: 'Other useful links',
       collapsed: false,
-      items: [
-      {
-        type: 'link',
-        label: 'Support', 
-        href: 'https://support.beyondidentity.com/',
-      },
-      {
-        type: 'link',
-        label: 'Service Status Page', 
-        href: 'https://status.beyondidentity.com',
-      }],
+      items: [{
+          type: 'link',
+          label: 'Support',
+          href: 'https://support.beyondidentity.com/',
+        },
+        {
+          type: 'link',
+          label: 'Service Status Page',
+          href: 'https://status.beyondidentity.com',
+        }
+      ],
     },
   ],
 };
