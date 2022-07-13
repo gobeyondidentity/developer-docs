@@ -156,7 +156,7 @@ curl -v -H "Authorization: Bearer %API_TOKEN%" -d "{\"realm\" : { \"display_name
 Grab the Realm ID from the response and set an environment variable for it:
 
 ```bash
-set REALM_ID=<realm-id-from-above>
+set REALM_ID=<realm-id-from-your-response>
 ```
 
 ### Create an Authenticator Configuration
@@ -187,7 +187,7 @@ curl -v -H "Authorization: Bearer %API_TOKEN%"  -d "{ \"authenticator_config\" :
 Grab the Authenticator Configuration ID from the response and set an environment variable for it:
 
 ```bash
-set AUTH_CONFIG_ID=<authenticator-config-id-from-above>
+set AUTH_CONFIG_ID=<authenticator-config-id-from-your-response>
 ```
 
 ### Create an Application
@@ -236,9 +236,9 @@ curl -v -H "Authorization: Bearer %API_TOKEN%" -d "{ \"application\": { \"protoc
 Grab the `Application ID`, `Client ID` and `Client Secret` from the response and set an environment variable each one of them:
 
 ```bash
-set APPLICATION_ID=<app-id-from-above>
-set APP_CLIENT_ID=<client-id-from-above>
-set APP_CLIENT_SECRET=<client-secret-from-above>
+set APPLICATION_ID=<application-id-from-your-response>
+set APP_CLIENT_ID=<app-client-id-from-your-response>
+set APP_CLIENT_SECRET=<app-client-secret-from-your-response>
 ```
 
 # Running the example application
