@@ -5,8 +5,6 @@ sidebar_position: 2
 
 ### High Level Flow
 
-[Bounce diagram with credential binding process]
-
 The high level flow for creating a passkey is:
  1. A passkey creation link is created using the Beyond Identity APIs
  2. The passkey creation link is delivered to the Beyond Identity SDK that is running on the user's device. Beyond Identity Provides two methods for delivering a passkey creation link to the SDK:
