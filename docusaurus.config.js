@@ -169,7 +169,7 @@ const config = {
         // Public API key: it is safe to commit it
         apiKey: 'ded4af2cbfd11dbc6acaaa90a22b89cb',
 
-        indexName: 'localhost_query_suggestions',
+        indexName: 'localhost',
 
         // Optional: see doc section below
         contextualSearch: true,
