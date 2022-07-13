@@ -164,12 +164,12 @@ const config = {
       },
       algolia: {
         // The application ID provided by Algolia
-        appId: 'XR6OEXXDWH',
+        appId: '4P4Q3C985L',
 
         // Public API key: it is safe to commit it
-        apiKey: 'ded4af2cbfd11dbc6acaaa90a22b89cb',
+        apiKey: 'bbddcf64f82147a7adaa021dd3e7f88b',
 
-        indexName: 'localhost',
+        indexName: 'develper.beyondidentity.com',
 
         // Optional: see doc section below
         contextualSearch: false,
