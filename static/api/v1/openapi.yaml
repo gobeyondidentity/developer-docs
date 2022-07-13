@@ -27,7 +27,7 @@ info:
     requesting a token for the "Beyond Identity Management API" Application.
 
     ```
-    curl https://auth-us.beyondidentity.com/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/token \
+    curl https://auth-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/token \
       -X POST \
       -u "$CLIENT_ID:$CLIENT_SECRET" --basic \
       -H "Content-Type: application/x-www-form-urlencoded" \
@@ -1827,9 +1827,10 @@ paths:
               required:
                 - identity
             examples:
-              Update Email:
+              Update Display Name and Email:
                 value:
                   identity:
+                    display_name: Test Identity
                     traits:
                       type: traits_v0
                       primary_email_address: test@example.com
@@ -2110,9 +2111,9 @@ paths:
                   value:
                     credentials:
                       - id: 81490afab171aef0
+                        identity_id: e85de356dc78843a
                         realm_id: 7df92e4a38ba0993
                         tenant_id: 0001b42d80372976
-                        identity_id: e85de356dc78843a
                         state: ACTIVE
                         csr_type: JWT
                         jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
@@ -2128,14 +2129,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  value:
-                    code: bad_request
-                    message: invalid parameters
-                    details:
-                      - type: FieldViolations
-                        field_violations:
-                          - field: page_token
-                            description: invalid page token
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2191,9 +2185,9 @@ paths:
                 Success:
                   value:
                     id: 81490afab171aef0
+                    identity_id: e85de356dc78843a
                     realm_id: 7df92e4a38ba0993
                     tenant_id: 0001b42d80372976
-                    identity_id: e85de356dc78843a
                     state: ACTIVE
                     csr_type: JWT
                     jwk_json: '{"crv":"P-256","kty":"EC","x":"2MRhz05PJPq3BUfB18AT3HqgWEkI3VpWUg1MWi8rz1g","y":"YtvLYwGEqYQaoDVok2fVziJT4fu7DFPz3hy96FTAelQ"}'
@@ -2506,9 +2500,9 @@ paths:
                   value:
                     credential_binding_jobs:
                       - id: 81490afab171aef0
+                        identity_id: e85de356dc78843a
                         realm_id: 7df92e4a38ba0993
                         tenant_id: 0001b42d80372976
-                        identity_id: e85de356dc78843a
                         delivery_method: EMAIL
                         state: COMPLETE
                         post_binding_redirect_uri: 'http://example.com/callback'
@@ -2525,7 +2519,7 @@ paths:
                 $ref: '#/components/schemas/Error'
               examples:
                 Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1identities~1%7Bidentity_id%7D~1credentials/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -2581,9 +2575,9 @@ paths:
                 Success:
                   value:
                     id: 81490afab171aef0
+                    identity_id: e85de356dc78843a
                     realm_id: 7df92e4a38ba0993
                     tenant_id: 0001b42d80372976
-                    identity_id: e85de356dc78843a
                     delivery_method: EMAIL
                     state: COMPLETE
                     post_binding_redirect_uri: 'http://example.com/callback'
@@ -3000,6 +2994,27 @@ paths:
                   $ref: '#/components/schemas/Application'
               required:
                 - application
+            examples:
+              Create Application:
+                value:
+                  application:
+                    display_name: Pet Application
+                    resource_server_id: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+                    protocol_config:
+                      type: oidc
+                      allowed_scopes:
+                        - 'pets:read'
+                        - 'pets:write'
+                      confidentiality: confidential
+                      token_endpoint_auth_method: client_secret_post
+                      grant_type:
+                        - authorization_code
+                      redirect_urls:
+                        - 'https://auth.mypetapp.com/callback'
+                      token_configuration:
+                        subject_field: id
+                        expires_after: 86400
+                        token_signing_algorithm: RS256
       responses:
         '200':
           description: |
@@ -3008,12 +3023,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Application'
+              examples:
+                Success:
+                  value:
+                    id: 38833c36-6f47-4992-9329-ea0a00915137
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    resource_server_id: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+                    display_name: Pet Application
+                    is_managed: false
+                    protocol_config:
+                      type: oidc
+                      allowed_scopes:
+                        - 'pets:read'
+                        - 'pets:write'
+                      client_id: AYYNcuOSpfqIf33JeegCzDIT
+                      client_secret: wWD4mPzdsjms1LPekQSo0v9scOHLWy5wmMtKAR2JNhJPAKXv
+                      confidentiality: confidential
+                      token_endpoint_auth_method: client_secret_post
+                      grant_type:
+                        - authorization_code
+                      redirect_uris:
+                        - 'https://auth.mypetapp.com/callback'
+                      token_configuration:
+                        subject_field: id
+                        expires_after: 86400
+                        token_signing_algorithm: RS256
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3038,6 +3084,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3084,12 +3133,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListApplicationsResponse'
+              examples:
+                Success:
+                  value:
+                    applications:
+                      - id: 38833c36-6f47-4992-9329-ea0a00915137
+                        realm_id: caf2ff640497591a
+                        tenant_id: 00011f1183c67b69
+                        resource_server_id: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+                        display_name: Pet Application
+                        is_managed: false
+                        protocol_config:
+                          type: oidc
+                          allowed_scopes:
+                            - 'pets:read'
+                            - 'pets:write'
+                          client_id: AYYNcuOSpfqIf33JeegCzDIT
+                          client_secret: wWD4mPzdsjms1LPekQSo0v9scOHLWy5wmMtKAR2JNhJPAKXv
+                          confidentiality: confidential
+                          token_endpoint_auth_method: client_secret_post
+                          grant_type:
+                            - authorization_code
+                          redirect_uris:
+                            - 'https://auth.mypetapp.com/callback'
+                          token_configuration:
+                            subject_field: id
+                            expires_after: 86400
+                            token_signing_algorithm: RS256
+                    total_size: 1
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  value:
+                    code: bad_request
+                    message: invalid parameters
         '401':
           description: Unauthorized.
           content:
@@ -3114,6 +3196,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  value:
+                    code: not_found
+                    message: The requested resource was not found.
         '500':
           description: Server error.
           content:
@@ -3146,6 +3233,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Application'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/post/responses/200/content/application~1json/examples/Success'
         '401':
           description: Unauthorized.
           content:
@@ -3170,6 +3260,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Application Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3205,6 +3298,11 @@ paths:
                   $ref: '#/components/schemas/Application'
               required:
                 - application
+            examples:
+              Update Display Name:
+                value:
+                  application:
+                    display_name: Pet Application
       responses:
         '200':
           description: |
@@ -3213,6 +3311,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Application'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3237,6 +3349,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Application Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3288,6 +3403,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Application Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3323,6 +3441,15 @@ paths:
                   $ref: '#/components/schemas/AuthenticatorConfig'
               required:
                 - authenticator_config
+            examples:
+              Create Authenticator Configuration:
+                value:
+                  authenticator_config:
+                    config:
+                      type: embedded
+                      invoke_url: 'http://localhost:8092'
+                      trusted_origins:
+                        - 'http://localhost:8092'
       responses:
         '200':
           description: |
@@ -3331,12 +3458,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
+              examples:
+                Success:
+                  value:
+                    id: 73731b7f-eb76-4143-9b4b-81a720385f5a
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    config:
+                      type: embedded
+                      invoke_url: 'http://localhost:8092'
+                      trusted_origins:
+                        - 'http://localhost:8092'
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3361,6 +3504,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3407,12 +3553,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListAuthenticatorConfigsResponse'
+              examples:
+                Success:
+                  value:
+                    authenticator_configs:
+                      - id: 73731b7f-eb76-4143-9b4b-81a720385f5a
+                        realm_id: caf2ff640497591a
+                        tenant_id: 00011f1183c67b69
+                        config:
+                          invoke_url: 'http://localhost:8092'
+                          trusted_origins:
+                            - 'http://localhost:8092'
+                          type: embedded
+                    total_size: 1
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3437,6 +3599,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3469,6 +3634,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
         '401':
           description: Unauthorized.
           content:
@@ -3493,6 +3661,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Authenticator Configuration Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3528,6 +3699,12 @@ paths:
                   $ref: '#/components/schemas/AuthenticatorConfig'
               required:
                 - authenticator_config
+            examples:
+              Update Embedded Invoke URL:
+                value:
+                  authenticator_config:
+                    config:
+                      invoke_url: 'http://localhost:8092'
       responses:
         '200':
           description: |
@@ -3536,6 +3713,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3560,6 +3751,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Authenticator Configuration Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3587,12 +3781,6 @@ paths:
       responses:
         '200':
           description: The action was successful and the response body is empty.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
           content:
@@ -3617,6 +3805,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Authenticator Configuration Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3652,6 +3843,15 @@ paths:
                   $ref: '#/components/schemas/ResourceServer'
               required:
                 - resource_server
+            examples:
+              Create Resource Server:
+                value:
+                  resource_server:
+                    display_name: Pet API
+                    identifier: 'https://api.mypetapp.com'
+                    scopes:
+                      - 'pets:read'
+                      - 'pets:write'
       responses:
         '200':
           description: |
@@ -3660,12 +3860,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceServer'
+              examples:
+                Success:
+                  value:
+                    id: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    display_name: Pet API
+                    is_managed: false
+                    identifier: 'https://api.mypetapp.com'
+                    scopes:
+                      - 'pets:read'
+                      - 'pets:write'
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3690,6 +3907,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3736,12 +3956,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListResourceServersResponse'
+              examples:
+                Success:
+                  value:
+                    resource_servers:
+                      - id: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+                        realm_id: caf2ff640497591a
+                        tenant_id: 00011f1183c67b69
+                        display_name: Pet API
+                        is_managed: false
+                        identifier: 'https://api.mypetapp.com'
+                        scopes:
+                          - 'pets:read'
+                          - 'pets:write'
+                    total_size: 1
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3766,6 +4003,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Realm Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3798,12 +4038,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceServer'
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers/post/responses/200/content/application~1json/examples/Success'
         '401':
           description: Unauthorized.
           content:
@@ -3828,6 +4065,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3863,6 +4103,11 @@ paths:
                   $ref: '#/components/schemas/ResourceServer'
               required:
                 - resource_server
+            examples:
+              Update Display Name:
+                value:
+                  resource_server:
+                    display_name: Pet API
       responses:
         '200':
           description: |
@@ -3871,12 +4116,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceServer'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers/post/responses/200/content/application~1json/examples/Success'
         '400':
           description: Bad request.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
         '401':
           description: Unauthorized.
           content:
@@ -3901,6 +4154,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -3928,12 +4184,6 @@ paths:
       responses:
         '200':
           description: The action was successful and the response body is empty.
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
           content:
@@ -3958,6 +4208,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
         '500':
           description: Server error.
           content:
@@ -4049,7 +4302,7 @@ components:
       name: page_size
       in: query
       description: |
-        Number of items returned per page. The response will include at most this many results but may include fewer. If this value is omitted, the response will include up to the maximum number of results allowed by the method.
+        Number of items returned per page. The response will include at most this many results but may include fewer. If this value is omitted, the response will return the default number of results allowed by the method.
       schema:
         type: integer
         format: uint32
@@ -4152,18 +4405,18 @@ components:
             A unique identifier for a group. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: 81490afab171aef0
-        tenant_id:
-          type: string
-          description: |
-            A unique identifier for the group's tenant. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: 0001b42d80372976
         realm_id:
           type: string
           description: |
             A unique identifier for the group's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 7df92e4a38ba0993
+        tenant_id:
+          type: string
+          description: |
+            A unique identifier for the group's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 0001b42d80372976
         display_name:
           type: string
           description: |
@@ -4200,18 +4453,18 @@ components:
             A unique identifier for the identity. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: e372db224c06e850
-        tenant_id:
-          type: string
-          description: |
-            A unique identifier for the identity's tenant. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: 0001f1f460b1ace6
         realm_id:
           type: string
           description: |
             A unique identifier for the identity's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 8f5bec58229e6f29
+        tenant_id:
+          type: string
+          description: |
+            A unique identifier for the identity's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 0001f1f460b1ace6
         display_name:
           type: string
           description: |
@@ -4275,8 +4528,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4299,8 +4552,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4323,8 +4576,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4347,8 +4600,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4371,8 +4624,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4392,24 +4645,24 @@ components:
             A unique identifier for a credential. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: f3e87aa26a696372
-        tenant_id:
-          type: string
-          description: |
-            A unique identifier for the credential's tenant. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: f1a7309c1e3d1e85
-        realm_id:
-          type: string
-          description: |
-            A unique identifier for the credential's realm. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: d65cc516f7f22fdd
         identity_id:
           type: string
           description: |
             A unique identifier for the credential's identity. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 4a2719e73d6d972d
+        realm_id:
+          type: string
+          description: |
+            A unique identifier for the credential's realm. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: d65cc516f7f22fdd
+        tenant_id:
+          type: string
+          description: |
+            A unique identifier for the credential's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: f1a7309c1e3d1e85
         state:
           type: string
           enum:
@@ -4478,24 +4731,24 @@ components:
             A unique identifier for a credential binding job. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
           example: 86b4f51481f09321
-        tenant_id:
-          type: string
-          description: |
-            A unique identifier for the credential binding job's tenant. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: ce5ace5fc7e14d6a
-        realm_id:
-          type: string
-          description: |
-            A unique identifier for the credential binding job's realm. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-          example: 9602e246c2ead9b2
         identity_id:
           type: string
           description: |
             A unique identifier for the credential binding job's identity. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 3d227b0d5949969d
+        realm_id:
+          type: string
+          description: |
+            A unique identifier for the credential binding job's realm. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 9602e246c2ead9b2
+        tenant_id:
+          type: string
+          description: |
+            A unique identifier for the credential binding job's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: ce5ace5fc7e14d6a
         delivery_method:
           type: string
           enum:
@@ -4582,7 +4835,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4606,7 +4860,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4682,6 +4937,7 @@ components:
       enum:
         - confidential
         - public
+      example: confidential
     GrantType:
       type: array
       items:
@@ -4689,6 +4945,7 @@ components:
         enum:
           - authorization_code
           - client_credentials
+        example: authorization_code
       description: |
         Grant types supported by this application's `token` endpoint. Allowable values
         are:
@@ -4708,10 +4965,11 @@ components:
       properties:
         expires_after:
           type: integer
-          format: uint
+          format: uint32
           description: |
             Time after minting, in seconds, for which the token will be considered valid.
           minimum: 0
+          example: 86400
         token_signing_algorithm:
           type: string
           enum:
@@ -4719,6 +4977,7 @@ components:
           description: |
             Signing algorithm to use for an application token. The only allowable value at present is `RS256`.
           default: RS256
+          example: RS256
         subject_field:
           type: string
           enum:
@@ -4728,6 +4987,7 @@ components:
           description: |
             Property of a principal which is used to fill the subject of a token issued for this application.
           default: id
+          example: id
     TokenEndpointAuthMethod:
       description: |
         Indicator of the requested authentication method for the
@@ -4742,6 +5002,7 @@ components:
       enum:
         - client_secret_basic
         - client_secret_post
+      example: client_secret_basic
     Application:
       title: Application
       type: object
@@ -4753,16 +5014,40 @@ components:
           description: |
             A unique identifier for an application. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
+          example: 38833c36-6f47-4992-9329-ea0a00915137
         realm_id:
           type: string
           description: |
             A unique identifier for the application's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: caf2ff640497591a
         tenant_id:
           type: string
           description: |
             A unique identifier for the application's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: 00011f1183c67b69
+        resource_server_id:
+          type: string
+          description: |
+            A unique identifier for the application's resource server. At present, the only available resource server is for the Beyond Identity Management API. Referencing this resource server from an application will allow that application to grant access to Beyond Identity's APIs. When not present, this application may provide authentication (identity) but not authorization (access).
+          example: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+        authenticator_config_id:
+          type: string
+          description: |
+            A unique identifier for the application's authenticator configuration. This field is unused for `oidc` and `oauth2` applications when `grant_type=client_credentials`.
+          example: 73731b7f-eb76-4143-9b4b-81a720385f5a
+        display_name:
+          type: string
+          description: |
+            A human-readable name for the application. This name is used for display purposes.
+          example: Pet Application
+        is_managed:
+          type: boolean
+          description: |
+            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: false
         protocol_config:
           description: Represents an application protocol configuration.
           oneOf:
@@ -4780,6 +5065,7 @@ components:
                   type: array
                   items:
                     type: string
+                    example: 'pets:read'
                   description: |
                     Scopes to which this application can grant access. If this application references a resource server, this set of scopes must be a subset of the resource server's available scopes. If this application does not reference a resource server, then this application can only be used for authentication and thereby `scopes` must necessarily be empty.
                 client_id:
@@ -4787,11 +5073,13 @@ components:
                   description: |
                     The client ID for this application. This is automatically set on creation. This field is output-only.
                   readOnly: true
+                  example: AYYNcuOSpfqIf33JeegCzDIT
                 client_secret:
                   type: string
                   description: |
                     The client secret to authenticate as this application; typically, as a Basic Authorization header. This is automatically set on creation. This field is output-only. This field is present only when confidentiality is `confidential`.
                   readOnly: true
+                  example: wWD4mPzdsjms1LPekQSo0v9scOHLWy5wmMtKAR2JNhJPAKXv
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
                 token_endpoint_auth_method:
@@ -4802,6 +5090,7 @@ components:
                   type: array
                   items:
                     type: string
+                    example: 'https://auth.mypetapp.com/callback'
                   description: |
                     A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
@@ -4820,6 +5109,7 @@ components:
                   type: array
                   items:
                     type: string
+                    example: 'pets:read'
                   description: |
                     Scopes to which this application can grant access. If this application references a resource server, this set of scopes must be a subset of the resource server's available scopes. If this application does not reference a resource server, then this application can only be used for authentication and thereby `scopes` must necessarily be empty. Note that OIDC requests may accept OpenID Connect standard scopes as well as resource server scopes, but the OpenID Connect scopes should not be defined on the application itself. Currently, the only OpenID Connect supported scope is `openid`.
                 client_id:
@@ -4827,11 +5117,13 @@ components:
                   description: |
                     The client ID for this application. This is automatically set on creation. This field is output-only.
                   readOnly: true
+                  example: AYYNcuOSpfqIf33JeegCzDIT
                 client_secret:
                   type: string
                   description: |
                     The client secret to authenticate as this application; typically, as a Basic Authorization header. This is automatically set on creation. This field is output-only. This field is present only when confidentiality is `confidential`.
                   readOnly: true
+                  example: wWD4mPzdsjms1LPekQSo0v9scOHLWy5wmMtKAR2JNhJPAKXv
                 confidentiality:
                   $ref: '#/components/schemas/Confidentiality'
                 token_endpoint_auth_method:
@@ -4842,27 +5134,11 @@ components:
                   type: array
                   items:
                     type: string
+                    example: 'https://auth.mypetapp.com/callback'
                   description: |
                     A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
-        authenticator_config_id:
-          type: string
-          description: |
-            A unique identifier for the application's authenticator configuration. This field is unused for `oidc` and `oauth2` applications when `grant_type=client_credentials`.
-        is_managed:
-          type: boolean
-          description: |
-            A boolean indicating whether the application is managed by Beyond Identity. Managed applications may not be modified by the user. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
-        resource_server_id:
-          type: string
-          description: |
-            A unique identifier for the application's resource server. At present, the only available resource server is for the Beyond Identity Management API. Referencing this resource server from an application will allow that application to grant access to Beyond Identity's APIs. When not present, this application may provide authentication (identity) but not authorization (access).
-        display_name:
-          type: string
-          description: |
-            A human-readable name for the application. This name is used for display purposes.
     AuthenticatorConfig:
       title: Authenticator Configuration
       type: object
@@ -4874,16 +5150,19 @@ components:
           description: |
             A unique identifier for an authenticator configuration. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
+          example: 73731b7f-eb76-4143-9b4b-81a720385f5a
         realm_id:
           type: string
           description: |
             A unique identifier for the authenticator configuration's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: caf2ff640497591a
         tenant_id:
           type: string
           description: |
             A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
+          example: 00011f1183c67b69
         config:
           description: |
             An object specifying the settings for the supported authenticator type.
@@ -4914,10 +5193,12 @@ components:
                 invoke_url:
                   type: string
                   description: URL to invoke during the authentication flow.
+                  example: 'http://localhost:8092'
                 trusted_origins:
                   type: array
                   items:
                     type: string
+                    example: 'http://localhost:8092'
                   description: |
                     Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
     ListApplicationsResponse:
@@ -4936,8 +5217,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4961,8 +5242,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -4986,8 +5267,8 @@ components:
           type: integer
           format: uint32
           description: |
-            Total number of results matching the request. This value may be used to determine subsequent requests to query the remaining results.
-          example: 100
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
         next_page_token:
           type: string
           description: |
@@ -5006,35 +5287,42 @@ components:
           description: |
             A unique identifier for a resource server. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
           readOnly: true
-        tenant_id:
-          type: string
-          description: |
-            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
+          example: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
         realm_id:
           type: string
           description: |
             A unique identifier for the resource server's realm. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
-        identifier:
+          example: caf2ff640497591a
+        tenant_id:
           type: string
           description: |
-            The identifier of this resource server entity. This value should be unique per realm and is often presented as a URI, as it should be a unique identifier for an API to which access is being gated. This identifier will be returned in the `audience` claim of all tokens minted that provide access to scopes owned by this resource server. The client is responsible for validating tokens are intended for them via this `audience` claim. Tokens minted for the Beyond Identity Management API will use the audience `beyondidentity`, which is reserved and may not be used for any other resource servers.
-        scopes:
-          type: array
-          items:
-            type: string
+            A unique identifier for the resource server's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 00011f1183c67b69
+        display_name:
+          type: string
           description: |
-            The list of scopes supported by this resource server. For the Beyond Identity Management API, this will include scopes for all publicly available endpoints.  Note that applications may not provide access to scopes that are not defined on a resource server that they reference; this is the superset of all allowable application scopes in a given realm.
+            A human-readable name for the resource server. This name is used for display purposes.
+          example: Pet API
         is_managed:
           type: boolean
           description: |
             A boolean indicating whether the resource server is managed by Beyond Identity. Managed resource servers may not be modified by the user. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
-        display_name:
+          example: false
+        identifier:
           type: string
           description: |
-            A human-readable name for the resource server. This name is used for display purposes.
+            The identifier of this resource server entity. This value should be unique per realm and is often presented as a URI, as it should be a unique identifier for an API to which access is being gated. This identifier will be returned in the `audience` claim of all tokens minted that provide access to scopes owned by this resource server. The client is responsible for validating tokens are intended for them via this `audience` claim. Tokens minted for the Beyond Identity Management API will use the audience `beyondidentity`, which is reserved and may not be used for any other resource servers.
+          example: 'https://api.mypetapp.com'
+        scopes:
+          type: array
+          items:
+            type: string
+            example: 'pets:read'
+          description: |
+            The list of scopes supported by this resource server. For the Beyond Identity Management API, this will include scopes for all publicly available endpoints.  Note that applications may not provide access to scopes that are not defined on a resource server that they reference; this is the superset of all allowable application scopes in a given realm.
     Error:
       type: object
       properties:
