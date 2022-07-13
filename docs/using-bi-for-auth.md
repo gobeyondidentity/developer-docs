@@ -16,7 +16,8 @@ After creating a tenant, you will be redirected to an Admin Console for the newl
 
 Realms are unique administrative domains within a tenant. All new tenants have a default realm called Beyond Identity Admin which should not be used to configure for delegate IDP purposes.
 
-Click the drop down on the top left corner and add a new realm. [[Screenshot](./screenshots/NewRealm.jpg)]
+Click the drop down on the top left corner and add a new realm. 
+![Screenshot](./screenshots/NewRealm.jpg)
 
 ### Create an Application
 
@@ -35,7 +36,8 @@ Click the drop down on the top left corner and add a new realm. [[Screenshot](./
 - After the protocol configuration is finished, modify your authenticator config
   - [Authenticator Config Reference](../platform-overview/authenticator-config#embedded)
 
-- Click on create and your app should be created [[Created App Screenshot](./screenshots/AppCreated.jpg)]
+- Click on create and your app should be created
+  ![Created App Screenshot](./screenshots/AppCreated.jpg)
 
 ### Create a test identity
 
@@ -53,7 +55,9 @@ Before users can start authenticating with Beyond Identity, they must be provisi
 
 ### Craft your authorize URL
 
-A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application. [Screenshot](./screenshots/AppCreated.jpg)]
+A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application.
+ 
+![Screenshot](./screenshots/AuthUrl.jpg)]
 
 ```
 https://auth-us.beyondidentity.com/v1/tenants/<tenant_id>/realms/<realm_id>/applications/<application_id>/authorize?
