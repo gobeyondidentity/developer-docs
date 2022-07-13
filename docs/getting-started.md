@@ -2,15 +2,6 @@
 title: "Getting Started"
 ---
 
-import clsx from "clsx";
-import styles from "./header.module.css";
-
-<div className={clsx("hero hero--primary", styles.heroBanner)}>
-  <div className="container">
-    <h1 className="hero__title">Getting started</h1>
-  </div>
-</div>
-
 In this guide we will show you how to create a tenant and connect the [Beyond Identity Demo Application](https://github.com/gobeyondidentity/getting-started) to it. This app will demonstrate common workflows such as creating a passkey and using it to authenticate.
 
 # Create a Tenant
