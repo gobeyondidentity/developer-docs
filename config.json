@@ -1,0 +1,12 @@
+{
+  "index_name": "localhost",
+  "start_urls": ["https://developer-docs-1sdbrdtzq-beyondidentity.vercel.app/"],
+  "selectors": {
+    "lvl0": "h1",
+    "lvl1": "h2",
+    "lvl2": "h2",
+    "lvl3": "h2",
+    "lvl4": "h2",
+    "text": "p"
+  }
+}
