@@ -3,8 +3,6 @@ title: Integrate With Beyond Identity
 sidebar_position: 2
 ---
 
-**[ROUGH DRAFT, needs review for accuracy and editing]**
-
 This guide describes how to configure Beyond Identity with an use an OIDC authentication flow without a management API resource server. 
 This flow should be used if a client is using Beyond Identity for authentication only.
 
