@@ -28,7 +28,7 @@ git clone https://github.com/gobeyondidentity/getting-started.git
 Change directory into the repo: 
 
 ```bash
-cd bi-getting-started
+cd getting-started
 ```
 
 --- 
