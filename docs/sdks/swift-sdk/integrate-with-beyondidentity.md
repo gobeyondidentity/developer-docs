@@ -7,8 +7,10 @@ This guide describes how to configure Beyond Identity as the primary IdP.
 
 ### Prerequisites
 
- - [Configure A Beyond Identity Application](../../?)
+ - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
  - [Swift SDK Overview](overview)
+
+Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Beyond Identity](integrate-with-beyondidentity#authorize-with-beyond-identity)
 
 ### Authorize With Beyond Identity
  - Step 1: Configuring the Authenticator Config
@@ -17,7 +19,7 @@ Make sure the [Authentication Config](../../platform-overview/authenticator-conf
 
  - Step 2: Beyond Identity Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load your crafted Beyond Identity [Authorization URL](??).
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load your crafted Beyond Identity [Authorization URL](../../using-bi-for-auth/#craft-your-authorize-url).
 
 ```javascript
 let session = ASWebAuthenticationSession(

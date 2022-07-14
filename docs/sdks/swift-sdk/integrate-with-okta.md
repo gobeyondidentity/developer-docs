@@ -7,10 +7,10 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ### Prerequisites
 
- - [Integrate With Okta](../../sso-integrations/integrate-with-okta)
+ - [Integrate With Okta](../../../../guides/sso-integrations/integrate-with-okta)
  - [Swift SDK Overview](overview)
 
-Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authenticate With Okta](integrate-with-okta#authorize-with-okta)
+Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Okta](integrate-with-okta#authorize-with-okta)
 
 ### Authorize With Okta
 
