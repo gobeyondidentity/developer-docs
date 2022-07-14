@@ -7,7 +7,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ### Prerequisites
 
- - [Integrate With Okta](../../../../guides/sso-integrations/integrate-with-okta)
+ - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
  - [Swift SDK Overview](overview)
 
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Okta](integrate-with-okta#authorize-with-okta)
@@ -16,7 +16,7 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
  - Step 1: Configuring the Authenticator Config
 
-Make sure the [Authentication Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authentication Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
  - Step 2: Okta Authorize URL
 
