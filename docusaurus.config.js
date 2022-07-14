@@ -162,6 +162,30 @@ const config = {
         darkTheme: darkCodeTheme,
         // additionalLanguages: ['kotlin'],
       },
+      algolia: {
+        // The application ID provided by Algolia
+        appId: '4P4Q3C985L',
+
+        // Public API key: it is safe to commit it
+        apiKey: 'bbddcf64f82147a7adaa021dd3e7f88b',
+
+        indexName: 'developer.beyondidentity.com',
+
+        // Optional: see doc section below
+        contextualSearch: false,
+
+        // // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+        // externalUrlRegex: 'external\\.com|domain\\.com',
+
+        // // Optional: Algolia search parameters
+        searchParameters: {
+          facetFilters: [],
+        },
+
+        // // Optional: path for search page that enabled by default (`false` to disable it)
+        // searchPagePath: 'search',
+
+      },
     }),
 };
 
