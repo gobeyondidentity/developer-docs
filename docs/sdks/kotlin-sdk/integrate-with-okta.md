@@ -16,7 +16,7 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
  - Step 1: Configuring the Authenticator Config
 
-Make sure the [Authentication Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authentication Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
  - Step 2: Okta Authorize URL
 
