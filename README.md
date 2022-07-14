@@ -28,3 +28,10 @@ $ yarn install
 ```
 $ yarn build && yarn serve
 ```
+
+## Project Resources
+
+| Resource                                   | Description                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| [CODEOWNERS](https://github.com/gobeyondidentity/developer-docs/blob/main/CODEOWNERS)                 | Outlines the project lead(s)                                                  |
+| [LICENSE](https://github.com/gobeyondidentity/developer-docs/blob/main/LICENSE)                       | Apache License, Version 2.0                                                   |
