@@ -59,7 +59,7 @@ A full authorization request url has additional parameters that we need to accou
  
 ![Screenshot](./screenshots/AuthUrl.jpg)]
 
-```
+```bash
 https://auth-us.beyondidentity.com/v1/tenants/<tenant_id>/realms/<realm_id>/applications/<application_id>/authorize?
 response_type=code
 &client_id=<client_id_from_application>
@@ -70,7 +70,7 @@ response_type=code
 
 An application that is configured as public will need additional query parameters:
 
-```
+```bash
 &code_challenge=[SHA256 hash of code_verifier]
 &code_challenge_method=S256
 ```
