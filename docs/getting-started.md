@@ -292,7 +292,6 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 	``` bash
 	brew install jq curl
 	```
-2. Download and install nodejs https://nodejs.org/en/download/
 
 
 
