@@ -18,6 +18,8 @@ const sidebars = {
   mySidebar: [
     'introduction',
     'getting-started',
+    'example-app-mac',
+    'example-app-windows',
     'using-bi-for-auth',
     {
       type: 'category',
