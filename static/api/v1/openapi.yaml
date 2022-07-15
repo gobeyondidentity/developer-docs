@@ -1,6 +1,9 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
+  version: 1.0.1
+  contact:
+    email: support@beyondidentity.com
   description: |
     # Introduction
 
@@ -43,7 +46,7 @@ info:
     API request.
 
     ```
-    curl https://api.beyondidentity.com/v1/... \
+    curl https://api-us.beyondidentity.com/v1/... \
       -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
     ```
 
@@ -206,11 +209,8 @@ info:
       ],
     }
     ```
-  contact:
-    email: support@beyondidentity.com
-  version: 1.0.0
 servers:
-  - url: 'https://api.beyondidentity.com'
+  - url: 'https://api-us.beyondidentity.com'
 tags:
   - name: Tenants
     description: |
@@ -2328,6 +2328,13 @@ paths:
                   $ref: '#/components/schemas/CredentialBindingJob'
               required:
                 - job
+            examples:
+              Create Credential Binding Job:
+                value:
+                  job:
+                    delivery_method: RETURN
+                    post_binding_redirect_uri: 'http://example.com/callback'
+                    authenticator_config_id: 67bb0acf12e5c899
       responses:
         '200':
           description: |
@@ -2356,7 +2363,7 @@ paths:
                       tenant_id: 000183a77dd50fa9
                       identity_id: 87fabad6956c6d4b
                       delivery_method: RETURN
-                      state: COMPLETE
+                      state: LINK_SENT
                       post_binding_redirect_uri: 'http://example.com/callback'
                       authenticator_config_id: 67bb0acf12e5c899
                       expire_time: 2022-03-21T03:42:52.905Z
@@ -2371,7 +2378,7 @@ paths:
                       tenant_id: 000183a77dd50fa9
                       identity_id: 87fabad6956c6d4b
                       delivery_method: EMAIL
-                      state: COMPLETE
+                      state: LINK_SENT
                       post_binding_redirect_uri: 'http://example.com/callback'
                       authenticator_config_id: 67bb0acf12e5c899
                       expire_time: 2022-03-21T03:42:52.905Z
@@ -4795,8 +4802,7 @@ components:
         authenticator_config_id:
           type: string
           description: |
-            The ID of the authenticator configuration to be used to build the credential binding job. This is automatically set on creation. This field is immutable and read-only.
-          readOnly: true
+            The ID of the authenticator configuration to be used to build the credential binding job. This is automatically set on creation. This field is immutable.
           example: 76e9eab521a8b734
         expire_time:
           type: string
