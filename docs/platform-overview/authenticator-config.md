@@ -56,6 +56,6 @@ Trusted Origins are a list of URLs from which the embedded Web SDK is allowed to
 The *Hosted Web* Authenticator Config is a constrained version of the *Embedded* Authenticator Config with the following values:
 
 - **Invoke URL:** https://auth-us.beyondidentity.com/authenticator/
-- **Trusted Origins:** ["https://auth-us.beyondidentity.com/authenticator/"]
+- **Trusted Origins:** https://auth-us.beyondidentity.com/authenticator/
 
 Use this Authenticator Config if you want to default all bound credentials and authentications to our Hosted Web Authenticator.
