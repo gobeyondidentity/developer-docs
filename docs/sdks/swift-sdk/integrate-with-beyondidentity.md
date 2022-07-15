@@ -55,7 +55,7 @@ let session = ASWebAuthenticationSession(
 
  - Step 4: Redirect URL
 
-To complete the authentication flow, launch another `ASWebAuthenticationSession` using the `redirectURL` returned from a successful authenticate response. The authorization code and the state parameter are attached to this URL.
+A `redirectURL` is returned from a successful authenticate response. The authorization code and the state parameter are attached to this URL. You can exchange the code for an id token using your Beyond Identity Token Endpoint. 
 
 ```javascript
 Embedded.shared.authenticate(
@@ -64,16 +64,8 @@ Embedded.shared.authenticate(
 ) { result in
     switch result {
     case let .success(response):
-        let newSession = ASWebAuthenticationSession(
-            url: response.redirectURL, 
-            callbackURLScheme: viewModel.callbackScheme
-        ) { (url, error)  in
-            // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using your Beyond Identity Token Endpoint.
-        }
-        newSession.presentationContextProvider = self
-        newSession.start()
-                
+        let code = parseCode(from: response.redirectURL)
+        let token = exchangeForToken(code)
     case let .failure(error):
     }
 }
@@ -96,15 +88,8 @@ let session = ASWebAuthenticationSession(
     ) { result in
         switch result {
         case let .success(response):
-            let newSession = ASWebAuthenticationSession(
-                url: response.redirectURL, 
-                callbackURLScheme: viewModel.callbackScheme
-            ) { (url, error)  in
-                parseForIDToken(url)
-            }
-            newSession.presentationContextProvider = self
-            newSession.start()
-                    
+            let code = parseCode(from: response.redirectURL)
+            let token = exchangeForToken(code)
         case let .failure(error):
             print(error)
         }
