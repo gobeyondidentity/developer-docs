@@ -125,11 +125,11 @@ set APP_CLIENT_SECRET=<app-client-secret-from-your-response>
 	yarn install
 	```
 
-If `yarn` is not installed in your system, check the [Prerequisites](#pre-requisites).
+If `yarn` is not installed in your system, check the [Prerequisites](/docs/v1/getting-started#1-check-the-basics).
 
 2. Run the server:
 	``` bash
-	yarn serve_win
+	yarn serve
 	```
 
 3. Build and run the frontend application:

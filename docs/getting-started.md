@@ -7,7 +7,7 @@ In this guide we will show you how to create a tenant and connect the [Beyond Id
 
 --- 
 
-# 1. Check the basics
+## 1. Check the basics
 
 The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. You'll need standard developer tools to get it up and running.
 
@@ -15,30 +15,15 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 1. **Git:** Download and install `git`: https://git-scm.com/downloads
 
+2. **cURL**: Download and install `curl`: https://curl.se/dlwiz/?type=bin
+
 2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
 
 3. **Yarn:** Install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
 
-#### **macOS only**
-
-4. **Homebrew:** Download and install `brew`: https://brew.sh/
-
-5. **Jq and cURL:** Install `jq` and `curl`. 
-    ``` bash
-    brew install jq curl
-    ```
-
 --- 
 
-# 2. Create a Tenant
-
-Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
-
-Once your tenant has been created with Beyond Identity, you can continue to clone the app, get a `tenant_id` and API token.
-
----
-
-# 3. Configure the example application
+## 2. Clone the example application
 
 You can review the [pre-requisites](#pre-requisites) if you need help configuring your environment. 
 
@@ -56,9 +41,17 @@ Change directory into the repo:
 cd getting-started
 ```
 
+---
+
+## 3. Create a Tenant
+
+Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
+
+Once your tenant has been created with Beyond Identity, you can continue to clone the app, get a `tenant_id` and API token.
+
 --- 
 
-# 4. Get your Tenant ID
+## 4. Get your Tenant ID
 Log into the [Admin Console](https://console-us.beyondidentity.com) using the Passkey obtained from the step above. 
 
 To get your Tenant ID and Realm ID: 
