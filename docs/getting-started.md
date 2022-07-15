@@ -5,7 +5,32 @@ sidebar_position: 2
 
 In this guide we will show you how to create a tenant and connect the [Beyond Identity Demo Application](https://github.com/gobeyondidentity/getting-started) to it. This app will demonstrate common workflows such as creating a passkey and using it to authenticate.
 
-# Create a Tenant
+--- 
+
+# 1. Check the basics
+
+The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. You'll need standard developer tools to get it up and running.
+
+#### **macOS, Windows and Linux**
+
+1. **Git:** Download and install `git`: https://git-scm.com/downloads
+
+2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
+
+3. **Yarn:** Install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
+
+#### **macOS only**
+
+4. **Homebrew:** Download and install `brew`: https://brew.sh/
+
+5. **Jq and cURL:** Install `jq` and `curl`. 
+    ``` bash
+    brew install jq curl
+    ```
+
+--- 
+
+# 2. Create a Tenant
 
 Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
 
@@ -13,11 +38,11 @@ Once your tenant has been created with Beyond Identity, you can continue to clon
 
 ---
 
-# Configuring the example application
+# 3. Configure the example application
 
 You can review the [pre-requisites](#pre-requisites) if you need help configuring your environment. 
 
-## Cloning the repo
+### Cloning the repo
 
 The source code for the example application is hosted in Github: https://github.com/gobeyondidentity/getting-started.
 
@@ -271,27 +296,6 @@ You can use the example application above to create one or more Passkeys and log
 
 **[Join our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
---- 
-
-## Pre-requisites
-The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. Youll need standard developer tools to get it up and running.
-
-#### **macOS, Windows and Linux**
-
-1. Download and install `git`: https://git-scm.com/downloads
-
-2. Download and install `nodejs`: https://nodejs.org/en/download/
-
-3. Install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
-
-#### **macOS only**
-
-4. Download and install `brew`: https://brew.sh/
-
-5. Install `jq` and `curl`. 
-	``` bash
-	brew install jq curl
-	```
 
 
 
