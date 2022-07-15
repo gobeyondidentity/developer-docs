@@ -22,11 +22,11 @@ curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm
 	-H 'Content-Type: application/json' \
 	-H 'Authorization: Bearer {your-api-token}' \
 	-d '{
-		"job": {
-			"authenticator_config_id": "67bb"
-			"delivery_method": "RETURN"
-		}
-	} '
+			"job": {
+				"authenticator_config_id": "67bb0acf12e5c899",
+				"delivery_method": "RETURN"
+			}
+		}'
 ```
 **Response**
 ``` bash
@@ -34,17 +34,17 @@ HTTP/1.1 200 OK
 {
 	"credential_binding_link": "http://api-us.beyondidentity.com/v1/tenants/c4fc2d753ca22b14/realms/cdf4862dc4d49791/identities/87fabad6956c6d4b/credential-binding-jobs/c4fc2d753ca22b14:invokeAuthenticator?token=1St9IKIIrYdZcRm",
 	"credential_binding_job": {
-    	"id": "c4fc2d753ca22b14",
-    	"realm_id": "cdf4862dc4d49791",
-    	"tenant_id": "000183a77dd50fa9",
-    	"identity_id": "87fabad6956c6d4b",
-    	"delivery_method": "RETURN",
-    	"state": "CREATED",
-    	"authenticator_config_id": "67bb0acf12e5c899",
-    	"expire_time": "2022-03-21T03:42:52.905Z",
-    	"create_time": "2022-03-14T03:42:52.905Z",
-    	"update_time": "2022-03-15T05:55:23.823Z"
-  },
+		"id": "c4fc2d753ca22b14",
+		"realm_id": "cdf4862dc4d49791",
+		"tenant_id": "000183a77dd50fa9",
+		"identity_id": "87fabad6956c6d4b",
+		"delivery_method": "RETURN",
+		"state": "LINK_SENT",
+		"authenticator_config_id": "67bb0acf12e5c899",
+		"expire_time": "2022-03-21T03:42:52.905Z",
+		"create_time": "2022-03-14T03:42:52.905Z",
+		"update_time": "2022-03-15T05:55:23.823Z"
+	},
 }
 ```
 
@@ -82,11 +82,11 @@ curl -X POST https://api.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm
 	-H 'Content-Type: application/json' \
 	-H 'Authorization: Bearer {your-api-token}' \
 	-d '{
-		"job": {
-			"authenticator_config_id": "67bb"
-			"delivery_method": "EMAIL"
-		}
-	} '
+			"job": {
+				"authenticator_config_id": "67bb0acf12e5c899",
+				"delivery_method": "EMAIL"
+			}
+		}'
 ```
 **Response**
 ``` bash
@@ -98,7 +98,7 @@ HTTP/1.1 200 OK
     	"tenant_id": "000183a77dd50fa9",
     	"identity_id": "87fabad6956c6d4b",
     	"delivery_method": "EMAIL",
-    	"state": "SENT",
+    	"state": "LINK_SENT",
     	"authenticator_config_id": "67bb0acf12e5c899",
     	"expire_time": "2022-03-21T03:42:52.905Z",
     	"create_time": "2022-03-14T03:42:52.905Z",
