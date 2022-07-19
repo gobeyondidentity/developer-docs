@@ -2,24 +2,22 @@
 title: Using Beyond Identity for Authentication
 sidebar_position: 2
 ---
-In this guide, we will show you how to create a tenant and and application, as well as how to configure that application in order to authorize and authenticate against Beyond Identity
 
-### Tenant Setup
+In the [Getting Started](/docs/v1/getting-started) section, we walked you over how to create a tenant, an application, as well as how to configure that application in order to authorize and authenticate a user with Beyond Identity. 
 
-Create a tenant via the self signup form:
+Let's review those steps in a bit more detail in the following section. 
 
-https://console-us.beyondidentity.com/signup
-
-After creating a tenant, you will be redirected to an Admin Console for the newly created tenant.
-
-### Create a new Realm
+### How to create a new Realm
 
 Realms are unique administrative domains within a tenant. All new tenants have a default realm called Beyond Identity Admin which should not be used to configure for delegate IDP purposes.
 
 Click the drop down on the top left corner and add a new realm. 
 ![Screenshot](./screenshots/NewRealm.jpg)
 
-### Create an Application
+### How to create an Application
+
+Applications hold the configuration necessary to integrate your existing software stack with our authentication experience. 
+To create a new application you can:
 
 - Click 'Applications' in the left menu
 - Click 'Create app'
@@ -39,11 +37,12 @@ Click the drop down on the top left corner and add a new realm.
 - Click on create and your app should be created
   ![Created App Screenshot](./screenshots/AppCreated.jpg)
 
-### Create a test identity
+### How to create a test identity
 
-Before users can start authenticating with Beyond Identity, they must be provisioned in Beyond Identity. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](https://developer.beyondidentity.com/api/create-user) API. We'll step through using the Beyond Identity Console.
+Before users can start authenticating with Beyond Identity, they must be provisioned in our directory.
+To do this via the Admin Console you can: 
 
-- In the 'Beyond Identity Console' under the 'Identities' tab, select 'Add Identity'.
+- In the Admin Console under the 'Identities' tab, select 'Add Identity'.
 
 - Enter the following values:
 
@@ -53,7 +52,7 @@ Before users can start authenticating with Beyond Identity, they must be provisi
 
    - Name: <full_name>
 
-### Craft your authorize URL
+### How to craft your authorize URL
 
 A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application.
  
@@ -68,9 +67,7 @@ response_type=code
 &state=<state>
 ```
 
-An application that is configured as public will need additional query parameters:
+### Start the request
 
-```bash
-&code_challenge=[SHA256 hash of code_verifier]
-&code_challenge_method=S256
-```
+Use the URL above from a browser, and watch how the authentication process unfolds. 
+
