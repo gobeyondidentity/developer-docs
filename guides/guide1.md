@@ -1,6 +1,6 @@
 ---
 title: Sending Enrollment Emails
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 In Beyond Identity, Passkeys are created within the devices default Browser or specific SDK instance associated with an [Application](/api/v1#tag/Applications). An [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) indicates to the system how the Passkey will be bound. 
