@@ -1,3 +1,26 @@
+@import url("//hello.myfonts.net/count/3af24c");
+
+
+@font-face {
+	font-family: 'Acre-Medium';
+	src: url('/fonts/3AF24C_0_0.eot');
+	src: url('/fonts/3AF24C_0_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_0_0.woff2') format('woff2'), url('/fonts/3AF24C_0_0.woff') format('woff'), url('/fonts/3AF24C_0_0.ttf') format('truetype');
+}
+
+
+@font-face {
+	font-family: 'Acre-Bold';
+	src: url('/fonts/3AF24C_1_0.eot');
+	src: url('/fonts/3AF24C_1_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_1_0.woff2') format('woff2'), url('/fonts/3AF24C_1_0.woff') format('woff'), url('/fonts/3AF24C_1_0.ttf') format('truetype');
+}
+
+
+@font-face {
+	font-family: 'Acre-Thin';
+	src: url('/fonts/3AF24C_2_0.eot');
+	src: url('/fonts/3AF24C_2_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_2_0.woff2') format('woff2'), url('/fonts/3AF24C_2_0.woff') format('woff'), url('/fonts/3AF24C_2_0.ttf') format('truetype');
+}
+
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
@@ -5,36 +28,109 @@
  */
 
 /* You can override the default Infima variables here. */
+
 :root {
-  --ifm-color-primary: #5077c5;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
-  --ifm-code-font-size: 95%;
-  --ifm-font-family-base: "acre";
-  --ifm-font-size-base: 105%;
+    --black: black;
+    --white: white;
+    --cornflower-blue: #5077c5;
+    --dark-gray: #b3bfcc;
+    --light-gray: #f6f7fc;
+    --adam-blue: #2c355b;
+    --yellow: #ffc107;
+    --neptune: #73bfbf;
+    --beyond-blue: #3727d6;
+
+    --font-thin: 'Acre-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-medium: 'Acre-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-bold: 'Acre-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+
+
+    --ifm-color-primary: #5077c5;
+    --ifm-color-primary-dark: rgb(33, 175, 144);
+    --ifm-color-primary-darker: rgb(31, 165, 136);
+    --ifm-color-primary-darkest: rgb(26, 136, 112);
+    --ifm-color-primary-light: rgb(70, 203, 174);
+    --ifm-color-primary-lighter: rgb(102, 212, 189);
+    --ifm-color-primary-lightest: rgb(146, 224, 208);
+    --ifm-code-font-size: 95%;
+    --ifm-font-family-base: var(--font-medium);
+    --ifm-heading-font-weight: normal;
+    --ifm-font-size-base: 100%;
+    --ifm-footer-background-color: var(--adam-blue);
+    /* buttons */
+    --ifm-button-border-radius: 0;
+    --ifm-button-border-width: 0;
+    --ifm-button-font-weight: normal;
+    --ifm-button-background-color: var(--beyond-blue);
+    --ifm-button-transition-duration: 250ms;
+}
+
+body {
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+b,
+strong {
+    font-weight: normal;
+    font-family: var(--font-bold);
+}
+
+.button,
+.button:visited {
+    color: var(--white);
+    font-family: var(--font-medium);
+    transition-timing-function: ease-in-out;
+}
+.button:hover,
+.button:focus,
+.button:active {
+    background-color: var(--adam-blue);
+}
+
+.button--secondary,
+.button--secondary:visited {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.button--secondary:hover,
+.button--secondary:focus,
+.button--secondary:active {
+    background-color: var(--adam-blue);
+    color: var(--white);
 }
 
 .navbar {
-  height: 85px;
+  height: 95px;
 }
 
 .navbar__title {
-  font-size: 130%;
+  font-size: 140%;
 }
+
+.navbar__logo {
+  width: 3em;
+  height: 3em;
+}
+
 .navbar__item {
   font-size: 110%;
 }
 
 .hero {
-  background-image: url("/static/img/hero.jpg");
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-  background-blend-mode: saturation;
+    background-image: radial-gradient(ellipse at bottom right, var(--neptune) 0%, var(--cornflower-blue) 70%);
+  /* background-image: url("/static/img/hero.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: saturation; */
+}
+
+html[data-theme="dark"] .hero {
+    color: var(--white);
 }
 
 .square {
@@ -59,6 +155,10 @@ html[data-theme="dark"] .square:hover {
   cursor: pointer;
 }
 
+.menu {
+  background-color: #35afe508;
+}
+
 .card__link {
   position: absolute;
   left: 0;
@@ -73,7 +173,7 @@ html[data-theme="dark"] .square:hover {
 }
 
 .card__svg{
-  
+
 }
 
 .card__title {
@@ -83,11 +183,6 @@ html[data-theme="dark"] .square:hover {
 
 .card__body {
   color: --ifm-color-primary-lightest;
-}
-
-@font-face {
-  font-family: acre;
-  src: url(/font/acre.otf);
 }
 
 .docusaurus-highlight-code-line {
@@ -100,4 +195,8 @@ html[data-theme="dark"] .square:hover {
 html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(44, 53, 91, 0.3);
 
+}
+
+.footer--dark {
+    background-color: var(--adam-blue);
 }
