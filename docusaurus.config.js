@@ -162,10 +162,6 @@ const config = {
                 label: "Blog",
                 href: "https://www.beyondidentity.com/developers/blog",
               },
-              {
-                label: "GitHub",
-                href: "https://github.com/gobeyondidentity",
-              },
             ],
           },
         ],
