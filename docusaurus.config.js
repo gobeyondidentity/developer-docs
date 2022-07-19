@@ -138,6 +138,26 @@ const config = {
           { to: "/guides", label: "Guides", position: "left" },
           { to: "/api/v1", label: "REST API v1", position: "left" },
           {
+            href: "https://www.beyondidentity.com/developers/signup",
+            label: "Signup",
+            position: 'right',
+          },
+          {
+            type: 'dropdown',
+            label: 'Login',
+            position: 'right',
+            items: [
+              {
+                href: "https://console-us.beyondidentity.com/login",
+                label: "Login-US",
+              },
+              {
+                href: "https://console-eu.beyondidentity.com/login",
+                label: "Login-EU",
+              },
+            ],
+          },
+          {
             href: "https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ",
             label: "Join Slack",
             position: "right",
