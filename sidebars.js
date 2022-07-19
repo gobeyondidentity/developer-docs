@@ -52,22 +52,22 @@ const sidebars = {
       items: [
       {
         type: 'link',
-        label: 'Integrate with Auth0', 
+        label: 'Integrate with Auth0 ⧉', 
         href: '/guides/sso-integrations/integrate-with-auth0',
       },
       {
         type: 'link',
-        label: 'Integrate with Okta', 
+        label: 'Integrate with Okta ⧉', 
         href: '/guides/sso-integrations/integrate-with-okta',
       },
       {
         type: 'link',
-        label: 'Integrate with KeyCloak', 
+        label: 'Integrate with KeyCloak ⧉', 
         href: '/guides/sso-integrations/integrate-with-keycloak',
       },
       {
         type: 'link',
-        label: 'Integrate with Curity', 
+        label: 'Integrate with Curity ⧉', 
         href: '/guides/sso-integrations/integrate-with-curity',
       },
       ],
