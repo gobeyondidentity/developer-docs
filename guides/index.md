@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # How to
 
-- [Sending Enrollment Emails](/docs/guides/guide1)
+- [Sending Enrollment Emails](/guides/send-enrollment)
 
 
 # Integration with other SSOs
