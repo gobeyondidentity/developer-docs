@@ -17,7 +17,7 @@ const sidebars = {
   // find a way to add links to the sidebar with autogeneration. 
   mySidebar: [
     'index',
-    'guide1',
+    'send-enrollment',
     {
       type: 'category',
       label: 'SSO Integrations',

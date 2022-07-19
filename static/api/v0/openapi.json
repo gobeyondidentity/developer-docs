@@ -2008,13 +2008,7 @@
 			},
 			"AddDeviceGrantor": {
 				"description": "Either the enrollment code for a brand new device,\nor an extension from another device.\n",
-				"discriminator": {
-					"mapping": {
-						"Device": "Device",
-						"EnrollmentCode": "EnrollmentCode"
-					},
-					"propertyName": "type_name"
-				},
+
 				"oneOf": [
 					{
 						"$ref": "#/components/schemas/Device"
@@ -2115,17 +2109,7 @@
 			},
 			"PlatformDeviceInfo": {
 				"description": "The particular device info.",
-				"discriminator": {
-					"mapping": {
-						"MacOsDeviceInfo": "MacOsDeviceInfo",
-						"WindowsDeviceInfo": "WindowsDeviceInfo",
-						"IosDeviceInfo": "IosDeviceInfo",
-						"AndroidDeviceInfo": "AndroidDeviceInfo",
-						"LinuxDeviceInfo": "LinuxDeviceInfo",
-						"WebDeviceInfo": "WebDeviceInfo"
-					},
-					"propertyName": "type_name"
-				},
+				
 				"oneOf": [
 					{
 						"$ref": "#/components/schemas/MacOsDeviceInfo"
