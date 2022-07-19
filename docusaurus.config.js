@@ -112,7 +112,7 @@ const config = {
     ({
       colorMode: {
         defaultMode: 'dark',
-        disableSwitch: false,
+        disableSwitch: true,
         respectPrefersColorScheme: true,
       },
       navbar: {
@@ -162,11 +162,6 @@ const config = {
             label: "Join Slack",
             position: "right",
           },
-          {
-            href: "https://github.com/gobeyondidentity",
-            label: "GitHub",
-            position: "right",
-          },
         ],
       },
       footer: {
@@ -175,6 +170,11 @@ const config = {
           {
             title: "Community",
             items: [
+              {
+                href: "https://github.com/gobeyondidentity",
+                label: "GitHub",
+                position: "right",
+              },
               {
                 label: "Stack Overflow",
                 href: "https://stackoverflow.com/questions/tagged/beyondidentity",
