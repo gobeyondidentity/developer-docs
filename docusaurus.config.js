@@ -85,6 +85,10 @@ const config = {
         path: 'guides',
         routeBasePath: 'guides',
         sidebarPath: require.resolve('./sidebarsGuides.js'),
+        remarkPlugins: [
+          [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          [require('docusaurus-remark-plugin-tab-blocks'), {sync: true, labels: [['win', 'Windows'], ['mac', 'macOS']]}]
+        ],
       },
     ],
   ],
