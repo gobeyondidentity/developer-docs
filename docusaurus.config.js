@@ -195,6 +195,14 @@ const config = {
         // searchPagePath: 'search',
 
       },
+      announcementBar: {
+        id: 'hello_world',
+        content:
+        'Hello world! <a target="_blank" rel="noopener noreferrer" href="https://www.beyondidentity.com/developers/blog/hello-world-presenting-beyond-identity-universal-passkey-sdks-and-apis-developers">Presenting Beyond Identity Universal Passkey SDKs and APIs for Developers.</a>',
+        backgroundColor: '#5077c5',
+        textColor: '#ffffff',
+        isCloseable: true,
+      },
     }),
 };
 
