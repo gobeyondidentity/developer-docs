@@ -13,9 +13,9 @@ Follow our [Getting Started guide](/docs/v1/getting-started).
 
 ## What is Beyond Identity
 
-Beyond Identity helps companies deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers, employees, developers, and contractors. 
+Beyond Identity helps developers deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers, employees, and contractors.
 
-Unique to Beyond Identity, the password is completely eliminated for sign-up, login, and recovery. For the customer, they never have to type a password, enter a code, click a push notification, or pick up a second device at all for authentication across all devices. 
+Unique to Beyond Identity, shared secrets are eliminated for sign-up, login, and recovery. For customers, they never have to type a password, enter a code, click a push notification, or pick up a second device at all for authentication across all devices.
 
 In addition to the fact that authentication is multi-factor by default, Beyond Identity also delivers real-time user and device risk signals that you can leverage to implement risk-based access controls that prompt for step-up authentication in scenarios you deem to be higher risk. 
 
