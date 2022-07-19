@@ -63,7 +63,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/guides/guide1"
+      "/guides"
     )
   },
   {
