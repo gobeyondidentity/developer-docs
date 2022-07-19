@@ -32,7 +32,7 @@ const FeatureList1 = [
     Svg: require("../../static/img/products.svg").default,
     description: (
       <>
-        Detailed information on our  products and how to use them. 
+        Learn more about our products and how to use them. 
       </>
     ),
     link: (
@@ -43,7 +43,7 @@ const FeatureList1 = [
 
  const FeatureList2 = [
   {
-    title: "Reference",
+    title: "API Reference",
     Svg: require("../../static/img/reference.svg").default,
     description: (
       <>
@@ -68,14 +68,14 @@ const FeatureList1 = [
   },
   {
     title: "Support",
-    Svg: require("../../static/img/support.svg").default,
+    Svg: require("../../static/img/slack.svg").default,
     description: (
       <>
-        Start here for technical support with your Beyond Identity account. 
+        Join our slack community for questions or support with your Beyond Identity account. 
       </>
     ),
     link: (
-      "https://support.beyondidentity.com/"
+      "https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ"
     )
   },
 ];
