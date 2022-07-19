@@ -78,8 +78,8 @@ const sidebars = {
       collapsed: false,
       items: [{
           type: 'link',
-          label: 'Support',
-          href: 'https://support.beyondidentity.com/',
+          label: 'Support - Slack',
+          href: 'https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ',
         },
         {
           type: 'link',
