@@ -191,7 +191,7 @@ Next, we'll create an Application. Applications hold the OpenID Configuration in
 ```mac tab
 curl -X POST -H "Authorization: Bearer $API_TOKEN" -H "Content-Type: application/json" -d '{
   "application": {
-    "authenticator_config": "$AUTH_CONFIG_ID",
+    "authenticator_config": "'"$AUTH_CONFIG_ID"'",
     "protocol_config": {
       "type": "oidc",
       "allowed_scopes":[],
