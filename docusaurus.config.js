@@ -124,11 +124,11 @@ const config = {
           height: 55,
         },
         items: [
-          {
-            type: 'docsVersionDropdown',
-            position: 'left',
-            dropdownActiveClassDisabled: false,
-          },
+          // { // remove this and see if anybody complains
+          //   type: 'docsVersionDropdown',
+          //   position: 'left',
+          //   dropdownActiveClassDisabled: false,
+          // },
           {
             type: "doc",
             docId: "introduction",
@@ -136,7 +136,7 @@ const config = {
             label: "Documentation",
           },
           { to: "/guides", label: "Guides", position: "left" },
-          { to: "/api/v1", label: "REST API v1", position: "left" },
+          { to: "/api/v1", label: "REST API", position: "left" },
           {
             href: "https://www.beyondidentity.com/developers/signup",
             label: "Signup",
@@ -195,6 +195,10 @@ const config = {
               {
                 label: "Blog",
                 href: "https://www.beyondidentity.com/developers/blog",
+              },
+              {
+                label: "v0 Docs",
+                to: "/docs/v0/introduction",
               },
             ],
           },
