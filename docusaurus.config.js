@@ -124,11 +124,11 @@ const config = {
           height: 55,
         },
         items: [
-          {
-            type: 'docsVersionDropdown',
-            position: 'left',
-            dropdownActiveClassDisabled: false,
-          },
+          // { // remove this and see if anybody complains
+          //   type: 'docsVersionDropdown',
+          //   position: 'left',
+          //   dropdownActiveClassDisabled: false,
+          // },
           {
             type: "doc",
             docId: "introduction",
