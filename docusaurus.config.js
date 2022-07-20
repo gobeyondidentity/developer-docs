@@ -196,6 +196,10 @@ const config = {
                 label: "Blog",
                 href: "https://www.beyondidentity.com/developers/blog",
               },
+              {
+                label: "v0 Docs",
+                to: "/docs/v0/introduction",
+              },
             ],
           },
         ],
