@@ -136,7 +136,7 @@ const config = {
             label: "Documentation",
           },
           { to: "/guides", label: "Guides", position: "left" },
-          { to: "/api/v1", label: "REST API v1", position: "left" },
+          { to: "/api/v1", label: "REST API", position: "left" },
           {
             href: "https://www.beyondidentity.com/developers/signup",
             label: "Signup",
