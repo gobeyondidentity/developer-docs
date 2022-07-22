@@ -17,7 +17,10 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 2. **cURL**: Download and install `curl`: https://curl.se/dlwiz/?type=bin
 
-2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
+3. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
+
+4. **Install Angular**: Use npm to install angular: `npm install -g @angular/cli`
+
 
 --- 
 
@@ -285,7 +288,7 @@ set APP_CLIENT_SECRET=app-client-secret from your response
 1. Install dependencies with:
 
 ```bash npm2yarn
-npm install
+npm install --force
 ```
 
 2. Build and run the application:
