@@ -56,7 +56,7 @@ let session = ASWebAuthenticationSession(
 
  - Step 4: Redirect URL
 
-To complete the authentication flow, launch another `ASWebAuthenticationSession` using the `redirectURL` returned from a successful authenticate response. The authorization code and the state parameter are attached to this URL.
+A `redirectURL` is returned from a successful authenticate response that needs to be resolved by launching another `ASWebAuthenticationSession` to complete the initial OAuth flow. On completion of the second `ASWebAuthenticationSession`, another `redirectURL` will be returned that contains an authorization code that can be used to exchange for an ID token.
 
 ```javascript
 Embedded.shared.authenticate(
