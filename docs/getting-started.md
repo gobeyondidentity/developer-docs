@@ -19,7 +19,7 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 3. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
 
-4. **Install Angular**: Use npm to angular: `npm install -g @angular/cli`
+4. **Install Angular**: Use npm to install angular: `npm install -g @angular/cli`
 
 
 --- 
