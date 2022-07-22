@@ -138,6 +138,32 @@ const config = {
           { to: "/guides", label: "Guides", position: "left" },
           { to: "/api/v1", label: "REST API v1", position: "left" },
           {
+            type: 'dropdown',
+            label: 'Use Cases',
+            items: [
+              {
+                href: "https://www.beyondidentity.com/developers/industries/e-commerce",
+                label: "E-Commerce",
+              },
+              {
+                href: "https://www.beyondidentity.com/developers/industries/media",
+                label: "Media",
+              },
+              {
+                href: "https://www.beyondidentity.com/developers/industries/travel-hospitality",
+                label: "Travel-Hospitality",
+              },
+              {
+                href: "https://www.beyondidentity.com/developers/industries/fintech",
+                label: "Fintech",
+              },
+              {
+                href: "https://www.beyondidentity.com/developers/industries/cryptocurrency",
+                label: "Cryptocurrency",
+              },
+            ],
+          },
+          {
             href: "https://www.beyondidentity.com/developers/signup",
             label: "Signup",
             position: 'right',
