@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.0.1
+  version: 1.0.2
   contact:
     email: support@beyondidentity.com
   description: |
@@ -20,11 +20,13 @@ info:
 
     # Authentication
 
-    All Beyond Identity API endpoints require authentication through
-    OAuth 2.0 or OIDC. The simplest way to acquire an access token is through
-    the Beyond Identity Admin Console. Under the "Applications" tab, select the
-    "Beyond Identity Management API" application, navigate to the "API Tokens"
-    tab, and then click on "Create token".
+    All Beyond Identity API endpoints require authentication using an access
+    token. The access token is generated through OAuth 2.0 or OIDC, using the
+    authorization code flow or the client credentials flow. The simplest way to
+    acquire an access token is through the Beyond Identity Admin Console. Under
+    the "Applications" tab, select the "Beyond Identity Management API"
+    application, navigate to the "API Tokens" tab, and then click on
+    "Create token".
 
     Alternatively, an access token may also be generated directly via the API by
     requesting a token for the "Beyond Identity Management API" Application.
