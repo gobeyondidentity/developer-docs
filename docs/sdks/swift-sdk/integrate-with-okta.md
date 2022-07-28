@@ -3,7 +3,9 @@ title: Integrate With Okta
 sidebar_position: 3
 ---
 
-This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
+This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
+
+The below implementation is recommended as the developer is unable to integrate this approach using Okta's or AppAuth's OIDC SDKs. 
 
 ### Prerequisites
 
