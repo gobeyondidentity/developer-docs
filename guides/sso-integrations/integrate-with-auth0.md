@@ -8,7 +8,6 @@ sidebar_position: 1
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Auth0 environment.
 
 This guide will cover:
-* How to configure SSO for Beyond Identity's Admin Portal
 * How to configure Beyond Identity as an Identity provider
 * How to Provision and Deprovision users when Auth0 is the master directory
 
@@ -23,87 +22,34 @@ Before continuing, make sure the following prerequisites have been met:
   * Ensure that you have an Auth0 account with admin privileges
   * Access to a Beyond Identity tenant
 
-## Configure SSO for Beyond Identity Admin portal
-
-The Beyond Identity Admin portal can either be accessed using Auth0 or using Beyond Identity as the Identity provider (default). The following steps should be implemented if Auth0 will be the SSO provider for access into Beyond Identity's Admin Portal. 
-
-**Step 1. Set Up the Beyond Identity Admin Portal application**
-1. From the left side menu, select **Applications** and click **+ Create Applications**.
-
-![create-app-auth0](/assets/sso-auth0-create-app-auth0.png)
-
-2. Name the application **Beyond Identity Admin Portal**, and set the **Application Type** as **Regular Web Application**.
-3. Select **Create**.
-
-![create-app](/assets/sso-auth0-create-app.png)
-
-4. On the **Settings** tab, scroll down and make note of the **Domain**, **SSO Client ID**, and **SSO Client Secret**. You will need these in the next step.
-
-![admin-portal-config](/assets/sso-auth0-admin-portal-config.png)
-
-5. *Optional:* To add a Beyond Identity logo, scroll down to **Application Properties** and in the **Application Logo** field, copy in the following link:
-
-   * `https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png`
-
-6. Scroll down to **Application URIs** and fill in the following values:
-
-   * Application Login URI: `https://admin.byndid.com/login`
-
-   * Allowed Callback URLs: `https://admin.byndid.com/auth/callback`
-
-![app-uris](/assets/sso-auth0-app-uris.png)
-
-7. Scroll down to the end of the page and click **Save Changes**. 
-
-**Note:** All other settings should be left with default values.
-
-### Set Up Admin Portal Access
-
-Make a note of the **Domain**, **Auth0 Client ID**, and **Auth0 Client Secret** from the previous step. These values will be used to configure access to the Beyond Identity Admin Portal.
-
-1. Log in to the Beyond Identity Admin portal and select **Account Settings**.
-
-![admin-portal](/assets/sso-auth0-admin-portal.png)
-
-2. Select the **Admin Console** tab, and click **Edit SSO**.
-
-![admin-console-sso](/assets/sso-auth0-admin-console-sso.png)
-
-3. Update the **SSO Issuer**, **SSO Client ID**, and **SSO Client Secret** from Step 3.4 and click **Save Changes.**
-
-:::note
-SSO Issuer is the domain URL in Auth0.
-:::
-
-![sso-config-params](/assets/sso-auth0-sso-config-params.png)
-
 ## Add Beyond Identity as an Identity Provider
 
 Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](integrate-with-auth0#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](integrate-with-auth0#custom-social-oauth20-connection). 
 
 ### Create an Inbound OIDC client in Beyond Identity
 
-1. Log into the Beyond Identity Admin portal, select the **Integrations** tab, and select **OIDC Clients**.
+1. Log into the Beyond Identity Admin portal, select the **Applications** tab, and select **Create app**.
 
-2. Select **Add OIDC Client** and fill in the following fields:
+2. Fill in the following fields:
 
-   * Name = Auth0 SSO 
+   * Display Name = Auth0 SSO
 
-   * Redirect URL = `https://DOMAIN.auth0.com/login/callback`
+   * Redirect URIs = `https://DOMAIN.auth0.com/login/callback`
 
    * Replace `DOMAIN` with your Auth0 domain URL
 
   example: `https://byndid-auth0-demo.us.auth0.com/login/callback`
 
-Leave **Token Signing Algorithm** and **Auth Method** with their default  values.
+Leave all other fields with their default  values.
 
-3. Click **Save Changes**. 
+3. Click **Submit**. 
 
-![oidc-client](/assets/sso-auth0-oidc-client.png)
+<img src="/assets/sso-auth0-oidc-client.png" width="400px" />
 
-4. Select the newly created OIDC client configuration and make a note of the **Client ID** and **Client Secret** as these will be used in the next steps.
+4. Select the newly created OIDC client configuration and make a note of the **Authorization Endpoint**
+, **Token Endpoint**, **Client ID** and **Client Secret** as these will be used in the next steps.
 
-![edit-sso](/assets/sso-auth0-edit-sso.png)
+<img src="/assets/sso-auth0-edit-sso.png" width="400px" />
 
 ### Enterprise OIDC Connection
 
@@ -115,7 +61,7 @@ Leave **Token Signing Algorithm** and **Auth Method** with their default  values
 3.  Then within the Open ID Connect menu click ‘Create Connection’
 4. Enter the following values:
    * Connection Name: “Beyond-Identity”
-   * Issuer URL: “https://auth.byndid.com/v2”
+   * Issuer URL: Isser corresponding to Beyond Identity app. 
    * Client ID: From OIDC client created in Beyond Identity
    * Client Secret: From OIDC client created in Beyond Identity
 
@@ -124,25 +70,7 @@ Leave **Token Signing Algorithm** and **Auth Method** with their default  values
 
 5. Click **Create**.
 
-6. On the **Settings** tab under **Issuer URL**, click **Show Issuer Details** and add the following values to the appropriate fields:
-
-|Beyond Identity endpoint | URL |
-|----------------------------------|--- |
-| Issuer                  | `https://auth.byndid.com/v2` |
-| Authorization endpoint  | `https://auth.byndid.com/authorize` |
-| Token endpoint          | `https://auth.byndid.com/v2/token` |
-| JWKS endpoint           | `https://auth.byndid.com/v2/.well-known/jwks.json` |
-| User Info endpoint      | `https://auth.byndid.com/v2/userinfo` |
-
-![sso-config-auth0](/assets/sso-auth0-sso-config-auth0.png)
-
-7.  Scroll down to **Scopes** and enter **openid**.
-
-
-![sso-oidc-config](/assets/sso-auth0-sso-oidc-config.png)
-
-8. Click **Save Changes**.
-9. Scroll up and click the **Login Experience** tab.
+6. Scroll up and click the **Login Experience** tab.
 
 
 ![experience-customize](/assets/sso-auth0-experience-customize.png)
@@ -170,8 +98,8 @@ Leave **Token Signing Algorithm** and **Auth Method** with their default  values
 
 4. On the new connection form, enter the following values:
 * Connection Name: “Beyond-Identity”
-* Authorization URL: `https://auth.byndid.com/v2/authorize`
-* Token URL: `https://auth.byndid.com/v2/token`
+* Authorization URL: From Authorization URL created in Beyond Identity
+* Token URL: From Token URL created in Beyond Identity
 * scope: `openid email`
 * Client ID: From OIDC client created in Beyond Identity
 * Client Secret: From OIDC client created in Beyond Identity
@@ -180,7 +108,7 @@ Leave **Token Signing Algorithm** and **Auth Method** with their default  values
 ```javascript
 function(accessToken, ctx, cb) {
 
-  request.get('https://auth.byndid.com/v2/userinfo',    {
+  request.get('<BEYOND_IDENTITY_BASE_URL>/userinfo',    {
       headers: {
         'Authorization': 'Bearer ' + accessToken
       }
@@ -231,7 +159,7 @@ function(accessToken, ctx, cb) {
 
 1. In Auth0, under the **Settings** tab of the **Beyond Identity OIDC connection** created in Step 8, make a note of the Callback URL as shown below:
 
-![callback-confirm](/assets/sso-auth0-callback-confirm.png)
+<img src="/assets/sso-auth0-edit-sso.png" width="600px" />
 
 2. Navigate to the Beyond Identity Admin portal, select the **Integrations tab**, and click **OIDC Clients**. Select the OIDC client that was created in Step 4 and click **Edit**.
 
