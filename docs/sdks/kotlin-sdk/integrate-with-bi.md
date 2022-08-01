@@ -5,17 +5,17 @@ sidebar_position: 2
 
 This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
 
-### Prerequisites
+## Prerequisites
 
  - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
 
 Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must authorize using Beyond Identity.
 
-### Authorize With Beyond Identity
+## Authorize With Beyond Identity
 
  - Step 1: Configuring the Authenticator Config
 
-Make sure the [Authentication Config](docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authenticator Config](docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
  - Step 2: Beyond Identity Authorize URL
 

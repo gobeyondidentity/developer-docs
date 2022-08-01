@@ -1,20 +1,20 @@
 ---
-title: Integrate With Okta
+title: Integrate With Auth0
 sidebar_position: 3
 ---
 
-This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
+This guide describes how to configure Auth0 to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
 
 ## Prerequisites
 
- - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
+ - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
  - [Swift SDK Overview](overview)
 
-Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Okta](integrate-with-okta#authorize-with-okta)
+Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
-## Authorize With Okta
+## Authorize With Auth0
 
-![Integrate With Okta Flowchart](../screenshots/Integrate%20With%20Okta%20Flowchart.png)
+![Integrate With Auth0 Flowchart](../screenshots/Integrate%20With%20Auth0%20Flowchart.png)
 
 ### Using a WebView
 
@@ -22,29 +22,28 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
 Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
- - Step 2: Okta Authorize URL
+ - Step 2: Auth0 Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
-
-![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by [Auth0](https://auth0.com/docs/api/authentication#authorization-code-flow-with-pkce). Make sure `prefersEphemeralWebBrowserSession` is set to `false` as the browser will need to share cookies or other browsing data between the authentication session.
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.auth0URL,
     callbackURLScheme: viewModel.callbackScheme
     completionHandler: { (url, error) in }
 )
+session.prefersEphemeralWebBrowserSession = false
 session.presentationContextProvider = self
 session.start()
 ```
 
  - Step 3: Invoke URL
 
-During the session completionHandler, a URL with the invoke URL scheme should be returned from Okta. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
+During the session completionHandler, a URL with the invoke URL scheme should be returned from Auth0. When the webpage loads a URL, call `Embedded.shared.authenticate`. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`.
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.auth0URL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
@@ -76,8 +75,9 @@ Embedded.shared.authenticate(
             callbackURLScheme: viewModel.callbackScheme
         ) { (url, error)  in
             // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using Okta's token endpoint.
+            // Exchange the authorization code for an id_token using Auth0's token endpoint.
         }
+        newSession.prefersEphemeralWebBrowserSession = false
         newSession.presentationContextProvider = self
         newSession.start()
                 
@@ -90,7 +90,7 @@ Embedded.shared.authenticate(
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.auth0URL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else { 
@@ -109,6 +109,7 @@ let session = ASWebAuthenticationSession(
             ) { (url, error)  in
                 parseForIDToken(url)
             }
+            newSession.prefersEphemeralWebBrowserSession = false
             newSession.presentationContextProvider = self
             newSession.start()
                     
@@ -117,12 +118,13 @@ let session = ASWebAuthenticationSession(
         }
     }
 }
+session.prefersEphemeralWebBrowserSession = false
 session.presentationContextProvider = self
 session.start()
 ```
 
 ### Using an SDK
 
-See Okta's [Developer Site](https://developer.okta.com/code/ios/) for the latest Swift SDKs.
+See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/ios-swift) for the latest Swift SDKs.
 
 Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).
