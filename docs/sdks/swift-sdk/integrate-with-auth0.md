@@ -24,7 +24,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Auth0 Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta. Make sure `prefersEphemeralWebBrowserSession` is set to `false` as the browser will need to share cookies or other browsing data between the authentication session.
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by [Auth0](https://auth0.com/docs/api/authentication#authorization-code-flow-with-pkce). Make sure `prefersEphemeralWebBrowserSession` is set to `false` as the browser will need to share cookies or other browsing data between the authentication session.
 
 ```javascript
 let session = ASWebAuthenticationSession(
@@ -43,7 +43,7 @@ During the session completionHandler, a URL with the invoke URL scheme should be
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.auth0URL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
@@ -75,7 +75,7 @@ Embedded.shared.authenticate(
             callbackURLScheme: viewModel.callbackScheme
         ) { (url, error)  in
             // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using Okta's token endpoint.
+            // Exchange the authorization code for an id_token using Auth0's token endpoint.
         }
         newSession.prefersEphemeralWebBrowserSession = false
         newSession.presentationContextProvider = self
@@ -90,7 +90,7 @@ Embedded.shared.authenticate(
 
 ```javascript
 let session = ASWebAuthenticationSession(
-    url: viewModel.oktaURL,
+    url: viewModel.auth0URL,
     callbackURLScheme: viewModel.callbackScheme
 ){ (url, error) in
     guard Embedded.shared.isAuthenticateUrl(url) else { 
