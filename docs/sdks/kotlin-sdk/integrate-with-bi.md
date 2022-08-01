@@ -5,13 +5,13 @@ sidebar_position: 2
 
 This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
 
-### Prerequisites
+## Prerequisites
 
  - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
 
 Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must authorize using Beyond Identity.
 
-### Authorize With Beyond Identity
+## Authorize With Beyond Identity
 
  - Step 1: Configuring the Authenticator Config
 

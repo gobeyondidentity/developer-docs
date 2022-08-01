@@ -5,14 +5,14 @@ sidebar_position: 2
 
 This guide describes how to configure Beyond Identity as the primary IdP.
 
-### Prerequisites
+## Prerequisites
 
  - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
  - [Swift SDK Overview](overview)
 
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Beyond Identity](integrate-with-beyondidentity#authorize-with-beyond-identity)
 
-### Authorize With Beyond Identity
+## Authorize With Beyond Identity
  - Step 1: Configuring the Authenticator Config
 
 Make sure the [Authenticator Config](../../platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
