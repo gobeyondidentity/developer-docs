@@ -5,14 +5,18 @@ sidebar_position: 3
 
 This guide describes how to configure Auth0 to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
 
-### Prerequisites
+## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
  - [Swift SDK Overview](overview)
 
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
-### Authorize With Auth0
+## Authorize With Auth0
+
+![Integrate With Auth0 Flowchart](../screenshots/Integrate%20With%20Auth0%20Flowchart.png)
+
+### Using a WebView
 
  - Step 1: Configuring the Authenticator Config
 
@@ -118,3 +122,9 @@ session.prefersEphemeralWebBrowserSession = false
 session.presentationContextProvider = self
 session.start()
 ```
+
+### Using an SDK
+
+See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/ios-swift) for the latest Swift SDKs.
+
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).

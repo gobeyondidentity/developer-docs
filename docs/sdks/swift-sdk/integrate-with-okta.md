@@ -3,18 +3,20 @@ title: Integrate With Okta
 sidebar_position: 3
 ---
 
-This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
+This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
 
-The below implementation is recommended as the developer is unable to integrate this approach using Okta's or AppAuth's OIDC SDKs. 
-
-### Prerequisites
+## Prerequisites
 
  - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
  - [Swift SDK Overview](overview)
 
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Okta](integrate-with-okta#authorize-with-okta)
 
-### Authorize With Okta
+## Authorize With Okta
+
+![Integrate With Okta Flowchart](../screenshots/Integrate%20With%20Okta%20Flowchart.png)
+
+### Using a WebView
 
  - Step 1: Configuring the Authenticator Config
 
@@ -23,6 +25,8 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
  - Step 2: Okta Authorize URL
 
 To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+
+![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
 
 ```javascript
 let session = ASWebAuthenticationSession(
@@ -116,3 +120,9 @@ let session = ASWebAuthenticationSession(
 session.presentationContextProvider = self
 session.start()
 ```
+
+### Using an SDK
+
+See Okta's [Developer Site](https://developer.okta.com/code/ios/) for the latest Swift SDKs.
+
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).
