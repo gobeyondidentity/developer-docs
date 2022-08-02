@@ -9,18 +9,13 @@ In this guide we will show you how to create and configure your account and conn
 
 ## 1. Check the basics
 
-The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [angularjs](https://angular.io/) frontend. You'll need standard developer tools to get it up and running.
+The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [NextJS](https://next-auth.js.org/) frontend. You'll need standard developer tools to get it up and running.
 
 #### **macOS, Windows and Linux**
 
 1. **Git:** Download and install `git`: https://git-scm.com/downloads
 
-2. **cURL**: Download and install `curl`: https://curl.se/dlwiz/?type=bin
-
-3. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
-
-4. **Install Angular**: Use npm to install angular: `npm install -g @angular/cli`
-
+2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
 
 --- 
 
@@ -46,24 +41,29 @@ cd getting-started
 
 Proceed to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
 
-Once your tenant has been created with Beyond Identity, you can continue to clone the app, get a `tenant_id` and API token.
+Once your tenant has been created with Beyond Identity, you can continue to configure the sample app, get an API token, a `tenant_id`, a `realm_id` and some other configuration parameters.
 
 --- 
 
-## 4. Set your region
+## 4. Make a copy of the config file
 
-Set the `REGION` variable according to where your account was created: 
+Run the following command from the home directory for the example app:
 
 ```mac tab
-export REGION="us" | "eu"
+cp .env.local.example .env.local
 ```
 ```win tab
-set REGION="us" | "eu"
+copy .env.local.example .env.local
 ```
+---
+
+## 5. Set your Region variable on the config file
+
+Edit `.env.local` and set the value of the `REGION` variable according to where your account was created (`us` or `eu`).
 
 ---
 
-## 5. Get your Tenant ID
+## 6. Get your Tenant ID
 
 <img src="/assets/getting-started-copy-tenant-id.gif" width="600px" />
 
@@ -73,14 +73,8 @@ Log into the [Admin Console](https://console-us.beyondidentity.com), then to get
 
 2. Click **Edit Realm** on the top right side of your screen, copy the `Tenant ID` value. 
 
-3. Run the following command to configure the `TENANT_ID` variable:
+3. Edit `.env.local` and paste the value of the `TENANT_ID` variable from the clipboard.
 
-```mac tab
-export TENANT_ID=tenant_id from above
-```
-```win tab
-set TENANT_ID=tenant_id from above
-```
 
 --- 
 ## 6. Create an API token
@@ -93,14 +87,9 @@ From the [Admin Console](https://console-us.beyondidentity.com), create an API T
 2. Click **Beyond Identity Management API**.
 3. Click **API Tokens**.
 4. **Create a token and click the copy button**, use the API Token to set the environment variables as shown below. 
-5. Run the following command to set the `API_TOKEN` variable: 
+5. Edit `.env.local` and paste the value of the `API_TOKEN` variable from the clipboard.
 
-```mac tab
-export API_TOKEN=api-token from above
-```
-```win tab
-set API_TOKEN=api-token from above
-```
+---
 
 ## 7. Configure your local environment
 
@@ -108,6 +97,9 @@ set API_TOKEN=api-token from above
 
 First, we need to create a new realm to hold identities and configuration: 
 
+From the Admin Console: 
+
+From the Command Line: 
 **Request**
 
 ```mac tab
