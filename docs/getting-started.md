@@ -125,7 +125,7 @@ From the Admin Console:
 
 Next, we'll copy the **Application ID**, **Authenticator Configuration ID**, **App Client ID** and **App Secrets** into the `.env.local` configuration. 
 
-<img src="/assets/getting-started-copy-config.gif" width="800px" />
+<img src="/assets/getting-started-copy-config.gif" width="800px" height="1200px" />
 
 From the Admin Console: 
 1. From the navigation bar, click **Applications**, then select the application created on the step above. 
@@ -136,22 +136,30 @@ From the Admin Console:
 
 Learn more about [Authenticator Configurations](/docs/v1/platform-overview/authenticator-config).
 
+---
+
 ## 8. Running the example application
 
 ### Start the backend and frontend
 1. Install dependencies with:
 
-```bash npm2yarn
-npm install --force
+```yarn tab
+yarn install
+```
+```npm tab
+npm install
 ```
 
 2. Build and run the application:
 
-```bash npm2yarn
-npm run start
+```yarn tab
+yarn start
+```
+```npm tab
+npm start
 ```
 
-3. Open a web browser and navigate to [http://localhost:3002](http://localhost:3002). The example application will now appear and allow you to create Passkeys in the browser. 
+3. A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create Passkeys in the browser. 
 
 <img src="/assets/getting-started-example-app.gif" width="600px" />
 
