@@ -141,16 +141,7 @@ Learn more about [Authenticator Configurations](/docs/v1/platform-overview/authe
 ## 8. Running the example application
 
 ### Start the backend and frontend
-1. Install dependencies with:
-
-```yarn tab
-yarn install
-```
-```npm tab
-npm install
-```
-
-2. Build and run the application:
+1. Install dependencies and run with:
 
 ```yarn tab
 yarn start
