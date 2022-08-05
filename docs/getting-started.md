@@ -152,7 +152,7 @@ npm start
 
 3. A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create Passkeys in the browser. 
 
-<img src="/assets/getting-started-example-app.gif" width="600px" />
+<img src="/assets/getting-started-example-app.gif" width="800px" />
 
 ---
 
