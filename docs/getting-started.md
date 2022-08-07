@@ -117,7 +117,7 @@ Next, we we'll create a new Application:
 From the Admin Console: 
 1. From the navigation bar, click **Applications**, then click **Create app**.
 2. Type a name for your new Application. 
-3. Scroll to Redirect URIs, type `http://localhost:8083`.
+3. Scroll to Redirect URIs, type `http://localhost:8083//api/auth/callback/beyondidentity`.
 4. Click on the Authenticator Config tab, change the Configuration Type to `Embedded` and set the **Invoke URL** and **Trusted Origin** values to: `http://localhost:8083`.
 5. Click Submit to save your changes. 
 
@@ -152,7 +152,7 @@ npm start
 
 3. A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create Passkeys in the browser. 
 
-<img src="/assets/getting-started-example-app.gif" width="600px" />
+<img src="/assets/getting-started-example-app.gif" width="800px" />
 
 ---
 
