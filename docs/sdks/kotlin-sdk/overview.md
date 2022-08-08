@@ -100,7 +100,7 @@ EmbeddedSdk.authenticate("some_url", { credentials, onSelectCredentialId ->
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 ```javascript
-data class BiAuthenticateResponse(
+data class AuthenticateResponse(
     val redirectUrl: String?,
     val message: String?,
 )
