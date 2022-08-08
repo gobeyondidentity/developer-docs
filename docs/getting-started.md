@@ -118,8 +118,9 @@ From the Admin Console:
 1. From the navigation bar, click **Applications**, then click **Create app**.
 2. Type a name for your new Application. 
 3. Scroll to Redirect URIs, type `http://localhost:8083//api/auth/callback/beyondidentity`.
-4. Click on the Authenticator Config tab, change the Configuration Type to `Embedded` and set the **Invoke URL** and **Trusted Origin** values to: `http://localhost:8083`.
-5. Click Submit to save your changes. 
+4. Ensure "Token Endpoint Auth Method" is set to "Client Secret Basic".
+5. Click on the Authenticator Config tab, change the Configuration Type to `Embedded` and set the **Invoke URL** and **Trusted Origin** values to: `http://localhost:8083`.
+6. Click Submit to save your changes.
 
 ### Complete your example application's configuration
 
