@@ -13,132 +13,99 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 ## Authorize With Beyond Identity
 
+### Using the Web
+
+The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252), including using [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) for authorization requests. For this reason, WebView is explicitly not supported due to usability and security reasons.
+
  - Step 1: Configuring the Authenticator Config
 
-Make sure the [Authenticator Config](docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
  - Step 2: Beyond Identity Authorize URL
 
-To start the authorization flow, launch a [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the Oauth2 Authorization Request URL you built in the pre-requisite step.
+To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the Oauth2 Authorization Request URL you built in the pre-requisite step.
 
 ```javascript
-val webView = WebView(activity)
+val builder = CustomTabsIntent.Builder()
 ...
-webView.loadUrl(BI_AUTH_URL)
+builder.build().launchUrl(context, BI_AUTH_URL)
 ```
 
  - Step 3: Invoke URL
 
-Create a [`WebViewClient`](https://developer.android.com/reference/android/webkit/WebViewClient) and override [`shouldOverrideUrlLoading`](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20android.webkit.WebResourceRequest)). A URL with the Invoke URL scheme should be returned from Beyond Identity. When the webpage loads the URL, call [`EmbeddedSdk.authenticate()`](overview#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
+A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [`Activity`](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [`onCreate`](https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)) &/ [`onNewIntent`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)), and call [`EmbeddedSdk.authenticate()`](overview#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
 
 ```javascript
-webView.webViewClient = object : WebViewClient() {
-    override fun shouldOverrideUrlLoading(
-        view: WebView?,
-        request: WebResourceRequest?,
-    ): Boolean {
-        request?.url?.let { invokeUrl ->
-            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
-                EmbeddedSdk.authenticate(
-                    invokeUrl.toString(),
-                    ...
-                ) {
-                    ...
-                }
-                return true
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+            EmbeddedSdk.authenticate(
+                url = uri.toString(),
+                onSelectCredential = { credentials, onSelectCredentialId -> }
+            ) {
+                ...
             }
         }
-        return super.shouldOverrideUrlLoading(view, request)
+        ...
     }
 }
 ```
 
  - Step 4: Redirect URL
 
-To complete the authorization flow, launch another [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL.
+To complete the authorization flow, build another [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL.
 
 ```javascript
-EmbeddedSdk.authenticate(
-    invokeUrl.toString(),
-    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
-        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
-    }
-) { result ->
-    result.onSuccess { authenticateResponse ->
-        authenticateResponse.redirectUrl?.let { redirectUrl ->
-            val webView = WebView(activity)
-
-            webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?,
-                ): Boolean {
-                    request?.url?.scheme?.let { scheme ->
-                        if (scheme == CALLBACK_URL_SCHEME) {
-                            // This URL contains authorization code and state parameters
-                            // Exchange the authorization code for an id_token using Beyond 
-                            // Identity's token endpoint.
-                            return true
-                        }
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+            EmbeddedSdk.authenticate(
+                url = uri.toString(),
+                onSelectCredential = { credentials, onSelectCredentialId -> }
+            ) { result ->
+                result.onSuccess { authenticateResponse ->
+                    authenticateResponse.redirectUrl?.let { redirectUrl ->
+                        CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
                     }
-                    return super.shouldOverrideUrlLoading(view, request)
                 }
             }
-
-            webView.loadUrl(redirectUrl)
         }
+        uri.scheme == CALLBACK_URL_SCHEME -> {
+            // This URL contains authorization code and state parameters
+            // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+        }
+        ...
     }
 }
 ```
 
-### Full Example
+#### Full Example
 
 ```javascript
-val webView = WebView(activity)
+private fun launchBI(context: Context, url: Uri = BI_AUTH_URL) {
+    CustomTabsIntent.Builder().build().launchUrl(context, url)
+}
 
-webView.webViewClient = object : WebViewClient() {
-    override fun shouldOverrideUrlLoading(
-        view: WebView?,
-        request: WebResourceRequest?,
-    ): Boolean {
-        request?.url?.let { invokeUrl ->
-            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
+private fun handleIntent(context: Context, intent: Intent?) {
+    intent?.data?.let { uri ->
+        when {
+            EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
                 EmbeddedSdk.authenticate(
-                    invokeUrl.toString(),
-                    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
-                        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
-                    }
+                    url = uri.toString(),
+                    onSelectCredential = { credentials, onSelectCredentialId -> }
                 ) { result ->
                     result.onSuccess { authenticateResponse ->
                         authenticateResponse.redirectUrl?.let { redirectUrl ->
-                            val newWebView = WebView(activity)
-                
-                            newWebView.webViewClient = object : WebViewClient() {
-                                override fun shouldOverrideUrlLoading(
-                                    view: WebView?,
-                                    request: WebResourceRequest?,
-                                ): Boolean {
-                                    request?.url?.scheme?.let { scheme ->
-                                        if (scheme == CALLBACK_URL_SCHEME) {
-                                            // This URL contains authorization code and state parameters
-                                            // Exchange the authorization code for an id_token using your app's token endpoint.
-                                            return true
-                                        }
-                                    }
-                                    return super.shouldOverrideUrlLoading(view, request)
-                                }
-                            }
-                
-                            newWebView.loadUrl(redirectUrl)
+                            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
                         }
                     }
                 }
-                return true
+            }
+            uri.scheme == CALLBACK_URL_SCHEME -> {
+                // This URL contains authorization code and state parameters
+                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
             }
         }
-        return super.shouldOverrideUrlLoading(view, request)
     }
 }
-
-webView.loadUrl(BI_AUTH_URL)
 ```
