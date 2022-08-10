@@ -16,7 +16,15 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 ![Integrate With Auth0 Flowchart](../screenshots/Integrate%20With%20Auth0%20Flowchart.png)
 
-### Using a WebView
+### Using an SDK
+
+See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/android) for the latest Android SDKs or Widgets. This guide uses the [Auth0 Android](https://github.com/auth0/Auth0.Android) SDK.
+
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview). The token exchange, however, can be completed using the SDK. 
+
+### Using the Web
+
+The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252), including using [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) for authorization requests. For this reason, WebView is explicitly not supported due to usability and security reasons.
 
  - Step 1: Configuring the Authenticator Config
 
@@ -146,9 +154,3 @@ webView.webViewClient = object : WebViewClient() {
 
 webView.loadUrl(AUTH0_URL)
 ```
-
-### Using an SDK
-
-See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/android) for the latest Android SDKs or Widgets. This guide uses the [Auth0 Android](https://github.com/auth0/Auth0.Android) SDK.
-
-Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview). The token exchange, however, can be completed using the SDK. 

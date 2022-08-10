@@ -16,139 +16,6 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 ![Integrate With Okta Flowchart](../screenshots/Integrate%20With%20Okta%20Flowchart.png)
 
-### Using a WebView
-
- - Step 1: Configuring the Authenticator Config
-
-Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
-
- - Step 2: Okta Authorize URL
-
-To start the authorization flow, launch a [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the Oauth2 Authorization Request URL provided by Okta.
-
-![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
-
-```javascript
-val webView = WebView(activity)
-...
-webView.loadUrl(OKTA_URL)
-```
-
- - Step 3: Invoke URL
-
-Create a [`WebViewClient`](https://developer.android.com/reference/android/webkit/WebViewClient) and override [`shouldOverrideUrlLoading`](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20android.webkit.WebResourceRequest)). A URL with the Invoke URL scheme should be returned from Okta. When the webpage loads the URL, call [`EmbeddedSdk.authenticate()`](overview#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
-
-```javascript
-webView.webViewClient = object : WebViewClient() {
-    override fun shouldOverrideUrlLoading(
-        view: WebView?,
-        request: WebResourceRequest?,
-    ): Boolean {
-        request?.url?.let { invokeUrl ->
-            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
-                EmbeddedSdk.authenticate(
-                    invokeUrl.toString(),
-                    ...
-                ) {
-                    ...
-                }
-                return true
-            }
-        }
-        return super.shouldOverrideUrlLoading(view, request)
-    }
-}
-```
-
- - Step 4: Redirect URL
-
-To complete the authorization flow, launch another [`WebView`](https://developer.android.com/reference/android/webkit/WebView), using the `redirectUrl` returned from a successful `AuthenticateResponse` to complete the initial OAuth flow. Another url will be returned that contains an authorization code that can be used to exhange for an ID token using Okta's [token endpoint](https://developer.okta.com/docs/reference/api/oidc/#token).
-
-```javascript
-EmbeddedSdk.authenticate(
-    invokeUrl.toString(),
-    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
-        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
-    }
-) { result ->
-    result.onSuccess { authenticateResponse ->
-        authenticateResponse.redirectUrl?.let { redirectUrl ->
-            val webView = WebView(activity)
-
-            webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?,
-                ): Boolean {
-                    request?.url?.scheme?.let { scheme ->
-                        if (scheme == CALLBACK_URL_SCHEME) {
-                            // This URL contains authorization code and state parameters
-                            // Exchange the authorization code for an id_token using Okta's token endpoint.
-                            return true
-                        }
-                    }
-                    return super.shouldOverrideUrlLoading(view, request)
-                }
-            }
-
-            webView.loadUrl(redirectUrl)
-        }
-    }
-}
-```
-
-#### Full Example
-
-```javascript
-val webView = WebView(activity)
-
-webView.webViewClient = object : WebViewClient() {
-    override fun shouldOverrideUrlLoading(
-        view: WebView?,
-        request: WebResourceRequest?,
-    ): Boolean {
-        request?.url?.let { invokeUrl ->
-            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
-                EmbeddedSdk.authenticate(
-                    invokeUrl.toString(),
-                    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
-                        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
-                    }
-                ) { result ->
-                    result.onSuccess { authenticateResponse ->
-                        authenticateResponse.redirectUrl?.let { redirectUrl ->
-                            val newWebView = WebView(activity)
-                
-                            newWebView.webViewClient = object : WebViewClient() {
-                                override fun shouldOverrideUrlLoading(
-                                    view: WebView?,
-                                    request: WebResourceRequest?,
-                                ): Boolean {
-                                    request?.url?.scheme?.let { scheme ->
-                                        if (scheme == CALLBACK_URL_SCHEME) {
-                                            // This URL contains authorization code and state parameters
-                                            // Exchange the authorization code for an id_token using Okta's token endpoint.
-                                            return true
-                                        }
-                                    }
-                                    return super.shouldOverrideUrlLoading(view, request)
-                                }
-                            }
-                
-                            newWebView.loadUrl(redirectUrl)
-                        }
-                    }
-                }
-                return true
-            }
-        }
-        return super.shouldOverrideUrlLoading(view, request)
-    }
-}
-
-webView.loadUrl(OKTA_URL)
-```
-
 ### Using an SDK
 
 See Okta's [Developer Site](https://developer.okta.com/code/android/) for the latest Android SDKs or Widgets. This guide uses the [Okta OIDC Android](https://github.com/okta/okta-oidc-android) SDK.
@@ -330,4 +197,139 @@ fun handleIntent(intent: Intent) {
         }
     }
 }
+```
+
+### Using the Web
+
+The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252), including using [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) for authorization requests. For this reason, WebView is explicitly not supported due to usability and security reasons.
+
+ - Step 1: Configuring the Authenticator Config
+
+Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+
+ - Step 2: Okta Authorize URL
+
+To start the authorization flow, launch a [`WebView`](https://developer.android.com/reference/android/webkit/WebView), and load the Oauth2 Authorization Request URL provided by Okta.
+
+![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
+
+```javascript
+val webView = WebView(activity)
+...
+webView.loadUrl(OKTA_URL)
+```
+
+ - Step 3: Invoke URL
+
+Create a [`WebViewClient`](https://developer.android.com/reference/android/webkit/WebViewClient) and override [`shouldOverrideUrlLoading`](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20android.webkit.WebResourceRequest)). A URL with the Invoke URL scheme should be returned from Okta. When the webpage loads the URL, call [`EmbeddedSdk.authenticate()`](overview#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
+
+```javascript
+webView.webViewClient = object : WebViewClient() {
+    override fun shouldOverrideUrlLoading(
+        view: WebView?,
+        request: WebResourceRequest?,
+    ): Boolean {
+        request?.url?.let { invokeUrl ->
+            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
+                EmbeddedSdk.authenticate(
+                    invokeUrl.toString(),
+                    ...
+                ) {
+                    ...
+                }
+                return true
+            }
+        }
+        return super.shouldOverrideUrlLoading(view, request)
+    }
+}
+```
+
+ - Step 4: Redirect URL
+
+To complete the authorization flow, launch another [`WebView`](https://developer.android.com/reference/android/webkit/WebView), using the `redirectUrl` returned from a successful `AuthenticateResponse` to complete the initial OAuth flow. Another url will be returned that contains an authorization code that can be used to exhange for an ID token using Okta's [token endpoint](https://developer.okta.com/docs/reference/api/oidc/#token).
+
+```javascript
+EmbeddedSdk.authenticate(
+    invokeUrl.toString(),
+    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
+        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
+    }
+) { result ->
+    result.onSuccess { authenticateResponse ->
+        authenticateResponse.redirectUrl?.let { redirectUrl ->
+            val webView = WebView(activity)
+
+            webView.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                ): Boolean {
+                    request?.url?.scheme?.let { scheme ->
+                        if (scheme == CALLBACK_URL_SCHEME) {
+                            // This URL contains authorization code and state parameters
+                            // Exchange the authorization code for an id_token using Okta's token endpoint.
+                            return true
+                        }
+                    }
+                    return super.shouldOverrideUrlLoading(view, request)
+                }
+            }
+
+            webView.loadUrl(redirectUrl)
+        }
+    }
+}
+```
+
+#### Full Example
+
+```javascript
+val webView = WebView(activity)
+
+webView.webViewClient = object : WebViewClient() {
+    override fun shouldOverrideUrlLoading(
+        view: WebView?,
+        request: WebResourceRequest?,
+    ): Boolean {
+        request?.url?.let { invokeUrl ->
+            if (EmbeddedSdk.isAuthenticateUrl(invokeUrl.toString())) {
+                EmbeddedSdk.authenticate(
+                    invokeUrl.toString(),
+                    object : ((List<Credential>, (String?) -> Unit) -> Unit) {
+                        override fun invoke(p1: List<Credential>, p2: (String?) -> Unit) {}
+                    }
+                ) { result ->
+                    result.onSuccess { authenticateResponse ->
+                        authenticateResponse.redirectUrl?.let { redirectUrl ->
+                            val newWebView = WebView(activity)
+                
+                            newWebView.webViewClient = object : WebViewClient() {
+                                override fun shouldOverrideUrlLoading(
+                                    view: WebView?,
+                                    request: WebResourceRequest?,
+                                ): Boolean {
+                                    request?.url?.scheme?.let { scheme ->
+                                        if (scheme == CALLBACK_URL_SCHEME) {
+                                            // This URL contains authorization code and state parameters
+                                            // Exchange the authorization code for an id_token using Okta's token endpoint.
+                                            return true
+                                        }
+                                    }
+                                    return super.shouldOverrideUrlLoading(view, request)
+                                }
+                            }
+                
+                            newWebView.loadUrl(redirectUrl)
+                        }
+                    }
+                }
+                return true
+            }
+        }
+        return super.shouldOverrideUrlLoading(view, request)
+    }
+}
+
+webView.loadUrl(OKTA_URL)
 ```

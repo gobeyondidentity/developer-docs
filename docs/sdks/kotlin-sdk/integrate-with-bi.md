@@ -13,6 +13,10 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 ## Authorize With Beyond Identity
 
+### Using the Web
+
+The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252), including using [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) for authorization requests. For this reason, WebView is explicitly not supported due to usability and security reasons.
+
  - Step 1: Configuring the Authenticator Config
 
 Make sure the [Authenticator Config](docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
