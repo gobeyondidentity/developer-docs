@@ -20,7 +20,7 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/android) for the latest Android SDKs or Widgets. This guide uses the [Auth0 Android](https://github.com/auth0/Auth0.Android) SDK.
 
-Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview). The token exchange, however, can be completed using the SDK. 
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web). The token exchange, however, can be completed using the SDK. 
 
 ### Using the Web
 
@@ -28,7 +28,7 @@ The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Nati
 
  - Step 1: Configuring the Authenticator Config
 
-Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link. Note: You may want to use a separate scheme for Beyond Identity and Auth0.
 
  - Step 2: Auth0 Authorize URL
 
