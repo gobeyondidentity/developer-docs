@@ -7,7 +7,7 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 
 ## Prerequisites
 
- - [Integrate With Auth0](../../../../guides/sso-integrations/integrate-with-auth0)
+ - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
  - [Kotlin SDK](overview)
 
 Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
@@ -20,7 +20,7 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/android) for the latest Android SDKs or Widgets. This guide uses the [Auth0 Android](https://github.com/auth0/Auth0.Android) SDK.
 
-Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web). The token exchange, however, can be completed using the SDK. 
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web); The SDK is not designed to work with a secondary IdP. The token exchange, however, can be completed using the SDK.
 
 ### Using the Web
 
