@@ -1,5 +1,6 @@
 ---
-title: JavaScript SDK
+title: Overview
+sidebar_position: 0
 ---
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
@@ -36,7 +37,7 @@ The `bindCredential` function expects a URL. This can either be a binding creden
 #### Usage
 
 ```javascript
-const bindCredentialResponse = embedded.bindCredential(url);
+const bindCredentialResponse = await embedded.bindCredential(url);
 ```
 
 Where the response type consists of an object containing a `Credential` and an optional `postBindRedirect` URL to redirect to upon succesfully binding a credential.
@@ -55,7 +56,7 @@ The `authenticate` function expects a URL. This Beyond Identity specific URL is 
 #### Usage
 
 ```javascript
-const authenticateResponse = embedded.authenticate(url, (credentials) => {
+const authenticateResponse = await embedded.authenticate(url, (credentials) => {
     // Allow the user to make a selection on what
     // credential to authenticate against. This example
     // makes use of the built in `prompt` function to

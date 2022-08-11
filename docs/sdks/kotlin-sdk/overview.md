@@ -1,6 +1,6 @@
 ---
 title: Overview
-sidebar_position: 1
+sidebar_position: 0
 ---
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.

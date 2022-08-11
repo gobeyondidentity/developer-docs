@@ -1,6 +1,6 @@
 ---
 title: Integrate With Beyond Identity
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
