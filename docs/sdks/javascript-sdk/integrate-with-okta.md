@@ -31,7 +31,7 @@ providers: [
 ...
 ```
 
-Note that you'll need to fill in the `<OKTA_CLIENT_ID>`, `<OKTA_CLIENT_SECRET>`, and `<OKTA_ISSUER>` with the values you generated when creating your application in Okta. See the [following](/guides/sso-integrations/integrate-with-okta) guide mentioned in the [prequisites](#prerequisites).
+Note that you'll need to fill in the `<OKTA_CLIENT_ID>`, `<OKTA_CLIENT_SECRET>`, and `<OKTA_ISSUER>` with the values you generated when creating your application in Okta. See the [following](/guides/sso-integrations/integrate-with-okta) guide mentioned in the [prerequisites](#prerequisites).
 
 ## Wiring up [`embedded.authenticate`](overview#authentication)
 

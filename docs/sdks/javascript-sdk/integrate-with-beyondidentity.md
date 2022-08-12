@@ -43,7 +43,7 @@ providers: [
 ...
 ```
 
-Note that you'll need to fill in the `<TENANT_ID>`, `<REALM_ID>`, `<APPLICATION_ID>`, `<APP_CLIENT_ID>`, and `<APP_CLIENT_SECRET>` with the values you generated when creating your application. See the [following](../../using-bi-for-auth) guide mentioned in the [prequisites](#prerequisites).
+Note that you'll need to fill in the `<TENANT_ID>`, `<REALM_ID>`, `<APPLICATION_ID>`, `<APP_CLIENT_ID>`, and `<APP_CLIENT_SECRET>` with the values you generated when creating your application. See the [following](../../using-bi-for-auth) guide mentioned in the [prerequisites](#prerequisites).
 
 ## Wiring up [`embedded.authenticate`](overview#authentication)
 

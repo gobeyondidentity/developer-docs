@@ -32,7 +32,7 @@ providers: [
 ...
 ```
 
-Note that you'll need to fill in the `<AUTH0_ID>`, `<AUTH0_SECRET>`, and `<AUTH0_ISSUER>` with the values you generated when creating your application in Auth0. See the [following](/guides/sso-integrations/integrate-with-auth0) guide mentioned in the [prequisites](#prerequisites).
+Note that you'll need to fill in the `<AUTH0_ID>`, `<AUTH0_SECRET>`, and `<AUTH0_ISSUER>` with the values you generated when creating your application in Auth0. See the [following](/guides/sso-integrations/integrate-with-auth0) guide mentioned in the [prerequisites](#prerequisites).
 
 ## Wiring up [`embedded.authenticate`](overview#authentication)
 
