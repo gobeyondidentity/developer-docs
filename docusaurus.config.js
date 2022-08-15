@@ -213,6 +213,10 @@ const config = {
                 label: "Twitter",
                 href: "https://twitter.com/BI_Developers",
               },
+              {
+                label: "DevTo",
+                href: "https://dev.to/beyondidentity",
+              },
             ],
           },
           {
