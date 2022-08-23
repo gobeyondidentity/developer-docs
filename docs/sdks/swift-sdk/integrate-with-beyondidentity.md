@@ -13,6 +13,11 @@ This guide describes how to configure Beyond Identity as the primary IdP.
 Before calling [`Embedded.shared.authenticate`](overview#authentication), we must [Authorize With Beyond Identity](integrate-with-beyondidentity#authorize-with-beyond-identity)
 
 ## Authorize With Beyond Identity
+
+### Using a WebView
+
+The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252) including using `SFAuthenticationSession` and `SFSafariViewController` on iOS for the auth request. `UIWebView` and `WKWebView` are explicitly *not* supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
+
  - Step 1: Configuring the Authenticator Config
 
 Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-config#embedded) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
@@ -71,7 +76,7 @@ Embedded.shared.authenticate(
 }
 ```
 
-### Full Example
+#### Full Example
 
 ```javascript
 let session = ASWebAuthenticationSession(
