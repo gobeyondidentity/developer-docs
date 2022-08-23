@@ -239,6 +239,9 @@ const config = {
         darkTheme: darkCodeTheme,
         // additionalLanguages: ['kotlin'],
       },
+      hubspot: {
+        accountId: "7364297",
+      },
       algolia: {
         // The application ID provided by Algolia
         appId: '4P4Q3C985L',
