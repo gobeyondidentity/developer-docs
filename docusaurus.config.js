@@ -108,6 +108,14 @@ const config = {
       },
     ],
   ],
+  scripts: [
+    
+    {
+      src:
+        '/js/loadtags.js',
+      async: true,
+    },
+  ],
   themeConfig:
     ({
       colorMode: {
