@@ -8,6 +8,7 @@ This guide describes how to use Beyond Identity for authentication during an OAu
 ## Prerequisites
 
  - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
+ - [Kotlin SDK](overview)
 
 Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must authorize using Beyond Identity.
 
