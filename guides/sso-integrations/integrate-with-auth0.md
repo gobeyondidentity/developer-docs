@@ -186,4 +186,3 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 ## User Deprovisioning
 
 To deprovision users from the Beyond Identity experience, access the Beyond Identity Admin Portal and manually delete the appropriate user(s).
-

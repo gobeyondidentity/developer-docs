@@ -51,4 +51,3 @@ Using that client in [OAuth.tools](https://oauth.tools) , initiate a Code Flow. 
 ![sso-curity-2](/assets/sso-curity-2.png)
 
 The flow should automatically trigger the Beyond Identity Platform Authenticator, authenticate the user and then direct back to OAuth.tools. If `Auto-redeem code` is enabled an Access Token, Refresh Token and optionally an ID Token should be issued.
-
