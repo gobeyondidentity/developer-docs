@@ -39,7 +39,9 @@ cd getting-started
 
 ## 3. Create a Tenant
 
-Proceed to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
+Head to the [signup form](https://www.beyondidentity.com/developers/signup) and fill out your info.
+
+> This process creates various resources described in Beyond Identity's [architecture](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture). It also creates a [passkey](https://developer.beyondidentity.com/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys) that allows you to log into the Beyond Identity Console without a password. Due to the nature of passkeys, the credential created on signup *only works with the Console*. New passkeys must be created for accessing other applications.
 
 Once your tenant has been created with Beyond Identity, you can continue to configure the sample app, get an API token, a `tenant_id`, a `realm_id` and some other configuration parameters.
 
@@ -77,7 +79,7 @@ Log into the [Admin Console](https://console-us.beyondidentity.com), then to get
 
 
 --- 
-## 6. Create an API token
+## 7. Create an API token
 
 <img src="/assets/getting-started-create-api-token.gif" width="800px" />
 
@@ -91,7 +93,7 @@ From the [Admin Console](https://console-us.beyondidentity.com), create an API T
 
 ---
 
-## 7. Configure your local environment
+## 8. Configure your local environment
 
 ### Create a Realm
 
@@ -139,10 +141,10 @@ Learn more about [Authenticator Configurations](/docs/v1/platform-overview/authe
 
 ---
 
-## 8. Running the example application
+## 9. Running the example application
 
 ### Start the backend and frontend
-1. Install dependencies and run with:
+Install dependencies and run with:
 
 ```yarn tab
 yarn start
@@ -151,7 +153,7 @@ yarn start
 npm start
 ```
 
-3. A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create Passkeys in the browser. 
+A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser. 
 
 <img src="/assets/getting-started-example-app.gif" width="800px" />
 
@@ -159,7 +161,7 @@ npm start
 
 ## What's next? 
 
-You can use the example application above to create one or more Passkeys and log in with them. 
+You can use the example application above to create one or more passkeys and log in with them. 
 
 ### Questions? Want to see more?
 
