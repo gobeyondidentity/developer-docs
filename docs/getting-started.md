@@ -93,11 +93,13 @@ From the [Admin Console](https://console-us.beyondidentity.com), create an API T
 
 ---
 
-## 8. Configure your local environment
+## 8. Configure Beyond Identity to manage identities for your app
+
+So far, only the [Admin Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#admin-realm) exists for your Beyond Identity tenant. You don't want your app's users to be created there! The steps below create a set of Beyond Identity resources that will contain your end users' identities.
 
 ### Create a Realm
 
-Next, we need to create a new realm to hold identities and configuration: 
+We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#realms) to hold identities and configuration: 
 
 <img src="/assets/getting-started-create-realm.gif" width="800px" />
 
@@ -112,7 +114,7 @@ From the Admin Console:
 
 ### Create an Application
 
-Next, we we'll create a new Application:
+Next, we we'll create a new [Application](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#applications-and-authenticator-configs) that contains the configuration for your end users:
 
 <img src="/assets/getting-started-create-app.gif" width="800px" />
 
