@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.0.2
+  version: 1.1.0
   contact:
     email: support@beyondidentity.com
   description: |
@@ -3058,6 +3058,7 @@ paths:
                         subject_field: id
                         expires_after: 86400
                         token_signing_algorithm: RS256
+                      pkce: disabled
         '400':
           description: Bad request.
           content:
@@ -4348,6 +4349,9 @@ components:
           example: 000176d94fd7b4d1
         display_name:
           type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: |
             A human-readable name for the tenant. This name is used for display purposes.
           example: Test Tenant
@@ -4385,6 +4389,9 @@ components:
           example: 0001f1f460b1ace6
         display_name:
           type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: |
             A human-readable name for the realm. This name is used for display purposes.
           example: Test Realm
@@ -4428,11 +4435,16 @@ components:
           example: 0001b42d80372976
         display_name:
           type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: |
             A human-readable name for the group. This name is used for display purposes.
           example: Realm Administrators
         description:
           type: string
+          maxLength: 300
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: |
             A free-form text field to describe a group.
           example: A group of realm administrators.
@@ -4476,6 +4488,9 @@ components:
           example: 0001f1f460b1ace6
         display_name:
           type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: |
             A human-readable name for the identity. This name is used for display purposes.
           example: Test Display
@@ -4514,7 +4529,10 @@ components:
           example: traits_v0
         username:
           type: string
-          description: A required unique username for an identity in the realm.
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
+          description: 'A required, unique, case-insensitive username for an identity in the realm.'
           example: test
         primary_email_address:
           type: string
@@ -4804,7 +4822,7 @@ components:
         authenticator_config_id:
           type: string
           description: |
-            The ID of the authenticator configuration to be used to build the credential binding job. This is automatically set on creation. This field is immutable.
+            The ID of the authenticator configuration to be used to build the credential binding job. This field is immutable.
           example: 76e9eab521a8b734
         expire_time:
           type: string
@@ -4908,8 +4926,18 @@ components:
             Timestamp of when the theme was created. This field is immutable and read-only.
           readOnly: true
           example: 2022-07-28T18:00:00.000Z
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            Timestamp of when the theme was last updated. This field is read-only.
+          readOnly: true
+          example: 2022-07-30T16:00:00.000Z
         email_realm_name:
           type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
           description: Realm name that is used in email templates.
           example: Realm Administrators
         logo_url_light:
@@ -4996,6 +5024,28 @@ components:
             Property of a principal which is used to fill the subject of a token issued for this application.
           default: id
           example: id
+    PkceConfig:
+      type: string
+      enum:
+        - disabled
+        - plain
+        - s256
+      description: |
+        PKCE code challenge methods supported for applications, as defined by 
+        [RFC-7636](https://datatracker.ietf.org/doc/html/rfc7636). Allowable values are:
+          - `disabled` : PKCE is disabled for this application. This is the default state if 
+            the `pkce` field is left blank. Please note that public OIDC and OAuth2 configured
+            applications MUST enable PKCE support. Confidential clients can leave PKCE disabled 
+            if they choose. 
+          - `plain` : PKCE is enabled for this application. The server will correlate the `code_challenge` and 
+            `code_verifier` between the `authorize` and `token` requests. In this configuration, those fields are
+            required to be identical. This is the lower security option for PKCE support and should only be used
+            by legacy clients, or clients that don't support `s256`. 
+          - `s256` : PKCE is enabled for this application, and the server will correlate the `code_challenge` and
+            `code_verifier` between the `authorize` and `token` requests. In this configuration, those fields are
+            required to equate as follows: `code_challenge` = `base64url(sha256(ascii(code_verifier)))`. This is
+            the higher security option and should always be preferred if it is supported by the client.
+      example: s256
     TokenEndpointAuthMethod:
       description: |
         Indicator of the requested authentication method for the
@@ -5103,6 +5153,8 @@ components:
                     A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
+                pkce:
+                  $ref: '#/components/schemas/PkceConfig'
             - title: OIDC
               description: OIDC protocol configuration.
               type: object
@@ -5147,6 +5199,8 @@ components:
                     A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2 for more information.
                 token_configuration:
                   $ref: '#/components/schemas/TokenConfiguration'
+                pkce:
+                  $ref: '#/components/schemas/PkceConfig'
     AuthenticatorConfig:
       title: Authenticator Configuration
       type: object
