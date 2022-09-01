@@ -51,10 +51,10 @@ To integrate with Keycloak:
 | First Login Flow | Your preferred setting (default: first broker login) |
 | Post Login Flow | Your preferred setting (default: empty) |
 | Sync Mode | Your preferred setting (default: import) |
-| Authorization URL | `https://auth.byndid.com/v2/authorize` |
+| Authorization URL | `https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/authorize` |
 | Pass Login Hint | On |
 | Pass current locale | On |
-| Token URL | `https://auth.byndid.com/v2/token` |
+| Token URL | `https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/token` |
 | Logout URL | empty |
 | Backchannel Logout | Off |
 | Disable User Info | On |
@@ -62,7 +62,7 @@ To integrate with Keycloak:
 | Client Authentication | Client secret as basic auth |
 | Client ID | Value supplied by Beyond Identity |
 | Client Secret | Value supplied by Beyond Identity |
-| Issuer | `https://auth.byndid.com/v2` |
+| Issuer | `https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}` |
 | Default Scopes | openid |
 | Prompt | Your preferred setting (default: unspecified) |
 | Accepts prompt=none forward from client |  Off |
@@ -178,4 +178,3 @@ Replace the following placeholders shown above with your information:
 For more information on token exchange configuration, see the Keycloak documentation: 
 
 https://www.keycloak.org/docs/latest/securing_apps/#external-token-to-internal-token-exchange
-
