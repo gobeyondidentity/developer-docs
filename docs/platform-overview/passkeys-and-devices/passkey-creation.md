@@ -30,7 +30,7 @@ curl -X POST https://{api}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{rea
 ```
 :::note
 Replace {api} with correct endpoint for your tenant location e.g. api-us or api-eu
-
+:::
 **Response**
 ``` bash
 HTTP/1.1 200 OK
@@ -93,6 +93,9 @@ curl -X POST https://{api}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{rea
 ```
 :::note
 Replace {api} with correct endpoint for your tenant location e.g. api-us or api-eu
+:::
+
+ 
 
 **Response**
 ``` bash
