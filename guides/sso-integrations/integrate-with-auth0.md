@@ -120,7 +120,7 @@ function(accessToken, ctx, cb) {
       try {
         var profile = JSON.parse(body);
         profile.provider = 'beyond';
-        profile.id = profile.id;
+        profile.id = profile.sub;
         profile.displayName = profile.display_name;
         profile.email = profile.email;
         cb(null, profile);
