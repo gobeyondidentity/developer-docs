@@ -22,11 +22,38 @@ Before continuing, make sure that the following prerequisites have been met:
 
 ### Create a Realm and Application in Beyond Identity
 
-Please follow the instructions in our Getting Started guide to [Create a Realm and Application](https://developer.beyondidentity.com/docs/v1/getting-started#8-configure-beyond-identity-to-manage-identities-for-your-app). 
+### Create a Realm
 
-**NOTE**: When creating your application, set the **Token Endpoint Auth Method** to "Client Secret Post" rather than the default.
+We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#realms) to hold identities and configuration: 
 
-We will overwrite the *Redirect URI* and *Trusted Origin* values later in this process, so you can use the dummy values from the linked guide above.
+<img src="/assets/getting-started-create-realm.gif" width="800px" />
+
+From the Admin Console: 
+1. Click the Realm selector on the top-left.
+2. Click **Create New Realm**.
+3. Type the name of your new realm. Click **Create Realm**.
+4. Click **Switch to Realm**.
+5. From the Realm's Home page, click Edit. 
+
+
+### Create an Application
+
+Next, we we'll create a new [Application](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#applications-and-authenticator-configs) that contains the configuration for your end users:
+
+<img src="/assets/getting-started-create-app.gif" width="800px" />
+
+From the Admin Console: 
+1. From the navigation bar, click **Applications**, then click **Create app**.
+1. Type a name for your new Application. 
+1. Scroll to Redirect URIs, type `http://localhost/dummy_url`.
+1. Ensure "Token Endpoint Auth Method" is set to "Client Secret Post".
+1. Ensure "Subject" is set to "id".
+1. Verify that **PKCE** is disabled.
+1. Click on the Authenticator Config tab, change the Configuration Type to `Hosted Web`.
+1. Click Submit to save your changes.
+
+
+We will overwrite the *Redirect URI* value later in this process, so you can use the dummy value for now.
 
 At this point, your Beyond Identity Admin Console should be configured with a realm and an application set up.
 
@@ -37,13 +64,6 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. Verify that  **Token Endpoint Auth Method** is set to "Client Secret Post"
   1. Set **Subject** to "id"
   1. Hit **"Submit"**
-
-
-### Set up an Authenticator Config for your app
-  This will set up an Authenticator
-
-  1. In the BI Admin console, Click Application -> Your new application -> Authenticator Config
-  1. Set "Configuration Type" -> "Hosted Web" and **Submit**. 
 
   ** SCREENSHOT FOR AUTHENTICATOR CONFIG** TODO
 
