@@ -22,11 +22,22 @@ Before continuing, make sure that the following prerequisites have been met:
 
 ### Create a Realm and Application in Beyond Identity
 
-Please follow the instructions in our Getting Started guide to [Create a Realm and Application](https://developer.beyondidentity.com/docs/v1/getting-started#8-configure-beyond-identity-to-manage-identities-for-your-app).
+Please follow the instructions in our Getting Started guide to [Create a Realm and Application](https://developer.beyondidentity.com/docs/v1/getting-started#8-configure-beyond-identity-to-manage-identities-for-your-app). 
+
+**NOTE**: When creating your application, set the **Token Endpoint Auth Method** to "Client Secret Post" rather than the default.
 
 We will overwrite the *Redirect URI* and *Trusted Origin* values later in this process, so you can use the dummy values from the linked guide above.
 
 At this point, your Beyond Identity Admin Console should be configured with a realm and an application set up.
+
+### Configuring your new application
+  We need to configure the new application that we have created. Most of the defaults we selected above are 
+
+  1. Verify that **PKCE** is disabled
+  1. Verify that  **Token Endpoint Auth Method** is set to "Client Secret Post"
+  1. Set **Subject** to "id"
+  1. Hit **"Submit"**
+
 
 ### Set up an Authenticator Config for your app
   This will set up an Authenticator
@@ -42,9 +53,11 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. In the BI Admin console, click **"Identities"**
   1. If the user you wish to use already exists, skip to step XXXX TODO
   1. Click **"Add identity"**
-  1. Input the deisred Name, Username, and Email (All three are required)
+  1. Input the desired Name, Username, and Email (All three are required)
   1. Next, we will send the user an enrollment email to bind a credential to their device.
-  1. Follow the steps at [Send Enrollment Emails](/send-enrollment). In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
+  1. Follow the steps at [Send Enrollment Emails](/send-enrollment) for each new identity. In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
+  1. Each new identity will receive an Enrollment email, which they click on to bind a credential to their device (desktop, laptop, mobile, etc).
+
 
 ## Configure Wordpress for OIDC
 
@@ -62,13 +75,13 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 
   1. Log into you Wordpress admin console
   1. Keep the Beyond Identity Admin Console open in another tab or window to copy and paste values in
-  1. Go to Settings -> OpenID Connect Client
-  1. For **"Login Type"**, set "OpenID Connect botton on login form"
+  1. In the Wordpress admin console, go to Settings -> OpenID Connect Client
+  1. For **"Login Type"**, set "OpenID Connect button on login form"
   1. For **"Client ID"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client ID
   1. For **"Client Secret Key"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client Secret
   1. For **"OpenID Scope"**, paste in "email profile openid"
   1. For **"Login Endpoint URL"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Authorization Endpoint
-  1. For **"Userinfo Endpoint URL"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> User Info Endpont
+  1. For **"Userinfo Endpoint URL"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> User Info Endpoint
   1. For **"Token Validation Endpoint URL"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Token Endpoint
   1. Leave **"End Session Endpoint URL"** blank
   1. Leave **"ACR values"** blank
@@ -80,7 +93,22 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 
 TODO SCREENSHOT OF COMPLETED CONFIG
 
+### Add the redirect URL to the BI console
+The Beyond Identity web authenticator needs to know where to redirect the user after a successful authentication.
+
+1. From the Wordpress admin console -> Settings -> OpenID Connect Client , under the "Notes" section, copy the Redirect UI
+1. On the BI Admin console, under Applications -> Your new application -> Redirect URIs, paste the URL from the first step
+1. Hit **"Submit"** at the bottom of the page.
+
+Congratulations, you have configured the BI console and the OIDC client plugin.
 
 ### Try logging in
 
-  Attempt to log in and 
+  We will now attempt to log in and verify successful authentication.
+
+  1. Using a device where you have [created an identity and then enrolled a credential](#Create an Identity in the BI console), Visit http://your_hostname/wp-login.php to login
+  1. You will see a "Login with OpenID Connect" button. Click it.
+  1. You will be redirected to the Beyond Identity Web Authenticator. 
+  1. You may see a step-up authentication prompt, depending on how Policy is set up for your tenant.
+  1. At the conclusion of a successful authentication, you will be redirected to your wordpress console, and
+  1. You will see several successful authentication events in BI Admin Console -> Events
