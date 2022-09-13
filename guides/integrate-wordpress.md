@@ -16,7 +16,7 @@ This guide will cover:
 
 Before continuing, make sure that the following prerequisites have been met:
   * Ensure that you have a live Wordpress site running and administrator privileges to install and configure a plugin
-  * Access to a Beyond Identity tenant
+  * Access to a Beyond Identity tenant and its admin console
 
 ## Set up Beyond Identity as an Identity Provider
 
@@ -43,12 +43,12 @@ Next, we we'll create a new [Application](https://developer.beyondidentity.com/d
 <img src="/assets/getting-started-create-app.gif" width="800px" />
 
 From the Admin Console: 
-1. From the navigation bar, click **Applications**, then click **Create app**.
+1. From the navigation bar, click **Applications**, then click **Add app**.
 1. Type a name for your new Application. 
-1. Scroll to Redirect URIs, type `http://localhost/dummy_url`.
-1. Ensure "Token Endpoint Auth Method" is set to "Client Secret Post".
-1. Ensure "Subject" is set to "id".
-1. Verify that **PKCE** is disabled.
+1. Scroll to **Redirect URIs**, type `http://localhost/dummy_url`.
+1. Ensure **"Token Endpoint Auth Method"** is set to "Client Secret Post".
+1. Ensure **"Subject"** is set to "id".
+1. Verify that **"PKCE"** is disabled.
 1. Click on the Authenticator Config tab, change the Configuration Type to `Hosted Web`.
 1. Click Submit to save your changes.
 
@@ -57,21 +57,19 @@ We will overwrite the *Redirect URI* value later in this process, so you can use
 
 At this point, your Beyond Identity Admin Console should be configured with a realm and an application set up.
 
-### Configuring your new application
-  We need to configure the new application that we have created. Most of the defaults we selected above are 
+**Application**
 
-  1. Verify that **PKCE** is disabled
-  1. Verify that  **Token Endpoint Auth Method** is set to "Client Secret Post"
-  1. Set **Subject** to "id"
-  1. Hit **"Submit"**
+![application-config](/assets/wordpress-application-config.png)
 
-  ** SCREENSHOT FOR AUTHENTICATOR CONFIG** TODO
+**Authenticator**
+
+![authenticator-config](/assets/wordpress-authenticator-config.png)
 
 ### Create an Identity in the BI console
   We will create identities that can login to the Wordpress site here, and enroll them with a BI credential bound to their device.
 
   1. In the BI Admin console, click **"Identities"**
-  1. If the user you wish to use already exists, skip to step XXXX TODO
+  1. If the user you wish to use already exists, skip to step 5.
   1. Click **"Add identity"**
   1. Input the desired Name, Username, and Email (All three are required)
   1. Next, we will send the user an enrollment email to bind a credential to their device.
@@ -111,7 +109,7 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. Leave all other settings with the defaults. You are free to change them, but ymmv as some may have unpredictable results.
   1. Click **"Save Changes"**
 
-TODO SCREENSHOT OF COMPLETED CONFIG
+![plugin-configuration](/assets/wp-plugin-config.png)
 
 ### Add the redirect URL to the BI console
 The Beyond Identity web authenticator needs to know where to redirect the user after a successful authentication.
