@@ -6,6 +6,7 @@ sidebar_position: 1
 # How to
 
 - [Sending Enrollment Emails](/guides/send-enrollment)
+- [Integrate with Wordpress](/guides/integrate-wordpress)
 
 
 # Integration with other SSOs
