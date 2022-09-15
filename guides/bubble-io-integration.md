@@ -41,7 +41,7 @@ You can see these in action in the Demo App that is linked above.
 
 Before you get started, please set up the following.
 
-- A free account on [bubble.io](https://bubble.io)
+- A free account on [bubble.io](https://bubble.io) and some basic familiarity with their UI
 
 - A free account on [Beyond Identity Secure Customer](https://www.beyondidentity.com/developers/signup)
 
@@ -76,4 +76,29 @@ TODO fill this out
 
 ## Create User Signup flow
 
-This flow will enable a new user to input their username and email address and create a new identity. It will also 
+This flow will enable a new user to input their username and email address and create a new identity. It will also send a credential binding email to the new user's specified email address.
+
+1. Once you're in your new app, and on the page you wish to add the login flow to, add two "Input" fields:
+  1. Username (content format: Text)
+  
+  1. Email address (content format: Email)
+
+1. Label each box with a Visual Element -> Text for Username and Email address
+
+1. Add a Button for "Sign up" and click "Start/Edit workflow"
+
+1.  For the first Action, click "Account -> Sign the user up". This will just create an entry in the local database for the user.
+
+1. Add a second action. Click "Plugins -> BI Secure Customer User Mgmt - Create User"
+
+1. Enter the TENANT_ID and REALM_ID copied from the Beyond Identity console "Home -> Edit Realm"
+
+1. In the "email_address" field, remove the existing text and click "Insert dynamic data" -> Input Email's value"
+
+1. In the "display_name" field, remove the existing text and click "Insert dynamic data -> Input Username's value"
+
+1. In the "username" field, remove the existing text and click "Insert dynamic data -> Input Username's value"
+
+TODO add screenshot of configured plugin
+
+1. Next, we will call the BI API to send a credential binding email to the user.
