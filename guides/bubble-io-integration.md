@@ -98,12 +98,12 @@ To use it, you will need to create and copy an API key from the Beyond Identity 
 
 1. Click "Edit realm" and copy the TENANT_ID and REALM_ID into the bubble.io plugin's configuration page
 
-  ![bubble-plugin-config-user-mgmt](assets/bubble-plugin-config-user-mgmt.png)
+  ![bubble-plugin-config-user-mgmt](/assets/bubble-plugin-config-user-mgmt.png)
 
 
 ### Configure the Beyond Identity Customer AuthN plugin
 
-This plugin uses OIDC to follow the Authenticatio (AuthN) flow.
+This plugin uses OIDC to follow the Authentication (AuthN) flow.
 
 1. In your bubble.io app, click Plugins -> Beyond Identity Customer AuthN
 
@@ -115,7 +115,7 @@ This plugin uses OIDC to follow the Authenticatio (AuthN) flow.
 
 1. Copy "Client Secret" into bubble.io plugin's "App secret" field and also into the API_KEY field
 
-  ![bubble-authn-plugin-config](assets/bubble-plugins-list.png)
+  ![bubble-authn-plugin-config](/assets/bubble-plugins-list.png)
 
 
 ## Create User Signup flow
@@ -143,7 +143,7 @@ This flow will enable a new user to input their username and email address and c
 
 1. In the "username" field, remove the existing text and click "Insert dynamic data -> Input Username's value"
 
-    ![bubble-create-user-management](assets/bubble-create-user-management.png)
+    ![bubble-create-user-management](/assets/bubble-create-user-management.png)
 
 
 1. Next, we will call the BI API to send a credential binding email to the user.
@@ -192,7 +192,7 @@ In this step, we'll preview the site, correct any visual design problems, and al
 
 1. Paste that URL into the bubble.io editor -> "Workflow -> When Button Sign Up is clicked -> Step 3 - Send Credential Enrollment email -> redirect uri
 
-  ![bubble-credential-binding-step](assets/bubble-credential-binding-step.png)
+  ![bubble-credential-binding-step](/assets/bubble-credential-binding-step.png)
   
 
 1. Add that URI to the permitted list of redirects in the BI console.
