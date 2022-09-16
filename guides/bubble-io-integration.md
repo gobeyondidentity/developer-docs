@@ -23,7 +23,7 @@ More details are [available here on how BI Secure Customer](https://www.beyondid
 
 [Bubble.io](https://bubble.io/) is a no code platform that non-developers and developers alike can use to build apps. We found it to be quite easy to use and extremely powerful. It has a plugins and apps ecosystem to make sharing code easy. It also has numerous useful foundational components like an OIDC client that made it easy for us to build a foundation for others to use in their apps.
 
-TODO Screenshot of bubble homepage
+![bubble-homepage](/assets/bubble-homepage.png)
 
 # Beyond Identity Plugins
 
@@ -61,7 +61,8 @@ Once you have created an application, you will be presented with the "New Applic
 
 1. In the search box, type "beyond identity customer"
 
-    TODO Screenshot for plugin search
+    ![bubble-plugins-list](/assets/bubble-plugins-list.png)
+
 
 1. Install both plugins
 
@@ -97,7 +98,8 @@ To use it, you will need to create and copy an API key from the Beyond Identity 
 
 1. Click "Edit realm" and copy the TENANT_ID and REALM_ID into the bubble.io plugin's configuration page
 
-  TODO Add screenshot of mgmt plugin config
+  ![bubble-plugin-config-user-mgmt](assets/bubble-plugin-config-user-mgmt.png)
+
 
 ### Configure the Beyond Identity Customer AuthN plugin
 
@@ -113,7 +115,8 @@ This plugin uses OIDC to follow the Authenticatio (AuthN) flow.
 
 1. Copy "Client Secret" into bubble.io plugin's "App secret" field and also into the API_KEY field
 
-  TODO Copy in screenshot of Customer AuthN plugin config with tokens whited out
+  ![bubble-authn-plugin-config](assets/bubble-plugins-list.png)
+
 
 ## Create User Signup flow
 
@@ -140,7 +143,8 @@ This flow will enable a new user to input their username and email address and c
 
 1. In the "username" field, remove the existing text and click "Insert dynamic data -> Input Username's value"
 
-    TODO add screenshot of configured plugin
+    ![bubble-create-user-management](assets/bubble-create-user-management.png)
+
 
 1. Next, we will call the BI API to send a credential binding email to the user.
 
@@ -188,7 +192,8 @@ In this step, we'll preview the site, correct any visual design problems, and al
 
 1. Paste that URL into the bubble.io editor -> "Workflow -> When Button Sign Up is clicked -> Step 3 - Send Credential Enrollment email -> redirect uri
 
-  TODO add a screenshot of the configured Credential enrollment page
+  ![bubble-credential-binding-step](assets/bubble-credential-binding-step.png)
+  
 
 1. Add that URI to the permitted list of redirects in the BI console.
 
