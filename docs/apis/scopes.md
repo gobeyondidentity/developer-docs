@@ -24,12 +24,12 @@ curl https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/ap
 
 - `<resource>:create`
 	- Allows for the creation of a new resource via a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>`.
-	- Resource creation may involve the auto-population of one or many fields on the resource itself. At a minimum, this will include an identifier (`id`) field. Such fields would not be allowable to be sent on creation but will be returned in the API response. Documentation of which fields are available for which resources is available in our [API documentation](https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1).
+	- Resource creation may involve the auto-population of one or many fields on the resource itself. At a minimum, this will include an identifier (`id`) field. Such fields would not be allowable to be sent on creation but will be returned in the API response. Documentation of which fields are available for which resources is available in our [API documentation](https://developer.beyondidentity.com/api/v1).
 	- Note that the resource creation request returns the same response as the read request. Therefore, while it is allowable to provide `<resource>:create` without `<resource>:read`, it is not self-consistent and so is not advisable.
 
 - `<resource>:update`
 	- Allows for the updating of an existing resource via a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/<resource>/$RESOURCE_ID`.
-	- Resource patching may disallow the updating of certain fields. Documentation of which fields are available for which resources is available in our [API documentation](https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1).
+	- Resource patching may disallow the updating of certain fields. Documentation of which fields are available for which resources is available in our [API documentation](https://developer.beyondidentity.com/api/v1).
 	- Note that the resource update request returns the same response as the read request. Therefore, while it is allowable to provide `<resource>:update` without `<resource>:read`, it is not self-consistent and so is not advisable.
 
 - `<resource>:delete`
