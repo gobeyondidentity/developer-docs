@@ -109,7 +109,7 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. Leave all other settings with the defaults. You are free to change them, but ymmv as some may have unpredictable results.
   1. Click **"Save Changes"**
 
-![plugin-configuration](/assets/wp-plugin-config.png)
+![plugin-configuration](/assets/wordpress-plugin-config.png)
 
 ### Add the redirect URL to the BI console
 The Beyond Identity web authenticator needs to know where to redirect the user after a successful authentication.
