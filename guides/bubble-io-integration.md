@@ -61,7 +61,7 @@ Once you have created an application, you will be presented with the "New Applic
 
 1. In the search box, type "beyond identity customer"
 
-TODO Screenshot for plugin search
+    TODO Screenshot for plugin search
 
 1. Install both plugins
 
@@ -71,8 +71,49 @@ TODO Screenshot for plugin search
 
 This step involves copying OIDC and client/secret values from the BI console into bubble's plugin configuration page.
 
-TODO fill this out
+### Configure the Beyond Identity Customer Mgmt plugin
 
+This plugin is a management plugin, used to manage identities and credentials, and more.
+
+To use it, you will need to create and copy an API key from the Beyond Identity admin console.
+
+1. In your app, click Plugins -> Beyond Identity Customer Mgmt
+
+1. For the Authorization token, we will need an API token from the BI console
+
+    1. Login to the [Admin console](https://console-us.beyondidentity.com/)
+
+    1. Use the realm selector in the top left corner and ensure that you're logged into the "Beyond Identity admin" realm
+
+    1. Click Applications -> Beyond Identity Management API -> API TOKENS
+
+    1. Create a new token and name it "bubble io plugin" or a name of your choosing
+
+    1. Copy and save that API token in a text editor. You will not get access to it again.
+
+1. Back in the bubble.io plugin configuration page, in the field for Authorization (shared headers), type "Bearer " and then paste your API token from the step above
+
+1. In the BI Admin console, use the real selector in the top left corner to make sure you're in the new realm that you created in the prerequisites.
+
+1. Click "Edit realm" and copy the TENANT_ID and REALM_ID into the bubble.io plugin's configuration page
+
+  TODO Add screenshot of mgmt plugin config
+
+### Configure the Beyond Identity Customer AuthN plugin
+
+This plugin uses OIDC to follow the Authenticatio (AuthN) flow.
+
+1. In your bubble.io app, click Plugins -> Beyond Identity Customer AuthN
+
+1. In another tab or window, open up the [BI Admin console](https://console-us.beyondidentity.com/). Navigate to the new realm you created in the prerequisites.
+
+1. Navigate to the new application you created "Applications -> your_new_app"
+
+1. Copy "Client ID" into bubble.io plugin's "App ID/API Key" field
+
+1. Copy "Client Secret" into bubble.io plugin's "App secret" field and also into the API_KEY field
+
+  TODO Copy in screenshot of Customer AuthN plugin config with tokens whited out
 
 ## Create User Signup flow
 
@@ -99,6 +140,83 @@ This flow will enable a new user to input their username and email address and c
 
 1. In the "username" field, remove the existing text and click "Insert dynamic data -> Input Username's value"
 
-TODO add screenshot of configured plugin
+    TODO add screenshot of configured plugin
 
 1. Next, we will call the BI API to send a credential binding email to the user.
+
+1. Add another action with "Click here to add another action -> Plugins -> BI Secure Customer User Mgmt -> Send Credential Enrollment email"
+
+1. In the IDENTITY_ID, delete the existing text, and click "Insert dynamic text" -> "Result of Step 2's body id"
+
+1. Replace redirect_uri with the expected URL of your hosted app. You can come back and edit this field later if you don't yet know the final URL. If you leave it as localhost, the Credential Enrollment portion will attempt to redirect you to localhost.
+
+1. Replace the "authenticator_config_id" with the value from your BI admin console at "Applications -> your_new_app -> Authenticator config -> Authenticator config id"
+
+1. At this point, you can tell bubble to redirect to a page that confirms authentication with a text field, or redirect back to index, or do nothing.
+
+1. (Optional) Create another page that tells the user to check their email and hit the credential enrollment link to complete signup.
+
+## Set up the login button
+
+For users who have already signed up and enrolled a credential, let's create a Login button. They will need to input their email address.
+
+1. Create a text field and title it "Existing user email address"
+
+1. Create a button "Login" and click "Start/edit workflow"
+
+1. For the first action, select "Account -> Log the user in". This will set up the browser session and update a row in the app's local database upon user login.
+
+1. Create a second action to perform the OAuth login. Click to create a second action and select "Account -> Signup/login with a social network"
+
+1. In the resulting popup, select "Provider -> BI Secure Customer AuthN"
+
+1. Click "Add API Key"
+
+1. Copy and paste the App ID and App Secret from the BI console.
+
+    "Applications -> your_new_app -> Client ID" should be copied into "App ID/API Key"
+
+    "Applications -> your_new_app -> Client Secret" should be copied into "App Secret"
+
+## Preview the site
+
+In this step, we'll preview the site, correct any visual design problems, and also copy the bubble.io URL back into the workflow to enable the BI web authenticator to redirect back to your application after it has bound a credential to your devices.
+
+1. In the bubble.io editor, click "preview" in the top right corner of the screen.
+
+1. Copy the URL of your preview app
+
+1. Paste that URL into the bubble.io editor -> "Workflow -> When Button Sign Up is clicked -> Step 3 - Send Credential Enrollment email -> redirect uri
+
+  TODO add a screenshot of the configured Credential enrollment page
+
+1. Add that URI to the permitted list of redirects in the BI console.
+
+   1. On the BI Admin console, go to your new realm -> applications -> your new application. 
+
+   1. Paste the URL of your preview app into the field "Redirect URIs", add the suffix "/api/1.1/oauth_redirect" and hit Submit. For example, https://bi-guide.bubbleapps.io/api/1.1/oauth_redirect. You can have multiple URLs here.
+ 
+
+1. Click the Design editor and fix any UI issues and close the browser tab for the older preview.
+
+1. Hit Preview again
+
+# Sign up a user
+
+1. Input a username and email address (they can be the same) and hit signup
+
+1. It will create a new identity in the bubble.io app as well as the beyondidentity tenant and realm
+
+1. It will send you a credential binding email at the address you specified.
+
+1. Click that link to bind a credential to your device. Do not use an Incognito/private browser for this, as your credential will be created and then discarded.
+
+# Log in the user
+
+1. Visit the main page of your app. Again, don't use an Incognito/private browsing window or the credentials will be discarded.
+
+1. Input the email address you used in the signup process and hit "Log in"
+
+1. Observe the browser step up and verify it with biometrics if prompted
+
+1. You should be redirected back to the bubble.io app home, and see that you've been logged in.
