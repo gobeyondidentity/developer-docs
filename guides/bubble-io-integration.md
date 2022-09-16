@@ -78,11 +78,11 @@ This plugin is a management plugin, used to manage identities and credentials, a
 
 To use it, you will need to create and copy an API key from the Beyond Identity admin console.
 
-1. In your app, click Plugins -> Beyond Identity Customer Mgmt
+1. In your bubble.io app, click Plugins -> Beyond Identity Customer Mgmt
 
 1. For the Authorization token, we will need an API token from the BI console
 
-    1. Login to the [Admin console](https://console-us.beyondidentity.com/)
+    1. Login to the [BI Admin console](https://console-us.beyondidentity.com/)
 
     1. Use the realm selector in the top left corner and ensure that you're logged into the "Beyond Identity admin" realm
 
@@ -94,7 +94,10 @@ To use it, you will need to create and copy an API key from the Beyond Identity 
 
 1. Back in the bubble.io plugin configuration page, in the field for Authorization (shared headers), type "Bearer " and then paste your API token from the step above
 
-1. In the BI Admin console, use the real selector in the top left corner to make sure you're in the new realm that you created in the prerequisites.
+  [!bubble-mgmt-plugin-params][/assets/bubble-mgmt-plugin-params.png]
+
+
+1. In the BI Admin console, use the realm selector in the top left corner to make sure you're in the new realm that you created in the prerequisites.
 
 1. Click "Edit realm" and copy the TENANT_ID and REALM_ID into the bubble.io plugin's configuration page
 
@@ -115,7 +118,7 @@ This plugin uses OIDC to follow the Authentication (AuthN) flow.
 
 1. Copy "Client Secret" into bubble.io plugin's "App secret" field and also into the API_KEY field
 
-  ![bubble-authn-plugin-config](/assets/bubble-plugins-list.png)
+  ![bubble-authn-plugin-config](/assets/bubble-authn-plugin-config.png)
 
 
 ## Create User Signup flow
@@ -130,6 +133,9 @@ This flow will enable a new user to input their username and email address and c
 1. Label each box with a Visual Element -> Text for Username and Email address
 
 1. Add a Button for "Sign up" and click "Start/Edit workflow"
+
+  ![bubble-ui-elements](/assets/bubble-ui-elements.png)
+
 
 1.  For the first Action, click "Account -> Sign the user up". This will just create an entry in the local database for the user.
 
@@ -167,6 +173,8 @@ For users who have already signed up and enrolled a credential, let's create a L
 1. Create a text field and title it "Existing user email address"
 
 1. Create a button "Login" and click "Start/edit workflow"
+
+    ![bubble-ui-elements](/assets/bubble-ui-elements.png)
 
 1. For the first action, select "Account -> Log the user in". This will set up the browser session and update a row in the app's local database upon user login.
 
