@@ -73,7 +73,7 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. Click **"Add identity"**
   1. Input the desired Name, Username, and Email (All three are required)
   1. Next, we will send the user an enrollment email to bind a credential to their device.
-  1. Follow the steps at [Send Enrollment Emails](/send-enrollment) for each new identity. In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
+  1. Follow the steps at [Send Enrollment Emails](send-enrollment) for each new identity. In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
   1. Each new identity will receive an Enrollment email, which they click on to bind a credential to their device (desktop, laptop, mobile, etc).
 
 
