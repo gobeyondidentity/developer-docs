@@ -14,3 +14,4 @@ sidebar_position: 1
 - [Integrate with Okta](/guides/sso-integrations/integrate-with-okta)
 - [Integrate with KeyCloak](/guides/sso-integrations/integrate-with-keycloak)
 - [Integrate with Curity](/guides/sso-integrations/integrate-with-curity)
+- [Integrate with Salesforce](/guides/sso-integrations/integrate-with-salesforce)
