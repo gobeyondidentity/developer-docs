@@ -32,8 +32,8 @@ export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title="Home"
+      description="Beyond Identity is an Identity and Access Management Platform for people who prefer not getting breached"
     >
     <HomepageHeader />
       <main>
