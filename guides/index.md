@@ -7,7 +7,7 @@ sidebar_position: 1
 
 - [Sending Enrollment Emails](/guides/send-enrollment)
 - [Integrate with Wordpress](/guides/integrate-wordpress)
-
+- [Integrate Auth into a bubble.io application](/guides/bubble-io-integration.md)
 
 # Integration with other SSOs
 
