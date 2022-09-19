@@ -59,11 +59,11 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 
 **Application**
 
-![application-config](/assets/sso-salesforce-config.png)
+![application-config](/assets/sso-sf-appconfig.png)
 
 **Authenticator**
 
-![authenticator-config](/assets/sso-salesforce-config.png)
+![authenticator-config](/assets/sso-sf-authconfig.png)
 
 ### Create an Identity in the BI console
   We will create identities that can login to the Salesforce instance here, and enroll them with a BI credential bound to their device.
