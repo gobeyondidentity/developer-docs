@@ -52,7 +52,7 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                onSelectCredential = { credentials, onSelectCredentialId -> }
+                credentialId = selectedCredentialId,
             ) {
                 ...
             }
@@ -72,7 +72,7 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                onSelectCredential = { credentials, onSelectCredentialId -> }
+                credentialId = selectedCredentialId,
             ) { result ->
                 result.onSuccess { authenticateResponse ->
                     authenticateResponse.redirectUrl?.let { redirectUrl ->
@@ -98,25 +98,32 @@ private fun launchOkta(context: Context, url: Uri = OKTA_URL) {
 }
 
 private fun handleIntent(context: Context, intent: Intent?) {
-    intent?.data?.let { uri ->
-        when {
-            EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
-                EmbeddedSdk.authenticate(
-                    url = uri.toString(),
-                    onSelectCredential = { credentials, onSelectCredentialId -> }
-                ) { result ->
-                    result.onSuccess { authenticateResponse ->
-                        authenticateResponse.redirectUrl?.let { redirectUrl ->
-                            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+    selectCredentialId { selectedCredentialId ->
+        intent?.data?.let { uri ->
+            when {
+                EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+                    EmbeddedSdk.authenticate(
+                        url = uri.toString(),
+                        credentialId = selectedCredentialId,
+                    ) { result ->
+                        result.onSuccess { authenticateResponse ->
+                            authenticateResponse.redirectUrl?.let { redirectUrl ->
+                                CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+                            }
                         }
                     }
                 }
-            }
-            uri.scheme == CALLBACK_URL_SCHEME -> {
-                // This URL contains authorization code and state parameters
-                // Exchange the authorization code for an id_token using Okta's token endpoint.
+                uri.scheme == CALLBACK_URL_SCHEME -> {
+                    // This URL contains authorization code and state parameters
+                    // Exchange the authorization code for an id_token using Okta's token endpoint.
+                }
             }
         }
     }
+}
+
+private fun selectCredentialId(callback: (String) -> Unit) {
+    // Where you can perform some logic here to select a credential, or
+    // present UI to a user to enable them to select a credential.
 }
 ```
