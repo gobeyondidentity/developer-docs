@@ -51,7 +51,7 @@ let session = ASWebAuthenticationSession(
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
     Embedded.shared.authenticate(
         url: url,
-        onSelectCredential: presentCredentialSelection
+        credentialID: id
     ) { result in
         switch result {
         case let .success(response):         
@@ -68,7 +68,7 @@ A `redirectURL` is returned from a successful authenticate response that needs t
 ```javascript
 Embedded.shared.authenticate(
     url: url,
-    onSelectCredential: presentCredentialSelectionToUser
+    credentialID: id
 ) { result in
     switch result {
     case let .success(response):
@@ -99,24 +99,26 @@ let session = ASWebAuthenticationSession(
         print("url is not valid")
         return
     }
-    Embedded.shared.authenticate(
-        url: url,
-        onSelectCredential: presentCredentialSelectionToUser
-    ) { result in
-        switch result {
-        case let .success(response):
-            let newSession = ASWebAuthenticationSession(
-                url: response.redirectURL, 
-                callbackURLScheme: viewModel.callbackScheme
-            ) { (url, error)  in
-                parseForIDToken(url)
+    presentCredentialSelection { selectedID in
+        Embedded.shared.authenticate(
+            url: url,
+            credentialID: selectedID
+        ) { result in
+            switch result {
+            case let .success(response):
+                let newSession = ASWebAuthenticationSession(
+                    url: response.redirectURL, 
+                    callbackURLScheme: viewModel.callbackScheme
+                ) { (url, error)  in
+                    parseForIDToken(url)
+                }
+                newSession.prefersEphemeralWebBrowserSession = false
+                newSession.presentationContextProvider = self
+                newSession.start()
+                        
+            case let .failure(error):
+                print(error)
             }
-            newSession.prefersEphemeralWebBrowserSession = false
-            newSession.presentationContextProvider = self
-            newSession.start()
-                    
-        case let .failure(error):
-            print(error)
         }
     }
 }
