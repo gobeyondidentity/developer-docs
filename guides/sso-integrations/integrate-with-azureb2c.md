@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Integrate With Azure AD B2C
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Auth0 environment. In this scenario, the Beyond Identity Hosted Web Authenticator will be used, but an almost identical process can be followed should you wish to use the Beyond Identity embedded web or native SDKs.
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment. In this scenario, the Beyond Identity Hosted Web Authenticator will be used, but an almost identical process can be followed should you wish to use the Beyond Identity embedded web or native SDKs.
 
 This guide will cover:
 
