@@ -26,7 +26,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Okta Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta. Make sure `prefersEphemeralWebBrowserSession` is set to `true` to request that the browser doesn’t share cookies or other browsing data between the authentication session and the user’s normal browser session.
 
 ![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
 
@@ -36,6 +36,7 @@ let session = ASWebAuthenticationSession(
     callbackURLScheme: viewModel.callbackScheme
     completionHandler: { (url, error) in }
 )
+session.prefersEphemeralWebBrowserSession = true
 session.presentationContextProvider = self
 session.start()
 ```
@@ -81,6 +82,7 @@ Embedded.shared.authenticate(
             // Exchange the authorization code for an id_token using Okta's token endpoint.
         }
         newSession.presentationContextProvider = self
+        newSession.prefersEphemeralWebBrowserSession = true
         newSession.start()
                 
     case let .failure(error):
@@ -111,6 +113,7 @@ let session = ASWebAuthenticationSession(
             ) { (url, error)  in
                 parseForIDToken(url)
             }
+            newSession.prefersEphemeralWebBrowserSession = true
             newSession.presentationContextProvider = self
             newSession.start()
                     
@@ -119,6 +122,7 @@ let session = ASWebAuthenticationSession(
         }
     }
 }
+session.prefersEphemeralWebBrowserSession = true
 session.presentationContextProvider = self
 session.start()
 ```

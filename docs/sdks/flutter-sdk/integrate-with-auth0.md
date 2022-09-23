@@ -48,7 +48,7 @@ var result = await FlutterWebAuth.authenticate(
 The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](overview#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
 
 ```javascript
-var authenticateResponse = await Embeddedsdk.authenticate(result);
+var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
 ```
 
  - Step 4: Redirect URL
@@ -68,18 +68,25 @@ var result = await FlutterWebAuth.authenticate(
 #### Full Example
 
 ```javascript
-var result = await FlutterWebAuth.authenticate(
-    url: AUTH0_URL,
-    callbackUrlScheme: CALLBACK_URL_SCHEME,
-);
+selectCredentialId((selectedCredentialId) async {
+    var result = await FlutterWebAuth.authenticate(
+        url: AUTH0_URL,
+        callbackUrlScheme: CALLBACK_URL_SCHEME,
+    );
 
-var authenticateResponse = await Embeddedsdk.authenticate(result);
+    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
 
-var redirectUrlResult = await FlutterWebAuth.authenticate(
-    url: authenticateResponse.redirectUrl,
-    callbackUrlScheme: CALLBACK_URL_SCHEME,
-);
+    var redirectUrlResult = await FlutterWebAuth.authenticate(
+        url: authenticateResponse.redirectUrl,
+        callbackUrlScheme: CALLBACK_URL_SCHEME,
+    );
 
-// This URL contains authorization code and state parameters
-// Exchange the authorization code for an id_token using Auth0's token endpoint.
+    // This URL contains authorization code and state parameters
+    // Exchange the authorization code for an id_token using Auth0's token endpoint.
+});
+
+Future<void> selectCredentialId(Function(String) callback) async {
+  // Where you can perform some logic here to select a credential, or
+  // present UI to a user to enable them to select a credential.
+}
 ```

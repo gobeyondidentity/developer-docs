@@ -120,7 +120,7 @@ function(accessToken, ctx, cb) {
       try {
         var profile = JSON.parse(body);
         profile.provider = 'beyond';
-        profile.id = profile.id;
+        profile.id = profile.sub;
         profile.displayName = profile.display_name;
         profile.email = profile.email;
         cb(null, profile);
@@ -186,4 +186,3 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 ## User Deprovisioning
 
 To deprovision users from the Beyond Identity experience, access the Beyond Identity Admin Portal and manually delete the appropriate user(s).
-

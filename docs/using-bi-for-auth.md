@@ -32,7 +32,7 @@ To create a new application you can:
   - A URL to any page in your web application
 
 - After the protocol configuration is finished, modify your authenticator config
-  - [Authenticator Config Reference](docs/v1/platform-overview/authenticator-config#embedded)
+  - [Authenticator Config Reference](/docs/v1/platform-overview/authenticator-config)
 
 - Click on create and your app should be created
   ![Created App Screenshot](./screenshots/AppCreated.jpg)
