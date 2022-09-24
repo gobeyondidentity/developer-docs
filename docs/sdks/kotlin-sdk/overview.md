@@ -75,26 +75,20 @@ data class BindCredentialResponse(
 
 ## Authentication
 
-The `authenticate` function expects a URL. This Beyond Identity specific URL is generated during on OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the credential on your device. You will be required to select from one of the credentials bound to your device if more than one credential belongs to a single Realm. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+The `authenticate` function expects a `URL` and a `CredentialID`. The Beyond Identity specific URL is generated during on OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the credential on your device. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+
+Before calling this function you will need to ask the user to select a credential that has been bound to the device. A selection view can be built in conjunction with [getCredentials](#listing-credentials).
 
 #### Usage
 
 ```javascript
 EmbeddedSdk.authenticate(
     url: String,
-    onSelectCredential: (List<Credential>, ((CredentialID?) -> Unit)) -> Unit,
+    credentialId: CredentialID,
 ) { result ->
     result.onSuccess { }
     result.onFailure { }
 }
-
-// Example
-EmbeddedSdk.authenticate("some_url", { credentials, onSelectCredentialId ->
-    // Where you can perform some logic here to select a credential, or
-    // present UI to a user to enable them to select a credential.
-    val foundCredential = credentials.find { it.identity.username == "some_username" }
-    onSelectCredentialId(foundCredential?.id)
-})
 ```
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
