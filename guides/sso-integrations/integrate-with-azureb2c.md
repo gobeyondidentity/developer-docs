@@ -48,7 +48,7 @@ OR
 
 If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp 
 
-(Replace {your-tenant-name} with the name of your tenant, and {your-domain-name} with your custom domain)
+(Replace {your-tenant-name} with the name of your Azure tenant, and {your-domain-name} with your custom domain)
 
 - Token Endpoint Auth Method = Client Secret Post
 
@@ -64,7 +64,7 @@ If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.
 
 3. Click **Submit**
 
-  <img src="/assets/application.png" width="400px" />
+  <img src="/assets/application.png" width="400" />
 
 4. Select the newly created OIDC client configuration and make a note of the **Discovery Endpoint**, **Client ID** and **Client Secret** as these will be used in the next steps.
 
@@ -103,17 +103,17 @@ Identity provider claims mapping (when using user flow policies, Azure AD B2C is
 
 3a. Within the Azure portal, under **Policies**, select **User flows** and then select **New user flow**
 
-  <img src="/assets/User Flow.png" width="700px" />
+  <img src="/assets/User Flow.png" width="700" />
 
 3b. On the **Create a user flow** page, select the **Sign up and sign in** user flow.
 
-  <img src="/assets/select-user-flow-type.png" width="700px" />
+  <img src="/assets/select-user-flow-type.png" width="700" />
 
 3c. Under **Version**, select **Recommended**, and then select **Create**
 
-  <img src="/assets/select-version.png" width="700px" />
+  <img src="/assets/select-version.png" width="700" />
 
-3d. Enter a **Name** for the user flow. For example, "Signup_Signin_BI". Note "B2C_1_" will prepend the name.
+3d. Enter a **Name** for the user flow. For example, "Signup\_Signin\_BI". Note "B2C\_1\_" will prepend the name.
 
 3e. For Identity providers, select the **Custom identity provider** (Beyond Identity) you created earlier. Optionally, select **Email signup** if you want to have the ability to support local accounts (using passwords)
 
@@ -200,11 +200,11 @@ It isn't actually necessary to test the integration from your application as Azu
 
 5. If this is the first time that the test user has authenticated, then Azure AD will prompt the user to verify their email address by sending an email containing an OTP which the user must enter to the login form and verify
 
-  <img src="/assets/email verify.png" width="400px" />
+  <img src="/assets/email verify.png" width="400" />
 
-6. Following authentication (and email verification, if required), observe the decoded identity token that is returned by Beyond Identity
+6. Following authentication (and email verification, if required), observe the decoded identity token that is returned by Azure
 
-  <img src="/assets/token.png" width="700px" />
+  <img src="/assets/token.png" width="700" />
 
 
 ## More Complex Integrations
