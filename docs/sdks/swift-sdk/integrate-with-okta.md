@@ -131,6 +131,6 @@ session.start()
 
 ### Using an SDK
 
-See Okta's [Developer Site](https://developer.okta.com/code/ios/) for the latest Swift SDKs.
+See Okta's [Developer Site](https://developer.okta.com/code/#mobile-native) for the latest Swift SDKs.
 
 Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).

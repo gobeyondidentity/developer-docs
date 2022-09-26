@@ -129,6 +129,6 @@ session.start()
 
 ### Using an SDK
 
-See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/ios-swift) for the latest Swift SDKs.
+See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native) for the latest Swift SDKs.
 
 Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).

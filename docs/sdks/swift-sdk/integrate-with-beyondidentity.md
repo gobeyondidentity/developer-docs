@@ -3,7 +3,7 @@ title: Integrate With Beyond Identity
 sidebar_position: 1
 ---
 
-This guide describes how to configure Beyond Identity as the primary IdP.
+This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Beyond Identity Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load your crafted Beyond Identity [Authorization URL](../../using-bi-for-auth/#craft-your-authorize-url).
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and launch your crafted Beyond Identity OAuth2 authorization request URL you built in the pre-requisite step.
 
 ```javascript
 let session = ASWebAuthenticationSession(
@@ -104,4 +104,9 @@ let session = ASWebAuthenticationSession(
 }
 session.presentationContextProvider = self
 session.start()
+
+private fun presentCredentialSelection(callback: (CredentialID) -> Void) {
+    // Where you can perform some logic here to select a credential, or
+    // present UI to a user to enable them to select a credential.
+}
 ```
