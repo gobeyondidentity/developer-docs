@@ -13,5 +13,6 @@ sidebar_position: 1
 
 - [Integrate with Auth0](/guides/sso-integrations/integrate-with-auth0)
 - [Integrate with Okta](/guides/sso-integrations/integrate-with-okta)
+- [Integrate with Azure AD B2C](/guides/sso-integrations/integrate-with-azureb2c)
 - [Integrate with KeyCloak](/guides/sso-integrations/integrate-with-keycloak)
 - [Integrate with Curity](/guides/sso-integrations/integrate-with-curity)
