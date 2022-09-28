@@ -20,9 +20,9 @@ Before calling [`Embedded.authenticate`](overview#authentication), we must [Auth
 
 See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native) for the latest React Native SDKs or Widgets.
 
-Note: At this time, there is no way to intercept the first URL to authenticate with Beyond Identity, so we recommend [using a WebView](#using-a-webview).
+Note: At this time, there is no way to intercept the first URL to authenticate with Beyond Identity, so we recommend [using the Web](#using-the-web).
 
-### Using a WebView
+### Using the Web
 
 Pick a webview library that follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252). The library should use `SFAuthenticationSession` and `SFSafariViewController` on iOS and [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) on Android for authorization requests. `UIWebView` and `WKWebView` on iOS and `WebView` on Android are explicitly _not_ supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12). For these reasons, unfortunately, the [react-native-community/react-native-webview](https://github.com/react-native-community/react-native-webview) is _not_ recommended. The below examples will use [InAppBrowser](https://github.com/proyecto26/react-native-inappbrowser):
 
