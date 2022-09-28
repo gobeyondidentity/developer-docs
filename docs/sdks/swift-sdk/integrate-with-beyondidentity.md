@@ -14,7 +14,7 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
 ## Authorize With Beyond Identity
 
-### Using a WebView
+### Using the Web
 
 The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252) including using `SFAuthenticationSession` and `SFSafariViewController` on iOS for the auth request. `UIWebView` and `WKWebView` are explicitly *not* supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
 

@@ -16,7 +16,7 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
 ![Integrate With Okta Flowchart](../screenshots/Integrate%20With%20Okta%20Flowchart.png)
 
-### Using a WebView
+### Using the Web
 
 The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252) including using `SFAuthenticationSession` and `SFSafariViewController` on iOS for the auth request. `UIWebView` and `WKWebView` are explicitly *not* supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
 
@@ -133,4 +133,4 @@ session.start()
 
 See Okta's [Developer Site](https://developer.okta.com/code/#mobile-native) for the latest Swift SDKs.
 
-Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web).
