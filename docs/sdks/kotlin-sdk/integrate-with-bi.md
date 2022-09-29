@@ -23,7 +23,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Beyond Identity Authorize URL
 
-To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the Oauth2 Authorization Request URL you built in the pre-requisite step.
+To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the OAuth2 Authorization Request URL you built in the pre-requisite step.
 
 ```javascript
 val builder = CustomTabsIntent.Builder()

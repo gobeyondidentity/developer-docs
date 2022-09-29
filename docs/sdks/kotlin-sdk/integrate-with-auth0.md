@@ -32,7 +32,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Auth0 Authorize URL
 
-To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the Oauth2 Authorization Request URL provided by [Auth0](https://auth0.com/docs/api/authentication#authorization-code-flow-with-pkce).
+To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the OAuth2 Authorization Request URL provided by [Auth0](https://auth0.com/docs/api/authentication#authorization-code-flow-with-pkce).
 
 ```javascript
 val builder = CustomTabsIntent.Builder()
