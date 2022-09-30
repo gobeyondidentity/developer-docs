@@ -3,7 +3,7 @@ title: Integrate With Beyond Identity
 sidebar_position: 1
 ---
 
-This guide describes how to configure Beyond Identity as the primary IdP.
+This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
 ## Authorize With Beyond Identity
 
-### Using a WebView
+### Using the Web
 
 The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252) including using `SFAuthenticationSession` and `SFSafariViewController` on iOS for the auth request. `UIWebView` and `WKWebView` are explicitly *not* supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
 
@@ -24,7 +24,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Beyond Identity Authorize URL
 
-To begin the authentication flow, start an `ASWebAuthenticationSession`, and load your crafted Beyond Identity [Authorization URL](../../using-bi-for-auth/#craft-your-authorize-url).
+To begin the authentication flow, start an `ASWebAuthenticationSession`, and launch your crafted Beyond Identity OAuth2 authorization request URL you built in the pre-requisite step.
 
 ```javascript
 let session = ASWebAuthenticationSession(
@@ -48,7 +48,7 @@ let session = ASWebAuthenticationSession(
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
     Embedded.shared.authenticate(
         url: url,
-        onSelectCredential: presentCredentialSelection
+        credentialID: id
     ) { result in
         switch result {
         case let .success(response):         
@@ -65,7 +65,7 @@ A `redirectURL` is returned from a successful authenticate response. The authori
 ```javascript
 Embedded.shared.authenticate(
     url: url,
-    onSelectCredential: presentCredentialSelectionToUser
+    credentialID: id
 ) { result in
     switch result {
     case let .success(response):
@@ -87,19 +87,26 @@ let session = ASWebAuthenticationSession(
         print("url is not valid")
         return
     }
-    Embedded.shared.authenticate(
-        url: url,
-        onSelectCredential: presentCredentialSelectionToUser
-    ) { result in
-        switch result {
-        case let .success(response):
-            let code = parseCode(from: response.redirectURL)
-            let token = exchangeForToken(code)
-        case let .failure(error):
-            print(error)
-        }
+    presentCredentialSelection { selectedID in
+        Embedded.shared.authenticate(
+            url: url,
+            credentialID: selectedID
+        ) { result in
+            switch result {
+            case let .success(response):
+                let code = parseCode(from: response.redirectURL)
+                let token = exchangeForToken(code)
+            case let .failure(error):
+                print(error)
+            }
+        } 
     }
 }
 session.presentationContextProvider = self
 session.start()
+
+private fun presentCredentialSelection(callback: (CredentialID) -> Void) {
+    // Where you can perform some logic here to select a credential, or
+    // present UI to a user to enable them to select a credential.
+}
 ```

@@ -24,7 +24,7 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
  - Step 2: Beyond Identity Authorize URL
 
-To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the Oauth2 Authorization Request URL you built in the pre-requisite step.
+To start the authorization flow, build a [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the OAuth2 Authorization Request URL you built in the pre-requisite step.
 
 ```javascript
 val builder = CustomTabsIntent.Builder()
@@ -42,7 +42,7 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                onSelectCredential = { credentials, onSelectCredentialId -> }
+                credentialId = selectedCredentialId,
             ) {
                 ...
             }
@@ -54,7 +54,7 @@ intent?.data?.let { uri ->
 
  - Step 4: Redirect URL
 
-To complete the authorization flow, build another [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL.
+A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can exchange the code for an id token using your Beyond Identity Token Endpoint.
 
 ```javascript
 intent?.data?.let { uri ->
@@ -62,18 +62,17 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                onSelectCredential = { credentials, onSelectCredentialId -> }
+                credentialId = selectedCredentialId,
             ) { result ->
                 result.onSuccess { authenticateResponse ->
                     authenticateResponse.redirectUrl?.let { redirectUrl ->
-                        CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+                        // This URL contains authorization code and state parameters
+                        // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                        var code = parseCode(redirectUrl)
+                        var token = exchangeForToken(code)
                     }
                 }
             }
-        }
-        uri.scheme == CALLBACK_URL_SCHEME -> {
-            // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
         }
         ...
     }
@@ -88,25 +87,31 @@ private fun launchBI(context: Context, url: Uri = BI_AUTH_URL) {
 }
 
 private fun handleIntent(context: Context, intent: Intent?) {
-    intent?.data?.let { uri ->
-        when {
-            EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
-                EmbeddedSdk.authenticate(
-                    url = uri.toString(),
-                    onSelectCredential = { credentials, onSelectCredentialId -> }
-                ) { result ->
-                    result.onSuccess { authenticateResponse ->
-                        authenticateResponse.redirectUrl?.let { redirectUrl ->
-                            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+    selectCredentialId { selectedCredentialId ->
+        intent?.data?.let { uri ->
+            when {
+                EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+                    EmbeddedSdk.authenticate(
+                        url = uri.toString(),
+                        credentialId = selectedCredentialId,
+                    ) { result ->
+                        result.onSuccess { authenticateResponse ->
+                            authenticateResponse.redirectUrl?.let { redirectUrl ->
+                                // This URL contains authorization code and state parameters
+                                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                                var code = parseCode(redirectUrl)
+                                var token = exchangeForToken(code)
+                            }
                         }
                     }
                 }
             }
-            uri.scheme == CALLBACK_URL_SCHEME -> {
-                // This URL contains authorization code and state parameters
-                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
-            }
         }
     }
+}
+
+private fun selectCredentialId(callback: (String) -> Unit) {
+    // Where you can perform some logic here to select a credential, or
+    // present UI to a user to enable them to select a credential.
 }
 ```

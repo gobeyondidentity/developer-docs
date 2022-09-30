@@ -16,7 +16,7 @@ Before calling [`Embedded.shared.authenticate`](overview#authentication), we mus
 
 ![Integrate With Auth0 Flowchart](../screenshots/Integrate%20With%20Auth0%20Flowchart.png)
 
-### Using a WebView
+### Using the Web
 
 The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252) including using `SFAuthenticationSession` and `SFSafariViewController` on iOS for the auth request. `UIWebView` and `WKWebView` are explicitly *not* supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12).
 
@@ -51,7 +51,7 @@ let session = ASWebAuthenticationSession(
     guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
     Embedded.shared.authenticate(
         url: url,
-        onSelectCredential: presentCredentialSelection
+        credentialID: id
     ) { result in
         switch result {
         case let .success(response):         
@@ -68,7 +68,7 @@ A `redirectURL` is returned from a successful authenticate response that needs t
 ```javascript
 Embedded.shared.authenticate(
     url: url,
-    onSelectCredential: presentCredentialSelectionToUser
+    credentialID: id
 ) { result in
     switch result {
     case let .success(response):
@@ -99,24 +99,26 @@ let session = ASWebAuthenticationSession(
         print("url is not valid")
         return
     }
-    Embedded.shared.authenticate(
-        url: url,
-        onSelectCredential: presentCredentialSelectionToUser
-    ) { result in
-        switch result {
-        case let .success(response):
-            let newSession = ASWebAuthenticationSession(
-                url: response.redirectURL, 
-                callbackURLScheme: viewModel.callbackScheme
-            ) { (url, error)  in
-                parseForIDToken(url)
+    presentCredentialSelection { selectedID in
+        Embedded.shared.authenticate(
+            url: url,
+            credentialID: selectedID
+        ) { result in
+            switch result {
+            case let .success(response):
+                let newSession = ASWebAuthenticationSession(
+                    url: response.redirectURL, 
+                    callbackURLScheme: viewModel.callbackScheme
+                ) { (url, error)  in
+                    parseForIDToken(url)
+                }
+                newSession.prefersEphemeralWebBrowserSession = false
+                newSession.presentationContextProvider = self
+                newSession.start()
+                        
+            case let .failure(error):
+                print(error)
             }
-            newSession.prefersEphemeralWebBrowserSession = false
-            newSession.presentationContextProvider = self
-            newSession.start()
-                    
-        case let .failure(error):
-            print(error)
         }
     }
 }
@@ -127,6 +129,6 @@ session.start()
 
 ### Using an SDK
 
-See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native/ios-swift) for the latest Swift SDKs.
+See Auth0's [Developer Site](https://auth0.com/docs/quickstart/native) for the latest Swift SDKs.
 
-Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using a WebView](#using-a-webview).
+Note: At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web).

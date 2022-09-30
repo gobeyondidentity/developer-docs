@@ -45,16 +45,13 @@ var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCreden
 
  - Step 4: Redirect URL
 
-To complete the authorization flow, make another call to `FlutterWebAuth.authenticate()` with the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL.
+A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can exchange the code for an id token using your Beyond Identity Token Endpoint.
 
 ```javascript
-var result = await FlutterWebAuth.authenticate(
-    url: authenticateResponse.redirectUrl,
-    callbackUrlScheme: CALLBACK_URL_SCHEME,
-);
-
 // This URL contains authorization code and state parameters
 // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+var code = parseCode(authenticateResponse.redirectUrl)
+var token = exchangeForToken(code)
 ```
 
 #### Full Example
@@ -68,13 +65,10 @@ selectCredentialId((selectedCredentialId) async {
 
     var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
 
-    var redirectUrlResult = await FlutterWebAuth.authenticate(
-        url: authenticateResponse.redirectUrl,
-        callbackUrlScheme: CALLBACK_URL_SCHEME,
-    );
-
     // This URL contains authorization code and state parameters
     // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+    var code = parseCode(authenticateResponse.redirectUrl)
+    var token = exchangeForToken(code)
 });
 
 Future<void> selectCredentialId(Function(String) callback) async {
