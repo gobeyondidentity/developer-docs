@@ -59,6 +59,8 @@ Once you have created an application, you will be presented with the "New Applic
 
 1. On the search page, tick "Categories -> Technical"
 
+1. Also on the search page, tick "Built By -> Third-party developers"
+
 1. In the search box, type "beyond identity customer"
 
     ![bubble-plugins-list](/assets/bubble-plugins-list.png)
