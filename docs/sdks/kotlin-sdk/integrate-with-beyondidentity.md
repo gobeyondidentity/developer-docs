@@ -8,6 +8,7 @@ This guide describes how to use Beyond Identity for authentication during an OAu
 ## Prerequisites
 
  - [Using Beyond Identity for Authentication](../../using-bi-for-auth)
+ - [Kotlin SDK](overview)
 
 Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must authorize using Beyond Identity.
 
@@ -53,7 +54,7 @@ intent?.data?.let { uri ->
 
  - Step 4: Redirect URL
 
-To complete the authorization flow, build another [`CustomTabsIntent`](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch the `redirectUrl` returned from a successful `AuthenticateResponse`. The authorization code and state parameter are attached to this URL.
+A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can exchange the code for an id token using your Beyond Identity Token Endpoint.
 
 ```javascript
 intent?.data?.let { uri ->
@@ -65,14 +66,13 @@ intent?.data?.let { uri ->
             ) { result ->
                 result.onSuccess { authenticateResponse ->
                     authenticateResponse.redirectUrl?.let { redirectUrl ->
-                        CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+                        // This URL contains authorization code and state parameters
+                        // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                        var code = parseCode(redirectUrl)
+                        var token = exchangeForToken(code)
                     }
                 }
             }
-        }
-        uri.scheme == CALLBACK_URL_SCHEME -> {
-            // This URL contains authorization code and state parameters
-            // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
         }
         ...
     }
@@ -97,14 +97,13 @@ private fun handleIntent(context: Context, intent: Intent?) {
                     ) { result ->
                         result.onSuccess { authenticateResponse ->
                             authenticateResponse.redirectUrl?.let { redirectUrl ->
-                                CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(redirectUrl))
+                                // This URL contains authorization code and state parameters
+                                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                                var code = parseCode(redirectUrl)
+                                var token = exchangeForToken(code)
                             }
                         }
                     }
-                }
-                uri.scheme == CALLBACK_URL_SCHEME -> {
-                    // This URL contains authorization code and state parameters
-                    // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
                 }
             }
         }
