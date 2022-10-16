@@ -7,9 +7,11 @@ Welcome to the developer documentation for Beyond Identity. This is where you ca
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
-## Just looking to get going? 
+:::tip
+### Just looking to get going? 
 
 Follow our [Getting Started guide](/docs/v1/getting-started). 
+:::
 
 ## What is Beyond Identity
 
