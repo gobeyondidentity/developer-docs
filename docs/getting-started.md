@@ -37,9 +37,9 @@ cd getting-started
 
 ---
 
-## 3. Create a Tenant
+## 3. Create an account (if you haven't done so already)
 
-Head to the [signup form](https://www.beyondidentity.com/developers/signup) and fill out your info.
+If you haven't created an account, head to the [signup form](https://www.beyondidentity.com/developers/signup) and fill out your info. If you already created an account you can skip this step. 
 
 > This process creates various resources described in Beyond Identity's [architecture](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture). It also creates a [passkey](https://developer.beyondidentity.com/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys) that allows you to log into the Beyond Identity Console without a password. Due to the nature of passkeys, the credential created on signup *only works with the Console*. New passkeys must be created in the correct realm for accessing other applications.
 
