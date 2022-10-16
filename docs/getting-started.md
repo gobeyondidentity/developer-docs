@@ -7,6 +7,12 @@ In this guide we will show you how to create and configure your account and conn
 
 --- 
 
+:::tip 
+If you'd like to explore a hosted version of this demo, [check the `Acme Demo`](https://acme.beyondidentity.com`). No coding required, just create passkeys and use them.
+:::
+
+--- 
+
 ## 1. Check the basics
 
 The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [NextJS](https://next-auth.js.org/) frontend. You'll need standard developer tools to get it up and running.
