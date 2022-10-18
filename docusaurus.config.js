@@ -109,7 +109,11 @@ const config = {
     ],
   ],
   scripts: [
-    
+    {
+      src:
+        'https://cdn.optimizely.com/js/22297341556.js',
+      async: false,
+    },
     {
       src:
         '/js/loadtags.js',

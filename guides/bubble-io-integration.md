@@ -96,7 +96,7 @@ To use it, you will need to create and copy an API key from the Beyond Identity 
 
 1. Back in the bubble.io plugin configuration page, in the field for Authorization (shared headers), type "Bearer " and then paste your API token from the step above
 
-  [!bubble-mgmt-plugin-params][/assets/bubble-mgmt-plugin-params.png]
+  ![bubble-mgmt-plugin-params](/assets/bubble-mgmt-plugin-params.png)
 
 
 1. In the BI Admin console, use the realm selector in the top left corner to make sure you're in the new realm that you created in the prerequisites.
