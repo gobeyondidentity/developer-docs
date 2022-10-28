@@ -8,7 +8,7 @@ In this guide we will show you how to create and configure your account and conn
 --- 
 
 :::tip 
-If you'd like to explore a hosted version of this demo, [check the `Acme Demo`](https://acme.beyondidentity.com`). No coding required, just create passkeys and use them.
+If you'd like to explore a hosted version of this demo, [check the `Acme Demo`](https://acme.beyondidentity.com). No coding required, just create passkeys and use them.
 :::
 
 --- 
