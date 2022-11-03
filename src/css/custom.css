@@ -203,3 +203,14 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 .footer--dark {
     background-color: var(--adam-blue);
 }
+
+.button--secondary {
+  border-radius: 100px;
+}
+
+.button--secondary:hover {
+  
+  border-radius: 100px;
+  color: black;
+  background-color: #D9A406 !important;
+}
