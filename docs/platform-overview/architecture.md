@@ -68,6 +68,9 @@ See the pre-instantiated Admin Console access rule for an example of a Policy Ru
 ## Events
 Events are an immutable record of all transactions that occur in a Realm. Events can be exported to a number of SIEM products or viewed within your Console.
 
+## SCIM support
+Beyond Identity offers SCIM 2.0 compliant server for standardized approach to managing _Users_ and _Groups_.  It uses common REST API endpoints to create, update, and delete these entities.  For more information, please see the dedicated [SCIM document](../scim/v1/scimv1.md).
+
 ## Applications and Authenticator Configs
 An Application in the Beyond Identity Cloud represents an application (e.g. AcmeCorp Android App, Todo-List iOS App, etc) that has embedded a Beyond Identity SDK. A Realm can have many applications.
 
