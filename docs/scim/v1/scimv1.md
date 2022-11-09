@@ -74,7 +74,7 @@ Sample request
     }
 ```
 Sample response
-```
+```http request
     HTTP/1.1 201 Created
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -97,12 +97,12 @@ Sample response
 **Read user example**
 
 Sample request
-```
+```http request
     GET /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -124,7 +124,7 @@ Sample response
 **Replace(full update) user example**
 
 Sample request
-```
+```http request
     PUT /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
 
@@ -139,7 +139,7 @@ Sample request
     }
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -161,12 +161,12 @@ Sample response
 **Delete user example**
 
 Sample request
-```
+```http request
     DELETE /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
@@ -180,12 +180,12 @@ Sample response
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
 
 Sample request
-```
+```http request
     GET /scim/v2/Users?ﬁlter=username eq "test.user@bi.com"&startIndex=1&count=100 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -225,7 +225,7 @@ CMVA = complex multi value attribute
 **Create group example**
 
 Sample request
-```
+```http request
     POST /scim/v2/Groups HTTP/1.1
     Authorization: <Authorization credentials>
 
@@ -243,7 +243,7 @@ Sample request
     }
 ```
 Sample response
-```
+```http request
     HTTP/1.1 201 Created
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -261,12 +261,12 @@ Sample response
 **Read group example**
 
 Sample request
-```
+```http request
     GET /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Tue, 10 Sep 2019 05:06:25 GMT
     Content-Type: text/json;charset=UTF-8
@@ -283,7 +283,7 @@ Sample response
 **Replace(full update) group example**
 
 Sample request
-```
+```http request
     PUT /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
 
@@ -298,7 +298,7 @@ Sample request
     }
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -315,12 +315,12 @@ Sample response
 **Delete group example**
 
 Sample request
-```
+```http request
     DELETE /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
@@ -334,12 +334,12 @@ Sample response
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
 
 Sample request
-```
+```http request
     GET /scim/v2/Groups?ﬁlter=displayname eq "Test SCIMv2"&startIndex=1&count=100 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
 Sample response
-```
+```http request
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
