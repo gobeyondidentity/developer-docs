@@ -54,10 +54,7 @@ CMVA = complex multi value attribute
 
 If unsupported attributes are specified in the request, they will be ignored.
 
-**Create user example**
-:::tip Sample App
-dsgdfg
-:::
+#### Create user example
 * Notes:
     - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 
@@ -97,7 +94,7 @@ Sample response
     }
 ```
 
-**Read user example**
+#### Read user example
 
 Sample request
 ```http request
@@ -124,7 +121,7 @@ Sample response
         }
     }
 ```
-**Replace(full update) user example**
+#### Replace(full update) user example
 
 Sample request
 ```http request
@@ -161,7 +158,7 @@ Sample response
         }
     }
 ```
-**Delete user example**
+#### Delete user example
 
 Sample request
 ```http request
@@ -173,7 +170,7 @@ Sample response
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
-**Search users example**
+#### Search users example
 * Limitations:
     - Can only filter by `username`
     - Ony `eq` and `ne` filter operators are supported
@@ -224,8 +221,8 @@ CMVA = complex multi value attribute
 
 * Notes:
   - members attribute is never returned
-  
-**Create group example**
+
+#### Create group example
 
 Sample request
 ```http request
@@ -261,7 +258,7 @@ Sample response
     }
 ```
 
-**Read group example**
+#### Read group example
 
 Sample request
 ```http request
@@ -283,7 +280,7 @@ Sample response
         }
     }
 ```
-**Replace(full update) group example**
+#### Replace(full update) group example
 
 Sample request
 ```http request
@@ -315,7 +312,7 @@ Sample response
         }
     }
 ```
-**Delete group example**
+#### Delete group example
 
 Sample request
 ```http request
@@ -327,7 +324,7 @@ Sample response
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
-**Search groups example**
+#### Search groups example
 * Limitations:
   - Can only filter by `displayname`
   - Ony `eq` and `ne` filter operators are supported
