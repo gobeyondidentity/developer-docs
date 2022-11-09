@@ -9,22 +9,22 @@ Beyond Identity’s (BI) SCIM server implementation follows the [tenant/realm](h
 
 The SCIM user resource is equivalent to BI identity object.  When the SCIM client creates a user, our SCIM service will create an identity.  The SCIM group resource maps to BI’s group.  The BI SCIM configuration can be inspected via standard SCIM discovery endpoints.  
 
-##Setup
+## Setup
 The SCIM server is available by default whenever the customer creates a new realm.  However, in order to use any SCIM functionality an access token with `scim:all` scope is required.  For more information on setting up tenants, realms, applications and obtaining access tokens with specified scope, please see [Getting Started](https://developer.beyondidentity.com/docs/v1/getting-started) and [Using Beyond Identity for Authentication](https://developer.beyondidentity.com/docs/v1/using-bi-for-auth).
 We recommend using a dedicated application for SCIM operations.  This way, the customer can differentiate between API and SCIM operations when going through the logs.
 
-##Discovery
+## Discovery
 You can use the following endpoints to discover the implementation details of BI's SCIM server.
 
-| Endpoint                                | SCIM spec
-| :---:                                   | :---:         
-| {{baseUrl}}/scim/ServiceProviderConfig  | https://tools.ietf.org/html/rfc7643#section-5
-| {{baseUrl}}/scim/ResourceTypes          | https://tools.ietf.org/html/rfc7643#section-6
-| {{baseUrl}}/scim/Schemas                | https://tools.ietf.org/html/rfc7643#section-7
+|                Endpoint                |                   SCIM spec                   |
+|:--------------------------------------:|:---------------------------------------------:|
+| {{baseUrl}}/scim/ServiceProviderConfig | https://tools.ietf.org/html/rfc7643#section-5 |
+|     {{baseUrl}}/scim/ResourceTypes     | https://tools.ietf.org/html/rfc7643#section-6 |
+|        {{baseUrl}}/scim/Schemas        | https://tools.ietf.org/html/rfc7643#section-7 |
 
 Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.
 
-##Operations
+## Operations
 The following operations are currently supported by BI SCIM server:
 
 - Create: POST {{baseUrl}}/{{resource}}
@@ -36,18 +36,18 @@ The following operations are currently supported by BI SCIM server:
 Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`. **resource** can either be `Groups`, `Users`. 
 **id** represents the BI's unique identifier of the corresponding resource.  
 
-###Users
+### Users
 
 We support the following **Users**`(urn:ietf:params:scim:schemas:core:2.0:User)`attributes:
 
-| User Attribute | Attribute Type| Data Type|Required?|Mutability|Description
-| :---:          | :---:         | :---:    | :---:   | :---:    | :---:     
-| id             | SVA           | string   |N        |N         | ID is unique attribute that identifies the user within a realm.
-| userName       | SVA           | string   |Y        |Y         | The username of the user. The value of this field will be returned as the subject of a OIDC ID Token.
-| displayName    | SVA           | string   |Y        |Y         | The name of the User, suitable for display to end-users.  The name SHOULD be the full name of the User being described, if known.
-| emails         | CMVA          | n/a      |N        |Y         | Email for the User. Only one email is allowed. Primary must be set to true.
-| email.value    | SVA           | string   |Y        |Y         | Address of the user email.
-| email.primary  | SVA           | bool     |Y        |N         | Indicates if this email is primary email of the user.  Currently always set to `true`
+| User Attribute | Attribute Type | Data Type | Required? | Mutability |                                                            Description                                                            |
+|:--------------:|:--------------:|:---------:|:---------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------:|
+|       id       |      SVA       |  string   |     N     |     N      |                                  ID is unique attribute that identifies the user within a realm.                                  |
+|    userName    |      SVA       |  string   |     Y     |     Y      |               The username of the user. The value of this field will be returned as the subject of a OIDC ID Token.               |
+|  displayName   |      SVA       |  string   |     Y     |     Y      | The name of the User, suitable for display to end-users.  The name SHOULD be the full name of the User being described, if known. |
+|     emails     |      CMVA      |    n/a    |     N     |     Y      |                            Email for the User. Only one email is allowed. Primary must be set to true.                            |
+|  email.value   |      SVA       |  string   |     Y     |     Y      |                                                    Address of the user email.                                                     |
+| email.primary  |      SVA       |   bool    |     Y     |     N      |                       Indicates if this email is primary email of the user.  Currently always set to `true`                       |
 
 SVA = single value attribute
 CMVA = complex multi value attribute
@@ -59,7 +59,7 @@ If unsupported attributes are specified in the request, they will be ignored.
     - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 
 Sample request
-```
+```http request
     POST /scim/v2/Users HTTP/1.1
     Authorization: <Authorization credentials>
 
@@ -205,16 +205,16 @@ Sample response
     }]
 ```
 
-###Groups
+### Groups
 
 We support the following **Groups**`(urn:ietf:params:scim:schemas:core:2.0:Group)`attributes:
 
-| Group Attribute | Attribute Type| Data Type|Required?|Mutability|Description
-| :---:          | :---:         | :---:    | :---:   | :---:    | :---:     
-| id             | SVA           | string   |N        |N         | ID is unique attribute that identifies the user within a realm.
-| displayName    | SVA           | string   |N        |Y         | A human-readable name for the Group.
-| members        | CMVA          | n/a      |N        |N         | A list of members of the group.
-| member.value   | SVA           | string   |N        |N         | Identifier of the member of this Group.
+| Group Attribute | Attribute Type | Data Type | Required? | Mutability |                           Description                           |
+|:---------------:|:--------------:|:---------:|:---------:|:----------:|:---------------------------------------------------------------:|
+|       id        |      SVA       |  string   |     N     |     N      | ID is unique attribute that identifies the user within a realm. |
+|   displayName   |      SVA       |  string   |     N     |     Y      |              A human-readable name for the Group.               |
+|     members     |      CMVA      |    n/a    |     N     |     N      |                 A list of members of the group.                 |
+|  member.value   |      SVA       |  string   |     N     |     N      |             Identifier of the member of this Group.             |
 
 SVA = single value attribute
 CMVA = complex multi value attribute
