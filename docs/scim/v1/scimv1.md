@@ -22,7 +22,7 @@ You can use the following endpoints to discover the implementation details of BI
 | {{baseUrl}}/scim/ResourceTypes         | https://tools.ietf.org/html/rfc7643#section-6 |
 | {{baseUrl}}/scim/Schemas               | https://tools.ietf.org/html/rfc7643#section-7 |
 
-Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.
+Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.  Note that the URL's subdomain will change according to your region, either _us_ or _eu_.
 
 ## Operations
 The following operations are currently supported by BI SCIM server:
@@ -55,6 +55,7 @@ CMVA = complex multi value attribute
 If unsupported attributes are specified in the request, they will be ignored.
 
 #### Create user example
+
 * Notes:
     - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 
@@ -62,6 +63,7 @@ Sample request
 ```http request
     POST /scim/v2/Users HTTP/1.1
     Authorization: <Authorization credentials>
+    Content-Type: application/json
 
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
@@ -127,6 +129,7 @@ Sample request
 ```http request
     PUT /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
+    Content-Type: application/json
 
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
@@ -228,6 +231,7 @@ Sample request
 ```http request
     POST /scim/v2/Groups HTTP/1.1
     Authorization: <Authorization credentials>
+    Content-Type: application/json
 
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
@@ -286,6 +290,7 @@ Sample request
 ```http request
     PUT /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
+    Content-Type: application/json
 
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
