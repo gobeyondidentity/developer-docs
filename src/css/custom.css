@@ -35,7 +35,7 @@
     --font-thin: "Overpass-ExtraLight","Futura","Trebuchet MS","Arial",sans-serif;
     --font-medium: "Overpass-Light","Futura","Trebuchet MS","Arial",sans-serif;
     --font-bold: "Overpass-SemiBold","Futura","Trebuchet MS","Arial",sans-serif;
-    
+
     --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
     --ifm-color-primary-darker: rgb(31, 165, 136);
@@ -61,6 +61,7 @@ body {
     -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.04em;
 }
 
 b,
