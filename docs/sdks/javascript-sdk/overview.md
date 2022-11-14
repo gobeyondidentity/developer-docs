@@ -27,6 +27,8 @@ npm install @beyondidentity/bi-sdk-js
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
 ```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-js';
+
 const embedded = await Embedded.initialize();
 ```
 
