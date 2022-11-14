@@ -50,6 +50,8 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 
 <!-- javascript is used here since flutter is not available and dart doesn't highlight at all. -->
 ```javascript
+import 'package:bi_sdk_flutter/embeddedsdk.dart';
+
 Embeddedsdk.initialize(
     String biometricPrompt,
     bool enableLogging,
