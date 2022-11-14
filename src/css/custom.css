@@ -1,24 +1,14 @@
-@import url("//hello.myfonts.net/count/3af24c");
-
-
 @font-face {
-	font-family: 'Acre-Medium';
-	src: url('/fonts/3AF24C_0_0.eot');
-	src: url('/fonts/3AF24C_0_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_0_0.woff2') format('woff2'), url('/fonts/3AF24C_0_0.woff') format('woff'), url('/fonts/3AF24C_0_0.ttf') format('truetype');
+  font-family: 'Overpass-Thin';
+  src: url('/fonts/Overpass-Thin.ttf');
 }
-
-
 @font-face {
-	font-family: 'Acre-Bold';
-	src: url('/fonts/3AF24C_1_0.eot');
-	src: url('/fonts/3AF24C_1_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_1_0.woff2') format('woff2'), url('/fonts/3AF24C_1_0.woff') format('woff'), url('/fonts/3AF24C_1_0.ttf') format('truetype');
+  font-family: 'Overpass-Medium';
+  src: url('/fonts/Overpass-Medium.ttf');
 }
-
-
 @font-face {
-	font-family: 'Acre-Thin';
-	src: url('/fonts/3AF24C_2_0.eot');
-	src: url('/fonts/3AF24C_2_0.eot?#iefix') format('embedded-opentype'), url('/fonts/3AF24C_2_0.woff2') format('woff2'), url('/fonts/3AF24C_2_0.woff') format('woff'), url('/fonts/3AF24C_2_0.ttf') format('truetype');
+  font-family: 'Overpass-Bold';
+  src: url('/fonts/Overpass-Bold.ttf');
 }
 
 /**
@@ -30,6 +20,8 @@
 /* You can override the default Infima variables here. */
 
 :root {
+    --ifm-hero-background-color: #2c355b !important;
+
     --black: black;
     --white: white;
     --cornflower-blue: #5077c5;
@@ -40,10 +32,10 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --font-thin: 'Acre-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-medium: 'Acre-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-bold: 'Acre-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
 
+    --font-thin: 'Overpass-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-medium: 'Overpass-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-bold: 'Overpass-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
 
     --ifm-color-primary: #5077c5;
     --ifm-color-primary-dark: rgb(33, 175, 144);
@@ -121,7 +113,9 @@ strong {
 }
 
 .hero {
-    background-image: radial-gradient(ellipse at bottom right, var(--neptune) 0%, var(--cornflower-blue) 70%);
+    background-color: #2c355b;
+
+/*     background-image: radial-gradient(ellipse at bottom right, var(--neptune) 0%, var(--cornflower-blue) 70%); */
   /* background-image: url("/static/img/hero.jpg");
   background-position: center;
   background-repeat: no-repeat;
