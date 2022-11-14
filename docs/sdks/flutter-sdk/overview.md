@@ -24,6 +24,26 @@ dependencies:
 
 and run an implicit `flutter pub get`.
 
+### Update Android
+
+Please make sure your `android/build.gradle` supports `minSdkVersion` 26 or later.
+
+```
+buildscript {
+  ext {
+    minSdkVersion = 26
+  }
+}
+```
+
+### Update iOS
+
+Please make sure your project supports "minimum deployment target" 13.0 or later.
+
+```
+IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+```
+
 ## Setup
 
 First, before calling the Embedded functions, make sure to initialize the SDK.

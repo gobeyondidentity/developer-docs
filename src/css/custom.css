@@ -32,12 +32,17 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
+    --ifm-hero-background-color: #2c355b !important;
+
+    --font-thin: 'Acre-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-medium: 'Acre-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-bold: 'Acre-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
 
     --font-thin: 'Overpass-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
     --font-medium: 'Overpass-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
     --font-bold: 'Overpass-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
 
-    --ifm-color-primary: #5077c5;
+    --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
     --ifm-color-primary-darker: rgb(31, 165, 136);
     --ifm-color-primary-darkest: rgb(26, 136, 112);
@@ -114,13 +119,6 @@ strong {
 
 .hero {
     background-color: #2c355b;
-
-/*     background-image: radial-gradient(ellipse at bottom right, var(--neptune) 0%, var(--cornflower-blue) 70%); */
-  /* background-image: url("/static/img/hero.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-blend-mode: saturation; */
 }
 
 html[data-theme="dark"] .hero {
@@ -193,4 +191,15 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 
 .footer--dark {
     background-color: var(--adam-blue);
+}
+
+.button--secondary {
+  border-radius: 100px;
+}
+
+.button--secondary:hover {
+  
+  border-radius: 100px;
+  color: black;
+  background-color: #D9A406 !important;
 }
