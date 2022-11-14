@@ -1,14 +1,14 @@
 @font-face {
-  font-family: 'Overpass-Thin';
-  src: url('/fonts/Overpass-Thin.ttf');
+  font-family: 'Overpass-ExtraLight';
+  src: url('/fonts/Overpass-ExtraLight.ttf');
 }
 @font-face {
-  font-family: 'Overpass-Medium';
-  src: url('/fonts/Overpass-Medium.ttf');
+  font-family: 'Overpass-Light';
+  src: url('/fonts/Overpass-Light.ttf');
 }
 @font-face {
-  font-family: 'Overpass-Bold';
-  src: url('/fonts/Overpass-Bold.ttf');
+  font-family: 'Overpass-SemiBold';
+  src: url('/fonts/Overpass-SemiBold.ttf');
 }
 
 /**
@@ -20,7 +20,7 @@
 /* You can override the default Infima variables here. */
 
 :root {
-    --ifm-hero-background-color: #2c355b !important;
+/*     --ifm-hero-background-color: #2c355b !important; */
 
     --black: black;
     --white: white;
@@ -32,16 +32,10 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --ifm-hero-background-color: #2c355b !important;
-
-    --font-thin: 'Acre-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-medium: 'Acre-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-bold: 'Acre-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-
-    --font-thin: 'Overpass-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-medium: 'Overpass-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-bold: 'Overpass-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-
+    --font-thin: "Overpass-ExtraLight","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-medium: "Overpass-Light","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-bold: "Overpass-SemiBold","Futura","Trebuchet MS","Arial",sans-serif;
+    
     --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
     --ifm-color-primary-darker: rgb(31, 165, 136);
