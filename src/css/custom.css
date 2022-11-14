@@ -20,7 +20,7 @@
 /* You can override the default Infima variables here. */
 
 :root {
-    --ifm-hero-background-color: #2c355b !important;
+/*     --ifm-hero-background-color: #2c355b !important; */
 
     --black: black;
     --white: white;
@@ -32,15 +32,9 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --ifm-hero-background-color: #2c355b !important;
-
-    --font-thin: 'Acre-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-medium: 'Acre-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-bold: 'Acre-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-
-    --font-thin: 'Overpass-Thin', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-medium: 'Overpass-Medium', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
-    --font-bold: 'Overpass-Bold', 'Futura', 'Trebuchet MS', 'Arial', sans-serif;
+    --font-thin: "Overpass-Thin","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-medium: "Overpass-Medium","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-bold: "Overpass-Bold","Futura","Trebuchet MS","Arial",sans-serif;
 
     --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
@@ -67,6 +61,7 @@ body {
     -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.03em;
 }
 
 b,
