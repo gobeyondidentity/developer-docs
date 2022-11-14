@@ -1,14 +1,14 @@
 @font-face {
-  font-family: 'Inter-ExtraLight';
-  src: url('/fonts/Inter-ExtraLight.ttf');
+  font-family: 'Overpass-Light';
+  src: url('/fonts/Overpass-Light.ttf');
 }
 @font-face {
-  font-family: 'Inter-Light';
-  src: url('/fonts/Inter-Light.ttf');
+  font-family: 'Overpass-Medium';
+  src: url('/fonts/Overpass-Medium.ttf');
 }
 @font-face {
-  font-family: 'Inter-SemiBold';
-  src: url('/fonts/Inter-SemiBold.ttf');
+  font-family: 'Overpass-Bold';
+  src: url('/fonts/Overpass-Bold.ttf');
 }
 
 /**
@@ -32,9 +32,9 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --font-thin: "Inter-ExtraLight","Futura","Trebuchet MS","Arial",sans-serif;
-    --font-medium: "Inter-Light","Futura","Trebuchet MS","Arial",sans-serif;
-    --font-bold: "Inter-SemiBold","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-thin: "Overpass-Light","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-medium: "Overpass-Medium","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-bold: "Overpass-Bold","Futura","Trebuchet MS","Arial",sans-serif;
 
     --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
@@ -61,7 +61,7 @@ body {
     -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
 }
 
 b,
