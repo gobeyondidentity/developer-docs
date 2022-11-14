@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Overpass-Light';
-  src: url('/fonts/Overpass-Light.ttf');
+  font-family: 'Overpass-Thin';
+  src: url('/fonts/Overpass-Thin.ttf');
 }
 @font-face {
   font-family: 'Overpass-Medium';
@@ -32,7 +32,7 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --font-thin: "Overpass-Light","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-thin: "Overpass-Thin","Futura","Trebuchet MS","Arial",sans-serif;
     --font-medium: "Overpass-Medium","Futura","Trebuchet MS","Arial",sans-serif;
     --font-bold: "Overpass-Bold","Futura","Trebuchet MS","Arial",sans-serif;
 
