@@ -32,9 +32,9 @@
     --neptune: #73bfbf;
     --beyond-blue: #3727d6;
 
-    --font-thin: "Inter-ExtraLight","Futura","Trebuchet MS","Arial",sans-serif;
-    --font-medium: "Inter-Light","Futura","Trebuchet MS","Arial",sans-serif;
-    --font-bold: "Inter-SemiBold","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-thin: "Inter-Light","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-medium: "Inter-Medium","Futura","Trebuchet MS","Arial",sans-serif;
+    --font-bold: "Inter-Bold","Futura","Trebuchet MS","Arial",sans-serif;
 
     --ifm-color-primary: #5686F1;
     --ifm-color-primary-dark: rgb(33, 175, 144);
