@@ -39,9 +39,10 @@ buildscript {
 ### Update iOS
 
 Please make sure your project supports "minimum deployment target" 13.0 or later.
+In your `ios/Podfile` set:
 
-```
-IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+```sh
+platform :ios, '13.0'
 ```
 
 ## Setup
