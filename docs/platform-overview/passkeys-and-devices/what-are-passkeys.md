@@ -24,3 +24,7 @@ If your application requires identity verification, those requirements should be
 A trusted device is a device that a user has authorized to have a passkey that allows them access to your application. The device with which the user enrolls in passkeys is their first trusted device. 
 
 Each trusted device is cryptographically linked to a specific user identity. A user can have an unlimited number of trusted devices or you can put a limit on the number of trusted devices. 
+
+:::info
+Ready to start implementing? Visit our [Getting Started Guide](/docs/v1/getting-started)
+:::
