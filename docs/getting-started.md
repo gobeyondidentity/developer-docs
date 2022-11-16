@@ -5,6 +5,12 @@ sidebar_position: 2
 
 In this guide we will show you how to create and configure your account and connect a demo application to it. This app will demonstrate common workflows like creating a passkey and using it to authenticate.
 
+
+:::info
+If you're not ready to start implementing strong authentication with passkeys, or would like to learn more about what they are before you get started, we recommend you read the [Universal Passkeys guide](/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys).
+:::
+
+
 --- 
 
 ## 1. Check the basics
