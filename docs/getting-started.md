@@ -7,7 +7,11 @@ In this guide we will show you how to create and configure your account and conn
 
 
 :::info
-If you're not ready to start implementing strong authentication with passkeys, or would like to learn more about what they are before you get started, we recommend you read the [Universal Passkeys guide](/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys).
+Not ready to start implementing strong authentication with passkeys? Would like to learn more about what they are before you get started? Take a look at the 
+
+[Universal Passkeys guide](/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys) 
+
+to learn more. 
 :::
 
 
