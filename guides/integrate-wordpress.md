@@ -25,8 +25,7 @@ Before continuing, make sure that the following prerequisites have been met:
 ### Create a Realm
 
 We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#realms) to hold identities and configuration: 
-
-<img src="/assets/getting-started-create-realm.gif" width="800px" />
+![create-realm](/assets/getting-started-create-realm.gif)
 
 From the Admin Console: 
 1. Click the Realm selector on the top-left.
@@ -40,7 +39,7 @@ From the Admin Console:
 
 Next, we we'll create a new [Application](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#applications-and-authenticator-configs) that contains the configuration for your end users:
 
-<img src="/assets/getting-started-create-app.gif" width="800px" />
+![create-app](/assets/getting-started-create-app.gif)
 
 From the Admin Console: 
 1. From the navigation bar, click **Applications**, then click **Add app**.
