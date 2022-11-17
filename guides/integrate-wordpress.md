@@ -43,7 +43,10 @@ From the Admin Console:
 
 Next, we we'll create a new [Application](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#applications-and-authenticator-configs) that contains the configuration for your end users:
 
-![create-app](/assets/getting-started-create-app.gif)
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+	<iframe src='https://demo.arcade.software/KmtiNsx4Z31MkogQdwST?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+	</iframe>
+</div>
 
 From the Admin Console: 
 1. From the navigation bar, click **Applications**, then click **Add app**.
