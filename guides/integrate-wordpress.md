@@ -25,7 +25,11 @@ Before continuing, make sure that the following prerequisites have been met:
 ### Create a Realm
 
 We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#realms) to hold identities and configuration: 
-![create-realm](/assets/getting-started-create-realm.gif)
+
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+	<iframe src='https://demo.arcade.software/eyWvI91g13J7qj5vmCfD?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+	</iframe>
+</div>
 
 From the Admin Console: 
 1. Click the Realm selector on the top-left.
