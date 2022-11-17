@@ -40,6 +40,8 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 
 <!-- javascript is used here since kt/kotlin is not available and java doesn't highlight at all. -->
 ```javascript
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+
 EmbeddedSdk.init(
     app: Application,
     keyguardPrompt: (((allow: Boolean, exception: Exception?) -> Unit) -> Unit)?,

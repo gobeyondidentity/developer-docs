@@ -32,6 +32,8 @@ Note that this library is not compatible with Expo projects. This is because Exp
 First, before calling the Embedded functions, make sure to initialize the SDK. This can be done where you register your root component.
 
 ```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
 Embedded.initialize(
   biometricAskPrompt: string,
   allowedDomains?: string[]
