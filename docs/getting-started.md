@@ -202,8 +202,10 @@ A new browser tab should open automatically. If it doesn't, open a web browser a
 
 You can use the example application above to create one or more passkeys and log in with them. 
 
-### Questions? Want to see more?
+:::info
+
+### Questions? Need a hand to get started?
 
 **[Join our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
-
+:::
 
