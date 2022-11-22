@@ -8,7 +8,7 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 ## Sample App
 
 :::tip Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/examples/app/js) for the Embedded SDK.
+Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Embedded SDK.
 :::
 
 
