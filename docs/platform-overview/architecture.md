@@ -7,6 +7,10 @@ Beyond Identity relies on two main groups of components: The Beyond Identity Clo
 
 Authenticators work with the Cloud components to establish identity (authentication) of your users and authorization of the action (login to a resource, or add a device) that they are attempting to perform according to the policy that you have configured.  
 
+import ImageSwitcher from '../../src/components/ImageSwitcher.js';
+
+<ImageSwitcher lightSrc="/assets/arch-light.svg" darkSrc="/assets/arch-dark.svg"/>
+
 ## Tenant
 A Beyond Identity tenant represents an organization in the Beyond Identity Cloud. It serves as the root container for all other cloud components in your configuration.  Your tenant has a unique identifier, a modifiable name and act contains one or more Realms that make up the organization.  The first Realm in your tenant is the “Beyond Identity Admin” Realm that serves as the home for your “Beyond Identity Admin Console” Application and “Beyond Identity Management API” Application configurations.
 
