@@ -5,6 +5,16 @@ sidebar_position: 2
 
 In this guide we will show you how to create and configure your account and connect a demo application to it. This app will demonstrate common workflows like creating a passkey and using it to authenticate.
 
+
+:::info
+Not ready to start implementing strong authentication with passkeys? Would like to learn more about what they are before you get started? Take a look at the 
+
+[Universal Passkeys guide](/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys) 
+
+to learn more. 
+:::
+
+
 --- 
 
 ## 1. Check the basics
@@ -192,8 +202,10 @@ A new browser tab should open automatically. If it doesn't, open a web browser a
 
 You can use the example application above to create one or more passkeys and log in with them. 
 
-### Questions? Want to see more?
+:::info
+
+### Questions? Need a hand to get started?
 
 **[Join our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
-
+:::
 

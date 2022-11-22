@@ -39,9 +39,10 @@ buildscript {
 ### Update iOS
 
 Please make sure your project supports "minimum deployment target" 13.0 or later.
+In your `ios/Podfile` set:
 
-```
-IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+```sh
+platform :ios, '13.0'
 ```
 
 ## Setup
@@ -50,6 +51,8 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 
 <!-- javascript is used here since flutter is not available and dart doesn't highlight at all. -->
 ```javascript
+import 'package:bi_sdk_flutter/embeddedsdk.dart';
+
 Embeddedsdk.initialize(
     String biometricPrompt,
     bool enableLogging,

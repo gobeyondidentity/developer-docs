@@ -178,7 +178,7 @@ For users who have already signed up and enrolled a credential, let's create a L
 
     ![bubble-ui-elements](/assets/bubble-ui-elements.png)
 
-1. For the first action, select "Account -> Log the user in". This will set up the browser session and update a row in the app's local database upon user login.
+1. For the first action, select "Account -> Log the user in". For Email, use "Input Existing user email's value", and the same value for password. This will set up the browser session and update a row in the app's local database upon user login.
 
 1. Create a second action to perform the OAuth login. Click to create a second action and select "Account -> Signup/login with a social network"
 

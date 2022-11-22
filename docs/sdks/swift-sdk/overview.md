@@ -63,6 +63,8 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 
 <!-- javascript is used here since swift doesn't highlight at all. -->
 ```javascript
+import BeyondIdentityEmbedded
+
 Embedded.initialize(
     allowedDomains: [String] = ["beyondidentity.com"],
     biometricAskPrompt: String,
