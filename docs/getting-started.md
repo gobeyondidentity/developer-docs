@@ -200,6 +200,8 @@ A new browser tab should open automatically. If it doesn't, open a web browser a
 	</iframe>
 </div>
 
+You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
+
 ---
 
 ## What's next? 
