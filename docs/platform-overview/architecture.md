@@ -89,6 +89,8 @@ The embedded SDKs are primarily responsible for handling all cryptographic opera
  - Web (Javascript)
  - iOS (Swift)
  - Android (Kotlin)
+ - React Native (TypeScript)
+ - Flutter (Dart)
 
 ### Hosted Web Authenticator (Early Access)
 The hosted web authenticator is a Beyond Identity hosted page that embeds the javascript SDK. Think of this as a wallet, hosted by Beyond Identity Cloud, that can be used to hold an identity's passkeys. The hosted web authenticator is hosted at https://auth-us.beyondidentity.com/authenticator
