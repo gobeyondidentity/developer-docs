@@ -52,7 +52,7 @@ To do this via the Admin Console you can:
 
    - Name: <full_name>
 
-### How to craft your authorize URL
+### How to craft your Authorize URL
 
 A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application.
  
@@ -62,12 +62,27 @@ A full authorization request url has additional parameters that we need to accou
 https://auth-us.beyondidentity.com/v1/tenants/<tenant_id>/realms/<realm_id>/applications/<application_id>/authorize?
 response_type=code
 &client_id=<client_id_from_application>
-&redirect_uri=<redirect_uri from application>
+&redirect_uri=<redirect_uri_from_application>
 &scope=openid
 &state=<state>
 ```
 
 ### Start the request
 
-Use the URL above from a browser, and watch how the authentication process unfolds. 
+Use the URL above from a browser, and watch how the authentication process unfolds.
 
+### How to craft your Token URL
+
+Calling the token endpoint is the second step in the authorization flow. You will need to call the authorization endpoint first to retrieve an authorization code. You can find the base token URL under your application.
+
+![Screenshot](./screenshots/TokenUrl.jpg)]
+
+The following request parameters can be POSTed as a part of the URL-encoded form values to the API:
+
+```bash
+grant_type=authorization_code&
+&code=<code_return_from_authorization_response>
+&client_id=<client_id_from_application>
+&verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>
+&redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>
+```
