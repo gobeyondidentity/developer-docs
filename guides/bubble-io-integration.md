@@ -55,20 +55,21 @@ Before you get started, please set up the following.
 
 Once you have created an application, you will be presented with the "New Application Assistant". 
 
-1. Click through until you arrive at the "Install Plugin" page and click "Install Plugin".
+1. Click through the assistant's steps until you arrive at the "Install Plugin" page and click "Install Plugin".
 
-1. On the search page, tick "Categories -> Technical"
+1. In the upper left, click "Sort by" -> "Name"
 
-1. Also on the search page, tick "Built By -> Third-party developers"
+1. Search for "Beyond Identity". You will see "Beyond Identity Customer AuthN" and click "install" on it.
 
-1. In the search box, type "beyond identity customer"
+1. Next, you should also see "Beyond Identity Customer Mgmt", install that too.
 
-    ![bubble-plugins-list](/assets/bubble-plugins-list.png)
+Here are the direct URLs to the plugins as well:
 
+[Beyond Identity Customer Mgmt](https://bubble.io/plugin/beyond-identity-customer-mgmt-1663167558199x986364837141938200)
 
-1. Install both plugins
+[Beyond Identity Customer AuthN](https://bubble.io/plugin/beyond-identity-customer-authn-1663167119592x240371050688282620)
 
-1. Go to the next step in the assistant. You do not need the API connector for BI services, but you may wish to use it to integrate with your other services.
+You do not need the API connector for BI services, but you may wish to use it to integrate with your other services.
 
 ## Configure the plugins with values from Beyond Identity
 
