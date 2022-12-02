@@ -1,6 +1,9 @@
 ---
 title: Integrate With Beyond Identity
 sidebar_position: 1
+# Display h2 to h4 headings
+toc_min_heading_level: 2
+toc_max_heading_level: 4
 ---
 
 This guide describes how to use Beyond Identity for authentication during an OAuth2 authorization flow.
@@ -14,9 +17,9 @@ Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must 
 
 ## Authorize With Beyond Identity
 
-### Confidential Client
+### Automatic Invocation
 
-![Confidential Client](../screenshots/Client-Type-Confidential.png)
+![Automatic Invocation](../screenshots/Invocation-Type-Automatic.png)
 
 #### Using the Web
 
@@ -120,9 +123,9 @@ private fun selectCredentialId(callback: (String) -> Unit) {
 }
 ```
 
-### Public Client
+### Manual Invocation
 
-![Public Client](../screenshots/Client-Type-Public.png)
+![Manual Invocation](../screenshots/Invocation-Type-Manual.png)
 
  - Step 1: Configuring the Authenticator Config
 
