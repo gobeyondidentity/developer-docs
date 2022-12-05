@@ -65,6 +65,8 @@ response_type=code
 &redirect_uri=<redirect_uri_from_application>
 &scope=openid
 &state=<state>
+&code_challenge_method<method_from_PKCE_for_public_clients>
+&code_challenge<challenge_from_PKCE_for_public_clients>
 ```
 
 ### Start the request
@@ -83,6 +85,6 @@ The following request parameters can be POSTed as a part of the URL-encoded form
 grant_type=authorization_code&
 &code=<code_return_from_authorization_response>
 &client_id=<client_id_from_application>
-&verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>
+&code_verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>
 &redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>
 ```
