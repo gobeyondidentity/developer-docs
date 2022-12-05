@@ -65,8 +65,8 @@ response_type=code
 &redirect_uri=<redirect_uri_from_application>
 &scope=openid
 &state=<state>
-&code_challenge_method<method_from_PKCE_for_public_clients>
-&code_challenge<challenge_from_PKCE_for_public_clients>
+&code_challenge_method=<method_from_PKCE_for_public_clients>
+&code_challenge=<challenge_from_PKCE_for_public_clients>
 ```
 
 ### Start the request
