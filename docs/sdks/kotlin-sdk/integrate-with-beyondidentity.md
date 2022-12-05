@@ -27,13 +27,26 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
 ##### Configuration Type
 
-![Embedded SDK Configuration](../screenshots/Configuration-Type-Embedded-SDK.png)
+|![Embedded SDK Configuration](../screenshots/Configuration-Type-Embedded-SDK.png)|
+|---------------------------------------------------------------------------------|
 
 ##### Invocation Type
 
-![Automatic Invocation](../screenshots/Invocation-Type-Automatic.png)
+|![Automatic Invocation](../screenshots/Invocation-Type-Automatic.png)|
+|---------------------------------------------------------------------|
 
-![Manual Invocation](../screenshots/Invocation-Type-Manual.png)
+|![Manual Invocation](../screenshots/Invocation-Type-Manual.png)|
+|---------------------------------------------------------------|
+
+##### Invoke URL
+
+|![Invoke URL](../screenshots/Invoke-URL.png)|
+|--------------------------------------------|
+
+##### Trusted Origins
+
+|![Trusted Origins](../screenshots/Trusted-Origins.png)|
+|------------------------------------------------------|
 
 #### Step 2: Beyond Identity Authorize URL
 
