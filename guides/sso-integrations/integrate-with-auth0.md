@@ -32,9 +32,9 @@ Depending on your Auth0 subscription (license) you can add Beyond Identity as an
 
 2. Fill in the following fields:
 
-   * Display Name = Auth0 SSO
+   * **Display Name** = Auth0 SSO
 
-   * Redirect URIs = `https://DOMAIN.auth0.com/login/callback`
+   * **Redirect URIs** = `https://DOMAIN.auth0.com/login/callback`
 
    * Replace `DOMAIN` with your Auth0 domain URL
 
@@ -60,10 +60,10 @@ Leave all other fields with their default  values.
 
 3.  Then within the Open ID Connect menu click ‘Create Connection’
 4. Enter the following values:
-   * Connection Name: “Beyond-Identity”
-   * Issuer URL: Isser corresponding to Beyond Identity app. 
-   * Client ID: From OIDC client created in Beyond Identity
-   * Client Secret: From OIDC client created in Beyond Identity
+   * **Connection Name**: “Beyond-Identity”
+   * **Issuer URL**: Issuer corresponding to Beyond Identity app. 
+   * **Client ID**: From OIDC client created in Beyond Identity
+   * **Client Secret**: From OIDC client created in Beyond Identity
 
 ![new-oidc-config](/assets/sso-auth0-new-oidc-config.png)
 
@@ -97,12 +97,12 @@ Leave all other fields with their default  values.
 ![enable-connection](/assets/sso-auth0-enable-connection.png)
 
 4. On the new connection form, enter the following values:
-* Connection Name: “Beyond-Identity”
-* Authorization URL: From Authorization URL created in Beyond Identity
-* Token URL: From Token URL created in Beyond Identity
-* scope: `openid email`
-* Client ID: From OIDC client created in Beyond Identity
-* Client Secret: From OIDC client created in Beyond Identity
+* **Connection Name**: “Beyond-Identity”
+* **Authorization URL**: From Authorization URL created in Beyond Identity
+* **Token URL**: From Token URL created in Beyond Identity
+* **Scope**: `openid email`
+* **Client ID**: From OIDC client created in Beyond Identity
+* **Client Secret**: From OIDC client created in Beyond Identity
 * Enter the following code snippet under ‘Fetch User profile Script’
 
 ```javascript
@@ -177,11 +177,11 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
 - Enter the following values:
 
-   - Email: <email_address>
+   - **Email**: <email_address>
 
-   - Username: <user_name>
+   - **Username**: <user_name>
 
-   - Name: <full_name>
+   - **Name**: <full_name>
 
 ## User Deprovisioning
 

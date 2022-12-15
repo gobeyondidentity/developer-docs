@@ -7,11 +7,14 @@ In this guide we will show you how to create and configure your account and conn
 
 
 :::info
-Not ready to start implementing strong authentication with passkeys? Would like to learn more about what they are before you get started? Take a look at the 
+**Have you worked on authentication for web or native apps?**
 
-[Universal Passkeys guide](/docs/v1/platform-overview/passkeys-and-devices/what-are-passkeys) 
+Beyond Identity is looking for developers & product folks who’ve evaluated authentication products for their apps. 
 
-to learn more. 
+Qualified participants will receive a $100 gift card for 1 hour sharing their experience in our user research sessions.
+
+[Fill out our interview form today!](https://hai3cja6bba.typeform.com/to/omTW0ULM)
+
 :::
 
 
