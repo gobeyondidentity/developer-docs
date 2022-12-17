@@ -3,21 +3,50 @@ title: Authenticator Config
 sidebar_position: 3
 ---
 
-An Authenticator Configuration is used to specify how an authenticator is launched within your application. Each application is tied to a single Authenticator Config.
+An authenticator config is used to tell us how to retrieve your passkeys. Passkeys can be stored and retrieved from a platform or a browser, where they are securely stored. Each application is tied to a single Authenticator Config.
 
 There are two types of Authenticator Configs:
 - Hosted Web
-- Embedded
+- Embedded SDK
 
-On creation, an application defaults to the "Hosted Web" Authenticator Config. In order to modify it, click on the "Authenticator Config" under the selected application in the Beyond Identity Console.
+On creation, an application defaults to the "Hosted Web" Authenticator Config. In order to modify it, click on "Authenticator Config" under the selected application in the Beyond Identity Admin Console.
 
-## Embedded
+## Embedded SDK
 
-The Embedded Authenticator Config is used configure an application using either our native SDKs (iOS, Android) or our web SDK (JS). There are two fields to configure in an Embedded Authenticator Config:
+The Embedded SDK Authenticator Config is used configure an application using either our native SDKs (iOS, Android, Flutter, React Native) or our web SDK (JS). There are three fields to configure in an Embedded Authenticator Config:
+
+### Invocation Type
+
+This specifies how our authentication URL is delivered to your application. Invocation Type can be one of two values:
+
+- **Automatic**: If automatic is selected, we'll automatically redirect to your native or web app using the Invoke URL with a challenge that your app will need to sign.
+
+- **Manual**: If manual is selected, the challenge will be returned to you as part of a JSON response. It will then be up to you to get it to your native/web app any way you see fit. This is useful for flows where you require a lot more control when redirecting to your native/web app. Since the challenge is packaged as part of a URL, following the URL will result in the same behavior as if an Invocation Type of "Automatic" were selected. The JSON payload returned has the following format.
+
+```javascript
+{
+	"authenticate_url": "$invoke_url/bi-authenticate?request=<request>"
+}
+```
+
+The diagram below shows how Invocation Type fits into an OAuth 2.0 flow. In the case of "Automatic", a 302 is returned causing the user agent to automatically redirect to the Invoke URL you've specified. In the case of "Manual", a JSON response containing the Invoke URL is returned.
+
+import ImageSwitcher from '../../src/components/ImageSwitcher.js';
+
+<ImageSwitcher lightSrc="/assets/invocation-url-diagram-light.png" darkSrc="/assets/invocation-url-diagram-dark.png" />
+
+
+:::tip How do I know which one to use?
+`Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
+
+`Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
+- Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
+- The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
+:::
 
 ### Invoke URL
 
-The invoke URL is a single URL that "points" to where your application is. In the case of a native application (iOS, Android), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
+The invoke URL is a single URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
 :::tip App Schemes vs Universal URLs / App Links
 While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
@@ -41,10 +70,24 @@ Need a way to disambiguate our URLs from the rest of the URLs at your routing la
 
 #### Authentication
 
-At some point during an OAuth2/OIDC flow, you'll be asked to redirect somewhere to `authenticate` and validate your identity. This is similar to loging into some service using your google or github account. In the case of Beyond Identity, your identity is tied to a credential on a device, so the URL that we need to redirect to is the application containing our embedded SDK. The URL that is redirected into your app will take on the following form:
+The authentication flow is shown in the diagram above and the response differs based on the Invocation Type specified:
 
-```bash
-$invoke_url/bi-authenticate?request=<request>
+##### Automatic
+
+```javascript
+HTTP/1.1 302 Found
+Location: $invoke_url/bi-authenticate?request=<request>
+```
+
+##### Manual
+
+```javascript
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+	"authenticate_url": "$invoke_url/bi-authenticate?request=<request>"
+}
 ```
 
 ### Trusted Origins
@@ -55,7 +98,8 @@ Trusted Origins are a list of URLs from which the embedded Web SDK is allowed to
 
 The *Hosted Web* Authenticator Config is a constrained version of the *Embedded* Authenticator Config with the following values:
 
-- **Invoke URL:** https://auth-us.beyondidentity.com/authenticator/
-- **Trusted Origins:** https://auth-us.beyondidentity.com/authenticator/
+- **Invocation Type:** `automatic`
+- **Invoke URL:** `https://auth-<REGION>.beyondidentity.com/authenticator/`
+- **Trusted Origins:** `[https://auth-<REGION>.beyondidentity.com/authenticator/]`
 
 Use this Authenticator Config if you want to default all bound credentials and authentications to our Hosted Web Authenticator.
