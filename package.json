@@ -11,6 +11,7 @@
     "@docusaurus/theme-classic": "^2.2.0",
     "@docusaurus/theme-search-algolia": "^2.2.0",
     "@mdx-js/react": "^1.6.21",
+    "classnames": "^2.3.2",
     "clsx": "^1.1.1",
     "docusaurus-plugin-hubspot": "1.0.1",
     "docusaurus-preset-classic": "^2.0.0-beta.15",

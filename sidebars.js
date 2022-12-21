@@ -18,6 +18,11 @@ const sidebars = {
   mySidebar: [
     'introduction',
     'getting-started',
+    {
+      type: 'link',
+      label: 'Try It Out',
+      href: '/try-it-out',
+    },
     'using-bi-for-auth',
     {
       type: 'category',
