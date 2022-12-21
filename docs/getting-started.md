@@ -13,7 +13,7 @@ Beyond Identity is looking for developers & product folks who’ve evaluated aut
 
 Qualified participants will receive a $100 gift card for 1 hour sharing their experience in our user research sessions.
 
-[Fill out our interview form today!](https://hai3cja6bba.typeform.com/to/omTW0ULM)
+[Fill out our interview form today!](https://beyondidentity.typeform.com/customer-interv)
 
 :::
 
