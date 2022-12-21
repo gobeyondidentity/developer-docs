@@ -1,7 +1,8 @@
 import styles from './styles.module.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import classNames from 'classnames';
+import BeyondIdentityEmbeddedSdk from './BeyondIdentityEmbeddedSdk';
 
 const StepOne = ({ props }) => {
   var parentClassNames = function () {
@@ -27,12 +28,20 @@ const StepOne = ({ props }) => {
 };
 
 const StepTwo = ({ props }) => {
+  const [credentials, setCredentials] = useState([]);
+
   var parentClassNames = function () {
     if (props !== undefined && props.visible !== undefined && props.visible) {
       return classNames("container", styles.blur);
     }
     return classNames("container");
   }();
+
+  useEffect(async () => {
+    let credentials = await (await props.embedded.initialized()).getCredentials();
+    setCredentials(credentials);
+    console.log(credentials);
+  }, []);
 
   return (
     <div className={parentClassNames}>
@@ -44,7 +53,7 @@ const StepTwo = ({ props }) => {
           <input type="text" id="username" name="username"></input>
         </form>
       </div>
-      <button className={classNames("button", "button--lg", styles["mt-1"])} role="button">Create Passkey</button>
+      <button className={classNames("button", "button--lg", styles["mt-1"])} role="button">Show Passkeys</button>
     </div>
   );
 };
@@ -67,20 +76,21 @@ const StepThree = ({ props }) => {
           <input type="text" id="username" name="username"></input>
         </form>
       </div>
-      <button className={classNames("button", "button--lg", styles["mt-1"])} role="button">Create Passkey</button>
+      <button className={classNames("button", "button--lg", styles["mt-1"])} role="button">Log In</button>
     </div>
   );
 };
 
 export default function TryItOut() {
+  let embedded = new BeyondIdentityEmbeddedSdk();
   return (
     <Layout title="Try It Out" description="Try out Universal Passkeys">
       <div className={classNames(styles["mt-1"])}></div>
-      <StepOne props={{ visible: false }}></StepOne>
+      <StepOne props={{ visible: false, embedded: embedded}}></StepOne>
       <div className={classNames(styles["mt-3"])}></div>
-      <StepTwo></StepTwo>
+      <StepTwo  props={{ visible: false, embedded: embedded}}></StepTwo>
       <div className={classNames(styles["mt-3"])}></div>
-      <StepThree></StepThree>
+      <StepThree props={{ visible: false, embedded: embedded}}></StepThree>
       <div className={classNames(styles["mt-1"])}></div>
     </Layout>
   );

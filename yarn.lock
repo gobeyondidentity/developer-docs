@@ -1173,6 +1173,11 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     to-fast-properties "^2.0.0"
 
+"@beyondidentity/bi-sdk-js@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@beyondidentity/bi-sdk-js/-/bi-sdk-js-1.0.10.tgz#3350f2d1529eabc4537c7c2166e544df52302909"
+  integrity sha512-izKhsgBWRVv5SnjWlcN6JATWOs8X+ga3KXNBxNPh+NVc6O9MYVjTapijEEkcDhuQhDMjbtP2gzIOLqyeOsmJqg==
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
