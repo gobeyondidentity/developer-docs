@@ -52,6 +52,10 @@ const StepOne = ({ progressState, setProgressState }) => {
         three: NOT_STARTED,
       }
     });
+
+    // Reset state for next time around
+    setUsername("");
+    setLoading(false);
   };
 
   return (
@@ -79,6 +83,7 @@ const StepOne = ({ progressState, setProgressState }) => {
 const StepTwo = ({ progressState, setProgressState }) => {
   const [credentials, setCredentials] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [credentialsLoaded, setCredentialsLoaded] = useState(false);
 
   var parentClassNames = function () {
     if (progressState.step.two === IN_PROGRESS) {
@@ -92,18 +97,26 @@ const StepTwo = ({ progressState, setProgressState }) => {
     setLoading(true);
     const credentials = await getCredentials();
     setCredentials(credentials);
+    setCredentialsLoaded(true);
     setLoading(false);
-    setProgressState({
-      step: {
-        one: COMPLETE,
-        two: IN_PROGRESS,
-        three: IN_PROGRESS,
-      }
-    });
   };
 
   const handleCredentialClick = async (credential) => {
     console.log(credential);
+  };
+
+  const handleNext = () => {
+    // Reset state for next time around
+    setCredentials(null);
+    setLoading(false);
+    setCredentialsLoaded(false);
+    setProgressState({
+      step: {
+        one: COMPLETE,
+        two: COMPLETE,
+        three: IN_PROGRESS,
+      }
+    });
   };
 
   return (
@@ -118,6 +131,14 @@ const StepTwo = ({ progressState, setProgressState }) => {
           onClick={handleSubmit}
           centered={true}>
         </Button>}
+      </div>
+      <div className={classNames(styles["mt-1"])}>
+        {credentialsLoaded ? <Button
+          name="Next"
+          isDisabled={false}
+          isLoading={false}
+          onClick={handleNext}
+        ></Button> : <div></div>}
       </div>
     </div>
   );
@@ -210,6 +231,31 @@ const StepThree = ({ progressState, setProgressState }) => {
     setLoading(false);
   };
 
+  const handleTryAgain = () => {
+    // Reset state for next time around
+    setCredentials(null);
+    setCredentialsLoaded(false);
+    setSelectedCredentialId(null);
+    setLoading(false);
+    setTokenResponse(null);
+
+    // Reset state
+    setProgressState({
+      step: {
+        one: IN_PROGRESS,
+        two: NOT_STARTED,
+        three: NOT_STARTED,
+      }
+    });
+
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className={parentClassNames}>
       <h1>3. Authenticate with your Passkey</h1>
@@ -223,16 +269,25 @@ const StepThree = ({ progressState, setProgressState }) => {
             selectedCredentialId={selectedCredentialId}>
           </SelectCredentialTable> : <div></div>}
       </div>
-      <div className={classNames(styles["mt-1"])}>
-        <Button
-          name="Login"
-          isDisabled={false}
-          isLoading={loading}
-          onClick={handleLogin}>
-        </Button>
-      </div>
+      {tokenResponse === null ?
+        <div className={classNames(styles["mt-1"])}>
+          <Button
+            name="Login"
+            isDisabled={false}
+            isLoading={loading}
+            onClick={handleLogin}>
+          </Button>
+        </div> : <div></div>
+      }
       {tokenResponse !== null ? (
-        <div className={classNames(styles["mt-1"])} >
+        <div className={classNames(styles["mt-1"])}>
+          <Button
+            name="Try Again"
+            isDisabled={false}
+            isLoading={false}
+            onClick={handleTryAgain}>
+          </Button>
+          <div className={classNames(styles["mt-1"])}></div>
           <AuthenticateResult {...tokenResponse}></AuthenticateResult>
         </div>
       ) : (

@@ -12,6 +12,7 @@ const AccessToken = (tokenResponse) => {
       language="json"
       showLineNumbers={true}
       startingLineNumber={0}
+      theme={dracula}
     />
   );
 };
@@ -24,6 +25,7 @@ const IdToken = (tokenResponse) => {
       language="json"
       showLineNumbers={true}
       startingLineNumber={0}
+      theme={dracula}
     />
   );
 };
@@ -36,6 +38,7 @@ const RefreshToken = (tokenResponse) => {
       language="json"
       showLineNumbers={true}
       startingLineNumber={0}
+      theme={dracula}
     />
   );
 };
