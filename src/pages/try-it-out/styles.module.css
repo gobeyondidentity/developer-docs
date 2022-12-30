@@ -6,6 +6,18 @@
   cursor: pointer;
 }
 
+.modal-header {
+  position: sticky;
+  top: 0px;
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+  height: 30px;
+}
+
 @media (prefers-color-scheme: light) {
   .step-input {
     background-color: #ebf0ff;
