@@ -134,6 +134,10 @@ button {
   display: block;
 }
 
+.modal {
+  max-height: 300px;
+}
+
 .mt-1 {
   margin-top: 1rem;
 }

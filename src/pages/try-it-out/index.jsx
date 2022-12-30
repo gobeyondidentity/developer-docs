@@ -6,6 +6,7 @@ import AuthenticateResult from "./components/AuthenticateResult";
 import Button from "./components/Button";
 import CredentialTable from "./components/CredentialTable";
 import SelectCredentialTable from "./components/SelectCredentialTable";
+import CredentialModal from "./components/CredentialModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "./utils/pkce";
 import { getCredentials, bindCredential, authenticate } from "./utils/bi-sdk-js";
@@ -84,6 +85,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
   const [credentials, setCredentials] = useState(null);
   const [loading, setLoading] = useState(false);
   const [credentialsLoaded, setCredentialsLoaded] = useState(false);
+  const [selectedCredential, setSelectedCredential] = useState(null);
 
   var parentClassNames = function () {
     if (progressState.step.two === IN_PROGRESS) {
@@ -102,7 +104,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
   };
 
   const handleCredentialClick = async (credential) => {
-    console.log(credential);
+    setSelectedCredential(credential);
   };
 
   const handleNext = () => {
@@ -110,6 +112,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
     setCredentials(null);
     setLoading(false);
     setCredentialsLoaded(false);
+    setSelectedCredential(null);
     setProgressState({
       step: {
         one: COMPLETE,
@@ -117,6 +120,10 @@ const StepTwo = ({ progressState, setProgressState }) => {
         three: IN_PROGRESS,
       }
     });
+  };
+
+  const closeModal = () => {
+    setSelectedCredential(null);
   };
 
   return (
@@ -140,6 +147,11 @@ const StepTwo = ({ progressState, setProgressState }) => {
           onClick={handleNext}
         ></Button> : <div></div>}
       </div>
+      <CredentialModal
+        credential={selectedCredential}
+        isOpen={selectedCredential !== null}
+        closeModal={closeModal}>
+      </CredentialModal>
     </div>
   );
 };
@@ -281,14 +293,17 @@ const StepThree = ({ progressState, setProgressState }) => {
       }
       {tokenResponse !== null ? (
         <div className={classNames(styles["mt-1"])}>
-          <Button
-            name="Try Again"
-            isDisabled={false}
-            isLoading={false}
-            onClick={handleTryAgain}>
-          </Button>
-          <div className={classNames(styles["mt-1"])}></div>
           <AuthenticateResult {...tokenResponse}></AuthenticateResult>
+          <div className={classNames(styles["mt-1"])}>
+            <Button
+              name="Try Again"
+              isDisabled={false}
+              isLoading={false}
+              onClick={handleTryAgain}
+              centered={true}>
+            </Button>
+          </div>
+          <div className={classNames(styles["mt-1"])}></div>
         </div>
       ) : (
         <div></div>
@@ -316,7 +331,7 @@ export default function TryItOut() {
   };
 
   return (
-    <Layout title="Try It Out" description="Try out Universal Passkeys">
+    <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
       <div className={classNames(styles["mt-1"])}></div>
       <StepOne {...state}></StepOne>
       <div className={classNames(styles["mt-3"])}></div>
