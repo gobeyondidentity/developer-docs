@@ -7,8 +7,8 @@ sidebar_position: 1
 
 - [Sending Enrollment Emails](/guides/send-enrollment)
 - [Integrate Beyond Identity Passwordless Authentication into a bubble.io application](/guides/bubble-io-integration.md)
+- [Integrate Beyond Identity Passwordless Authentication into NextAuth](/guides/integrate-nextauth.md)
 - [Integrate Beyond Identity Passwordless Authentication into Wordpress](/guides/integrate-wordpress.md)
-
 
 # Integration with other SSOs
 

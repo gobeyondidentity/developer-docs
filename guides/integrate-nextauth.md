@@ -1,22 +1,22 @@
 ---
-title: Wordpress
-sidebar_position: 6
+title: Integrate Beyond Identity Passwordless Authentication into NextAuth
+sidebar_position: 1
 ---
 
-# Integrate Beyond Identity Passwordless Authentication into Wordpress
+# Integrate with NextAuth
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Wordpress site.
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a NextAuth site.
 
 This guide will cover:
 * How to configure Beyond Identity as an Identity Provider
-* How to install the required Wordpress plugins to support an OpenID Connect (OIDC) integration
-* How to configure the OIDC Wordpress plugin
+* How to install the required NextAuth plugins to support an OpenID Connect (OIDC) integration
+* How to configure the OIDC NextAuth plugin
 
 ## Prerequisites
 
 Before continuing, make sure that the following prerequisites have been met:
-  * Ensure that you have a live Wordpress site running and administrator privileges to install and configure a plugin
-  * Access to a Beyond Identity tenant and its admin console. If necessary, sign up for a tenant at https://www.beyondidentity.com/developers/signup
+  * Ensure that you have a live NextAuth site running and administrator privileges to install and configure a plugin
+  * Access to a Beyond Identity tenant and its admin console
 
 ## Set up Beyond Identity as an Identity Provider
 
@@ -63,14 +63,14 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 
 **Application**
 
-![application-config](/assets/wordpress-application-config.png)
+![application-config](/assets/nextauth-application-config.png)
 
 **Authenticator**
 
-![authenticator-config](/assets/wordpress-authenticator-config.png)
+![authenticator-config](/assets/nextauth-authenticator-config.png)
 
 ### Create an Identity in the BI console
-  We will create identities that can login to the Wordpress site here, and enroll them with a BI credential bound to their device.
+  We will create identities that can login to the NextAuth site here, and enroll them with a BI credential bound to their device.
 
   1. In the BI Admin console, click **"Identities"**
   1. If the user you wish to use already exists, skip to step 5.
@@ -80,13 +80,13 @@ At this point, your Beyond Identity Admin Console should be configured with a re
   1. Follow the steps at [Send Enrollment Emails](send-enrollment) for each new identity. In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
   1. Each new identity will receive an Enrollment email, which they click on to bind a credential to their device (desktop, laptop, mobile, etc).
 
-## Configure Wordpress for OIDC
+## Configure NextAuth for OIDC
 
 ### Install the free Plugin
 
   This guide is based on the popular [OpenID Connect Generic Client](https://wordpress.org/plugins/daggerhart-openid-connect-generic/) which is regularly updated and has many thousands of Active installations.
 
-  This will require administrative privileges on your Wordpress installation.
+  This will require administrative privileges on your NextAuth installation.
 
   Follow the installation steps specified in the [OpenID Connect Generic Client Installation Guide](https://wordpress.org/plugins/daggerhart-openid-connect-generic/#installation)
 
@@ -94,9 +94,9 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 
   These steps will help you configure the plugin to use with Beyond Identity.
 
-  1. Log into you Wordpress admin console
+  1. Log into you NextAuth admin console
   1. Keep the Beyond Identity Admin Console open in another tab or window to copy and paste values in
-  1. In the Wordpress admin console, go to Settings -> OpenID Connect Client
+  1. In the NextAuth admin console, go to Settings -> OpenID Connect Client
   1. For **"Login Type"**, set "OpenID Connect button on login form"
   1. For **"Client ID"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client ID
   1. For **"Client Secret Key"**, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client Secret
@@ -117,7 +117,7 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 ### Add the redirect URL to the BI console
 The Beyond Identity web authenticator needs to know where to redirect the user after a successful authentication.
 
-1. From the Wordpress admin console -> Settings -> OpenID Connect Client , under the "Notes" section, copy the Redirect UI
+1. From the NextAuth admin console -> Settings -> OpenID Connect Client , under the "Notes" section, copy the Redirect UI
 1. On the BI Admin console, under Applications -> Your new application -> Redirect URIs, paste the URL from the first step
 1. Hit **"Submit"** at the bottom of the page.
 
@@ -131,5 +131,5 @@ Congratulations, you have configured the BI console and the OIDC client plugin.
   1. You will see a "Login with OpenID Connect" button. Click it.
   1. You will be redirected to the Beyond Identity Web Authenticator. 
   1. You may see a step-up authentication prompt, depending on how Policy is set up for your tenant.
-  1. At the conclusion of a successful authentication, you will be redirected to your wordpress console, and
+  1. At the conclusion of a successful authentication, you will be redirected to your NextAuth console, and
   1. You will see several successful authentication events in BI Admin Console -> Events
