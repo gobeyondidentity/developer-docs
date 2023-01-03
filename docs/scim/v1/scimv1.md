@@ -56,9 +56,9 @@ If unsupported attributes are specified in the request, they will be ignored.
 
 #### **Create user example**
 
-* Notes:
+:::tip Note:
     - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
-
+:::
 
 ```markdown title="Sample request"
     POST /scim/v2/Users HTTP/1.1
