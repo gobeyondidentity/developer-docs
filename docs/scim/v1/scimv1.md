@@ -54,13 +54,13 @@ CMVA = complex multi value attribute
 
 If unsupported attributes are specified in the request, they will be ignored.
 
-#### Create user example
+#### **Create user example**
 
 * Notes:
     - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 
-Sample request
-```http request
+
+```markdown title="Sample request"
     POST /scim/v2/Users HTTP/1.1
     Authorization: <Authorization credentials>
     Content-Type: application/json
@@ -75,8 +75,8 @@ Sample request
         "displayName": "Test User"
     }
 ```
-Sample response
-```http request
+
+```markdown title="Sample response"
     HTTP/1.1 201 Created
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -96,15 +96,13 @@ Sample response
     }
 ```
 
-#### Read user example
+#### **Read user example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     GET /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -123,10 +121,9 @@ Sample response
         }
     }
 ```
-#### Replace(full update) user example
+#### **Replace(full update) user example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     PUT /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
     Content-Type: application/json
@@ -141,8 +138,7 @@ Sample request
         "displayName": "NEW Test User"
     }
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -161,34 +157,30 @@ Sample response
         }
     }
 ```
-#### Delete user example
+#### **Delete user example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     DELETE /scim/v2/Users/2243c09e9825 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
-#### Search users example
-* Limitations:
-    - Can only filter by `username`
+#### **Search users example**
+:::tip Limitations:
+- Can only filter by `username`
     - Ony `eq` and `ne` filter operators are supported
     - Can retrieve a maximum of 1000 users at a time
     - `sortBy` and `orderBy` are not yet supported
-
+:::
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
 
-Sample request
-```http request
+```markdown title="Sample request"
     GET /scim/v2/Users?ﬁlter=username eq "test.user@bi.com"&startIndex=1&count=100 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -222,13 +214,13 @@ We support the following **Groups**`(urn:ietf:params:scim:schemas:core:2.0:Group
 SVA = single value attribute
 CMVA = complex multi value attribute
 
-* Notes:
+:::tip note: 
   - members attribute is never returned
+:::
 
-#### Create group example
+#### **Create group example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     POST /scim/v2/Groups HTTP/1.1
     Authorization: <Authorization credentials>
     Content-Type: application/json
@@ -246,8 +238,7 @@ Sample request
         ]
     }
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 201 Created
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -262,15 +253,13 @@ Sample response
     }
 ```
 
-#### Read group example
+#### **Read group example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     GET /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Tue, 10 Sep 2019 05:06:25 GMT
     Content-Type: text/json;charset=UTF-8
@@ -284,10 +273,9 @@ Sample response
         }
     }
 ```
-#### Replace(full update) group example
+#### **Replace(full update) group example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     PUT /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
     Content-Type: application/json
@@ -302,8 +290,7 @@ Sample request
         ]
     }
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
@@ -317,34 +304,31 @@ Sample response
         }
     }
 ```
-#### Delete group example
+#### **Delete group example**
 
-Sample request
-```http request
+```markdown title="Sample request"
     DELETE /scim/v2/Groups/43b03340cb6a HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
 ```
-#### Search groups example
-* Limitations:
+#### **Search groups example**
+:::tip Limitations:
   - Can only filter by `displayname`
   - Ony `eq` and `ne` filter operators are supported
   - Can retrieve a maximum of 1000 groups at a time
   - `sortBy` and `orderBy` are not yet supported
+:::
 
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
 
-Sample request
-```http request
+```markdown title="Sample request"
     GET /scim/v2/Groups?ﬁlter=displayname eq "Test SCIMv2"&startIndex=1&count=100 HTTP/1.1
     Authorization: <Authorization credentials>
 ```
-Sample response
-```http request
+```markdown title="Sample response"
     HTTP/1.1 200 OK
     Date: Thu, 3 Nov 2022 05:38:27 GMT
     Content-Type: text/json;charset=UTF-8
