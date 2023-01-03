@@ -16,11 +16,11 @@ We recommend using a dedicated application for SCIM operations.  This way, the c
 ## Discovery
 You can use the following endpoints to discover the implementation details of BI's SCIM server.
 
-| Endpoint                               | SCIM spec                                     |
-|:---------------------------------------|:----------------------------------------------|
-| {{baseUrl}}/scim/ServiceProviderConfig | https://tools.ietf.org/html/rfc7643#section-5 |
-| {{baseUrl}}/scim/ResourceTypes         | https://tools.ietf.org/html/rfc7643#section-6 |
-| {{baseUrl}}/scim/Schemas               | https://tools.ietf.org/html/rfc7643#section-7 |
+| Endpoint                                 | SCIM spec                                     |
+|:-----------------------------------------|:----------------------------------------------|
+| `{{baseUrl}}/scim/ServiceProviderConfig` | https://tools.ietf.org/html/rfc7643#section-5 |
+| `{{baseUrl}}/scim/ResourceTypes`         | https://tools.ietf.org/html/rfc7643#section-6 |
+| `{{baseUrl}}/scim/Schemas`               | https://tools.ietf.org/html/rfc7643#section-7 |
 
 Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.  Note that the URL's subdomain will change according to your region, either _us_ or _eu_.
 
