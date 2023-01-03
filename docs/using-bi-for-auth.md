@@ -25,7 +25,7 @@ To create a new application you can:
 - Select the client type:
   - Confidential clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe.
 
-  - Public clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device.
+  - Public clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not recieve an application "client_secret" if you create this type of application. 
 
 - Set the redirect_uri to be a URL where you want to receive the authorization code and state. This can be either:
   - An app scheme or Universal URL / App Link if you're implementing this in a native application
@@ -56,7 +56,7 @@ To do this via the Admin Console you can:
 
 A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application.
  
-![Screenshot](./screenshots/AuthUrl.jpg)]
+![Screenshot](./screenshots/AuthUrl.jpg)
 
 ```bash
 https://auth-us.beyondidentity.com/v1/tenants/<tenant_id>/realms/<realm_id>/applications/<application_id>/authorize?
@@ -65,8 +65,8 @@ response_type=code
 &redirect_uri=<redirect_uri_from_application>
 &scope=openid
 &state=<state>
-&code_challenge_method=<method_from_PKCE_for_public_clients>
-&code_challenge=<challenge_from_PKCE_for_public_clients>
+&code_challenge_method=<method_from_PKCE_for_public_clients_or_optional_confidential_clients>
+&code_challenge=<challenge_from_PKCE_for_public_clients_or_optional_confidential_clients>
 ```
 
 ### Start the request
@@ -75,16 +75,39 @@ Use the URL above from a browser, and watch how the authentication process unfol
 
 ### How to craft your Token URL
 
-Calling the token endpoint is the second step in the authorization flow. You will need to call the authorization endpoint first to retrieve an authorization code. You can find the base token URL under your application.
+Calling the token endpoint is the second step in the authorization flow. You will need to call the authorization endpoint first to retrieve an authorization code. You can find the base token URL under your application. 
 
-![Screenshot](./screenshots/TokenUrl.jpg)]
+![Screenshot](./screenshots/TokenUrl.jpg)
 
-The following request parameters can be POSTed as a part of the URL-encoded form values to the API:
+You'll also need to make note of your application's Token Endpoint Auth Method.
+
+![Screenshot](./screenshots/TokenAuthMethod.png)
+
+#### Client Secret Basic:  
+The client_id and client_secret are sent in the Basic Authorization header.
 
 ```bash
-grant_type=authorization_code&
+curl -X POST https://your-token-endpoint \
+--header 'Authorization: Basic {base64(<client_id>:<client_secret>)}' \
+--header "Content-Type: application/x-www-form-urlencoded" \
+--data-raw "grant_type=authorization_code
 &code=<code_return_from_authorization_response>
-&client_id=<client_id_from_application>
 &code_verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>
-&redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>
+&redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>"
+```
+
+#### Client Secret Post:  
+The client_id and client_secret are sent in the body of the POST request as a form parameter.
+
+```bash
+curl --request
+-F "grant_type=authorization_code"
+-F "code=<code_return_from_authorization_response>"
+-F "client_id=<client_id_from_application>"
+-F "client_secret=<client_secret_from_a_confidential_application>"
+-F "code_verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>"
+-F "redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>"
+POST \
+--url https://your-token-endpoint \
+--header 'accept: application/x-www-form-urlencoded'
 ```
