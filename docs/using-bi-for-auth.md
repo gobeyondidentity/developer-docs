@@ -83,10 +83,10 @@ You'll also need to make note of your application's Token Endpoint Auth Method.
 
 ![Screenshot](./screenshots/TokenAuthMethod.png)
 
-Client Secret Basic:  
+#### Client Secret Basic:  
 The client_id and client_secret are sent in the Basic Authorization header.
 
-```
+```bash
 curl -X POST https://your-token-endpoint \
 --header 'Authorization: Basic {base64(<client_id>:<client_secret>)}' \
 --header "Content-Type: application/x-www-form-urlencoded" \
@@ -96,10 +96,10 @@ curl -X POST https://your-token-endpoint \
 &redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>"
 ```
 
-Client Secret Post:  
+#### Client Secret Post:  
 The client_id and client_secret are sent in the body of the POST request as a form parameter.
 
-```
+```bash
 curl --request
 -F "grant_type=authorization_code"
 -F "code=<code_return_from_authorization_response>"
