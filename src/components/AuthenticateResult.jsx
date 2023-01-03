@@ -3,6 +3,7 @@ import { Tabs } from "react-simple-tabs-component";
 import "react-simple-tabs-component/dist/index.css";
 import { CodeBlock, dracula } from "react-code-blocks";
 import jwt_decode from "jwt-decode";
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
 const DARK_MODE_THEME = dracula;
 const LIGHT_MODE_THEME = null;
@@ -63,23 +64,25 @@ const tabs = (tokenResponse, theme) => [
 
 const AuthenticateResult = (tokenResponse) => {
   const [theme, setTheme] = useState(function () {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (ExecutionEnvironment.canUseDOM && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return DARK_MODE_THEME;
     } else {
       return LIGHT_MODE_THEME;
     }
   }());
 
-  window.matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', event => {
-      if (event.matches) {
-        //dark mode
-        setTheme(DARK_MODE_THEME);
-      } else {
-        //light mode
-        setTheme(LIGHT_MODE_THEME);
-      }
-    });
+  if (ExecutionEnvironment.canUseDOM) {
+    window.matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', event => {
+        if (event.matches) {
+          //dark mode
+          setTheme(DARK_MODE_THEME);
+        } else {
+          //light mode
+          setTheme(LIGHT_MODE_THEME);
+        }
+      });
+  }
 
   return (
     <div>

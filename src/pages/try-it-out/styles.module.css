@@ -1,23 +1,3 @@
-.credential:hover {
-  cursor: pointer;
-}
-
-.credential-select:hover {
-  cursor: pointer;
-}
-
-.modal-header {
-  position: sticky;
-  top: 0px;
-  background-color: rgba(255, 255, 255, 0);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  line-height: 30px;
-  height: 30px;
-}
-
 @media (prefers-color-scheme: light) {
   .step-input {
     background-color: #ebf0ff;
@@ -41,26 +21,6 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-
-  .credential {
-    background-color: #ffffff;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: space-between;
-    line-height: 50px;
-    height: 50px;
-  }
-
-  .credential-select {
-    background-color: #ffffff;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-    line-height: 50px;
-    height: 50px;
   }
 }
 
@@ -88,26 +48,6 @@
     -ms-user-select: none;
     user-select: none;
   }
-
-  .credential {
-    background-color: #1b1b1d;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: space-between;
-    line-height: 50px;
-    height: 50px;
-  }
-
-  .credential-select {
-    background-color: #1b1b1d;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-    line-height: 50px;
-    height: 50px;
-  }
 }
 
 .username {
@@ -130,8 +70,6 @@
   font-family: inherit;
 }
 
-
-
 button {
   height: 40px;
   width: 200px;
@@ -139,49 +77,4 @@ button {
 
 .username-form {
   height: 100%;
-}
-
-.center {
-  margin: 0 auto;
-  display: block;
-}
-
-.modal {
-  max-height: 300px;
-}
-
-.mt-1 {
-  margin-top: 1rem;
-}
-
-.mt-3 {
-  margin-top: 3rem;
-}
-
-.mb-1 {
-  margin-bottom: 1rem;
-}
-
-.ml-1 {
-  margin-left: 1rem;
-}
-
-.mr-1 {
-  margin-right: 1rem;
-}
-
-.pt-1 {
-  padding-top: 1rem;
-}
-
-.pb-1 {
-  padding-bottom: 1rem;
-}
-
-.pl-1 {
-  padding-left: 1rem;
-}
-
-.pr-1 {
-  padding-right: 1rem;
 }

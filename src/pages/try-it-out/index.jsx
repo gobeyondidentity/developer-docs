@@ -1,15 +1,16 @@
 import styles from "./styles.module.css";
+import padding from "../../css/Padding.module.css";
 import React, { useState } from "react";
 import Layout from "@theme/Layout";
 import classNames from "classnames";
-import AuthenticateResult from "./components/AuthenticateResult";
-import Button from "./components/Button";
-import CredentialTable from "./components/CredentialTable";
-import SelectCredentialTable from "./components/SelectCredentialTable";
-import CredentialModal from "./components/CredentialModal";
+import AuthenticateResult from "../../components/AuthenticateResult";
+import Button from "../../components/Button";
+import CredentialTable from "../../components/CredentialTable";
+import SelectCredentialTable from "../../components/SelectCredentialTable";
+import CredentialModal from "../../components/CredentialModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import { generateRandomStringOfLength, generateCodeChallenge } from "./utils/pkce";
-import { getCredentials, bindCredential, authenticate } from "./utils/bi-sdk-js";
+import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
+import { getCredentials, bindCredential, authenticate } from "../../utils/bi-sdk-js";
 
 const StepOne = ({ progressState, setProgressState }) => {
   const [username, setUsername] = useState("");
@@ -69,7 +70,7 @@ const StepOne = ({ progressState, setProgressState }) => {
           <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
         </form>
       </div>
-      <div className={classNames(styles["mt-1"])}>
+      <div className={classNames(padding["mt-1"])}>
         <Button
           name="Create Passkey"
           isLoading={loading}
@@ -139,7 +140,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
           centered={true}>
         </Button>}
       </div>
-      <div className={classNames(styles["mt-1"])}>
+      <div className={classNames(padding["mt-1"])}>
         {credentialsLoaded ? <Button
           name="Next"
           isDisabled={false}
@@ -282,7 +283,7 @@ const StepThree = ({ progressState, setProgressState }) => {
           </SelectCredentialTable> : <div></div>}
       </div>
       {tokenResponse === null ?
-        <div className={classNames(styles["mt-1"])}>
+        <div className={classNames(padding["mt-1"])}>
           <Button
             name="Login"
             isDisabled={false}
@@ -292,9 +293,9 @@ const StepThree = ({ progressState, setProgressState }) => {
         </div> : <div></div>
       }
       {tokenResponse !== null ? (
-        <div className={classNames(styles["mt-1"])}>
+        <div className={classNames(padding["mt-1"])}>
           <AuthenticateResult {...tokenResponse}></AuthenticateResult>
-          <div className={classNames(styles["mt-1"])}>
+          <div className={classNames(padding["mt-1"])}>
             <Button
               name="Try Again"
               isDisabled={false}
@@ -303,7 +304,7 @@ const StepThree = ({ progressState, setProgressState }) => {
               centered={true}>
             </Button>
           </div>
-          <div className={classNames(styles["mt-1"])}></div>
+          <div className={classNames(padding["mt-1"])}></div>
         </div>
       ) : (
         <div></div>
@@ -332,13 +333,13 @@ export default function TryItOut() {
 
   return (
     <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
-      <div className={classNames(styles["mt-1"])}></div>
+      <div className={classNames(padding["mt-1"])}></div>
       <StepOne {...state}></StepOne>
-      <div className={classNames(styles["mt-3"])}></div>
+      <div className={classNames(padding["mt-3"])}></div>
       <StepTwo {...state}></StepTwo>
-      <div className={classNames(styles["mt-3"])}></div>
+      <div className={classNames(padding["mt-3"])}></div>
       <StepThree {...state}></StepThree>
-      <div className={classNames(styles["mt-1"])}></div>
+      <div className={classNames(padding["mt-1"])}></div>
     </Layout>
   );
 }
