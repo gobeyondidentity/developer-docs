@@ -56,7 +56,7 @@ If unsupported attributes are specified in the request, they will be ignored.
 
 #### **Create user example**
 
-:::tip Note:
+:::caution Note:
 - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 :::
 
@@ -214,7 +214,7 @@ We support the following **Groups**`(urn:ietf:params:scim:schemas:core:2.0:Group
 SVA = single value attribute
 CMVA = complex multi value attribute
 
-:::tip note: 
+:::caution note: 
 - members attribute is never returned
 :::
 
