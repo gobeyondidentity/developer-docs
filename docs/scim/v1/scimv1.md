@@ -57,7 +57,7 @@ If unsupported attributes are specified in the request, they will be ignored.
 #### **Create user example**
 
 :::tip Note:
-    - If email is provided, `primary` must be set to `true` and `value` must be a valid email address
+- If email is provided, `primary` must be set to `true` and `value` must be a valid email address
 :::
 
 ```markdown title="Sample request"
@@ -170,9 +170,9 @@ If unsupported attributes are specified in the request, they will be ignored.
 #### **Search users example**
 :::tip Limitations:
 - Can only filter by `username`
-    - Ony `eq` and `ne` filter operators are supported
-    - Can retrieve a maximum of 1000 users at a time
-    - `sortBy` and `orderBy` are not yet supported
+- Ony `eq` and `ne` filter operators are supported
+- Can retrieve a maximum of 1000 users at a time
+- `sortBy` and `orderBy` are not yet supported
 :::
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
 
@@ -215,7 +215,7 @@ SVA = single value attribute
 CMVA = complex multi value attribute
 
 :::tip note: 
-  - members attribute is never returned
+- members attribute is never returned
 :::
 
 #### **Create group example**
@@ -316,10 +316,10 @@ CMVA = complex multi value attribute
 ```
 #### **Search groups example**
 :::tip Limitations:
-  - Can only filter by `displayname`
-  - Ony `eq` and `ne` filter operators are supported
-  - Can retrieve a maximum of 1000 groups at a time
-  - `sortBy` and `orderBy` are not yet supported
+- Can only filter by `displayname`
+- Ony `eq` and `ne` filter operators are supported
+- Can retrieve a maximum of 1000 groups at a time
+- `sortBy` and `orderBy` are not yet supported
 :::
 
 For more information on filtering please see [SCIM Filtering](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
