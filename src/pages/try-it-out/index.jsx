@@ -11,6 +11,7 @@ import CredentialModal from "../../components/CredentialModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
 import { getCredentials, bindCredential, authenticate } from "../../utils/bi-sdk-js";
+import { getOffsetForElementById } from "../../utils/helpers";
 
 const StepOne = ({ progressState, setProgressState }) => {
   const [username, setUsername] = useState("");
@@ -58,6 +59,14 @@ const StepOne = ({ progressState, setProgressState }) => {
     // Reset state for next time around
     setUsername("");
     setLoading(false);
+
+    // Scroll to Step Two
+    const offset = getOffsetForElementById("step-two");
+    window.scrollTo({
+      top: offset.top,
+      left: offset.left,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -120,6 +129,14 @@ const StepTwo = ({ progressState, setProgressState }) => {
         two: COMPLETE,
         three: IN_PROGRESS,
       }
+    });
+
+    // Scroll to Step Three
+    const offset = getOffsetForElementById("step-three");
+    window.scrollTo({
+      top: offset.top,
+      left: offset.left,
+      behavior: 'smooth'
     });
   };
 
@@ -242,6 +259,14 @@ const StepThree = ({ progressState, setProgressState }) => {
     }
     setTokenResponse(jsonTokenResponse);
     setLoading(false);
+
+    // Scroll to Authenticate Result
+    const offset = getOffsetForElementById("authenticate-result");
+    window.scrollTo({
+      top: offset.top,
+      left: offset.left,
+      behavior: 'smooth'
+    });
   };
 
   const handleTryAgain = () => {
@@ -293,7 +318,7 @@ const StepThree = ({ progressState, setProgressState }) => {
         </div> : <div></div>
       }
       {tokenResponse !== null ? (
-        <div className={classNames(padding["mt-1"])}>
+        <div id="authenticate-result" className={classNames(padding["mt-1"])}>
           <AuthenticateResult {...tokenResponse}></AuthenticateResult>
           <div className={classNames(padding["mt-1"])}>
             <Button
@@ -333,12 +358,15 @@ export default function TryItOut() {
 
   return (
     <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
-      <div className={classNames(padding["mt-1"])}></div>
-      <StepOne {...state}></StepOne>
-      <div className={classNames(padding["mt-3"])}></div>
-      <StepTwo {...state}></StepTwo>
-      <div className={classNames(padding["mt-3"])}></div>
-      <StepThree {...state}></StepThree>
+      <div id="step-one" className={classNames(padding["mt-1"])}>
+        <StepOne {...state}></StepOne>
+      </div>
+      <div id="step-two" className={classNames(padding["mt-3"])}>
+        <StepTwo {...state}></StepTwo>
+      </div>
+      <div id="step-three" className={classNames(padding["mt-3"])}>
+        <StepThree {...state}></StepThree>
+      </div>
       <div className={classNames(padding["mt-1"])}></div>
     </Layout>
   );
