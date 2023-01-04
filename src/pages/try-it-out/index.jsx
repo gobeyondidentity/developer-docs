@@ -12,6 +12,8 @@ import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
 import { getCredentials, bindCredential, authenticate } from "../../utils/bi-sdk-js";
 import { getOffsetForElementById } from "../../utils/helpers";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StepOne = ({ progressState, setProgressState }) => {
   const [username, setUsername] = useState("");
@@ -42,7 +44,7 @@ const StepOne = ({ progressState, setProgressState }) => {
     // );
     // let response = await rawResponse.json();
     // if (rawResponse.status !== 200) {
-    //   console.log("Show some sort of error. Try Again?");
+    //   toast.error("Failed to generate a passkey. Please try again.");
     // }
 
     // let result = await bindCredential(response.credential_binding_link);
@@ -196,7 +198,8 @@ const StepThree = ({ progressState, setProgressState }) => {
         setSelectedCredentialId(credentials[0].id);
       }
     }, (error) => {
-      console.log(error);
+      console.error(error);
+      toast.error("Failed to get credentials. Please try again.");
     });
   }
 
@@ -213,8 +216,7 @@ const StepThree = ({ progressState, setProgressState }) => {
   const handleLogin = async () => {
     setLoading(true);
     if (selectedCredentialId === null) {
-      // Handle this error appropriatley
-      console.log("No credential has been selected");
+      toast.error("No credential has been selected. Please select a credential and try again.");
       return;
     }
 
@@ -222,7 +224,6 @@ const StepThree = ({ progressState, setProgressState }) => {
     const state = generateRandomStringOfLength(15);
     const codeVerifier = generateRandomStringOfLength(43);
     const codeChallenge = await generateCodeChallenge(codeVerifier);
-    console.log(codeVerifier, codeChallenge);
     // const authURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/authorize?response_type=code&client_id=vs2gorSMyEmhf26lH1U_sDky&redirect_uri=${encodeURIComponent(origin)}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
     // const tokenURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/token`;
     const authURL = `https://auth-us.beyondidentity.run/v1/tenants/0001303dc41a7c4d/realms/5bacd2585013eaae/applications/62e058fa-da5f-4102-a46c-f97682318357/authorize?response_type=code&client_id=v_cN2Qa4oSFbi7diee5gt5IP&redirect_uri=${origin}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
@@ -231,7 +232,8 @@ const StepThree = ({ progressState, setProgressState }) => {
     const response = await fetch(authURL);
     let jsonResponse = await response.json();
     if (response.status !== 200 || jsonResponse === null) {
-      console.log(jsonResponse);
+      console.error(jsonResponse);
+      toast.error("Failed to authenticate. Please try again.");
       return;
     }
 
@@ -242,7 +244,8 @@ const StepThree = ({ progressState, setProgressState }) => {
     });
 
     if (urlParams.state !== state) {
-      console.log("State does not match");
+      console.error(`State mismatch. Incoming state: ${urlParams.state} does not match outgoing state: ${state}.`);
+      toast.error("State does not match. Please try again.");
       return;
     }
 
@@ -254,7 +257,8 @@ const StepThree = ({ progressState, setProgressState }) => {
 
     let jsonTokenResponse = await tokenResponse.json();
     if (tokenResponse.status !== 200 || jsonTokenResponse === null) {
-      console.log(jsonTokenResponse);
+      console.error(jsonTokenResponse);
+      toast.error("Failed to get token. Please try again.");
       return;
     }
     setTokenResponse(jsonTokenResponse);
@@ -368,6 +372,15 @@ export default function TryItOut() {
         <StepThree {...state}></StepThree>
       </div>
       <div className={classNames(padding["mt-1"])}></div>
+      <ToastContainer position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick={true}
+        closeButton={false}
+        pauseOnHover={true}
+        draggable={true}
+        progress={undefined}
+        theme="colored" />
     </Layout>
   );
 }
