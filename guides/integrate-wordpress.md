@@ -1,9 +1,9 @@
 ---
-title: Integrate Beyond Identity Passwordless Authentication into Wordpress
-sidebar_position: 1
+title: Wordpress
+sidebar_position: 6
 ---
 
-# Integrate with Wordpress
+# Integrate Beyond Identity Passwordless Authentication into Wordpress
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Wordpress site.
 
