@@ -1,5 +1,5 @@
 ---
-title: Integrate With Okta
+title: Integrate with Okta
 sidebar_position: 2
 ---
 

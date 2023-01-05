@@ -1,5 +1,5 @@
 ---
-title: Integrate With AWS Cognito
+title: Integrate with AWS Cognito
 ---
 
 Work in progress.

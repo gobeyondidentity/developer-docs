@@ -1,9 +1,9 @@
 ---
-title: Integrate With KeyCloak
+title: Integrate with KeyCloak
 sidebar_position: 3
 ---
 
-# Integrate With Keycloak
+# Integrate with Keycloak
 
 This document provides information on how to configure Beyond Identity as a new OIDC identity provider for your Keycloak instance.
 
