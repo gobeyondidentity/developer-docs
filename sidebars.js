@@ -150,11 +150,6 @@ const sidebars = {
         },
         {
           type: 'link',
-          label: 'Integrate with Curity ⧉',
-          href: '/guides/sso-integrations/integrate-with-curity',
-        },
-        {
-          type: 'link',
           label: 'Integrate with Azure AD B2C ⧉',
           href: '/guides/sso-integrations/integrate-with-azureb2c',
         },
