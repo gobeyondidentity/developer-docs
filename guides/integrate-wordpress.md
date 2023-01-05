@@ -16,7 +16,7 @@ This guide will cover:
 
 Before continuing, make sure that the following prerequisites have been met:
   * Ensure that you have a live Wordpress site running and administrator privileges to install and configure a plugin
-  * Access to a Beyond Identity tenant and its admin console
+  * Access to a Beyond Identity tenant and its admin console. If necessary, sign up for a tenant at https://www.beyondidentity.com/developers/signup
 
 ## Set up Beyond Identity as an Identity Provider
 
