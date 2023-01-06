@@ -32,7 +32,9 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
 - Step 2: Okta Authorize URL
 
-To start the authorization flow, build a `CustomTabsIntent` or `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta. Make sure whichever webview you doesn’t share cookies or other browsing data between the authentication session. The below examples sets `ephemeralWebSession` to true to disable cookie re-use on iOS.
+To start the authorization flow, build a `CustomTabsIntent` or `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+
+Note: `ephemeralWebSession` default is `false` which means cookies or other browsing data will be shared across the authentication session and the user will not need to sign in again if they are already authenticated on the system browser. However, the example below sets `ephemeralWebSession` to `true` so that the user is prompted each time for demo consistency.
 
 ![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
 
@@ -60,6 +62,11 @@ if (await InAppBrowser.isAvailable()) {
       response.url,
       selectedCredentialId
     );
+  } else {
+    /*
+        session may be cached and the user is already logged in.
+        Try to exchange the authorization code for an id_token using Okta's token endpoint.
+    */
   }
 }
 ```
