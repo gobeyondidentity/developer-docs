@@ -1,5 +1,5 @@
 ---
-title: Integrate With Beyond Identity Workforce
+title: Integrate with Beyond Identity Workforce
 ---
 
 Work in progress.

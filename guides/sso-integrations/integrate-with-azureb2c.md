@@ -1,9 +1,9 @@
 ---
-title: Integrate With Azure AD B2C
+title: Integrate with Azure AD B2C
 sidebar_position: 5
 ---
 
-# Integrate With Azure AD B2C
+# Integrate with Azure AD B2C
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment. In this scenario, the Beyond Identity Hosted Web Authenticator will be used, but an almost identical process can be followed should you wish to use the Beyond Identity embedded web or native SDKs.
 

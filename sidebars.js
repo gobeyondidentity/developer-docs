@@ -148,6 +148,21 @@ const sidebars = {
           label: 'Integrate with Curity ⧉',
           href: '/guides/sso-integrations/integrate-with-curity',
         },
+        {
+          type: 'link',
+          label: 'Integrate with Azure AD B2C ⧉',
+          href: '/guides/sso-integrations/integrate-with-azureb2c',
+        },
+        {
+          type: 'link',
+          label: 'Integrate with Beyond Identity Workforce ⧉',
+          href: '/guides/sso-integrations/integrate-with-bi-workforce',
+        },
+        {
+          type: 'link',
+          label: 'Integrate with AWS Cognito ⧉',
+          href: '/guides/sso-integrations/integrate-with-cognito',
+        },
       ],
     },
     {

@@ -18,6 +18,8 @@ const sidebars = {
   mySidebar: [
     'index',
     'send-enrollment',
+    'bubble-io-integration',
+    'integrate-wordpress',
     {
       type: 'category',
       label: 'SSO Integrations',

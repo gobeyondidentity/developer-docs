@@ -21,7 +21,7 @@ You can find us in the [Auth0 Marketplace](https://marketplace.auth0.com/integra
 Before continuing, make sure the following prerequisites have been met:
 
   * Ensure that you have an Auth0 account with admin privileges
-  * Access to a Beyond Identity tenant
+  * Access to a Beyond Identity tenant. If necessary, sign up for a tenant at https://www.beyondidentity.com/developers/signup
 
 ## Configure SSO for Beyond Identity Admin portal
 

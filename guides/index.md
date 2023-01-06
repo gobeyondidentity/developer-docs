@@ -6,8 +6,8 @@ sidebar_position: 1
 # How to
 
 - [Sending Enrollment Emails](/guides/send-enrollment)
-- [Integrate Auth into a bubble.io application](/guides/bubble-io-integration.md)
-- [Integrate Auth into Wordpress](/guides/integrate-wordpress.md)
+- [Integrate Beyond Identity Passwordless Authentication into a bubble.io application](/guides/bubble-io-integration.md)
+- [Integrate Beyond Identity Passwordless Authentication into Wordpress](/guides/integrate-wordpress.md)
 
 
 # Integration with other SSOs

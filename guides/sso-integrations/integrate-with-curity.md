@@ -1,9 +1,9 @@
 ---
-title: Integrate With Curity
+title: Integrate with Curity
 sidebar_position: 4
 ---
 
-# Integrate With Curity
+# Integrate with Curity
 
 This short guide provides details on how to configure Beyond Identity as an Identity Provider in the Curity Identity Server.
 
