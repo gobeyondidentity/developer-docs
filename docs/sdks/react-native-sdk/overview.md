@@ -62,7 +62,9 @@ allprojects {
 ```
 
 ### Using `expo`
-> :warning: This package cannot be used in "Expo Go" because [it requires custom native code](https://docs.expo.io/workflow/customizing/). However you can leverage this library with a [development build](https://docs.expo.dev/development/introduction/) or [prebuild](https://docs.expo.dev/workflow/prebuild/).  
+:::warning
+This package cannot be used in "Expo Go" because [it requires custom native code](https://docsexpo.io/workflow/customizing/). However you can leverage this library with a [development build(https://docs.expo.dev/development/introduction/) or [prebuild](https://docs.expo.dev/workflowprebuild/). 
+::: 
 
 1. Install the SDK:
 ```
