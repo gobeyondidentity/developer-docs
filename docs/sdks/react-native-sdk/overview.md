@@ -11,21 +11,119 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-react-native/tree/main/example) for the Embedded SDK.
 :::
 
-## Installation via yarn or npm
+## Installation
 
-```javascript
-yarn add @beyondidentity/embedded-react-native
+### Using a [bare expo](https://docs.expo.dev/bare/hello-world/) or [react-native init](https://reactnative.dev/docs/environment-setup) app.
+
+1. Install the SDK:
 ```
-
+yarn add @beyondidentity/bi-sdk-react-native
+```
 or
+```
+npm install @beyondidentity/bi-sdk-react-native
+```
+2. Update Native Requirements in your ios/android folders:
 
-```javascript
-npm i --save @beyondidentity/embedded-react-native
+Please make sure your iOS project supports "minimum deployment target" 13.0 or later.
+
+In your `ios/Podfile` set:
+
+```sh
+platform :ios, '13.0'
 ```
 
-:::warning
-Note that this library is not compatible with Expo projects. This is because Expo's “managed” workflow does not allow usage of React Native libraries that introduce their own native code beyond the React Native APIs and components that are available in the Expo client app. If you have an Expo app and wish to use this project, you must eject.
-:::
+Go to your ios folder and run:
+
+```sh
+ pod install
+```
+
+Make sure your `android/build.gradle` supports minSdkVersion 26 or later
+
+```
+buildscript {
+  ext {
+    minSdkVersion = 26
+  }
+}
+```
+
+Add the following maven url to your repositories in your `android/build.gradle`
+
+```
+allprojects {
+  repositories {
+    maven {
+      url "https://packages.beyondidentity.com/public/bi-sdk-android/maven/"
+    }
+  }
+}
+```
+
+### Using `expo`
+> :warning: This package cannot be used in "Expo Go" because [it requires custom native code](https://docs.expo.io/workflow/customizing/). However you can leverage this library with a [development build](https://docs.expo.dev/development/introduction/) or [prebuild](https://docs.expo.dev/workflow/prebuild/).  
+
+1. Install the SDK:
+```
+expo install @beyondidentity/bi-sdk-react-native
+```
+
+2. Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the [plugins array](https://docs.expo.dev/versions/latest/config/app/#plugins) of your app.{json,config.js,config.ts}:
+```
+{
+  "expo": {
+    "plugins": [
+      ["@beyondidentity/bi-sdk-react-native"],
+    ]
+  }
+}
+```
+
+3. Set native requirments either with [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/) or modify project [static files](https://docs.expo.dev/guides/config-plugins/#static-modification)
+
+A. Modify the following static files
+
+android/gradle.properties
+```
+android.minSdkVersion=26
+```
+ios/Podfile.properties.json
+```
+"ios.deploymentTarget": "13.0"
+```
+
+*or* 
+
+B. Add [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/) to your app.{json,config.js,config.ts}:
+
+
+```
+expo install expo-build-properties
+```
+
+```
+{
+  "expo": {
+    "plugins": [
+      ["@beyondidentity/bi-sdk-react-native"],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+4.  Next, rebuild your app as described in the ["Adding custom native code"](https://docs.expo.dev/workflow/customizing/) guide.
 
 ## Setup
 
