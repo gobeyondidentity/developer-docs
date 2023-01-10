@@ -66,10 +66,12 @@ const StepOne = ({ progressState, setProgressState }) => {
 
     // Scroll to Step Two
     const offset = getOffsetForElementById("step-two");
-    window.scrollTo({
-      top: offset.top,
-      left: offset.left,
-      behavior: 'smooth'
+    setTimeout(() => {
+      window.scrollTo({
+        top: offset.top,
+        left: offset.left,
+        behavior: 'smooth'
+      });
     });
   };
 
@@ -147,10 +149,12 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
     // Scroll to Step Three
     const offset = getOffsetForElementById("step-three");
-    window.scrollTo({
-      top: offset.top,
-      left: offset.left,
-      behavior: 'smooth'
+    setTimeout(() => {
+      window.scrollTo({
+        top: offset.top,
+        left: offset.left,
+        behavior: 'smooth'
+      });
     });
   };
 
@@ -184,11 +188,13 @@ const StepTwo = ({ progressState, setProgressState }) => {
         }
       });
 
-      // And scroll back to Step One
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
+      setTimeout(() => {
+        // And scroll back to Step One
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
       });
     }
   }
@@ -319,10 +325,12 @@ const StepThree = ({ progressState, setProgressState }) => {
 
     // Scroll to Authenticate Result
     const offset = getOffsetForElementById("authenticate-result");
-    window.scrollTo({
-      top: offset.top,
-      left: offset.left,
-      behavior: 'smooth'
+    setTimeout(() => {
+      window.scrollTo({
+        top: offset.top,
+        left: offset.left,
+        behavior: 'smooth'
+      });
     });
   };
 
@@ -343,11 +351,13 @@ const StepThree = ({ progressState, setProgressState }) => {
       }
     });
 
-    // Scroll to top
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
+    setTimeout(() => {
+      // Scroll to top
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     });
   };
 
