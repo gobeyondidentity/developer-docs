@@ -198,3 +198,7 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   color: black;
   background-color: #D9A406 !important;
 }
+
+li {
+  margin-bottom: 0.5rem;
+}

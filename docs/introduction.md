@@ -3,37 +3,43 @@ title: Introduction
 sidebar_position: 1
 ---
 
-Welcome to the developer documentation for Beyond Identity. This is where you can find guides for building authentication across your applications using universal passkeys. 
+Welcome to the Secure Customer developer documentation for Beyond Identity. Here you'll find guides for building strong authentication across your applications using public-private key pairs (what we call *universal passkeys*). 
+
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
-## Just looking to get going? 
+## Are you looking to get going quickly?
 
-Follow our [Getting Started guide](/docs/v1/getting-started). 
+Follow the [Getting Started guide](./getting-started), where you'll create and configure your Beyond Identity account and connect it to a sample application. This application demonstrates common workflows for authentication. After working with the sample application, you can ...
 
-## What is Beyond Identity
 
-Beyond Identity helps developers deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers, employees, and contractors.
+## What is Beyond Identity?
 
-Unique to Beyond Identity, shared secrets are eliminated for sign-up, login, and recovery. For customers, they never have to type a password, enter a code, click a push notification, or pick up a second device at all for authentication across all devices.
 
-In addition to the fact that authentication is multi-factor by default, Beyond Identity also delivers real-time user and device risk signals that you can leverage to implement risk-based access controls that prompt for step-up authentication in scenarios you deem to be higher risk. 
+Beyond Identity is a new kind of authenticator that advances your security posture. Instead of passwords, users download the Beyond Identity Authenticator to set up their secure, device-bound credentials for zero-friction [passwordless authentication](https://www.beyondidentity.com/resources/passwordless-authentication).
 
-Backed by a cloud-native architecture, our platform was built for enterprise workloads. All SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app.
+
+In a nutshell, Beyond Identity eliminates security vulnerabilities and user friction with secure multi-factor authentication. It also eliminates shared secrets for sign-up, sign-in/login, and recovery. As a result, customers never have to type a password, enter a code, click a push notification, or pick up a second device for authentication across all devices. 
+
+Because authentication is multi-factor by default, Beyond Identity delivers real-time user and device risk signals. You can leverage these signals to implement risk-based access control that prompts step-by-step authentication in scenarios you deem higher risk. Therefore, with Beyond Identity, developers can deploy the strongest authentication primitives on the planet. 
+
+Backed by a cloud-native architecture, you can use our platform for enterprise workloads. Also, our SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app found in the [Getting Started guide](./getting-started). 
 
 ## Why does Beyond Identity exist?
 
-We believe public private key pairs are fundamentally, a better way to authenticate users (and machines!).
+Public-private key pairs are a better way to authenticate users (and machines!). To fully address the challenges of customer authentication, the solution must be:
 
-In order to fully address challenges of customer authentication, any solution must be:
- - Secure: multi-factor with zero reliance on shared secrets or phishable factors
- - Easy to use: frictionless with no need for second devices or complicated steps
- - Universal across applications and devices: consistent experience across native and web apps on any device
- - Simple for developers to integrate: to reduce engineering workload so developers can work on their core product instead of authentication
+- **Secure:** multi-factor with zero reliance on shared secrets or phishable factors
 
-The only solution that met the above requirements was an authentication framework built off of public-private key pairs. 
+- **Easy to use:** frictionless with no need for second devices or complicated steps
 
-While we’re not the first to solve the problem with asymmetric cryptography, the existing solutions today fall short given the lack of cross-platform interoperability, and the friction presented to users. 
+- **Universal across applications and devices:** consistent experience across native and web apps on any device
+
+- **Simple for developers to integrate:** to reduce engineering workload so developers can work on their core product instead of authentication
+
+The only solution that met the above requirements was an authentication framework built off public-private key pairs.
+
+While we're not the first to solve the problem with asymmetric cryptography, today's existing solutions fall short, given the lack of cross-platform interoperability, and the friction presented to users.
 
 
 ## How it Works
