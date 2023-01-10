@@ -25,7 +25,7 @@ function afterCloseModal() {
   document.body.style.overflow = "unset";
 }
 
-const CredentialModal = ({ credential, isOpen, closeModal }) => {
+const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
   const [theme, setTheme] = useState(function () {
     if (ExecutionEnvironment.canUseDOM && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return DARK_MODE_THEME;
@@ -86,8 +86,19 @@ const CredentialModal = ({ credential, isOpen, closeModal }) => {
         {credential !== null ?
           <div className={classNames(styles["modal-header"], padding["mb-1"])}>
             <h2 className={classNames(padding["ml-1"])}>{credential.identity.username}</h2>
-            <div onClick={closeModal} style={{ cursor: "pointer" }}>
-              <h2 className={classNames(padding["mr-1"])}>&#10005;</h2>
+            <div>
+              <div
+                className={classNames(styles.icon)}
+                onClick={onDelete}
+                style={{ cursor: "pointer" }}>
+                  <h2 className={classNames(padding["mr-1"])}>&#128465;</h2>
+              </div>
+              <div
+                className={classNames(styles.icon)}
+                onClick={closeModal}
+                style={{ cursor: "pointer" }}>
+                  <h2 className={classNames(padding["mr-1"])}>&#10005;</h2>
+              </div>
             </div>
           </div>
           : <div></div>

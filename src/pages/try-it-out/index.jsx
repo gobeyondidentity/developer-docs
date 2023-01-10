@@ -10,7 +10,7 @@ import SelectCredentialTable from "../../components/SelectCredentialTable";
 import CredentialModal from "../../components/CredentialModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
-import { getCredentials, bindCredential, authenticate } from "../../utils/bi-sdk-js";
+import { getCredentials, bindCredential, authenticate, deleteCredential } from "../../utils/bi-sdk-js";
 import { getOffsetForElementById } from "../../utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -158,6 +158,41 @@ const StepTwo = ({ progressState, setProgressState }) => {
     setSelectedCredential(null);
   };
 
+  const onDelete = async () => {
+    if (confirm(`Are you sure you want to delete this passkey?`)) {
+      deleteCredential(selectedCredential.id);
+      setSelectedCredential(null);
+      const credentials = await getCredentials();
+
+      // If there are still credentials remaining, update
+      // the state and return
+      if (credentials.length > 0) {
+        setCredentials(credentials);
+        return;
+      }
+
+      // Otherwise, reset the state
+      setCredentials(null);
+      setLoading(false);
+      setCredentialsLoaded(false);
+      setSelectedCredential(null);
+      setProgressState({
+        step: {
+          one: IN_PROGRESS,
+          two: NOT_STARTED,
+          three: NOT_STARTED,
+        }
+      });
+
+      // And scroll back to Step One
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   return (
     <div className={parentClassNames}>
       <h1>2. See your Passkeys</h1>
@@ -182,11 +217,14 @@ const StepTwo = ({ progressState, setProgressState }) => {
       <CredentialModal
         credential={selectedCredential}
         isOpen={selectedCredential !== null}
-        closeModal={closeModal}>
+        closeModal={closeModal}
+        onDelete={onDelete}>
       </CredentialModal>
     </div>
   );
 };
+
+
 
 const StepThree = ({ progressState, setProgressState }) => {
   const [credentials, setCredentials] = useState(null);

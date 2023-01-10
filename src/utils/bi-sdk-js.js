@@ -18,3 +18,8 @@ export async function authenticate(url, credentialId) {
   const embedded = await initialized();
   return await embedded.authenticate(url, credentialId);
 }
+
+export async function deleteCredential(credentialId) {
+  const embedded = await initialized();
+  return await embedded.deleteCredential(credentialId);
+}
