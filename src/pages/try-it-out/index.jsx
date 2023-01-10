@@ -73,8 +73,19 @@ const StepOne = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
+      <div className={classNames(padding["mt-1"], padding["mb-1"])}>
+        <h1>Try it Out</h1>
+        <p>Developers can use the features below to explore what's possible using the Beyond Identity platform before having to write any code.</p>
+        <p>The three steps below allow you to:
+          <ol>
+            <li><strong>Register a New User:</strong> We help developers manage user accounts and associate passkeys with each.</li>
+            <li><strong>See your passkeys:</strong> To help developers and users identify which passkeys are available on any given device, we create a record on each browser of passkeys that are available for users to authenticate with.</li>
+            <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
+          </ol>
+        </p>
+      </div>
       <h1>1. Register a User</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Erat nam at lectus urna. Donec massa sapien faucibus et molestie ac. Est velit egestas dui id ornare arcu odio. Ut lectus arcu bibendum at. Amet aliquam id diam maecenas.</p>
+      <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <div className={classNames(styles["step-input"], "container")}>
         <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off">
           <label className={classNames(styles.username)} htmlFor="username">Username:</label>
@@ -149,7 +160,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
   return (
     <div className={parentClassNames}>
       <h1>2. See your Passkeys</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Erat nam at lectus urna. Donec massa sapien faucibus et molestie ac. Est velit egestas dui id ornare arcu odio. Ut lectus arcu bibendum at. Amet aliquam id diam maecenas.</p>
+      <p>See all the Passkeys you've created on this browser. If you've gone through this demo before, you'll see Passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ? <CredentialTable credentials={credentials} onClick={handleCredentialClick}></CredentialTable> : <Button
           name="Show Passkeys"
@@ -301,7 +312,7 @@ const StepThree = ({ progressState, setProgressState }) => {
   return (
     <div className={parentClassNames}>
       <h1>3. Authenticate with your Passkey</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Erat nam at lectus urna. Donec massa sapien faucibus et molestie ac. Est velit egestas dui id ornare arcu odio. Ut lectus arcu bibendum at. Amet aliquam id diam maecenas.</p>
+      <p>Select a Passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ?
           <SelectCredentialTable
@@ -333,6 +344,10 @@ const StepThree = ({ progressState, setProgressState }) => {
               centered={true}>
             </Button>
           </div>
+          <div className={classNames(padding["mt-1"], padding["mb-1"])}>
+            <h1>What's Next?</h1>
+            <p>Ready to start implementing passkeys in your application? Check out our <a href="/docs/v1/getting-started">getting started guide</a>.</p>
+          </div>
           <div className={classNames(padding["mt-1"])}></div>
         </div>
       ) : (
@@ -361,7 +376,7 @@ export default function TryItOut() {
   };
 
   return (
-    <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
+    <Layout id="try-it-out" title="Try It Out" description="Try out Universal passkeys">
       <div id="step-one" className={classNames(padding["mt-1"])}>
         <StepOne {...state}></StepOne>
       </div>
