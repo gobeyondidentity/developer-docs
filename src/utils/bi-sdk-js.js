@@ -1,6 +1,6 @@
 async function initialized() {
   const BeyondIdentityEmbeddedSdk = await import("@beyondidentity/bi-sdk-js");
-  const embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize({ allowedDomains: ["beyondidentity.run"] });
+  const embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize();
   return embedded;
 }
 

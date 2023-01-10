@@ -29,26 +29,28 @@ const StepOne = ({ progressState, setProgressState }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true);
-    // const rawResponse = await fetch(
-    //   `https://acme-cloud.byndid.com/passkey`,
-    //   {
-    //     body: JSON.stringify({
-    //       username: username,
-    //     }),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       accept: 'application/json',
-    //     },
-    //     method: 'POST',
-    //   }
-    // );
-    // let response = await rawResponse.json();
-    // if (rawResponse.status !== 200) {
-    //   toast.error("Failed to generate a passkey. Please try again.");
-    // }
+    const rawResponse = await fetch(
+      `https://acme-cloud.byndid.com/passkey`,
+      {
+        body: JSON.stringify({
+          username: username,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+        method: 'POST',
+      }
+    );
+    let response = await rawResponse.json();
+    if (rawResponse.status !== 200) {
+      toast.error("Failed to generate a passkey. Please try again.");
+      setLoading(false);
+      return;
+    }
 
-    // let result = await bindCredential(response.credential_binding_link);
-    // console.log(result);
+    let result = await bindCredential(response.credential_binding_link);
+    console.log(result);
     setLoading(false);
     setProgressState({
       step: {
@@ -76,13 +78,12 @@ const StepOne = ({ progressState, setProgressState }) => {
       <div className={classNames(padding["mt-1"], padding["mb-1"])}>
         <h1>Try it Out</h1>
         <p>Developers can use the features below to explore what's possible using the Beyond Identity platform before having to write any code.</p>
-        <p>The three steps below allow you to:
-          <ol>
-            <li><strong>Register a New User:</strong> We help developers manage user accounts and associate passkeys with each.</li>
-            <li><strong>See your passkeys:</strong> To help developers and users identify which passkeys are available on any given device, we create a record on each browser of passkeys that are available for users to authenticate with.</li>
-            <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
-          </ol>
-        </p>
+        <p>The three steps below allow you to:</p>
+        <ol>
+          <li><strong>Register a New User:</strong> We help developers manage user accounts and associate passkeys with each.</li>
+          <li><strong>See your passkeys:</strong> To help developers and users identify which passkeys are available on any given device, we create a record on each browser of passkeys that are available for users to authenticate with.</li>
+          <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
+        </ol>
       </div>
       <h1>1. Register a User</h1>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
@@ -210,7 +211,7 @@ const StepThree = ({ progressState, setProgressState }) => {
       }
     }, (error) => {
       console.error(error);
-      toast.error("Failed to get credentials. Please try again.");
+      toast.error("Failed to get credentials. Please refresh the page and try again.");
     });
   }
 
@@ -228,23 +229,24 @@ const StepThree = ({ progressState, setProgressState }) => {
     setLoading(true);
     if (selectedCredentialId === null) {
       toast.error("No credential has been selected. Please select a credential and try again.");
+      setLoading(false);
       return;
     }
 
     const origin = encodeURIComponent((new URL(document.location.href)).origin);
+    console.log("Origin:", origin);
     const state = generateRandomStringOfLength(15);
     const codeVerifier = generateRandomStringOfLength(43);
     const codeChallenge = await generateCodeChallenge(codeVerifier);
-    // const authURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/authorize?response_type=code&client_id=vs2gorSMyEmhf26lH1U_sDky&redirect_uri=${encodeURIComponent(origin)}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
-    // const tokenURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/token`;
-    const authURL = `https://auth-us.beyondidentity.run/v1/tenants/0001303dc41a7c4d/realms/5bacd2585013eaae/applications/62e058fa-da5f-4102-a46c-f97682318357/authorize?response_type=code&client_id=v_cN2Qa4oSFbi7diee5gt5IP&redirect_uri=${origin}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
-    const tokenURL = `https://auth-us.beyondidentity.run/v1/tenants/0001303dc41a7c4d/realms/5bacd2585013eaae/applications/62e058fa-da5f-4102-a46c-f97682318357/token`;
+    const authURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/authorize?response_type=code&client_id=vs2gorSMyEmhf26lH1U_sDky&redirect_uri=${origin}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+    const tokenURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/token`;
 
     const response = await fetch(authURL);
     let jsonResponse = await response.json();
     if (response.status !== 200 || jsonResponse === null) {
       console.error(jsonResponse);
       toast.error("Failed to authenticate. Please try again.");
+      setLoading(false);
       return;
     }
 
@@ -257,19 +259,21 @@ const StepThree = ({ progressState, setProgressState }) => {
     if (urlParams.state !== state) {
       console.error(`State mismatch. Incoming state: ${urlParams.state} does not match outgoing state: ${state}.`);
       toast.error("State does not match. Please try again.");
+      setLoading(false);
       return;
     }
 
     let tokenResponse = await fetch(tokenURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `grant_type=authorization_code&code=${urlParams.code}&client_id=v_cN2Qa4oSFbi7diee5gt5IP&code_verifier=${codeVerifier}&redirect_uri=${origin}`,
+      body: `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`,
     });
 
     let jsonTokenResponse = await tokenResponse.json();
     if (tokenResponse.status !== 200 || jsonTokenResponse === null) {
       console.error(jsonTokenResponse);
       toast.error("Failed to get token. Please try again.");
+      setLoading(false);
       return;
     }
     setTokenResponse(jsonTokenResponse);
