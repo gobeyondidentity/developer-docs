@@ -1,5 +1,10 @@
 ---
 title: Introduction
+description: Welcome to the Secure Customer developer documentation for Beyond Identity. Here you'll find guides for building strong authentication across your applications using public-private key pairs (what we call universal passkeys). 
+keywords:
+  - secure customer 
+  - developer documentation
+  - how it works
 sidebar_position: 1
 ---
 
