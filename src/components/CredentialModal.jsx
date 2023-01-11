@@ -83,34 +83,36 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
       >
-        {credential !== null ?
-          <div className={classNames(styles["modal-header"], padding["mb-1"])}>
-            <h2 className={classNames(padding["ml-1"])}>{credential.identity.username}</h2>
-            <div>
-              <div
-                className={classNames(styles.icon)}
-                onClick={onDelete}
-                style={{ cursor: "pointer" }}>
-                  <h2 className={classNames(padding["mr-1"])}>&#128465;</h2>
-              </div>
-              <div
-                className={classNames(styles.icon)}
-                onClick={closeModal}
-                style={{ cursor: "pointer" }}>
-                  <h2 className={classNames(padding["mr-1"])}>&#10005;</h2>
+        <div className={classNames(styles.container)}>
+          {credential !== null ?
+            <div className={classNames(styles["modal-header"])}>
+              <h2 className={classNames(padding["ml-1"], padding["mb-0"])}>{credential.identity.username}</h2>
+              <div>
+                <div
+                  className={classNames(styles.icon)}
+                  onClick={onDelete}
+                  style={{ cursor: "pointer" }}>
+                  <div className={classNames(padding["pl-half"], padding["pr-half"])}>&#128465;</div>
+                </div>
+                <div
+                  className={classNames(styles.icon)}
+                  onClick={closeModal}
+                  style={{ cursor: "pointer" }}>
+                  <div className={classNames(padding["pl-half"], padding["pr-half"])}>&#10005;</div>
+                </div>
               </div>
             </div>
+            : <div></div>
+          }
+          <div className={classNames(styles.modal)}>
+            <CodeBlock
+              text={JSON.stringify(credential, null, 2)}
+              language="json"
+              showLineNumbers={true}
+              startingLineNumber={0}
+              theme={theme}
+            />
           </div>
-          : <div></div>
-        }
-        <div className={classNames(styles.modal)}>
-          <CodeBlock
-            text={JSON.stringify(credential, null, 2)}
-            language="json"
-            showLineNumbers={true}
-            startingLineNumber={0}
-            theme={theme}
-          />
         </div>
       </Modal>
     </div>
