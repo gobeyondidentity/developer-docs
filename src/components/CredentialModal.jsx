@@ -111,6 +111,7 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
               showLineNumbers={true}
               startingLineNumber={0}
               theme={theme}
+              className={classNames(styles["code-block"])}
             />
           </div>
         </div>
