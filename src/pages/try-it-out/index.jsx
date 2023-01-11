@@ -79,7 +79,7 @@ const StepOne = ({ progressState, setProgressState }) => {
     <div className={parentClassNames}>
       <div className={classNames(padding["mt-1"], padding["mb-1"])}>
         <h1>Try it Out</h1>
-        <p>Developers can use the features below to explore what's possible using the Beyond Identity platform before having to write any code.</p>
+        <p>Explore what's possible using the Beyond Identity platform before having to write any code.</p>
         <p>The three steps below allow you to:</p>
         <ol>
           <li><strong>Register a new user:</strong> We help developers manage user accounts and associate passkeys with each.</li>
