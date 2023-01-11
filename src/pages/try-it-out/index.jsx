@@ -82,7 +82,7 @@ const StepOne = ({ progressState, setProgressState }) => {
         <p>Developers can use the features below to explore what's possible using the Beyond Identity platform before having to write any code.</p>
         <p>The three steps below allow you to:</p>
         <ol>
-          <li><strong>Register a New User:</strong> We help developers manage user accounts and associate passkeys with each.</li>
+          <li><strong>Register a new user:</strong> We help developers manage user accounts and associate passkeys with each.</li>
           <li><strong>See your passkeys:</strong> To help developers and users identify which passkeys are available on any given device, we create a record on each browser of passkeys that are available for users to authenticate with.</li>
           <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
         </ol>
