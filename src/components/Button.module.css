@@ -2,3 +2,8 @@
   margin: 0 auto;
   display: block;
 }
+
+.dimensions {
+  height: 40px;
+  width: 200px;
+}

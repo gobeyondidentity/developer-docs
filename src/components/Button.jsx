@@ -7,7 +7,7 @@ const Button = ({ name, isDisabled, isLoading, form, onClick, centered }) => {
   return <button
     type="submit"
     form={form}
-    className={classNames("button", "button--lg", centered ? styles.center : "")}
+    className={classNames("button", "button--lg", styles.dimensions, centered ? styles.center : "")}
     role="button"
     onClick={onClick}
     disabled={isDisabled || isLoading}>
