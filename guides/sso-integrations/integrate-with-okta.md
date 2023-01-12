@@ -20,23 +20,23 @@ To configure an Okta integration, please create a new realm as shown below.
 
 1. Click the drop down on the top left corner and add a new realm. 
 
-![sso-okta-select-tenant](/assets/sso-okta-select-tenant.png)
+   ![sso-okta-select-tenant](/assets/sso-okta-select-tenant.png)
 
 2. Create a new identity with an email that you want to use for testing.
 
-![sso-okta-create-identity](/assets/sso-okta-create-identity.png)
+   ![sso-okta-create-identity](/assets/sso-okta-create-identity.png)
 
 3. Create an OIDC application with the following Client Configuration:
 
-|Name | Value |
-|-----|------|
-|Protocol| OIDC|
-|Client Type| Confidential|
-|Grant Type| Authorization Code|
-|Redirect URIs| https://yourokta-domain.com/oauth2/v1/authorize/callback|
-|Example| https://yourokta-domain.okta.com/oauth2/v1/authorize/callback |
-|Token Endpoint Auth Method| Client Secret Post|
-|Resource Server| None|
+   |Name | Value |
+   |-----|------|
+   |Protocol| OIDC|
+   |Client Type| Confidential|
+   |Grant Type| Authorization Code|
+   |Redirect URIs| https://yourokta-domain.com/oauth2/v1/authorize/callback|
+   |Example| https://yourokta-domain.okta.com/oauth2/v1/authorize/callback |
+   |Token Endpoint Auth Method| Client Secret Post|
+   |Resource Server| None|
 
 ### Token Configuration:
 

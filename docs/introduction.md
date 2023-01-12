@@ -5,10 +5,10 @@ keywords:
   - secure customer 
   - developer documentation
   - how it works
-sidebar_position: 1
+
 ---
 
-Welcome to the Secure Customer developer documentation for Beyond Identity. Here you'll find guides for building strong authentication across your applications using public-private key pairs (what we call *universal passkeys*). 
+Welcome to the Secure Customer developer documentation for Beyond Identity. Here you'll find guides for building strong authentication across your applications using *universal passkeys* (public-private key pairs). 
 
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
@@ -32,7 +32,7 @@ Backed by a cloud-native architecture, you can use our platform for enterprise w
 
 ## Why does Beyond Identity exist?
 
-Public-private key pairs are a better way to authenticate users (and machines!). To fully address the challenges of customer authentication, the solution must be:
+Public-private key pairs are a better way to authenticate users (and machines!). So, with that said, Beyond Identity fully addresses the challenges of customer authentication with the following requirements:
 
 - **Secure:** multi-factor with zero reliance on shared secrets or phishable factors
 
@@ -42,7 +42,7 @@ Public-private key pairs are a better way to authenticate users (and machines!).
 
 - **Simple for developers to integrate:** to reduce engineering workload so developers can work on their core product instead of authentication
 
-The only solution that met the above requirements was an authentication framework built off public-private key pairs.
+Beyond Identity is an authentication framework built off public-private key pairs.
 
 While we're not the first to solve the problem with asymmetric cryptography, today's existing solutions fall short, given the lack of cross-platform interoperability, and the friction presented to users.
 
