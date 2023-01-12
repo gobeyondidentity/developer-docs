@@ -5,7 +5,9 @@ keywords:
   - secure customer 
   - developer documentation
   - how it works
-
+last_update:
+  date: 01/12/2023
+  author: Patricia McPhee
 ---
 
 Welcome to the Secure Customer developer documentation for Beyond Identity. Here you'll find guides for building strong authentication across your applications using *universal passkeys* (public-private key pairs). 

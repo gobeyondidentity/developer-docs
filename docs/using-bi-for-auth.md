@@ -1,6 +1,12 @@
 ---
 title: Using Beyond Identity for Authentication
-sidebar_position: 2
+description: ''
+keywords:
+  - how-to
+  - using Beyond Identity
+last_update:
+  date: 01/12/2023
+  author: Patricia McPhee
 ---
 
 In the [Getting Started](/docs/v1/getting-started) section, we walked you over how to create a tenant, an application, as well as how to configure that application in order to authorize and authenticate a user with Beyond Identity. 
