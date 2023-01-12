@@ -49,30 +49,36 @@ const StepOne = ({ progressState, setProgressState }) => {
       return;
     }
 
-    let result = await bindCredential(response.credential_binding_link);
-    console.log(result);
-    setLoading(false);
-    setProgressState({
-      step: {
-        one: COMPLETE,
-        two: IN_PROGRESS,
-        three: NOT_STARTED,
-      }
-    });
-
-    // Reset state for next time around
-    setUsername("");
-    setLoading(false);
-
-    // Scroll to Step Two
-    const offset = getOffsetForElementById("step-two");
-    setTimeout(() => {
-      window.scrollTo({
-        top: offset.top,
-        left: offset.left,
-        behavior: 'smooth'
+    try {
+      let result = await bindCredential(response.credential_binding_link);
+      console.log(result);
+      setLoading(false);
+      setProgressState({
+        step: {
+          one: COMPLETE,
+          two: IN_PROGRESS,
+          three: NOT_STARTED,
+        }
       });
-    });
+
+      // Reset state for next time around
+      setUsername("");
+      setLoading(false);
+
+      // Scroll to Step Two
+      const offset = getOffsetForElementById("step-two");
+      setTimeout(() => {
+        window.scrollTo({
+          top: offset.top,
+          left: offset.left,
+          behavior: 'smooth'
+        });
+      });
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to create a passkey. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -123,10 +129,16 @@ const StepTwo = ({ progressState, setProgressState }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true);
-    const credentials = await getCredentials();
-    setCredentials(credentials);
-    setCredentialsLoaded(true);
-    setLoading(false);
+    try {
+      const credentials = await getCredentials();
+      setCredentials(credentials);
+      setCredentialsLoaded(true);
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to get passkeys. Please try again.");
+      setLoading(false);
+    }
   };
 
   const handleCredentialClick = async (credential) => {
@@ -164,38 +176,52 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   const onDelete = async () => {
     if (confirm(`Are you sure you want to delete this passkey?`)) {
-      deleteCredential(selectedCredential.id);
-      setSelectedCredential(null);
-      const credentials = await getCredentials();
-
-      // If there are still credentials remaining, update
-      // the state and return
-      if (credentials.length > 0) {
-        setCredentials(credentials);
+      try {
+        deleteCredential(selectedCredential.id);
+        setSelectedCredential(null);
+      } catch (e) {
+        console.error(e);
+        toast.error("Failed to delete passkey. Please try again.");
+        setLoading(false);
         return;
       }
 
-      // Otherwise, reset the state
-      setCredentials(null);
-      setLoading(false);
-      setCredentialsLoaded(false);
-      setSelectedCredential(null);
-      setProgressState({
-        step: {
-          one: IN_PROGRESS,
-          two: NOT_STARTED,
-          three: NOT_STARTED,
-        }
-      });
+      try {
+        const credentials = await getCredentials();
 
-      setTimeout(() => {
-        // And scroll back to Step One
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth'
+        // If there are still credentials remaining, update
+        // the state and return
+        if (credentials.length > 0) {
+          setCredentials(credentials);
+          return;
+        }
+
+        // Otherwise, reset the state
+        setCredentials(null);
+        setLoading(false);
+        setCredentialsLoaded(false);
+        setSelectedCredential(null);
+        setProgressState({
+          step: {
+            one: IN_PROGRESS,
+            two: NOT_STARTED,
+            three: NOT_STARTED,
+          }
         });
-      });
+
+        setTimeout(() => {
+          // And scroll back to Step One
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          });
+        });
+      } catch (e) {
+        console.error(e);
+        toast.error("Something went wrong. Please refresh the page and try again.");
+        setLoading(false);
+      }
     }
   }
 
@@ -294,44 +320,51 @@ const StepThree = ({ progressState, setProgressState }) => {
       return;
     }
 
-    let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedCredentialId);
+    try {
+      let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedCredentialId);
 
-    const urlParams = new Proxy(new URLSearchParams(new URL(authenticateResult.redirectURL).search), {
-      get: (searchParams, prop) => searchParams.get(prop),
-    });
-
-    if (urlParams.state !== state) {
-      console.error(`State mismatch. Incoming state: ${urlParams.state} does not match outgoing state: ${state}.`);
-      toast.error("State does not match. Please try again.");
-      setLoading(false);
-      return;
-    }
-
-    let tokenResponse = await fetch(tokenURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`,
-    });
-
-    let jsonTokenResponse = await tokenResponse.json();
-    if (tokenResponse.status !== 200 || jsonTokenResponse === null) {
-      console.error(jsonTokenResponse);
-      toast.error("Failed to get token. Please try again.");
-      setLoading(false);
-      return;
-    }
-    setTokenResponse(jsonTokenResponse);
-    setLoading(false);
-
-    // Scroll to Authenticate Result
-    const offset = getOffsetForElementById("authenticate-result");
-    setTimeout(() => {
-      window.scrollTo({
-        top: offset.top,
-        left: offset.left,
-        behavior: 'smooth'
+      const urlParams = new Proxy(new URLSearchParams(new URL(authenticateResult.redirectURL).search), {
+        get: (searchParams, prop) => searchParams.get(prop),
       });
-    });
+
+      if (urlParams.state !== state) {
+        console.error(`State mismatch. Incoming state: ${urlParams.state} does not match outgoing state: ${state}.`);
+        toast.error("State does not match. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      let tokenResponse = await fetch(tokenURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`,
+      });
+
+      let jsonTokenResponse = await tokenResponse.json();
+      if (tokenResponse.status !== 200 || jsonTokenResponse === null) {
+        console.error(jsonTokenResponse);
+        toast.error("Failed to get token. Please try again.");
+        setLoading(false);
+        return;
+      }
+      setTokenResponse(jsonTokenResponse);
+      setLoading(false);
+
+      // Scroll to Authenticate Result
+      const offset = getOffsetForElementById("authenticate-result");
+      setTimeout(() => {
+        window.scrollTo({
+          top: offset.top,
+          left: offset.left,
+          behavior: 'smooth'
+        });
+      });
+
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to authenticate. Please try again.");
+      setLoading(false);
+    }
   };
 
   const handleTryAgain = () => {
