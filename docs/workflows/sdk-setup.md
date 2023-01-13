@@ -1,6 +1,6 @@
 ---
 title: SDK Setup
-sidebar_position: 0
+sidebar_position: 8
 # Display h2 to h2 headings
 toc_min_heading_level: 2
 toc_max_heading_level: 2
