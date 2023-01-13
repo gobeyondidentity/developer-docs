@@ -177,7 +177,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
   const onDelete = async () => {
     if (confirm(`Are you sure you want to delete this passkey?`)) {
       try {
-        deleteCredential(selectedCredential.id);
+        await deleteCredential(selectedCredential.id);
         setSelectedCredential(null);
       } catch (e) {
         console.error(e);
