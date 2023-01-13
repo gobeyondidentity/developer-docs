@@ -90,7 +90,7 @@ const config = {
         },
         remarkPlugins: [
           [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
-          [require('docusaurus-remark-plugin-tab-blocks'), {sync: true, labels: [['win', 'Windows'], ['mac', 'macOS']]}]
+          [require('docusaurus-remark-plugin-tab-blocks'), {sync: true, labels: [['win', 'Windows'], ['mac', 'macOS'], ['android', 'Android'], ['ios', 'iOS'], ['javascript', 'JavaScript'], ['flutter', 'Flutter'], ['reactnative', 'React Native']]}]
         ],
       },
     ],
@@ -103,7 +103,7 @@ const config = {
         sidebarPath: require.resolve('./sidebarsGuides.js'),
         remarkPlugins: [
           [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
-          [require('docusaurus-remark-plugin-tab-blocks'), {sync: true, labels: [['win', 'Windows'], ['mac', 'macOS']]}]
+          [require('docusaurus-remark-plugin-tab-blocks'), {sync: true, labels: [['win', 'Windows'], ['mac', 'macOS'], ['android', 'Android'], ['ios', 'iOS'], ['javascript', 'JavaScript'], ['flutter', 'Flutter'], ['reactnative', 'React Native']]}]
         ],
       },
     ],
