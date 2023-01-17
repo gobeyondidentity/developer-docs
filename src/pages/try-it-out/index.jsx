@@ -29,6 +29,13 @@ const StepOne = ({ progressState, setProgressState }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true);
+
+    if (username.match(/\s/)) {
+      toast.error("Username cannot contain spaces");
+      setLoading(false);
+      return;
+    }
+
     const rawResponse = await fetch(
       `https://acme-cloud.byndid.com/passkey`,
       {
@@ -51,7 +58,6 @@ const StepOne = ({ progressState, setProgressState }) => {
 
     try {
       let result = await bindCredential(response.credential_binding_link);
-      console.log(result);
       setLoading(false);
       setProgressState({
         step: {
@@ -304,7 +310,6 @@ const StepThree = ({ progressState, setProgressState }) => {
     }
 
     const origin = encodeURIComponent((new URL(document.location.href)).origin);
-    console.log("Origin:", origin);
     const state = generateRandomStringOfLength(15);
     const codeVerifier = generateRandomStringOfLength(43);
     const codeChallenge = await generateCodeChallenge(codeVerifier);
