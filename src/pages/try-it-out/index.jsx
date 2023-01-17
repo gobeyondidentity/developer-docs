@@ -96,7 +96,7 @@ const StepOne = ({ progressState, setProgressState }) => {
       <h1>1. Register a User</h1>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <div className={classNames(styles["step-input"], "container")}>
-        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off">
+        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autocapitalize="none">
           <label className={classNames(styles.username)} htmlFor="username">Username:</label>
           <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
         </form>
