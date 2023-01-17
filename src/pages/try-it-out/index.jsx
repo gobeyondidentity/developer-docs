@@ -57,7 +57,7 @@ const StepOne = ({ progressState, setProgressState }) => {
     }
 
     try {
-      let result = await bindCredential(response.credential_binding_link);
+      await bindCredential(response.credential_binding_link);
       setLoading(false);
       setProgressState({
         step: {
@@ -102,7 +102,7 @@ const StepOne = ({ progressState, setProgressState }) => {
       <h1>1. Register a User</h1>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <div className={classNames(styles["step-input"], "container")}>
-        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autocapitalize="none">
+        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
           <label className={classNames(styles.username)} htmlFor="username">Username:</label>
           <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
         </form>
