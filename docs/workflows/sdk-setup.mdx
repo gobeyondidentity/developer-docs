@@ -1,6 +1,7 @@
 ---
 title: SDK Setup
 sidebar_position: 8
+
 # Display h2 to h2 headings
 toc_min_heading_level: 2
 toc_max_heading_level: 2
@@ -10,27 +11,13 @@ import styles from './css/styles.module.css';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Overview
+# SDK Setup Overview
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
 ## Sample App
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
-
-:::tip ![Kotlin](./svg/logo-kotlin.svg) Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-android/tree/main/app) for the Embedded SDK.
-:::
-
-</TabItem>
-<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
-
-:::tip ![Swift](./svg/logo-swift.svg) Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example) for the Embedded SDK.
-:::
-
-</TabItem>
 <TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
 
 :::tip ![JavaScript](./svg/logo-javascript.svg) Sample App
@@ -38,10 +25,17 @@ Sample apps are available to explore. Check out [Example](https://github.com/gob
 :::
 
 </TabItem>
-<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
+<TabItem value="kotlin" label="Kotlin" attributes={{className: styles.kotlin}}>
 
-:::tip ![Flutter](./svg/logo-flutter.svg) Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-flutter/tree/main/example) for the Embedded SDK.
+:::tip ![Kotlin](./svg/logo-kotlin.svg) Sample App
+Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-android/tree/main/app) for the Embedded SDK.
+:::
+
+</TabItem>
+<TabItem value="swift" label="Swift" attributes={{className: styles.swift}}>
+
+:::tip ![Swift](./svg/logo-swift.svg) Sample App
+Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example) for the Embedded SDK.
 :::
 
 </TabItem>
@@ -52,12 +46,30 @@ Sample apps are available to explore. Check out [Example](https://github.com/gob
 :::
 
 </TabItem>
+<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
+
+:::tip ![Flutter](./svg/logo-flutter.svg) Sample App
+Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-flutter/tree/main/example) for the Embedded SDK.
+:::
+
+</TabItem>
 </Tabs>
 
 ## Installation
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
+<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
+
+```
+yarn add @beyondidentity/bi-sdk-js
+```
+or
+```
+npm install @beyondidentity/bi-sdk-js
+```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin" attributes={{className: styles.kotlin}}>
 
 ### Gradle
 
@@ -81,7 +93,7 @@ dependencies {
 ```
 
 </TabItem>
-<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
+<TabItem value="swift" label="Swift" attributes={{className: styles.swift}}>
 
 ### Swift Package Manager
 
@@ -128,15 +140,21 @@ import BeyondIdentityEmbedded
 ```
 
 </TabItem>
-<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
+<TabItem value="reactnative" label="React Native" attributes={{className: styles.reactnative}}>
 
+```javascript
+yarn add @beyondidentity/embedded-react-native
 ```
-yarn add @beyondidentity/bi-sdk-js
-```
+
 or
+
+```javascript
+npm i --save @beyondidentity/embedded-react-native
 ```
-npm install @beyondidentity/bi-sdk-js
-```
+
+:::warning
+Note that this library is not compatible with Expo projects. This is because Expo's “managed” workflow does not allow usage of React Native libraries that introduce their own native code beyond the React Native APIs and components that are available in the Expo client app. If you have an Expo app and wish to use this project, you must eject.
+:::
 
 </TabItem>
 <TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
@@ -174,29 +192,23 @@ platform :ios, '13.0'
 ```
 
 </TabItem>
-<TabItem value="reactnative" label="React Native" attributes={{className: styles.reactnative}}>
-
-```javascript
-yarn add @beyondidentity/embedded-react-native
-```
-
-or
-
-```javascript
-npm i --save @beyondidentity/embedded-react-native
-```
-
-:::warning
-Note that this library is not compatible with Expo projects. This is because Expo's “managed” workflow does not allow usage of React Native libraries that introduce their own native code beyond the React Native APIs and components that are available in the Expo client app. If you have an Expo app and wish to use this project, you must eject.
-:::
-
-</TabItem>
 </Tabs>
 
 ## Setup
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
+<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
+
+First, before calling the Embedded functions, make sure to initialize the SDK.
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-js';
+
+const embedded = await Embedded.initialize();
+```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin" attributes={{className: styles.kotlin}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -214,7 +226,7 @@ EmbeddedSdk.init(
 ```
 
 </TabItem>
-<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
+<TabItem value="swift" label="Swift" attributes={{className: styles.swift}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -227,33 +239,6 @@ Embedded.initialize(
     biometricAskPrompt: String,
     logger: ((OSLogType, String) -> Void)? = nil,
     callback: @escaping(Result<Void, BISDKError>) -> Void
-)
-```
-
-</TabItem>
-<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
-
-First, before calling the Embedded functions, make sure to initialize the SDK.
-
-```javascript
-import { Embedded } from '@beyondidentity/bi-sdk-js';
-
-const embedded = await Embedded.initialize();
-```
-
-</TabItem>
-<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
-
-First, before calling the Embedded functions, make sure to initialize the SDK.
-
-<!-- javascript is used here since flutter is not available and dart doesn't highlight at all. -->
-```javascript
-import 'package:bi_sdk_flutter/embeddedsdk.dart';
-
-Embeddedsdk.initialize(
-    String biometricPrompt,
-    bool enableLogging,
-    List<String>? allowedDomains, /* Optional */
 )
 ```
 
@@ -286,6 +271,22 @@ Embedded.logEventEmitter.addListener(
     console.log(message);
   }
 );
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
+
+First, before calling the Embedded functions, make sure to initialize the SDK.
+
+<!-- javascript is used here since flutter is not available and dart doesn't highlight at all. -->
+```javascript
+import 'package:bi_sdk_flutter/embeddedsdk.dart';
+
+Embeddedsdk.initialize(
+    String biometricPrompt,
+    bool enableLogging,
+    List<String>? allowedDomains, /* Optional */
+)
 ```
 
 </TabItem>
