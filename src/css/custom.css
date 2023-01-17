@@ -76,6 +76,7 @@ strong {
     font-family: var(--font-medium);
     transition-timing-function: ease-in-out;
 }
+
 .button:hover,
 .button:focus,
 .button:active {
@@ -181,7 +182,6 @@ html[data-theme="dark"] .square:hover {
 
 html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(44, 53, 91, 0.3);
-
 }
 
 .footer--dark {
@@ -193,7 +193,6 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 }
 
 .button--secondary:hover {
-  
   border-radius: 100px;
   color: black;
   background-color: #D9A406 !important;

@@ -6,6 +6,7 @@ toc_min_heading_level: 2
 toc_max_heading_level: 2
 ---
 
+import styles from './css/styles.module.css';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -16,37 +17,37 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 ## Sample App
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android">
+<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
 
-:::tip Sample App
+:::tip ![Kotlin](./svg/logo-kotlin.svg) Sample App
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-android/tree/main/app) for the Embedded SDK.
 :::
 
 </TabItem>
-<TabItem value="ios" label="iOS">
+<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
 
-:::tip Sample App
+:::tip ![Swift](./svg/logo-swift.svg) Sample App
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example) for the Embedded SDK.
 :::
 
 </TabItem>
-<TabItem value="javascript" label="JavaScript">
+<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
 
-:::tip Sample App
+:::tip ![JavaScript](./svg/logo-javascript.svg) Sample App
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Embedded SDK.
 :::
 
 </TabItem>
-<TabItem value="flutter" label="Flutter">
+<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
 
-:::tip Sample App
+:::tip ![Flutter](./svg/logo-flutter.svg) Sample App
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-flutter/tree/main/example) for the Embedded SDK.
 :::
 
 </TabItem>
-<TabItem value="reactnative" label="React Native">
+<TabItem value="reactnative" label="React Native" attributes={{className: styles.reactnative}}>
 
-:::tip Sample App
+:::tip ![React Native](./svg/logo-reactnative.svg) Sample App
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-react-native/tree/main/example) for the Embedded SDK.
 :::
 
@@ -56,7 +57,7 @@ Sample apps are available to explore. Check out [Example](https://github.com/gob
 ## Installation
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android">
+<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
 
 ### Gradle
 
@@ -80,7 +81,7 @@ dependencies {
 ```
 
 </TabItem>
-<TabItem value="ios" label="iOS">
+<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
 
 ### Swift Package Manager
 
@@ -127,7 +128,7 @@ import BeyondIdentityEmbedded
 ```
 
 </TabItem>
-<TabItem value="javascript" label="JavaScript">
+<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
 
 ```
 yarn add @beyondidentity/bi-sdk-js
@@ -138,7 +139,7 @@ npm install @beyondidentity/bi-sdk-js
 ```
 
 </TabItem>
-<TabItem value="flutter" label="Flutter">
+<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
 
 ### Pub.Dev
 
@@ -173,7 +174,7 @@ platform :ios, '13.0'
 ```
 
 </TabItem>
-<TabItem value="reactnative" label="React Native">
+<TabItem value="reactnative" label="React Native" attributes={{className: styles.reactnative}}>
 
 ```javascript
 yarn add @beyondidentity/embedded-react-native
@@ -195,7 +196,7 @@ Note that this library is not compatible with Expo projects. This is because Exp
 ## Setup
 
 <Tabs groupId="sdks">
-<TabItem value="android" label="Android">
+<TabItem value="android" label="Android" attributes={{className: styles.kotlin}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -213,7 +214,7 @@ EmbeddedSdk.init(
 ```
 
 </TabItem>
-<TabItem value="ios" label="iOS">
+<TabItem value="ios" label="iOS" attributes={{className: styles.swift}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -230,7 +231,7 @@ Embedded.initialize(
 ```
 
 </TabItem>
-<TabItem value="javascript" label="JavaScript">
+<TabItem value="javascript" label="JavaScript" attributes={{className: styles.javascript}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -241,7 +242,7 @@ const embedded = await Embedded.initialize();
 ```
 
 </TabItem>
-<TabItem value="flutter" label="Flutter">
+<TabItem value="flutter" label="Flutter" attributes={{className: styles.flutter}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
@@ -257,7 +258,7 @@ Embeddedsdk.initialize(
 ```
 
 </TabItem>
-<TabItem value="reactnative" label="React Native">
+<TabItem value="reactnative" label="React Native" attributes={{className: styles.reactnative}}>
 
 First, before calling the Embedded functions, make sure to initialize the SDK. This can be done where you register your root component.
 
