@@ -94,6 +94,7 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
                   style={{ cursor: "pointer" }}>
                   <div className={classNames(padding["pl-half"], padding["pr-half"])}>&#128465;</div>
                 </div>
+                <div className={classNames(padding["pl-1"], styles.icon)}></div>
                 <div
                   className={classNames(styles.icon)}
                   onClick={closeModal}
