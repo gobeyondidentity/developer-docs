@@ -109,7 +109,7 @@ const StepOne = ({ progressState, setProgressState }) => {
       </div>
       <div className={classNames(padding["mt-1"])}>
         <Button
-          name="Create Passkey"
+          name="Create passkey"
           isLoading={loading}
           isDisabled={username.length === 0}
           form="passkey_creation">
@@ -233,11 +233,11 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1>2. See your Passkeys</h1>
-      <p>See all the Passkeys you've created on this browser. If you've gone through this demo before, you'll see Passkeys for all the usernames you've registered in the first step.</p>
+      <h1>2. See your passkeys</h1>
+      <p>See all the passkeys you've created on this browser. If you've gone through this demo before, you'll see passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ? <CredentialTable credentials={credentials} onClick={handleCredentialClick}></CredentialTable> : <Button
-          name="Show Passkeys"
+          name="Show passkeys"
           isDisabled={false}
           isLoading={loading}
           onClick={handleSubmit}
@@ -401,8 +401,8 @@ const StepThree = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1>3. Authenticate with your Passkey</h1>
-      <p>Select a Passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
+      <h1>3. Authenticate with your passkey</h1>
+      <p>Select a passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ?
           <SelectCredentialTable
