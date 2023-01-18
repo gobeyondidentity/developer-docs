@@ -17,7 +17,7 @@ import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
 
 # Overview
 
-In order to authenticate with Beyond Identity, you need a [Universal Passkey](docs/platform-overview/what-are-passkeys). This guide will walk you through setting up your backend to create an identity, bind a passkey to that identity and finally store that passkey in your application.
+In order to authenticate with Beyond Identity, you need a [Universal Passkey](../platform-overview/passkeys-and-devices/what-are-passkeys). This guide will walk you through setting up your backend to create an identity, bind a passkey to that identity and finally store that passkey in your application.
 
 Passkeys are generated through a binding job. On creation of a binding job, a binding link will be generated. That binding link can be used to bind a passkey to a specific device or browser. This passkey will be stored in the user’s devices’ hardware root of trust (i.e. secure enclave).
 
@@ -28,7 +28,8 @@ Toggle delivery methods below for code samples:
 <Tabs groupId="bind-delivery-method" queryString>
 
 <TabItem value="return" label="RETURN">
-/* TODO: diagram for return */
+
+![Bind Passkey Return Flowchart](./screenshots/bind-passkey-return-flow.jpeg)
 
 <Tabs groupId="bind-platform" queryString>
 <TabItem value="backend" label="Backend">
@@ -43,7 +44,8 @@ Toggle delivery methods below for code samples:
 </TabItem>
 
 <TabItem value="email" label="EMAIL">
-/* TODO: diagram for email */
+
+![Bind Passkey Email Flowchart](./screenshots/bind-passkey-email-flow.jpeg)
 
 <Tabs groupId="bind-platform" queryString>
 <TabItem value="backend" label="Backend">
