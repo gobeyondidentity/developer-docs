@@ -461,7 +461,7 @@ export default function TryItOut() {
   };
 
   return (
-    <Layout id="try-it-out" title="Try It Out" description="Try out Universal passkeys">
+    <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
       <div id="step-one" className={classNames(padding["mt-1"])}>
         <StepOne {...state}></StepOne>
       </div>

@@ -3,7 +3,7 @@ title: Introduction
 sidebar_position: 1
 ---
 
-Welcome to the developer documentation for Beyond Identity. This is where you can find guides for building authentication across your applications using universal passkeys. 
+Welcome to the developer documentation for Beyond Identity. This is where you can find guides for building authentication across your applications using Universal Passkeys. 
 
 If you run into any issues or have feedback for us along the way, you can let us know by **[joining our Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
@@ -37,7 +37,7 @@ While we’re not the first to solve the problem with asymmetric cryptography, t
 
 
 ## How it Works
-Beyond Identity allows developers to implement strong authentication from multiple devices based on public-private key pairs (what we call universal passkeys). All keys are cryptographically linked to the user and can be centrally managed using our APIs.
+Beyond Identity allows developers to implement strong authentication from multiple devices based on public-private key pairs (what we call Universal Passkeys). All keys are cryptographically linked to the user and can be centrally managed using our APIs.
 
 Instead of shared secrets, Beyond Identity authenticates customers with two strong factors -- "something you are" from the device biometric and "something you own" from the private key -- without requiring a second device.
 
