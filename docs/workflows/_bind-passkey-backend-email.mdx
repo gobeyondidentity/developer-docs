@@ -1,0 +1,24 @@
+## Get Binding Link for Identity
+
+In order to get a binding link for a passkey, we need to create a binding link job for the newly created identity above. The following code snippet using the `EMAIL` `delivery_method` option. This method will send your user an email with a link that when clicked will redirect the user to your application and provide your application with a binding link. If you wish to configure email branding, visit your console. This binding link is the link your application will use to complete the passkey binding process.
+
+```jsx
+const bindingLinkResponse = await fetch(
+  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities/${IDENTITY_ID}/credential-binding-jobs`,
+  {
+    body: JSON.stringify({
+      job: {
+        delivery_method: 'EMAIL',
+        authenticator_config_id: AUTHENTICTAOR_CONFIG_ID,
+        post_binding_redirect_uri: APP_REDIRECT_URI,
+      },
+    }),
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+    method: 'POST',
+  }
+);
+const bindingLinkResponseJson = await bindingLinkResponse.json();
+res.send(bindingLinkResponseJson);
+```

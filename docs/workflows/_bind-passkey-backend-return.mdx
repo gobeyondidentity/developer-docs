@@ -1,0 +1,24 @@
+## Get Binding Link for Identity
+
+In order to get a binding link for a passkey, we need to create a binding link job for the newly created identity above. The following code snippet using the `RETURN` `delivery_method` option. This is the fastest way to get a binding link as this method indicates that a binding link will be returned to the caller upon creation of the binding job. This binding link is the link you will send to your application to complete the passkey binding process.
+
+```jsx
+const bindingLinkResponse = await fetch(
+  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities/${IDENTITY_ID}/credential-binding-jobs`,
+  {
+    body: JSON.stringify({
+      job: {
+        delivery_method: 'RETURN',
+        authenticator_config_id: AUTHENTICTAOR_CONFIG_ID,
+        post_binding_redirect_uri: APP_REDIRECT_URI,
+      },
+    }),
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+    method: 'POST',
+  }
+);
+const bindingLinkResponseJson = await bindingLinkResponse.json();
+res.send(bindingLinkResponseJson);
+```

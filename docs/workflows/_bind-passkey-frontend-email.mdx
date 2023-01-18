@@ -1,0 +1,176 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Setup your front end
+
+## Deep linking
+
+When we send out a passkey email, the link will redirect to your application's specified redirect URI. This URI should either be an app scheme or a universal url / app link.
+
+:::warning A note on AppSchemes
+While app schemes are trivial to set up and great for testing, we recommend using universal URLs in a production setting. The same app scheme can be registered by multiple apps, allowing other apps to pretend to be your app.
+:::
+
+<Tabs groupId="bind-platform">
+<TabItem value="kotlin" label="Kotlin">
+
+Android supports two way of deep linking into an app. Pick one of the following and follow the guide:
+
+- [Custom Schemes](https://developer.android.com/training/basics/intents/filters)
+- [App Links](https://developer.android.com/training/app-links)
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+Apple supports two ways of deep linking into an app. Pick one of the following and follow the guide:
+
+- [App Schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app)
+- [Universal URLs](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+If you are using Expo, follow the [deep linking guide](https://docs.expo.dev/guides/deep-linking/).
+
+If you are using a `bare expo` or `react-native init` project, follow the Kotlin and Swift guides to setting up deep linking on React Native.
+
+Also check out [React Native Linking](https://reactnative.dev/docs/linking):
+
+```javascript
+import { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
+
+export default function useDeepLinkURL() {
+  const [linkedURL, setLinkedURL] = (useState < string) | (null > null);
+
+  // If the app is not already open
+  useEffect(() => {
+    const getUrlAsync = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl !== null) {
+        setLinkedURL(decodeURI(initialUrl));
+      }
+    };
+
+    getUrlAsync();
+  }, []);
+
+  // If the app is already open
+  useEffect(() => {
+    const callback = ({ url }: { url: string }) => setLinkedURL(decodeURI(url));
+    const linkingEventListener = Linking.addEventListener('url', callback);
+    return () => {
+      linkingEventListener.remove();
+    };
+  }, []);
+
+  return { linkedURL };
+}
+
+// in App.js
+const { linkedURL } = useDeepLinkURL();
+
+useEffect(() => {
+  async function register() {
+    if (linkedURL !== null) {
+      console.log('intercepted:', linkedURL);
+    }
+  }
+
+  register();
+}, [linkedURL]);
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+Follow the Kotlin and Swift guides to setting up deep linking on Flutter.
+
+</TabItem>
+</Tabs>
+
+## Handle link in the SDK
+
+Once you have the incoming url, pass it into the SDK to complete the binding process. This will embed the passkey into the device or broswer that the user is currently on. Don't forget to initalize your SDK ahead of time. For more information see [SDK setup](docs/workflows/sdk-setup)
+
+<Tabs groupId="bind-platform">
+<TabItem value="javascript" label="Javascript">
+
+You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+
+```javascript
+cons isBindUrl = await embedded.isBindPasskeyUrl(bindingLink)
+
+if (isBindUrl){
+    const bindResponse = await embedded.bindPasskey(bindingLink);
+    console.log(bindResponse);
+}
+```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+
+```javascript
+if (EmbeddedSdk.isBindPasskeyUrl(url)) {
+    EmbeddedSdk.bindPasskey(url = bindingLink)
+    .onEach { result ->
+        result.onSuccess { success ->
+            Timber.d("Bind Passkey success = $success")
+        }
+        result.onFailure { failure ->
+            Timber.e("Bind Passkey failure = $failure")
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+Catch a url from your AppDelegate or SceneDelegate. You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+
+```javascript
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if let url = URLContexts.first?.url, Embedded.shared.isBindPasskeyUrl(url) {
+        Embedded.shared.bindPasskey(url: bindingLink) { result in
+            switch result {
+            case let .success(bindResponse):
+                print(bindResponse)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+
+```javascript
+const isBindUrl = await Embedded.isBindPasskeyUrl(url);
+if (isBindUrl) {
+  const bindResponse = await Embedded.bindPasskey(bindingLink);
+  console.log(bindResponse);
+}
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+
+```javascript
+bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(bindingLink);
+
+if (isBindUrl) {
+    BindPasskeyResponse bindResponse = await EmbeddedSdk.bindPasskey(bindingLink);
+    debugPrint(bindResponse);
+}
+```
+
+</TabItem>
+</Tabs>

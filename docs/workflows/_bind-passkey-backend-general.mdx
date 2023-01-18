@@ -1,0 +1,61 @@
+# Setup your backend
+
+The following examples are written in node.js.
+
+## Get Access Token for API calls
+
+Before making any API calls you'll want to generate an `accessToken`.
+
+```jsx
+const apiTokenResponse = await fetch(
+  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/token`,
+  {
+    body: (() => {
+      let formData = new URLSearchParams();
+      formData.append('grant_type', 'client_credentials');
+      return formData;
+    })(),
+    headers: {
+      Authorization:
+        'Basic ' +
+        Buffer.from(
+          `${MANAGEMENT_API_CLIENT_ID}:${MANAGEMENT_API_CLIENT_SECRET}`
+        ).toString('base64'),
+    },
+    method: 'POST',
+  }
+);
+
+const apiTokenResponseJson = await tokenResponse.json();
+const accessToken = apiTokenResponseJson.access_token;
+```
+
+## Create an Identity
+
+Next you'll want to create an identity with the user's information such as an email address and username. Collect this information on your front end and create the identity on your backend. You'll need the `identityId` for the next step.
+
+```jsx
+const identityResponse = await fetch(
+  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities`,
+  {
+    body: JSON.stringify({
+      identity: {
+        display_name: human_readable_name_for_an_identity,
+        traits: {
+          type: 'traits_v0',
+          username: unique_username_for_an_identity,
+          primary_email_address: primary_email_address_for_an_identity,
+        },
+      },
+    }),
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+    method: 'POST',
+  }
+);
+
+const identityResponseJson = await identityResponse.json();
+
+const IDENTITY_ID = identityResponseJson.id;
+```
