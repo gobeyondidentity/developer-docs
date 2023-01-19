@@ -20,7 +20,7 @@ const StepOne = ({ progressState, setProgressState }) => {
   const [loading, setLoading] = useState(false);
 
   var parentClassNames = function () {
-    if (progressState.step.one === IN_PROGRESS) {
+    if (progressState.step.one === IN_PROGRESS || progressState.step.one === COMPLETE) {
       return classNames("container");
     }
     return classNames("container", styles.blur);
@@ -29,6 +29,13 @@ const StepOne = ({ progressState, setProgressState }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true);
+
+    if (username.match(/\s/)) {
+      toast.error("Username cannot contain spaces");
+      setLoading(false);
+      return;
+    }
+
     const rawResponse = await fetch(
       `https://acme-cloud.byndid.com/passkey`,
       {
@@ -50,16 +57,10 @@ const StepOne = ({ progressState, setProgressState }) => {
     }
 
     try {
-      let result = await bindCredential(response.credential_binding_link);
-      console.log(result);
+      await bindCredential(response.credential_binding_link);
+      window.postMessage("update-credentials", "*");
       setLoading(false);
-      setProgressState({
-        step: {
-          one: COMPLETE,
-          two: IN_PROGRESS,
-          three: NOT_STARTED,
-        }
-      });
+      setProgressState(nextProgressState(progressState, STEP_ONE, STEP_TWO));
 
       // Reset state for next time around
       setUsername("");
@@ -96,14 +97,14 @@ const StepOne = ({ progressState, setProgressState }) => {
       <h1>1. Register a User</h1>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <div className={classNames(styles["step-input"], "container")}>
-        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autocapitalize="none">
+        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
           <label className={classNames(styles.username)} htmlFor="username">Username:</label>
           <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
         </form>
       </div>
       <div className={classNames(padding["mt-1"])}>
         <Button
-          name="Create Passkey"
+          name="Create passkey"
           isLoading={loading}
           isDisabled={username.length === 0}
           form="passkey_creation">
@@ -120,7 +121,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
   const [selectedCredential, setSelectedCredential] = useState(null);
 
   var parentClassNames = function () {
-    if (progressState.step.two === IN_PROGRESS) {
+    if (progressState.step.two === IN_PROGRESS || progressState.step.two === COMPLETE) {
       return classNames("container");
     }
     return classNames("container", styles.blur);
@@ -147,17 +148,8 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   const handleNext = () => {
     // Reset state for next time around
-    setCredentials(null);
     setLoading(false);
-    setCredentialsLoaded(false);
-    setSelectedCredential(null);
-    setProgressState({
-      step: {
-        one: COMPLETE,
-        two: COMPLETE,
-        three: IN_PROGRESS,
-      }
-    });
+    setProgressState(nextProgressState(progressState, STEP_TWO, STEP_THREE));
 
     // Scroll to Step Three
     const offset = getOffsetForElementById("step-three");
@@ -179,59 +171,68 @@ const StepTwo = ({ progressState, setProgressState }) => {
       try {
         await deleteCredential(selectedCredential.id);
         setSelectedCredential(null);
+        window.postMessage("update-credentials", "*");
       } catch (e) {
         console.error(e);
         toast.error("Failed to delete passkey. Please try again.");
         setLoading(false);
         return;
       }
-
-      try {
-        const credentials = await getCredentials();
-
-        // If there are still credentials remaining, update
-        // the state and return
-        if (credentials.length > 0) {
-          setCredentials(credentials);
-          return;
-        }
-
-        // Otherwise, reset the state
-        setCredentials(null);
-        setLoading(false);
-        setCredentialsLoaded(false);
-        setSelectedCredential(null);
-        setProgressState({
-          step: {
-            one: IN_PROGRESS,
-            two: NOT_STARTED,
-            three: NOT_STARTED,
-          }
-        });
-
-        setTimeout(() => {
-          // And scroll back to Step One
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-          });
-        });
-      } catch (e) {
-        console.error(e);
-        toast.error("Something went wrong. Please refresh the page and try again.");
-        setLoading(false);
-      }
     }
+  }
+
+  if (ExecutionEnvironment.canUseDOM) {
+    window.addEventListener("message", async (event) => {
+      if (event.data === "update-credentials") {
+        try {
+          // Only update if credentials have already been loaded.
+          // This account for the case where the user is going back
+          // through the steps a second time.
+          if (!credentialsLoaded) {
+            return;
+          }
+          const credentials = await getCredentials();
+
+          // If there are still credentials remaining, update
+          // the state and return
+          if (credentials.length > 0) {
+            setCredentials(credentials);
+            setCredentialsLoaded(true);
+            return;
+          }
+
+          // Otherwise, reset the state
+          setCredentials(null);
+          setLoading(false);
+          setCredentialsLoaded(false);
+          setSelectedCredential(null);
+
+          setTimeout(() => {
+            // And scroll back to Step One
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth'
+            });
+          });
+        } catch (e) {
+          console.error(e);
+          toast.error("Something went wrong. Please refresh the page and try again.");
+          setLoading(false);
+        }
+      } else {
+        console.log("Unknown event data received:", event.data);
+      }
+    });
   }
 
   return (
     <div className={parentClassNames}>
-      <h1>2. See your Passkeys</h1>
-      <p>See all the Passkeys you've created on this browser. If you've gone through this demo before, you'll see Passkeys for all the usernames you've registered in the first step.</p>
+      <h1>2. See your passkeys</h1>
+      <p>See all the passkeys you've created on this browser. If you've gone through this demo before, you'll see passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ? <CredentialTable credentials={credentials} onClick={handleCredentialClick}></CredentialTable> : <Button
-          name="Show Passkeys"
+          name="Show passkeys"
           isDisabled={false}
           isLoading={loading}
           onClick={handleSubmit}
@@ -266,7 +267,7 @@ const StepThree = ({ progressState, setProgressState }) => {
   const [tokenResponse, setTokenResponse] = useState(null);
 
   var parentClassNames = function () {
-    if (progressState.step.three === IN_PROGRESS) {
+    if (progressState.step.three === IN_PROGRESS || progressState.step.three === COMPLETE) {
       return classNames("container");
     }
     return classNames("container", styles.blur);
@@ -304,7 +305,6 @@ const StepThree = ({ progressState, setProgressState }) => {
     }
 
     const origin = encodeURIComponent((new URL(document.location.href)).origin);
-    console.log("Origin:", origin);
     const state = generateRandomStringOfLength(15);
     const codeVerifier = generateRandomStringOfLength(43);
     const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -368,22 +368,6 @@ const StepThree = ({ progressState, setProgressState }) => {
   };
 
   const handleTryAgain = () => {
-    // Reset state for next time around
-    setCredentials(null);
-    setCredentialsLoaded(false);
-    setSelectedCredentialId(null);
-    setLoading(false);
-    setTokenResponse(null);
-
-    // Reset state
-    setProgressState({
-      step: {
-        one: IN_PROGRESS,
-        two: NOT_STARTED,
-        three: NOT_STARTED,
-      }
-    });
-
     setTimeout(() => {
       // Scroll to top
       window.scrollTo({
@@ -394,10 +378,46 @@ const StepThree = ({ progressState, setProgressState }) => {
     });
   };
 
+  if (ExecutionEnvironment.canUseDOM) {
+    window.addEventListener("message", async (event) => {
+      if (event.data === "update-credentials") {
+        try {
+          // Only update if credentials have already been loaded.
+          // This account for the case where the user is going back
+          // through the steps a second time.
+          if (!credentialsLoaded) {
+            return;
+          }
+          const credentials = await getCredentials();
+
+          if (credentials.length > 0) {
+            setCredentials(credentials);
+            setCredentialsLoaded(true);
+            const credentialIsSelected = credentials.find(c => c.id === selectedCredentialId);
+            if (!credentialIsSelected) {
+              setSelectedCredentialId(credentials[0].id);
+            }
+            return;
+          }
+
+          setCredentials(null);
+          setSelectedCredentialId(null);
+          setTokenResponse(null);
+        } catch (e) {
+          console.error(e);
+          toast.error("Something went wrong. Please refresh the page and try again.");
+          setLoading(false);
+        }
+      } else {
+        console.log("Unknown event data received:", event.data);
+      }
+    });
+  }
+
   return (
     <div className={parentClassNames}>
-      <h1>3. Authenticate with your Passkey</h1>
-      <p>Select a Passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
+      <h1>3. Authenticate with your passkey</h1>
+      <p>Select a passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ?
           <SelectCredentialTable
@@ -405,18 +425,22 @@ const StepThree = ({ progressState, setProgressState }) => {
             onClick={onClick}
             onChange={onChange}
             selectedCredentialId={selectedCredentialId}>
-          </SelectCredentialTable> : <div></div>}
-      </div>
-      {tokenResponse === null ?
-        <div className={classNames(padding["mt-1"])}>
-          <Button
-            name="Login"
+          </SelectCredentialTable> : <Button
+            name="Register a User"
             isDisabled={false}
-            isLoading={loading}
-            onClick={handleLogin}>
-          </Button>
-        </div> : <div></div>
-      }
+            isLoading={false}
+            onClick={handleTryAgain}
+            centered={true}>
+          </Button>}
+      </div>
+      <div className={classNames(padding["mt-1"])}>
+        {credentials !== null ? <Button
+          name="Login"
+          isDisabled={false}
+          isLoading={loading}
+          onClick={handleLogin}>
+        </Button> : <div></div>}
+      </div>
       {tokenResponse !== null ? (
         <div id="authenticate-result" className={classNames(padding["mt-1"])}>
           <AuthenticateResult {...tokenResponse}></AuthenticateResult>
@@ -445,6 +469,63 @@ const StepThree = ({ progressState, setProgressState }) => {
 const NOT_STARTED = "not_started";
 const IN_PROGRESS = "in_progress";
 const COMPLETE = "complete";
+
+const STEP_ONE = 1;
+const STEP_TWO = 2;
+const STEP_THREE = 3;
+
+function nextProgressState(progressState, currentStep, nextStep) {
+  // Helper function to determine legal state transitions
+  const nextStepHelper = function (step) {
+    switch (step) {
+      case NOT_STARTED:
+        return IN_PROGRESS;
+      case IN_PROGRESS:
+        return COMPLETE;
+      case COMPLETE:
+        return COMPLETE;
+      default:
+        return NOT_STARTED;
+    }
+  };
+
+  // Step progression is not allowed to go backwards and
+  // cannot stay the same.
+  if (nextStep <= currentStep) {
+    return progressState;
+  }
+
+  // Steps cannot be skipped
+  if (nextStep - currentStep > 1) {
+    return progressState;
+  }
+
+  if (currentStep === STEP_ONE && nextStep === STEP_TWO) {
+    const nextStepOne = nextStepHelper(progressState.step.one);
+    const nextStepTwo = nextStepHelper(progressState.step.two);
+    const nextStepThree = progressState.step.three;
+    return {
+      step: {
+        one: nextStepOne,
+        two: nextStepTwo,
+        three: nextStepThree,
+      }
+    };
+  } else if (currentStep === STEP_TWO && nextStep === STEP_THREE) {
+    const nextStepOne = nextStepHelper(progressState.step.one);
+    const nextStepTwo = nextStepHelper(progressState.step.two);
+    const nextStepThree = nextStepHelper(progressState.step.three);
+    return {
+      step: {
+        one: nextStepOne,
+        two: nextStepTwo,
+        three: nextStepThree,
+      }
+    };
+  } else {
+    return progressState;
+  }
+}
 
 export default function TryItOut() {
   const [progressState, setProgressState] = useState({

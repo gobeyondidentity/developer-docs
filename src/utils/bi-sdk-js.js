@@ -6,7 +6,9 @@ async function initialized() {
 
 export async function getCredentials() {
   const embedded = await initialized();
-  return await embedded.getCredentials();
+  const credentials = await embedded.getCredentials();
+  credentials.sort((a, b) => a.identity.username.localeCompare(b.identity.username))
+  return credentials;
 }
 
 export async function bindCredential(url) {
