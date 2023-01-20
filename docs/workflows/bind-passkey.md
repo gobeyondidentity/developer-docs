@@ -19,9 +19,12 @@ import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
 
 In order to authenticate with Beyond Identity, you need a [Universal Passkey](../platform-overview/passkeys-and-devices/what-are-passkeys). This guide will walk you through setting up your backend to create an identity, bind a passkey to that identity and finally store that passkey in your application.
 
-Passkeys are generated through a binding job. On creation of a binding job, a binding link will be generated. That binding link can be used to bind a passkey to a specific device or browser. This passkey will be stored in the user’s devices’ hardware root of trust (i.e. secure enclave).
+Passkeys are generated through a binding job. On creation of a binding job, a binding link will be generated. That binding link can be used to bind a passkey to a specific device or browser. This passkey will be [stored](../platform-overview/passkeys-and-devices/how-are-keys-stored) in the user’s devices’ hardware root of trust (i.e. secure enclave).
 
-A binding job must be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are currently two `delivery_method` options for your binding link: `RETURN` and `EMAIL`. The value `RETURN` indicates that a binding link will be returned to the caller upon creation of the binding job whereas the value `EMAIL` indicates that a binding link will be sent to the email address associated with the identity. The user of that identity will click on the link in their email and that link will redirect the user to your applicaiton for you as the developer to further handle the binding link in the SDK.
+A binding job must be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are currently two `delivery_method` options for your binding link: `RETURN` and `EMAIL`.
+
+1. The value `RETURN` indicates that a binding link will be returned to the caller upon creation of the binding job. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc).
+2. The value `EMAIL` indicates that a passkey creation email will be sent to the end user. The end user will receive the email and click the passkey creation link. Clicking the link will redirect the end user to Beyond Identity Cloud. Beyond Identity Cloud will look up the authenticator_config that is associated with that passkey creation link and redirect the end user to the authenticator_config.invoke_url. The invoke_url should be a http request handler in your application. Once the user has been redirected to your applicaiton, you as the developer can handle the binding link in the SDK.
 
 Toggle delivery methods below for code samples:
 
