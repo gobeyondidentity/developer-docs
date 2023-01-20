@@ -15,7 +15,7 @@ import BackendEmail from './\_bind-passkey-backend-email.mdx';
 import FrontEndReturn from './\_bind-passkey-frontend-return.mdx';
 import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
 
-# Overview
+# Bind Passkey To User Overview
 
 In order to authenticate with Beyond Identity, you need a [Universal Passkey](../platform-overview/passkeys-and-devices/what-are-passkeys). This guide will walk you through setting up your backend to create an identity, bind a passkey to that identity and finally store that passkey in your application.
 
