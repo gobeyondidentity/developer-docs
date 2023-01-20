@@ -32,7 +32,7 @@ const accessToken = apiTokenResponseJson.access_token;
 
 ## Create an Identity
 
-Next you'll want to create an identity with the user's information such as an email address and username. Collect this information on your front end and create the identity on your backend. You'll need the `identityId` for the next step.
+If the user is creating a new acount, you'll want to create an identity with the user's information such as an email address and username. Collect this information on your front end and create the identity on your backend. You'll need the `identityId` for the next step.
 
 ```jsx
 const identityResponse = await fetch(
