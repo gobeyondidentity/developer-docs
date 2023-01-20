@@ -1,6 +1,6 @@
 ---
 title: Bind Passkey To User
-sidebar_position: 8
+sidebar_position: 10
 
 # Display h2 to h2 headings
 toc_min_heading_level: 2

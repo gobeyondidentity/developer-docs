@@ -4,31 +4,7 @@ The following examples are written in node.js.
 
 ## Get Access Token for API calls
 
-Before making any API calls you'll want to generate an `accessToken`.
-
-```jsx
-const apiTokenResponse = await fetch(
-  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/token`,
-  {
-    body: (() => {
-      let formData = new URLSearchParams();
-      formData.append('grant_type', 'client_credentials');
-      return formData;
-    })(),
-    headers: {
-      Authorization:
-        'Basic ' +
-        Buffer.from(
-          `${MANAGEMENT_API_CLIENT_ID}:${MANAGEMENT_API_CLIENT_SECRET}`
-        ).toString('base64'),
-    },
-    method: 'POST',
-  }
-);
-
-const apiTokenResponseJson = await tokenResponse.json();
-const accessToken = apiTokenResponseJson.access_token;
-```
+Before making any API calls you'll want to generate an `accessToken`. Check out [Create an API token](./api-token) for help creating an access token.
 
 ## Create an Identity
 
