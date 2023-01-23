@@ -34,32 +34,18 @@ Toggle delivery methods below for code samples:
 
 ![Bind Passkey Return Flowchart](./screenshots/bind-passkey-return-flow.jpeg)
 
-<Tabs groupId="bind-platform" queryString>
-<TabItem value="backend" label="Backend">
 <BackendGeneral/>
 <BackendReturn/>
-</TabItem>
-<TabItem value="frontend" label="Front End">
 <FrontEndReturn/>
-</TabItem>
-</Tabs>
-
 </TabItem>
 
 <TabItem value="email" label="EMAIL">
 
 ![Bind Passkey Email Flowchart](./screenshots/bind-passkey-email-flow.jpeg)
 
-<Tabs groupId="bind-platform" queryString>
-<TabItem value="backend" label="Backend">
 <BackendGeneral/>
 <BackendEmail/>
-</TabItem>
-<TabItem value="frontend" label="Front End">
 <FrontEndEmail/>
-</TabItem>
-</Tabs>
-
 </TabItem>
 
 </Tabs>

@@ -8,30 +8,4 @@ Before making any API calls you'll want to generate an `accessToken`. Check out 
 
 ## Create an Identity
 
-If the user is creating a new acount, you'll want to create an identity with the user's information such as an email address and username. Collect this information on your front end and create the identity on your backend. You'll need the `identityId` for the next step.
-
-```jsx
-const identityResponse = await fetch(
-  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities`,
-  {
-    body: JSON.stringify({
-      identity: {
-        display_name: human_readable_name_for_an_identity,
-        traits: {
-          type: 'traits_v0',
-          username: unique_username_for_an_identity,
-          primary_email_address: primary_email_address_for_an_identity,
-        },
-      },
-    }),
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-    method: 'POST',
-  }
-);
-
-const identityResponseJson = await identityResponse.json();
-
-const IDENTITY_ID = identityResponseJson.id;
-```
+If the user is creating a new acount, you'll want to create an identity with the user's information such as an email address and username. Collect this information on your front end and create the identity on your backend. You'll need the `identityId` to bind to a passkey. Check out [User Provisioning](./user-provisioning-api) for help creating an identity.
