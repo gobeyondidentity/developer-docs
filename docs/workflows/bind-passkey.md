@@ -23,7 +23,7 @@ Passkeys are generated through a binding job. On creation of a binding job, a bi
 
 A binding job must be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are currently two `delivery_method` options for your binding link: `RETURN` and `EMAIL`.
 
-1. The value `RETURN` indicates that a binding link will be returned to the caller upon creation of the binding job. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc).
+1. The value `RETURN` indicates that a binding link will be returned to the caller upon creation of the binding job. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc). This is the suggested method if you want the end user to create a passkey without having to leave your application.
 2. The value `EMAIL` indicates that a passkey creation email will be sent to the end user. The end user will receive the email and click the passkey creation link. Clicking the link will redirect the end user to Beyond Identity Cloud. Beyond Identity Cloud will look up the authenticator_config that is associated with that passkey creation link and redirect the end user to the authenticator_config.invoke_url. The invoke_url should be a http request handler in your application. Once the user has been redirected to your applicaiton, you as the developer can handle the binding link in the SDK.
 
 Toggle delivery methods below for code samples:
@@ -32,7 +32,7 @@ Toggle delivery methods below for code samples:
 
 <TabItem value="return" label="RETURN">
 
-![Bind Passkey Return Flowchart](./screenshots/bind-passkey-return-flow.jpeg)
+![Bind Passkey Return Flowchart](./screenshots/bind-passkey-return-flow.png)
 
 <BackendGeneral/>
 <BackendReturn/>
@@ -41,7 +41,7 @@ Toggle delivery methods below for code samples:
 
 <TabItem value="email" label="EMAIL">
 
-![Bind Passkey Email Flowchart](./screenshots/bind-passkey-email-flow.jpeg)
+![Bind Passkey Email Flowchart](./screenshots/bind-passkey-email-flow.png)
 
 <BackendGeneral/>
 <BackendEmail/>

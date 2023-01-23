@@ -1,6 +1,6 @@
 ## Get Binding Link for Identity
 
-In order to get a binding link for a passkey, we need to create a binding link job for the newly created identity above. The following code snippet using the `RETURN` `delivery_method` option. This is the fastest way to get a binding link as this method indicates that a binding link will be returned to the caller upon creation of the binding job. This binding link is the link you will send to your application to complete the passkey binding process.
+In order to get a binding link for a passkey, we need to create a binding link job for an exisiting identity. The following code snippet using the `RETURN` option. This is the fastest way to get a binding link as this method indicates that a binding link will be returned to the caller upon creation of the binding job. This binding link is the link you will send to your application to complete the passkey binding process.
 
 ```jsx
 const bindingLinkResponse = await fetch(

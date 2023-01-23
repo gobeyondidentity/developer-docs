@@ -1,6 +1,6 @@
 ## Get Binding Link for Identity
 
-In order to get a binding link for a passkey, we need to create a binding link job for the newly created identity above. The following code snippet using the `EMAIL` `delivery_method` option. This method will send your user an email with a link that when clicked will redirect the user to your application and provide your application with a binding link. If you wish to configure email branding, visit your console. This binding link is the link your application will use to complete the passkey binding process.
+In order to get a binding link for a passkey, we need to create a binding link job for an exisiting identity. The following code snippet using the `EMAIL` option. This method will send your user an email with a link that when clicked will redirect the user to your application and provide your application with a binding link. If you wish to configure email branding, visit your console. This binding link is the link your application will use to complete the passkey binding process.
 
 ```jsx
 const bindingLinkResponse = await fetch(
