@@ -1,7 +1,6 @@
 import styles from "./TryItOut.module.css";
 import padding from "../../css/Padding.module.css";
 import React, { useState } from "react";
-import Layout from "@theme/Layout";
 import classNames from "classnames";
 import AuthenticateResult from "./AuthenticateResult";
 import Button from "./Button";
@@ -452,11 +451,6 @@ const StepThree = ({ progressState, setProgressState }) => {
               centered={true}>
             </Button>
           </div>
-          <div className={classNames(padding["mt-1"], padding["mb-1"])}>
-            <h1>What's Next?</h1>
-            <p>Ready to start implementing passkeys in your application? Check out our <a href="/docs/v1/getting-started">getting started guide</a>.</p>
-          </div>
-          <div className={classNames(padding["mt-1"])}></div>
         </div>
       ) : (
         <div></div>

@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 In this guide we will show you how to create and configure your account and connect a demo application to it. This app will demonstrate common workflows like creating a passkey and using it to authenticate.
