@@ -9,9 +9,14 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an API Token Overview
+# Create an API Token
 
-All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow. You can obtain an access token either through the [Beyond Identity Admin Console](api-token#create-token-with-the-beyond-identity-admin-console) or by using the [Beyond Identity APIs](api-token#create-token-with-the-beyond-identity-api).
+All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow.
+
+You can obtain an access token either through:
+
+1. [Beyond Identity Admin Console](api-token#create-token-with-the-beyond-identity-admin-console)
+2. [Beyond Identity APIs](api-token#create-token-with-the-beyond-identity-api)
 
 The access token will work for any application that you have configured to provide access to the Beyond Identity Management API Resource Server. The "Beyond Identity Management API" application is provided by default as part of the tenant onboarding process.
 
