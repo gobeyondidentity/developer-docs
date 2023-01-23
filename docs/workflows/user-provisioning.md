@@ -1,5 +1,5 @@
 ---
-title: User Provisioning with API
+title: User Provisioning
 sidebar_position: 7
 
 # Display h2 to h2 headings
@@ -16,7 +16,11 @@ Before creating a Passkey, a user must be provisioned as an identity under a rea
 
 Identities can be part of a group. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule. (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application)
 
-You can provision a user either through the [Beyond Identity Admin Console](user-provisioning-api#provision-user-with-the-beyond-identity-admin-console) or by using the [Beyond Identity APIs](user-provisioning-api#provision-user-with-the-beyond-identity-api).
+You can provision a user with:
+
+1. [Beyond Identity Admin Console](user-provisioning#provision-user-with-the-beyond-identity-admin-console)
+2. [Beyond Identity APIs](user-provisioning#provision-user-with-the-beyond-identity-api)
+3. [SCIM](../scim/v1/scimv1)
 
 ## Provision User with the Beyond Identity Admin Console
 
