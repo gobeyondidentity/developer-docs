@@ -26,13 +26,12 @@ API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict
 
 ## Create Token with the Beyond Identity Admin Console
 
-The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Applications" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token".
+The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Applications" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token". From there you can configure the token with a Name and specified list of Scopes.
 
-![Beyond Identity Admin Console API Token](./screenshots/api-token-console.png)
-
-From there you can configure the token with a Name and specified list of Scopes.
-
-![Beyond Identity Admin Console API Token Configure](./screenshots/api-token-console-configure.png)
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+	<iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+	</iframe>
+</div>
 
 ## Create Token with the Beyond Identity API
 
