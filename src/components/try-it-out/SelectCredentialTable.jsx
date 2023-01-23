@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./SelectCredentialTable.module.css";
-import padding from "../css/Padding.module.css";
+import padding from "../../css/Padding.module.css";
 
 const SelectCredentialTable = ({ credentials, onClick, onChange, selectedCredentialId }) => {
   return credentials.map((credential, i) => {

@@ -17,12 +17,8 @@ const sidebars = {
   // find a way to add links to the sidebar with autogeneration. 
   mySidebar: [
     'introduction',
+    'try-it-out',
     'getting-started',
-    {
-      type: 'link',
-      label: 'Try It Out',
-      href: '/try-it-out',
-    },
     'using-bi-for-auth',
     {
       type: 'category',

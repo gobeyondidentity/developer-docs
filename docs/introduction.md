@@ -1,6 +1,6 @@
 ---
 title: Introduction
-sidebar_position: 1
+sidebar_position: 0
 ---
 
 Welcome to the developer documentation for Beyond Identity. This is where you can find guides for building authentication across your applications using Universal Passkeys. 
