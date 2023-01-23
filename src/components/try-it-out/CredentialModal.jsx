@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import classNames from "classnames";
 import { CodeBlock, dracula } from "react-code-blocks";
 import styles from "./CredentialModal.module.css";
-import padding from "../css/Padding.module.css";
+import padding from "../../css/Padding.module.css";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
 const DARK_MODE_OVERYLAY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.75)";

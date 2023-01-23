@@ -1,13 +1,13 @@
-import styles from "./styles.module.css";
+import styles from "./TryItOut.module.css";
 import padding from "../../css/Padding.module.css";
 import React, { useState } from "react";
 import Layout from "@theme/Layout";
 import classNames from "classnames";
-import AuthenticateResult from "../../components/AuthenticateResult";
-import Button from "../../components/Button";
-import CredentialTable from "../../components/CredentialTable";
-import SelectCredentialTable from "../../components/SelectCredentialTable";
-import CredentialModal from "../../components/CredentialModal";
+import AuthenticateResult from "./AuthenticateResult";
+import Button from "./Button";
+import CredentialTable from "./CredentialTable";
+import SelectCredentialTable from "./SelectCredentialTable";
+import CredentialModal from "./CredentialModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
 import { getCredentials, bindCredential, authenticate, deleteCredential } from "../../utils/bi-sdk-js";
@@ -21,9 +21,9 @@ const StepOne = ({ progressState, setProgressState }) => {
 
   var parentClassNames = function () {
     if (progressState.step.one === IN_PROGRESS || progressState.step.one === COMPLETE) {
-      return classNames("container");
+      return classNames();
     }
-    return classNames("container", styles.blur);
+    return classNames(styles.blur);
   }();
 
   const handleSubmit = async (event) => {
@@ -85,7 +85,6 @@ const StepOne = ({ progressState, setProgressState }) => {
   return (
     <div className={parentClassNames}>
       <div className={classNames(padding["mt-1"], padding["mb-1"])}>
-        <h1>Try it Out</h1>
         <p>Explore what's possible using the Beyond Identity platform before having to write any code.</p>
         <p>The three steps below allow you to:</p>
         <ol>
@@ -542,7 +541,7 @@ export default function TryItOut() {
   };
 
   return (
-    <Layout id="try-it-out" title="Try It Out" description="Try out Universal Passkeys">
+    <div id="try-it-out">
       <div id="step-one" className={classNames(padding["mt-1"])}>
         <StepOne {...state}></StepOne>
       </div>
@@ -562,6 +561,6 @@ export default function TryItOut() {
         draggable={true}
         progress={undefined}
         theme="colored" />
-    </Layout>
+    </div>
   );
 }
