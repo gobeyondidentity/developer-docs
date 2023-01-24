@@ -60,7 +60,7 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
 
 ```jsx title="/token"
 const apiTokenResponse = await fetch(
-  `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
   {
     body: (() => {
       let formData = new URLSearchParams();
