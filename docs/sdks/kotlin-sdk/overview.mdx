@@ -3,62 +3,23 @@ title: Overview
 sidebar_position: 0
 ---
 
+import SampleAppKotlin from './../../workflows/_sdk-setup/_sample-app-kotlin.mdx';
+import InstallationKotlin from './../../workflows/_sdk-setup/_installation-kotlin.mdx';
+import SetupKotlin from './../../workflows/_sdk-setup/_setup-kotlin.mdx';
+
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
 ## Sample App
 
-:::tip Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-flutter/tree/main/example) for the Embedded SDK.
-:::
+<SampleAppKotlin/>
 
 ## Installation
 
-### Pub.Dev
-
-Add the Beyond Identity Embedded SDK to your dependencies
-
-```
-dependencies:
-  bi_sdk_flutter: x.y.z
-```
-
-and run an implicit `flutter pub get`.
-
-### Update Android
-
-Please make sure your `android/build.gradle` supports `minSdkVersion` 26 or later.
-
-```
-buildscript {
-  ext {
-    minSdkVersion = 26
-  }
-}
-```
-
-### Update iOS
-
-Please make sure your project supports "minimum deployment target" 13.0 or later.
-In your `ios/Podfile` set:
-
-```sh
-platform :ios, '13.0'
-```
+<InstallationKotlin/>
 
 ## Setup
 
-First, before calling the Embedded functions, make sure to initialize the SDK.
-
-<!-- javascript is used here since flutter is not available and dart doesn't highlight at all. -->
-```javascript
-import 'package:bi_sdk_flutter/embeddedsdk.dart';
-
-Embeddedsdk.initialize(
-    String biometricPrompt,
-    bool enableLogging,
-    List<String>? allowedDomains, /* Optional */
-)
-```
+<SetupKotlin/>
 
 ## Binding a Credential
 
@@ -67,41 +28,47 @@ The `bindCredential` function expects a URL. This can either be a binding creden
 #### Usage
 
 ```javascript
-await Embeddedsdk.bindCredential(
-    String url,
-)
+EmbeddedSdk.bindCredential(
+    url: String,
+) { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
 ```
 
 Where the response type consists of an object containing a `Credential` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a credential.
 
 ```javascript
-class BindCredentialResponse(
-    Credential credential,
-    String postBindingRedirectUri,
+data class BindCredentialResponse(
+    val credential: Credential,
+    val postBindingRedirectUri: String?,
 )
 ```
 
 ## Authentication
 
-The `authenticate` function expects a `URL` and a `CredentialID`. The Beyond Identity specific URL is generated during on OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the credential on your device. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+The `authenticate` function expects a `URL` and a `CredentialID`. The Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the credential on your device. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
 
 Before calling this function you will need to ask the user to select a credential that has been bound to the device. A selection view can be built in conjunction with [getCredentials](#listing-credentials).
 
 #### Usage
 
 ```javascript
-await Embeddedsdk.authenticate(
-    String url,
-    String credentialId,
-)
+EmbeddedSdk.authenticate(
+    url: String,
+    credentialId: CredentialID,
+) { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
 ```
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 ```javascript
-class AuthenticateResponse(
-    String redirectUrl,
-    String message,
+data class AuthenticateResponse(
+    val redirectUrl: String?,
+    val message: String?,
 )
 ```
 
@@ -112,7 +79,7 @@ class AuthenticateResponse(
 This function is used to validate if a given URL is able to be used by the `bindCredential` function.
 
 ```javascript
-if (await Embeddedsdk.isBindCredentialUrl(url)) {
+if (EmbeddedSdk.isBindCredentialUrl(url)) {
     // bind the credential using `bindCredential`
 }
 ```
@@ -122,7 +89,7 @@ if (await Embeddedsdk.isBindCredentialUrl(url)) {
 This function is used to validate if a given URL is able to be used by the `authenticate` function.
 
 ```javascript
-if (await Embeddedsdk.isAuthenticateUrl(url)) {
+if (EmbeddedSdk.isAuthenticateUrl(url)) {
     // authenticate against a credential bound to the device
 }
 ```
@@ -134,7 +101,10 @@ if (await Embeddedsdk.isAuthenticateUrl(url)) {
 The `getCredentials` function enables you to get all credentials currently bound to the device.
 
 ```javascript
-await Embeddedsdk.getCredentials()
+EmbeddedSdk.getCredentials() { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
 ```
 
 Where the response is a `List<Credential>`.
@@ -144,7 +114,10 @@ Where the response is a `List<Credential>`.
 The `deleteCredential` function allows you to delete a credential given its ID.
 
 ```javascript
-await Embeddedsdk.deleteCredential(
-    String id,
-)
+EmbeddedSdk.deleteCredential(
+    id: String,
+) { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
 ```

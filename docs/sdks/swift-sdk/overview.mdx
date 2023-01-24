@@ -3,75 +3,23 @@ title: Overview
 sidebar_position: 0
 ---
 
+import SampleAppSwift from './../../workflows/_sdk-setup/_sample-app-swift.mdx';
+import InstallationSwift from './../../workflows/_sdk-setup/_installation-swift.mdx';
+import SetupSwift from './../../workflows/_sdk-setup/_setup-swift.mdx';
+
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
 ## Sample App
 
-:::tip Sample App
-Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example) for the Embedded SDK.
-:::
+<SampleAppSwift/>
 
 ## Installation
 
-### Swift Package Manager
-
-#### From Xcode
-
-1. From the Xcode `File` menu, select `Add Packages` and add the following url:
-
-```
-https://github.com/gobeyondidentity/bi-sdk-swift
-```
-
-2. Select a version and hit Next.
-3. Select a target matching the SDK you wish to use.
-
-#### From Package.swift
-
-1. With [Swift Package Manager](https://swift.org/package-manager),
-   add the following `dependency` to your `Package.swift`:
-
-```javascript
-dependencies: [
-    .package(url: "https://github.com/gobeyondidentity/bi-sdk-swift.git", from: [version])
-]
-```
-
-2. Run `swift build`
-
-### Cocoapods
-
-Add the pod to your Podfile:
-
-```javascript
-pod 'BeyondIdentityEmbedded'
-```
-
-And then run:
-```javascript
-pod install
-```
-
-After installing import with
-```javascript
-import BeyondIdentityEmbedded
-```
+<InstallationSwift/>
 
 ## Setup
 
-First, before calling the Embedded functions, make sure to initialize the SDK.
-
-<!-- javascript is used here since swift doesn't highlight at all. -->
-```javascript
-import BeyondIdentityEmbedded
-
-Embedded.initialize(
-    allowedDomains: [String] = ["beyondidentity.com"],
-    biometricAskPrompt: String,
-    logger: ((OSLogType, String) -> Void)? = nil,
-    callback: @escaping(Result<Void, BISDKError>) -> Void
-)
-```
+<SetupSwift/>
 
 ## Binding a Credential
 
