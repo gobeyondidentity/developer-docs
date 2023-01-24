@@ -18,7 +18,7 @@ You can obtain an access token either through:
 1. [Beyond Identity Admin Console](api-token#create-token-with-the-beyond-identity-admin-console)
 2. [Beyond Identity APIs](api-token#create-token-with-the-beyond-identity-api)
 
-The access token will work for any application that you have configured to provide access to the Beyond Identity Management API Resource Server. The "Beyond Identity Management API" application is provided by default as part of the tenant onboarding process.
+The access token should be generated with your Beyond Identity Management API application in order to access any of the Beyond Identity APIs. The "Beyond Identity Management API" application is provided by default as part of the tenant onboarding process.
 
 The access token must be provided in the Authorization header of an API request like the following:
 
@@ -47,7 +47,7 @@ Alternatively, an access token may also be generated directly via API by request
 <Tabs groupId="api-token-platform" queryString>
  <TabItem value="curl" label="Curl">
 
-```bash
+```bash title="/token"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
   -X POST \
   -u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
@@ -58,7 +58,7 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
  </TabItem>
  <TabItem value="node" label="Node">
 
-```jsx
+```jsx title="/token"
 const apiTokenResponse = await fetch(
   `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
   {
@@ -91,13 +91,13 @@ If you would like to use the authorization code flow, use the following curl exa
 
 1. Authenticate to optain an authorization code:
 
-```bash
+```bash title="/authorize"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/authorize?response_type=code&client_id=$MANAGEMENT_API_CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=openid&state=$STATE&code_challenge=$OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256
 ```
 
 2. Create an access token the with authorization code:
 
-```bash
+```bash title="/token"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
   -X POST \
   -H "Content-Type: application/x-www-form-urlencoded" \
@@ -114,7 +114,7 @@ In the case of Bearer authentication, the passed authentication must contain the
 
 Note that passing an invalid token, or a token which has already been revoked or expired, will produce a success response, pursuant to [RFC7009§2.2](https://www.rfc-editor.org/rfc/rfc7009).
 
-```bash
+```bash title="/revoke"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/revoke \
   -X POST \
   -H 'Content-Type: application/json' \
