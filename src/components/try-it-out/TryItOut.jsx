@@ -92,7 +92,7 @@ const StepOne = ({ progressState, setProgressState }) => {
           <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
         </ol>
       </div>
-      <h1>1. Register a User</h1>
+      <h1 className={classNames(styles.heading)}>1. Register a User</h1>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <div className={classNames(styles["step-input"], "container")}>
         <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
@@ -226,7 +226,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1>2. See your passkeys</h1>
+      <h1 className={classNames(styles.heading)}>2. See your passkeys</h1>
       <p>See all the passkeys you've created on this browser. If you've gone through this demo before, you'll see passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ? <CredentialTable credentials={credentials} onClick={handleCredentialClick}></CredentialTable> : <Button
@@ -414,7 +414,7 @@ const StepThree = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1>3. Authenticate with your passkey</h1>
+      <h1 className={classNames(styles.heading)}>3. Authenticate with your passkey</h1>
       <p>Select a passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {credentials !== null ?

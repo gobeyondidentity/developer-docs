@@ -50,6 +50,10 @@
   }
 }
 
+.heading {
+  font-size: 2rem;
+}
+
 .username {
   width: 100px;
   float: left;
