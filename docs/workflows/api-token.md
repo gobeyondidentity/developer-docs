@@ -1,9 +1,9 @@
 ---
- title: Create an API token
- sidebar_position: 6
- # Display h2 to h2 headings
- toc_min_heading_level: 2
- toc_max_heading_level: 2
+title: Create an API token
+sidebar_position: 6
+# Display h2 to h2 headings
+toc_min_heading_level: 2
+toc_max_heading_level: 2
 ---
 
 import Tabs from '@theme/Tabs';
@@ -24,7 +24,7 @@ The access token must be provided in the Authorization header of an API request 
 
 ```bash
 curl https://api-us.beyondidentity.com/v1/... \
-  -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
+-X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
 ```
 
 API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict the token's access with [scopes](../apis/scopes) by selecting a list in the Beyond Identity Admin Console or specifying a space-separated string of scopes in your API request.
@@ -34,8 +34,8 @@ API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict
 The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Applications" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token". From there you can configure the token with a Name and specified list of Scopes.
 
 <div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
+<iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+</iframe>
 </div>
 
 ## Create Token with the Beyond Identity API
@@ -45,18 +45,18 @@ Alternatively, an access token may also be generated directly via API by request
 ### Client Credentials Flow:
 
 <Tabs groupId="api-token-platform" queryString>
- <TabItem value="curl" label="Curl">
+<TabItem value="curl" label="Curl">
 
 ```bash title="/token"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
-  -X POST \
-  -u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=client_credentials&scope=$SCOPES"
+-X POST \
+-u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=client_credentials&scope=$SCOPES"
 ```
 
- </TabItem>
- <TabItem value="node" label="Node">
+</TabItem>
+<TabItem value="node" label="Node">
 
 ```jsx title="/token"
 const apiTokenResponse = await fetch(
@@ -82,7 +82,61 @@ const apiTokenResponseJson = await tokenResponse.json();
 const accessToken = apiTokenResponseJson.access_token;
 ```
 
- </TabItem>
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/token"
+import requests
+
+data = {
+'grant_type': 'client_credentials',
+'scope': 'SCOPES',
+}
+
+response = requests.post(
+'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
+data=data,
+auth=('MANAGEMENT_API_CLIENT_ID', 'MANAGEMENT_API_CLIENT_SECRET'),
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/token"
+package main
+
+import (
+"fmt"
+"io/ioutil"
+"log"
+"net/http"
+"strings"
+)
+
+func main() {
+client := &http.Client{}
+var data = strings.NewReader(`grant_type=client_credentials&scope=SCOPES`)
+req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
+if err != nil {
+  log.Fatal(err)
+}
+req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+req.SetBasicAuth("MANAGEMENT_API_CLIENT_ID", "MANAGEMENT_API_CLIENT_SECRET")
+resp, err := client.Do(req)
+if err != nil {
+  log.Fatal(err)
+}
+defer resp.Body.Close()
+bodyText, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+  log.Fatal(err)
+}
+fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Authorization Code Flow:
@@ -91,18 +145,161 @@ If you would like to use the authorization code flow, use the following curl exa
 
 1. Authenticate to optain an authorization code:
 
+<Tabs groupId="api-token-platform" queryString>
+<TabItem value="curl" label="Curl">
+
 ```bash title="/authorize"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/authorize?response_type=code&client_id=$MANAGEMENT_API_CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=openid&state=$STATE&code_challenge=$OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256
 ```
 
+</TabItem>
+<TabItem value="node" label="Node">
+
+```jsx title="/authorize"
+fetch(
+  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize?response_type=code'
+);
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/authorize"
+import requests
+
+params = {
+  'response_type': 'code',
+}
+
+response = requests.get(
+  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
+  params=params,
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/authorize"
+package main
+
+import (
+"fmt"
+"io/ioutil"
+"log"
+"net/http"
+)
+
+func main() {
+client := &http.Client{}
+req, err := http.NewRequest("GET", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize?response_type=code", nil)
+if err != nil {
+  log.Fatal(err)
+}
+resp, err := client.Do(req)
+if err != nil {
+  log.Fatal(err)
+}
+defer resp.Body.Close()
+bodyText, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+  log.Fatal(err)
+}
+fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
+</Tabs>
+
 2. Create an access token the with authorization code:
+
+<Tabs groupId="api-token-platform" queryString>
+<TabItem value="curl" label="Curl">
 
 ```bash title="/token"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
-  -X POST \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=authorization_code&code=$CODE&scope=$SCOPES&client_id=$MANAGEMENT_API_CLIENT_ID&code_verifier=$OPTIONAL_CODE_VERIFIER"
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$CODE&scope=$SCOPES&client_id=$MANAGEMENT_API_CLIENT_ID&code_verifier=$OPTIONAL_CODE_VERIFIER"
 ```
+
+</TabItem>
+<TabItem value="node" label="Node">
+
+```jsx title="/token"
+fetch(
+  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
+  {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: 'CODE',
+      scope: 'SCOPES',
+      client_id: 'MANAGEMENT_API_CLIENT_ID',
+      code_verifier: 'OPTIONAL_CODE_VERIFIER',
+    }),
+  }
+);
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/token"
+import requests
+
+data = {
+'grant_type': 'authorization_code',
+'code': 'CODE',
+'scope': 'SCOPES',
+'client_id': 'MANAGEMENT_API_CLIENT_ID',
+'code_verifier': 'OPTIONAL_CODE_VERIFIER',
+}
+
+response = requests.post(
+'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
+data=data,
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/token"
+package main
+
+import (
+"fmt"
+"io/ioutil"
+"log"
+"net/http"
+"strings"
+)
+
+func main() {
+client := &http.Client{}
+var data = strings.NewReader(`grant_type=authorization_code&code=CODE&scope=SCOPES&client_id=MANAGEMENT_API_CLIENT_ID&code_verifier=OPTIONAL_CODE_VERIFIER`)
+req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
+if err != nil {
+  log.Fatal(err)
+}
+req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+resp, err := client.Do(req)
+if err != nil {
+  log.Fatal(err)
+}
+defer resp.Body.Close()
+bodyText, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+  log.Fatal(err)
+}
+fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
+</Tabs>
 
 ### Revoking Access Tokens:
 
@@ -114,9 +311,90 @@ In the case of Bearer authentication, the passed authentication must contain the
 
 Note that passing an invalid token, or a token which has already been revoked or expired, will produce a success response, pursuant to [RFC7009§2.2](https://www.rfc-editor.org/rfc/rfc7009).
 
+<Tabs groupId="api-token-platform" queryString>
+<TabItem value="curl" label="Curl">
+
 ```bash title="/revoke"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/revoke \
-  -X POST \
-  -H 'Content-Type: application/json' \
-  -d '{"token":"$TOKEN"}'
+-X POST \
+-H 'Content-Type: application/json' \
+-d '{"token":"$TOKEN"}'
 ```
+
+</TabItem>
+<TabItem value="node" label="Node">
+
+```jsx title="/revoke"
+fetch(
+  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: 'TOKEN',
+    }),
+  }
+);
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/revoke"
+import requests
+
+headers = {
+    'Content-Type': 'application/json',
+}
+
+json_data = {
+    'token': 'TOKEN',
+}
+
+response = requests.post(
+    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke',
+    headers=headers,
+    json=json_data,
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/revoke"
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	var data = strings.NewReader(`{"token":"TOKEN"}`)
+	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
+</Tabs>
+````
