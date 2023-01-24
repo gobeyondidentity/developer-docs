@@ -50,12 +50,12 @@ The following examples show how to create an identity via API. For deleting, upd
   <TabItem value="curl" label="Curl">
 
 ```bash title="/identities"
-curl https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities
+curl https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities \
 -X POST \
-   -H "Authorization: Bearer {API_TOKEN}" \
+   -H "Authorization: Bearer $API_TOKEN" \
    -H 'Content-Type: application/json' \
-   -d '{"display_name":"{USER_DISPLAY_NAME}","traits": {"type": "traits_v0","username": "{USER_USERNAME}",
-"primary_email_address":"{USER_EMAIL}"}}'
+   -d '{"identity":{"display_name":"USER_DISPLAY_NAME","traits": {"type": "traits_v0","username": "USER_USERNAME",
+"primary_email_address":"USER_EMAIL"}}}'
 ```
 
   </TabItem>
@@ -85,5 +85,71 @@ const identityResponse = await fetch(
 const identityResponseJson = await identityResponse.json();
 ```
 
-  </TabItem>
- </Tabs>
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/identities"
+import requests
+
+headers = {
+    'Authorization': 'Bearer API_TOKEN',
+    'Content-Type': 'application/json',
+}
+
+json_data = {
+    'identity': {
+        'display_name': 'USER_DISPLAY_NAME',
+        'traits': {
+            'type': 'traits_v0',
+            'username': 'USER_USERNAME',
+            'primary_email_address': 'USER_EMAIL',
+        },
+    },
+}
+
+response = requests.post(
+    'https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities',
+    headers=headers,
+    json=json_data,
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/identities"
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	var data = strings.NewReader(`{"identity":{"display_name":"USER_DISPLAY_NAME","traits": {"type": "traits_v0","username": "USER_USERNAME",
+"primary_email_address":"USER_EMAIL"}}}`)
+	req, err := http.NewRequest("POST", "https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Authorization", "Bearer API_TOKEN")
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
+</Tabs>
