@@ -42,12 +42,14 @@ You can manage groups in the Beyond Identity Admin Console, creating groups, add
 
 ## Provision User with the Beyond Identity API
 
-A user can be provisioned via API. The following examples show how to create an identity. For deleting, updating, and managing groups via API, see the [API documentation](https://developer.beyondidentity.com/api/v1).
+Before making any API calls you'll want to generate an `accessToken`. Check out [Create an API token](./api-token) for help creating an access token.
+
+The following examples show how to create an identity via API. For deleting, updating, and managing groups via API, see the [API documentation](https://developer.beyondidentity.com/api/v1).
 
 <Tabs groupId="user-provisioning-api-platform" queryString>
   <TabItem value="curl" label="Curl">
 
-```bash
+```bash title="/identities"
 curl https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities
 -X POST \
    -H "Authorization: Bearer {API_TOKEN}" \
@@ -59,7 +61,7 @@ curl https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${R
   </TabItem>
   <TabItem value="node" label="Node">
 
-```jsx
+```jsx title="/identities"
 const identityResponse = await fetch(
   `https://api-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities`,
   {
