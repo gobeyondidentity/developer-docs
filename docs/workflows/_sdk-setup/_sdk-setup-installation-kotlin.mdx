@@ -1,0 +1,20 @@
+### Gradle
+
+To enable the retrieval of Cloudsmith hosted packages via Gradle, we need to add the Cloudsmith repository to
+the `root/build.gradle` file.
+
+```groovy
+repositories {
+    maven {
+        url "https://packages.beyondidentity.com/public/bi-sdk-android/maven/"
+    }
+}
+```
+
+After the repository is added, we can specify the Beyond Identity dependencies.
+
+```groovy
+dependencies {
+    implementation 'com.beyondidentity.android.sdk:embedded:[version]'
+}
+```

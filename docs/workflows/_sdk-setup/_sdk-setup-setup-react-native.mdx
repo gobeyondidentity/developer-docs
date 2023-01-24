@@ -1,0 +1,27 @@
+First, before calling the Embedded functions, make sure to initialize the SDK. This can be done where you register your root component.
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
+Embedded.initialize(
+  biometricAskPrompt: string,
+  allowedDomains?: string[]
+): Promise<Success>;
+```
+
+You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
+
+#### Usage
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
+Embedded.initialize("Please verify it's really you").catch(console.error);
+
+Embedded.logEventEmitter.addListener(
+  'BeyondIdentityLogger',
+  (message: string) => {
+    console.log(message);
+  }
+);
+```
