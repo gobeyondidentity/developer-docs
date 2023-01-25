@@ -166,16 +166,16 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
 
 ```jsx title="/authorize"
 fetch(
-  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/authorize`,
   {
     method: 'POST',
     body: new URLSearchParams({
       response_type: 'code',
-      client_id: 'MANAGEMENT_API_CLIENT_ID',
-      redirect_uri: 'REDIRECT_URI',
+      client_id: `${MANAGEMENT_API_CLIENT_ID}`,
+      redirect_uri: `${REDIRECT_URI}`,
       scope: 'openid',
-      state: 'STATE',
-      code_challenge: 'OPTIONAL_CODE_CHALLENGE',
+      state: `${STATE}`,
+      code_challenge: `${OPTIONAL_CODE_CHALLENGE}`,
       code_challenge_method: 'S256',
     }),
   }
@@ -259,15 +259,15 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
 
 ```jsx title="/token"
 fetch(
-  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
   {
     method: 'POST',
     body: new URLSearchParams({
       grant_type: 'authorization_code',
-      code: 'CODE',
-      scope: 'SCOPES',
-      client_id: 'MANAGEMENT_API_CLIENT_ID',
-      code_verifier: 'OPTIONAL_CODE_VERIFIER',
+      code: `${CODE}`,
+      scope: `${SCOPES}`,
+      client_id: `${MANAGEMENT_API_CLIENT_ID}`,
+      code_verifier: `${OPTIONAL_CODE_VERIFIER}`,
     }),
   }
 );
@@ -288,7 +288,7 @@ data = {
 }
 
 response = requests.post(
-'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
+'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
 data=data,
 )
 ```
@@ -310,7 +310,7 @@ import (
 func main() {
 client := &http.Client{}
 var data = strings.NewReader(`grant_type=authorization_code&code=CODE&scope=SCOPES&client_id=MANAGEMENT_API_CLIENT_ID&code_verifier=OPTIONAL_CODE_VERIFIER`)
-req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/$REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
+req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
 if err != nil {
   log.Fatal(err)
 }
@@ -357,7 +357,7 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
 
 ```jsx title="/revoke"
 fetch(
-  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke',
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/revoke`,
   {
     method: 'POST',
     headers: {
@@ -365,7 +365,7 @@ fetch(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: 'TOKEN_TO_REVOKE',
+      token: `${TOKEN_TO_REVOKE}`,
     }),
   }
 );
