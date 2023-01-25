@@ -40,7 +40,7 @@ The simplest way to acquire an access token is through the Beyond Identity Admin
 
 ## Create Token with the Beyond Identity API
 
-Alternatively, an access token may also be generated directly via API by requesting a token for the `Beyond Identity Management API` application. You will need the "Beyond Identity Management API" application's `CLIENT_ID`, `CLIENT_SECRET` and `APPLICATION_ID`. These values can be found either through the Beyond Identity Admin Console under the "Beyond Identity Admin" realm and selecting the "Beyond Identity Management API" application, or by [API](https://developer.beyondidentity.com/api/v1) after retrieving the management application. If you do not specify a list of scopes, all of the available scopes will be assigned to your token on creation.
+Alternatively, an access token may also be generated directly via API by requesting a token for the `Beyond Identity Management API` application. You will need the "Beyond Identity Management API" application's `CLIENT_ID`, `CLIENT_SECRET` and `APPLICATION_ID`. These values can be found either through the Beyond Identity Admin Console under the "Beyond Identity Admin" realm and selecting the "Beyond Identity Management API" application, or by [API](https://developer.beyondidentity.com/api/v1) after retrieving the management application. In accordance with [RFC6749#3.3](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3), the scopes are expressed as a space-delimited string. If you do not specify a list of scopes, all of the available scopes will be assigned to your token on creation.
 
 ### Client Credentials Flow:
 
@@ -141,15 +141,24 @@ fmt.Printf("%s\n", bodyText)
 
 ### Authorization Code Flow:
 
-If you would like to use the authorization code flow, use the following curl examples below to optain an authorization code and then create a token with that code.
+Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is recieved through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
-1. Authenticate to optain an authorization code:
+Use the following curl examples below to optain an authorization code and then create a token with that code. Note the following example uses PKCE, but using the `plain` `code_challenge_method` might be easier to get started as using PKCE requires storing the hash of the value passed as `code_challenge` so it can be passed to the token endpoint later.
+
+1. Authenticate to obtain an authorization code:
 
 <Tabs groupId="api-token-platform" queryString>
 <TabItem value="curl" label="Curl">
 
 ```bash title="/authorize"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/authorize?response_type=code&client_id=$MANAGEMENT_API_CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=openid&state=$STATE&code_challenge=$OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256
+curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/authorize \
+-d response_type=code \
+-d client_id=$MANAGEMENT_API_CLIENT_ID \
+-d redirect_uri=$REDIRECT_URI \
+-d scope=openid \
+-d state=$STATE \
+-d code_challenge=$OPTIONAL_CODE_CHALLENGE \
+-d code_challenge_method=S256 \
 ```
 
 </TabItem>
@@ -157,7 +166,19 @@ curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM
 
 ```jsx title="/authorize"
 fetch(
-  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize?response_type=code'
+  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
+  {
+    method: 'POST',
+    body: new URLSearchParams({
+      response_type: 'code',
+      client_id: 'MANAGEMENT_API_CLIENT_ID',
+      redirect_uri: 'REDIRECT_URI',
+      scope: 'openid',
+      state: 'STATE',
+      code_challenge: 'OPTIONAL_CODE_CHALLENGE',
+      code_challenge_method: 'S256',
+    }),
+  }
 );
 ```
 
@@ -167,13 +188,19 @@ fetch(
 ```python title="/authorize"
 import requests
 
-params = {
-  'response_type': 'code',
+data = {
+    'response_type': 'code',
+    'client_id': 'MANAGEMENT_API_CLIENT_ID',
+    'redirect_uri': 'REDIRECT_URI',
+    'scope': 'openid',
+    'state': 'STATE',
+    'code_challenge': 'OPTIONAL_CODE_CHALLENGE',
+    'code_challenge_method': 'S256',
 }
 
-response = requests.get(
-  'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
-  params=params,
+response = requests.post(
+    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
+    data=data,
 )
 ```
 
@@ -184,28 +211,31 @@ response = requests.get(
 package main
 
 import (
-"fmt"
-"io/ioutil"
-"log"
-"net/http"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
 )
 
 func main() {
-client := &http.Client{}
-req, err := http.NewRequest("GET", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize?response_type=code", nil)
-if err != nil {
-  log.Fatal(err)
-}
-resp, err := client.Do(req)
-if err != nil {
-  log.Fatal(err)
-}
-defer resp.Body.Close()
-bodyText, err := ioutil.ReadAll(resp.Body)
-if err != nil {
-  log.Fatal(err)
-}
-fmt.Printf("%s\n", bodyText)
+	client := &http.Client{}
+	var data = strings.NewReader(`response_type=code&client_id=MANAGEMENT_API_CLIENT_ID&redirect_uri=REDIRECT_URI&scope=openid&state=STATE&code_challenge=OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256`)
+	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
 }
 ```
 
@@ -305,9 +335,9 @@ fmt.Printf("%s\n", bodyText)
 
 In order to revoke an access token, you must be passed authentication in the form of either Bearer or Basic.
 
-In the case of Basic authentication, the passed authentication must come from an Application registered in auth-config-service. The passed access token must be signed by the same client id as the application.
+In the case of Basic authentication, the passed authentication must come from the confidential Application that the token has been minted for. The passed access token must be signed by the same client id as the application.
 
-In the case of Bearer authentication, the passed authentication must contain the scope "token:delete".
+In the case of Bearer authentication, the passed authentication must contain the scope "tokens:delete".
 
 Note that passing an invalid token, or a token which has already been revoked or expired, will produce a success response, pursuant to [RFC7009§2.2](https://www.rfc-editor.org/rfc/rfc7009).
 
@@ -317,8 +347,9 @@ Note that passing an invalid token, or a token which has already been revoked or
 ```bash title="/revoke"
 curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/revoke \
 -X POST \
+-H "Authorization: Bearer $TOKEN"
 -H 'Content-Type: application/json' \
--d '{"token":"$TOKEN"}'
+-d '{"token":"$TOKEN_TO_REVOKE"}'
 ```
 
 </TabItem>
@@ -330,10 +361,11 @@ fetch(
   {
     method: 'POST',
     headers: {
+      Authorization: 'Bearer TOKEN',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: 'TOKEN',
+      token: 'TOKEN_TO_REVOKE',
     }),
   }
 );
@@ -346,11 +378,12 @@ fetch(
 import requests
 
 headers = {
+    'Authorization': 'Bearer TOKEN',
     'Content-Type': 'application/json',
 }
 
 json_data = {
-    'token': 'TOKEN',
+    'token': 'TOKEN_TO_REVOKE',
 }
 
 response = requests.post(
@@ -376,11 +409,12 @@ import (
 
 func main() {
 	client := &http.Client{}
-	var data = strings.NewReader(`{"token":"TOKEN"}`)
+	var data = strings.NewReader(`{"token":"TOKEN_TO_REVOKE"}`)
 	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke", data)
 	if err != nil {
 		log.Fatal(err)
 	}
+	req.Header.Set("Authorization", "Bearer TOKEN")
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
