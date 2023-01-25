@@ -60,7 +60,7 @@ if (await InAppBrowser.isAvailable()) {
   if (await Embedded.isAuthenticateUrl(response.url)) {
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
   } else {
     /*
@@ -79,7 +79,7 @@ A `redirectURL` is returned from a successful authenticate response that needs t
 if (await Embedded.isAuthenticateUrl(response.url)) {
   const authResponse = await Embedded.authenticate(
     response.url,
-    selectedCredentialId
+    selectedPasskeyId
   );
   if (await InAppBrowser.isAvailable()) {
     const secondWebResponse = await InAppBrowser.openAuth(
@@ -104,10 +104,10 @@ if (await InAppBrowser.isAvailable()) {
   });
 
   if (await Embedded.isAuthenticateUrl(response.url)) {
-    const selectedCredentialId = await presentCredentialSelection();
+    const selectedPasskeyId = await presentPasskeySelection();
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
     if (await InAppBrowser.isAvailable()) {
       const secondWebResponse = await InAppBrowser.openAuth(
@@ -123,8 +123,8 @@ if (await InAppBrowser.isAvailable()) {
   }
 }
 
-function presentCredentialSelection(): selectedCredentialId {
-  // Where you can perform some logic here to select a credential, or
-  // present UI to a user to enable them to select a credential.
+function presentPasskeySelection(): selectedPasskeyId {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
 }
 ```

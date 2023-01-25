@@ -60,7 +60,7 @@ let session = ASWebAuthenticationSession(
     }
     Embedded.shared.authenticate(
         url: url,
-        credentialID: id
+        passkeyID: id
     ) { result in
         switch result {
         case let .success(response):
@@ -77,7 +77,7 @@ A `redirectURL` is returned from a successful authenticate response that needs t
 ```javascript
 Embedded.shared.authenticate(
     url: url,
-    credentialID: id
+    passkeyID: id
 ) { result in
     switch result {
     case let .success(response):
@@ -108,10 +108,10 @@ let session = ASWebAuthenticationSession(
         print("url is not valid")
         return
     }
-    presentCredentialSelection { selectedID in
+    presentPasskeySelection { selectedID in
         Embedded.shared.authenticate(
             url: url,
-            credentialID: selectedID
+            passkeyID: selectedID
         ) { result in
             switch result {
             case let .success(response):

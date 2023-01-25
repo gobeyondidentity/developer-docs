@@ -50,7 +50,7 @@ var result = await FlutterWebAuth.authenticate(
 The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](overview#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
 
 ```javascript
-var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
+var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
 ```
 
  - Step 4: Redirect URL
@@ -70,13 +70,13 @@ var result = await FlutterWebAuth.authenticate(
 #### Full Example
 
 ```javascript
-selectCredentialId((selectedCredentialId) async {
+selectPasskeyId((selectedPasskeyId) async {
     var result = await FlutterWebAuth.authenticate(
         url: OKTA_URL,
         callbackUrlScheme: CALLBACK_URL_SCHEME,
     );
 
-    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
+    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
 
     var redirectUrlResult = await FlutterWebAuth.authenticate(
         url: authenticateResponse.redirectUrl,
@@ -87,8 +87,8 @@ selectCredentialId((selectedCredentialId) async {
     // Exchange the authorization code for an id_token using Okta's token endpoint.
 });
 
-Future<void> selectCredentialId(Function(String) callback) async {
-  // Where you can perform some logic here to select a credential, or
-  // present UI to a user to enable them to select a credential.
+Future<void> selectPasskeyId(Function(String) callback) async {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
 }
 ```

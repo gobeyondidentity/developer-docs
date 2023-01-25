@@ -50,7 +50,7 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                credentialId = selectedCredentialId,
+                passkeyId = selectedPasskeyId,
             ) {
                 ...
             }
@@ -70,7 +70,7 @@ intent?.data?.let { uri ->
         EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
             EmbeddedSdk.authenticate(
                 url = uri.toString(),
-                credentialId = selectedCredentialId,
+                passkeyId = selectedPasskeyId,
             ) { result ->
                 result.onSuccess { authenticateResponse ->
                     authenticateResponse.redirectUrl?.let { redirectUrl ->
@@ -96,13 +96,13 @@ private fun launchAuth0(context: Context, url: Uri = AUTH0_URL) {
 }
 
 private fun handleIntent(context: Context, intent: Intent?) {
-    selectCredentialId { selectedCredentialId ->
+    selectPasskeyId { selectedPasskeyId ->
         intent?.data?.let { uri ->
             when {
                 EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
                     EmbeddedSdk.authenticate(
                         url = uri.toString(),
-                        credentialId = selectedCredentialId,
+                        passkeyId = selectedPasskeyId,
                     ) { result ->
                         result.onSuccess { authenticateResponse ->
                             authenticateResponse.redirectUrl?.let { redirectUrl ->
@@ -120,8 +120,8 @@ private fun handleIntent(context: Context, intent: Intent?) {
     }
 }
 
-private fun selectCredentialId(callback: (String) -> Unit) {
-    // Where you can perform some logic here to select a credential, or
-    // present UI to a user to enable them to select a credential.
+private fun selectPasskeyId(callback: (String) -> Unit) {
+    // Where you can perform some logic here to select a passkey, or
+    // present UI to a user to enable them to select a passkey.
 }
 ```

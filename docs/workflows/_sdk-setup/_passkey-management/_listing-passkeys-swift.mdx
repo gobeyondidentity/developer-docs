@@ -1,9 +1,9 @@
-The `getCredentials` function enables you to get all credentials currently bound to the device.
+The `getPasskeys` function enables you to get all passkeys currently bound to the device.
 
 ```javascript
-Embedded.shared.getCredentials(
-    callback: @escaping (Result<[Credential], BISDKError>) -> Void
+Embedded.shared.getPasskeys(
+    callback: @escaping (Result<[Passkey], BISDKError>) -> Void
 )
 ```
 
-Where the response is a `[Credential]`.
+Where the response is a `[Passkey]`.
