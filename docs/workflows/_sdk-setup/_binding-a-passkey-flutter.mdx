@@ -3,19 +3,16 @@ The `bindCredential` function expects a URL. This can either be a binding creden
 #### Usage
 
 ```javascript
-EmbeddedSdk.bindCredential(
-    url: String,
-) { result ->
-    result.onSuccess { }
-    result.onFailure { }
-}
+await Embeddedsdk.bindCredential(
+    String url,
+)
 ```
 
 Where the response type consists of an object containing a `Credential` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a credential.
 
 ```javascript
-data class BindCredentialResponse(
-    val credential: Credential,
-    val postBindingRedirectUri: String?,
+class BindCredentialResponse(
+    Credential credential,
+    String postBindingRedirectUri,
 )
 ```

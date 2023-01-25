@@ -1,0 +1,10 @@
+The `getCredentials` function enables you to get all credentials currently bound to the device.
+
+```javascript
+EmbeddedSdk.getCredentials() { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
+```
+
+Where the response is a `List<Credential>`.

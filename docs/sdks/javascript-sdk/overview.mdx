@@ -3,11 +3,15 @@ title: Overview
 sidebar_position: 0
 ---
 
-import SampleAppJavaScript from './../../workflows/_sdk-setup/_sample-app-javascript.mdx';
-import InstallationJavaScript from './../../workflows/_sdk-setup/_installation-javascript.mdx';
-import SetupJavaScript from './../../workflows/_sdk-setup/_setup-javascript.mdx';
-import BindingAPasskeyJavaScript from './../../workflows/_sdk-setup/_binding-a-passkey-javascript.mdx';
-import AuthenticationJavaScript from './../../workflows/_sdk-setup/_authentication-javascript.mdx';
+import SampleAppJavaScript from '/docs/workflows/_sdk-setup/_sample-app-javascript.mdx';
+import InstallationJavaScript from '/docs/workflows/_sdk-setup/_installation-javascript.mdx';
+import SetupJavaScript from '/docs/workflows/_sdk-setup/_setup-javascript.mdx';
+import BindingAPasskeyJavaScript from '/docs/workflows/_sdk-setup/_binding-a-passkey-javascript.mdx';
+import AuthenticationJavaScript from '/docs/workflows/_sdk-setup/_authentication-javascript.mdx';
+import BindPasskeyUrlValidationJavaScript from '/docs/workflows/_sdk-setup/_url-validation/_bind-passkey-url-validation-javascript.mdx';
+import AuthenticateUrlValidationJavaScript from '/docs/workflows/_sdk-setup/_url-validation/_authenticate-url-validation-javascript.mdx';
+import ListingPasskeysJavaScript from '/docs/workflows/_sdk-setup/_passkey-management/_listing-passkeys-javascript.mdx';
+import DeletingAPasskeyJavaScript from '/docs/workflows/_sdk-setup/_passkey-management/_deleting-a-passkey-javascript.mdx';
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
@@ -35,40 +39,18 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ### Bind Credential URL Validation
 
-This function is used to validate if a given URL is able to be used by the `bindCredential` function.
-
-```javascript
-if (embedded.isBindCredentialUrl(url)) {
-    // bind the credential using `bindCredential`
-}
-```
+<BindPasskeyUrlValidationJavaScript/>
 
 ### Authenticate URL Validation
 
-This function is used to validate if a given URL is able to be used by the `authenticate` function.
-
-```javascript
-if (embedded.isAuthenticateUrl(url)) {
-    // authenticate against a credential bound to the device
-}
-```
+<AuthenticateUrlValidationJavaScript/>
 
 ## Credential Management
 
 ### Listing Credentials
 
-The `getCredentials` function enables you to get all credentials currently bound to the device.
-
-```javascript
-const allCredentials = await embedded.getCredentials();
-```
-
-Where the response is a `[Credential]`.
+<ListingPasskeysJavaScript/>
 
 ### Deleting a Credential
 
-The `deleteCredential` function allows you to delete a credential given its ID.
-
-```javascript
-await embedded.deleteCredential(credential.id);
-```
+<DeletingAPasskeyJavaScript/>

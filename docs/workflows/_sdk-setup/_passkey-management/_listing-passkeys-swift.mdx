@@ -1,0 +1,9 @@
+The `getCredentials` function enables you to get all credentials currently bound to the device.
+
+```javascript
+Embedded.shared.getCredentials(
+    callback: @escaping (Result<[Credential], BISDKError>) -> Void
+)
+```
+
+Where the response is a `[Credential]`.
