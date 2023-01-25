@@ -42,6 +42,7 @@ const sidebars = {
       type: 'category',
       label: 'SDKs',
       items: [
+        'workflows/bind-passkey',
         {
           type: 'category',
           label: 'Javascript SDK',
