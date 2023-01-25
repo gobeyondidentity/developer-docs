@@ -6,6 +6,7 @@ sidebar_position: 0
 import SampleAppReactNative from './../../workflows/_sdk-setup/_sample-app-react-native.mdx';
 import InstallationReactNative from './../../workflows/_sdk-setup/_installation-react-native.mdx';
 import SetupReactNative from './../../workflows/_sdk-setup/_setup-react-native.mdx';
+import BindingAPasskeyReactNative from './../../workflows/_sdk-setup/_setup-react-native.mdx';
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
@@ -23,24 +24,7 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Binding a Credential
 
-The `bindCredential` function expects a URL. This can either be a binding credential link fetched directly from our public API, or a binding credential instruction that is the result of a redirection to your web application. This function should be used in conjunction with [isBindCredentialUrl](#bind-credential-url-validation) in order to determine if the URL being passed in is a valid bind credential URL.
-
-#### Usage
-
-```javascript
-Embedded.bindCredential(
-    url: string,
-): Promise<BindCredentialResponse>
-```
-
-Where the response type consists of an object containing a `Credential` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a credential.
-
-```javascript
-interface BindCredentialResponse {
-  credential: Credential;
-  postBindingRedirectURI?: string;
-}
-```
+<BindingAPasskeyReactNative/>
 
 ## Authentication
 

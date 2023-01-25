@@ -6,6 +6,7 @@ sidebar_position: 0
 import SampleAppKotlin from './../../workflows/_sdk-setup/_sample-app-kotlin.mdx';
 import InstallationKotlin from './../../workflows/_sdk-setup/_installation-kotlin.mdx';
 import SetupKotlin from './../../workflows/_sdk-setup/_setup-kotlin.mdx';
+import BindingAPasskeyKotlin from './../../workflows/_sdk-setup/_setup-kotlin.mdx';
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
@@ -23,27 +24,7 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Binding a Credential
 
-The `bindCredential` function expects a URL. This can either be a binding credential link fetched directly from our public API, or a binding credential instruction that is the result of a redirection to your web application. This function should be used in conjunction with [isBindCredentialUrl](#bind-credential-url-validation) in order to determine if the URL being passed in is a valid bind credential URL.
-
-#### Usage
-
-```javascript
-EmbeddedSdk.bindCredential(
-    url: String,
-) { result ->
-    result.onSuccess { }
-    result.onFailure { }
-}
-```
-
-Where the response type consists of an object containing a `Credential` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a credential.
-
-```javascript
-data class BindCredentialResponse(
-    val credential: Credential,
-    val postBindingRedirectUri: String?,
-)
-```
+<BindingAPasskeyKotlin/>
 
 ## Authentication
 
