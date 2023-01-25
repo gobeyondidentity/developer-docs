@@ -143,7 +143,7 @@ fmt.Printf("%s\n", bodyText)
 
 Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is recieved through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
-Use the following curl examples below to optain an authorization code and then create a token with that code. Note the following example uses PKCE, but using the `plain` `code_challenge_method` might be easier to get started as using PKCE requires storing the hash of the value passed as `code_challenge` so it can be passed to the token endpoint later.
+Use the following curl examples below to obtain an authorization code and then create a token with that code. Note the following example uses `S256`, but using the `plain` `code_challenge_method` might be easier to get started as using PKCE requires storing the hash of the value passed as `code_challenge` so it can be passed to the token endpoint later.
 
 1. Authenticate to obtain an authorization code:
 
@@ -434,13 +434,13 @@ func main() {
 
 ## Validating Access Tokens:
 
-There are two types of tokens that can be validated: `self-contained` or `referential`. When validating self-contained tokens, consider if revoked tokens are accepted. If revoked tokens are accepted, then the token can be validated [offline](api-token#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](api-token#introspection-online-validation).
+There are two types of tokens that can be validated: `self-contained` or `referential`. When validating self-contained tokens, consider if you want to revoke your tokens. If revoked tokens are accepted, then the token can be validated [offline](api-token#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](api-token#introspection-online-validation).
 
 ### Introspection (Online Validation)
 
-A successful introspect query will return information about the token. This endpoint is compliant with [RFC-7662](https://www.rfc-editor.org/rfc/rfc7662). After recieving information about the token, validate the following:
+A successful introspect query will return information about the token. This endpoint is compliant with [RFC-7662](https://www.rfc-editor.org/rfc/rfc7662). After receiving information about the token, validate the following:
 
-1. Check that either the application id or resource server id is listed in the `aud` of the token. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
+1. Check that either the application id or resource server identifier is listed in the `aud` of the token. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
 2. Check that token has the expected scopes.
 
 ```bash title="/introspect"
@@ -457,9 +457,9 @@ curl https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_
 
 In order to validate a token offline, the JWT header and claims must be decoded. Decode both and follow the steps below:
 
-1. Check that the `jku` host in the JWT header is trusted. It should equal `auth-$REGION.beyondidentity.com`.
-2. Download the public key for token validation from the `jku` in the JWT header. The key can be cached for a number of seconds. Check the token signature against the key with matching `kid` downloaded from `jku`.
-3. Check that either the application id or resource server id is listed in the `aud` of the JWT claims. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
+1. Parse the [host](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2) of the URI in the `jku` header field. If it equals `auth-$REGION.beyondidentity.com`, then proceed. Otherwise, reject the token.
+2. Download the public key for token validation from the `jku` in the JWT header. The key can be cached for the number of seconds specified by the [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#response_directives) max-age directive. Check the token signature against the key with matching `kid` downloaded from `jku`.
+3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
 4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 6. Check that JWT claims has the expected scopes.
