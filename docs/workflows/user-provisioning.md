@@ -54,8 +54,8 @@ curl https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_
 -X POST \
    -H "Authorization: Bearer $API_TOKEN" \
    -H 'Content-Type: application/json' \
-   -d '{"identity":{"display_name":"USER_DISPLAY_NAME","traits": {"type": "traits_v0","username": "USER_USERNAME",
-"primary_email_address":"USER_EMAIL"}}}'
+   -d '{"identity":{"display_name":"NAME","traits": {"type": "traits_v0","username": "USERNAME",
+"primary_email_address":"EMAIL"}}}'
 ```
 
   </TabItem>
@@ -98,11 +98,11 @@ headers = {
 
 json_data = {
     'identity': {
-        'display_name': 'USER_DISPLAY_NAME',
+        'display_name': 'NAME',
         'traits': {
             'type': 'traits_v0',
-            'username': 'USER_USERNAME',
-            'primary_email_address': 'USER_EMAIL',
+            'username': 'USERNAME',
+            'primary_email_address': 'EMAIL',
         },
     },
 }
@@ -130,8 +130,8 @@ import (
 
 func main() {
 	client := &http.Client{}
-	var data = strings.NewReader(`{"identity":{"display_name":"USER_DISPLAY_NAME","traits": {"type": "traits_v0","username": "USER_USERNAME",
-"primary_email_address":"USER_EMAIL"}}}`)
+	var data = strings.NewReader(`{"identity":{"display_name":"NAME","traits": {"type": "traits_v0","username": "USERNAME",
+"primary_email_address":"EMAIL"}}}`)
 	req, err := http.NewRequest("POST", "https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities", data)
 	if err != nil {
 		log.Fatal(err)
