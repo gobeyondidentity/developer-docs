@@ -6,7 +6,8 @@ sidebar_position: 0
 import SampleAppKotlin from './../../workflows/_sdk-setup/_sample-app-kotlin.mdx';
 import InstallationKotlin from './../../workflows/_sdk-setup/_installation-kotlin.mdx';
 import SetupKotlin from './../../workflows/_sdk-setup/_setup-kotlin.mdx';
-import BindingAPasskeyKotlin from './../../workflows/_sdk-setup/_setup-kotlin.mdx';
+import BindingAPasskeyKotlin from './../../workflows/_sdk-setup/_binding-a-passkey-kotlin.mdx';
+import AuthenticationKotlin from './../../workflows/_sdk-setup/_authentication-kotlin.mdx';
 
 The Embedded SDK is a holistic SDK solution offering the entire experience embedded in your product. Users will not need to download the Beyond Identity Authenticator. A set of functions are provided to you through the `Embedded` namespace. This SDK supports OIDC and OAuth2.
 
@@ -28,30 +29,7 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Authentication
 
-The `authenticate` function expects a `URL` and a `CredentialID`. The Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the credential on your device. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
-
-Before calling this function you will need to ask the user to select a credential that has been bound to the device. A selection view can be built in conjunction with [getCredentials](#listing-credentials).
-
-#### Usage
-
-```javascript
-EmbeddedSdk.authenticate(
-    url: String,
-    credentialId: CredentialID,
-) { result ->
-    result.onSuccess { }
-    result.onFailure { }
-}
-```
-
-Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
-
-```javascript
-data class AuthenticateResponse(
-    val redirectUrl: String?,
-    val message: String?,
-)
-```
+<AuthenticationKotlin/>
 
 ## URL Validation
 
