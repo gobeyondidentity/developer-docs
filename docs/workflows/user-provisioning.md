@@ -1,10 +1,6 @@
 ---
-title: User Provisioning
+title: User and Group Provisioning
 sidebar_position: 7
-
-# Display h2 to h2 headings
-toc_min_heading_level: 2
-toc_max_heading_level: 2
 ---
 
 import Tabs from '@theme/Tabs';
@@ -14,7 +10,7 @@ import TabItem from '@theme/TabItem';
 
 Before creating a Passkey, a user must be provisioned as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities. A realm can have many identities.
 
-Identities can be part of a group. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule. (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application)
+Identities can be part of a group. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application).
 
 You can provision a user with:
 
@@ -36,15 +32,19 @@ The simplest way to create an identity is through the Beyond Identity Admin Cons
 
 ### Groups
 
-You can manage groups in the Beyond Identity Admin Console, creating groups, adding to and removing identities from groups. Under the "PROJECT MANAGEMENT" tab, select "Groups".
+You can also create groups and add or remove identities from groups in the Beyond Identity Admin Console. Under the "PROJECT MANAGEMENT" tab, select "Groups".
 
 ![Groups](./screenshots/user-provisioning-groups.png)
 
 ## Provision User with the Beyond Identity API
 
-Before making any API calls you'll want to generate an `accessToken`. Check out [Create an API token](./api-token) for help creating an access token.
+From the [Beyond Identity API](https://developer.beyondidentity.com/api/v1) you can add identities and manage groups.
 
-The following examples show how to create an identity via API. For deleting, updating, and managing groups via API, see the [API documentation](https://developer.beyondidentity.com/api/v1).
+Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
+
+### Identities
+
+The following examples show how to create an identity via API.
 
 <Tabs groupId="user-provisioning-api-platform" queryString>
   <TabItem value="curl" label="Curl">
@@ -132,7 +132,7 @@ func main() {
 	client := &http.Client{}
 	var data = strings.NewReader(`{"identity":{"display_name":"NAME","traits": {"type": "traits_v0","username": "USERNAME",
 "primary_email_address":"EMAIL"}}}`)
-	req, err := http.NewRequest("POST", "https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities", data)
+	req, err := http.NewRequest(http.MethodPost, "https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities", data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -153,3 +153,9 @@ func main() {
 
 </TabItem>
 </Tabs>
+
+### Groups
+
+You can also create groups and add or remove identities from groups in the Beyond Identity API.
+
+For deleting, updating, and managing groups via API, see the [API documentation](https://developer.beyondidentity.com/api/v1#tag/Groups).
