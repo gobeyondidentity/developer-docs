@@ -95,7 +95,7 @@ Once you have the incoming url, pass it into the SDK to complete the binding pro
 <Tabs groupId="bind-platform">
 <TabItem value="javascript" label="Javascript">
 
-You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```javascript
 cons isBindUrl = await embedded.isBindPasskeyUrl(bindingLink)
@@ -109,7 +109,7 @@ if (isBindUrl){
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```javascript
 if (EmbeddedSdk.isBindPasskeyUrl(url)) {
@@ -128,7 +128,7 @@ if (EmbeddedSdk.isBindPasskeyUrl(url)) {
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-Catch a url from your AppDelegate or SceneDelegate. You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+Catch a url from your AppDelegate or SceneDelegate. You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```javascript
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -148,7 +148,7 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```javascript
 const isBindUrl = await Embedded.isBindPasskeyUrl(url);
@@ -161,7 +161,7 @@ if (isBindUrl) {
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-You can validate the incomming url with `isBindPasskeyUrl`. When the url is intercepted, pass it to `bindPasskey`.
+You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```javascript
 bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(bindingLink);
