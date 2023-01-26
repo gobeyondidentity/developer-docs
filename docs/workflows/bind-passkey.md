@@ -1,10 +1,6 @@
 ---
 title: Bind Passkey To User
 sidebar_position: 9
-
-# Display h2 to h2 headings
-toc_min_heading_level: 2
-toc_max_heading_level: 2
 ---
 
 import Tabs from '@theme/Tabs';
