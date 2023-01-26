@@ -1,17 +1,14 @@
 ---
 title: Create an API token
 sidebar_position: 6
-# Display h2 to h2 headings
-toc_min_heading_level: 2
-toc_max_heading_level: 2
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an API Token
+# API Token Overview
 
-All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow.
+All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow. All access tokens are JWT. Two token types are supported: self-contained tokens as JWS where referential tokens as JWE. The default token on creation is self-contained.
 
 You can obtain an access token either through:
 
@@ -27,11 +24,11 @@ curl https://api-us.beyondidentity.com/v1/... \
 -X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
 ```
 
-API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict the token's access with [scopes](../apis/scopes) by selecting a list in the Beyond Identity Admin Console or specifying a space-separated string of scopes in your API request, in accordance with [RFC6749#3.3](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3).
+API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict the token's access with [scopes](../apis/scopes) by selecting a list in the Beyond Identity Admin Console or specifying a space-separated string of scopes in your API request, in accordance with [RFC6749#3.3](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3). Token expiration can be configured from your "Beyond Identity Management API" application.
 
 ## Create Token with the Beyond Identity Admin Console
 
-The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Applications" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token". From there you can configure the token with a Name and specified list of Scopes.
+The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Apps" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token". From there you can configure the token with a Name and specified list of Scopes.
 
 <div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
 <iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
@@ -42,7 +39,7 @@ The simplest way to acquire an access token is through the Beyond Identity Admin
 
 Alternatively, an access token may also be generated directly via API by requesting a token for the `Beyond Identity Management API` application. You will need the "Beyond Identity Management API" application's `CLIENT_ID`, `CLIENT_SECRET` and `APPLICATION_ID`. These values can be found either through the Beyond Identity Admin Console under the "Beyond Identity Admin" realm and selecting the "Beyond Identity Management API" application, or by [API](https://developer.beyondidentity.com/api/v1) after retrieving the management application. In accordance with [RFC6749#3.3](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3), the scopes are expressed as a space-delimited string. If you do not specify a list of scopes, all of the available scopes will be assigned to your token on creation. For more information on available scopes, check out [Scopes](../apis/scopes).
 
-### Client Credentials Flow:
+### Client Credentials Flow
 
 <Tabs groupId="api-token-platform" queryString>
 <TabItem value="curl" label="Curl">
@@ -139,7 +136,7 @@ fmt.Printf("%s\n", bodyText)
 </TabItem>
 </Tabs>
 
-### Authorization Code Flow:
+### Authorization Code Flow
 
 Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is recieved through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
@@ -331,7 +328,15 @@ fmt.Printf("%s\n", bodyText)
 </TabItem>
 </Tabs>
 
-## Revoking Access Tokens:
+## Token Configuration
+
+Token configuration, such as expiration and default allowed scopes, can be modified either through the Beyond Identity Admin Console or through API on [application update](https://developer.beyondidentity.com/api/v1#tag/Applications/operation/UpdateApplication).
+
+In the Beyond Identity Admin Console under the "Apps" tab, select the "Beyond Identity Management API" application. Then tap on "EXTERNAL PROTOCOL" and scroll down to the bottom to see "Token Configuration".
+
+![Token Configuration](./screenshots/api-token-configuration.png)
+
+## Revoking Access Tokens
 
 In order to revoke an access token, you must be passed authentication in the form of either Bearer or Basic.
 
@@ -432,26 +437,104 @@ func main() {
 </TabItem>
 </Tabs>
 
-## Validating Access Tokens:
+## Validating Access Tokens
 
-There are two types of tokens that can be validated: `self-contained` or `referential`. When validating self-contained tokens, consider if you want to revoke your tokens. If revoked tokens are accepted, then the token can be validated [offline](api-token#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](api-token#introspection-online-validation).
+There are two types of tokens that can be validated: `self-contained` or `referential`. When validating self-contained tokens, consider if you want to revoke your tokens. If revoked tokens are accepted (as in a MVP case), then the token can be validated [offline](api-token#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](api-token#introspection-online-validation).
 
 ### Introspection (Online Validation)
 
-A successful introspect query will return information about the token. This endpoint is compliant with [RFC-7662](https://www.rfc-editor.org/rfc/rfc7662). After receiving information about the token, validate the following:
+A successful introspect query will return information about the token. After receiving information about the token, validate that token has the expected scopes.
 
-1. Check that either the application id or resource server identifier is listed in the `aud` of the token. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
-2. Check that token has the expected scopes.
+<Tabs groupId="api-token-platform" queryString>
+<TabItem value="curl" label="Curl">
 
 ```bash title="/introspect"
-curl https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/introspect \
+curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/introspect \
 -X POST \
--H "Authorization: Bearer $TOKEN" \
+-u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
--H 'x-security-context: Security Context containing base64 encoded actor information.' \
--H 'x-correlation-id: If supplied with the request, the response must contain the same value. If not supplied with the request, it is generated by the server and returned in the response.' \
 -d '{"token":"$TOKEN_TO_INTROSPECT"}'
 ```
+
+</TabItem>
+<TabItem value="node" label="Node">
+
+```jsx title="/introspect"
+fetch(
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/introspect`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        Buffer.from(
+          `${MANAGEMENT_API_CLIENT_ID}:${MANAGEMENT_API_CLIENT_SECRET}`
+        ).toString('base64'),
+    },
+    body: '{"token":"TOKEN_TO_INTROSPECT"}',
+  }
+);
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="/introspect"
+import requests
+
+headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+}
+
+data = '{"token":"TOKEN_TO_INTROSPECT"}'
+
+response = requests.post(
+    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect',
+    headers=headers,
+    data=data,
+    auth=('MANAGEMENT_API_CLIENT_ID', 'MANAGEMENT_API_CLIENT_SECRET'),
+)
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go title="/introspect"
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	var data = strings.NewReader(`{"token":"TOKEN_TO_INTROSPECT"}`)
+	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.SetBasicAuth("MANAGEMENT_API_CLIENT_ID", "MANAGEMENT_API_CLIENT_SECRET")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
+}
+```
+
+</TabItem>
+</Tabs>
 
 ### Offline Validation
 
@@ -459,7 +542,7 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 
 1. Parse the [host](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2) of the URI in the `jku` header field. If it equals `auth-$REGION.beyondidentity.com`, then proceed. Otherwise, reject the token.
 2. Download the public key for token validation from the `jku` in the JWT header. The key can be cached for the number of seconds specified by the [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#response_directives) max-age directive. Check the token signature against the key with matching `kid` downloaded from `jku`.
-3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. If at least one of the allowed audiences is in the token `aud` claim, then the token is granted.
+3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. It is sufficient if at least one of the allowed audiences is in the token `aud` claim.
 4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 6. Check that JWT claims has the expected scopes.
