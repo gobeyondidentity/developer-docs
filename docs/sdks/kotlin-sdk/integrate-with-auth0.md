@@ -8,7 +8,7 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [Kotlin SDK Setup](/docs/v1/workflows/sdk-setup)
+ - [Kotlin SDK Setup](/docs/v1/workflows/sdk-setup?sdks=kotlin#query-string)
 
 Before calling [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 

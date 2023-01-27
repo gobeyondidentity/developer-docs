@@ -8,7 +8,7 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [JavaScript SDK Setup](/docs/v1/workflows/sdk-setup)
+ - [JavaScript SDK Setup](/docs/v1/workflows/sdk-setup?sdks=javascript#query-string)
 
 
 :::tip NextAuth.js

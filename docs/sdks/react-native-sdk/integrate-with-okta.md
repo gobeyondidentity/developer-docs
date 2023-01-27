@@ -8,7 +8,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 ## Prerequisites
 
 - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
-- [React Native SDK Setup](/docs/v1/workflows/sdk-setup)
+- [React Native SDK Setup](/docs/v1/workflows/sdk-setup?sdks=reactnative#query-string)
 
 Before calling [`Embedded.authenticate`](/docs/v1/workflows/sdk-setup#authentication), we must [Authorize With Okta](#authorize-with-okta).
 

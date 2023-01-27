@@ -8,7 +8,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 ## Prerequisites
 
  - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
- - [Kotlin SDK Setup](/docs/v1/workflows/sdk-setup)
+ - [Kotlin SDK Setup](/docs/v1/workflows/sdk-setup?sdks=kotlin#query-string)
 
 Before calling [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication), we must [Authorize With Okta](#authorize-with-okta).
 
