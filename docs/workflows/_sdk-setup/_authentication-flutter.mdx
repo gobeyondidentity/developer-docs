@@ -4,7 +4,7 @@ Before calling this function you will need to ask the user to select a passkey t
 
 #### Usage
 
-```javascript
+```dart
 await Embeddedsdk.authenticate(
     String url,
     String passkeyId,
@@ -13,7 +13,7 @@ await Embeddedsdk.authenticate(
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-```javascript
+```dart
 class AuthenticateResponse(
     String redirectUrl,
     String message,

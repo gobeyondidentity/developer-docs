@@ -2,7 +2,7 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 
 #### Usage
 
-```javascript
+```kotlin
 EmbeddedSdk.bindPasskey(
     url: String,
 ) { result ->
@@ -13,7 +13,7 @@ EmbeddedSdk.bindPasskey(
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-```javascript
+```kotlin
 data class BindPasskeyResponse(
     val passkey: Passkey,
     val postBindingRedirectUri: String?,

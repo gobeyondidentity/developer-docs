@@ -2,7 +2,7 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 
 #### Usage
 
-```javascript
+```swift
 Embedded.shared.bindPasskey(
     url: URL,
     callback: @escaping(Result<BindPasskeyResponse, BISDKError>) -> Void
@@ -11,7 +11,7 @@ Embedded.shared.bindPasskey(
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
 
-```javascript
+```swift
 struct BindPasskeyResponse: Codable, Equatable {
     let passkey: Passkey
     let postBindingRedirectURI: URL?

@@ -2,7 +2,7 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 
 #### Usage
 
-```javascript
+```dart
 await Embeddedsdk.bindPasskey(
     String url,
 )
@@ -10,7 +10,7 @@ await Embeddedsdk.bindPasskey(
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-```javascript
+```dart
 class BindPasskeyResponse(
     Passkey passkey,
     String postBindingRedirectUri,

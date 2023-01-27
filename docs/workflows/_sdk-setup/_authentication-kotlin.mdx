@@ -4,7 +4,7 @@ Before calling this function you will need to ask the user to select a passkey t
 
 #### Usage
 
-```javascript
+```kotlin
 EmbeddedSdk.authenticate(
     url: String,
     passkeyId: PasskeyID,
@@ -16,7 +16,7 @@ EmbeddedSdk.authenticate(
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-```javascript
+```kotlin
 data class AuthenticateResponse(
     val redirectUrl: String?,
     val message: String?,
