@@ -8,9 +8,9 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [Kotlin SDK](overview)
+ - [Kotlin SDK Setup](/docs/v1/workflows/sdk-setup)
 
-Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -42,7 +42,7 @@ builder.build().launchUrl(context, AUTH0_URL)
 
  - Step 3: Invoke URL
 
-A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [`Activity`](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [`onCreate`](https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)) &/ [`onNewIntent`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)), and call [`EmbeddedSdk.authenticate()`](overview#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
+A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [`Activity`](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [`onCreate`](https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)) &/ [`onNewIntent`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)), and call [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/v1/workflows/sdk-setup#authenticate-url-validation).
 
 ```javascript
 intent?.data?.let { uri ->

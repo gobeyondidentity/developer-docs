@@ -8,9 +8,9 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [Flutter SDK](overview)
+ - [Flutter SDK Setup](/docs/v1/workflows/sdk-setup)
 
-Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -45,7 +45,7 @@ var result = await FlutterWebAuth.authenticate(
 
  - Step 3: Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](overview#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/v1/workflows/sdk-setup#authenticate-url-validation).
 
 ```javascript
 var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
