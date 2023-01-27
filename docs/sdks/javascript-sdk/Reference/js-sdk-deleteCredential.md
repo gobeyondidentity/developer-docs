@@ -26,7 +26,7 @@ const embedded = await Embedded.initialize();
 ## Parameters
 | Parameter | Type |Description|
 |---|---|---|
-|id| string| Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](.\js-sdk-passkey-type.md) that is available on the device.|
+|id| string| Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](./js-sdk-passkey-type.md) that is available on the device.|
 
 ## Examples
 ### Example: Delete a passkey

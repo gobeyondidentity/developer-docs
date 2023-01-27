@@ -27,7 +27,7 @@ const embedded = await Embedded.initialize();
 none
 
 ## Returns
-Upon success, returns a Promise that resolves to an array of [Passkey](.\js-sdk-passkey-type.md).
+Upon success, returns a Promise that resolves to an array of [Passkey](./js-sdk-passkey-type.md).
 
 ## Examples
 ### Example: Call getPasskeys and surface the list to the user to select a passkey
