@@ -18,7 +18,7 @@ console.log(bindResponse);
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-```javascript
+```kotlin
 EmbeddedSdk.bindPasskey(url = bindingLink)
 .onEach { result ->
     result.onSuccess { success ->
@@ -33,7 +33,7 @@ EmbeddedSdk.bindPasskey(url = bindingLink)
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-```javascript
+```swift
 Embedded.shared.bindPasskey(url: bindingLink) { result in
     switch result {
     case let .success(bindResponse):
@@ -55,7 +55,7 @@ console.log(bindResponse);
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-```javascript
+```dart
 var bindResponse = await EmbeddedSdk.bindPasskey(bindingLink);
 debugPrint(bindResponse);
 ```

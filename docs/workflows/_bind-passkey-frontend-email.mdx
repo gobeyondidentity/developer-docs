@@ -111,7 +111,7 @@ if (isBindUrl){
 
 You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
-```javascript
+```kotlin
 if (EmbeddedSdk.isBindPasskeyUrl(url)) {
     EmbeddedSdk.bindPasskey(url = bindingLink)
     .onEach { result ->
@@ -130,7 +130,7 @@ if (EmbeddedSdk.isBindPasskeyUrl(url)) {
 
 Catch a url from your AppDelegate or SceneDelegate. You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
-```javascript
+```swift
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
     if let url = URLContexts.first?.url, Embedded.shared.isBindPasskeyUrl(url) {
         Embedded.shared.bindPasskey(url: bindingLink) { result in
@@ -163,7 +163,7 @@ if (isBindUrl) {
 
 You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
-```javascript
+```dart
 bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(bindingLink);
 
 if (isBindUrl) {
