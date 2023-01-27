@@ -26,6 +26,7 @@
     "react-modal": "^3.16.1",
     "react-simple-tabs-component": "^2.1.1",
     "react-spinners": "^0.13.7",
+    "react-syntax-highlighter": "^15.5.0",
     "react-toastify": "^9.1.1",
     "redocusaurus": "^1.2.2",
     "url": "^0.11.0"
