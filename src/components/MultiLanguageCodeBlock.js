@@ -97,7 +97,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
       aria-label="Loading Spinner"
       data-testid="loader"
     /> :
-      <Tabs groupId="api-token-platform" queryString>
+      <Tabs groupId="multi-language-platform" queryString>
         <TabItem value="javascript" label="Curl">
           <CodeBlock
             language="bash"
