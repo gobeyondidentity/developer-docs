@@ -106,7 +106,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             text={curl}
           ></CodeBlock>
         </TabItem>
-        <TabItem value="cs" label="CSharp">
+        <TabItem value="csharp" label="CSharp">
           <CodeBlock
             language="csharp"
             title={title}
