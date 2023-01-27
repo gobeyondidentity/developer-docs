@@ -1,0 +1,21 @@
+The `authenticate` function expects a `URL` and a `PasskeyID`. The Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the passkey on your device. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+
+Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys).
+
+#### Usage
+
+```javascript
+Embedded.authenticate(
+    url: string,
+    passkeyID: string,
+): Promise<AuthenticateResponse>
+```
+
+Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
+
+```javascript
+interface AuthenticateResponse {
+  redirectUrl: string;
+  message?: string;
+}
+```

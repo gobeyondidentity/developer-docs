@@ -1,0 +1,10 @@
+The `getPasskeys` function enables you to get all passkeys currently bound to the device.
+
+```javascript
+EmbeddedSdk.getPasskeys() { result ->
+    result.onSuccess { }
+    result.onFailure { }
+}
+```
+
+Where the response is a `List<Passkey>`.

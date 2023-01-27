@@ -8,7 +8,7 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [JavaScript SDK Setup](/docs/v1/workflows/sdk-setup?sdks=javascript#query-string)
+ - [JavaScript SDK Setup](/docs/v1/workflows/sdk-setup?sdks=javascript)
 
 
 :::tip NextAuth.js
@@ -34,7 +34,7 @@ providers: [
 
 Note that you'll need to fill in the `<AUTH0_ID>`, `<AUTH0_SECRET>`, and `<AUTH0_ISSUER>` with the values you generated when creating your application in Auth0. See the [following](/guides/sso-integrations/integrate-with-auth0) guide mentioned in the [prerequisites](#prerequisites).
 
-## Wiring up [`embedded.authenticate`](/docs/v1/workflows/sdk-setup#authentication)
+## Wiring up [`embedded.authenticate`](/docs/v1/workflows/sdk-setup?sdks=javascript#authentication)
 
 Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `invoke_url` is configured properly, this is the page that will be redirected to during an authorization flow. copy the following code snippet into that page.
 
@@ -127,7 +127,7 @@ export default BIAuthenticate;
 
 ### What's happening here?
 
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use [`embedded.isAuthenticateUrl`](/docs/v1/workflows/sdk-setup#authenticate-url-validation) to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use [`embedded.isAuthenticateUrl`](/docs/v1/workflows/sdk-setup?sdks=javascript#authenticate-url-validation) to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
 2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
 3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
 4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
