@@ -1,5 +1,5 @@
 ---
-title: Create an API token
+title: API Tokens
 sidebar_position: 6
 ---
 
@@ -114,7 +114,7 @@ import (
 func main() {
 client := &http.Client{}
 var data = strings.NewReader(`grant_type=client_credentials&scope=SCOPES`)
-req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
+req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
 if err != nil {
   log.Fatal(err)
 }
@@ -218,7 +218,7 @@ import (
 func main() {
 	client := &http.Client{}
 	var data = strings.NewReader(`response_type=code&client_id=MANAGEMENT_API_CLIENT_ID&redirect_uri=REDIRECT_URI&scope=openid&state=STATE&code_challenge=OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256`)
-	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize", data)
+	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize", data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -307,7 +307,7 @@ import (
 func main() {
 client := &http.Client{}
 var data = strings.NewReader(`grant_type=authorization_code&code=CODE&scope=SCOPES&client_id=MANAGEMENT_API_CLIENT_ID&code_verifier=OPTIONAL_CODE_VERIFIER`)
-req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
+req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
 if err != nil {
   log.Fatal(err)
 }
@@ -415,7 +415,7 @@ import (
 func main() {
 	client := &http.Client{}
 	var data = strings.NewReader(`{"token":"TOKEN_TO_REVOKE"}`)
-	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke", data)
+	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke", data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -514,7 +514,7 @@ import (
 func main() {
 	client := &http.Client{}
 	var data = strings.NewReader(`{"token":"TOKEN_TO_INTROSPECT"}`)
-	req, err := http.NewRequest("POST", "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect", data)
+	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect", data)
 	if err != nil {
 		log.Fatal(err)
 	}
