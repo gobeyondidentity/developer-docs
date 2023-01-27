@@ -68,7 +68,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
       return;
     }
     setResponse(jsonResponse);
-    console.log(jsonResponse);
   }, []);
 
   const CodeBlock = ({ language, title, text }) => {
