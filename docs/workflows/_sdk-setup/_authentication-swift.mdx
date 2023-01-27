@@ -7,7 +7,7 @@ Before calling this function you will need to ask the user to select a passkey t
 ```javascript
 Embedded.shared.authenticate(
     url: URL,
-    passkeyID: PasskeyID,
+    id: Passkey.Id,
     callback: @escaping(Result<AuthenticateResponse, BISDKError>) -> Void
 )
 ```
