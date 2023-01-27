@@ -24,9 +24,9 @@ import {Embedded} from '@beyondidentity/bi-sdk-js';
 const embedded = await Embedded.initialize();
 ```  
 
-3. Get a passkey binding link url using the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Passkey-Binding-Jobs).  
+3. Get a passkey binding link url using the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs).  
 
-> _Generating a passkey binding link has several inputs and options. For details see [passkey-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Passkey-Binding-Jobs)._   
+> _Generating a passkey binding link has several inputs and options. For details see [passkey-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs)._   
 
 4. Use **isBindPasskeyUrl** to verify passkey binding link  
 ```javascript
@@ -36,7 +36,7 @@ await embedded.isBindPasskeyUrl(passkeyBindingLink)
 ## Parameters
 | Parameter | Type |Description|
 |---|---|---|
-|url| string| Required. Passkey binding link url. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Passkey-Binding-Jobs/operation/CreatePasskeyBindingJob), this can be fetched directly or sent to the email address associated with the identity.  This url enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify.  
+|url| string| Required. Passkey binding link url. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity.  This url enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify.  
 
 ## Returns
 On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is a JSON object that contains the following keys:
@@ -63,7 +63,7 @@ Example passkey:
 }
 ```  
 
-  - **postBindRedirect**: a string containing the URL to redirect to upon succesfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Passkey-Binding-Jobs) to get the passkey binding link
+  - **postBindRedirect**: a string containing the URL to redirect to upon succesfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 
 ## Notes
  Call this function from client side code as it needs to run in the browser context.  
@@ -92,7 +92,7 @@ To achieve this, we use several data elements:
    - post_binding_redirect_uri: this optional parameter specifies a url to which the user will be redirected _after_ a successful binding (see **Result** above)
 3) The identityId returned from the first call  
 
-The resulting passkey binding url can be found in the **passkey_binding_link** member of the response json returned from the second call.  
+The resulting passkey binding url can be found in the **credential_binding_link** member of the response json returned from the second call.  
    
 ```javascript
   // --- 1. Create an identity
@@ -126,7 +126,7 @@ The resulting passkey binding url can be found in the **passkey_binding_link** m
 
   // --- 2. Get passkey binding link for identity
   const passkeyBindingLinkResponse = await fetch(
-    `${apiUrl().toString()}v1/tenants/${process.env.TENANT_ID}/realms/${process.env.REALM_ID}/identities/${identityId}/passkey-binding-jobs`,
+    `${apiUrl().toString()}v1/tenants/${process.env.TENANT_ID}/realms/${process.env.REALM_ID}/identities/${identityId}/credential-binding-jobs`,
     {
       body: JSON.stringify({
         job: {
@@ -191,7 +191,7 @@ The following example obtains a passkey binding url via an emailed link that the
 ### Example: Extract passkey binding URL from passkey binding link response
 ```javascript
 let jsonResponse = await response.json();
-let passkeyBindingLink = jsonResponse.passkey_binding_link;
+let passkeyBindingLink = jsonResponse.credential_binding_link;
 ```
 
 
