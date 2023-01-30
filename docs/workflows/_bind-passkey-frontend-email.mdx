@@ -5,10 +5,10 @@ import TabItem from '@theme/TabItem';
 
 ## Deep linking
 
-When we send out a passkey email, the link will redirect to your application's specified redirect URI. This URI should either be an app scheme or a universal URL / app link.
+When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](../platform-overview/authenticator-config#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
 
-:::warning A note on App Schemes
-While app schemes are trivial to set up and great for testing, we recommend using universal URLs in a production setting. The same app scheme can be registered by multiple apps, allowing other apps to pretend to be your app.
+:::tip App Schemes vs Universal URLs / App Links
+While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
 :::
 
 <Tabs groupId="bind-platform">

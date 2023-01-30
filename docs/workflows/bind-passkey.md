@@ -10,6 +10,7 @@ import BackendReturn from './\_bind-passkey-backend-return.mdx';
 import BackendEmail from './\_bind-passkey-backend-email.mdx';
 import FrontEndReturn from './\_bind-passkey-frontend-return.mdx';
 import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
+import ImageSwitcher from '../../src/components/ImageSwitcher.js';
 
 # Bind Passkey To User Overview
 
@@ -28,7 +29,7 @@ Toggle delivery methods below for code samples:
 
 <TabItem value="return" label="RETURN">
 
-![Bind Passkey Return Flowchart](./screenshots/bind-passkey-return-flow.png)
+<ImageSwitcher lightSrc="/assets/bind-delivery-method-return-light.png" darkSrc="/assets/bind-delivery-method-return-dark.png" />
 
 <BackendGeneral/>
 <BackendReturn/>
@@ -37,7 +38,7 @@ Toggle delivery methods below for code samples:
 
 <TabItem value="email" label="EMAIL">
 
-![Bind Passkey Email Flowchart](./screenshots/bind-passkey-email-flow.png)
+<ImageSwitcher lightSrc="/assets/bind-delivery-method-email-light.png" darkSrc="/assets/bind-delivery-method-email-dark.png" />
 
 <BackendGeneral/>
 <BackendEmail/>
