@@ -67,7 +67,7 @@ It will then be up to you to get it to your native/web app any way you see fit. 
 
 The invoke URL is a single URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
-:::tip App Schemes vs Universal URLs / App Links
+:::caution
 While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
 :::
 
