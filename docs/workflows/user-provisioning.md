@@ -20,25 +20,29 @@ You can provision a user with:
 
 ## Provision User with the Beyond Identity Admin Console
 
-From the Beyond Identity Admin Console you can add identities and manage groups.
+You can add identities and manage groups from the Beyond Identity Admin Console.
 
 ### Identities
 
 The simplest way to create an identity is through the Beyond Identity Admin Console. First select a realm. Under the "PROJECT MANAGEMENT" tab, select "Identities", and then click on "Add identity". From there you can enter the user's name, username, and email.
 
-![Identities](./screenshots/user-provisioning-identities.png)
-
-![Add Identity](./screenshots/user-provisioning-add-identity.png)
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+<iframe src='https://demo.arcade.software/TufU7NgJYWOvNSDfuo9j?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+</iframe>
+</div>
 
 ### Groups
 
 You can also create groups and add or remove identities from groups in the Beyond Identity Admin Console. Under the "PROJECT MANAGEMENT" tab, select "Groups".
 
-![Groups](./screenshots/user-provisioning-groups.png)
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+<iframe src='https://demo.arcade.software/Sh4dfGOpoOOHRHQNoxEC?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+</iframe>
+</div>
 
 ## Provision User with the Beyond Identity API
 
-From the [Beyond Identity API](https://developer.beyondidentity.com/api/v1) you can add identities and manage groups.
+You add identities and manage groups from the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).
 
 Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
 
