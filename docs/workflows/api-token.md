@@ -136,7 +136,7 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 6. Check that JWT claims has the expected scopes.
 
-## Listing access tokens
+## Listing Access Tokens
 
 Our API also provides the functionality to list active tokens that are held by a given identity or an application.
 In order to list tokens, you need to know the ID of the application that was used to issue the token.
@@ -160,7 +160,7 @@ curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${
 In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
 
-### Example response
+### Example Response
 
 ```json
 {
