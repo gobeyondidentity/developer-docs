@@ -1,7 +1,16 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import DeepLinking from './_deeplinking-native-sdk.mdx';
 
-When Your [Authenticator Config](../platform-overview/authenticator-config)'s Invocation Type is set to `Automatic`, a successful authorization will redirect the user using the specified Invoke URL. The authorization flow should begin in a webview with your [crafted authorization URL](authentication#craft-authorization-url).
+When Your [Authenticator Config](../platform-overview/authenticator-config)'s Invocation Type is set to `Automatic`, a successful authorization will redirect the user back to your application specified by Authenticator Config's `Invoke URL`. Make sure to set up deep linking in your native applications with either an app scheme or a Universal URL / App link.
+
+### Deep linking
+
+<DeepLinking />
+
+### Handle Authorization in your applicaiton
+
+The authorization flow should begin in a webview with your [crafted authorization URL](authentication#craft-authorization-url).
 
 Make sure to present some logic to the user to select a passkey to authenticate with. Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
 
