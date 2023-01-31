@@ -98,7 +98,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
       data-testid="loader"
     /> :
       <Tabs groupId="multi-language-platform" queryString>
-        <TabItem value="javascript" label="Curl">
+        <TabItem value="curl" label="Curl">
           <CodeBlock
             language="bash"
             title={title}
