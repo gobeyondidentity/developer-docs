@@ -90,7 +90,15 @@ Follow the Kotlin and Swift guides to setting up deep linking on Flutter.
 
 ## Handle link in the SDK
 
-Once you have the incoming URL, pass it into the SDK to complete the binding process. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device. Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
+The binding link that is redirected to your application will take on the following form. A `/bind` path will be appended to your Invoke URL as well as several other query parameters. Use a "/bind" route to intercept this url in your application:
+
+```
+$invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
+```
+
+Once you receive the incoming URL, pass it into the SDK to complete the binding process.
+
+Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device. Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
 
 <Tabs groupId="bind-platform">
 <TabItem value="javascript" label="Javascript">
