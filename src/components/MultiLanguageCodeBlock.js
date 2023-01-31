@@ -1,43 +1,57 @@
-import React, { useState, useEffect } from "react";
-import classNames from "classnames";
-import ClipLoader from "react-spinners/ClipLoader";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
+import ClipLoader from 'react-spinners/ClipLoader';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {
+  oneDark,
+  oneLight,
+} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
  * Example Usage:
- * 
+ *
  * import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
  * <MultiLanguageCodeBlock
- *   curl={`curl http://localhost:3000`}
+ *   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
+ * -X POST \
+ * -u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
+ * -H "Content-Type: application/x-www-form-urlencoded" \
+ * -d "grant_type=client_credentials&scope=$(SCOPES)"'
  *   title="/token"
  * />
- * 
+ *
  * Note:
- * 
+ *
  * curl must be correctly formatted as this component does not format
- * it for you. 
-*/
+ * it for you.
+ */
 
 const DARK_MODE_THEME = oneDark;
 const LIGHT_MODE_THEME = oneLight;
 
 const MultiLanguageCodeBlock = ({ curl, title }) => {
   const [response, setResponse] = useState(null);
-  const [theme, setTheme] = useState(function () {
-    if (ExecutionEnvironment.canUseDOM && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return DARK_MODE_THEME;
-    } else {
-      return LIGHT_MODE_THEME;
-    }
-  }());
+  const [theme, setTheme] = useState(
+    (function () {
+      if (
+        ExecutionEnvironment.canUseDOM &&
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      ) {
+        return DARK_MODE_THEME;
+      } else {
+        return LIGHT_MODE_THEME;
+      }
+    })()
+  );
 
   if (ExecutionEnvironment.canUseDOM) {
-    window.matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', event => {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (event) => {
         if (event.matches) {
           //dark mode
           setTheme(DARK_MODE_THEME);
@@ -70,46 +84,18 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
     setResponse(jsonResponse);
   }, []);
 
-  const CodeBlock = ({ language, title, text }) => {
-    return (
-      <div>
-        <SyntaxHighlighter
-          language={language}
-          style={theme}>
-          {title}
-        </SyntaxHighlighter>
-        <SyntaxHighlighter
-          showLineNumbers={true}
-          language={language}
-          style={theme}
-        >
-          {text}
-        </SyntaxHighlighter>
-      </div>
-    );
-  };
-
-  return <div>
-    {response === null ? <ClipLoader
-      color="#ffffff"
-      loading={true}
-      size="25px"
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    /> :
+  return (
+    <div>
       <Tabs groupId="multi-language-platform" queryString>
         <TabItem value="curl" label="Curl">
-          <CodeBlock
-            language="bash"
-            title={title}
-            text={curl}
-          ></CodeBlock>
+          <CodeBlock language="bash" title={title} text={curl}></CodeBlock>
         </TabItem>
         <TabItem value="csharp" label="CSharp">
           <CodeBlock
             language="csharp"
             title={title}
             text={response?.csharp}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="dart" label="Dart">
@@ -117,6 +103,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="dart"
             title={title}
             text={response?.dart}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="go" label="Go">
@@ -124,6 +111,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="go"
             title={title}
             text={response?.go}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="java" label="Java">
@@ -131,6 +119,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="java"
             title={title}
             text={response?.java}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="node" label="Node">
@@ -138,6 +127,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="javascript"
             title={title}
             text={response?.node}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="python" label="Python">
@@ -145,6 +135,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="python"
             title={title}
             text={response?.python}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="ruby" label="Ruby">
@@ -152,6 +143,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="ruby"
             title={title}
             text={response?.ruby}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
         <TabItem value="rust" label="Rust">
@@ -159,12 +151,39 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             language="rust"
             title={title}
             text={response?.rust}
+            theme={theme}
           ></CodeBlock>
         </TabItem>
       </Tabs>
-    }
-  </div>;
+    </div>
+  );
 };
 
 export default MultiLanguageCodeBlock;
 
+const CodeBlock = ({ language, title, text, theme }) => {
+  return (
+    <div>
+      <SyntaxHighlighter language={language} style={theme}>
+        {title}
+      </SyntaxHighlighter>
+      {text === null || text == undefined ? (
+        <ClipLoader
+          color="#545"
+          loading={true}
+          size="25px"
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
+        <SyntaxHighlighter
+          showLineNumbers={true}
+          language={language}
+          style={theme}
+        >
+          {text}
+        </SyntaxHighlighter>
+      )}
+    </div>
+  );
+};
