@@ -18,7 +18,9 @@ To get started, sign up using the following link: https://www.beyondidentity.com
 
 Once inside the Beyond Identity Admin Console you can create and configure everything from realms and applications to monitoring events and defining policies.
 
-Note that when you create an account you will be asked to select a region. Beyond Identity offers multiple regions to host your tenant specific data that meet regional data requirements and privacy laws.
+Note that when you create an account you will be asked to select a region. Beyond Identity offers multiple regions to host your tenant specific data that meet regional data requirements and privacy laws. For example, selecting `US` will host your data in a data center located in the United States whereas selecting `EU` will host your data in a data center located in the European Union.
+
+![Admin Setup Diagram](./screenshots/account-setup-diagram.png)
 
 ## Access Admin Console
 
