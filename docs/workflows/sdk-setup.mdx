@@ -132,6 +132,8 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Setup
 
+First, before calling the Embedded functions, make sure to initialize the SDK.
+
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
@@ -192,9 +194,9 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Binding a Passkey
 
-<!---
-- [Bind a Passkey](/docs/v1/workflows/bind-passkey)
--->
+The `bindPasskey` function expects a URL. This can either be a binding passkey link fetched directly from our public API, or a binding passkey instruction that is the result of a redirection to your web application. This function should be used in conjunction with [isBindPasskeyUrl](#bind-passkey-url-validation) in order to determine if the URL being passed in is a valid bind passkey URL.
+
+#### Usage
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
@@ -226,9 +228,11 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ## Authentication
 
-<!---
-- [Authentication](/docs/v1/workflows/authentication)
--->
+The `authenticate` function expects a `URL` and a `PasskeyID`. This Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the passkey on your device. You will be required to select from one of the passkeys bound to your device if more than one passkey belongs to a single Realm. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+
+Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys). 
+
+#### Usage
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
@@ -262,6 +266,8 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ### Bind Passkey URL Validation
 
+This function is used to validate if a given URL is able to be used by the `bindPasskey` function.
+
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
@@ -291,6 +297,8 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 </Tabs>
 
 ### Authenticate URL Validation
+
+This function is used to validate if a given URL is able to be used by the `authenticate` function.
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
@@ -324,6 +332,8 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 
 ### Listing Passkeys
 
+The `getPasskeys` function enables you to get all passkeys currently bound to the device.
+
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
@@ -353,6 +363,8 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 </Tabs>
 
 ### Deleting a Passkey
+
+The `deletePasskey` function allows you to delete a passkey given its ID.
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">

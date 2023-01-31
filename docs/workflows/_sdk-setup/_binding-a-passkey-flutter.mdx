@@ -1,7 +1,3 @@
-The `bindPasskey` function expects a URL. This can either be a binding passkey link fetched directly from our public API, or a binding passkey instruction that is the result of a redirection to your web application. This function should be used in conjunction with [isBindPasskeyUrl](#bind-passkey-url-validation) in order to determine if the URL being passed in is a valid bind passkey URL.
-
-#### Usage
-
 ```dart
 await Embeddedsdk.bindPasskey(
     String url,
