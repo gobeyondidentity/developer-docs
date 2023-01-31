@@ -6,6 +6,7 @@ sidebar_position: 3
 An authenticator config is used to tell us how to retrieve your passkeys. Passkeys can be stored and retrieved from a platform or a browser, where they are securely stored. Each application is tied to a single Authenticator Config.
 
 There are two types of Authenticator Configs:
+
 - Hosted Web
 - Embedded SDK
 
@@ -35,13 +36,14 @@ import ImageSwitcher from '../../src/components/ImageSwitcher.js';
 
 <ImageSwitcher lightSrc="/assets/invocation-url-diagram-light.png" darkSrc="/assets/invocation-url-diagram-dark.png" />
 
-
 :::tip How do I know which one to use?
 `Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
 
 `Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
+
 - Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
 - The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
+
 :::
 
 ### Invoke URL
@@ -58,19 +60,25 @@ There are two scenarios in which a redirection to your application is necessary:
 
 When creating a new identity, it's possible to validate that identity using an email. Upon receiving the email, the user will need to click on a link in that email to be redirected to your app where the credential binding process will take place. The `invoke_url` is used here to redirect from the email client into your application containing our embedded SDK. The URL that is redirected into your app will take on the following form:
 
+Note that the path `/bind` is appended to the `invoke_url` and can be used as a route in your application:
+
 ```bash
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
 ```
 
 :::tip Disambiguating URLs
 Need a way to disambiguate our URLs from the rest of the URLs at your routing layer? Our SDKs provide these two functions for your convenience:
+
 - `isAuthenticateUrl(url)`
 - `isBindCredentialUrl(url)`
+
 :::
 
 #### Authentication
 
 The authentication flow is shown in the diagram above and the response differs based on the Invocation Type specified:
+
+Note that the path `/bi-authenticate` is appended to the `invoke_url` and can be used as a route in your application:
 
 ##### Automatic
 
@@ -96,7 +104,7 @@ Trusted Origins are a list of URLs from which the embedded Web SDK is allowed to
 
 ## Hosted Web
 
-The *Hosted Web* Authenticator Config is a constrained version of the *Embedded* Authenticator Config with the following values:
+The _Hosted Web_ Authenticator Config is a constrained version of the _Embedded_ Authenticator Config with the following values:
 
 - **Invocation Type:** `automatic`
 - **Invoke URL:** `https://auth-<REGION>.beyondidentity.com/authenticator/`
