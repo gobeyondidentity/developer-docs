@@ -4,12 +4,3 @@ Embedded.shared.bindPasskey(
     callback: @escaping(Result<BindPasskeyResponse, BISDKError>) -> Void
 )
 ```
-
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
-
-```swift
-struct BindPasskeyResponse: Codable, Equatable {
-    let passkey: Passkey
-    let postBindingRedirectURI: URL?
-}
-```

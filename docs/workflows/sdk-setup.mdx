@@ -27,17 +27,29 @@ import SdkApiDocumentationKotlin from '/docs/workflows/_sdk-setup/_sdk-api-docum
 import SdkApiDocumentationReactNative from '/docs/workflows/_sdk-setup/_sdk-api-documentation-react-native.mdx';
 import SdkApiDocumentationSwift from '/docs/workflows/_sdk-setup/_sdk-api-documentation-swift.mdx';
 
-import BindingAPasskeyFlutter from '/docs/workflows/_sdk-setup/_binding-a-passkey-flutter.mdx';
-import BindingAPasskeyJavaScript from '/docs/workflows/_sdk-setup/_binding-a-passkey-javascript.mdx';
-import BindingAPasskeyKotlin from '/docs/workflows/_sdk-setup/_binding-a-passkey-kotlin.mdx';
-import BindingAPasskeyReactNative from '/docs/workflows/_sdk-setup/_binding-a-passkey-react-native.mdx';
-import BindingAPasskeySwift from '/docs/workflows/_sdk-setup/_binding-a-passkey-swift.mdx';
+import BindingAPasskeyRequestFlutter from '/docs/workflows/_sdk-setup/_binding-a-passkey-flutter.mdx';
+import BindingAPasskeyRequestJavaScript from '/docs/workflows/_sdk-setup/_binding-a-passkey-javascript.mdx';
+import BindingAPasskeyRequestKotlin from '/docs/workflows/_sdk-setup/_binding-a-passkey-kotlin.mdx';
+import BindingAPasskeyRequestReactNative from '/docs/workflows/_sdk-setup/_binding-a-passkey-react-native.mdx';
+import BindingAPasskeyRequestSwift from '/docs/workflows/_sdk-setup/_binding-a-passkey-swift.mdx';
 
-import AuthenticationFlutter from '/docs/workflows/_sdk-setup/_authentication-flutter.mdx';
-import AuthenticationJavaScript from '/docs/workflows/_sdk-setup/_authentication-javascript.mdx';
-import AuthenticationKotlin from '/docs/workflows/_sdk-setup/_authentication-kotlin.mdx';
-import AuthenticationReactNative from '/docs/workflows/_sdk-setup/_authentication-react-native.mdx';
-import AuthenticationSwift from '/docs/workflows/_sdk-setup/_authentication-swift.mdx';
+import BindingAPasskeyResponseFlutter from '/docs/workflows/_sdk-setup/_binding-a-passkey-response-flutter.mdx';
+import BindingAPasskeyResponseJavaScript from '/docs/workflows/_sdk-setup/_binding-a-passkey-response-javascript.mdx';
+import BindingAPasskeyResponseKotlin from '/docs/workflows/_sdk-setup/_binding-a-passkey-response-kotlin.mdx';
+import BindingAPasskeyResponseReactNative from '/docs/workflows/_sdk-setup/_binding-a-passkey-response-react-native.mdx';
+import BindingAPasskeyResponseSwift from '/docs/workflows/_sdk-setup/_binding-a-passkey-response-swift.mdx';
+
+import AuthenticationRequestFlutter from '/docs/workflows/_sdk-setup/_authentication-flutter.mdx';
+import AuthenticationRequestJavaScript from '/docs/workflows/_sdk-setup/_authentication-javascript.mdx';
+import AuthenticationRequestKotlin from '/docs/workflows/_sdk-setup/_authentication-kotlin.mdx';
+import AuthenticationRequestReactNative from '/docs/workflows/_sdk-setup/_authentication-react-native.mdx';
+import AuthenticationRequestSwift from '/docs/workflows/_sdk-setup/_authentication-swift.mdx';
+
+import AuthenticationResponseFlutter from '/docs/workflows/_sdk-setup/_authentication-response-flutter.mdx';
+import AuthenticationResponseJavaScript from '/docs/workflows/_sdk-setup/_authentication-response-javascript.mdx';
+import AuthenticationResponseKotlin from '/docs/workflows/_sdk-setup/_authentication-response-kotlin.mdx';
+import AuthenticationResponseReactNative from '/docs/workflows/_sdk-setup/_authentication-response-react-native.mdx';
+import AuthenticationResponseSwift from '/docs/workflows/_sdk-setup/_authentication-response-swift.mdx';
 
 import BindPasskeyUrlValidationFlutter from '/docs/workflows/_sdk-setup/_url-validation/_bind-passkey-url-validation-flutter.mdx';
 import BindPasskeyUrlValidationJavaScript from '/docs/workflows/_sdk-setup/_url-validation/_bind-passkey-url-validation-javascript.mdx';
@@ -154,6 +166,23 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 
 <SetupReactNative/>
 
+You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
+
+#### Usage
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
+Embedded.initialize("Please verify it's really you").catch(console.error);
+
+Embedded.logEventEmitter.addListener(
+  'BeyondIdentityLogger',
+  (message: string) => {
+    console.log(message);
+  }
+);
+```
+
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
@@ -201,27 +230,47 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<BindingAPasskeyJavaScript/>
+<BindingAPasskeyRequestJavaScript/>
+
+Where the response type consists of an object containing a `Passkey` and an optional `postBindRedirect` URL to redirect to upon succesfully binding a passkey.
+
+<BindingAPasskeyResponseJavaScript/>
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<BindingAPasskeyKotlin/>
+<BindingAPasskeyRequestKotlin/>
+
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
+
+<BindingAPasskeyResponseKotlin/>
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<BindingAPasskeySwift/>
+<BindingAPasskeyRequestSwift/>
+
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
+
+<BindingAPasskeyResponseSwift/>
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<BindingAPasskeyReactNative/>
+<BindingAPasskeyRequestReactNative/>
+
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
+
+<BindingAPasskeyResponseReactNative/>
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<BindingAPasskeyFlutter/>
+<BindingAPasskeyRequestFlutter/>
+
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
+
+<BindingAPasskeyResponseFlutter/>
 
 </TabItem>
 </Tabs>
@@ -237,27 +286,39 @@ Before calling this function you will need to ask the user to select a passkey t
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<AuthenticationJavaScript/>
+<AuthenticationRequestJavaScript/>
+
+Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<AuthenticationKotlin/>
+<AuthenticationRequestKotlin/>
+
+Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<AuthenticationSwift/>
+<AuthenticationRequestSwift/>
+
+Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
+
+<AuthenticationResponseSwift/>
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<AuthenticationReactNative/>
+<AuthenticationRequestReactNative/>
+
+Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<AuthenticationFlutter/>
+<AuthenticationRequestFlutter/>
+
+Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 </TabItem>
 </Tabs>
@@ -339,25 +400,35 @@ The `getPasskeys` function enables you to get all passkeys currently bound to th
 
 <ListingPasskeysJavaScript/>
 
+Where the response is a `[Passkey]`.
+
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
 <ListingPasskeysKotlin/>
+
+Where the response is a `List<Passkey>`.
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
 <ListingPasskeysSwift/>
 
+Where the response is a `[Passkey]`.
+
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
 <ListingPasskeysReactNative/>
 
+Where the response is a list of passkeys.
+
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
 <ListingPasskeysFlutter/>
+
+Where the response is a `List<Passkey>`.
 
 </TabItem>
 </Tabs>
@@ -385,6 +456,8 @@ The `deletePasskey` function allows you to delete a passkey given its ID.
 <TabItem value="reactnative" label="React Native">
 
 <DeletingAPasskeyReactNative/>
+
+Where the response is passkey id.
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">

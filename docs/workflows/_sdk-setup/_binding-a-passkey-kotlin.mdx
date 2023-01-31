@@ -6,12 +6,3 @@ EmbeddedSdk.bindPasskey(
     result.onFailure { }
 }
 ```
-
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
-
-```kotlin
-data class BindPasskeyResponse(
-    val passkey: Passkey,
-    val postBindingRedirectUri: String?,
-)
-```

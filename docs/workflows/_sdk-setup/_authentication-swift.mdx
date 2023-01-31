@@ -5,12 +5,3 @@ Embedded.shared.authenticate(
     callback: @escaping(Result<AuthenticateResponse, BISDKError>) -> Void
 )
 ```
-
-Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
-
-```swift
-struct AuthenticateResponse: Codable, Equatable {
-    let redirectURL: URL
-    let message: String?
-}
-```

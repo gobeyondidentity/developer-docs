@@ -3,12 +3,3 @@ await Embeddedsdk.bindPasskey(
     String url,
 )
 ```
-
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
-
-```dart
-class BindPasskeyResponse(
-    Passkey passkey,
-    String postBindingRedirectUri,
-)
-```

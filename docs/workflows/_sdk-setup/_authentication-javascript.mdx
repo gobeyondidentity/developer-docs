@@ -1,12 +1,3 @@
 ```javascript
 const authenticateResponse = await embedded.authenticate(url, passkeyID);
 ```
-
-Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
-
-```javascript
-{
-    redirectURL: string;
-    message?: string;
-}
-```

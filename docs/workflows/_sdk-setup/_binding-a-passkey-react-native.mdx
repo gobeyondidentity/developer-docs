@@ -3,12 +3,3 @@ Embedded.bindPasskey(
     url: string,
 ): Promise<BindPasskeyResponse>
 ```
-
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
-
-```javascript
-interface BindPasskeyResponse {
-  passkey: Passkey;
-  postBindingRedirectURI?: string;
-}
-```

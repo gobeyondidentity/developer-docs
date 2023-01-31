@@ -6,20 +6,3 @@ Embedded.initialize(
   allowedDomains?: string[]
 ): Promise<Success>;
 ```
-
-You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
-
-#### Usage
-
-```javascript
-import { Embedded } from '@beyondidentity/bi-sdk-react-native';
-
-Embedded.initialize("Please verify it's really you").catch(console.error);
-
-Embedded.logEventEmitter.addListener(
-  'BeyondIdentityLogger',
-  (message: string) => {
-    console.log(message);
-  }
-);
-```
