@@ -13,7 +13,7 @@ curl https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_
 -X POST \
    -H "Authorization: Bearer $API_TOKEN" \
    -H 'Content-Type: application/json' \
-   -d '{"job":{"delivery_method":"EMAIL","authenticator_config_id":"AUTHENTICTAOR_CONFIG_ID","post_binding_redirect_uri":"APP_REDIRECT_URI"}}'
+   -d '{"job":{"delivery_method":"EMAIL","authenticator_config_id":"AUTHENTICATOR_CONFIG_ID","post_binding_redirect_uri":"APP_REDIRECT_URI"}}'
 ```
 
 </TabItem>
@@ -26,7 +26,7 @@ const bindingLinkResponse = await fetch(
     body: JSON.stringify({
       job: {
         delivery_method: 'EMAIL',
-        authenticator_config_id: AUTHENTICTAOR_CONFIG_ID,
+        authenticator_config_id: AUTHENTICATOR_CONFIG_ID,
         post_binding_redirect_uri: APP_REDIRECT_URI,
       },
     }),
@@ -54,7 +54,7 @@ headers = {
 json_data = {
     'job': {
         'delivery_method': 'EMAIL',
-        'authenticator_config_id': 'AUTHENTICTAOR_CONFIG_ID',
+        'authenticator_config_id': 'AUTHENTICATOR_CONFIG_ID',
         'post_binding_redirect_uri': 'APP_REDIRECT_URI',
     },
 }
@@ -82,7 +82,7 @@ import (
 
 func main() {
 	client := &http.Client{}
-	var data = strings.NewReader(`{"job":{"delivery_method":"EMAIL","authenticator_config_id":"AUTHENTICTAOR_CONFIG_ID","post_binding_redirect_uri":"APP_REDIRECT_URI"}}`)
+	var data = strings.NewReader(`{"job":{"delivery_method":"EMAIL","authenticator_config_id":"AUTHENTICATOR_CONFIG_ID","post_binding_redirect_uri":"APP_REDIRECT_URI"}}`)
 	req, err := http.NewRequest("POST", "https://api-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/identities/IDENTITY_ID/credential-binding-jobs", data)
 	if err != nil {
 		log.Fatal(err)
