@@ -9,15 +9,16 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
+function safeStructuredClone(obj) {
+  if (ExecutionEnvironment.canUseDOM) {
+    return structuredClone(obj);
+  }
+  return obj;
+}
+
 const CodeBlock = ({ language, title, text, theme, enableBorderRadius }) => {
   const titleStyle = theme === "dark" ? oneDark : oneLight;
-  const bodyStyle = theme === function () {
-    if (ExecutionEnvironment.canUseDOM) {
-      return "dark" ? structuredClone(oneDark) : structuredClone(oneLight);
-    } else {
-      return null;
-    }
-  }();
+  const bodyStyle = theme === "dark" ? safeStructuredClone(oneDark) : safeStructuredClone(oneLight);
 
   titleStyle["pre[class*=\"language-\"]"].margin = "0";
   titleStyle["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
