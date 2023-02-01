@@ -7,10 +7,18 @@ import {
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
 const CodeBlock = ({ language, title, text, theme, enableBorderRadius }) => {
   const titleStyle = theme === "dark" ? oneDark : oneLight;
-  const bodyStyle = theme === "dark" ? structuredClone(oneDark) : structuredClone(oneLight);
+  const bodyStyle = theme === function () {
+    if (ExecutionEnvironment.canUseDOM) {
+      return "dark" ? structuredClone(oneDark) : structuredClone(oneLight);
+    } else {
+      return null;
+    }
+  }();
+
   titleStyle["pre[class*=\"language-\"]"].margin = "0";
   titleStyle["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
   bodyStyle["pre[class*=\"language-\"]"].margin = "0";
