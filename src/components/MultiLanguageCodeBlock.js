@@ -75,13 +75,12 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
       console.error(jsonResponse);
       return;
     }
-    console.log("jsonResponse", jsonResponse)
     setResponse(jsonResponse);
   }, []);
 
   return (
     <div>
-      <Tabs groupId="multi-language-platform">
+      <Tabs groupId="multi-language-platform" queryString>
         <TabItem value="curl" label="Curl">
           <CodeBlock
             language="bash"
