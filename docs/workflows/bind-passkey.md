@@ -18,6 +18,8 @@ In order to authenticate with Beyond Identity, you need a [Universal Passkey](..
 
 Passkeys are generated through a binding job. On creation of a binding job, a binding link will be generated. That binding link can be used to bind a passkey to a specific device or browser. This passkey will be [stored](../platform-overview/passkeys-and-devices/how-are-keys-stored) in the user's device's hardware root of trust (i.e. secure enclave).
 
+Make sure you have set up an application and configured your [Authenticator Config](../platform-overview/authenticator-config.md) before following this guide.
+
 A binding job must be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are currently two `delivery_method` options for your binding link: `RETURN` and `EMAIL`.
 
 1. `RETURN` indicates that a binding link will be returned to the caller upon creation of the binding job. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc). This is the suggested method if you want the end user to create a passkey without having to leave your application.
