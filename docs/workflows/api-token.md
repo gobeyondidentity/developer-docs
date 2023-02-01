@@ -5,6 +5,7 @@ sidebar_position: 6
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
 
 # API Token Overview
 
@@ -41,100 +42,14 @@ Alternatively, an access token may also be generated directly via API by request
 
 ### Client Credentials Flow
 
-<Tabs groupId="api-token-platform" queryString>
-<TabItem value="curl" label="Curl">
-
-```bash title="/token"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
 -X POST \
--u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
+-u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=client_credentials&scope=$SCOPES"
-```
-
-</TabItem>
-<TabItem value="node" label="Node">
-
-```jsx title="/token"
-const apiTokenResponse = await fetch(
-  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
-  {
-    body: (() => {
-      let formData = new URLSearchParams();
-      formData.append('grant_type', 'client_credentials');
-      return formData;
-    })(),
-    headers: {
-      Authorization:
-        'Basic ' +
-        Buffer.from(
-          `${MANAGEMENT_API_CLIENT_ID}:${MANAGEMENT_API_CLIENT_SECRET}`
-        ).toString('base64'),
-    },
-    method: 'POST',
-  }
-);
-
-const apiTokenResponseJson = await tokenResponse.json();
-const accessToken = apiTokenResponseJson.access_token;
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python title="/token"
-import requests
-
-data = {
-'grant_type': 'client_credentials',
-'scope': 'SCOPES',
-}
-
-response = requests.post(
-'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
-data=data,
-auth=('MANAGEMENT_API_CLIENT_ID', 'MANAGEMENT_API_CLIENT_SECRET'),
-)
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go title="/token"
-package main
-
-import (
-"fmt"
-"io/ioutil"
-"log"
-"net/http"
-"strings"
-)
-
-func main() {
-client := &http.Client{}
-var data = strings.NewReader(`grant_type=client_credentials&scope=SCOPES`)
-req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
-if err != nil {
-  log.Fatal(err)
-}
-req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-req.SetBasicAuth("MANAGEMENT_API_CLIENT_ID", "MANAGEMENT_API_CLIENT_SECRET")
-resp, err := client.Do(req)
-if err != nil {
-  log.Fatal(err)
-}
-defer resp.Body.Close()
-bodyText, err := ioutil.ReadAll(resp.Body)
-if err != nil {
-  log.Fatal(err)
-}
-fmt.Printf("%s\n", bodyText)
-}
-```
-
-</TabItem>
-</Tabs>
+-d "grant_type=client_credentials&scope=$(SCOPES)"'
+title="/token"
+/>
 
 ### Authorization Code Flow
 
@@ -144,189 +59,27 @@ Use the following curl examples below to obtain an authorization code and then c
 
 1. Authenticate to obtain an authorization code:
 
-<Tabs groupId="api-token-platform" queryString>
-<TabItem value="curl" label="Curl">
-
-```bash title="/authorize"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/authorize \
--d response_type=code \
--d client_id=$MANAGEMENT_API_CLIENT_ID \
--d redirect_uri=$REDIRECT_URI \
--d scope=openid \
--d state=$STATE \
--d code_challenge=$OPTIONAL_CODE_CHALLENGE \
--d code_challenge_method=S256 \
-```
-
-</TabItem>
-<TabItem value="node" label="Node">
-
-```jsx title="/authorize"
-fetch(
-  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/authorize`,
-  {
-    method: 'POST',
-    body: new URLSearchParams({
-      response_type: 'code',
-      client_id: `${MANAGEMENT_API_CLIENT_ID}`,
-      redirect_uri: `${REDIRECT_URI}`,
-      scope: 'openid',
-      state: `${STATE}`,
-      code_challenge: `${OPTIONAL_CODE_CHALLENGE}`,
-      code_challenge_method: 'S256',
-    }),
-  }
-);
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python title="/authorize"
-import requests
-
-data = {
-    'response_type': 'code',
-    'client_id': 'MANAGEMENT_API_CLIENT_ID',
-    'redirect_uri': 'REDIRECT_URI',
-    'scope': 'openid',
-    'state': 'STATE',
-    'code_challenge': 'OPTIONAL_CODE_CHALLENGE',
-    'code_challenge_method': 'S256',
-}
-
-response = requests.post(
-    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize',
-    data=data,
-)
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go title="/authorize"
-package main
-
-import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"strings"
-)
-
-func main() {
-	client := &http.Client{}
-	var data = strings.NewReader(`response_type=code&client_id=MANAGEMENT_API_CLIENT_ID&redirect_uri=REDIRECT_URI&scope=openid&state=STATE&code_challenge=OPTIONAL_CODE_CHALLENGE&code_challenge_method=S256`)
-	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/authorize", data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s\n", bodyText)
-}
-```
-
-</TabItem>
-</Tabs>
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/authorize" \
+-d "response_type=code" \
+-d "client_id=$(MANAGEMENT_API_CLIENT_ID)" \
+-d "redirect_uri=$(REDIRECT_URI)" \
+-d "scope=openid" \
+-d "state=$(STATE)" \
+-d "code_challenge=$(OPTIONAL_CODE_CHALLENGE)" \
+-d "code_challenge_method=S256"'
+title="/authorize"
+/>
 
 2. Create an access token the with authorization code:
 
-<Tabs groupId="api-token-platform" queryString>
-<TabItem value="curl" label="Curl">
-
-```bash title="/token"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/token \
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
 -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=authorization_code&code=$CODE&scope=$SCOPES&client_id=$MANAGEMENT_API_CLIENT_ID&code_verifier=$OPTIONAL_CODE_VERIFIER"
-```
-
-</TabItem>
-<TabItem value="node" label="Node">
-
-```jsx title="/token"
-fetch(
-  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/token`,
-  {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: `${CODE}`,
-      scope: `${SCOPES}`,
-      client_id: `${MANAGEMENT_API_CLIENT_ID}`,
-      code_verifier: `${OPTIONAL_CODE_VERIFIER}`,
-    }),
-  }
-);
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python title="/token"
-import requests
-
-data = {
-'grant_type': 'authorization_code',
-'code': 'CODE',
-'scope': 'SCOPES',
-'client_id': 'MANAGEMENT_API_CLIENT_ID',
-'code_verifier': 'OPTIONAL_CODE_VERIFIER',
-}
-
-response = requests.post(
-'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token',
-data=data,
-)
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go title="/token"
-package main
-
-import (
-"fmt"
-"io/ioutil"
-"log"
-"net/http"
-"strings"
-)
-
-func main() {
-client := &http.Client{}
-var data = strings.NewReader(`grant_type=authorization_code&code=CODE&scope=SCOPES&client_id=MANAGEMENT_API_CLIENT_ID&code_verifier=OPTIONAL_CODE_VERIFIER`)
-req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/token", data)
-if err != nil {
-  log.Fatal(err)
-}
-req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-resp, err := client.Do(req)
-if err != nil {
-  log.Fatal(err)
-}
-defer resp.Body.Close()
-bodyText, err := ioutil.ReadAll(resp.Body)
-if err != nil {
-  log.Fatal(err)
-}
-fmt.Printf("%s\n", bodyText)
-}
-```
-
-</TabItem>
-</Tabs>
+-d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(MANAGEMENT_API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
+title="/token"
+/>
 
 ## Token Configuration
 
@@ -346,96 +99,14 @@ In the case of Bearer authentication, the passed authentication must contain the
 
 Note that passing an invalid token, or a token which has already been revoked or expired, will produce a success response, pursuant to [RFC7009§2.2](https://www.rfc-editor.org/rfc/rfc7009).
 
-<Tabs groupId="api-token-platform" queryString>
-<TabItem value="curl" label="Curl">
-
-```bash title="/revoke"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$MANAGEMENT_APPLICATION_ID/revoke \
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke" \
 -X POST \
--H "Authorization: Bearer $TOKEN" \
--H 'Content-Type: application/json' \
--d '{"token":"$TOKEN_TO_REVOKE"}'
-```
-
-</TabItem>
-<TabItem value="node" label="Node">
-
-```jsx title="/revoke"
-fetch(
-  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${MANAGEMENT_APPLICATION_ID}/revoke`,
-  {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer TOKEN',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: `${TOKEN_TO_REVOKE}`,
-    }),
-  }
-);
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python title="/revoke"
-import requests
-
-headers = {
-    'Authorization': 'Bearer TOKEN',
-    'Content-Type': 'application/json',
-}
-
-json_data = {
-    'token': 'TOKEN_TO_REVOKE',
-}
-
-response = requests.post(
-    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke',
-    headers=headers,
-    json=json_data,
-)
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go title="/revoke"
-package main
-
-import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"strings"
-)
-
-func main() {
-	client := &http.Client{}
-	var data = strings.NewReader(`{"token":"TOKEN_TO_REVOKE"}`)
-	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/applications/MANAGEMENT_APPLICATION_ID/revoke", data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	req.Header.Set("Authorization", "Bearer TOKEN")
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s\n", bodyText)
-}
-```
-
-</TabItem>
-</Tabs>
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"token\":\"$(TOKEN_TO_REVOKE)\"}"'
+title="/revoke"
+/>
 
 ## Validating Access Tokens
 
@@ -445,96 +116,14 @@ There are two token formats that can be validated: `self-contained` or `referent
 
 A successful introspect query will return information about the token. After receiving information about the token, validate that token has the expected scopes.
 
-<Tabs groupId="api-token-platform" queryString>
-<TabItem value="curl" label="Curl">
-
-```bash title="/introspect"
-curl https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/introspect \
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/introspect" \
 -X POST \
--u "$MANAGEMENT_API_CLIENT_ID:$MANAGEMENT_API_CLIENT_SECRET" --basic \
+-u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d '{"token":"$TOKEN_TO_INTROSPECT"}'
-```
-
-</TabItem>
-<TabItem value="node" label="Node">
-
-```jsx title="/introspect"
-fetch(
-  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/introspect`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization:
-        'Basic ' +
-        Buffer.from(
-          `${MANAGEMENT_API_CLIENT_ID}:${MANAGEMENT_API_CLIENT_SECRET}`
-        ).toString('base64'),
-    },
-    body: '{"token":"TOKEN_TO_INTROSPECT"}',
-  }
-);
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python title="/introspect"
-import requests
-
-headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-}
-
-data = '{"token":"TOKEN_TO_INTROSPECT"}'
-
-response = requests.post(
-    'https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect',
-    headers=headers,
-    data=data,
-    auth=('MANAGEMENT_API_CLIENT_ID', 'MANAGEMENT_API_CLIENT_SECRET'),
-)
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go title="/introspect"
-package main
-
-import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"strings"
-)
-
-func main() {
-	client := &http.Client{}
-	var data = strings.NewReader(`{"token":"TOKEN_TO_INTROSPECT"}`)
-	req, err := http.NewRequest(http.MethodPost, "https://auth-REGION.beyondidentity.com/v1/tenants/TENANT_ID/realms/REALM_ID/introspect", data)
-	if err != nil {
-		log.Fatal(err)
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.SetBasicAuth("MANAGEMENT_API_CLIENT_ID", "MANAGEMENT_API_CLIENT_SECRET")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s\n", bodyText)
-}
-```
-
-</TabItem>
-</Tabs>
+-d "{\"token\":\"$(TOKEN_TO_INTROSPECT)\"}"'
+title="/introspect"
+/>
 
 ### Offline Validation
 
