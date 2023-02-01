@@ -80,7 +80,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
 
   return (
     <div>
-      <Tabs groupId="multi-language-platform" queryString>
+      <Tabs groupId="multi-language-platform">
         <TabItem value="curl" label="Curl">
           <CodeBlock
             language="bash"
