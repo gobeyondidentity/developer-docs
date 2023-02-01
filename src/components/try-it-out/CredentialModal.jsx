@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import classNames from "classnames";
-import { CodeBlock, dracula } from "react-code-blocks";
+import CodeBlock from "../CodeBlock";
 import styles from "./CredentialModal.module.css";
 import padding from "../../css/Padding.module.css";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
 const DARK_MODE_OVERYLAY_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.75)";
 const LIGHT_MODE_OVERLAY_BACKGROUND_COLOR = "rgba(1, 1, 1, 0.3)";
-const DARK_MODE_THEME = dracula;
-const LIGHT_MODE_THEME = null;
+const DARK_MODE_THEME = "dark";
+const LIGHT_MODE_THEME = "light";
 
 if (ExecutionEnvironment.canUseDOM) {
   Modal.setAppElement(document.querySelectorAll("div")[0]);
@@ -107,11 +107,10 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
           }
           <div className={classNames(styles.modal)}>
             <CodeBlock
-              text={JSON.stringify(credential, null, 2)}
               language="json"
-              showLineNumbers={true}
-              startingLineNumber={0}
+              text={JSON.stringify(credential, null, 2)}
               theme={theme}
+              enableBorderRadius={false}
               className={classNames(styles["code-block"])}
             />
           </div>

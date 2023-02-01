@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
-import ClipLoader from 'react-spinners/ClipLoader';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import {
-  oneDark,
-  oneLight,
-} from 'react-syntax-highlighter/dist/esm/styles/prism';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import React, { useState, useEffect } from "react";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import CodeBlock from "./CodeBlock";
 
 /**
  * Example Usage:
@@ -29,8 +23,8 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
  * it for you.
  */
 
-const DARK_MODE_THEME = oneDark;
-const LIGHT_MODE_THEME = oneLight;
+const DARK_MODE_THEME = "dark";
+const LIGHT_MODE_THEME = "light";
 
 const MultiLanguageCodeBlock = ({ curl, title }) => {
   const [response, setResponse] = useState(null);
@@ -88,7 +82,13 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
     <div>
       <Tabs groupId="multi-language-platform" queryString>
         <TabItem value="curl" label="Curl">
-          <CodeBlock language="bash" title={title} text={curl}></CodeBlock>
+          <CodeBlock
+            language="bash"
+            title={title}
+            text={curl}
+            theme={theme}
+            enableCornerRadius={true}
+          ></CodeBlock>
         </TabItem>
         <TabItem value="csharp" label="CSharp">
           <CodeBlock
@@ -96,6 +96,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.csharp}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="dart" label="Dart">
@@ -104,6 +105,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.dart}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="go" label="Go">
@@ -112,6 +114,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.go}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="java" label="Java">
@@ -120,6 +123,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.java}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="node" label="Node">
@@ -128,6 +132,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.node}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="python" label="Python">
@@ -136,6 +141,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.python}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="ruby" label="Ruby">
@@ -144,6 +150,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.ruby}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="rust" label="Rust">
@@ -152,6 +159,7 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.rust}
             theme={theme}
+            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
       </Tabs>
@@ -160,30 +168,3 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
 };
 
 export default MultiLanguageCodeBlock;
-
-const CodeBlock = ({ language, title, text, theme }) => {
-  return (
-    <div>
-      <SyntaxHighlighter language={language} style={theme}>
-        {title}
-      </SyntaxHighlighter>
-      {text === null || text == undefined ? (
-        <ClipLoader
-          color="#545"
-          loading={true}
-          size="25px"
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      ) : (
-        <SyntaxHighlighter
-          showLineNumbers={true}
-          language={language}
-          style={theme}
-        >
-          {text}
-        </SyntaxHighlighter>
-      )}
-    </div>
-  );
-};
