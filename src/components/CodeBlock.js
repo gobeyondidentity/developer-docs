@@ -2,7 +2,7 @@ import React from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import classNames from "classnames";
 import styles from "./CodeBlock.module.css";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   oneDark,
   oneLight,
