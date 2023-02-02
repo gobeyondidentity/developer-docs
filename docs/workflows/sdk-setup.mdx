@@ -232,7 +232,7 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 
 <BindPasskeyRequestJavaScript/>
 
-Where the response type consists of an object containing a `Passkey` and an optional `postBindRedirect` URL to redirect to upon succesfully binding a passkey.
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
 <BindPasskeyResponseJavaScript/>
 
@@ -250,7 +250,7 @@ Where the response type consists of an object containing a `Passkey` and an opti
 
 <BindPasskeyRequestSwift/>
 
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
 <BindPasskeyResponseSwift/>
 
@@ -259,7 +259,7 @@ Where the response type consists of an object containing a `Passkey` and an opti
 
 <BindPasskeyRequestReactNative/>
 
-Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectURI` URL to redirect to upon succesfully binding a passkey.
+Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
 <BindPasskeyResponseReactNative/>
 
@@ -277,7 +277,7 @@ Where the response type consists of an object containing a `Passkey` and an opti
 
 ## Authentication
 
-The `authenticate` function expects a `URL` and a `PasskeyID`. This Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the passkey on your device. You will be required to select from one of the passkeys bound to your device if more than one passkey belongs to a single Realm. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
+The `authenticate` function expects a `URL` and a `PasskeyId`. This Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the passkey on your device. You will be required to select from one of the passkeys bound to your device if more than one passkey belongs to a single Realm. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
 
 Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys). 
 
@@ -288,7 +288,7 @@ Before calling this function you will need to ask the user to select a passkey t
 
 <AuthenticateRequestJavaScript/>
 
-Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
+Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 <AuthenticateResponseJavaScript/>
 
@@ -306,7 +306,7 @@ Where the response consists of an object containing a `redirectUrl` that you sho
 
 <AuthenticateRequestSwift/>
 
-Where the response consists of an object containing a `redirectURL` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
+Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
 <AuthenticateResponseSwift/>
 
