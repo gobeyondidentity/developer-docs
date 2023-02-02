@@ -5,9 +5,9 @@ sidebar_position: 9
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import TokenExchange from './\_authentication-token-exchange.mdx'
 import WebAuth from './\_authentication-via-automatic.mdx'
 import SilentAuth from './\_authentication-via-return.mdx'
+import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
 
 # Authentication Overview
 
@@ -105,4 +105,37 @@ Next, scroll down to "Client Configuration" and make note of your "Token Endpoin
 
 ### 3. Start Token Exchange
 
-<TokenExchange/>
+<Tabs groupId="token-auth-method" queryString>
+<TabItem value="client_secret_basic" label="Client Secret Basic">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+  title="/token"
+/>
+</TabItem>
+
+<TabItem value="client_secret_post" label="Client Secret Post">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the body of the POST request as a form parameter.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-F "grant_type=authorization_code" \
+-F "code=$(CODE_FROM_AUTHORIZATION_RESPONSE)" \
+-F "client_id=$(CLIENT_ID)" \
+-F "client_secret=$(CLIENT_SECRET_FROM_CONFIDENTIAL_APPLICATION)" \
+-F "code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)" \
+-F "redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+  title="/token"
+/>
+
+</TabItem>
+</Tabs>
