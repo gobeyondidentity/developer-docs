@@ -26,7 +26,7 @@ To create a new application you can:
 
   - Confidential clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe.
 
-  - Public clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not recieve an application "client_secret" if you create this type of application.
+  - Public clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not receive an application "client_secret" if you create this type of application.
 
 - Set the redirect_uri to be a URL where you want to receive the authorization code and state. This can be either:
 

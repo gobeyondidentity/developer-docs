@@ -2,9 +2,15 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import DeepLinking from './_deeplinking-native-sdk.mdx';
 
-When Your [Authenticator Config](../platform-overview/authenticator-config)'s Invocation Type is set to `Automatic`, a successful authorization will redirect the user back to your application specified by Authenticator Config's `Invoke URL`. Make sure to set up deep linking in your native applications with either an app scheme or a Universal URL / App link.
+The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
 
-### Deep linking
+```
+$invoke_url/bi-authenticate?request=<request>
+```
+
+### Native application deep linking
+
+Make sure to set up deep linking in native applications to intercept the authenticate url.
 
 <DeepLinking />
 
@@ -12,7 +18,7 @@ When Your [Authenticator Config](../platform-overview/authenticator-config)'s In
 
 The authorization flow should begin in a webview with your [crafted authorization URL](authentication#craft-authorization-url).
 
-Make sure to present some logic to the user to select a passkey to authenticate with. Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
+Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
 
 :::info
 In a native application, the webview used should follows best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252). This means that on iOS applications [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) should be used, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) should be used on Android devices.

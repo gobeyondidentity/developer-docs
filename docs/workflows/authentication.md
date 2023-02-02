@@ -11,7 +11,11 @@ import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock'
 
 # Authentication Overview
 
-This guide describes how to authenticate an application with a passkey using an OAuth2 authorization flow. This guide assumes you have already [set up an application](../using-bi-for-auth.md), have access to the Beyond Identity Admin Console, and your application has at least one passkey [bound to an identity](./TODO link ./bind-passkey). Before authenticating, some logic should be performed to select a passkey. This might be UI presented to the user to select a passkey. Once a passkey is selected, you can authenticate with that passkey. There are two steps to authentication: [authorization](authentication#authorization) and then [token exchange](authentication#token-exchange). First you will need to authorize the application to recieve authorization code. That code can be then used in the token exchange.
+This guide describes how to authenticate an application with a passkey using Beyond Identity within a standard OAuth2/OIDC authorization flow.
+
+In response to an OIDC request to the Beyond Identity /authorize endpoint, Beyond Identity initiates passwordless authentication by returning an authentication challenge and other information to your app. Before authenticating, your app can use the Beyond Identity SDK to enumerate available passkeys and should perform some logic to select one, such as presenting selection UI to the user. Once a passkey is selected, you can then use the SDK to complete authentication and finally perform the OAuth code for token exchange.
+
+This guide assumes you have already [set up an application](../using-bi-for-auth.md), have access to the Beyond Identity Admin Console, and your application has at least one passkey [bound to an identity](./TODO link ./bind-passkey).
 
 ## Authorization
 
@@ -50,15 +54,9 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 3. Set the the [Invocation Type](../platform-overview/authenticator-config#invocation-type). This specifies how our authentication URL is delivered to your application. Invocation Type can be one of two values:
 
-- **Automatic**: If automatic is selected, we'll automatically redirect to your native or web app using the Invoke URL with a challenge that your app will need to sign.
+- **Automatic**: redirect to your application using the Invoke URL with a challenge that your app will need to sign.
 
-- **Manual**: If manual is selected, the challenge will be returned to you as part of a JSON response. It will then be up to you to get it to your native/web app any way you see fit. This is useful for flows where you require a lot more control when redirecting to your native/web app. Since the challenge is packaged as part of a URL, following the URL will result in the same behavior as if an Invocation Type of "Automatic" were selected. The JSON payload returned has the following format.
-
-![Invocation Type](./screenshots/authentication-invocation.png)
-
-### 3. Start Authorization
-
-You have two options to begin authorization depending on the `Invocation Type` set in your Authenticator Config.
+- **Manual**: the challenge will be returned to you as part of a JSON response.
 
 :::tip How do I know which one to use?
 `Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
@@ -74,7 +72,9 @@ import ImageSwitcher from '../../src/components/ImageSwitcher.js';
 
 <ImageSwitcher lightSrc="/assets/invocation-url-diagram-light.png" darkSrc="/assets/invocation-url-diagram-dark.png" />
 
-### Select Invocation Type for Code Samples
+![Invocation Type](./screenshots/authentication-invocation.png)
+
+### 3. Start Authorization for Invocation Type
 
 <Tabs groupId="authenticate-invocation-type" queryString>
 <TabItem value="manual" label="Manual">

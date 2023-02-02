@@ -1,9 +1,9 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-When Your [Authenticator Config](../platform-overview/authenticator-config)'s Invocation Type is set to `Manual` the OAuth2 challenge will be returned directly as part of a JSON response. The result to your end user is a more seamless authentication without a webview. Make a GET request to your [crafted authorization URL](authentication#craft-authorization-url) and automatically recieve an `authenticate_url` that you can pass to the Embedded SDK's `authenticate` function. You can confirm the validity of the URL with `isAuthenticateUrl`.
+Start with a GET request to your [crafted authorization URL](authentication#craft-authorization-url). If successful, you will receive an `authenticate_url` in the response. Pass that url along with a passkey id to the Embedded SDK's `authenticate` function. You can confirm the validity of the URL with `isAuthenticateUrl`.
 
-Make sure to present some logic to the user to select a passkey to authenticate with. Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
+Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
 
 <Tabs groupId="authenticate-platform" queryString>
 
