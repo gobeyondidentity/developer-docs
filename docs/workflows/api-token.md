@@ -145,21 +145,13 @@ You need to use a Management API Bearer token with the `tokens:read` scope in or
 
 ### Request: Listing access tokens for an identity
 
+In this case, the application is the issuer of the token and the identity is the subject of the token.
+
 ```bash
 curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=identity&principal_id=${IDENTITY_ID}'
 -H "Authorization Bearer ${MANAGEMENT_API_TOKEN}"
+
 ```
-
-### Request: Listing access tokens for an application
-
-```bash
-curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=application&principal_id=${APPLICATION_ID}'
--H "Authorization Bearer ${MANAGEMENT_API_TOKEN}"
-```
-
-In this case, the application is both the issuer and the subject of the token,
-which is why it needs to be in the request twice.
-
 ### Example Response
 
 ```json
@@ -173,6 +165,37 @@ which is why it needs to be in the request twice.
       "iat": 1675090845,
       "token_type": "access",
       "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/identities/ce9d40cf7285a260",
+      "token_format": "self_contained"
+    }
+  ]
+}
+
+```
+
+
+### Request: Listing access tokens for an application
+
+In this case, the application is both the issuer and the subject of the token,
+which is why it needs to be in the request twice.
+
+```bash
+curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=application&principal_id=${APPLICATION_ID}'
+-H "Authorization Bearer ${MANAGEMENT_API_TOKEN}"
+```
+
+### Example Response
+
+```json
+{
+  "tokens": [
+    {
+      "token_id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+      "application": "43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
+      "scope": "",
+      "exp": 1675177245,
+      "iat": 1675090845,
+      "token_type": "access",
+      "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/applications/43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
       "token_format": "self_contained"
     }
   ]
