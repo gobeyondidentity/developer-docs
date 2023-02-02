@@ -147,11 +147,13 @@ You need to use a Management API Bearer token with the `tokens:read` scope in or
 
 In this case, the application is the issuer of the token and the identity is the subject of the token.
 
-```bash
-curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=identity&principal_id=${IDENTITY_ID}'
+<MultiLanguageCodeBlock
+curl='
+curl "https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=identity&principal_id=${IDENTITY_ID}"
 -H "Authorization Bearer ${MANAGEMENT_API_TOKEN}"
+' title="/tokens"
+/>
 
-```
 ### Example Response
 
 ```json
@@ -178,10 +180,12 @@ curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${
 In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
 
-```bash
-curl 'https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=application&principal_id=${APPLICATION_ID}'
+<MultiLanguageCodeBlock
+curl='
+curl "https://api-${REGION}.beyondidentity.run/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/tokens?application=${APPLICATION_ID}&principal_type=application&principal_id=${APPLICATION_ID}"
 -H "Authorization Bearer ${MANAGEMENT_API_TOKEN}"
-```
+' title="/tokens"
+/>
 
 ### Example Response
 
