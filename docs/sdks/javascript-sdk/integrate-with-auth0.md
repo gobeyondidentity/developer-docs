@@ -55,9 +55,9 @@ const BIAuthenticate = () => {
         // Only authenticate if the URL is a "bi-authenticate" URL
         let biAuthenticateUrl = window.location.href;
         // -- 2
-        biAuthenticate(biAuthenticateUrl).then(redirectURL => {
+        biAuthenticate(biAuthenticateUrl).then(redirectUrl => {
           // -- 4
-          window.location.href = redirectURL;
+          window.location.href = redirectUrl;
         }).catch(error => {
           setBiAuthenticateResult(error.toString());
         });
@@ -81,7 +81,7 @@ const BIAuthenticate = () => {
       let selectedId = passkeys[selectedIndex].id;
       // Perform authentication using selected id
       let result = await embedded.authenticate(url, selectedId);
-      return Promise.resolve(result.redirectURL);
+      return Promise.resolve(result.redirectUrl);
     } else {
       // This will fail in core as it won't match to any id
       return Promise.resolve("unknown_id");
@@ -130,7 +130,7 @@ export default BIAuthenticate;
 1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use [`embedded.isAuthenticateUrl`](/docs/v1/workflows/sdk-setup?sdks=javascript#authenticate-url-validation) to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
 2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
 3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
-4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
+4. Finally, the response of `embedded.authenticate` contains a `redirectUrl`. Follow this redirect URL to complete the OAuth/OIDC flow.
 
 ## What does it look like?
 

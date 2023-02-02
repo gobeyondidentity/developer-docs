@@ -60,7 +60,7 @@ let session = ASWebAuthenticationSession(
     }
     Embedded.shared.authenticate(
         url: url,
-        passkeyID: id
+        id: passkeyId
     ) { result in
         switch result {
         case let .success(response):
@@ -72,17 +72,17 @@ let session = ASWebAuthenticationSession(
 
 - Step 4: Redirect URL
 
-A `redirectURL` is returned from a successful authenticate response that needs to be resolved by launching another `ASWebAuthenticationSession` to complete the initial OAuth flow. On completion of the second `ASWebAuthenticationSession`, another `redirectURL` will be returned that contains an authorization code that can be used to exchange for an ID token.
+A `redirectUrl` is returned from a successful authenticate response that needs to be resolved by launching another `ASWebAuthenticationSession` to complete the initial OAuth flow. On completion of the second `ASWebAuthenticationSession`, another `redirectUrl` will be returned that contains an authorization code that can be used to exchange for an ID token.
 
 ```javascript
 Embedded.shared.authenticate(
     url: url,
-    passkeyID: id
+    id: passkeyId
 ) { result in
     switch result {
     case let .success(response):
         let newSession = ASWebAuthenticationSession(
-            url: response.redirectURL,
+            url: response.redirectUrl,
             callbackURLScheme: viewModel.callbackScheme
         ) { (url, error)  in
             // This URL contains authorization code and state parameters
@@ -108,15 +108,15 @@ let session = ASWebAuthenticationSession(
         print("url is not valid")
         return
     }
-    presentPasskeySelection { selectedID in
+    presentPasskeySelection { selectedId in
         Embedded.shared.authenticate(
             url: url,
-            passkeyID: selectedID
+            id: selectedId
         ) { result in
             switch result {
             case let .success(response):
                 let newSession = ASWebAuthenticationSession(
-                    url: response.redirectURL,
+                    url: response.redirectUrl,
                     callbackURLScheme: viewModel.callbackScheme
                 ) { (url, error)  in
                     parseForIDToken(url)

@@ -64,7 +64,7 @@ if (await InAppBrowser.isAvailable()) {
 
 - Step 4: Redirect URL
 
-A `redirectURL` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial OAuth flow. On completion of the second web session, another `redirectURL` will be returned that contains an authorization code that can be used to exchange for an ID token.
+A `redirectUrl` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial OAuth flow. On completion of the second web session, another `redirectUrl` will be returned that contains an authorization code that can be used to exchange for an ID token.
 
 ```javascript
 if (await Embedded.isAuthenticateUrl(response.url)) {
@@ -74,7 +74,7 @@ if (await Embedded.isAuthenticateUrl(response.url)) {
   );
   if (await InAppBrowser.isAvailable()) {
     const secondWebResponse = await InAppBrowser.openAuth(
-      authResponse.redirectURL,
+      authResponse.redirectUrl,
       'yourScheme://',
       { ephemeralWebSession: false }
     );
@@ -102,7 +102,7 @@ if (await InAppBrowser.isAvailable()) {
     );
     if (await InAppBrowser.isAvailable()) {
       const secondWebResponse = await InAppBrowser.openAuth(
-        authResponse.redirectURL,
+        authResponse.redirectUrl,
         'yourScheme://',
         { ephemeralWebSession: false }
       );
