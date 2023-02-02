@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import DeepLinking from './\_deeplinking-native-sdk.mdx';
+import DeepLinking from './_deeplinking-native-sdk.mdx';
 
 # Setup your front end
 
@@ -98,18 +98,19 @@ What's happening here?
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
+Validate the incoming URL with `isBindPasskeyUrl` in your Activity either using `onCreate` or `onNewIntent`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```kotlin
-if (EmbeddedSdk.isBindPasskeyUrl(url)) {
-    EmbeddedSdk.bindPasskey(url = bindingLink)
-    .onEach { result ->
-        result.onSuccess { success ->
-            Timber.d("Bind Passkey success = $success")
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isBindPasskeyUrl(uri.toString()) -> {
+            EmbeddedSdk.bindPasskey(
+                url = uri.toString(),
+            ) {
+                ...
+            }
         }
-        result.onFailure { failure ->
-            Timber.e("Bind Passkey failure = $failure")
-        }
+        ...
     }
 }
 ```
@@ -150,14 +151,17 @@ if (isBindUrl) {
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
+Use Flutter's `getInitialUri` from uni_links to intercept the Url. You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
 
 ```dart
-bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(bindingLink);
+final uri = await getInitialUri();
+if (uri != null) {
+  bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(uri);
 
-if (isBindUrl) {
-    BindPasskeyResponse bindResponse = await EmbeddedSdk.bindPasskey(bindingLink);
-    debugPrint(bindResponse);
+  if (isBindUrl) {
+      BindPasskeyResponse bindResponse = await EmbeddedSdk.bindPasskey(uri);
+      debugPrint(bindResponse);
+  }
 }
 ```
 
