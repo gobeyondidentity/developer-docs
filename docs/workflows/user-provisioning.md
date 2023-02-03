@@ -52,7 +52,7 @@ Before making any API calls you'll want to generate an API access token. Check o
 The following examples show how to create an identity via API.
 
 <MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities" \
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities" \
 -X POST \
 -H "Authorization: Bearer $(API_TOKEN)" \
 -H "Content-Type: application/json" \
