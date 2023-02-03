@@ -41,7 +41,7 @@ import ImageSwitcher from '../../src/components/ImageSwitcher.js';
 
 `Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
 
-- Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
+- Completley silent OAuth 2.0 authentication using passkeys. No redirects needed in a web app and no web view needed in a native application.
 - The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
 
 :::
