@@ -7,7 +7,7 @@ import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock"
 
 # Realm Overview
 
-A realm is a unique administrative domain that isolates identities and applications from other realms. Each realm contains a unique set of directory, policy, event, application, and branding objects. On [account setup](./account-setup.md), a tenant with a Beyond Identity Admin realm was created for you. This realm is a special realm populated with your admin identity, a console application and an API management application. While some tenants may only need the use of a single realm, there are common use cases for multiple realms:
+A realm is a namespace in your tenant that isolates identities and applications from other realms. Each realm contains a unique set of directory, policy, event, application, and branding objects. On [account setup](./account-setup.md), a tenant and realm were created for you. This realm is populated with your admin identity, a console application and an API management application. While some tenants may only need the use of a single realm, there are common use cases for multiple realms:
 
 - A need for multiple development environments - staging, QA, production
 - The desire to provide separated services based on different administrative domains  
