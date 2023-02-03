@@ -40,11 +40,11 @@ Toggle delivery methods below for code samples:
 In order to get a binding link for a passkey, you need to create a binding job for an existing identity. The following code snippet uses the `RETURN` delivery method. This is the fastest way to get a binding link as this method indicates that a binding link will be returned to the caller upon creation of the binding job. This binding link is the link you will send to your application to complete the passkey binding process.
 
 <MultiLanguageCodeBlock
-  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
 -X POST \
 -H "Authorization: Bearer $(API_TOKEN)" \
 -H "Content-Type: application/json" \
--d "{\"job\":{\"delivery_method\":\"RETURN\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"post_binding_redirect_uri\":\"$(APP_REDIRECT_URI)\"}}"'
+-d "{\"job\":{\"delivery_method\":\"RETURN\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\"}}"'
   title="/credential-binding-jobs"
 />
 
@@ -63,7 +63,7 @@ In order to get a binding link for a passkey, you need to create a binding job f
 In order to get a binding link for a passkey, we need to create a binding job for an existing identity. The following code snippet uses the `EMAIL` delivery method. This method will send your user an email with a link that, when clicked, redirects the user to your application and provides your application with a binding link. If you wish to configure email branding, visit the Admin Console. This binding link is the link your application will use to complete the passkey binding process.
 
 <MultiLanguageCodeBlock
-  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
 -X POST \
 -H "Authorization: Bearer $(API_TOKEN)" \
 -H "Content-Type: application/json" \
