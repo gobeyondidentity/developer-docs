@@ -10,7 +10,7 @@ The steps are:
 
 [Create a tenant](https://www.beyondidentity.com/developers/signup) via the sign up form.
 
-After a tenant and a local Passkey is created, you will be automatically redirected to the [Admin Console](http://console-us.beyondidentity.run/).
+After a tenant and a local passkey is created, you will be automatically redirected to the [Admin Console](http://console-us.beyondidentity.run/).
 
 ### Create a new realm
 
