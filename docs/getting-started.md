@@ -30,6 +30,8 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
 
+3. **Yarn**: install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
+
 --- 
 
 ## 2. Download the example application
@@ -187,13 +189,16 @@ Learn more about [Authenticator Configurations](/docs/v1/platform-overview/authe
 ## 9. Running the example application
 
 ### Start the backend and frontend
-Install dependencies and run with:
+Install dependencies
 
-```yarn tab
-yarn start
 ```
-```npm tab
-npm start
+yarn install
+```
+
+and run with:
+
+```
+yarn start
 ```
 
 A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser. 
