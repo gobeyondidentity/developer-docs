@@ -51,9 +51,4 @@ While you only can have one tenant, a tenant can have many realms. The Beyond Id
 
 A realm is a unique administrative domain that contains a unique set of directory, policy, event, applications, and branding objects. While the Beyond Identity Admin realm contains all of these objects, the most interesting might be "Beyond Identity Management API" application. The Beyond Identity Management API application can be utilize to [create API tokens](./api-token.md) that authorize access to the [Beyond Identity APIs](../../../../api/v1/).
 
-Feel free to create your own realm to host your application!
-
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/eyWvI91g13J7qj5vmCfD?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+Feel free to create your own realm to host your application! Check out the next guide [Realms](realms.md).
