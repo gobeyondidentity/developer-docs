@@ -15,6 +15,10 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
   projectName: "developer-docs", // Usually your repo name.
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     ['docusaurus-preset-classic',
