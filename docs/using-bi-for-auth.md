@@ -59,7 +59,7 @@ To do this via the Admin Console you can:
 
 #### 1. Get a Universal Passkey
 
-Before authentication you will need a [Universal Passkey](./platform-overview/passkeys-and-devices/what-are-passkeys.md). Use the identity you created above to bind a passkey. Check out the [Bind Passkey To User](./TODO link ./workflows/bind-passkey) guide for more information.
+Before authentication you will need a [Universal Passkey](./platform-overview/passkeys-and-devices/what-are-passkeys.md). Use the identity you created above to bind a passkey. Check out the [Bind Passkey To User](./workflows/bind-passkey) guide for more information.
 
 #### 2. Authenticate with a passkey
 
