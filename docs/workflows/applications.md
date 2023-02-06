@@ -1,0 +1,132 @@
+---
+title: Applications
+sidebar_position: 5
+---
+
+import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
+
+# Application Overview
+
+An application is created within a realm to configure OAuth2/OIDC flows. It represents your application (e.g. AcmeCorp Android App, Todo-List iOS App, etc) and utilized its realm's directory, policy, events, and branding objects. The application contains client configuration, token configuration, and an [Authenticator Config](../platform-overview/authenticator-config.md).
+
+To see how an application fits in the wider Beyond Identity architecture, check out [Architecture](../platform-overview/architecture.md).
+
+## Create Application from Admin Console
+
+An application can be created from the Beyond Identity Admin Console. Navigate to your application's realm and from the navigation bar, click **Apps**, then click **Add app**. Configure both the **External Protocol** tab as well as the **Authenticator Config** tab.
+
+### External Protocol
+
+From the External Protocol tab, configure your application's OAuth 2.0 and OIDC values such as the Client Type, PKCE, Token Endpoint Auth Method, token minting configurations, and a redirect URI back to your application. After saving, the values entered will be used to generate OpenID Connect well-known configuration endpoints for your application as well as your Client ID and Client Secret.
+
+:::tip Which Client Type should I use?
+`Confidential` clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe. Think of an application with a backend.
+
+`Public` clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not receive an application "Client Secret" if you create this type of application.
+:::
+
+### Authenticator Config
+
+From the Authenticator Config tab, select a `Configuration Type`. This setting determines if your application is using an [Embedded SDKs](./sdk-setup.mdx) or the hosted Web Authenticator to generate and manage passkeys.
+
+For more information on the Authenticator Config, visit the [Authenticator Config](../platform-overview/authenticator-config.md) guide.
+
+:::tip Which Configuration Type should I use?
+`Embedded SDK`, select this if your application is using either a native SDK (iOS, Android, Flutter, React Native) or web SDK (JS). When this option is selected you can configure your application's Invocation Type, Invoke URL, and Trusted Origins.
+
+`Hosted Web`, select this to default all bound credentials and authentications to our Hosted Web Authenticator. This is a constrained version of the Embedded Authenticator Config with the following values:
+
+- **Invocation Type:** `automatic`
+- **Invoke URL:** `https://auth-<REGION>.beyondidentity.com/authenticator/`
+- **Trusted Origins:** `[https://auth-<REGION>.beyondidentity.com/authenticator/]`
+
+:::
+
+#### **Embedded SDK**
+
+If you selected the Embedded SDK Configuration Type, you will need to configure a few more items:
+
+1. Set an `Invocation Type` to specify how an authentication URL is delivered to your application.
+
+:::tip Which Invocation Type should I use?
+`Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
+
+`Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
+
+- Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
+- The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
+
+:::
+
+2. Set an `Invoke URL` that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
+
+:::caution
+While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
+:::
+
+3. Set `Trusted Origins` with your website's URL to add it to a whitelist. By default, cross origin requests are blocked by our server.
+
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+	<iframe src='https://demo.arcade.software/KmtiNsx4Z31MkogQdwST?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+	</iframe>
+</div>
+
+## Create Application by API
+
+An application can also be created from the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
+
+### Create an Application Resource Server
+
+Before creating an application by API, you may want to create a resource server. A resource server is a namespace for application scopes. Application scopes is a set of all scopes supported by the application. When an application is created without a resource server, this application may provide authentication (identity) but not authorization (access). If your application doesn't provide multiple levels of access -- like admin access vs user access, then there might not be a need for a resource server.
+
+When creating an application with the [admin console](#create-application-from-admin-console), if the application lives in the admin realm, then the application is created with the management api resource server. Otherwise, it is currently created without a resource server.
+
+If you create a resource server, make note of the response `id`, as you'll need the resource server ID when creating an application.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
+-X POST \
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
+title="/resource-servers"
+/>
+
+### Create an Authenticator Config
+
+Before creating an application by API, you'll need to create an Authenticator Config by setting the application's Configuration Type, Invocation Type, Invoke URL and Trusted Origins. See configuring the [Authenticator Config](#authenticator-config) from the admin console for help setting the appropriate options.
+
+Make note of the response `id`, as you'll need the Authenticator Config ID when creating an application.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/authenticator-configs" \
+-X POST \
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"authenticator_config\":{\"config\":{\"type\":\"$(CONFIGURATION_TYPE)\",\"invoke_url\":\"$(INVOKE_URL)\",\"trusted_origins\":[\"$(TRUSTED_ORIGIN)\"],\"invocation_type\":\"$(INVOCATION_TYPE)\"}}}"'
+title="/authenticator-configs"
+/>
+
+### Create an Application
+
+Once you have created an [Authenticator Config](#create-an-authenticator-config) and possibly a [Resouce Server](#create-an-application-resource-server), you can create an application.
+
+While the Resouce Server ID is optional, make sure to have the Authenticator Config ID for the applications request. Set the application's Display Name, Client Type, Token Configuration, and redirect URI.
+
+There are two options available for `confidentiality`:
+
+- If you choose **confidential**, set the `token_endpoint_auth_method` to either **client_secret_post** or **client_secret_basic**.
+- If you choose **public**, then set the `token_endpoint_auth_method` value to **none**.
+
+If the application references a resource server, the `allowed_scopes` must be a subset of the resource server's available scopes. If the application does not reference a resource server, then this application can only be used for authentication and thereby scopes must necessarily be empty.
+
+See configuring [External Protocol](#external-protocol) from the admin console for help setting appropriate options.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications" \
+-X POST \
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\"}}}"'
+title="/applications"
+/>
