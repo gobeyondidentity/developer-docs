@@ -32,9 +32,28 @@ This specifies how our authentication URL is delivered to your application. Invo
 
 The diagram below shows how Invocation Type fits into an OAuth 2.0 flow. In the case of "Automatic", a 302 is returned causing the user agent to automatically redirect to the Invoke URL you've specified. In the case of "Manual", a JSON response containing the Invoke URL is returned.
 
-import ImageSwitcher from '../../src/components/ImageSwitcher.js';
-
-<ImageSwitcher lightSrc="/assets/invocation-url-diagram-light.png" darkSrc="/assets/invocation-url-diagram-dark.png" />
+```mermaid
+sequenceDiagram
+    participant user as User
+    participant frontend as Your Frontend
+    participant bi as Beyond Identity
+    participant server as Your Server
+    user ->> frontend: click login
+    frontend->>frontend: Generate Code Verifier + Code Challenge
+    frontend->>bi: /authorize
+    alt automatic
+	bi->>frontend: 302 to INVOKE_URL
+	frontend->>frontend: Redirect to INVOKE_URL
+    else manual
+	bi->>frontend: 200 JSON response w/ INVOKE_URL
+    end
+    frontend->>bi: Authenticate against passkey in Frontend using SDK
+    bi->>frontend: Authorization Code
+    frontend->>bi: Authorization Code + Code Verifier to /token
+    bi->>frontend: ID Token + Access Token
+    frontend->>server: Use Access Token to access API
+    server->>frontend: API Response
+```
 
 :::tip How do I know which one to use?
 `Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
