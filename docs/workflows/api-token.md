@@ -135,3 +135,71 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 6. Check that JWT claims has the expected scopes.
+
+## Listing Access Tokens
+
+Our API also provides the functionality to list active tokens that are held by a given identity or an application.
+In order to list tokens, you need to know the ID of the application that was used to issue the token.
+
+You need to use a Management API Bearer token with the `tokens:read` scope in order to call this API.
+
+### Request: Listing access tokens for an identity
+
+In this case, the application is the issuer of the token and the identity is the subject of the token.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.run/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=identity&principal_id=$(IDENTITY_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
+title="/tokens"
+/>
+
+### Example Response
+
+```json
+{
+  "tokens": [
+    {
+      "token_id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+      "application": "43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
+      "scope": "",
+      "exp": 1675177245,
+      "iat": 1675090845,
+      "token_type": "access",
+      "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/identities/ce9d40cf7285a260",
+      "token_format": "self_contained"
+    }
+  ]
+}
+```
+
+
+### Request: Listing access tokens for an application
+
+In this case, the application is both the issuer and the subject of the token,
+which is why it needs to be in the request twice.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.run/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=application&principal_id=$(APPLICATION_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
+title="/tokens"
+/>
+
+### Example Response
+
+```json
+{
+  "tokens": [
+    {
+      "token_id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+      "application": "43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
+      "scope": "",
+      "exp": 1675177245,
+      "iat": 1675090845,
+      "token_type": "access",
+      "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/applications/43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
+      "token_format": "self_contained"
+    }
+  ]
+}
+```
+
