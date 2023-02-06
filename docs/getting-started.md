@@ -25,7 +25,7 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 2. **NodeJS**: Download and install `nodejs`: https://nodejs.org/en/download/
 
-3. **Yarn**: install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
+3. **Yarn**: Download and install `yarn`: https://classic.yarnpkg.com/lang/en/docs/install/
 
 --- 
 

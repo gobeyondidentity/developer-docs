@@ -68,9 +68,28 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 :::
 
-import ImageSwitcher from '../../src/components/ImageSwitcher.js';
-
-<ImageSwitcher lightSrc="/assets/invocation-url-diagram-light.png" darkSrc="/assets/invocation-url-diagram-dark.png" />
+```mermaid
+sequenceDiagram
+    participant user as User
+    participant frontend as Your Frontend
+    participant bi as Beyond Identity
+    participant server as Your Server
+    user ->> frontend: click login
+    frontend->>frontend: Generate Code Verifier + Code Challenge
+    frontend->>bi: /authorize
+    alt automatic
+	bi->>frontend: 302 to INVOKE_URL
+	frontend->>frontend: Redirect to INVOKE_URL
+    else manual
+	bi->>frontend: 200 JSON response w/ INVOKE_URL
+    end
+    frontend->>bi: Authenticate against passkey in Frontend using SDK
+    bi->>frontend: Authorization Code
+    frontend->>bi: Authorization Code + Code Verifier to /token
+    bi->>frontend: ID Token + Access Token
+    frontend->>server: Use Access Token to access API
+    server->>frontend: API Response
+```
 
 ![Invocation Type](./screenshots/authentication-invocation.png)
 
