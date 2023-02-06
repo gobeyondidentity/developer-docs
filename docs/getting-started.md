@@ -7,14 +7,9 @@ In this guide we will show you how to create and configure your account and conn
 
 
 :::info
-**Have you worked on authentication for web or native apps?**
+## ** [Try it out](/docs/v1/try-it-out) 🚀 **
 
-Beyond Identity is looking for developers & product folks who’ve evaluated authentication products for their apps. 
-
-Qualified participants will receive a $100 gift card for 1 hour sharing their experience in our user research sessions.
-
-[Fill out our interview form today!](https://form.typeform.com/to/omTW0ULM)
-
+Want to see Universal Passkeys in action with no coding needed? [Try it out](/docs/v1/try-it-out)
 :::
 
 
