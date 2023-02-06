@@ -8,6 +8,7 @@ import TabItem from '@theme/TabItem';
 import WebAuth from './\_authentication-via-automatic.mdx'
 import SilentAuth from './\_authentication-via-return.mdx'
 import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
+import InvocationDiagram from '../platform-overview/\_invocation_url_diagram.mdx';
 
 # Authentication Overview
 
@@ -68,28 +69,7 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 :::
 
-```mermaid
-sequenceDiagram
-    participant user as User
-    participant frontend as Your Frontend
-    participant bi as Beyond Identity
-    participant server as Your Server
-    user ->> frontend: click login
-    frontend->>frontend: Generate Code Verifier + Code Challenge
-    frontend->>bi: /authorize
-    alt automatic
-	bi->>frontend: 302 to INVOKE_URL
-	frontend->>frontend: Redirect to INVOKE_URL
-    else manual
-	bi->>frontend: 200 JSON response w/ INVOKE_URL
-    end
-    frontend->>bi: Authenticate against passkey in Frontend using SDK
-    bi->>frontend: Authorization Code
-    frontend->>bi: Authorization Code + Code Verifier to /token
-    bi->>frontend: ID Token + Access Token
-    frontend->>server: Use Access Token to access API
-    server->>frontend: API Response
-```
+<InvocationDiagram />
 
 ![Invocation Type](./screenshots/authentication-invocation.png)
 
