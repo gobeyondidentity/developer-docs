@@ -34,6 +34,8 @@ The user will receive a registration email with a link to generate a passkey. Cl
 
 ## Bind Passkey by API
 
+Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
+
 A binding job can be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are two `delivery_method` options to consider:
 
 1. **RETURN**: indicates that a binding link will be returned to the caller upon creation of the binding job. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc). This is the suggested method if you want the end user to create a passkey without having to leave your application.
