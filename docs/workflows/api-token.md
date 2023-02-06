@@ -9,7 +9,7 @@ import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock"
 
 # API Token Overview
 
-All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow. All access tokens are JWT. Two token formats are supported: self-contained tokens as JWS and referential tokens as JWE. The default token on creation is self-contained.
+All [Beyond Identity API](https://developer.beyondidentity.com/api/v1) endpoints require authentication using an access token. The access token is generated through OAuth 2.0 or OIDC, using the authorization code flow or the client credentials flow. Alternatively, you can generate an API token using the admin console. The admin console uses the Beyond Identity management API application already preconfigured to the client credentials flow to generate API tokens for you. All access tokens are JWT. Two token formats are supported: self-contained tokens as JWS and referential tokens as JWE. The default token on creation is self-contained.
 
 You can obtain an access token either through:
 
@@ -172,7 +172,6 @@ title="/tokens"
 }
 ```
 
-
 ### Request: Listing access tokens for an application
 
 In this case, the application is both the issuer and the subject of the token,
@@ -202,4 +201,3 @@ title="/tokens"
   ]
 }
 ```
-
