@@ -43,7 +43,7 @@ You can also create groups and add or remove identities from groups in the Beyon
 
 ## Provision User with the Beyond Identity API
 
-You add identities and manage groups from the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).
+You can add identities and manage groups from the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).
 
 Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
 
