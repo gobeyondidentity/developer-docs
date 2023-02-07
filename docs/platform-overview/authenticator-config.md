@@ -140,7 +140,7 @@ sequenceDiagram
 
 ### Invoke URL as used for Authentication
 
-The authentication flow is shown in the diagram above and the response differs based on the Invocation Type specified:
+The authentication flow is shown in the diagram below, and the response differs based on the Invocation Type specified:
 
 > Note that the path `/bi-authenticate` is appended to the `invoke_url` and must be implemented as a route in your application.
 
