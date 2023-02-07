@@ -29,7 +29,12 @@ The **Embedded SDK** configuration type is used to configure an application usin
 
 ## Invocation Type
 
-The Invocation Type specifies how the Beyond Identity authentication URL is delivered to your application. The authentication url is your app's Invoke URL appended with `/bi-authenticate?` and the query string parameter `request`, containing the authentication challenge your app will need to sign.
+The Invocation Type specifies how the Beyond Identity authentication URL is delivered to your application. The authentication url is your app's Invoke URL appended with `/bi-authenticate?` and the query string parameter `request`, containing the authentication challenge your app will need to sign:  
+
+```bash
+$invoke_url/bi-authenticate?request=<request>
+```  
+
 
 > Note: the Invocation Type only impacts the authentication flow. It has no effect on the passkey creation/binding flow
 
