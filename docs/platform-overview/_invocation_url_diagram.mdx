@@ -1,5 +1,4 @@
 ```mermaid
-%%{init: { 'fontSize': 32 } }%%
 sequenceDiagram
     participant user as User
     participant frontend as Your Frontend
@@ -8,13 +7,11 @@ sequenceDiagram
     user ->> frontend: click login
     frontend->>frontend: Generate Code Verifier + Code Challenge
     frontend->>bi: /authorize
-    rect rgb(200, 150, 255)
     alt automatic
 	bi->>frontend: 302 to INVOKE_URL
 	frontend->>frontend: Redirect to INVOKE_URL
     else manual
 	bi->>frontend: 200 JSON response w/ INVOKE_URL
-    end
     end
     frontend->>bi: Authenticate against passkey in Frontend using SDK
     bi->>frontend: Authorization Code

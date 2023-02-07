@@ -104,28 +104,25 @@ Need a way to disambiguate our URLs from the rest of the URLs at your routing la
 #### Passkey Binding Flow Diagram for EMAIL delivery_method
 
 ```mermaid
-%%{init: { 'fontSize': 32 } }%%
 sequenceDiagram
     participant SDK
     participant User
-	participant Your front end
+    participant Your front end
     participant Your server
-	participant Beyond Identity API
-
-	User ->> Your front end: click button "Create<br/> New Passkey"
-	Your front end ->> Your server:
-	Your server ->> Beyond Identity API: POST to <br/>/credential-binding-jobs
-	Note Right of Your server: "delivery_method": "EMAIL"<br/> in POST body JSON
-	Beyond Identity API ->> User: email with link<br/> containing one time token
-	Note Right of User: User clicks link
-	User ->> Beyond Identity API: GET with one time token
-	Beyond Identity API ->> Your front end: 302 to your app's configured<br/> Invoke URL + '/bind',<br/> e.g. **http://exampleapp.com/bind?** with<br/> one time token and other parameters
-	Note Over Your server: GET to app at /bind route or page,<br/> app makes url available to front end
-	Your front end ->> SDK: credential_binding_link value
-	Note Right of SDK: SDK generates<br/> passkey locally
-	SDK ->> Beyond Identity API: send passkey information to associate with identity in BI tenant
-```
-
+    participant Beyond Identity API 
+    User ->> Your front end: click button "Create<br/> New Passkey"
+    Your front end ->> Your server: 
+    Your server ->> Beyond Identity API: POST to <br/>/credential-binding-jobs
+    Note Right of Your server: "delivery_method": "EMAIL"<br/> in POST body JSON
+    Beyond Identity API ->> User: email with link<br/> containing one time token
+    Note Right of User: User clicks link
+    User ->> Beyond Identity API: GET with one time token
+    Beyond Identity API ->> Your front end: 302 to your app's configured<br/> Invoke URL + '/bind',<br/> e.g. **http://exampleapp.com/bind?** with<br/> one time token and other parameters
+    Note Over Your server: GET to app at /bind route or page,<br/> app makes url available to front end
+    Your front end ->> SDK: credential_binding_link value
+    Note Right of SDK: SDK generates<br/> passkey locally
+    SDK ->> Beyond Identity API: send passkey information to associate with identity in BI tenant
+```  
 <br/>
 
 > Note that credential binding flows that use delivery_method "RETURN" do not make use of the Invoke URL.
@@ -133,22 +130,20 @@ sequenceDiagram
 #### Passkey Binding Flow Diagram for RETURN delivery_method
 
 ```mermaid
-%%{init: { 'fontSize': 32 } }%%
 sequenceDiagram
     participant SDK
-	participant Your front end
+    participant Your front end
     participant Your server
-	participant Beyond Identity API
-
-	Your front end ->> Your server: click button<br/>"Create New Passkey"
-	Your server ->> Beyond Identity API: POST<br/> to<br/> /credential-binding-jobs
-	Note right of Your server: "delivery_method":<br/> "RETURN" in<br/> POST body JSON
-	Beyond Identity API ->> Your server: response JSON contains<br/> credential_binding_link
-	Your server ->> Your front end:
-	Your front end ->> SDK: credential_binding_link
-	Note right of SDK: SDK generates<br/> passkey locally
-	SDK ->> Beyond Identity API: send passkey information to associate with identity in BI tenant
-```
+    participant Beyond Identity API 
+    Your front end ->> Your server: click button<br/>"Create New Passkey"
+    Your server ->> Beyond Identity API: POST<br/> to<br/> /credential-binding-jobs
+    Note right of Your server: "delivery_method":<br/> "RETURN" in<br/> POST body JSON
+    Beyond Identity API ->> Your server: response JSON contains<br/> credential_binding_link
+    Your server ->> Your front end: 
+    Your front end ->> SDK: credential_binding_link
+    Note right of SDK: SDK generates<br/> passkey locally
+    SDK ->> Beyond Identity API: send passkey information to associate with identity in BI tenant
+``` 
 
 ### Invoke URL as used for Authentication
 
