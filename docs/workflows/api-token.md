@@ -53,7 +53,7 @@ title="/token"
 
 ### Authorization Code Flow
 
-Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is recieved through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
+Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is received through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
 Use the following curl examples below to obtain an authorization code and then create a token with that code. Note the following example uses `S256`, but using the `plain` `code_challenge_method` might be easier to get started as using PKCE requires storing the hash of the value passed as `code_challenge` so it can be passed to the token endpoint later.
 
