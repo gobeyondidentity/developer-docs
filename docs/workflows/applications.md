@@ -75,7 +75,7 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 An application can also be created from the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). Before making any API calls you'll want to generate an API access token. Check out [API Tokens](./api-token) for help creating an access token.
 
-### Create an Application Resource Server
+### Create a Resource Server
 
 Before creating an application by API, you may want to create a resource server. A resource server is a namespace for application scopes. Application scopes is a set of all scopes supported by the application. When an application is created without a resource server, this application may provide authentication (identity) but not authorization (access). If your application doesn't provide multiple levels of access -- like admin access vs user access, then there might not be a need for a resource server.
 
