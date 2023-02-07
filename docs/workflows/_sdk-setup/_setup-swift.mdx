@@ -1,0 +1,10 @@
+```swift
+import BeyondIdentityEmbedded
+
+Embedded.initialize(
+    allowedDomains: [String] = ["beyondidentity.com"],
+    biometricAskPrompt: String,
+    logger: ((OSLogType, String) -> Void)? = nil,
+    callback: @escaping(Result<Void, BISDKError>) -> Void
+)
+```

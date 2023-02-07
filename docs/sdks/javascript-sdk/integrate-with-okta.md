@@ -8,7 +8,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 ## Prerequisites
 
  - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
- - [JavaScript SDK Overview](overview)
+ - [JavaScript SDK Setup](/docs/v1/workflows/sdk-setup?sdks=javascript)
 
 :::tip NextAuth.js
 This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. All code snippets are provided in the context of the [NextAuth Example App](https://github.com/nextauthjs/next-auth-example).
@@ -33,14 +33,14 @@ providers: [
 
 Note that you'll need to fill in the `<OKTA_CLIENT_ID>`, `<OKTA_CLIENT_SECRET>`, and `<OKTA_ISSUER>` with the values you generated when creating your application in Okta. See the [following](/guides/sso-integrations/integrate-with-okta) guide mentioned in the [prerequisites](#prerequisites).
 
-## Wiring up [`embedded.authenticate`](overview#authentication)
+## Wiring up [`embedded.authenticate`](/docs/v1/workflows/sdk-setup?sdks=javascript#authentication)
 
 Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `invoke_url` is configured properly, this is the page that will be redirected to during an authorization flow. copy the following code snippet into that page.
 
 ```javascript
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { Credential } from "@beyondidentity/bi-sdk-js";
+import { Passkey } from "@beyondidentity/bi-sdk-js";
 
 const BIAuthenticate = () => {
   const [biAuthenticateResult, setBiAuthenticateResult] = useState("");
@@ -54,9 +54,9 @@ const BIAuthenticate = () => {
         // Only authenticate if the URL is a "bi-authenticate" URL
         let biAuthenticateUrl = window.location.href;
         // -- 2
-        biAuthenticate(biAuthenticateUrl).then(redirectURL => {
+        biAuthenticate(biAuthenticateUrl).then(redirectUrl => {
           // -- 4
-          window.location.href = redirectURL;
+          window.location.href = redirectUrl;
         }).catch(error => {
           setBiAuthenticateResult(error.toString());
         });
@@ -70,17 +70,17 @@ const BIAuthenticate = () => {
     const BeyondIdentityEmbeddedSdk = await import("@beyondidentity/bi-sdk-js");
     let embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize();
 
-    // Display credentials so user can select one
-    let credentials = await embedded.getCredentials();
-    let promptText = credentials.map((credential, index) => {
-      return `${index}: ${credential.identity.username}`;
+    // Display passkeys so user can select one
+    let passkeys = await embedded.getPasskeys();
+    let promptText = passkeys.map((passkey, index) => {
+      return `${index}: ${passkey.identity.username}`;
     }).join("\n");
     let selectedIndex = parseInt(prompt(promptText, "index")!!);
-    if (selectedIndex >= 0 && selectedIndex < credentials.length) {
-      let selectedId = credentials[selectedIndex].id;
+    if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
+      let selectedId = passkeys[selectedIndex].id;
       // Perform authentication using selected id
       let result = await embedded.authenticate(url, selectedId);
-      return Promise.resolve(result.redirectURL);
+      return Promise.resolve(result.redirectUrl);
     } else {
       // This will fail in core as it won't match to any id
       return Promise.resolve("unknown_id");
@@ -126,10 +126,10 @@ export default BIAuthenticate;
 
 ### What's happening here?
 
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use [`embedded.isAuthenticateUrl`](overview#authenticate-url-validation) to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use [`embedded.isAuthenticateUrl`](/docs/v1/workflows/sdk-setup?sdks=javascript#authenticate-url-validation) to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
 2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
-3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a credential bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a credential if there is more than one.
-4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
+3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
+4. Finally, the response of `embedded.authenticate` contains a `redirectUrl`. Follow this redirect URL to complete the OAuth/OIDC flow.
 
 ## What does it look like?
 

@@ -46,6 +46,7 @@ const sidebars = {
       type: 'category',
       label: 'SDKs',
       items: [
+        'workflows/sdk-setup',
         'workflows/bind-passkey',
         'workflows/authentication',
         {
@@ -91,7 +92,7 @@ const sidebars = {
             {
               type: 'link',
               label: 'Documentation',
-              href: 'https://gobeyondidentity.github.io/bi-sdk-swift/',
+              href: 'https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/',
             },
           ],
           collapsed: true,

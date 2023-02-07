@@ -8,9 +8,9 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
- - [Flutter SDK](overview)
+ - [Flutter SDK Setup](/docs/v1/workflows/sdk-setup?sdks=flutter)
 
-Before calling [`EmbeddedSdk.authenticate()`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup?sdks=flutter#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -45,10 +45,10 @@ var result = await FlutterWebAuth.authenticate(
 
  - Step 3: Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](overview#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](overview#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/docs/v1/workflows/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/v1/workflows/sdk-setup?sdks=flutter#authenticate-url-validation).
 
 ```javascript
-var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
+var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
 ```
 
  - Step 4: Redirect URL
@@ -68,13 +68,13 @@ var result = await FlutterWebAuth.authenticate(
 #### Full Example
 
 ```javascript
-selectCredentialId((selectedCredentialId) async {
+selectPasskeyId((selectedPasskeyId) async {
     var result = await FlutterWebAuth.authenticate(
         url: AUTH0_URL,
         callbackUrlScheme: CALLBACK_URL_SCHEME,
     );
 
-    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedCredentialId);
+    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
 
     var redirectUrlResult = await FlutterWebAuth.authenticate(
         url: authenticateResponse.redirectUrl,
@@ -85,8 +85,8 @@ selectCredentialId((selectedCredentialId) async {
     // Exchange the authorization code for an id_token using Auth0's token endpoint.
 });
 
-Future<void> selectCredentialId(Function(String) callback) async {
-  // Where you can perform some logic here to select a credential, or
-  // present UI to a user to enable them to select a credential.
+Future<void> selectPasskeyId(Function(String) callback) async {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
 }
 ```
