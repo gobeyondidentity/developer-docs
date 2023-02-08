@@ -87,7 +87,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={curl}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="csharp" label="CSharp">
@@ -96,7 +95,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.csharp}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="dart" label="Dart">
@@ -105,7 +103,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.dart}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="go" label="Go">
@@ -114,7 +111,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.go}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="java" label="Java">
@@ -123,7 +119,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.java}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="node" label="Node">
@@ -132,7 +127,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.node}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="python" label="Python">
@@ -141,7 +135,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.python}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="ruby" label="Ruby">
@@ -150,7 +143,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.ruby}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
         <TabItem value="rust" label="Rust">
@@ -159,7 +151,6 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
             title={title}
             text={response?.rust}
             theme={theme}
-            enableCornerRadius={true}
           ></CodeBlock>
         </TabItem>
       </Tabs>
