@@ -7,7 +7,13 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
 
-# User Provisioning Overview
+# User and Group Provisioning
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+
+## Overview
 
 Before creating a passkey, a user must be provisioned as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities. A realm can have many identities.
 

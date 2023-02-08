@@ -78,7 +78,13 @@ import DeletePasskeySwift from '/docs/sdks/code-snippets/delete-passkey-swift.md
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# SDK Setup Overview
+# SDK Setup
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+
+## Overview
 
 This guide enables you to set up each of the Beyond Identity SDKs and to learn about the functionality they contain.
 
@@ -89,27 +95,27 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<SampleAppJavaScript/>
+<SampleAppJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<SampleAppKotlin/>
+<SampleAppKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<SampleAppSwift/>
+<SampleAppSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<SampleAppReactNative/>
+<SampleAppReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<SampleAppFlutter/>
+<SampleAppFlutter />
 
 </TabItem>
 </Tabs>
@@ -119,27 +125,27 @@ The Embedded SDK is a holistic SDK solution offering the entire experience embed
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<InstallationJavaScript/>
+<InstallationJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<InstallationKotlin/>
+<InstallationKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<InstallationSwift/>
+<InstallationSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<InstallationReactNative/>
+<InstallationReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<InstallationFlutter/>
+<InstallationFlutter />
 
 </TabItem>
 </Tabs>
@@ -151,22 +157,22 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<SetupJavaScript/>
+<SetupJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<SetupKotlin/>
+<SetupKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<SetupSwift/>
+<SetupSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<SetupReactNative/>
+<SetupReactNative />
 
 You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
 
@@ -188,7 +194,7 @@ Embedded.logEventEmitter.addListener(
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<SetupFlutter/>
+<SetupFlutter />
 
 </TabItem>
 </Tabs>
@@ -198,27 +204,27 @@ Embedded.logEventEmitter.addListener(
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<SdkApiDocumentationJavaScript/>
+<SdkApiDocumentationJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<SdkApiDocumentationKotlin/>
+<SdkApiDocumentationKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<SdkApiDocumentationSwift/>
+<SdkApiDocumentationSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<SdkApiDocumentationReactNative/>
+<SdkApiDocumentationReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<SdkApiDocumentationFlutter/>
+<SdkApiDocumentationFlutter />
 
 </TabItem>
 </Tabs>
@@ -232,47 +238,47 @@ The `bindPasskey` function expects a URL. This can either be a binding passkey l
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<BindPasskeyRequestJavaScript/>
+<BindPasskeyRequestJavaScript />
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-<BindPasskeyResponseJavaScript/>
+<BindPasskeyResponseJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<BindPasskeyRequestKotlin/>
+<BindPasskeyRequestKotlin />
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-<BindPasskeyResponseKotlin/>
+<BindPasskeyResponseKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<BindPasskeyRequestSwift/>
+<BindPasskeyRequestSwift />
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-<BindPasskeyResponseSwift/>
+<BindPasskeyResponseSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<BindPasskeyRequestReactNative/>
+<BindPasskeyRequestReactNative />
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-<BindPasskeyResponseReactNative/>
+<BindPasskeyResponseReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<BindPasskeyRequestFlutter/>
+<BindPasskeyRequestFlutter />
 
 Where the response type consists of an object containing a `Passkey` and an optional `postBindingRedirectUri` URL to redirect to upon succesfully binding a passkey.
 
-<BindPasskeyResponseFlutter/>
+<BindPasskeyResponseFlutter />
 
 </TabItem>
 </Tabs>
@@ -281,54 +287,54 @@ Where the response type consists of an object containing a `Passkey` and an opti
 
 The `authenticate` function expects a `URL` and a `PasskeyId`. This Beyond Identity specific URL is generated during the OAuth2 authorization flow and carries with it a JWT that contains information specific to the current authorization request. When passing this URL into the `authenticate` function, this will perform a challenge/response against the private key bound to the passkey on your device. You will be required to select from one of the passkeys bound to your device if more than one passkey belongs to a single Realm. This function should be used in conjunction with [isAuthenticateUrl](#authenticate-url-validation) in order to determine if the URL being passed in is a valid authenticate URL.
 
-Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys). 
+Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys).
 
 #### Usage
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<AuthenticateRequestJavaScript/>
+<AuthenticateRequestJavaScript />
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-<AuthenticateResponseJavaScript/>
+<AuthenticateResponseJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<AuthenticateRequestKotlin/>
+<AuthenticateRequestKotlin />
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-<AuthenticateResponseKotlin/>
+<AuthenticateResponseKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<AuthenticateRequestSwift/>
+<AuthenticateRequestSwift />
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-<AuthenticateResponseSwift/>
+<AuthenticateResponseSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<AuthenticateRequestReactNative/>
+<AuthenticateRequestReactNative />
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-<AuthenticateResponseReactNative/>
+<AuthenticateResponseReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<AuthenticateRequestFlutter/>
+<AuthenticateRequestFlutter />
 
 Where the response consists of an object containing a `redirectUrl` that you should redirect back to in order to complete the authentication flow, and an optional `message` to display to the user.
 
-<AuthenticateResponseFlutter/>
+<AuthenticateResponseFlutter />
 
 </TabItem>
 </Tabs>
@@ -342,27 +348,27 @@ This function is used to validate if a given URL is able to be used by the `bind
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<IsBindPasskeyUrlJavaScript/>
+<IsBindPasskeyUrlJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<IsBindPasskeyUrlKotlin/>
+<IsBindPasskeyUrlKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<IsBindPasskeyUrlSwift/>
+<IsBindPasskeyUrlSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<IsBindPasskeyUrlReactNative/>
+<IsBindPasskeyUrlReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<IsBindPasskeyUrlFlutter/>
+<IsBindPasskeyUrlFlutter />
 
 </TabItem>
 </Tabs>
@@ -374,27 +380,27 @@ This function is used to validate if a given URL is able to be used by the `auth
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<IsAuthenticateUrlJavaScript/>
+<IsAuthenticateUrlJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<IsAuthenticateUrlKotlin/>
+<IsAuthenticateUrlKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<IsAuthenticateUrlSwift/>
+<IsAuthenticateUrlSwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<IsAuthenticateUrlReactNative/>
+<IsAuthenticateUrlReactNative />
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<IsAuthenticateUrlFlutter/>
+<IsAuthenticateUrlFlutter />
 
 </TabItem>
 </Tabs>
@@ -408,35 +414,35 @@ The `getPasskeys` function enables you to get all passkeys currently bound to th
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<GetPasskeysJavaScript/>
+<GetPasskeysJavaScript />
 
 Where the response is a `[Passkey]`.
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<GetPasskeysKotlin/>
+<GetPasskeysKotlin />
 
 Where the response is a `List<Passkey>`.
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<GetPasskeysSwift/>
+<GetPasskeysSwift />
 
 Where the response is a `[Passkey]`.
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<GetPasskeysReactNative/>
+<GetPasskeysReactNative />
 
 Where the response is a list of passkeys.
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<GetPasskeysFlutter/>
+<GetPasskeysFlutter />
 
 Where the response is a `List<Passkey>`.
 
@@ -450,29 +456,29 @@ The `deletePasskey` function allows you to delete a passkey given its ID.
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<DeletePasskeyJavaScript/>
+<DeletePasskeyJavaScript />
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">
 
-<DeletePasskeyKotlin/>
+<DeletePasskeyKotlin />
 
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-<DeletePasskeySwift/>
+<DeletePasskeySwift />
 
 </TabItem>
 <TabItem value="reactnative" label="React Native">
 
-<DeletePasskeyReactNative/>
+<DeletePasskeyReactNative />
 
 Where the response is passkey id.
 
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-<DeletePasskeyFlutter/>
+<DeletePasskeyFlutter />
 
 </TabItem>
 </Tabs>

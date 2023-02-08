@@ -5,7 +5,14 @@ sidebar_position: 5
 
 import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
 
-# Application Overview
+# Applications
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+- Read about [realms](./realms.md)
+
+## Application Overview
 
 An application is an abstraction in the admin console that enables you to configure passkey binding and authentication in your mobile/web apps. An application contains client configuration, token configuration, and an [Authenticator Config](../platform-overview/authenticator-config.md). There are two ways to create an admin console application for your apps:
 
