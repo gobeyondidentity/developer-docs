@@ -120,9 +120,11 @@ title="/authenticator-configs"
 
 ### Create an Application
 
-Once you have created an [Authenticator Config](#create-an-authenticator-config) and possibly a [Resouce Server](#create-an-application-resource-server), you can create an application.
+Once you have created an [Authenticator Config](#create-an-authenticator-config) and a [Resouce Server](#create-an-application-resource-server), you can create an application.
 
-While the Resouce Server ID is optional, make sure to have the Authenticator Config ID for the applications request. Set the application's Display Name, Client Type, Token Configuration, and redirect URI.
+While the Resouce Server ID is optional, make sure to have the Authenticator Config ID for the applications with `grant_type` set to **authorization_code**. If you only wish to create an application with the client credentials OAuth flow, then the Authenticator Config ID is not required either. This is how the Beyond Identity Management API appliction is configured in your Beyond Identity Admin realm, however for most applications you will want to use the authorization code flow. The below example makes this assumption.
+
+Set the application's Display Name, Client Type, Token Configuration, and redirect URI in the below request.
 
 There are two options available for `confidentiality`:
 
