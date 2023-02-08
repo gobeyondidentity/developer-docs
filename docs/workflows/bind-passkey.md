@@ -12,8 +12,9 @@ import TabItem from '@theme/TabItem';
 import BackendGeneral from './\_bind-passkey-backend-general.mdx';
 import FrontEndReturn from './\_bind-passkey-frontend-return.mdx';
 import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
-import ImageSwitcher from '../../src/components/ImageSwitcher.js';
 import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
+import BindEmailDiagram from '../platform-overview/\_bind-delivery-method-email-diagram.mdx';
+import BindReturnDiagram from '../platform-overview/\_bind-delivery-method-return-diagram.mdx';
 
 # Bind Passkey Overview
 
@@ -46,8 +47,7 @@ A binding job can be generated through the [Beyond Identity API](https://develop
 <!--  RETURN -->
 <TabItem value="return" label="RETURN">
 
-<ImageSwitcher lightSrc="/assets/bind-delivery-method-return-light.png" darkSrc="/assets/bind-delivery-method-return-dark.png" />
-
+<BindReturnDiagram/>
 <BackendGeneral/>
 
 ### Get Binding Link for Identity
@@ -69,8 +69,7 @@ In order to get a binding link for a passkey, you need to create a binding job f
 <!-- EMAIL -->
 <TabItem value="email" label="EMAIL">
 
-<ImageSwitcher lightSrc="/assets/bind-delivery-method-email-light.png" darkSrc="/assets/bind-delivery-method-email-dark.png" />
-
+<BindEmailDiagram/>
 <BackendGeneral/>
 
 ### Get Binding Link for Identity
