@@ -10,13 +10,20 @@ import SilentAuth from './\_authentication-via-return.mdx'
 import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
 import InvocationDiagram from '../platform-overview/\_invocation-url-diagram.mdx';
 
-# Authentication Overview
+# Authentication with Passkey
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+- Create an [application](./applications.md)
+- Create at least one [identity](./user-provisioning.md)
+- Have at least one passkey [bound](./bind-passkey) to an identity
+
+## Overview
 
 This guide describes how to authenticate an application with a passkey using Beyond Identity within a standard OAuth2/OIDC authorization flow.
 
 In response to an OIDC request to the Beyond Identity /authorize endpoint, Beyond Identity initiates passwordless authentication by returning an authentication challenge and other information to your app. Before authenticating, your app can use the Beyond Identity SDK to enumerate available passkeys and should perform some logic to select one, such as presenting selection UI to the user. Once a passkey is selected, you can then use the SDK to complete authentication and finally perform the OAuth code for token exchange.
-
-This guide assumes you have already [set up an application](../using-bi-for-auth.md), have access to the Beyond Identity Admin Console, and your application has at least one passkey [bound to an identity](./bind-passkey).
 
 ## Authorization
 

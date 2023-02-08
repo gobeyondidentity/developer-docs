@@ -16,9 +16,17 @@ import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock'
 import BindEmailDiagram from '../platform-overview/\_bind-delivery-method-email-diagram.mdx';
 import BindReturnDiagram from '../platform-overview/\_bind-delivery-method-return-diagram.mdx';
 
-# Bind Passkey Overview
+# Bind Passkey To User
 
-In order to authenticate with Beyond Identity, you need a [Universal Passkey](../platform-overview/passkeys-and-devices/what-are-passkeys). This guide will walk you through binding a passkey to an identity. Make sure you have [created an identity](./user-provisioning.md), set up an application, and configured your [Authenticator Config](../platform-overview/authenticator-config.md) before following this guide.
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+- Create an [application](./applications.md)
+- Create at least one [identity](./user-provisioning.md)
+
+# Overview
+
+In order to [authenticate with Beyond Identity](./authentication.md), you need a [Universal Passkey](../platform-overview/passkeys-and-devices/what-are-passkeys). This guide will walk you through binding a passkey to an identity.
 
 Passkeys are generated through a binding job. On creation of a binding job, a binding link will be generated. That binding link can be used in the Embedded SDK to bind a passkey to a specific device or browser. This passkey will be [stored](../platform-overview/passkeys-and-devices/how-are-keys-stored) in the user's device's hardware root of trust (i.e. secure enclave).
 
