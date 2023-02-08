@@ -7,9 +7,13 @@ import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock"
 
 # Application Overview
 
-An application is created within a realm to configure OAuth2/OIDC flows. It represents your application (e.g. AcmeCorp Android App, Todo-List iOS App, etc) and utilized its realm's directory, policy, events, and branding objects. The application contains client configuration, token configuration, and an [Authenticator Config](../platform-overview/authenticator-config.md).
+An application is an abstraction in the admin console that enables you to configure passkey binding and authentication in your mobile/web apps. An application contains client configuration, token configuration, and an [Authenticator Config](../platform-overview/authenticator-config.md). There are two ways to create an admin console application for your apps:
 
-To see how an application fits in the wider Beyond Identity architecture, check out [Architecture](../platform-overview/architecture.md).
+- **One application per platform**: In this scenario, there is one admin console application created per app on each platform your app supports (iOS, Android, Web, etc). This is easier to configure upfront and provides flexibility in regards to platform specific configurability. However, it is more difficult to configure the generation of passkey binding links across platforms.
+
+- **One application for all platforms**: In this scenario, there is one admin console application created for your app across all platforms you support. This is more difficult to configure upfront as it required building a web routing layer to redirect passkey binding links appropriately, however it makes it easier to accomplish a more seamless experience when generating passkey binding links across platforms.
+
+A [realm](./realms.md) contains multiple applications, and an application utilizes the realm's directory, policy, events, and branding objects. To see how an application fits in the wider Beyond Identity architecture, check out [Architecture](../platform-overview/architecture.md).
 
 ## Create Application from Admin Console
 
