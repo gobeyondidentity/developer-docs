@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 import WebAuth from './\_authentication-via-automatic.mdx'
 import SilentAuth from './\_authentication-via-return.mdx'
 import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
-import InvocationDiagram from '../platform-overview/\_invocation_url_diagram.mdx';
+import InvocationDiagram from '../platform-overview/\_invocation-url-diagram.mdx';
 
 # Authentication Overview
 
