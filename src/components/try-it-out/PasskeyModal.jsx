@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import classNames from "classnames";
 import CodeBlock from "../CodeBlock";
-import styles from "./CredentialModal.module.css";
+import styles from "./PasskeyModal.module.css";
 import padding from "../../css/Padding.module.css";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
@@ -25,7 +25,7 @@ function afterCloseModal() {
   document.body.style.overflow = "unset";
 }
 
-const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
+const PasskeyModal = ({ passkey, isOpen, closeModal, onDelete }) => {
   const [theme, setTheme] = useState(function () {
     if (ExecutionEnvironment.canUseDOM && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return DARK_MODE_THEME;
@@ -79,14 +79,14 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
             backgroundColor: overlayBackgroundcolor
           },
         }}
-        contentLabel="Credential Info Modal"
+        contentLabel="Passkey Info Modal"
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
       >
         <div className={classNames(styles.container)}>
-          {credential !== null ?
+          {passkey !== null ?
             <div className={classNames(styles["modal-header"])}>
-              <h2 className={classNames(padding["ml-1"], padding["mb-0"])}>{credential.identity.username}</h2>
+              <h2 className={classNames(padding["ml-1"], padding["mb-0"])}>{passkey.identity.username}</h2>
               <div>
                 <div
                   className={classNames(styles.icon)}
@@ -108,7 +108,7 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
           <div className={classNames(styles.modal)}>
             <CodeBlock
               language="json"
-              text={JSON.stringify(credential, null, 2)}
+              text={JSON.stringify(passkey, null, 2)}
               theme={theme}
               enableBorderRadius={false}
               className={classNames(styles["code-block"])}
@@ -120,4 +120,4 @@ const CredentialModal = ({ credential, isOpen, closeModal, onDelete }) => {
   )
 };
 
-export default CredentialModal;
+export default PasskeyModal;
