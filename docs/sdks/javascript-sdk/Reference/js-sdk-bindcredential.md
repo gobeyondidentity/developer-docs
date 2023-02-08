@@ -206,21 +206,21 @@ where the following data elements are used:
 
 When the user clicks the link in the Beyond Identity registration email, they will be redirected to your application's Invoke URL, as configured in the Authenticator Config tab in your BI tenant, with an automatically appended '/bind' route, for example 'http://example.com/bind', with several query string parameters appended.
 
-Your app must have a route or page to intercept this redirect, take the complete url (window.location.href), and send it to the **bindCredential** function as follows:
+Your app must have a route or page to intercept this redirect, take the complete url (window.location.href), and send it to the **bindPasskey** function as follows:
 ```javascript
-if (embedded.isBindCredentialUrl(window.location.href)) {
+if (embedded.isBindPasskeyUrl(window.location.href)) {
   // Only bind if the URL is a "bind" URL
   let bindPasskeyUrl = window.location.href;
   // -- 3
   embedded
-    .bindCredential(bindPasskeyUrl)
+    .bindPasskey(bindPasskeyUrl)
     .then(result => {setBindPasskeyResult(result.credential)})
     .catch((error) => {
       setBindPasskeyResult(error.toString());
     });
 }
 ```  
-For complete guidance on binding a passkey to a user, see [Workflow: Bind Passkey to User](/docs/workflows/sdk-setup.mdx)
+For complete guidance on binding a passkey to a user, see [Workflow: Bind Passkey to User](/docs/workflows/bind-passkey.md)
 
 
 
