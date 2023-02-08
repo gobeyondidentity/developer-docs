@@ -4,24 +4,24 @@ async function initialized() {
   return embedded;
 }
 
-export async function getCredentials() {
+export async function getPasskeys() {
   const embedded = await initialized();
-  const credentials = await embedded.getCredentials();
-  credentials.sort((a, b) => a.identity.username.localeCompare(b.identity.username))
-  return credentials;
+  const passkeys = await embedded.getPasskeys();
+  passkeys.sort((a, b) => a.identity.username.localeCompare(b.identity.username))
+  return passkeys;
 }
 
-export async function bindCredential(url) {
+export async function bindPasskey(url) {
   const embedded = await initialized();
-  return await embedded.bindCredential(url);
+  return await embedded.bindPasskey(url);
 }
 
-export async function authenticate(url, credentialId) {
+export async function authenticate(url, passkeyId) {
   const embedded = await initialized();
-  return await embedded.authenticate(url, credentialId);
+  return await embedded.authenticate(url, passkeyId);
 }
 
-export async function deleteCredential(credentialId) {
+export async function deletePasskey(passkeyId) {
   const embedded = await initialized();
-  return await embedded.deleteCredential(credentialId);
+  return await embedded.deletePasskey(passkeyId);
 }

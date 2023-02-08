@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import AuthenticateResult from "./AuthenticateResult";
 import Button from "./Button";
-import CredentialTable from "./CredentialTable";
-import SelectCredentialTable from "./SelectCredentialTable";
-import CredentialModal from "./CredentialModal";
+import PasskeyTable from "./PasskeyTable";
+import SelectPasskeyTable from "./SelectPasskeyTable";
+import PasskeyModal from "./PasskeyModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
-import { getCredentials, bindCredential, authenticate, deleteCredential } from "../../utils/bi-sdk-js";
+import { getPasskeys, bindPasskey, authenticate, deletePasskey } from "../../utils/bi-sdk-js";
 import { getOffsetForElementById } from "../../utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,8 +56,8 @@ const StepOne = ({ progressState, setProgressState }) => {
     }
 
     try {
-      await bindCredential(response.credential_binding_link);
-      window.postMessage("update-credentials", "*");
+      await bindPasskey(response.credential_binding_link);
+      window.postMessage("update-passkeys", "*");
       setLoading(false);
       setProgressState(nextProgressState(progressState, STEP_ONE, STEP_TWO));
 
@@ -113,10 +113,10 @@ const StepOne = ({ progressState, setProgressState }) => {
 };
 
 const StepTwo = ({ progressState, setProgressState }) => {
-  const [credentials, setCredentials] = useState(null);
+  const [passkeys, setPasskeys] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [credentialsLoaded, setCredentialsLoaded] = useState(false);
-  const [selectedCredential, setSelectedCredential] = useState(null);
+  const [passkeysLoaded, setPasskeysLoaded] = useState(false);
+  const [selectedPasskey, setSelectedPasskey] = useState(null);
 
   var parentClassNames = function () {
     if (progressState.step.two === IN_PROGRESS || progressState.step.two === COMPLETE) {
@@ -129,9 +129,9 @@ const StepTwo = ({ progressState, setProgressState }) => {
     event.preventDefault()
     setLoading(true);
     try {
-      const credentials = await getCredentials();
-      setCredentials(credentials);
-      setCredentialsLoaded(true);
+      const passkeys = await getPasskeys();
+      setPasskeys(passkeys);
+      setPasskeysLoaded(true);
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -140,8 +140,8 @@ const StepTwo = ({ progressState, setProgressState }) => {
     }
   };
 
-  const handleCredentialClick = async (credential) => {
-    setSelectedCredential(credential);
+  const handlePasskeyClick = async (passkey) => {
+    setSelectedPasskey(passkey);
   };
 
   const handleNext = () => {
@@ -161,15 +161,15 @@ const StepTwo = ({ progressState, setProgressState }) => {
   };
 
   const closeModal = () => {
-    setSelectedCredential(null);
+    setSelectedPasskey(null);
   };
 
   const onDelete = async () => {
     if (confirm(`Are you sure you want to delete this passkey?`)) {
       try {
-        await deleteCredential(selectedCredential.id);
-        setSelectedCredential(null);
-        window.postMessage("update-credentials", "*");
+        await deletePasskey(selectedPasskey.id);
+        setSelectedPasskey(null);
+        window.postMessage("update-passkeys", "*");
       } catch (e) {
         console.error(e);
         toast.error("Failed to delete passkey. Please try again.");
@@ -181,29 +181,29 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   if (ExecutionEnvironment.canUseDOM) {
     window.addEventListener("message", async (event) => {
-      if (event.data === "update-credentials") {
+      if (event.data === "update-passkeys") {
         try {
-          // Only update if credentials have already been loaded.
+          // Only update if passkeys have already been loaded.
           // This account for the case where the user is going back
           // through the steps a second time.
-          if (!credentialsLoaded) {
+          if (!passkeysLoaded) {
             return;
           }
-          const credentials = await getCredentials();
+          const passkeys = await getPasskeys();
 
-          // If there are still credentials remaining, update
+          // If there are still passkeys remaining, update
           // the state and return
-          if (credentials.length > 0) {
-            setCredentials(credentials);
-            setCredentialsLoaded(true);
+          if (passkeys.length > 0) {
+            setPasskeys(passkeys);
+            setPasskeysLoaded(true);
             return;
           }
 
           // Otherwise, reset the state
-          setCredentials(null);
+          setPasskeys(null);
           setLoading(false);
-          setCredentialsLoaded(false);
-          setSelectedCredential(null);
+          setPasskeysLoaded(false);
+          setSelectedPasskey(null);
 
           setTimeout(() => {
             // And scroll back to Step One
@@ -229,7 +229,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
       <h1 className={classNames(styles.heading)}>2. See your passkeys</h1>
       <p>See all the passkeys you've created on this browser. If you've gone through this demo before, you'll see passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
-        {credentials !== null ? <CredentialTable credentials={credentials} onClick={handleCredentialClick}></CredentialTable> : <Button
+        {passkeys !== null ? <PasskeyTable passkeys={passkeys} onClick={handlePasskeyClick}></PasskeyTable> : <Button
           name="Show passkeys"
           isDisabled={false}
           isLoading={loading}
@@ -238,19 +238,19 @@ const StepTwo = ({ progressState, setProgressState }) => {
         </Button>}
       </div>
       <div className={classNames(padding["mt-1"])}>
-        {credentialsLoaded ? <Button
+        {passkeysLoaded ? <Button
           name="Next"
           isDisabled={false}
           isLoading={false}
           onClick={handleNext}
         ></Button> : <div></div>}
       </div>
-      <CredentialModal
-        credential={selectedCredential}
-        isOpen={selectedCredential !== null}
+      <PasskeyModal
+        passkey={selectedPasskey}
+        isOpen={selectedPasskey !== null}
         closeModal={closeModal}
         onDelete={onDelete}>
-      </CredentialModal>
+      </PasskeyModal>
     </div>
   );
 };
@@ -258,9 +258,9 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
 
 const StepThree = ({ progressState, setProgressState }) => {
-  const [credentials, setCredentials] = useState(null);
-  const [credentialsLoaded, setCredentialsLoaded] = useState(false);
-  const [selectedCredentialId, setSelectedCredentialId] = useState(null);
+  const [passkeys, setPasskeys] = useState(null);
+  const [passkeysLoaded, setPasskeysLoaded] = useState(false);
+  const [selectedPasskeyId, setSelectedPasskeyId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [tokenResponse, setTokenResponse] = useState(null);
 
@@ -271,33 +271,33 @@ const StepThree = ({ progressState, setProgressState }) => {
     return classNames("container", styles.blur);
   }();
 
-  if (progressState.step.three === IN_PROGRESS && !credentialsLoaded && ExecutionEnvironment.canUseDOM) {
-    getCredentials().then((credentials) => {
-      setCredentials(credentials);
-      setCredentialsLoaded(true);
-      if (credentials.length > 0) {
-        setSelectedCredentialId(credentials[0].id);
+  if (progressState.step.three === IN_PROGRESS && !passkeysLoaded && ExecutionEnvironment.canUseDOM) {
+    getPasskeys().then((passkeys) => {
+      setPasskeys(passkeys);
+      setPasskeysLoaded(true);
+      if (passkeys.length > 0) {
+        setSelectedPasskeyId(passkeys[0].id);
       }
     }, (error) => {
       console.error(error);
-      toast.error("Failed to get credentials. Please refresh the page and try again.");
+      toast.error("Failed to get passkeys. Please refresh the page and try again.");
     });
   }
 
-  const onClick = async (credential) => {
-    const el = document.getElementById(credential.id);
+  const onClick = async (passkey) => {
+    const el = document.getElementById(passkey.id);
     el.checked = true;
-    setSelectedCredentialId(credential.id);
+    setSelectedPasskeyId(passkey.id);
   };
 
   const onChange = (event) => {
-    setSelectedCredentialId(event.target.id);
+    setSelectedPasskeyId(event.target.id);
   };
 
   const handleLogin = async () => {
     setLoading(true);
-    if (selectedCredentialId === null) {
-      toast.error("No credential has been selected. Please select a credential and try again.");
+    if (selectedPasskeyId === null) {
+      toast.error("No passkey has been selected. Please select a passkey and try again.");
       setLoading(false);
       return;
     }
@@ -319,9 +319,9 @@ const StepThree = ({ progressState, setProgressState }) => {
     }
 
     try {
-      let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedCredentialId);
+      let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedPasskeyId);
 
-      const urlParams = new Proxy(new URLSearchParams(new URL(authenticateResult.redirectURL).search), {
+      const urlParams = new Proxy(new URLSearchParams(new URL(authenticateResult.redirectUrl).search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
 
@@ -378,28 +378,28 @@ const StepThree = ({ progressState, setProgressState }) => {
 
   if (ExecutionEnvironment.canUseDOM) {
     window.addEventListener("message", async (event) => {
-      if (event.data === "update-credentials") {
+      if (event.data === "update-passkeys") {
         try {
-          // Only update if credentials have already been loaded.
+          // Only update if passkeys have already been loaded.
           // This account for the case where the user is going back
           // through the steps a second time.
-          if (!credentialsLoaded) {
+          if (!passkeysLoaded) {
             return;
           }
-          const credentials = await getCredentials();
+          const passkeys = await getPasskeys();
 
-          if (credentials.length > 0) {
-            setCredentials(credentials);
-            setCredentialsLoaded(true);
-            const credentialIsSelected = credentials.find(c => c.id === selectedCredentialId);
-            if (!credentialIsSelected) {
-              setSelectedCredentialId(credentials[0].id);
+          if (passkeys.length > 0) {
+            setPasskeys(passkeys);
+            setPasskeysLoaded(true);
+            const passkeyIsSelected = passkeys.find(p => p.id === selectedPasskeyId);
+            if (!passkeyIsSelected) {
+              setSelectedPasskeyId(passkeys[0].id);
             }
             return;
           }
 
-          setCredentials(null);
-          setSelectedCredentialId(null);
+          setPasskeys(null);
+          setSelectedPasskeyId(null);
           setTokenResponse(null);
         } catch (e) {
           console.error(e);
@@ -417,13 +417,13 @@ const StepThree = ({ progressState, setProgressState }) => {
       <h1 className={classNames(styles.heading)}>3. Authenticate with your passkey</h1>
       <p>Select a passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
-        {credentials !== null ?
-          <SelectCredentialTable
-            credentials={credentials}
+        {passkeys !== null ?
+          <SelectPasskeyTable
+            passkeys={passkeys}
             onClick={onClick}
             onChange={onChange}
-            selectedCredentialId={selectedCredentialId}>
-          </SelectCredentialTable> : <Button
+            selectedPasskeyId={selectedPasskeyId}>
+          </SelectPasskeyTable> : <Button
             name="Register a User"
             isDisabled={false}
             isLoading={false}
@@ -432,7 +432,7 @@ const StepThree = ({ progressState, setProgressState }) => {
           </Button>}
       </div>
       <div className={classNames(padding["mt-1"])}>
-        {credentials !== null ? <Button
+        {passkeys !== null ? <Button
           name="Login"
           isDisabled={false}
           isLoading={loading}
