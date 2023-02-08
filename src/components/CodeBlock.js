@@ -12,6 +12,7 @@ const CodeBlock = ({ language, title, text, theme }) => {
   const style = theme === "dark" ? oneDark : oneLight;
   style["pre[class*=\"language-\"]"].margin = "0";
   style["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
+  style["pre[class*=\"language-\"]"].borderRadius = "0";
 
   return (
     <div>
