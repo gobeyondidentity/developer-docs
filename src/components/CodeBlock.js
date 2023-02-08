@@ -7,35 +7,11 @@ import {
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
-function safeStructuredClone(obj) {
-  if (ExecutionEnvironment.canUseDOM) {
-    return structuredClone(obj);
-  }
-  return obj;
-}
-
-const CodeBlock = ({ language, title, text, theme, enableBorderRadius }) => {
-  const titleStyle = theme === "dark" ? oneDark : oneLight;
-  const bodyStyle = theme === "dark" ? safeStructuredClone(oneDark) : safeStructuredClone(oneLight);
-
-  titleStyle["pre[class*=\"language-\"]"].margin = "0";
-  titleStyle["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
-  bodyStyle["pre[class*=\"language-\"]"].margin = "0";
-  bodyStyle["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
-
-  if (enableBorderRadius) {
-    if (title === null || title == undefined) {
-      bodyStyle["pre[class*=\"language-\"]"].borderRadius = "0.4rem";
-    } else {
-      titleStyle["pre[class*=\"language-\"]"].borderRadius = "0.4rem 0.4rem 0 0";
-      bodyStyle["pre[class*=\"language-\"]"].borderRadius = "0 0 0.4rem 0.4rem";
-    }
-  } else {
-    titleStyle["pre[class*=\"language-\"]"].borderRadius = "0";
-    bodyStyle["pre[class*=\"language-\"]"].borderRadius = "0";
-  }
+const CodeBlock = ({ language, title, text, theme }) => {
+  const style = theme === "dark" ? oneDark : oneLight;
+  style["pre[class*=\"language-\"]"].margin = "0";
+  style["pre[class*=\"language-\"]"].boxShadow = "0 1px 2px 0 rgba(0, 0, 0, 0.1)";
 
   return (
     <div>
@@ -43,7 +19,7 @@ const CodeBlock = ({ language, title, text, theme, enableBorderRadius }) => {
         <div></div>
       ) : (
         <div className={classNames(styles.title)}>
-          <SyntaxHighlighter language="plaintext" style={titleStyle}>
+          <SyntaxHighlighter language="plaintext" style={style}>
             {title}
           </SyntaxHighlighter>
         </div>
@@ -60,7 +36,7 @@ const CodeBlock = ({ language, title, text, theme, enableBorderRadius }) => {
         <SyntaxHighlighter
           showLineNumbers={true}
           language={language}
-          style={bodyStyle}
+          style={style}
         >
           {text}
         </SyntaxHighlighter>
