@@ -12,9 +12,10 @@ import TabItem from '@theme/TabItem';
 import BackendGeneral from './\_bind-passkey-backend-general.mdx';
 import FrontEndReturn from './\_bind-passkey-frontend-return.mdx';
 import FrontEndEmail from './\_bind-passkey-frontend-email.mdx';
-import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
 import BindEmailDiagram from '../platform-overview/\_bind-delivery-method-email-diagram.mdx';
 import BindReturnDiagram from '../platform-overview/\_bind-delivery-method-return-diagram.mdx';
+import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
 
 # Bind Passkey To User
 
@@ -34,10 +35,7 @@ Passkeys are generated through a binding job. On creation of a binding job, a bi
 
 A passkey can be bound to an identity directly from the Beyond Identity Admin Console. Under the realm that hosts your application, look for the "PROJECT MANAGEMENT" tab and select "Identities". A list of identities should be displayed. Tap on an identity that you would like to bind to a passkey. Next click on the "Add a passkey" button. Select an application and click "Proceed & send email".
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/Y0eBYYISHT8KxVwkSDpo?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreatePasskey} />
 
 The user will receive a registration email with a link to generate a passkey. Clicking the link will redirect the end user to the Beyond Identity Cloud. The Beyond Identity Cloud will look up the [Authenticator Config](../platform-overview/authenticator-config.md) that is associated with that passkey creation link and redirect the end user to your application using the Authenticator Config's Invoke URL.
 

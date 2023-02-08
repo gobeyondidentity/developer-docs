@@ -3,6 +3,8 @@ title: Using Beyond Identity for Authentication
 sidebar_position: 3
 ---
 
+import Arcade, {Clip} from '../src/components/Arcade.tsx';
+
 In the [Getting Started](/docs/v1/getting-started) section, we walked you over how to create a tenant, an application, as well as how to configure that application in order to authorize and authenticate a user with Beyond Identity.
 
 Let's review those steps in a bit more detail in the following section.
@@ -13,10 +15,7 @@ A realm is a namespace in your tenant that isolates identities and applications 
 
 For more information on realms, see the [Realms](./workflows/realms.md) guide.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/eyWvI91g13J7qj5vmCfD?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateRealm} />
 
 ## Create an Application
 
@@ -24,10 +23,7 @@ Applications hold the configuration necessary to integrate your existing softwar
 
 For more information on applications, see the [Applications](./workflows/applications.md) guide and [Authenticator Config](/docs/v1/platform-overview/authenticator-config).
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
- 	<iframe src='https://demo.arcade.software/KmtiNsx4Z31MkogQdwST?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
- 	</iframe>
-</div>
+<Arcade clip={Clip.CreateApplication} />
 
 ## Create a test identity
 
@@ -35,10 +31,7 @@ Before users can start authenticating with Beyond Identity, they must be provisi
 
 For more information on user provisioning, see the [User and Group Provisioning](./workflows/user-provisioning.md) guide.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-  <iframe src='https://demo.arcade.software/TufU7NgJYWOvNSDfuo9j?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-  </iframe>
-</div>
+<Arcade clip={Clip.CreateIdentity} />
 
 ## Get a Universal Passkey
 

@@ -3,7 +3,10 @@ title: Applications
 sidebar_position: 5
 ---
 
+import AppSchemeCaution from './\_app-scheme-caution.mdx';
+import InvocationTip from './\_invocation-type-tip.mdx';
 import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
 
 # Applications
 
@@ -59,28 +62,15 @@ If you selected the Embedded SDK Configuration Type, you will need to configure 
 
 1. Set an `Invocation Type` to specify how an authentication URL is delivered to your application.
 
-:::tip Which Invocation Type should I use?
-`Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
-
-`Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
-
-- Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
-- The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
-
-:::
+<InvocationTip />
 
 2. Set an `Invoke URL` that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
-:::caution
-While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
-:::
+<AppSchemeCaution/>
 
 3. Set `Trusted Origins` with your website's URL to add it to a whitelist. By default, cross origin requests are blocked by our server.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/KmtiNsx4Z31MkogQdwST?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateApplication} />
 
 ## Create Application by API
 

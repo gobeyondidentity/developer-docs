@@ -5,7 +5,8 @@ sidebar_position: 6
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
+import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
 
 # API Tokens
 
@@ -37,10 +38,7 @@ API access tokens are valid for 3 months (TTL 7776000 seconds). You can restrict
 
 The simplest way to acquire an access token is through the Beyond Identity Admin Console. Under the "Apps" tab, select the "Beyond Identity Management API" application, navigate to the "API TOKENS" tab, and then click on "Create token". From there you can configure the token with a Name and specified list of Scopes.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-<iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-</iframe>
-</div>
+<Arcade clip={Clip.CreateAPIToken} />
 
 ## Create Token with the Beyond Identity API
 
