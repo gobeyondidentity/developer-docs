@@ -5,6 +5,7 @@ sidebar_position: 7
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
 import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
 
 # User and Group Provisioning
@@ -33,19 +34,13 @@ You can add identities and manage groups from the Beyond Identity Admin Console.
 
 The simplest way to create an identity is through the Beyond Identity Admin Console. First select a realm. Under the "PROJECT MANAGEMENT" tab, select "Identities", and then click on "Add identity". From there you can enter the user's name, username, and email.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-<iframe src='https://demo.arcade.software/TufU7NgJYWOvNSDfuo9j?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-</iframe>
-</div>
+<Arcade clip={Clip.CreateIdentity} />
 
 ### Groups
 
 You can also create groups and add or remove identities from groups in the Beyond Identity Admin Console. Under the "PROJECT MANAGEMENT" tab, select "Groups".
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-<iframe src='https://demo.arcade.software/Sh4dfGOpoOOHRHQNoxEC?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-</iframe>
-</div>
+<Arcade clip={Clip.AddIdentityToGroup} />
 
 ## Provision User with the Beyond Identity API
 

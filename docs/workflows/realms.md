@@ -3,6 +3,7 @@ title: Realms
 sidebar_position: 3
 ---
 
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
 import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
 
 # Realms
@@ -26,10 +27,7 @@ To see how a realm fits in the wider Beyond Identity architecture, check out [Ar
 
 Creating a realm from the Beyond Identity Admin Console is easy. Tap on drop down with your Beyond Identity Admin realm and choose "Create a realm". Enter the realm's name and top on "Create realm". Your realm has been created and you can tap the button to switch to your newly create realm.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/eyWvI91g13J7qj5vmCfD?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateRealm} />
 
 ## Create a Realm by API
 

@@ -3,9 +3,11 @@ title: Authenticator Config
 sidebar_position: 3
 ---
 
-import InvocationDiagram from './\_invocation-url-diagram.mdx';
+import AppSchemeCaution from '../workflows/\_app-scheme-caution.mdx';
 import BindEmailDiagram from './\_bind-delivery-method-email-diagram.mdx';
 import BindReturnDiagram from './\_bind-delivery-method-return-diagram.mdx';
+import InvocationDiagram from './\_invocation-url-diagram.mdx';
+import InvocationTip from '../workflows/\_invocation-type-tip.mdx';
 
 An authenticator config is used to tell us how and where to invoke passkey creation and authentication flows for your native/mobile or web application. Each application is tied to a single authenticator config. This article will help you understand each of the authenticator config options and how they impact Beyond Identity passkey flows.
 
@@ -65,23 +67,13 @@ If manual is selected, the authentication url will be returned to you as part of
 
 It will then be up to you to get it to your native/web app any way you see fit. This is useful for flows where you require a lot more control when redirecting to your native/web app. Since the challenge is packaged as part of the url, following the url will result in the same behavior as if an Invocation Type of **Automatic** were selected.
 
-:::tip How do I know which one to use?
-`Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
-
-`Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
-
-- Completley silent OAuth 2.0 authentication using passkeys. No redirects needed in a web app and no web view needed in a native application.
-- The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
-
-:::
+<InvocationTip />
 
 ## Invoke URL
 
 The invoke URL is a single URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
-:::caution
-While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
-:::
+<AppSchemeCaution/>
 
 There are two scenarios in which the Invoke URL is used:
 

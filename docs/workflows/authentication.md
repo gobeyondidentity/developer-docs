@@ -9,6 +9,8 @@ import WebAuth from './\_authentication-via-automatic.mdx'
 import SilentAuth from './\_authentication-via-return.mdx'
 import MultiLanguageCodeBlock from '../../src/components/MultiLanguageCodeBlock';
 import InvocationDiagram from '../platform-overview/\_invocation-url-diagram.mdx';
+import AppSchemeCaution from './\_app-scheme-caution.mdx';
+import InvocationTip from './\_invocation-type-tip.mdx';
 
 # Authentication with Passkey
 
@@ -56,9 +58,7 @@ There are three pieces we need to check in the [Authenticator Config](../platfor
 1. In order to use the Embedded SDKs, the `Configuration Type` should be set to [Embedded SDK](../platform-overview/authenticator-config#embedded-sdk).
 2. Set the [Invoke URL](../platform-overview/authenticator-config#invoke-url) to a URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
-:::caution
-While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
-:::
+<AppSchemeCaution/>
 
 3. Set the the [Invocation Type](../platform-overview/authenticator-config#invocation-type). This specifies how our authentication URL is delivered to your application. Invocation Type can be one of two values:
 
@@ -66,15 +66,7 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 - **Manual**: the challenge will be returned to you as part of a JSON response.
 
-:::tip How do I know which one to use?
-`Automatic` does a lot of the heavy lifting for you. If you initiate an OAuth2.0 request and specify the "Invoke URL" correctly, we'll get the Beyond Identity authentication URL to where it needs to be, whether this is inside of a native app or a web application.
-
-`Manual` gives you a lot more control, but you'll have to do a little extra work to wire this flow up. The possibilities include:
-
-- Completley silent OAuth 2.0 authentication using Passkeys. No redirects needed in a web app and no web view needed in a native application.
-- The flexibility to write your own intelligent routing layer using the Beyond Identity authentication URL. You may want to authenticate against passkeys in your browser on desktop, but use passkeys on your native app on mobile.
-
-:::
+<InvocationTip/>
 
 <InvocationDiagram />
 

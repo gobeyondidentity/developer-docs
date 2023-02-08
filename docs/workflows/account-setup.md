@@ -3,6 +3,8 @@ title: Account Setup
 sidebar_position: 2
 ---
 
+import Arcade, {Clip} from '../../src/components/Arcade.tsx';
+
 # Account Setup
 
 ## Sign up for a developer account
@@ -40,10 +42,7 @@ If you wish to log into your Beyond Identity Admin Console from another device o
 
 Once you've logged into the Beyond Identity Admin Console, make note of your tenant ID for login on other devices and browsers. You can find your `Tenant ID` inside your Beyond Identity Admin Console under "Home". Tap the "Edit realm" button to access and copy your Tenant ID.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-<iframe src='https://demo.arcade.software/MImNGHws6Y2EpwIPrtPl?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-</iframe>
-</div>
+<Arcade clip={Clip.FindTenantID} />
 
 ### The Beyond Identity Admin Realm
 

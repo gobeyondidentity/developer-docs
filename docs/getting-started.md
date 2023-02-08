@@ -3,6 +3,8 @@ title: Getting Started
 sidebar_position: 2
 ---
 
+import Arcade, {Clip} from '../src/components/Arcade.tsx';
+
 In this guide we will show you how to create and configure your account and connect a demo application to it. This app will demonstrate common workflows like creating a passkey and using it to authenticate.
 
 :::info
@@ -83,10 +85,7 @@ Edit `.env.local` and set the value of the `REGION` variable according to where 
 
 ## 6. Get your Tenant ID
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/MImNGHws6Y2EpwIPrtPl?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.FindTenantID} />
 
 Log into the [Admin Console](https://console-us.beyondidentity.com), then to get your Tenant ID:
 
@@ -100,10 +99,7 @@ Log into the [Admin Console](https://console-us.beyondidentity.com), then to get
 
 ## 7. Create an API token
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/OQge5lspW7TRuqvghZQd?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateAPIToken} />
 
 From the [Admin Console](https://console-us.beyondidentity.com), create an API Token for your tenant by:
 
@@ -123,10 +119,7 @@ So far, only the [Admin Realm](https://developer.beyondidentity.com/docs/v1/plat
 
 We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#realms) to hold identities and configuration:
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/eyWvI91g13J7qj5vmCfD?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateRealm} />
 
 From the Admin Console:
 
@@ -141,10 +134,7 @@ From the Admin Console:
 
 Next, we we'll create a new [Application](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#applications-and-authenticator-configs) that contains the configuration for your end users:
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/KmtiNsx4Z31MkogQdwST?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CreateApplication} />
 
 From the Admin Console:
 
@@ -159,10 +149,7 @@ From the Admin Console:
 
 Next, we'll copy the **Application ID**, **Authenticator Configuration ID**, **App Client ID** and **App Secrets** into the `.env.local` configuration.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/832jlMeNFu3Jz4JwVU9Z?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CopyClientIDClientSecretAndApplicationID} />
 
 From the Admin Console:
 
@@ -171,10 +158,7 @@ From the Admin Console:
 3. **Copy the value for Client ID** and paste it on the `.env.local` file under `APP_CLIENT_ID`.
 4. **Copy the value for Client Secret** and paste it on the `.env.local` file under `APP_CLIENT_SECRET`.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/kxuvQibO5nDhoDrK7KOH?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.CopyAuthenticatorConfigID} />
 
 Next, copy the Authenticator Config ID into the config file:
 
@@ -204,10 +188,7 @@ yarn start
 
 A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser.
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/6kUN385qBx2Jju7wugbM?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
+<Arcade clip={Clip.GettingStartedDemoApp} />
 
 You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
 
