@@ -83,9 +83,9 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
 
 There are two scenarios in which the Invoke URL is used:
 
-### Invoke URL as used for Binding a Credential
+### Invoke URL as used for Binding a Passkey
 
-When creating a new identity, it's possible to validate that identity using an email. Upon receiving the email, the user will need to click on a link to the Beyond Idantity API, which will then redirect the user to your app, where the credential binding process will take place. The `invoke_url` is used here. The url that is used to redirect into your app will take on the following form:
+When creating a new identity, it's possible to validate that identity using an email. Upon receiving the email, the user will need to click on a link to the Beyond Idantity API, which will then redirect the user to your app, where the binding process will take place. The `invoke_url` is used here. The url that is used to redirect into your app will take on the following form:
 
 ```bash
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
@@ -97,7 +97,7 @@ $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<rea
 Need a way to disambiguate our URLs from the rest of the URLs at your routing layer? Our SDKs provide these two functions for your convenience:
 
 - `isAuthenticateUrl(url)`
-- `isBindCredentialUrl(url)`
+- `isBindPasskeyUrl(url)`
 
 :::
 
