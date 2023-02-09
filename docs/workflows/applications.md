@@ -41,14 +41,14 @@ From the External Protocol tab, configure your application's OAuth 2.0 and OIDC 
 
 ### Authenticator Config
 
-From the Authenticator Config tab, select a `Configuration Type`. This setting determines if your application is using an [Embedded SDKs](./sdk-setup.mdx) or the hosted Web Authenticator to generate and manage passkeys.
+From the Authenticator Config tab, select a `Configuration Type`. This setting determines if your application is using an [Embedded SDKs](./authenticator-types.md#embedded-sdk-authenticator) or the hosted Web Authenticator to generate and manage passkeys.
 
 For more information on the Authenticator Config, visit the [Authenticator Config](../platform-overview/authenticator-config.md) guide.
 
 :::tip Which Configuration Type should I use?
 `Embedded SDK`, select this if your application is using either a native SDK (iOS, Android, Flutter, React Native) or web SDK (JS). When this option is selected you can configure your application's Invocation Type, Invoke URL, and Trusted Origins.
 
-`Hosted Web`, select this to default all bound credentials and authentications to our Hosted Web Authenticator. This is a constrained version of the Embedded Authenticator Config with the following values:
+`Hosted Web`, select this to default all bound credentials and authentications to our [Hosted Web Authenticator](./authenticator-types.md#hosted-web-authenticator). This is a constrained version of the Embedded Authenticator Config with the following values:
 
 - **Invocation Type:** `automatic`
 - **Invoke URL:** `https://auth-<REGION>.beyondidentity.com/authenticator/`
