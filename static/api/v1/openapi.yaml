@@ -5074,6 +5074,7 @@ components:
         - `client_secret_basic`: The client uses HTTP Basic as defined in
            OAuth 2.0, Section 2.3.1. Namely, `client_id` and `client_secret`
            are sent in the Basic Authorization header.
+        - `none`: The confidentiality is set to `public`.
       type: string
       enum:
         - client_secret_basic
