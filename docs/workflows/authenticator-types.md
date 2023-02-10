@@ -27,7 +27,7 @@ It can be found at `https://auth-<REGION>.beyondidentity.com/authenticator`.
 - https://auth-us.beyondidentity.com/authenticator
 - https://auth-eu.beyondidentity.com/authenticator
 
-The hosted web authenticator requires less configuration and code, but it does require redirecting your users to the hosted webpage. Keep in mind that passkeys are stored on a specific browser.
+The hosted web authenticator requires less configuration and code, but it does require redirecting your users to the hosted webpage. Keep in mind that passkeys are tied to an origin and they are stored on a specific browser.
 
 ## Embedded SDK Authenticator
 
