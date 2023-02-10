@@ -22,7 +22,7 @@ On creation, an application defaults to the **Hosted Web** configuration type.
 
 ### Hosted Web
 
-The **Hosted Web** configuration type is a constrained version of the **Embedded** configuration type, with the following configuration settings:
+The [Hosted Web](../workflows/authenticator-types.md#hosted-web-authenticator) configuration type is a constrained version of the **Embedded** configuration type, with the following configuration settings:
 
 - **Invocation Type:** `automatic`
 - **Invoke URL:** `https://auth-<REGION>.beyondidentity.com/authenticator/`
@@ -34,7 +34,7 @@ Alternatively, if you would like to use your own authenticator with our SDK, and
 
 ### Embedded SDK
 
-The **Embedded SDK** configuration type is used to configure an application using either our native SDKs (iOS, Android, Flutter, React Native) or our web SDK (JS). Choosing this option enables three additional fields to configure: Invocation Type, Invoke URL, and Trusted Origins.
+The [Embedded SDK](../workflows/authenticator-types.md#embedded-sdk-authenticator) configuration type is used to configure an application using either our native SDKs (iOS, Android, Flutter, React Native) or our web SDK (JS). Choosing this option enables three additional fields to configure: Invocation Type, Invoke URL, and Trusted Origins.
 
 ## Invocation Type
 

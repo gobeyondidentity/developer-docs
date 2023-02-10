@@ -9,7 +9,7 @@ In the [Getting Started](/docs/v1/getting-started) section, we walked you over h
 
 Let's review those steps in a bit more detail in the following section.
 
-## Create a new Realm
+## Create a Realm
 
 A realm is a namespace in your tenant that isolates identities and applications from other realms. All new tenants have a default realm called Beyond Identity Admin which should not be used to configure for delegate IDP purposes.
 
@@ -25,7 +25,7 @@ For more information on applications, see the [Applications](./workflows/applica
 
 <Arcade clip={Clip.CreateApplication} />
 
-## Create a test identity
+## Create an Identity
 
 Before users can start authenticating with Beyond Identity, they must be provisioned in our directory.
 
