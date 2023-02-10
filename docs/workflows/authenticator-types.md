@@ -33,6 +33,6 @@ The hosted web authenticator requires less configuration and code, but it does r
 
 The embedded SDK authenticator is embedded directly in your application on installation of an [SDK](./sdk-setup.mdx) (iOS, Android, Flutter, React Native, or JS).
 
-Using one of the SDKs requires more configuration and code, but it comes with more flexibility and passkeys are stored on the same device as your application.
+Using an SDK requires more configuration and code, but it comes with more flexibility such as silent authentication and keeping the whole experience inside your application. Passkeys are stored on the same device as your native application or on a specific browser and origin for your web application.
 
 For more information on what it takes to wire up authentictaion in your application with an SDK, visit the guide [Authentication with Passkey](./authentication.md).
