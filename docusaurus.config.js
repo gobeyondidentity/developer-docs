@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Beyond Identity Developer Docs",
-  tagline: "The easiest way to implement secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
+  tagline: "The easiest way to implement passwordless secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
