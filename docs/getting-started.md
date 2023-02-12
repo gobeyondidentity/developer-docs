@@ -16,6 +16,10 @@ Want to see Universal Passkeys in action with no coding needed? [Try it out](/do
 
 ---
 
+# Start by cloning the example app (for developers)
+
+If you're not a developer or don't want to download the code yet, you can use the Try It Out 🚀 experience: [Try it out](/docs/v1/try-it-out) 🚀 
+
 ## 1. Check the basics
 
 The Beyond Identity Example Application is made up of a [node.js](https://nodejs.org) backend and a [NextJS](https://next-auth.js.org/) frontend. You'll need standard developer tools to get it up and running.
