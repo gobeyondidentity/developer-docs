@@ -20,6 +20,7 @@ const sidebars = {
     'send-enrollment',
     'bubble-io-integration',
     'integrate-wordpress',
+    'expo-react-native',
     {
       type: 'category',
       label: 'SSO Integrations',

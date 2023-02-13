@@ -81,6 +81,10 @@ We will create identities that can login to the Wordpress site here, and enroll 
 1. Follow the steps at [Send Enrollment Emails](send-enrollment) for each new identity. In the near future, this will become a push-button operation, but for now it involves sending commands via CURL.
 1. Each new identity will receive an Enrollment email, which they click on to bind a credential to their device (desktop, laptop, mobile, etc).
 
+<Arcade clip={Clip.CreateIdentity} />
+
+<Arcade clip={Clip.CreatePasskey} />
+
 ## Configure Wordpress for OIDC
 
 ### Install the free Plugin
@@ -129,7 +133,7 @@ Congratulations, you have configured the BI console and the OIDC client plugin.
 
 We will now attempt to log in and verify successful authentication.
 
-1. Using a device where you have [created an identity and then enrolled a credential](#Create an Identity in the BI console), Visit http://your_hostname/wp-login.php to login
+1. Using a device where you have [created an identity and then enrolled a credential](#create-an-identity-in-the-bi-console), Visit http://your_hostname/wp-login.php to login
 1. You will see a "Login with OpenID Connect" button. Click it.
 1. You will be redirected to the Beyond Identity Web Authenticator.
 1. You may see a step-up authentication prompt, depending on how Policy is set up for your tenant.
