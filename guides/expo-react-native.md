@@ -32,27 +32,11 @@ The React Native SDK is a wrapper around our native SDKs ([Android](https://gith
 
 Once your application is using a development build or prebuild you are ready to install the SDK:
 
-```bash
-expo install @beyondidentity/bi-sdk-react-native
-```
-
-Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the [plugins array](https://docs.expo.dev/versions/latest/config/app/#plugins) of your app.{json,config.js,config.ts}:
-
-```json
-{
-  "expo": {
-    "plugins": [["@beyondidentity/bi-sdk-react-native"]]
-  }
-}
-```
-
-The SDK requires certain minimun native versions. You can set these requirments either with another plugin, [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/), or by modifing project [static files](https://docs.expo.dev/guides/config-plugins/#static-modification).
-
 <RNExpoInstallation/>
 
 ## Initialize the React Native SDK
 
-Once you've installed the SDK, initialize the SDK. The SDK will need to be initialized before you can call any of the Embedded functions. A good place to initalize this is where you register your root component. You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
+Once you've installed the SDK, initialize it so that you can call the Embedded functions. A good place to initialize this is where you register your root component. You may also add a listener to log native events with `Embedded.logEventEmitter` after initializing.
 
 ```jsx title="index.tsx"
 import { Embedded } from '@beyondidentity/bi-sdk-react-native';
@@ -110,7 +94,7 @@ For more information visit [Workflows: User and Group Provisioning](https://deve
 
 ### Generate a passkey
 
-Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Procees & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to thier device.
+Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
 
 For more information visit [Workflows: Bind Passkey To User](https://developer.beyondidentity.com/docs/v1/workflows/bind-passkey).
 
