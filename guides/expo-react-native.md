@@ -7,6 +7,7 @@ import Arcade, {Clip} from '../src/components/Arcade.tsx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import InvocationTip from '../docs/workflows/\_invocation-type-tip.mdx';
+import RNExpoInstallation from '../docs/workflows/\_sdk-setup/\_installation-react-native-expo.mdx';
 
 # Integrate Beyond Identity Passwordless Authentication into Expo
 
@@ -47,47 +48,7 @@ Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the
 
 The SDK requires certain minimun native versions. You can set these requirments either with another plugin, [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/), or by modifing project [static files](https://docs.expo.dev/guides/config-plugins/#static-modification).
 
-<Tabs groupId="requirements" queryString>
-<TabItem value="expo-build-properties" label="expo-build-properties">
-
-```bash
-expo install expo-build-properties
-```
-
-```json
-{
-  "expo": {
-    "plugins": [
-      ["@beyondidentity/bi-sdk-react-native"],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "minSdkVersion": 26
-          },
-          "ios": {
-            "deploymentTarget": "13.0"
-          }
-        }
-      ]
-    ]
-  }
-}
-```
-
-</TabItem>
-<TabItem value="static-files" label="static files">
-
-```bash title="android/gradle.properties"
-android.minSdkVersion=26
-```
-
-```bash title="ios/Podfile.properties.json"
-"ios.deploymentTarget": "13.0"
-```
-
-</TabItem>
-</Tabs>
+<RNExpoInstallation/>
 
 ## Initialize the React Native SDK
 
