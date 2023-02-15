@@ -31,14 +31,10 @@ In response to an OIDC request to the Beyond Identity /authorize endpoint, Beyon
 
 ### 1. Craft Authorization Url
 
-In order to authenticate you should first craft your authorization url. The base url can be found in the Beyond Identity Admin Console
+First you will need to craft an authorization URL. The base url can be found in the Beyond Identity Admin Console
 under your application, select "EXTERNAL PROTOCOL". Copy the `Authorization Endpoint` and add the following additional query parameters:
 
 ![Authorize Url](./screenshots/authentication-auth-url.png)
-
-:::info PKCE
-Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you will need to store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
-:::
 
 ```bash title="/authorize"
 https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize?
@@ -50,6 +46,20 @@ response_type=code
 &code_challenge_method=256
 &code_challenge=$PKCE_CODE_CHALLENGE
 ```
+
+Check your appliction config in the admin console for your `APPLICATION_CLIENT_ID`.
+
+The `REDIRECT_URI` is your application's App Scheme or Universal URL.
+
+:::info PKCE
+Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you will need to store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
+
+You will need to set PKCE as a Client Configuration in your Application Config.
+:::
+
+:::info state
+The `STATE` parameter is used to mitigiate [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). Have your application generate a random string for the `STATE` value on each authentication request. You should check that this string is returned back to you to in the response.
+:::
 
 ### 2. Configure Authenticator Config
 
@@ -85,9 +95,9 @@ There are three pieces we need to check in the [Authenticator Config](../platfor
 
 ## Token Exchange
 
-Unless your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will need complete authentication with a token exchange.
+Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](authentication#craft-authorization-url) first to retrieve an authorization code.
 
-Calling the token endpoint is the second step in the authorization flow and usually happens in your backend. Make sure to a call the [authorization endpoint](authentication#craft-authorization-url) first to retrieve an authorization code.
+If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will not need to complete authentication with a token exchange.
 
 ### 1. Craft Token Url
 
@@ -113,7 +123,7 @@ The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header
 -X POST \
 -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+-d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)&code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
   title="/token"
 />
 </TabItem>
