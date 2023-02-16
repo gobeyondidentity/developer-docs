@@ -1,6 +1,6 @@
 ---
 title: User and Group Provisioning
-sidebar_position: 7
+sidebar_position: 5
 ---
 
 import Tabs from '@theme/Tabs';
