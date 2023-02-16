@@ -131,6 +131,11 @@ const config = {
         disableSwitch: true,
         respectPrefersColorScheme: true,
       },
+      metadata: [
+        { property: 'og:description', content: 'Developer Docs for passwordless authentication' },
+        { property: 'og:image', content: 'https://www.beyondidentity.com/sites/default/files/2023-02/zero-trust-announce.png' },
+        { name: 'twitter:card', content: 'Beyond Identity Developer Docs' }
+      ],
       navbar: {
         title: "Developer Docs",
         logo: {
