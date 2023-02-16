@@ -6,20 +6,33 @@ sidebar_position: 11
 Example passkey:
 ```
 {
-"id":"5e303ab67bf2dad10ca9dcd3d96cb755117df9784ee9b696c7c5c2e8fb68094c",
-"local_created":"2023-01-26T21:38:15.174+00:00",
-"local_updated":"2023-01-26T21:38:15.174+00:00",
-"api_base_url":"https://auth-us.beyondidentity.com",
-"tenant_id":"00018c7edb8e1e3c",
-"realm_id":"6aae0d38c246f6c4",
-"identity_id":"1d42036f87e7de06",
-"key_handle":"km:5ac6d94047c41d26",
-"state":"Active",
-"created":"2023-01-26T21:38:13.80702Z",
-"updated":"2023-01-26T21:38:13.80702Z",
-"tenant":{"display_name":"example.com"},
-"realm":{"display_name":"Demo App Realm"},
-"identity":{"display_name":"johndoe","username":"johndoe","primary_email_address":"johndoe@example.com"},
-"theme":{"logo_url_light":"https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png","logo_url_dark":"https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png","support_url":"https://www.beyondidentity.com/support"}
+  "id": "9c9cd3f7b2e1e4054d3efea7c37a64bdf9a2f6cbe0fb6c144705f10e9ae72171",
+  "localCreated": "2023-02-15T16:21:06.731+00:00",
+  "localUpdated": "2023-02-15T16:21:06.731+00:00",
+  "apiBaseUrl": "https://auth-us.beyondidentity.com",
+  "keyHandle": "km:e9233f00cde46d27",
+  "state": "Active",
+  "created": "2023-02-15T16:21:06.761786Z",
+  "updated": "2023-02-15T16:21:06.761786Z",
+  "tenant": {
+    "id": "00012da391ea206d",
+    "displayName": "Beyond Identity"
+  },
+  "realm": {
+    "id": "b464b5a49669c5e0",
+    "displayName": "Developer Docs"
+  },
+  "identity": {
+    "id": "b464b5a49669c5e0",
+    "displayName": "janedoe",
+    "username": "janedoe",
+    "primaryEmailAddress": "janedoe@email.com"
+  },
+  "theme": {
+    "logoUrlLight": "https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png",
+    "logoUrlDark": "https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png",
+    "supportUrl": "https://www.beyondidentity.com/support"
+  },
+  "keyType": "webauthn"
 }
 ```  

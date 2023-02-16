@@ -1,6 +1,6 @@
 ---
 title: Applications
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 import AppSchemeCaution from './\_app-scheme-caution.mdx';

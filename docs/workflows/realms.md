@@ -1,6 +1,6 @@
 ---
 title: Realms
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 import Arcade, {Clip} from '../../src/components/Arcade.tsx';

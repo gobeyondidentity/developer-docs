@@ -1,6 +1,6 @@
 ---
 title: Account Setup
-sidebar_position: 2
+sidebar_position: 0
 ---
 
 import Arcade, {Clip} from '../../src/components/Arcade.tsx';
