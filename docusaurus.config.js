@@ -133,7 +133,7 @@ const config = {
       },
       metadata: [
         { property: 'og:description', content: 'Developer Docs for passwordless authentication' },
-        { property: 'og:image', content: '/assets/zero-trust-passwords.webp' },
+        { property: 'og:image', content: 'https://www.beyondidentity.com/sites/default/files/2023-02/zero-trust-announce.png' },
         { name: 'twitter:card', content: 'Beyond Identity Developer Docs' }
       ],
       navbar: {
