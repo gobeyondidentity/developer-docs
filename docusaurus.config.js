@@ -131,6 +131,11 @@ const config = {
         disableSwitch: true,
         respectPrefersColorScheme: true,
       },
+      metadata: [
+        { property: 'og:description', content: 'Developer Docs for passwordless authentication' },
+        { property: 'og: image', content: '/assets/zero-trust-passwords.webp' },
+        { name: 'twitter:card', content: 'Beyond Identity Developer Docs' }
+      ],
       navbar: {
         title: "Developer Docs",
         logo: {
