@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.1.0
+  version: 1.2.0
   contact:
     email: support@beyondidentity.com
   description: |
@@ -2512,6 +2512,7 @@ paths:
                         identity_id: e85de356dc78843a
                         realm_id: 7df92e4a38ba0993
                         tenant_id: 0001b42d80372976
+                        credential_id: 9802966246819b35
                         delivery_method: EMAIL
                         state: COMPLETE
                         post_binding_redirect_uri: 'http://example.com/callback'
@@ -2587,6 +2588,7 @@ paths:
                     identity_id: e85de356dc78843a
                     realm_id: 7df92e4a38ba0993
                     tenant_id: 0001b42d80372976
+                    credential_id: 9802966246819b35
                     delivery_method: EMAIL
                     state: COMPLETE
                     post_binding_redirect_uri: 'http://example.com/callback'
@@ -3024,6 +3026,8 @@ paths:
                         subject_field: id
                         expires_after: 86400
                         token_signing_algorithm: RS256
+                      pkce: disabled
+                      token_format: self_contained
       responses:
         '200':
           description: |
@@ -3059,6 +3063,7 @@ paths:
                         expires_after: 86400
                         token_signing_algorithm: RS256
                       pkce: disabled
+                      token_format: self_contained
         '400':
           description: Bad request.
           content:
@@ -3170,6 +3175,8 @@ paths:
                             subject_field: id
                             expires_after: 86400
                             token_signing_algorithm: RS256
+                          pkce: disabled
+                          token_format: self_contained
                     total_size: 1
         '400':
           description: Bad request.
@@ -3455,6 +3462,7 @@ paths:
               Create Authenticator Configuration:
                 value:
                   authenticator_config:
+                    display_name: Pet Authenticator Configuration
                     config:
                       type: embedded
                       invoke_url: 'http://localhost:8092'
@@ -3474,9 +3482,11 @@ paths:
                     id: 73731b7f-eb76-4143-9b4b-81a720385f5a
                     realm_id: caf2ff640497591a
                     tenant_id: 00011f1183c67b69
+                    display_name: Pet Authenticator Configuration
                     config:
                       type: embedded
                       invoke_url: 'http://localhost:8092'
+                      invocation_type: automatic
                       trusted_origins:
                         - 'http://localhost:8092'
         '400':
@@ -3570,8 +3580,10 @@ paths:
                       - id: 73731b7f-eb76-4143-9b4b-81a720385f5a
                         realm_id: caf2ff640497591a
                         tenant_id: 00011f1183c67b69
+                        display_name: Pet Authenticator Configuration
                         config:
                           invoke_url: 'http://localhost:8092'
+                          invocation_type: automatic
                           trusted_origins:
                             - 'http://localhost:8092'
                           type: embedded
@@ -3713,6 +3725,7 @@ paths:
               Update Embedded Invoke URL:
                 value:
                   authenticator_config:
+                    display_name: Pet Authenticator Configuration
                     config:
                       invoke_url: 'http://localhost:8092'
       responses:
@@ -4776,6 +4789,11 @@ components:
             A unique identifier for the credential binding job's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: ce5ace5fc7e14d6a
+        credential_id:
+          type: string
+          description: |
+            A unique identifier for the credential that was bound via the credential binding job. This field will only be populated if the credential binding job has successfully been used to bind a credential to an identity.
+          example: 9802966246819b35
         delivery_method:
           type: string
           enum:
@@ -5155,6 +5173,19 @@ components:
                   $ref: '#/components/schemas/TokenConfiguration'
                 pkce:
                   $ref: '#/components/schemas/PkceConfig'
+                token_format:
+                  description: |
+                    Allowed access token formats for this application.
+                    token type. Allowable values are:
+                    - `self_contained`: token in JWT format.
+                    - `referential`: Encoded token which requires /introspect
+                       call in order to retrieve token claims.
+                  type: string
+                  enum:
+                    - self_contained
+                    - referential
+                  example: self_contained
+                  default: self_contained
             - title: OIDC
               description: OIDC protocol configuration.
               type: object
@@ -5201,6 +5232,8 @@ components:
                   $ref: '#/components/schemas/TokenConfiguration'
                 pkce:
                   $ref: '#/components/schemas/PkceConfig'
+                token_format:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/200/content/application~1json/schema/properties/applications/items/properties/protocol_config/oneOf/0/properties/token_format'
     AuthenticatorConfig:
       title: Authenticator Configuration
       type: object
@@ -5225,6 +5258,11 @@ components:
             A unique identifier for the authenticator configuration's tenant. This is automatically set on creation. This field is immutable and read-only.
           readOnly: true
           example: 00011f1183c67b69
+        display_name:
+          type: string
+          description: |
+            A human-readable name for the authenticator configuration. This name is used for display purposes.
+          example: Pet Authenticator Configuration
         config:
           description: |
             An object specifying the settings for the supported authenticator type.
@@ -5256,6 +5294,18 @@ components:
                   type: string
                   description: URL to invoke during the authentication flow.
                   example: 'http://localhost:8092'
+                invocation_type:
+                  type: string
+                  enum:
+                    - automatic
+                    - manual
+                  default: automatic
+                  description: |
+                    The method used to invoke the `invoke_url` in the embedded authenticator config type. The two methods available are:
+                      - automatic: This invocation type automatically redirects you to your
+                    native or web app using the Invoke URL with a challenge that your app will need to sign.
+                      - manual: This invocation type will cause the challenge to be returned
+                    to you as part of a JSON response. It will then be up to you to get it to your native/web app any way you see fit. This is useful for flows where you require a lot more control when redirecting to your native/web app. Since the challenge is packaged as part of a URL, following the URL will result in the same behavior as if an Invocation Type of "automatic" were selected.
                 trusted_origins:
                   type: array
                   items:
