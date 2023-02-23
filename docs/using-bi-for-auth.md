@@ -1,113 +1,46 @@
 ---
 title: Using Beyond Identity for Authentication
-sidebar_position: 2
+sidebar_position: 3
 ---
 
-In the [Getting Started](/docs/v1/getting-started) section, we walked you over how to create a tenant, an application, as well as how to configure that application in order to authorize and authenticate a user with Beyond Identity. 
+import Arcade, {Clip} from '../src/components/Arcade.tsx';
 
-Let's review those steps in a bit more detail in the following section. 
+In the [Getting Started](/docs/v1/getting-started) section, we walked you over how to create a tenant, an application, as well as how to configure that application in order to authorize and authenticate a user with Beyond Identity.
 
-### How to create a new Realm
+Let's review those steps in a bit more detail in the following section.
 
-Realms are unique administrative domains within a tenant. All new tenants have a default realm called Beyond Identity Admin which should not be used to configure for delegate IDP purposes.
+## Create a Realm
 
-Click the drop down on the top left corner and add a new realm. 
-![Screenshot](./screenshots/NewRealm.jpg)
+A realm is a namespace in your tenant that isolates identities and applications from other realms. All new tenants have a default realm called Beyond Identity Admin which should not be used to configure for delegate IDP purposes.
 
-### How to create an Application
+For more information on realms, see the [Realms](./workflows/realms.md) guide.
 
-Applications hold the configuration necessary to integrate your existing software stack with our authentication experience. 
-To create a new application you can:
+<Arcade clip={Clip.CreateRealm} />
 
-- Click 'Applications' in the left menu
-- Click 'Create app'
-- Fill out the display name with whatever you want to name this app
-- Select the client type:
-  - Confidential clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe.
+## Create an Application
 
-  - Public clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not recieve an application "client_secret" if you create this type of application. 
+Applications hold the configuration necessary to integrate your existing software stack with our authentication experience.
 
-- Set the redirect_uri to be a URL where you want to receive the authorization code and state. This can be either:
-  - An app scheme or Universal URL / App Link if you're implementing this in a native application
-  - A URL to any page in your web application
+For more information on applications, see the [Applications](./workflows/applications.md) guide and [Authenticator Config](/docs/v1/platform-overview/authenticator-config).
 
-- After the protocol configuration is finished, modify your authenticator config
-  - [Authenticator Config Reference](/docs/v1/platform-overview/authenticator-config)
+<Arcade clip={Clip.CreateApplication} />
 
-- Click on create and your app should be created
-  ![Created App Screenshot](./screenshots/AppCreated.jpg)
-
-### How to create a test identity
+## Create an Identity
 
 Before users can start authenticating with Beyond Identity, they must be provisioned in our directory.
-To do this via the Admin Console you can: 
 
-- In the Admin Console under the 'Identities' tab, select 'Add Identity'.
+For more information on user provisioning, see the [User and Group Provisioning](./workflows/user-provisioning.md) guide.
 
-- Enter the following values:
+<Arcade clip={Clip.CreateIdentity} />
 
-   - Email: <email_address>
+## Get a Universal Passkey
 
-   - Username: <user_name>
+Before authentication you will need a [Universal Passkey](./platform-overview/passkeys-and-devices/what-are-passkeys.md). Use the identity you created above to bind a passkey.
 
-   - Name: <full_name>
+Check out the [Bind Passkey To User](./workflows/bind-passkey) guide for more information.
 
-### How to craft your Authorize URL
+## Authenticate with a passkey
 
-A full authorization request url has additional parameters that we need to account for. You can find the base URL under your application.
- 
-![Screenshot](./screenshots/AuthUrl.jpg)
+After you have a passkey bound to an identity, you are ready to authenticate.
 
-```bash
-https://auth-us.beyondidentity.com/v1/tenants/<tenant_id>/realms/<realm_id>/applications/<application_id>/authorize?
-response_type=code
-&client_id=<client_id_from_application>
-&redirect_uri=<redirect_uri_from_application>
-&scope=openid
-&state=<state>
-&code_challenge_method=<method_from_PKCE_for_public_clients_or_optional_confidential_clients>
-&code_challenge=<challenge_from_PKCE_for_public_clients_or_optional_confidential_clients>
-```
-
-### Start the request
-
-Use the URL above from a browser, and watch how the authentication process unfolds.
-
-### How to craft your Token URL
-
-Calling the token endpoint is the second step in the authorization flow. You will need to call the authorization endpoint first to retrieve an authorization code. You can find the base token URL under your application. 
-
-![Screenshot](./screenshots/TokenUrl.jpg)
-
-You'll also need to make note of your application's Token Endpoint Auth Method.
-
-![Screenshot](./screenshots/TokenAuthMethod.png)
-
-#### Client Secret Basic:  
-The client_id and client_secret are sent in the Basic Authorization header.
-
-```bash
-curl -X POST https://your-token-endpoint \
---header 'Authorization: Basic {base64(<client_id>:<client_secret>)}' \
---header "Content-Type: application/x-www-form-urlencoded" \
---data-raw "grant_type=authorization_code
-&code=<code_return_from_authorization_response>
-&code_verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>
-&redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>"
-```
-
-#### Client Secret Post:  
-The client_id and client_secret are sent in the body of the POST request as a form parameter.
-
-```bash
-curl --request
--F "grant_type=authorization_code"
--F "code=<code_return_from_authorization_response>"
--F "client_id=<client_id_from_application>"
--F "client_secret=<client_secret_from_a_confidential_application>"
--F "code_verifier=<code_verifier_from_PKCE_code_challenge_if_used_in_authorization_request>"
--F "redirect_uri=<redirect_uri_must_match_value_used_in_authorization_request>"
-POST \
---url https://your-token-endpoint \
---header 'accept: application/x-www-form-urlencoded'
-```
+Follow the [Authentication with Passkey](./workflows/authentication.md) guide for next steps on authentication and token exchange.

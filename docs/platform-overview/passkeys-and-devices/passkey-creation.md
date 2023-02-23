@@ -10,7 +10,7 @@ The high level flow for creating a passkey is:
  2. The passkey creation link is delivered to the Beyond Identity SDK that is running on the user's device. Beyond Identity Provides two methods for delivering a passkey creation link to the SDK:
 	- A developer can use the Beyond Identity API to generate a passkey creation link. The developer can then deliver that link to the end user however they want (in-line, sms, email, etc). 
 	- A developer can use the Beyond Identity API to send a passkey creation email to the end user. 
-3. The passkey creation link is passed to the Beyond Identity SDK bindCredential() function. Upon success a private key will be generated, stored in the device's hardware trust module, and the public key will be stored in the Beyond Identity cloud. 
+3. The passkey creation link is passed to the Beyond Identity SDK bindPasskey() function. Upon success a private key will be generated, stored in the device's hardware trust module, and the public key will be stored in the Beyond Identity cloud. 
 
 ### Method 1 - Create a passkey via in-line delivery
 A developer can use the Beyond Identity API to generate a passkey creation link, and deliver the link to the end user however they see fit. This is the suggested method if you want the end user to create a passkey without having to leave your application. 
@@ -57,7 +57,7 @@ This can be accomplished in any number of ways. The most common is to have your 
 #### Step 3) Pass the passkey creation link to the Beyond Identity SDK
 ``` javascript
 embeddedSdk
-    .bindCredential(credential_binding_link)
+    .bindPasskey(credential_binding_link)
     .then((passkey) => {
     	this.log(`Successfully created passkey ${passkey}`);
         this.user.passkeyID = passkey.id;
@@ -123,7 +123,7 @@ The end user will receive the email and click the passkey creation link. Clickin
 The handler in your application should invoke the Beyond Identity Embedded SDK. 
 ``` javascript
 embeddedSdk
-    .bindCredential(credential_binding_link)
+    .bindPasskey(credential_binding_link)
     .then((passkey) => {
     	this.log(`Successfully created passkey ${passkey}`);
         this.user.passkeyID = passkey.id;

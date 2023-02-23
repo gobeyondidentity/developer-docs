@@ -3,7 +3,7 @@ title: Sending Enrollment Emails
 sidebar_position: 2
 ---
 
-In Beyond Identity, Passkeys are created within the devices default Browser or specific SDK instance associated with an [Application](/api/v1#tag/Applications). An [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) indicates to the system how the Passkey will be bound. 
+In Beyond Identity, passkeys are created within the devices default Browser or specific SDK instance associated with an [Application](/api/v1#tag/Applications). An [Authenticator Configuration](/docs/v1/platform-overview/authenticator-config) indicates to the system how the passkey will be bound. 
 
 ### Create an Authenticator Configuration
 
@@ -55,7 +55,7 @@ curl -X POST \
 
 Next, you'll need to create a [Credential Binding Job](/api/v1#tag/Credential-Binding-Jobs) of type `EMAIL` for a given [identity](http://localhost:3000/api/v1#tag/Identities). The identity must be Active and have a valid email associated with it. 
 
-To complete this step you'll need the `IDENTITY_ID` for which the Passkey is being created. You can find the correct value by logging into the [Admin Console](https://console-us.beyondidentity.com), or use the API to [list all identities](/api/v1/#tag/Identities).
+To complete this step you'll need the `IDENTITY_ID` for which the passkey is being created. You can find the correct value by logging into the [Admin Console](https://console-us.beyondidentity.com), or use the API to [list all identities](/api/v1/#tag/Identities).
 
 **Request:**
 

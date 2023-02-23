@@ -7,6 +7,8 @@ import styles from "./index.module.css";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 import HomepageFeatures from "../components/HomepageFeatures";
+import Head from '@docusaurus/Head';
+
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -35,6 +37,9 @@ export default function Home() {
       title="Home"
       description="Beyond Identity is an Identity and Access Management Platform for people who prefer not getting breached"
     >
+    <Head>
+      <meta name='zd-site-verification' content='au3duh2xhkj2o7itdkfvc' />
+    </Head>
     <HomepageHeader />
       <main>
         <HomepageFeatures />

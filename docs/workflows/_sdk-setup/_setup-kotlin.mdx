@@ -1,0 +1,11 @@
+```kotlin
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+
+EmbeddedSdk.init(
+    app: Application,
+    keyguardPrompt: (((allow: Boolean, exception: Exception?) -> Unit) -> Unit)?,
+    logger: (String) -> Unit,
+    biometricAskPrompt: String, /* Optional */
+    allowedDomains: List<String>?, /* Optional */
+)
+```

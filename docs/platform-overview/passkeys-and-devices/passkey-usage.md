@@ -12,5 +12,5 @@ If a user has the ability to unlock the device, they can prove the device trusts
 We take care of all the cryptographic key usage under the hood. 
 
 1. Your app asks us to authenticate the user using standard authentication protocols. 
-2. We generate a unique challenge and ask the device to locate a Passkey, request the user to unlock it, and sign the unique challenge with it. 
+2. We generate a unique challenge and ask the device to locate a passkey, request the user to unlock it, and sign the unique challenge with it. 
 3. We verify the signature and if a match is found we tell your system which user was authenticated using the same authentication protocol that initiated the flow. 

@@ -8,9 +8,9 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 ## Prerequisites
 
 - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
-- [React Native SDK Overview](overview)
+- [React Native SDK Setup](/docs/v1/workflows/sdk-setup?sdks=reactnative)
 
-Before calling [`Embedded.authenticate`](overview#authentication), we must [Authorize With Okta](#authorize-with-okta).
+Before calling [`Embedded.authenticate`](/docs/v1/workflows/sdk-setup?sdks=reactnative#authentication), we must [Authorize With Okta](#authorize-with-okta).
 
 ## Authorize With Okta
 
@@ -32,7 +32,9 @@ Make sure the [Authenticator Config](/docs/v1/platform-overview/authenticator-co
 
 - Step 2: Okta Authorize URL
 
-To start the authorization flow, build a `CustomTabsIntent` or `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta. Make sure whichever webview you doesn’t share cookies or other browsing data between the authentication session. The below examples sets `ephemeralWebSession` to true to disable cookie re-use on iOS.
+To start the authorization flow, build a `CustomTabsIntent` or `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+
+Note: `ephemeralWebSession` default is `false` which means cookies or other browsing data will be shared across the authentication session and the user will not need to sign in again if they are already authenticated on the system browser. However, the example below sets `ephemeralWebSession` to `true` so that the user is prompted each time for demo consistency.
 
 ![Okta Identity Provider Example](../screenshots/Okta%20Identity%20Provider%20Example.png)
 
@@ -58,25 +60,30 @@ if (await InAppBrowser.isAvailable()) {
   if (await Embedded.isAuthenticateUrl(response.url)) {
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
+  } else {
+    /*
+        session may be cached and the user is already logged in.
+        Try to exchange the authorization code for an id_token using Okta's token endpoint.
+    */
   }
 }
 ```
 
 - Step 4: Redirect URL
 
-A `redirectURL` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial Okta flow. On completion of the second web session, another `redirectURL` will be returned that contains an authorization code that can be used to exchange for an ID token.
+A `redirectUrl` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial Okta flow. On completion of the second web session, another `redirectUrl` will be returned that contains an authorization code that can be used to exchange for an ID token.
 
 ```javascript
 if (await Embedded.isAuthenticateUrl(response.url)) {
   const authResponse = await Embedded.authenticate(
     response.url,
-    selectedCredentialId
+    selectedPasskeyId
   );
   if (await InAppBrowser.isAvailable()) {
     const secondWebResponse = await InAppBrowser.openAuth(
-      authResponse.redirectURL,
+      authResponse.redirectUrl,
       'yourScheme://',
       { ephemeralWebSession: true }
     );
@@ -97,14 +104,14 @@ if (await InAppBrowser.isAvailable()) {
   });
 
   if (await Embedded.isAuthenticateUrl(response.url)) {
-    const selectedCredentialId = await presentCredentialSelection();
+    const selectedPasskeyId = await presentPasskeySelection();
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
     if (await InAppBrowser.isAvailable()) {
       const secondWebResponse = await InAppBrowser.openAuth(
-        authResponse.redirectURL,
+        authResponse.redirectUrl,
         'yourScheme://',
         { ephemeralWebSession: true }
       );
@@ -116,8 +123,8 @@ if (await InAppBrowser.isAvailable()) {
   }
 }
 
-function presentCredentialSelection(): selectedCredentialId {
-  // Where you can perform some logic here to select a credential, or
-  // present UI to a user to enable them to select a credential.
+function presentPasskeySelection(): selectedPasskeyId {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
 }
 ```

@@ -8,9 +8,9 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
 - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
-- [React Native SDK Overview](overview)
+- [React Native SDK Setup](/docs/v1/workflows/sdk-setup?sdks=reactnative)
 
-Before calling [`Embedded.authenticate`](overview#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`Embedded.authenticate`](/docs/v1/workflows/sdk-setup?sdks=reactnative#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -56,7 +56,7 @@ if (await InAppBrowser.isAvailable()) {
   if (await Embedded.isAuthenticateUrl(response.url)) {
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
   }
 }
@@ -64,17 +64,17 @@ if (await InAppBrowser.isAvailable()) {
 
 - Step 4: Redirect URL
 
-A `redirectURL` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial OAuth flow. On completion of the second web session, another `redirectURL` will be returned that contains an authorization code that can be used to exchange for an ID token.
+A `redirectUrl` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial OAuth flow. On completion of the second web session, another `redirectUrl` will be returned that contains an authorization code that can be used to exchange for an ID token.
 
 ```javascript
 if (await Embedded.isAuthenticateUrl(response.url)) {
   const authResponse = await Embedded.authenticate(
     response.url,
-    selectedCredentialId
+    selectedPasskeyId
   );
   if (await InAppBrowser.isAvailable()) {
     const secondWebResponse = await InAppBrowser.openAuth(
-      authResponse.redirectURL,
+      authResponse.redirectUrl,
       'yourScheme://',
       { ephemeralWebSession: false }
     );
@@ -95,14 +95,14 @@ if (await InAppBrowser.isAvailable()) {
   });
 
   if (await Embedded.isAuthenticateUrl(response.url)) {
-    const selectedCredentialId = await presentCredentialSelection();
+    const selectedPasskeyId = await presentPasskeySelection();
     const authResponse = await Embedded.authenticate(
       response.url,
-      selectedCredentialId
+      selectedPasskeyId
     );
     if (await InAppBrowser.isAvailable()) {
       const secondWebResponse = await InAppBrowser.openAuth(
-        authResponse.redirectURL,
+        authResponse.redirectUrl,
         'yourScheme://',
         { ephemeralWebSession: false }
       );
@@ -114,8 +114,8 @@ if (await InAppBrowser.isAvailable()) {
   }
 }
 
-function presentCredentialSelection(): selectedCredentialId {
-  // Where you can perform some logic here to select a credential, or
-  // present UI to a user to enable them to select a credential.
+function presentPasskeySelection(): selectedPasskeyId {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
 }
 ```

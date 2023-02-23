@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Beyond Identity Developer Docs",
-  tagline: "Comprehensive guides, tutorials, example code, and more for Beyond Identity developer tools.",
+  tagline: "The easiest way to implement passwordless secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -15,6 +15,10 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
   projectName: "developer-docs", // Usually your repo name.
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     ['docusaurus-preset-classic',
@@ -127,6 +131,11 @@ const config = {
         disableSwitch: true,
         respectPrefersColorScheme: true,
       },
+      metadata: [
+        { property: 'og:description', content: 'Developer Docs for passwordless authentication' },
+        { property: 'og:image', content: 'https://www.beyondidentity.com/sites/default/files/2023-02/zero-trust-announce.png' },
+        { name: 'twitter:card', content: 'Beyond Identity Developer Docs' }
+      ],
       navbar: {
         title: "Developer Docs",
         logo: {
@@ -249,7 +258,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        // additionalLanguages: ['kotlin'],
+        additionalLanguages: ['dart','kotlin','swift'],
       },
       hubspot: {
         accountId: "7364297",

@@ -1,0 +1,49 @@
+Install the SDK with yarn or npm:
+
+```yarn tab
+yarn add @beyondidentity/bi-sdk-react-native
+```
+
+```npm tab
+npm install @beyondidentity/bi-sdk-react-native
+```
+
+Update native requirements in your ios and android folders:
+
+#### **iOS**
+
+Make sure your `ios/Podfile` supports "minimum deployment target" 13.0 or later
+
+```sh title="ios/Podfile"
+platform :ios, '13.0'
+```
+
+Navigate to your ios folder and run:
+
+```bash
+cd ios && pod install
+```
+
+#### **Android**
+
+Make sure your `android/build.gradle` supports minSdkVersion 26 or later
+
+```sh title="android/build.gradle"
+buildscript {
+  ext {
+    minSdkVersion = 26
+  }
+}
+```
+
+Add the following maven url to your repositories in your `android/build.gradle`
+
+```bash
+allprojects {
+  repositories {
+    maven {
+      url "https://packages.beyondidentity.com/public/bi-sdk-android/maven/"
+    }
+  }
+}
+```

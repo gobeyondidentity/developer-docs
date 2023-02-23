@@ -19,6 +19,8 @@ const sidebars = {
     'index',
     'send-enrollment',
     'bubble-io-integration',
+    'expo-react-native',
+    'integrate-nextauth',
     'integrate-wordpress',
     {
       type: 'category',

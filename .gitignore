@@ -138,5 +138,5 @@ process.yml
 # Production
 build
 
-
-
+#intellij files
+.idea

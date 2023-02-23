@@ -1,0 +1,579 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import DeepLinking from './_deeplinking-native-sdk.mdx';
+
+The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
+
+```
+$invoke_url/bi-authenticate?request=<request>
+```
+
+### Native application deep linking
+
+Make sure to set up deep linking in native applications to intercept the authenticate url.
+
+<DeepLinking />
+
+### Handle Authorization in your applicaiton
+
+The authorization flow should begin in a webview with your [crafted authorization URL](authentication#craft-authorization-url).
+
+Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
+
+:::info
+In a native application, the webview used should follows best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252). This means that on iOS applications [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) should be used, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) should be used on Android devices.
+
+`UIWebView`, `WKWebView`, and `WebView` are explicitly not supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://www.rfc-editor.org/rfc/rfc8252#section-8.12).
+:::
+
+<Tabs groupId="authenticate-platform" queryString>
+
+<TabItem value="javascript" label="Javascript">
+
+:::tip NextAuth.js
+This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. All code snippets are provided in the context of the [NextAuth Example App](https://github.com/nextauthjs/next-auth-example). Note that your application must be set up as a confidential application.
+:::
+
+1. Configuring NextAuth
+
+Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Many of the values used to configure the request are the values from your [crafted authorization URL](authentication#craft-authorization-url).
+
+```javascript
+...
+providers: [
+  {
+    id: "beyondidentity",
+    name: "Beyond Identity",
+    type: "oauth",
+    wellKnown: `https://auth-us.beyondidentity.com/v1/tenants/${<TENANT_ID>}/realms/${<REALM_ID>}/applications/${<APPLICATION_ID>}/.well-known/openid-configuration`,
+    authorization: { params: { scope: "openid" } },
+    clientId: process.env.APP_CLIENT_ID,
+    clientSecret: process.env.APP_CLIENT_SECRET,
+    idToken: true,
+    checks: ["pkce", "state"],
+    profile(profile) {
+      return {
+        id: profile.sub,
+        name: profile.sub,
+        email: profile.sub,
+      }
+    }
+  }
+],
+callbacks: {
+  async jwt({ token }) {
+    console.log(token);
+  }
+}
+...
+```
+
+2. Wiring up `embedded.authenticate`
+
+Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+
+```javascript
+import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import { Passkey } from "@beyondidentity/bi-sdk-js";
+
+const BIAuthenticate = () => {
+  const [biAuthenticateResult, setBiAuthenticateResult] = useState("");
+
+  useEffect(() => {
+    // -- 1
+    const authenticate = async () => {
+      const BeyondIdentityEmbeddedSdk = await import("@beyondidentity/bi-sdk-js");
+      let embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize();
+      if (embedded.isAuthenticateUrl(window.location.href)) {
+        // Only authenticate if the URL is a "bi-authenticate" URL
+        let biAuthenticateUrl = window.location.href;
+        // -- 2
+        biAuthenticate(biAuthenticateUrl).then(redirectURL => {
+          // -- 4
+          window.location.href = redirectURL;
+        }).catch(error => {
+          setBiAuthenticateResult(error.toString());
+        });
+      }
+    }
+    authenticate().catch(console.error);
+  }, []);
+
+  // -- 3
+  async function biAuthenticate(url: string): Promise<string> {
+    const BeyondIdentityEmbeddedSdk = await import("@beyondidentity/bi-sdk-js");
+    let embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize();
+
+    // Display passkeys so user can select one
+    let passkeys = await embedded.getPasskeys();
+    let promptText = passkeys.map((passkey, index) => {
+      return `${index}: ${passkey.identity.username}`;
+    }).join("\n");
+    let selectedIndex = parseInt(prompt(promptText, "index")!!);
+    if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
+      let selectedId = passkeys[selectedIndex].id;
+      // Perform authentication using selected id
+      let result = await embedded.authenticate(url, selectedId);
+      return Promise.resolve(result.redirectURL);
+    } else {
+      // This will fail in core as it won't match to any id
+      return Promise.resolve("unknown_id");
+    }
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <div className="container">
+        <div className="row">
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="sr-only"></span>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          {
+            biAuthenticateResult.length > 0 &&
+            <div className="row row-cols-1 row-cols-md-1 mt-3">
+              <div className="col">
+                <code>
+                  {JSON.stringify(biAuthenticateResult, null, 2)}
+                </code>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BIAuthenticate;
+```
+
+What's happening here?
+
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isAuthenticateUrl` to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
+2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
+3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
+4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
+
+</TabItem>
+
+<TabItem value="kotlin" label="Kotlin">
+
+1. Build a [CustomTabsIntent](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch your [crafted authorization URL](authentication#craft-authorization-url).
+
+```kotlin
+val builder = CustomTabsIntent.Builder()
+...
+builder.build().launchUrl(context, AUTH_URL)
+```
+
+2. A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [Activity](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [onCreate](<https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)>) &/ [onNewIntent](<https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)>), and call `EmbeddedSdk.authenticate()`. You can confirm the validity of the URL with `EmbeddedSdk.isAuthenticateUrl()`.
+
+```kotlin
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+            EmbeddedSdk.authenticate(
+                url = uri.toString(),
+                passkeyId = selectedPasskeyId,
+            ) {
+                ...
+            }
+        }
+        ...
+    }
+}
+```
+
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+
+```kotlin
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+            EmbeddedSdk.authenticate(
+                url = uri.toString(),
+                passkeyId = selectedPasskeyId,
+            ) { result ->
+                result.onSuccess { authenticateResponse ->
+                    authenticateResponse.redirectUrl?.let { redirectUrl ->
+                        // This URL contains authorization code and state parameters
+                        // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                        var code = parseCode(redirectUrl)
+                        var token = exchangeForToken(code)
+                    }
+                }
+            }
+        }
+        ...
+    }
+}
+```
+
+Full Example:
+
+```kotlin
+private fun launchBI(context: Context, url: Uri = AUTH_URL) {
+    CustomTabsIntent.Builder().build().launchUrl(context, url)
+}
+
+private fun handleIntent(context: Context, intent: Intent?) {
+    selectPasskeyId { selectedPasskeyId ->
+        intent?.data?.let { uri ->
+            when {
+                EmbeddedSdk.isAuthenticateUrl(uri.toString()) -> {
+                    EmbeddedSdk.authenticate(
+                        url = uri.toString(),
+                        passkeyId = selectedPasskeyId,
+                    ) { result ->
+                        result.onSuccess { authenticateResponse ->
+                            authenticateResponse.redirectUrl?.let { redirectUrl ->
+                                // This URL contains authorization code and state parameters
+                                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                                var code = parseCode(redirectUrl)
+                                var token = exchangeForToken(code)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun selectPasskeyId(callback: (String) -> Unit) {
+    // Where you can perform some logic here to select a passkey, or
+    // present UI to a user to enable them to select a passkey.
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+1. Start an `ASWebAuthenticationSession`, and launch your [crafted authorization URL](authentication#craft-authorization-url).
+
+```swift
+let session = ASWebAuthenticationSession(
+    url: viewModel.authorizationURL,
+    callbackURLScheme: viewModel.callbackScheme
+    completionHandler: { (url, error) in }
+)
+session.presentationContextProvider = self
+session.start()
+```
+
+2. During the session completionHandler, a URL with the invoke URL scheme should be returned. You can confirm the validity of the URL with `Embedded.shared.isAuthenticateUrl`. When the webpage loads a URL, call `Embedded.shared.authenticate` with the URL and user selected passkey id.
+
+```swift
+let session = ASWebAuthenticationSession(
+    url: viewModel.authorizationURL,
+    callbackURLScheme: viewModel.callbackScheme
+){ (url, error) in
+    guard Embedded.shared.isAuthenticateUrl(url) else {/*not valid*/}
+    Embedded.shared.authenticate(
+        url: url,
+        id: passkeyId
+    ) { result in
+        switch result {
+        case let .success(response):
+        case let .failure(error):
+        }
+    }
+}
+```
+
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+
+```swift
+Embedded.shared.authenticate(
+    url: url,
+    id: passkeyId
+) { result in
+    switch result {
+    case let .success(response):
+        let code = parseCode(from: response.redirectURL)
+        let token = exchangeForToken(code)
+    case let .failure(error):
+    }
+}
+```
+
+Full Example:
+
+```swift
+let session = ASWebAuthenticationSession(
+    url: viewModel.authorizationURL,
+    callbackURLScheme: viewModel.callbackScheme
+){ (url, error) in
+    guard Embedded.shared.isAuthenticateUrl(url) else {
+        print("url is not valid")
+        return
+    }
+    presentPasskeySelection { selectedPasskeyId in
+        Embedded.shared.authenticate(
+            url: url,
+            id: selectedPasskeyId
+        ) { result in
+            switch result {
+            case let .success(response):
+                let code = parseCode(from: response.redirectURL)
+                let token = exchangeForToken(code)
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
+}
+session.presentationContextProvider = self
+session.start()
+
+private fun presentPasskeySelection(callback: (PasskeyID) -> Void) {
+    // Where you can perform some logic here to select a passkey, or
+    // present UI to a user to enable them to select a passkey.
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+For the reasons stated in [RFC 8252](https://www.rfc-editor.org/rfc/rfc8252#section-8.12), unfortunately, the [react-native-community/react-native-webview](https://github.com/react-native-webview/react-native-webview) is _NOT_ recommended. If you application is able to use expo, please use [expo-auth-session](https://docs.expo.dev/versions/latest/sdk/auth-session/). If you are not using expo, please find a library that uses [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) on iOS, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) on Android. One possible library is [InAppBrowser](https://github.com/proyecto26/react-native-inappbrowser).
+
+<Tabs groupId="react-native" queryString> 
+<TabItem value="expo" label="expo">
+
+1. Subscribe to the `useAuthRequest` hook with the Beyond Identity discovery url. Many of the values used to configure the request are the values from your [crafted authorization URL](authentication#craft-authorization-url).
+
+```jsx
+const discovery = useAutoDiscovery(
+  `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}`
+);
+// Request
+const [request, response, promptAsync] = useAuthRequest(
+  {
+    clientId: `${CLIENT_ID}`,
+    scopes: ['openid'],
+    redirectUri: makeRedirectUri({
+      scheme: 'your.app',
+    }),
+  },
+  discovery
+);
+```
+
+2. Use `React.useEffect` to subscribe the the `response` of the `useAuthRequest`. The response will contain a `url` that can be passed to `Embedded.authenticate`. You can confirm the validity of the url with `Embedded.isAuthenticateUrl`.
+
+```jsx
+React.useEffect(() => {
+  const authenticate = async (url) => {
+    // Display UI for user to select a Passwordless Passkey
+    const passkeys = await Embedded.getPasskeys();
+
+    if (await Embedded.isAuthenticateUrl(url)) {
+      // Pass url and selected Passkey ID into the Beyond Identity Embedded SDK authenticate function
+      // Parse query parameters from the 'redirectURL' for a 'code' and then exchange that code for an access token in a server */
+      const { redirectURL } = await Embedded.authenticate(url, passkeys[0].id);
+    }
+  };
+
+  // response does not need to be of type 'success' if it has a url.
+  // The state value is stored in a JWT in the url 'request' paramater and the url will be validated through the Beyond Identity Embedded SDK.
+  if (response?.url) {
+    authenticate(url);
+  }
+}, [response]);
+```
+
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+
+```jsx
+const { redirectURL } = await Embedded.authenticate(url, passkeys[0].id);
+```
+
+Full Example:
+
+```jsx
+import * as React from 'react';
+import {
+  makeRedirectUri,
+  useAuthRequest,
+  useAutoDiscovery,
+} from 'expo-auth-session';
+import { Button } from 'react-native';
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
+export default function App() {
+  // Endpoint
+  const discovery = useAutoDiscovery(
+    `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}`
+  );
+  // Request
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: `${CLIENT_ID}`,
+      scopes: ['openid'],
+      redirectUri: makeRedirectUri({
+        scheme: 'your.app',
+      }),
+    },
+    discovery
+  );
+
+  React.useEffect(() => {
+    const authenticate = async (url) => {
+      // Display UI for user to select a Passwordless Passkey
+      const passkeys = await Embedded.getPasskeys();
+
+      if (await Embedded.isAuthenticateUrl(url)) {
+        // Pass url and selected Passkey ID into the Beyond Identity Embedded SDK authenticate function
+        // Parse query parameters from the 'redirectURL' for a 'code' and then exchange that code for an access token in a server */
+        const { redirectURL } = await Embedded.authenticate(
+          url,
+          passkeys[0].id
+        );
+      }
+    };
+
+    // response does not need to be of type 'success' if it has a url.
+    // The state value is stored in a JWT in the url 'request' paramater and the url will be validated through the Beyond Identity Embedded SDK.
+    if (response?.url) {
+      authenticate(url);
+    }
+  }, [response]);
+
+  return (
+    <Button
+      disabled={!request}
+      title="Passwordless Login"
+      onPress={() => {
+        promptAsync();
+      }}
+    />
+  );
+}
+```
+
+</TabItem>
+<TabItem value="react-native-init" label="react-native init">
+
+1. Check that an `InAppBrowser` isAvailable, and launch your [crafted authorization URL](authentication#craft-authorization-url).
+
+```tsx
+if (await InAppBrowser.isAvailable()) {
+  let response = await InAppBrowser.openAuth(authUrl, 'yourScheme://', {});
+}
+```
+
+2. A URL with the invoke URL scheme should be returned from the webview. Call `Embedded.authenticate` with this url. You can confirm the validity of the URL with `Embedded.isAuthenticateUrl`.
+
+```tsx
+if (await InAppBrowser.isAvailable()) {
+  const response = await InAppBrowser.openAuth(authUrl, 'yourScheme://', {});
+
+  if (await Embedded.isAuthenticateUrl(response.url)) {
+    const authResponse = await Embedded.authenticate(response.url, passkeyId);
+  }
+}
+```
+
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+
+```tsx
+if (await Embedded.isAuthenticateUrl(response.url)) {
+  const authResponse = await Embedded.authenticate(response.url, passkeyId);
+  const code = parseCodeFrom(authResponse.redirectURL);
+  const token = exchangeForToken(code);
+}
+```
+
+Full Example:
+
+```tsx
+if (await InAppBrowser.isAvailable()) {
+  const response = await InAppBrowser.openAuth(authUrl, 'yourScheme://', {});
+
+  if (await Embedded.isAuthenticateUrl(response.url)) {
+    const selectedPasskeyId = await presentPasskeySelection();
+    const authResponse = await Embedded.authenticate(
+      response.url,
+      selectedPasskeyId
+    );
+    const code = parseCodeFrom(authResponse.redirectURL);
+    const token = exchangeForToken(code);
+  }
+}
+
+function presentPasskeySelection(): selectedPasskeyId {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
+}
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+1. Make a call to `FlutterWebAuth.authenticate()`, and launch your [crafted authorization URL](authentication#craft-authorization-url).
+
+```dart
+var result = await FlutterWebAuth.authenticate(
+    url: AUTH_URL,
+    callbackUrlScheme: CALLBACK_URL_SCHEME,
+);
+```
+
+2. The result will be a URL with the Invoke URL scheme. You can call `EmbeddedSdk.authenticate()`, using the result. You can confirm the validity of the URL with `EmbeddedSdk.isAuthenticateUrl()`.
+
+```dart
+var authenticateResponse = await Embeddedsdk.authenticate(
+  result,
+  selectedPasskeyId
+);
+```
+
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+
+```dart
+// This URL contains authorization code and state parameters
+// Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+var code = parseCode(authenticateResponse.redirectUrl);
+var token = exchangeForToken(code);
+```
+
+Full Example:
+
+```dart
+selectPasskeyId((selectedPasskeyId) async {
+    var result = await FlutterWebAuth.authenticate(
+        url: AUTH_URL,
+        callbackUrlScheme: CALLBACK_URL_SCHEME,
+    );
+
+    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
+
+    // This URL contains authorization code and state parameters
+    // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+    var code = parseCode(authenticateResponse.redirectUrl)
+    var token = exchangeForToken(code)
+});
+
+Future<void> selectPasskeyId(Function(String) callback) async {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
+}
+```
+
+</TabItem>
+</Tabs>
