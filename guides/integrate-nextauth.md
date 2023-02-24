@@ -8,8 +8,6 @@ import Arcade, {Clip} from '/src/components/Arcade.tsx';
 import AppSchemeCaution from '/docs/workflows/\_app-scheme-caution.mdx';
 import InvocationTip from '/docs/workflows/\_invocation-type-tip.mdx';
 import InvocationDiagram from '/docs/platform-overview/\_invocation-url-diagram.mdx';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 # Integrate Beyond Identity Passwordless Authentication into NextAuth
 
@@ -25,7 +23,7 @@ This guide will cover:
 
 ## Prerequisites
 
-- Set up a [developer account](https://developer.beyondidentity.com/docs/v1/workflows/account-setup)
+- Set up a [developer account](/docs/v1/workflows/account-setup)
 
 ## NextAuth
 
@@ -59,7 +57,7 @@ Once you've installed the SDK, initialize it so that you can call the Embedded f
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a [Realm](https://developer.beyondidentity.com/docs/v1/workflows/realms) to hold identities and configuration. Inside that realm, you'll need to create an [Application](https://developer.beyondidentity.com/docs/v1/workflows/applications) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a [Realm](/docs/v1/workflows/realms) to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/v1/workflows/applications) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -79,8 +77,8 @@ There is a lot to configure when creating an application. When creating your app
 
 For help choosing options, visit the following guides:
 
-- [Workflows: Applications](https://developer.beyondidentity.com/docs/v1/workflows/applications)
-- [Authenticator Config](https://developer.beyondidentity.com/docs/v1/platform-overview/authenticator-config)
+- [Workflows: Applications](/docs/v1/workflows/applications)
+- [Authenticator Config](/docs/v1/platform-overview/authenticator-config)
 
 <Arcade clip={Clip.CreateApplication} />
 
@@ -98,7 +96,7 @@ Once you have an application in the admin console you are ready to provising use
 
 Creating a user can be done either in the admin console or through an API. This guide will use the admin console. Navigate to your realm in the console and click **Identities**, then click **Add identity**.
 
-For more information visit [Workflows: User and Group Provisioning](https://developer.beyondidentity.com/docs/v1/workflows/user-provisioning).
+For more information visit [Workflows: User and Group Provisioning](/docs/v1/workflows/user-provisioning).
 
 <Arcade clip={Clip.CreateIdentity} />
 
@@ -106,7 +104,7 @@ For more information visit [Workflows: User and Group Provisioning](https://deve
 
 Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
 
-For more information visit [Workflows: Bind Passkey To User](https://developer.beyondidentity.com/docs/v1/workflows/bind-passkey).
+For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/bind-passkey).
 
 <Arcade clip={Clip.CreatePasskey} />
 
@@ -128,7 +126,7 @@ if (embedded.isBindPasskeyUrl(url)) {
 
 ## Authenticate with Passkey
 
-Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](https://developer.beyondidentity.com/docs/v1/workflows/authentication).
+Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](/docs/v1/workflows/authentication).
 
 ### Craft an Authorization URL
 
@@ -179,53 +177,13 @@ There are three pieces we need to check in the [Authenticator Config](/docs/v1/p
 
 <InvocationTip/>
 
+For **NextAuth**, we will use **Automatic**.
+
 <InvocationDiagram />
 
 ![Invocation Type](../docs/workflows/screenshots/authentication-invocation.png)
 
-### Authenticate
-
-There are two ways to authenticate depending on your Application Config's [Invocation Type](http://localhost:3000/docs/v1/platform-overview/authenticator-config#invocation-type). Invocation Type can have one of two values: [Automatic](#automatic) or [Manual](#manual).
-
-<InvocationTip/>
-
-For NextAuth, we will use Automatic.
-
-#### Automatic
-
-<Tabs groupId="authenticate-invocation-type" queryString>
-<TabItem value="manual" label="Manual">
-
-Start with a GET request to your [crafted authorization URL](authentication#craft-authorization-url). If successful, you will receive an `authenticate_url` in the response. Pass that url along with a passkey id to the Embedded SDK's `authenticate` function. You can confirm the validity of the URL with `isAuthenticateUrl`.
-
-Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
-
-```javascript
-const BeyondIdentityAuthUrl = `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${URI_ENCODED_REDIRECT_URI}&scope=openid&state=${STATE}&code_challenge_method=S256&code_challenge=${PKCE_CODE_CHALLENGE}`;
-
-let response = await fetch(BeyondIdentityAuthUrl, {
-  method: 'GET',
-  headers: new Headers({
-    'Content-Type': 'application/json',
-  }),
-});
-const data = await response.json();
-
-// Display UI for user to select a passkey
-const passkeys = await embedded.getPasskeys();
-
-if (await Embedded.isAuthenticateUrl(data.authenticate_url)) {
-  // Pass url and selected passkey ID into the Beyond Identity Embedded SDK authenticate function
-  // Parse query parameters from the 'redirectUrl' for a 'code' and then exchange that code for an access token in a server
-  const { redirectUrl } = await embedded.authenticate(
-    data.authenticate_url,
-    passkeys[0].id
-  );
-}
-```
-
-</TabItem>
-<TabItem value="automatic" label="Automatic">
+### Start Authorization for Invocation Type
 
 The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
 
@@ -233,15 +191,11 @@ The authenticate url that is redirected to your application will append a `/bi-a
 $invoke_url/bi-authenticate?request=<request>
 ```
 
-### Native application deep linking
+#### Handle Authorization in your applicaiton
 
-Make sure to set up deep linking in native applications to intercept the authenticate url.
+The authorization flow should begin in a webview with your [crafted authorization URL](/docs/v1/workflows/authentication#1-craft-authorization-url).
 
-### Handle Authorization in your applicaiton
-
-The authorization flow should begin in a webview with your [crafted authorization URL](authentication#craft-authorization-url).
-
-Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
+Don't forget to [initalize your SDK](/docs/v1/workflows/sdk-setup) and present some logic to the user to select a passkey ahead of time.
 
 :::info
 In a native application, the webview used should follows best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252). This means that on iOS applications [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) should be used, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) should be used on Android devices.
@@ -251,41 +205,26 @@ In a native application, the webview used should follows best practices set out 
 
 1. Configuring NextAuth
 
-Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Many of the values used to configure the request are the values from your [crafted authorization URL](authentication#craft-authorization-url).
+Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Many of the values used to configure the request are the values from your [crafted authorization URL](/docs/v1/workflows/authentication#1-craft-authorization-url).
 
 ```javascript
 ...
+import BeyondIdentity from "@auth/core/providers/beyondidentity"
+...
 providers: [
-  {
-    id: "beyondidentity",
-    name: "Beyond Identity",
-    type: "oauth",
-    wellKnown: `https://auth-us.beyondidentity.com/v1/tenants/${<TENANT_ID>}/realms/${<REALM_ID>}/applications/${<APPLICATION_ID>}/.well-known/openid-configuration`,
-    authorization: { params: { scope: "openid" } },
-    clientId: process.env.APP_CLIENT_ID,
-    clientSecret: process.env.APP_CLIENT_SECRET,
-    idToken: true,
-    checks: ["pkce", "state"],
-    profile(profile) {
-      return {
-        id: profile.sub,
-        name: profile.sub,
-        email: profile.sub,
-      }
-    }
-  }
+  //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
+  BeyondIdentity({
+    clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
+    clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
+    issuer: process.env.BEYOND_IDENTITY_ISSUER,
+  })
 ],
-callbacks: {
-  async jwt({ token }) {
-    console.log(token);
-  }
-}
 ...
 ```
 
 2. Wiring up `embedded.authenticate`
 
-Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/v1/platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
 ```javascript
 import { useEffect, useState } from "react";
@@ -381,47 +320,8 @@ What's happening here?
 3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
 4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
 
-</TabItem>
-</Tabs>
-
-```javascript
-import { Auth } from "@auth/core"
-import BeyondIdentity from "@auth/core/providers/beyondidentity"
-import { Embedded } from '@beyondidentity/bi-sdk-js';
-
-export default function AutomaticAuthentication() {
-  const embedded = await Embedded.initialize();
-
-  // Request
-  const request = new Request("https://example.com")
-
-  // Response
-  const response = await Auth(request, {
-    providers: [BeyondIdentity({ clientId: "", clientSecret: "", issuer: "" })],
-  })
-
-  // Authenticate
-  const authenticate = async (url) => {
-    // Display UI for user to select a passwordless passkey if there are multiple.
-    const passkeys = await embedded.getPasskeys();
-
-    if (await embedded.isAuthenticateUrl(url)) {
-      // Pass url and a selected passkey ID into the Beyond Identity Embedded SDK authenticate function
-      const { redirectUrl } = await embedded.authenticate(
-        url,
-        passkeys[0].id
-      );
-    }
-  };
-
-  if (response?.url) {
-    authenticate(url);
-  }
-}
-```
-
 ### Token Exchange
 
-Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](#craft-an-authorization-url) first to retrieve an authorization code.
+Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](/docs/v1/workflows/authentication#1-craft-authorization-url) first to retrieve an authorization code.
 
 If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will not need to complete authentication with a token exchange.
