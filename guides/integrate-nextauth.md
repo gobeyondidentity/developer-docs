@@ -3,9 +3,15 @@ title: NextAuth
 sidebar_position: 6
 ---
 
-import Arcade, {Clip} from '../src/components/Arcade.tsx';
-import InvocationTip from '../docs/workflows/\_invocation-type-tip.mdx';
 import SetupJavaScript from '/docs/workflows/_sdk-setup/_setup-javascript.mdx';
+import Arcade, {Clip} from '/src/components/Arcade.tsx';
+import AppSchemeCaution from '/docs/workflows/\_app-scheme-caution.mdx';
+import InvocationTip from '/docs/workflows/\_invocation-type-tip.mdx';
+import InvocationDiagram from '/docs/platform-overview/\_invocation-url-diagram.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SilentAuth from '/docs/workflows/\_authentication-via-return.mdx';
+import WebAuth from '/docs/workflows/\_authentication-via-automatic.mdx';
 
 # Integrate Beyond Identity Passwordless Authentication into NextAuth
 
@@ -128,7 +134,10 @@ Once you have one passkey bound to a device, you can use it to authenticate. For
 
 ### Craft an Authorization URL
 
-First you will need to craft an authorization URL. You can find the base URL in the admin console under your application, select "EXTERNAL PROTOCOL". Copy the `Authorization Endpoint` and add the following additional query parameters:
+First you will need to craft an authorization URL. The base url can be found in the Beyond Identity Admin Console
+under your application, select "EXTERNAL PROTOCOL". Copy the `Authorization Endpoint` and add the following additional query parameters:
+
+![Authorize Url](../docs/workflows/screenshots/authentication-auth-url.png)
 
 ```bash title="/authorize"
 https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize?
@@ -155,96 +164,48 @@ You will need to set PKCE as a Client Configuration in your Application Config.
 The `STATE` parameter is used to mitigiate [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). Have your application generate a random string for the `STATE` value on each authentication request. You should check that this string is returned back to you to in the response.
 :::
 
+### Configure Authenticator Config
+
+There are three pieces we need to check in the [Authenticator Config](/docs/v1/platform-overview/authenticator-config) before authentication. To check your config, navigate the Beyond Identity Admin Console and find your application. Select "AUTHENTICATOR CONFIG".
+
+1. In order to use the Embedded SDKs, the `Configuration Type` should be set to [Embedded SDK](/docs/v1/platform-overview/authenticator-config#embedded-sdk).
+2. Set the [Invoke URL](/docs/v1/platform-overview/authenticator-config#invoke-url) to a URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
+
+<AppSchemeCaution/>
+
+3. Set the the [Invocation Type](/docs/v1/platform-overview/authenticator-config#invocation-type). This specifies how our authentication URL is delivered to your application. Invocation Type can be one of two values:
+
+- **Automatic**: redirect to your application using the Invoke URL with a challenge that your app will need to sign.
+
+- **Manual**: the challenge will be returned to you as part of a JSON response.
+
+<InvocationTip/>
+
+<InvocationDiagram />
+
+![Invocation Type](../docs/workflows/screenshots/authentication-invocation.png)
+
 ### Authenticate
 
 There are two ways to authenticate depending on your Application Config's [Invocation Type](http://localhost:3000/docs/v1/platform-overview/authenticator-config#invocation-type). Invocation Type can have one of two values: [Automatic](#automatic) or [Manual](#manual).
 
 <InvocationTip/>
 
+For NextAuth, we will use Automatic.
+
 #### Automatic
 
-If "Automatic" is selected, Beyond Identity will automatically redirect to your application using the Invoke URL (the App Scheme or Univeral URL pointing to your application). The url will be validated through the Beyond Identity Embedded SDK.
-
-```javascript
-import { Auth } from "@auth/core"
-import BeyondIdentity from "@auth/core/providers/beyondidentity"
-import { Embedded } from '@beyondidentity/bi-sdk-js';
-
-export default function AutomaticAuthentication() {
-  const embedded = await Embedded.initialize();
-
-  // Request
-  const request = new Request("https://example.com")
-
-  // Response
-  const response = await Auth(request, {
-    providers: [BeyondIdentity({ clientId: "", clientSecret: "", issuer: "" })],
-  })
-
-  // Authenticate
-  const authenticate = async (url) => {
-    // Display UI for user to select a passwordless passkey if there are multiple.
-    const passkeys = await embedded.getPasskeys();
-
-    if (await embedded.isAuthenticateUrl(url)) {
-      // Pass url and a selected passkey ID into the Beyond Identity Embedded SDK authenticate function
-      const { redirectUrl } = await embedded.authenticate(
-        url,
-        passkeys[0].id
-      );
-    }
-  };
-
-  if (response?.url) {
-    authenticate(url);
-  }
-}
-```
-
-#### Manual
-
-If "Manual" is selected, an authentication URL be returned to you as part of a JSON response. No redirects are needed and will not require authentication through a web service. The result is a completley silent OAuth 2.0 authentication using passkeys. Since the challenge is packaged as part of the authentication URL, following the URL will result in the same behavior as if an Invocation Type of "Automatic" were selected.
-
-```javascript
-import { Auth } from "@auth/core"
-import BeyondIdentity from "@auth/core/providers/beyondidentity"
-import { Embedded } from '@beyondidentity/bi-sdk-js';
-
-export default function ManualAuthentication() {
-  const embedded = await Embedded.initialize();
-
-  // Request
-  const request = new Request("https://example.com")
-
-  // Response
-  const response = await Auth(request, {
-    providers: [BeyondIdentity({ clientId: "", clientSecret: "", issuer: "" })],
-  })
-
-  // Authenticate
-  const authenticate = async (url) => {
-    // Display UI for user to select a passwordless passkey if there are multiple.
-    const passkeys = await embedded.getPasskeys();
-
-    if (await embedded.isAuthenticateUrl(url)) {
-      // Pass url and a selected passkey ID into the Beyond Identity Embedded SDK authenticate function
-      const { redirectUrl } = await embedded.authenticate(
-        url,
-        passkeys[0].id
-      );
-    }
-  };
-
-  if (response?.url) {
-    authenticate(url);
-  }
-}
-```
+<Tabs groupId="authenticate-invocation-type" queryString>
+<TabItem value="manual" label="Manual">
+<SilentAuth/>
+</TabItem>
+<TabItem value="automatic" label="Automatic">
+<WebAuth/>
+</TabItem>
+</Tabs>
 
 ### Token Exchange
 
-Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`.
+Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](#craft-an-authorization-url) first to retrieve an authorization code.
 
-Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
-
-See [Workflows: Authenticate with Passkey: Token Exchange](https://developer.beyondidentity.com/docs/v1/workflows/authentication#token-exchange) for more details.
+If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will not need to complete authentication with a token exchange.
