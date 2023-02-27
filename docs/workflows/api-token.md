@@ -64,7 +64,7 @@ Use the following curl examples below to obtain an authorization code and then c
 1. Authenticate to obtain an authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/authorize" \
+curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/authorize" \
 -d "response_type=code" \
 -d "client_id=$(MANAGEMENT_API_CLIENT_ID)" \
 -d "redirect_uri=$(REDIRECT_URI)" \
