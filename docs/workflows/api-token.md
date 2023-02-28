@@ -108,7 +108,7 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 -X POST \
 -H "Authorization: Bearer $(TOKEN)" \
 -H "Content-Type: application/json" \
--d "{\"token\":\"$(TOKEN_TO_REVOKE)\"}"'
+-d "token=$(TOKEN_TO_REVOKE)"'
 title="/revoke"
 />
 
@@ -118,16 +118,58 @@ There are two token formats that can be validated: `self-contained` or `referent
 
 ### Introspection (Online Validation)
 
-A successful introspect query will return information about the token. After receiving information about the token, validate that token has the expected scopes.
+The introspect endpoint is compliant with [RFC-7662](https://datatracker.ietf.org/doc/html/rfc7662).
+After receiving information about the token, validate that token has the expected scopes and audience.
 
 <MultiLanguageCodeBlock
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/introspect" \
 -X POST \
 -u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "{\"token\":\"$(TOKEN_TO_INTROSPECT)\"}"'
+-d "token=$(TOKEN_TO_INTROSPECT)"'
 title="/introspect"
 />
+
+#### Successful response
+
+A successful introspect query will return a JSON object containing the key
+`"active"` set to the boolean value `true`, plus information about the token.
+
+```
+{
+  "active": true,
+  "iss": "https://auth-us.beyondidentity.com/v1/tenants/0001b18ee979ce2c/realms/eb381961f60ce222/applications/4d3b2c7f-69c9-4edf-8c21-4b098af8d40a",
+  "sub": "2eDWKMf4sr5gwPjgu_1MTCgD",
+  "aud": [
+    "beyondidentity"
+  ],
+  "exp": 1685353182,
+  "nbf": 1677577182,
+  "iat": 1677577182,
+  "jti": "1waXvcIcr4PHW3Q2HDI1Im4nUXh32dZ5",
+  "scope": "tenants:read realms:create realms:read realms:update realms:delete identities:create identities:read identities:update identities:delete groups:create groups:read groups:update groups:delete applications:create applications:read applications:update applications:delete authenticator-configs:create authenticator-configs:read authenticator-configs:update authenticator-configs:delete policy-v1:create policy-v1:read resource-servers:create resource-servers:read resource-servers:update resource-servers:delete tokens:create tokens:read tokens:update tokens:delete tokens:introspect credentials:read credentials:revoke credential-binding-jobs:create credential-binding-jobs:read themes:create themes:read themes:update events:read console-configs:read console-configs:update tenants:update",
+  "azp": "tenants/0001b18ee979ce2c/realms/eb381961f60ce222/applications/4d3b2c7f-69c9-4edf-8c21-4b098af8d40a",
+  "bi_p": "tenants/0001b18ee979ce2c/realms/eb381961f60ce222/applications/4d3b2c7f-69c9-4edf-8c21-4b098af8d40a",
+  "bi_t": "0001b18ee979ce2c",
+  "bi_r": "*"
+}
+```
+
+#### Unsuccessful response
+
+Pursuant to RFC-7662, the introspect endpoint returns HTTP 200 status code even
+if the token is revoked. If the token is revoked, expired or its signature is
+invalid the introspect endpoint returns a JSON object with a single key
+`"active"` set to the boolean value `false`.
+
+```json
+{
+    "active": false
+}
+```
+
+Apart from this, the introspect endpoint might return other error codes in case
+the request is malformed or unauthorized.
 
 ### Offline Validation
 
@@ -152,8 +194,8 @@ You need to use a Management API Bearer token with the `tokens:read` scope in or
 In this case, the application is the issuer of the token and the identity is the subject of the token.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.run/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=identity&principal_id=$(IDENTITY_ID)" \
--H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=identity&principal_id=$(IDENTITY_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
 />
 
@@ -182,8 +224,8 @@ In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.run/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=application&principal_id=$(APPLICATION_ID)" \
--H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=application&principal_id=$(APPLICATION_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
 />
 
