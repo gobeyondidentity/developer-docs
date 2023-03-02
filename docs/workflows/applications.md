@@ -80,7 +80,7 @@ An application can also be created from the [Beyond Identity API](https://develo
 
 Before creating an application by API, you may want to create a resource server. A resource server is a namespace for application scopes. Application scopes is a set of all scopes supported by the application. When an application is created without a resource server, this application may provide authentication (identity) but not authorization (access). If your application doesn't provide multiple levels of access -- like admin access vs user access, then there might not be a need for a resource server.
 
-When creating an application with the [admin console](#create-application-from-admin-console), if the application lives in the admin realm, then the application is created with the management API resource server. Otherwise, it is currently created without a resource server.
+If you are creating another application to mint tokens, you will want to set the resource server to the "Beyond Identity Management API" resource server.
 
 If you create a resource server, make note of the response `id`, as you'll need the resource server ID when creating an application.
 

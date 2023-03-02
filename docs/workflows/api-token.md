@@ -59,7 +59,7 @@ title="/token"
 
 ### Authorization Code Flow
 
-If you would like to use the authorization flow, [create another application](./applications.md) in the "Beyond Identity Admin" realm referencing the management API [resource server](./applications.md#create-a-resource-server).
+If you would like to use the authorization flow, [create another application](./applications.md) in the "Beyond Identity Admin" realm referencing the management API [resource server](./applications.md#create-a-resource-server). Set the application's grant type to "Authorization Code".
 
 Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is received through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
@@ -68,9 +68,9 @@ Use the following curl examples below to obtain an authorization code and then c
 1. Authenticate to obtain an authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/authorize" \
+curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
 -d "response_type=code" \
--d "client_id=$(MANAGEMENT_API_CLIENT_ID)" \
+-d "client_id=$(APPLICATION_CLIENT_ID)" \
 -d "redirect_uri=$(REDIRECT_URI)" \
 -d "scope=openid" \
 -d "state=$(STATE)" \
@@ -82,10 +82,10 @@ title="/authorize"
 2. Create an access token the with authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
 -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(MANAGEMENT_API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
+-d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
 title="/token"
 />
 
