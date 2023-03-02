@@ -46,6 +46,8 @@ Alternatively, an access token may also be generated directly via API by request
 
 ### Client Credentials Flow
 
+The `Beyond Identity Management API` application created during [developer setup](./account-setup.md) only supports the client credentials flow. Use the below example to create an access token.
+
 <MultiLanguageCodeBlock
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
 -X POST \
@@ -57,6 +59,8 @@ title="/token"
 
 ### Authorization Code Flow
 
+If you would like to use the authorization flow, [create another application](./applications.md) in the "Beyond Identity Admin" realm referencing the management API [resource server](./applications.md#create-a-resource-server). Set the application's grant type to "Authorization Code".
+
 Using the authorization code flow is a two part process. First an authorization grant code must be obtained. This code is received through your callback specified in the `redirect_uri`. When extracting the code, your `state` and PKCE should be validated. Second you must use the grant code to create an access token.
 
 Use the following curl examples below to obtain an authorization code and then create a token with that code. Note the following example uses `S256`, but using the `plain` `code_challenge_method` might be easier to get started as using PKCE requires storing the hash of the value passed as `code_challenge` so it can be passed to the token endpoint later.
@@ -64,9 +68,9 @@ Use the following curl examples below to obtain an authorization code and then c
 1. Authenticate to obtain an authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/authorize" \
+curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
 -d "response_type=code" \
--d "client_id=$(MANAGEMENT_API_CLIENT_ID)" \
+-d "client_id=$(APPLICATION_CLIENT_ID)" \
 -d "redirect_uri=$(REDIRECT_URI)" \
 -d "scope=openid" \
 -d "state=$(STATE)" \
@@ -78,10 +82,10 @@ title="/authorize"
 2. Create an access token the with authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
 -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(MANAGEMENT_API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
+-d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
 title="/token"
 />
 
@@ -97,7 +101,7 @@ In the Beyond Identity Admin Console under the "Apps" tab, select the "Beyond Id
 
 In order to revoke an access token, you must be passed authentication in the form of either Bearer or Basic.
 
-In the case of Basic authentication, the passed authentication must come from the confidential Application that the token has been minted for. The passed access token must be signed by the same client id as the application.
+In the case of Basic authentication, the passed authentication must come from the confidential application that the token has been minted for. The passed access token must be signed by the same client id as the application.
 
 In the case of Bearer authentication, the passed authentication must contain the scope "tokens:delete".
 
@@ -106,7 +110,7 @@ Note that passing an invalid token, or a token which has already been revoked or
 <MultiLanguageCodeBlock
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke" \
 -X POST \
--H "Authorization: Bearer $(TOKEN)" \
+-H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
 -H "Content-Type: application/json" \
 -d "token=$(TOKEN_TO_REVOKE)"'
 title="/revoke"
@@ -130,7 +134,7 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 title="/introspect"
 />
 
-#### Successful response
+#### Successful Response
 
 A successful introspect query will return a JSON object containing the key
 `"active"` set to the boolean value `true`, plus information about the token.
@@ -155,7 +159,7 @@ A successful introspect query will return a JSON object containing the key
 }
 ```
 
-#### Unsuccessful response
+#### Unsuccessful Response
 
 Pursuant to RFC-7662, the introspect endpoint returns HTTP 200 status code even
 if the token is revoked. If the token is revoked, expired or its signature is
@@ -164,7 +168,7 @@ invalid the introspect endpoint returns a JSON object with a single key
 
 ```json
 {
-    "active": false
+  "active": false
 }
 ```
 
@@ -189,7 +193,7 @@ In order to list tokens, you need to know the ID of the application that was use
 
 You need to use a Management API Bearer token with the `tokens:read` scope in order to call this API.
 
-### Request: Listing access tokens for an identity
+### Request: Listing Access Tokens for an Identity
 
 In this case, the application is the issuer of the token and the identity is the subject of the token.
 
@@ -218,7 +222,7 @@ title="/tokens"
 }
 ```
 
-### Request: Listing access tokens for an application
+### Request: Listing Access Tokens for an Application
 
 In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
