@@ -142,7 +142,7 @@ curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/rea
 -X DELETE \
 -H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
 -H "Content-Type: application/json"'
-title="DELETE /tokens/{token_id}"
+title="DELETE /tokens/{TOKEN_ID}"
 />
 
 ## Validating Access Tokens
