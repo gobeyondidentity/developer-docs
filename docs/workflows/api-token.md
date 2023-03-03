@@ -97,10 +97,8 @@ In the Beyond Identity Admin Console under the "Apps" tab, select the "Beyond Id
 
 Beyond Identity exposes two different endpoints to revoke a token. Both endpoints achieve the same goal.
 
-There are two differences between them:
-
-- [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint needs whole token, management API only needs token_id
-- [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint accepts bearer or basic auth, management API accepts only bearer
+1. The Revoke Endpoint is [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant, needs the whole token and accepts bearer or basic auth.
+2. Revoke Token by ID is not RFC-7009 compliant, only needs the token_id and only accepts bearer.
 
 You need to choose which endpoint to use based on the information available to you. What information is available depends on the use case.
 
