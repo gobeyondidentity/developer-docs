@@ -128,7 +128,7 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 title="/revoke"
 />
 
-### Revoking Token by ID
+### Revoke Token by ID
 
 In order to revoke a token by token_id, you must pass a Bearer
 authentication containing a management API token with the `tokens:delete`
