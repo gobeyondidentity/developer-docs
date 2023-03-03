@@ -99,6 +99,20 @@ In the Beyond Identity Admin Console under the "Apps" tab, select the "Beyond Id
 
 ## Revoking Access Tokens
 
+Beyond Identity exposes two different endpoints to revoke a token. Both endpoints achieve the same goal.
+
+1. The Revoke Endpoint is [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant, needs the whole token and accepts bearer or basic auth.
+2. Revoke Token by ID is not RFC-7009 compliant, only needs the token_id and only accepts bearer.
+
+You need to choose which endpoint to use based on the information available to you. What information is available depends on the use case.
+
+Here are two examples:
+
+- Imagine an administrator configures an application to use referential tokens. Then, a user logs into the application and their token leaks somewhere. Now, the administrator wants to revoke the token. For this use case, it's only possible to use the [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint as the administrator has no way of knowing the token_id of the referential token.
+- Imagine a developer uses the Beyond Identity Management API to implement session management. They display a screen with a list of active tokens. For each token, they want to display a button that revokes the token. The token listing endpoint as specified provides only token_id. It doesn't provide the cryptographic string representing the token, which makes it impossible to use the [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint.
+
+### Revoke Endpoint ([RFC-7009](https://www.rfc-editor.org/rfc/rfc7009))
+
 In order to revoke an access token, you must be passed authentication in the form of either Bearer or Basic.
 
 In the case of Basic authentication, the passed authentication must come from the confidential application that the token has been minted for. The passed access token must be signed by the same client id as the application.
@@ -114,6 +128,23 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 -H "Content-Type: application/json" \
 -d "token=$(TOKEN_TO_REVOKE)"'
 title="/revoke"
+/>
+
+### Revoke Token by ID
+
+In order to revoke a token by token_id, you must pass a Bearer
+authentication containing a management API token with the `tokens:delete`
+scope.
+
+You must also know the `TOKEN_ID` of the token you want to revoke. This can be
+returned for example from the token listing.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens/$(TOKEN_ID)" \
+-X DELETE \
+-H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
+-H "Content-Type: application/json"'
+title="DELETE /tokens/{TOKEN_ID}"
 />
 
 ## Validating Access Tokens
