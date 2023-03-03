@@ -130,6 +130,6 @@ curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/rea
 -X POST \
 -H "Authorization: Bearer $(TOKEN)" \
 -H "Content-Type: application/json" \
--d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\"}}}"'
+-d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\", \"token_format\": \"self_contained\"}}}"'
 title="/applications"
 />
