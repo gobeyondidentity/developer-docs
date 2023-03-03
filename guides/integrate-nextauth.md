@@ -5,15 +5,10 @@ sidebar_position: 6
 
 import SetupJavaScript from '/docs/workflows/_sdk-setup/_setup-javascript.mdx';
 import Arcade, {Clip} from '/src/components/Arcade.tsx';
-import PkceInfo from '/docs/workflows/\_pkce-info.mdx';
-import StateInfo from '/docs/workflows/\_state-info.mdx';
-import AppSchemeCaution from '/docs/workflows/\_app-scheme-caution.mdx';
-import InvocationTip from '/docs/workflows/\_invocation-type-tip.mdx';
-import InvocationDiagram from '/docs/platform-overview/\_invocation-url-diagram.mdx';
 
 # Integrate Beyond Identity Passwordless Authentication into NextAuth
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Next application that uses NextAuth.
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a [Next](https://nextjs.org) application that uses [NextAuth](https://authjs.dev).
 
 This guide will cover:
 
@@ -85,7 +80,7 @@ For help choosing options, visit the following guides:
 
 <Arcade clip={Clip.CreateApplication} />
 
-Now that we have created our application, we are ready to update our values.
+Now that we have created our application, we are ready to update our values. Store these values in your Next application's environment variables to use with the Beyond Identity provider. 
 
 1. For `BeyondIdentity` _clientId_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client ID
 1. For `BeyondIdentity` _clientSecret_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client Secret
@@ -131,39 +126,6 @@ if (embedded.isBindPasskeyUrl(url)) {
 
 Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](/docs/v1/workflows/authentication).
 
-### Configure External Protocol
-
-Check your appliction config in the admin console for your `APPLICATION_CLIENT_ID`.
-
-The `REDIRECT_URI` is your application's App Scheme or Universal URL.
-
-<PkceInfo />
-
-<StateInfo />
-
-### Configure Authenticator Config
-
-There are three pieces we need to check in the [Authenticator Config](/docs/v1/platform-overview/authenticator-config) before authentication. To check your config, navigate the Beyond Identity Admin Console and find your application. Select "AUTHENTICATOR CONFIG".
-
-1. In order to use the Embedded SDKs, the `Configuration Type` should be set to [Embedded SDK](/docs/v1/platform-overview/authenticator-config#embedded-sdk).
-2. Set the [Invoke URL](/docs/v1/platform-overview/authenticator-config#invoke-url) to a URL that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
-
-<AppSchemeCaution />
-
-3. Set the the [Invocation Type](/docs/v1/platform-overview/authenticator-config#invocation-type). This specifies how our authentication URL is delivered to your application. Invocation Type can be one of two values:
-
-- **Automatic**: redirect to your application using the Invoke URL with a challenge that your app will need to sign.
-
-- **Manual**: the challenge will be returned to you as part of a JSON response.
-
-<InvocationTip />
-
-For **NextAuth**, we will use **Automatic**.
-
-<InvocationDiagram />
-
-![Invocation Type](../docs/workflows/screenshots/authentication-invocation.png)
-
 ### Start Authorization for Invocation Type
 
 The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
@@ -180,7 +142,7 @@ Don't forget to [initalize your SDK](/docs/v1/workflows/sdk-setup) and present s
 
 1. Configuring NextAuth
 
-Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app.
+Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Use the values you saved in your environment variables when creating an application above. 
 
 ```javascript
 ...
