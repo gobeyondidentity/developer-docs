@@ -136,11 +136,13 @@ In order to revoke a token by token_id, you must pass a Bearer
 authentication containing a management API token with the `tokens:delete`
 scope.
 
+You must know the `APPLICATION_ID` of the application that is the issuer of the token.
+
 You must also know the `TOKEN_ID` of the token you want to revoke. This can be
 returned for example from the token listing.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens/$(TOKEN_ID)" \
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)" \
 -X DELETE \
 -H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
 -H "Content-Type: application/json"'
@@ -229,8 +231,8 @@ You need to use a Management API Bearer token with the `tokens:read` scope in or
 In this case, the application is the issuer of the token and the identity is the subject of the token.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=identity&principal_id=$(IDENTITY_ID)" \
--H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens?principal_type=identity&principal_id=$(IDENTITY_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
 title="/tokens"
 />
 
@@ -240,16 +242,16 @@ title="/tokens"
 {
   "tokens": [
     {
-      "token_id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
-      "application": "43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
-      "scope": "",
-      "exp": 1675177245,
-      "iat": 1675090845,
+      "id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+      "scopes": ["tenants:create"],
+      "expires": 1675177245,
+      "issued_at": 1675090845,
       "token_type": "access",
-      "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/identities/ce9d40cf7285a260",
       "token_format": "self_contained"
+      "token_suffix": "Jv_1828r9",
     }
-  ]
+  ],
+  "total_size": 1
 }
 ```
 
@@ -259,7 +261,7 @@ In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/tokens?application=$(APPLICATION_ID)&principal_type=application&principal_id=$(APPLICATION_ID)" \
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens?principal_type=application&principal_id=$(APPLICATION_ID)" \
 -H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
 />
@@ -270,15 +272,15 @@ title="/tokens"
 {
   "tokens": [
     {
-      "token_id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
-      "application": "43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
-      "scope": "",
-      "exp": 1675177245,
-      "iat": 1675090845,
+      "id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+      "scopes": ["tenants:create"],
+      "expires": 1675177245,
+      "issued_at": 1675090845,
       "token_type": "access",
-      "principal_path": "tenants/0001fb357ac698bb/realms/d7e6e18f570421ce/applications/43e65451-1a38-4e17-8fd3-ae5b582fd9c7",
       "token_format": "self_contained"
+      "token_suffix": "Jv_1828r9",
     }
-  ]
+  ],
+  "total_size": 1
 }
 ```
