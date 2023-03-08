@@ -106,6 +106,8 @@ For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/
 
 <Arcade clip={Clip.CreatePasskey} />
 
+## Configure Next Application
+
 ### Bind passkey to device
 
 Once the user taps on the enrollment email, they will be redirected to your application. Intercept the link from the enrollment email. The link that is redirected to your application will take on the following form. A `/bind` path will be appended to your Invoke URL (configured in your application above) as well as several other query parameters.
@@ -116,31 +118,89 @@ $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<rea
 
 Once you receive the incoming URL, pass it into the SDK to complete the binding process. You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
+Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/v1/platform-overview/authenticator-config), this is the page that will be redirected to during a bind passkey flow. Copy the following code snippet into that page.
+
 ```javascript
-if (embedded.isBindPasskeyUrl(url)) {
-  const bindPasskeyResponse = await embedded.bindPasskey(url);
-}
+import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import { signIn } from "next-auth/react";
+import { Passkey } from "@beyondidentity/bi-sdk-js";
+
+const BIBindPasskey = () => {
+  const [bindPasskeyResult, setBindPasskeyResult] = useState('');
+
+  useEffect(() => {
+    // -- 1
+    const bindPasskey = async () => {
+      const BeyondIdentityEmbeddedSdk = await import("@beyondidentity/bi-sdk-js");
+      let embedded = await BeyondIdentitySdk.EmbeddedSdk.initialize();
+      if (embedded.isBindPasskeyUrl(window.location.href)) {
+        // Only bind passkey if the URL is a "bind" URL
+        let bindPasskeyUrl = window.location.href;
+        // -- 2
+        embedded
+          .bindPasskey(bindPasskeyUrl)
+          .then((result) => {
+            // -- 3
+            setBindPasskeyResult(result);
+            signIn('beyondidentity', {
+              tenant_id: tenantId,
+            });
+          })
+          .catch((error) => {
+            setBindPasskeyResult(error.toString());
+          });
+      }
+    };
+
+    bindPasskey().catch(console.error);
+  }, []);
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <div className="container">
+         <div className="row">	
+          <div className="d-flex justify-content-center">	
+            <div className="spinner-border" role="status">	
+              <span className="sr-only"></span>	
+            </div>	
+          </div>	
+        </div>
+        <div className="row">
+          {bindPasskeyResult.length > 0 && (
+            <div className="row row-cols-1 row-cols-md-1 mt-3">
+              <div className="col">
+                <code>
+                  {JSON.stringify(bindPasskeyResult, null, 2)}
+                </code>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BIBindPasskey;
 ```
 
-## Authenticate with Passkey
+What's happening here?
+
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
+2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `embedded.bindPasskey` to complete the binding process.
+3. Finally, the response of `embedded.bindPasskey` contains a `passkey` object, which represents the passkey bound to the device.
 
 Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](/docs/v1/workflows/authentication).
 
-### Start Authorization for Invocation Type
-
-The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
-
-```
-$invoke_url/bi-authenticate?request=<request>
-```
-
-#### Handle Authorization in your applicaiton
-
-The authorization flow should begin with your [crafted authorization URL](/docs/v1/workflows/authentication#1-craft-authorization-url).
-
-Don't forget to [initalize your SDK](/docs/v1/workflows/sdk-setup) and present some logic to the user to select a passkey ahead of time.
-
-1. Configuring NextAuth
+### Configuring the NextAuth Provider
 
 Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Use the values you saved in your environment variables when creating an application above. 
 
@@ -159,7 +219,13 @@ providers: [
 ...
 ```
 
-2. Wiring up `embedded.authenticate`
+### Authenticate
+
+The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
+
+```
+$invoke_url/bi-authenticate?request=<request>
+```
 
 Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/v1/platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
