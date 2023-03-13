@@ -264,7 +264,7 @@ which is why it needs to be in the request twice.
 
 <MultiLanguageCodeBlock
 curl='curl -G "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens" \
---data-urlencode"principal_type=application" \
+--data-urlencode "principal_type=application" \
 --data-urlencode "principal_id=$(APPLICATION_ID)" \
 -H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
