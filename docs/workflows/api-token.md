@@ -284,3 +284,15 @@ title="/tokens"
   "total_size": 1
 }
 ```
+
+## Custom Claims
+
+TODO: write verb-age here about what this is and what it could be used for.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens?principal_type=application&principal_id=$(APPLICATION_ID)&custom_claims=\"{\\" \\"" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
+title="/tokens"
+/>
+
+### Response Example
