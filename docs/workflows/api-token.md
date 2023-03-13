@@ -68,14 +68,14 @@ Use the following curl examples below to obtain an authorization code and then c
 1. Authenticate to obtain an authorization code:
 
 <MultiLanguageCodeBlock
-curl='curl -X GET "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
--d "response_type=code" \
--d "client_id=$(APPLICATION_CLIENT_ID)" \
--d "redirect_uri=$(REDIRECT_URI)" \
--d "scope=openid" \
--d "state=$(STATE)" \
--d "code_challenge=$(OPTIONAL_CODE_CHALLENGE)" \
--d "code_challenge_method=S256"'
+curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
+--data-urlencode "response_type=code" \
+--data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
+--data-urlencode "redirect_uri=$(REDIRECT_URI)" \
+--data-urlencode "scope=openid" \
+--data-urlencode "state=$(STATE)" \
+--data-urlencode "code_challenge=$(OPTIONAL_CODE_CHALLENGE)" \
+--data-urlencode "code_challenge_method=S256"'
 title="/authorize"
 />
 
@@ -231,8 +231,10 @@ You need to use a Management API Bearer token with the `tokens:read` scope in or
 In this case, the application is the issuer of the token and the identity is the subject of the token.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens?principal_type=identity&principal_id=$(IDENTITY_ID)" \
--H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"' 
+curl='curl -G "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens" \
+--data-urlencode "principal_type=identity" \
+--data-urlencode "principal_id=$(IDENTITY_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
 />
 
@@ -261,7 +263,9 @@ In this case, the application is both the issuer and the subject of the token,
 which is why it needs to be in the request twice.
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens?principal_type=application&principal_id=$(APPLICATION_ID)" \
+curl='curl -G "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens" \
+--data-urlencode "principal_type=application" \
+--data-urlencode "principal_id=$(APPLICATION_ID)" \
 -H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
 title="/tokens"
 />
