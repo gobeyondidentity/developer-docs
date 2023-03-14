@@ -330,9 +330,9 @@ After a token is created, when introspected, the token will contain the
 
 ## Expiration time
 
-This parameter is used to set custom expiration time on individual tokens, to a
-value that is less than what they were originally configured to be. This is done
-by passing a `expiration_time` parameter along with the `/token` endpoint.
+This parameter is used to set a custom expiration time on individual tokens, to
+a value that is less than what was originally configured. This is done by
+passing an `expiration_time` parameter to the  `/token` endpoint.
 
 <MultiLanguageCodeBlock
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
@@ -342,7 +342,8 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 title="/token"
 />
 
-When calling inspect on the newly created token you will see the following fields.
+When calling inspect on the newly created token you will see the following
+fields.
 
 ```json
 {
