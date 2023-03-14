@@ -332,6 +332,8 @@ After a token is created, when introspected, the token will contain the
 }
 ```
 
+In this case, we set the `CLAIMS_JSON_OBJECT` to `{"a": "b", "c": "d"}`.
+
 ## Expiration time
 
 This parameter is used to set a custom expiration time on individual tokens, to
