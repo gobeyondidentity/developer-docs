@@ -287,21 +287,22 @@ title="/tokens"
 
 ## Custom Claims
 
-The `custom_claims` parameter allows for additional information to be stored within the a token.
-Any data may be associated with a token by using the custom_claims URL parameter.
-The provided data must be a valid JSON object. All fields are accessible, when
-parsed from a token within the `bi_custom` field of the JWT payload. `
+The `custom_claims` parameter allows for additional information to be stored
+within a token. Any data may be associated with a token by using the
+custom_claims URL parameter. The provided data must be a valid JSON object. All
+fields are accessible, when parsed from a token within the `bi_custom` field of
+the JWT payload. `
 
 <MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token?principal_type=application&principal_id=$(APPLICATION_ID)&
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token?principal_type=application&principal_id=$(APPLICATION_ID)&
 -u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
 -d "grant_type=client_credentials&scope=$(SCOPES)&custom_claims=$(CLAIMS_JSON_OBJECT)'
 title="/tokens"
 />
 
-After a token is created, when inspected, the token will contain the `bi_custom` field
-with all of the claims.
+After a token is created, when introspected, the token will contain the
+`bi_custom` field with all of the claims.
 
 ```json
 {
@@ -329,9 +330,9 @@ with all of the claims.
 
 ## Expiration time
 
-This parameter is used to set custom timeouts on individual tokens, to a value
-that is less than what they were originally configured to be. This is done by
-passing a `expiration_time` parameter along with the `/token` endpoint.
+This parameter is used to set custom expiration time on individual tokens, to a
+value that is less than what they were originally configured to be. This is done
+by passing a `expiration_time` parameter along with the `/token` endpoint.
 
 <MultiLanguageCodeBlock
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
@@ -363,6 +364,5 @@ When calling inspect on the newly created token you will see the following field
 }
 ```
 
-The new expiration time can be computed by the `exp` field when subtracting the
-`iat` from it. In the above example value was set to `123` which is the
-difference between those two fields.
+We can now verify that the difference of expiration time and issued at time
+`(exp- iat)` is equal to what we send in expiration_time request parameter.
