@@ -89,6 +89,21 @@ curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/re
 title="/token"
 />
 
+#### Refreshing a Token
+
+If you enable Refresh Tokens in your application, the token response json object will contain an additional field called `refresh_token` similarly to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4).
+That refresh token can be used to obtain a new access token for the same identity with the same settings.
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=refresh_token&refresh_token=$(REFRESH_TOKEN)'
+title="/token"
+/>
+
+You can read more about refresh flow in [RFC-6749#6](https://datatracker.ietf.org/doc/html/rfc6749#section-6)
+
 ## Token Configuration
 
 Token configuration, such as expiration and default allowed scopes, can be modified either through the Beyond Identity Admin Console or through API on [application update](https://developer.beyondidentity.com/api/v1#tag/Applications/operation/UpdateApplication).
