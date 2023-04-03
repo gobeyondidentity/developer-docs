@@ -3,12 +3,14 @@ title: NextAuth
 sidebar_position: 6
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import SetupJavaScript from '/docs/workflows/_sdk-setup/_setup-javascript.mdx';
 import Arcade, {Clip} from '/src/components/Arcade.tsx';
 
 # Integrate Beyond Identity Passwordless Authentication into NextAuth
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a [Next](https://nextjs.org) application that uses [NextAuth](https://authjs.dev).
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/) (which is becoming [Auth.js](https://authjs.dev)).
 
 This guide will cover:
 
@@ -24,11 +26,47 @@ This guide will cover:
 
 ## NextAuth
 
-- [NextAuth Introduction](https://authjs.dev/getting-started/introduction)
-- [NextAuth Guides](https://authjs.dev/guides)
+- [NextAuth.js Initialization](https://next-auth.js.org/configuration/initialization)
+- [NextAuth.js OAuth Providers](https://next-auth.js.org/configuration/providers/oauth)
+
+- [Auth.js Introduction](https://authjs.dev/getting-started/introduction)
+- [Auth.js Guides](https://authjs.dev/guides)
 - [Beyond Identity Provider](https://authjs.dev/reference/core/providers_beyondidentity)
 
 ### Example
+
+<Tabs groupId="nextjs" queryString>
+<TabItem value="nextauth" label="NextAuth.js">
+
+```javascript
+import NextAuth from "next-auth"
+
+export default NextAuth({
+  providers: [
+    {
+      id: "beyondidentity",
+      name: "Beyond Identity",
+      type: "oauth",
+      wellKnown: `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/.well-known/openid-configuration`,
+      authorization: { params: { scope: "openid" } },
+      clientId: process.env.APP_CLIENT_ID,
+      clientSecret: process.env.APP_CLIENT_SECRET,
+      idToken: true,
+      checks: ["state"],
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.sub,
+          email: profile.sub,
+        }
+      }
+    }
+  ]
+})
+```
+
+</TabItem>
+<TabItem value="auth" label="Auth.js">
 
 ```javascript
 import { Auth } from "@auth/core"
@@ -39,6 +77,9 @@ const response = await Auth(request, {
   providers: [BeyondIdentity({ clientId: "", clientSecret: "", issuer: "" })],
 })
 ```
+
+</TabItem>
+</Tabs>
 
 We will overwrite the `Request` _url_ and `BeyondIdentity` _clientId_, _clientSecret_ and _issuer_ values later in this process, so you can use the dummy value for now.
 
@@ -120,6 +161,9 @@ Once you receive the incoming URL, pass it into the SDK to complete the binding 
 
 Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/v1/platform-overview/authenticator-config), this is the page that will be redirected to during a bind passkey flow. Copy the following code snippet into that page.
 
+<Tabs groupId="nextjs" queryString>
+<TabItem value="nextauth" label="NextAuth.js">
+
 ```javascript
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
@@ -192,6 +236,16 @@ const BIBindPasskey = () => {
 export default BIBindPasskey;
 ```
 
+</TabItem>
+<TabItem value="auth" label="Auth.js">
+
+:::warning WIP
+@auth/nextjs is work in progress. For now, please use [NextAuth.js](?nextjs=nextauth#bind-passkey-to-device).
+:::
+
+</TabItem>
+</Tabs>
+
 What's happening here?
 
 1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
@@ -203,6 +257,39 @@ Once you have one passkey bound to a device, you can use it to authenticate. For
 ### Configuring the NextAuth Provider
 
 Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Use the values you saved in your environment variables when creating an application above. 
+
+<Tabs groupId="nextjs" queryString>
+<TabItem value="nextauth" label="NextAuth.js">
+
+```javascript
+...
+import NextAuth from "next-auth"
+...
+providers: [
+  {
+    id: "beyondidentity",
+    name: "Beyond Identity",
+    type: "oauth",
+    wellKnown: `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/.well-known/openid-configuration`,
+    authorization: { params: { scope: "openid" } },
+    clientId: process.env.APP_CLIENT_ID,
+    clientSecret: process.env.APP_CLIENT_SECRET,
+    idToken: true,
+    checks: ["state"],
+    profile(profile) {
+      return {
+        id: profile.sub,
+        name: profile.sub,
+        email: profile.sub,
+      }
+    }
+  }
+]
+...
+```
+
+</TabItem>
+<TabItem value="auth" label="Auth.js">
 
 ```javascript
 ...
@@ -219,6 +306,9 @@ providers: [
 ...
 ```
 
+</TabItem>
+</Tabs>
+
 ### Authenticate
 
 The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL. Use a "/bi-authenticate" route to intercept this url in your application:
@@ -228,6 +318,9 @@ $invoke_url/bi-authenticate?request=<request>
 ```
 
 Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/v1/platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+
+<Tabs groupId="nextjs" queryString>
+<TabItem value="nextauth" label="NextAuth.js">
 
 ```javascript
 import { useEffect, useState } from "react";
@@ -315,6 +408,16 @@ const BIAuthenticate = () => {
 
 export default BIAuthenticate;
 ```
+
+</TabItem>
+<TabItem value="auth" label="Auth.js">
+
+:::warning WIP
+@auth/nextjs is work in progress. For now, please use [NextAuth.js](?nextjs=nextauth#authenticate).
+:::
+
+</TabItem>
+</Tabs>
 
 What's happening here?
 
