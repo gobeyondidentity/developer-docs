@@ -5,6 +5,10 @@ info:
   contact:
     email: support@beyondidentity.com
   description: |
+    # Postman Collection
+    
+    https://www.postman.com/beyondidentity
+    
     # Introduction
 
     The Beyond Identity API defines methods for managing realms, directories,

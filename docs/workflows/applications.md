@@ -80,7 +80,7 @@ An application can also be created from the [Beyond Identity API](https://develo
 
 Before creating an application by API, you may want to create a resource server. A resource server is a namespace for application scopes. Application scopes is a set of all scopes supported by the application. When an application is created without a resource server, this application may provide authentication (identity) but not authorization (access). If your application doesn't provide multiple levels of access -- like admin access vs user access, then there might not be a need for a resource server.
 
-When creating an application with the [admin console](#create-application-from-admin-console), if the application lives in the admin realm, then the application is created with the management api resource server. Otherwise, it is currently created without a resource server.
+If you are creating another application to mint tokens, you will want to set the resource server to the "Beyond Identity Management API" resource server.
 
 If you create a resource server, make note of the response `id`, as you'll need the resource server ID when creating an application.
 
@@ -130,6 +130,6 @@ curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/rea
 -X POST \
 -H "Authorization: Bearer $(TOKEN)" \
 -H "Content-Type: application/json" \
--d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\"}}}"'
+-d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\", \"token_format\": \"self_contained\"}}}"'
 title="/applications"
 />
