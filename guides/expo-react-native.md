@@ -3,11 +3,11 @@ title: Expo React Native
 sidebar_position: 6
 ---
 
-import Arcade, {Clip} from '../src/components/Arcade.tsx';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import InvocationTip from '../docs/workflows/\_invocation-type-tip.mdx';
-import RNExpoInstallation from '../docs/workflows/\_sdk-setup/\_installation-react-native-expo.mdx';
+import RNExpoInstallation from '/docs/workflows/\_sdk-setup/\_installation-react-native-expo.mdx';
+import Arcade, {Clip} from '/src/components/Arcade.tsx';
+import PkceInfo from '/docs/workflows/\_pkce-info.mdx';
+import StateInfo from '/docs/workflows/\_state-info.mdx';
+import InvocationTip from '/docs/workflows/\_invocation-type-tip.mdx';
 
 # Integrate Beyond Identity Passwordless Authentication into Expo
 
@@ -32,7 +32,7 @@ The React Native SDK is a wrapper around our native SDKs ([Android](https://gith
 
 Once your application is using a development build or prebuild you are ready to install the SDK:
 
-<RNExpoInstallation/>
+<RNExpoInstallation />
 
 ## Initialize the React Native SDK
 
@@ -82,7 +82,7 @@ For help choosing options, visit the following guides:
 
 ## Create an Identity and generate a Universal Passkey
 
-Once you have an application in the admin console you are ready to provising users to your realm's directory, generate passkeys, and handle those passkeys in your application.
+Once you have an application in the admin console you are ready to provision users in your realm's directory, generate passkeys, and handle those passkeys in your application.
 
 ### Create an Identity
 
@@ -159,21 +159,15 @@ Check your appliction config in the admin console for your `APPLICATION_CLIENT_I
 
 The `REDIRECT_URI` is your application's App Scheme or Universal URL.
 
-:::info PKCE
-Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you will need to store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
+<PkceInfo />
 
-You will need to set PKCE as a Client Configuration in your Application Config.
-:::
-
-:::info state
-The `STATE` parameter is used to mitigiate [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). Have your application generate a random string for the `STATE` value on each authentication request. You should check that this string is returned back to you to in the response.
-:::
+<StateInfo />
 
 ### Authenticate
 
 There are two ways to authenticate depending on your Application Config's [Invocation Type](http://localhost:3000/docs/v1/platform-overview/authenticator-config#invocation-type). Invocation Type can have one of two values: [Automatic](#automatic) or [Manual](#manual).
 
-<InvocationTip/>
+<InvocationTip />
 
 #### Automatic
 

@@ -19,8 +19,9 @@ const sidebars = {
     'index',
     'send-enrollment',
     'bubble-io-integration',
-    'integrate-wordpress',
     'expo-react-native',
+    'integrate-nextauth',
+    'integrate-wordpress',
     {
       type: 'category',
       label: 'SSO Integrations',
