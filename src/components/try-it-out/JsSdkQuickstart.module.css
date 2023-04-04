@@ -1,0 +1,49 @@
+@media (prefers-color-scheme: light) {
+    .qs-input {
+      background-color: #ebf0ff;
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+  
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .qs-input {
+      background-color: #5077c5;
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+  
+  }
+  
+  .heading {
+    font-size: 2rem;
+  }
+  
+  .qslabel {
+    width: 100px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+  }
+  
+  .qs-form-input {
+    width: calc(100% - 100px);
+    height: 30px;
+    outline: none;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    border-radius: 0.25rem;
+    text-indent: 1rem;
+    font-family: inherit;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  
+  .qs-form {
+    height: 100%;
+  }
+
+
