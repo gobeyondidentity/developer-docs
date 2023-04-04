@@ -47,7 +47,7 @@ export default NextAuth({
       id: "beyondidentity",
       name: "Beyond Identity",
       type: "oauth",
-      wellKnown: `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/.well-known/openid-configuration`,
+      wellKnown: process.env.APP_DISCOVERY_ENDPOINT,
       authorization: { params: { scope: "openid" } },
       clientId: process.env.APP_CLIENT_ID,
       clientSecret: process.env.APP_CLIENT_SECRET,
@@ -65,6 +65,8 @@ export default NextAuth({
 })
 ```
 
+We will overwrite the _wellKnown_, _clientId_ and _clientSecret_ values later in this process, so you can use a dummy value for now.
+
 </TabItem>
 <TabItem value="auth" label="Auth.js">
 
@@ -78,10 +80,10 @@ const response = await Auth(request, {
 })
 ```
 
+We will overwrite the `Request` _url_ and `BeyondIdentity` _clientId_, _clientSecret_ and _issuer_ values later in this process, so you can use the dummy value for now.
+
 </TabItem>
 </Tabs>
-
-We will overwrite the `Request` _url_ and `BeyondIdentity` _clientId_, _clientSecret_ and _issuer_ values later in this process, so you can use the dummy value for now.
 
 ## Install the JavaScript SDK
 
@@ -123,9 +125,22 @@ For help choosing options, visit the following guides:
 
 Now that we have created our application, we are ready to update our values. Store these values in your Next application's environment variables to use with the Beyond Identity provider. 
 
+<Tabs groupId="nextjs" queryString>
+<TabItem value="nextauth" label="NextAuth.js">
+
+1. For _wellKnown_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Discovery Endpoint
+1. For _clientId_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client ID
+1. For _clientSecret_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client Secret
+
+</TabItem>
+<TabItem value="auth" label="Auth.js">
+
 1. For `BeyondIdentity` _clientId_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client ID
 1. For `BeyondIdentity` _clientSecret_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Client Secret
 1. For `BeyondIdentity` _issuer_, copy and paste the value from Applications -> Your New Application -> External Protocol -> Issuer
+
+</TabItem>
+</Tabs>
 
 ## Create an Identity and generate a Universal Passkey
 
@@ -236,6 +251,14 @@ const BIBindPasskey = () => {
 export default BIBindPasskey;
 ```
 
+What's happening here?
+
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
+2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `embedded.bindPasskey` to complete the binding process.
+3. Finally, the response of `embedded.bindPasskey` contains a `passkey` object, which represents the passkey bound to the device.
+
+Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](/docs/v1/workflows/authentication).
+
 </TabItem>
 <TabItem value="auth" label="Auth.js">
 
@@ -245,14 +268,6 @@ export default BIBindPasskey;
 
 </TabItem>
 </Tabs>
-
-What's happening here?
-
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
-2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `embedded.bindPasskey` to complete the binding process.
-3. Finally, the response of `embedded.bindPasskey` contains a `passkey` object, which represents the passkey bound to the device.
-
-Once you have one passkey bound to a device, you can use it to authenticate. For more information visit [Workflows: Authenticate with Passkey](/docs/v1/workflows/authentication).
 
 ### Configuring the NextAuth Provider
 
@@ -270,7 +285,7 @@ providers: [
     id: "beyondidentity",
     name: "Beyond Identity",
     type: "oauth",
-    wellKnown: `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/.well-known/openid-configuration`,
+    wellKnown: process.env.APP_DISCOVERY_ENDPOINT,
     authorization: { params: { scope: "openid" } },
     clientId: process.env.APP_CLIENT_ID,
     clientSecret: process.env.APP_CLIENT_SECRET,
@@ -409,6 +424,13 @@ const BIAuthenticate = () => {
 export default BIAuthenticate;
 ```
 
+What's happening here?
+
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isAuthenticateUrl` to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
+2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
+3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
+4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
+
 </TabItem>
 <TabItem value="auth" label="Auth.js">
 
@@ -418,10 +440,3 @@ export default BIAuthenticate;
 
 </TabItem>
 </Tabs>
-
-What's happening here?
-
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isAuthenticateUrl` to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
-2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `biAuthenticate` in step 3.
-3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
-4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
