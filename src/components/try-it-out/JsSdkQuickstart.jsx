@@ -12,32 +12,39 @@ const CreateApp = () => {
   const [tenantId, setTenantId] = useState("");
   const [testmode, setTestmode] = useState("");
   const [apitoken, setApitoken] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingConfigure, setLoadingConfigure] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [disabledConfigure, setDisabledConfigure] = useState(false);
+  const [disabledCreate, setDisableCreate] = useState(false);
   const [setupResponse, setSetupResponse] = useState(null);
   const [hostName, setHostName] = useState(null);
   const [identityName, setIdentityName] = useState(null);
   const [identityEmail, setIdentityEmail] = useState(null);
   const [identityResponse, setIdentityResponse] = useState(null);
+  const [createdOneUser, setCreatedOneUser] = useState(false);
+  
 
   const handleIdSubmit = async (event) => {
     event.preventDefault()
-    setLoading(true);
+    setLoadingCreate(true);
+    //clear response from previous run
+    setIdentityResponse("");
 
     if (!identityName) {
       toast.error("Please provide a username");
-      setLoading(false);
+      setLoadingCreate(false);
       return;
     }
 
     if (!identityEmail) {
       toast.error("Please provide an email address for the user");
-      setLoading(false);
+      setLoadingCreate(false);
       return;
     }
 
     if (!setupResponse) {
       toast.error('please fill out the first form first');
-      setLoading(false);
+      setLoadingCreate(false);
       return;
     }
 
@@ -64,29 +71,30 @@ const CreateApp = () => {
     let jsonResponse = await rawResponse.json(); 
     if (rawResponse.status !== 200) {
       toast.error(jsonResponse.error);
-      setLoading(false);
+      setLoadingCreate(false);
       return;
     }
 
     try {
   
       setIdentityResponse(jsonResponse);
-      setLoading(false);   
+      setLoadingCreate(false);   
+      setCreatedOneUser(true);
       } catch (e) {
         console.error(e);
         toast.error(e.message);
-        setLoading(false);
+        setLoadingCreate(false);
       }
 
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setLoading(true);
+    setLoadingConfigure(true);
 
     if (!apitoken) {
       toast.error("Please provide an api token");
-      setLoading(false);
+      setLoadingConfigure(false);
       return;
     }
 
@@ -119,13 +127,13 @@ const CreateApp = () => {
      
     if (tokenResponse.status !== 200) {
       toast.error(jsonTokenResponse.error);
-      setLoading(false);
+      setLoadingConfigure(false);
       return;
     }
 
     if (!jsonTokenResponse.tenantId) {
       toast.error("Please enter a valid apitoken");
-      setLoading(false);
+      setLoadingConfigure(false);
       return;
     } else {
       //go forward and tenant id will be ${jsonTokenResponse.tenantId}
@@ -166,7 +174,7 @@ const CreateApp = () => {
 
     if (rawResponse.status !== 200) {
       toast.error(jsonResponse.error);
-      setLoading(false);
+      setLoadingConfigure(false);
       return;
     }
 
@@ -181,12 +189,13 @@ const CreateApp = () => {
 
     setSetupResponse(jsonResponse);
     setHostName(hostname);
-    setLoading(false); 
+    setLoadingConfigure(false); 
+    setDisabledConfigure(true);
 
     } catch (e) {
       console.error(e);
       toast.error(e.message);
-      setLoading(false);
+      setLoadingConfigure(false);
     }
   };
 
@@ -259,10 +268,10 @@ const CreateApp = () => {
       <div className={classNames(padding["mt-1"])}>
         <Button
           name="Configure"
-          isLoading={loading}
-          isDisabled={false}
+          isLoading={loadingConfigure}
+          isDisabled={disabledConfigure}
           form="create_app" >
-        </Button>
+        </Button>  { (setupResponse !== null) ? (<span><span style={{"font-size":"32px","vertical-align":"middle"}}>&#127881;</span> <span>You have completed this step successfully! Your guidance is in the section below.</span></span> ) : null}
       </div>
       <br/>
         <h2>Create Beyond Identity as an OAuth provider in the app</h2>
@@ -368,16 +377,15 @@ const CreateApp = () => {
       <div className={classNames(padding["mt-1"])}>
         <Button
           name="Create"
-          isLoading={loading}
+          isLoading={loadingCreate}
           isDisabled={false}
           form="create_id">
-        </Button>
+        </Button>  { (identityResponse !== null && identityResponse.STATE == "LINK_SENT") ? (<span>You have created a user and passkey successfully! Go ahead and check your email.</span> ) : null}
       </div>
-      <br/>
-      {(identityResponse !== null) ? (
+      {(createdOneUser) ? (
         <div id="authenticate-result" className={classNames(padding["mt-1"])}>
-          {/*<p>{identityResponse.STATE}</p>*/}
-          <p>Check your email.</p>
+          <p><i>You can update the username and/or email in the form above to create another user and passkey, or otherwise continue with the guidance below.</i></p>
+          <h2>Complete the passkey enrollment</h2>
           <p>From the browser you wish to use for testing, open the email and click the link. This will initiate a passkey enrollment and registration for your app in Beyond Identity.</p>
         <h2>Run the app and sign in</h2>
         <p>If you have not already done so, in VS Code execute <code>npm run dev</code> at the terminal prompt. The app should come up at <code>{hostName}</code>. Here you should be able to click <b>Sign in</b> and sign in to the app as shown below.</p>
