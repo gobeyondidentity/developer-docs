@@ -2,7 +2,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 ```bash
-expo install @beyondidentity/bi-sdk-react-native
+npx expo install @beyondidentity/bi-sdk-react-native
 ```
 
 Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the [plugins array](https://docs.expo.dev/versions/latest/config/app/#plugins) of your app.{json,config.js,config.ts}:
@@ -15,13 +15,10 @@ Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the
 }
 ```
 
-The SDK requires certain minimum native versions. You can set these requirments either with another plugin, [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/), or by modifing project [static files](https://docs.expo.dev/guides/config-plugins/#static-modification).
-
-<Tabs groupId="requirements" queryString>
-<TabItem value="expo-build-properties" label="expo-build-properties">
+The SDK requires certain minimum native versions. Set these requirments with [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/).
 
 ```bash
-expo install expo-build-properties
+npx expo install expo-build-properties
 ```
 
 ```json
@@ -45,18 +42,4 @@ expo install expo-build-properties
 }
 ```
 
-</TabItem>
-<TabItem value="static-files" label="static files">
-
-```bash title="android/gradle.properties"
-android.minSdkVersion=26
-```
-
-```bash title="ios/Podfile.properties.json"
-"ios.deploymentTarget": "13.0"
-```
-
-</TabItem>
-</Tabs>
-
-Finally, rebuild your app as described in Expo's [Adding custom native code guide](https://docs.expo.dev/workflow/customizing/).
+Finally, rebuild your app as described in Expo's [Adding custom native code guide](https://docs.expo.dev/workflow/customizing/#generate-native-projects-with-prebuild).
