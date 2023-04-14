@@ -1,14 +1,10 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.2.0
+  version: 1.3.0
   contact:
     email: support@beyondidentity.com
   description: |
-    # Postman Collection
-    
-    https://www.postman.com/beyondidentity
-    
     # Introduction
 
     The Beyond Identity API defines methods for managing realms, directories,
@@ -516,7 +512,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `realms` and `total_size`. `realms` will be set to an array of realm objects, each of which contain the standard realm attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `realms` and `total_size`. `realms` will be set to an array of realm objects, each of which contain the standard realm attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -860,7 +856,7 @@ paths:
                     details:
                       - type: FieldViolations
                         field_violations:
-                          - field: group.description
+                          - field: group.display_name
                             description: empty string
         '401':
           description: Unauthorized.
@@ -908,8 +904,10 @@ paths:
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`.
 
         The response will contain at most 200 items and may contain a page token to
-        query the remaining items. If page size is not specified, the response will contain 20 items.
-        There is no defined ordering of the list of groups in the response. Note that the maximum and default page sizes are subject to change.
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of groups in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
 
         When paginating, the page size is maintained by the page token but may be
         overridden on subsequent requests. The skip is not maintained by the page
@@ -929,7 +927,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `groups` and `total_size`. `groups` will be set to an array of group objects, each of which contain the standard group attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `groups` and `total_size`. `groups` will be set to an array of group objects, each of which contains the standard group attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -1214,107 +1212,6 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
-  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listMembers':
-    get:
-      tags:
-        - Groups
-      operationId: ListGroupMembers
-      summary: List All Members for a Group
-      description: |
-        To list members belonging to a group, send a GET request to
-        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`.
-
-        The response will contain at most 200 items and may contain a page token to
-        query the remaining items. If page size is not specified, the response will
-        contain 20 items. There is no defined ordering of the list of members in the
-        response. Note that the maximum and default page sizes are subject to
-        change.
-
-        When paginating, the page size is maintained by the page token but may be
-        overridden on subsequent requests. The skip is not maintained by the page
-        token and must be specified on each subsequent request.
-
-        Page tokens expire after one week. Requests which specify an expired page
-        token will result in undefined behavior.
-      security:
-        - BearerAuth:
-            - 'groups:read'
-            - 'identities:read'
-      parameters:
-        - $ref: '#/components/parameters/tenant_id'
-        - $ref: '#/components/parameters/realm_id'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/page_size'
-        - $ref: '#/components/parameters/page_token'
-        - $ref: '#/components/parameters/skip'
-      responses:
-        '200':
-          description: |
-            The response will be a JSON object with a key called `identities` and `total_size`. `identities` will be set to an array of identity objects, each of which contain the standard identity attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListGroupMembersResponse'
-              examples:
-                Success:
-                  value:
-                    identities:
-                      - id: e372db224c06e850
-                        realm_id: 8f5bec58229e6f29
-                        tenant_id: 0001f1f460b1ace6
-                        display_name: Test Identity
-                        create_time: 2022-04-12T05:53:07.119Z
-                        update_time: 2022-06-16T14:31:03.770Z
-                        traits:
-                          type: traits_v0
-                          username: test
-                          primary_email_address: test@example.com
-                    total_size: 1
-        '400':
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Invalid Parameters:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
-        '401':
-          description: Unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Missing Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Insufficient Authorization:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
-        '404':
-          description: The resource was not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Group Not Found:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Internal Error:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:addMembers':
     post:
       tags:
@@ -1516,6 +1413,235 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listMembers':
+    get:
+      tags:
+        - Groups
+      operationId: ListGroupMembers
+      summary: List All Members for a Group
+      description: |
+        To list members belonging to a group, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of members in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'groups:read'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `identities` and `total_size`. `identities` will be set to an array of identity objects, each of which contains the standard identity attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupMembersResponse'
+              examples:
+                Success:
+                  value:
+                    identities:
+                      - id: e372db224c06e850
+                        realm_id: 8f5bec58229e6f29
+                        tenant_id: 0001f1f460b1ace6
+                        display_name: Test Identity
+                        create_time: 2022-04-12T05:53:07.119Z
+                        update_time: 2022-06-16T14:31:03.770Z
+                        traits:
+                          type: traits_v0
+                          username: test
+                          primary_email_address: test@example.com
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Group Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D/get/responses/404/content/application~1json/examples/Group%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/groups/{group_id}:listRoles':
+    get:
+      tags:
+        - Groups
+      operationId: ListGroupRoles
+      summary: List All Role Memberships for a Group
+      description: |
+        To list the roles to which a group is assigned, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listRoles`.
+
+        The request must include the `resource_server_id` query parameter specifying
+        the resource server on which to filter the roles. If the specified resource
+        server does not exist, you will receive a 409 error.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of roles in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'groups:read'
+            - 'roles:read'
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/group_id'
+        - $ref: '#/components/parameters/resource_server_id_query'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `roles` and `total_size`. `roles` will be set to an array of role objects, each of which contains the standard role attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupRolesResponse'
+              examples:
+                Success:
+                  value:
+                    roles:
+                      - id: fb785d40cbe4fc0d
+                        resource_server_id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                        realm_id: bb26e0e8ecdef843
+                        tenant_id: 00010036778ce59f
+                        description: Help Desk
+                        display_name: Customer support personnel.
+                        create_time: 2023-02-14T18:18:58.332Z
+                        update_time: 2023-02-14T18:18:58.332Z
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  value:
+                    code: not_found
+                    message: role not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: Role
+                        id: fb785d40cbe4fc0d
+                        description: role not found
+        '409':
+          description: Conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  value:
+                    code: conflict
+                    message: resource server not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: ResourceServer
+                        id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                        description: resource server not found
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/identities':
     post:
       tags:
@@ -1650,7 +1776,7 @@ paths:
         The response will contain at most 200 items and may contain a page token to
         query the remaining items. If page size is not specified, the response will
         contain 20 items. There is no defined ordering of the list of identities in
-        the response.  Note that the maximum and default page sizes are subject to
+        the response. Note that the maximum and default page sizes are subject to
         change.
 
         When paginating, the page size is maintained by the page token but may be
@@ -1671,7 +1797,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `identities` and `total_size`. `identities` will be set to an array of identity objects, each of which contain the standard identity attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `identities` and `total_size`. `identities` will be set to an array of identity objects, each of which contains the standard identity attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -1913,7 +2039,7 @@ paths:
       operationId: DeleteIdentity
       summary: Delete an Identity
       description: |
-        To delete an identity, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. To be deleted, an identity must not be a member of any groups. The identity must must first be removed from all groups or you will receive a 409 error.
+        To delete an identity, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID`. To be deleted, an identity must not be a member of any groups or roles. The identity must must first be removed from all groups and roles or you will receive a 409 error.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
         - BearerAuth:
@@ -1977,7 +2103,7 @@ paths:
       tags:
         - Identities
       operationId: ListIdentityGroups
-      summary: List All Memberships for an Identity
+      summary: List All Group Memberships for an Identity
       description: |
         To list the groups to which an identity belongs, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`.
@@ -2008,7 +2134,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `groups` and `total_size`. `groups` will be set to an array of group objects, each of which contain the standard group attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `groups` and `total_size`. `groups` will be set to an array of group objects, each of which contains the standard group attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -2070,6 +2196,1169 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}:listRoles':
+    get:
+      tags:
+        - Identities
+      operationId: ListIdentityRoles
+      summary: List All Role Memberships for an Identity
+      description: |
+        To list the roles to which an identity is assigned, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listRoles`.
+
+        The request must include the `resource_server_id` query parameter specifying
+        the resource server on which to filter the roles. If the specified resource
+        server does not exist, you will receive a 409 error.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of roles in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'identities:read'
+            - 'roles:read'
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/identity_id'
+        - $ref: '#/components/parameters/resource_server_id_query'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `roles` and `total_size`. `roles` will be set to an array of role objects, each of which contains the standard role attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListIdentityRolesResponse'
+              examples:
+                Success:
+                  value:
+                    roles:
+                      - id: fb785d40cbe4fc0d
+                        resource_server_id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                        realm_id: bb26e0e8ecdef843
+                        tenant_id: 00010036778ce59f
+                        description: Help Desk
+                        display_name: Customer support personnel.
+                        create_time: 2023-02-14T18:18:58.332Z
+                        update_time: 2023-02-14T18:18:58.332Z
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '409':
+          description: Conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/409/content/application~1json/examples/Resource%20Server%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles':
+    post:
+      tags:
+        - Roles
+      operationId: CreateRole
+      summary: Create a New Role
+      description: |
+        To create a role, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles`. Values in the request body for read-only fields will be ignored.
+      security:
+        - BearerAuth:
+            - 'roles:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+      requestBody:
+        description: Role to be created.
+        content:
+          application/json:
+            schema:
+              title: Create Role Request
+              description: Request for CreateRole.
+              type: object
+              properties:
+                group:
+                  $ref: '#/components/schemas/Role'
+              required:
+                - role
+            examples:
+              Create Role:
+                value:
+                  role:
+                    display_name: Help Desk
+                    description: Customer support personnel.
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  value:
+                    id: fb785d40cbe4fc0d
+                    resource_server_id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                    realm_id: bb26e0e8ecdef843
+                    tenant_id: 00010036778ce59f
+                    description: Help Desk
+                    display_name: Customer support personnel.
+                    create_time: 2023-02-14T18:18:58.332Z
+                    update_time: 2023-02-14T18:18:58.332Z
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  value:
+                    code: bad_request
+                    message: invalid parameters
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: role.display_name
+                            description: empty string
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/get/responses/404/content/application~1json/examples/Resource%20Server%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    get:
+      tags:
+        - Roles
+      operationId: ListRoles
+      summary: List All Roles for a Resource Server
+      description: |
+        To list all roles for a resource server, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of roles in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'roles:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `roles` and `total_size`. `roles` will be set to an array of role objects, each of which contain the standard role attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRolesResponse'
+              examples:
+                Success:
+                  value:
+                    roles:
+                      - id: fb785d40cbe4fc0d
+                        resource_server_id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                        realm_id: bb26e0e8ecdef843
+                        tenant_id: 00010036778ce59f
+                        description: Help Desk
+                        display_name: Customer support personnel.
+                        create_time: 2023-02-14T18:18:58.332Z
+                        update_time: 2023-02-14T18:18:58.332Z
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Resource Server Not Found:
+                  value:
+                    code: not_found
+                    message: resource server not found
+                    details:
+                      - type: ResourceInfo
+                        resource_type: ResourceServer
+                        id: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+                        description: resource server not found
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}':
+    get:
+      tags:
+        - Roles
+      operationId: GetRole
+      summary: Retrieve an Existing Role
+      description: |
+        To retrieve an existing role, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID`.
+      security:
+        - BearerAuth:
+            - 'roles:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    patch:
+      tags:
+        - Roles
+      operationId: UpdateRole
+      summary: Patch a Role
+      description: |
+        To update only specific attributes of an existing role, send a PATCH request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID`. Values in the request body for immutable or read-only fields will be ignored. Fields that are omitted from the request body will be left unchanged.
+      security:
+        - BearerAuth:
+            - 'roles:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      requestBody:
+        description: Updates to the specified role.
+        content:
+          application/json:
+            schema:
+              title: Update Role Request
+              description: Request for UpdateRole.
+              type: object
+              properties:
+                role:
+                  $ref: '#/components/schemas/Role'
+              required:
+                - role
+            examples:
+              Update Display Name:
+                value:
+                  role:
+                    display_name: Help Desk
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+    delete:
+      tags:
+        - Roles
+      operationId: DeleteRole
+      summary: Delete a Role
+      description: |
+        To delete a role, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID`. To be deleted, a role must not have any scopes or members. Any existing scopes and members must first be deleted or you will receive a 409 error.
+        A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
+      security:
+        - BearerAuth:
+            - 'roles:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      responses:
+        '200':
+          description: The action was successful and the response body is empty.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '409':
+          description: Conflict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Has Scopes or Members:
+                  value:
+                    code: conflict
+                    message: role has children
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:addMembers':
+    post:
+      tags:
+        - Roles
+      operationId: AddRoleMembers
+      summary: Assign Members to a Role
+      description: |
+        To assign members to a role, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:addMembers`. The request must contain at least one group ID or identity ID and must not contain more than 1000 group IDs or 1000 identity IDs.
+      security:
+        - BearerAuth:
+            - 'roles:update'
+            - 'groups:read'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Add Role Members Request
+              description: Request for AddRoleMembers.
+              type: object
+              properties:
+                group_ids:
+                  description: IDs of the groups to be assigned to the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+                identity_ids:
+                  description: IDs of the identities to be assigned to the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+            examples:
+              Assign Members:
+                value:
+                  group_ids:
+                    - e372db224c06e850
+                  identity_ids:
+                    - 3a28d4f28b57cc93
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AaddMembers/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:deleteMembers':
+    post:
+      tags:
+        - Roles
+      operationId: DeleteRoleMembers
+      summary: Unassign Members from a Role
+      description: |
+        To unassign members from a role, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:deleteMembers`. The request must contain at least one group ID or identity ID and must not contain more than 1000 group IDs or 1000 identity IDs.
+      security:
+        - BearerAuth:
+            - 'roles:update'
+            - 'identities:read'
+            - 'groups:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Delete Role Members Request
+              description: Request for DeleteRoleMembers.
+              type: object
+              properties:
+                group_ids:
+                  description: IDs of the groups to be unassigned from the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+                identity_ids:
+                  description: IDs of the identities to be unassigned from the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+            examples:
+              Unassign Members:
+                value:
+                  group_ids:
+                    - e372db224c06e850
+                  identity_ids:
+                    - 3a28d4f28b57cc93
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AaddMembers/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:listMembers':
+    get:
+      tags:
+        - Roles
+      operationId: ListRoleMembers
+      summary: List All Members for a Role
+      description: |
+        To list members assigned to a role, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:listMembers`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of members in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'roles:read'
+            - 'groups:read'
+            - 'identities:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+        - $ref: '#/components/parameters/groups_page_size'
+        - $ref: '#/components/parameters/groups_skip'
+        - $ref: '#/components/parameters/identities_page_size'
+        - $ref: '#/components/parameters/identities_skip'
+        - $ref: '#/components/parameters/page_token'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `groups`, `total_groups_size`, `identities`, and `total_identities_size`. `groups` will be set to an array of group objects, each of which contains the standard group attributes. `total_groups_size` will be set to the total number of groups matched by the list request. `identities` will be set to an array of identity objects, each of which contains the standard identity attributes. `total_identities_size` will be set to the total number of identities matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoleMembersResponse'
+              examples:
+                Success:
+                  value:
+                    groups:
+                      - id: 81490afab171aef0
+                        realm_id: 7df92e4a38ba0993
+                        tenant_id: 0001b42d80372976
+                        display_name: Realm Administrators
+                        description: A group of realm administrators.
+                        create_time: 2022-03-14T03:42:52.905Z
+                        update_time: 2022-06-14T05:55:23.823Z
+                    total_groups_size: 1
+                    identities:
+                      - id: e372db224c06e850
+                        realm_id: 7df92e4a38ba0993
+                        tenant_id: 0001b42d80372976
+                        display_name: Test Identity
+                        create_time: 2022-04-12T05:53:07.119Z
+                        update_time: 2022-06-16T14:31:03.770Z
+                        traits:
+                          type: traits_v0
+                          username: test
+                          primary_email_address: test@example.com
+                    total_identities_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:addScopes':
+    post:
+      tags:
+        - Roles
+      operationId: AddRoleScopes
+      summary: Assign Scopes to a Role
+      description: |
+        To assign scopes to a role, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:addScopes`. The request must contain at least one and no more than 1000 scopes.
+      security:
+        - BearerAuth:
+            - 'roles:update'
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Add Role Scopes Request
+              description: Request for AddRoleScopes.
+              type: object
+              properties:
+                scopes:
+                  description: Scopes to be assigned to the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+              required:
+                - scopes
+            examples:
+              Assign Scopes:
+                value:
+                  scopes:
+                    - 'identities:read'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  value:
+                    code: bad_request
+                    message: invalid parameters
+                    details:
+                      - type: FieldViolations
+                        field_violations:
+                          - field: scopes
+                            description: array exceeds 1000 elements
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:deleteScopes':
+    post:
+      tags:
+        - Roles
+      operationId: DeleteRoleScopes
+      summary: Unassign Scopes from a Role
+      description: |
+        To unassign scopes from a role, send a POST request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:deleteScopes`. The request must contain at least one and no more than 1000 scopes.
+      security:
+        - BearerAuth:
+            - 'roles:update'
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Delete Role Scopes Request
+              description: Request for DeleteRoleScopes.
+              type: object
+              properties:
+                scopes:
+                  description: Scopes to be removed from the role.
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 1000
+              required:
+                - scopes
+            examples:
+              Unassign Scopes:
+                value:
+                  scopes:
+                    - 'identities:read'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object containing the standard attributes associated with a role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+              examples:
+                Success:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles/post/responses/200/content/application~1json/examples/Success'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Malformed Request:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/patch/responses/400/content/application~1json/examples/Malformed%20Request'
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1resource-servers~1%7Bresource_server_id%7D~1roles~1%7Brole_id%7D%3AaddScopes/post/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/resource-servers/{resource_server_id}/roles/{role_id}:listScopes':
+    get:
+      tags:
+        - Roles
+      operationId: ListRoleScopes
+      summary: List All Scopes for a Role
+      description: |
+        To list scopes assigned to a role, send a GET request to
+        `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:listScopes`.
+
+        The response will contain at most 200 items and may contain a page token to
+        query the remaining items. If page size is not specified, the response will
+        contain 20 items. There is no defined ordering of the list of scopes in the
+        response. Note that the maximum and default page sizes are subject to
+        change.
+
+        When paginating, the page size is maintained by the page token but may be
+        overridden on subsequent requests. The skip is not maintained by the page
+        token and must be specified on each subsequent request.
+
+        Page tokens expire after one week. Requests which specify an expired page
+        token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'roles:read'
+            - 'resource-servers:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/resource_server_id'
+        - $ref: '#/components/parameters/role_id'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/page_token'
+        - $ref: '#/components/parameters/skip'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys for `scopes` and `total_size`. `scopes` will be set to an array of strings, each of which is a scope assigned to the role. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoleScopesResponse'
+              examples:
+                Success:
+                  value:
+                    scopes:
+                      - 'identities:read'
+                    total_size: 1
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Invalid Parameters:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms/get/responses/400/content/application~1json/examples/Invalid%20Parameters'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Role Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1groups~1%7Bgroup_id%7D%3AlistRoles/get/responses/404/content/application~1json/examples/Role%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credentials':
     get:
       tags:
@@ -2107,7 +3396,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `credentials` and `total_size`. `credential` will be set to an array of credential objects, each of which contain the standard credential attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `credentials` and `total_size`. `credentials` will be set to an array of credential objects, each of which contains the standard credential attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -2503,7 +3792,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `credential_binding_jobs` and `total_size`. `credential_binding_jobs` will be set to an array of credential binding job objects, each of which contain the standard credential binding job attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `credential_binding_jobs` and `total_size`. `credential_binding_jobs` will be set to an array of credential binding job objects, each of which contains the standard credential binding job attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -3024,7 +4313,7 @@ paths:
                       token_endpoint_auth_method: client_secret_post
                       grant_type:
                         - authorization_code
-                      redirect_urls:
+                      redirect_uris:
                         - 'https://auth.mypetapp.com/callback'
                       token_configuration:
                         subject_field: id
@@ -3147,7 +4436,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `applications` and `total_size`. `applications` will be set to an array of application objects, each of which contains the standard application attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with keys for `applications` and `total_size`. `applications` will be set to an array of application objects, each of which contains the standard application attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -3572,7 +4861,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object with a key called `authenticator_configs` and `total_size`. `authenticator_configs` will be set to an array of authenticator configuration objects, each of which contains the standard authenticator configuration attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+            The response will be a JSON object with a keys for `authenticator_configs` and `total_size`. `authenticator_configs` will be set to an array of authenticator configuration objects, each of which contains the standard authenticator configuration attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -3978,7 +5267,7 @@ paths:
       responses:
         '200':
           description: |
-            The response will be a JSON object containing the standard attributes associated with a resource server.
+            The response will be a JSON object with a keys for `resource_servers` and `total_size`. `resource_servers` will be set to an array of resource server objects, each of which contains the standard resource server attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
           content:
             application/json:
               schema:
@@ -4247,6 +5536,229 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens':
+    get:
+      operationId: ListTokens
+      tags:
+        - Tokens
+      summary: List Tokens
+      description: |
+        To list all tokens issued by an application, send a GET request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/tokens`.
+        The `$APPLICATION_ID` in path corresponds to the application that is the issuer of the token.
+        To filter the list of tokens by a principal, set `principal_type` and `principal_id`. These parameters are optional.
+        The response will contain at most 100 items and may contain a page token to query the remaining items. If page size is not specified, the response will contain 100 items. There is no defined ordering of the list of tokens in the response.  Note that the maximum and default page sizes are subject to change.
+        When paginating, the page size is maintained by the page token but may be overridden on subsequent requests. The skip is not maintained by the page token and must be specified on each subsequent request.
+        Page tokens expire after one week. Requests which specify an expired page token will result in undefined behavior.
+      security:
+        - BearerAuth:
+            - 'tokens:read'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/application_id'
+        - $ref: '#/components/parameters/principal_type'
+        - $ref: '#/components/parameters/principal_id'
+      responses:
+        '200':
+          description: |
+            The response will be a JSON object with keys called `tokens` and `total_size`. `tokens` will be set to an array of token objects, each of which contains the standard token attributes. `total_size` will be set to the total number of items matched by the list request. If there are more items to be returned by the requested query, the response will also contain a key called `next_page_token`.
+          content:
+            application/json:
+              schema:
+                title: List Tokens Response
+                description: Response for ListTokens.
+                type: object
+                properties:
+                  tokens:
+                    type: array
+                    items:
+                      title: Token
+                      type: object
+                      description: |
+                        A token represents a record of an access token or a refresh token issued by Beyond Identity.
+                      properties:
+                        id:
+                          type: string
+                          description: |
+                            A unique identifier for a token. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
+                            For JWS tokens, the token_id is the same as the value of the `jti` claim.
+                          readOnly: true
+                          example: cTXMRjNrTz7w3p7wO5HJ5cUTpFt5Z3yL
+                        display_name:
+                          type: string
+                          description: |
+                            A human-readable name for the token. This name is used for display purposes.
+                          example: Testing token only for creating identities
+                        scopes:
+                          type: array
+                          items:
+                            type: string
+                            example: 'applications:create'
+                          description: |
+                            A list of scopes granted by this token. This field is immutable and read-only.
+                          readOnly: true
+                        token_suffix:
+                          type: string
+                          description: |
+                            The last few characters of the cryptographic string that corresponds to this token.  This can be used to identify which token the listing entry corresponds to. This field is immutable and read-only.
+                          readOnly: true
+                          example: JV_adQssw5c
+                        token_format:
+                          description: |
+                            Format of the token. Allowable values are:
+                            - `self_contained`: token in JWT format.
+                            - `referential`: Encoded token which requires /introspect
+                              call in order to retrieve token claims.
+                          type: string
+                          example: self_contained
+                          readOnly: true
+                        expires:
+                          type: integer
+                          format: uint32
+                          description: |
+                            The expiration time of this token formatted as a unix timestamp in seconds. This field is immutable and read-only.
+                          readOnly: true
+                          example: 1677246914
+                        issued_at:
+                          type: integer
+                          format: uint32
+                          description: |
+                            The time when this token has been issued formatted as a unix timestamp in seconds. This field is immutable and read-only.
+                          readOnly: true
+                          example: 1677246914
+                        token_type:
+                          type: string
+                          description: |
+                            Type of the token. Allowable values are:
+                            - `access`
+                            - `refresh`
+                            - `identity`
+                          readOnly: true
+                          example: access
+                    maxItems: 100
+                    description: |
+                      An unordered array of tokens corresponding to the request.
+                  total_size:
+                    type: integer
+                    format: uint32
+                    description: |
+                      Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+                    example: 1000
+                  next_page_token:
+                    type: string
+                    description: |
+                      Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+                required:
+                  - tokens
+                  - total_size
+              examples:
+                Success:
+                  value:
+                    tokens:
+                      - id: cTXMRjNrTz7w3p7wO5HJ5cUTpFt5Z3yL
+                        display_name: Testing token only for creating applications
+                        scopes:
+                          - 'applications:create'
+                        token_suffix: JV_adQssw5c
+                        token_format: self_contained
+                        expires: 1677246914
+                        issued_at: 1677246914
+                        token_type: access
+                    total_size: 1
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Application Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens/{token_id}':
+    delete:
+      operationId: RevokeToken
+      tags:
+        - Tokens
+      summary: Revoke a Token
+      description: |
+        To revoke a token, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/tokens/$TOKEN_ID`.
+        The `$APPLICATION_ID` in path corresponds to the application that is the issuer of the token.
+        A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
+        If the token ID is not available, the access token must be revoked via the [RFC-7009 revoke endpoint](https://developer.beyondidentity.com/docs/v1/workflows/api-token#revoking-access-tokens).
+      security:
+        - BearerAuth:
+            - 'tokens:delete'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/application_id'
+        - $ref: '#/components/parameters/token_id'
+      responses:
+        '200':
+          description: The action was successful and the response body is empty.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Missing Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/401/content/application~1json/examples/Missing%20Authorization'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Insufficient Authorization:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/403/content/application~1json/examples/Insufficient%20Authorization'
+        '404':
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Application Not Found:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1applications/get/responses/404/content/application~1json/examples/Realm%20Not%20Found'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Internal Error:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D/get/responses/500/content/application~1json/examples/Internal%20Error'
 components:
   parameters:
     tenant_id:
@@ -4281,6 +5793,59 @@ components:
       schema:
         type: string
         example: e372db224c06e850
+    role_id:
+      name: role_id
+      in: path
+      description: A unique identifier for a role.
+      required: true
+      schema:
+        type: string
+        example: fb785d40cbe4fc0d
+    groups_page_size:
+      name: groups_page_size
+      in: query
+      description: |
+        Number of groups returned per page for ListRoleMembers. The response will include at most this many groups but may include fewer. If this value is omitted, the response will return the default number of groups allowed by ListRoleMembers.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+    groups_skip:
+      name: groups_skip
+      in: query
+      description: |
+        Number of groups to skip for ListRoleMembers. This is the zero-based index of the first group result.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+        default: 0
+    identities_page_size:
+      name: identities_page_size
+      in: query
+      description: |
+        Number of identities returned per page for ListRoleMembers. The response will include at most this many identities but may include fewer. If this value is omitted, the response will return the default number of identities allowed by ListRoleMembers.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+    identities_skip:
+      name: identities_skip
+      in: query
+      description: |
+        Number of identities to skip for ListRoleMembers. This is the zero-based index of the first identity result.
+      schema:
+        type: integer
+        format: uint32
+        minimum: 0
+        default: 0
+    resource_server_id_query:
+      name: resource_server_id
+      in: query
+      description: The unique identifier of the resource server used to filter roles.
+      schema:
+        type: string
+        minLength: 1
     credential_id:
       name: credential_id
       in: path
@@ -4304,6 +5869,7 @@ components:
       required: true
       schema:
         type: string
+        example: 88ef08fb-c3f9-44e2-b174-fbb239e1dc47
     application_id:
       name: application_id
       in: path
@@ -4311,6 +5877,7 @@ components:
       required: true
       schema:
         type: string
+        example: 38833c36-6f47-4992-9329-ea0a00915137
     authenticator_config_id:
       name: authenticator_config_id
       in: path
@@ -4318,11 +5885,37 @@ components:
       required: true
       schema:
         type: string
+        example: 73731b7f-eb76-4143-9b4b-81a720385f5a
     resource_server_id:
       name: resource_server_id
       in: path
       description: A unique identifier for a resource server.
       required: true
+      schema:
+        type: string
+        example: 84db69f5-48a8-4c11-8cda-1bae3a73f07e
+    token_id:
+      name: token_id
+      in: path
+      description: 'A unique identifier for a token. For JWS tokens, this corresponds to the value of the `jti` token claim.'
+      required: true
+      schema:
+        type: string
+    principal_id:
+      name: principal_id
+      in: query
+      description: A unique identifier for a principal. This might be an application ID or an identity ID depending on the type of principal.
+      required: false
+      schema:
+        type: string
+    principal_type:
+      name: principal_type
+      in: query
+      description: |
+        Type of the principal. Allowable values are:
+          - `application`
+          - `identity`
+      required: false
       schema:
         type: string
     page_size:
@@ -4557,6 +6150,72 @@ components:
           example: test@example.com
       required:
         - type
+    Role:
+      title: Role
+      type: object
+      description: |
+        A role is a logical collection of scopes. Roles are commonly used to limit
+        access control.
+
+        The scopes belonging to a role are limited to its associated resource server.
+        However, note that the resource server may change independently of the role.
+        If scopes are added to or removed from a resource server, its associated
+        roles must be manually updated using the AddRoleScopes or DeleteRoleScopes
+        methods.
+      properties:
+        id:
+          type: string
+          description: |
+            A unique identifier for a role. This is automatically generated on creation. This field is immutable and read-only. This field is unique within the realm.
+          readOnly: true
+          example: fb785d40cbe4fc0d
+        resource_server_id:
+          type: string
+          description: |
+            A unique identifier for the role's resource server. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 7b5a4325-00e0-4379-bd7b-3e5e7e30b09e
+        realm_id:
+          type: string
+          description: |
+            A unique identifier for the role's realm. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: bb26e0e8ecdef843
+        tenant_id:
+          type: string
+          description: |
+            A unique identifier for the role's tenant. This is automatically set on creation. This field is immutable and read-only.
+          readOnly: true
+          example: 00010036778ce59f
+        display_name:
+          type: string
+          minLength: 1
+          maxLength: 64
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
+          description: |
+            A human-readable name for the role. This name is used for display purposes.
+          example: Help Desk
+        description:
+          type: string
+          maxLength: 300
+          pattern: '^[^{}[\]<>;:?\\/|*^%$#=~`!]*$'
+          description: |
+            A free-form text field to describe a role.
+          example: Customer support personnel.
+        create_time:
+          type: string
+          format: date-time
+          description: |
+            A time value given in ISO8601 combined date and time format that represents when the role was created. This is automatically generated on creation. This field is read-only.
+          readOnly: true
+          example: 2023-02-14T18:18:58.332Z
+        update_time:
+          type: string
+          format: date-time
+          description: |
+            A time value given in ISO8601 combined date and time format that represents when the role was last updated. This is automatically updated when the group is updated. This field is read-only.
+          readOnly: true
+          example: 2023-02-14T18:18:58.332Z
     ListRealmsResponse:
       title: List Realms Response
       description: Response for ListRealms.
@@ -4580,6 +6239,92 @@ components:
             Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
       required:
         - realms
+        - total_size
+    ListRolesResponse:
+      title: List Roles Response
+      description: Response for ListRoles.
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          maxItems: 200
+          description: An unordered array of roles corresponding to the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - roles
+        - total_size
+    ListRoleMembersResponse:
+      title: List Role Members Response
+      description: Response for ListRoleMembers.
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          maxItems: 200
+          description: An unordered array of groups corresponding to the request.
+        total_groups_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of group results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identity'
+          maxItems: 200
+          description: An unordered array of identities corresponding to the request.
+        total_identities_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of identity results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - groups
+        - total_groups_size
+        - identities
+        - total_identities_size
+    ListRoleScopesResponse:
+      title: List Role Scopes Response
+      description: Response for ListRoleScopes.
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            type: string
+          maxItems: 200
+          description: An unordered array of scopes corresponding to the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - scopes
         - total_size
     ListIdentitiesResponse:
       title: List Identities Response
@@ -4629,6 +6374,30 @@ components:
       required:
         - groups
         - total_size
+    ListIdentityRolesResponse:
+      title: List Identity Roles Response
+      description: Response for ListIdentityRoles.
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          maxItems: 200
+          description: An unordered array of roles corresponding to the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - roles
+        - total_size
     ListGroupsResponse:
       title: List Groups Response
       description: Response for ListGroups.
@@ -4676,6 +6445,30 @@ components:
             Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
       required:
         - identities
+        - total_size
+    ListGroupRolesResponse:
+      title: List Group Roles Response
+      description: Response for ListGroupRoles.
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          maxItems: 200
+          description: An unordered array of roles corresponding to the request.
+        total_size:
+          type: integer
+          format: uint32
+          description: |
+            Total number of results returned by the operation. This value may be larger than the number of resources returned, such as when returning a single page where multiple pages are available.
+          example: 1000
+        next_page_token:
+          type: string
+          description: |
+            Token used to fetch the next set of results. If this field is omitted, there are no subsequent pages.
+      required:
+        - roles
         - total_size
     Credential:
       title: Credential
@@ -5078,10 +6871,13 @@ components:
         - `client_secret_basic`: The client uses HTTP Basic as defined in
            OAuth 2.0, Section 2.3.1. Namely, `client_id` and `client_secret`
            are sent in the Basic Authorization header.
+        - `none`: The `client_secret` is not part of the request body and there is no authorization header.
+           This endpoint authentication method is only allowed if the application has `confidentiality` set to `confidential`.
       type: string
       enum:
         - client_secret_basic
         - client_secret_post
+        - none
       example: client_secret_basic
     Application:
       title: Application
