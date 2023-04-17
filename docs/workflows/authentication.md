@@ -95,7 +95,7 @@ There are three pieces we need to check in the [Authenticator Config](../platfor
 
 ## Token Exchange
 
-Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](authentication#craft-authorization-url) first to retrieve an authorization code.
+Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential`. Make sure to a call the [authorization endpoint](authentication#1-craft-authorization-url) first to retrieve an authorization code.
 
 If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will not need to complete authentication with a token exchange.
 
