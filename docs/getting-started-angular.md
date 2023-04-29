@@ -1,12 +1,12 @@
 ---
-title: Getting Started (React)
-sidebar_position: 2
+title: Getting Started (Angular)
+sidebar_position: 3
 ---
 
 import Arcade, {Clip} from '../src/components/Arcade.tsx';
 
 :::tip
-This guide is specifically for the React version of our getting started app. If you're interested in the Angular version, you can check that out [here](/docs/v1/getting-started-angular).
+This guide is specifically for the Angular version of our getting started app. If you're interested in the React version, you can check that out [here](/docs/v1/getting-started).
 :::
 
 In this guide we will show you how to create and configure your account and connect a demo application to it. This app will demonstrate common workflows like creating a passkey and using it to authenticate.
@@ -42,16 +42,16 @@ The Beyond Identity Example Application is made up of a [node.js](https://nodejs
 
 ### Clone the repo
 
-The source code for the example application is hosted in [Github](https://github.com/gobeyondidentity/getting-started).
+The source code for the example application is hosted in [Github](https://github.com/gobeyondidentity/getting-started-angular).
 
 ```bash
-git clone https://github.com/gobeyondidentity/getting-started.git
+git clone https://github.com/gobeyondidentity/getting-started-angular.git
 ```
 
 Change directory into the repo:
 
 ```bash
-cd getting-started
+cd getting-started-angular
 ```
 
 ---
@@ -71,27 +71,20 @@ Once your tenant has been created with Beyond Identity, you can continue to conf
 
 ---
 
-## 4. Make a copy of the config file
+## 4. Set your Region
 
-Run the following command from the home directory for the example app:
+Set the `REGION` variable according to where your account was created: 
 
 ```mac tab
-cp .env.local.example .env.local
+export REGION="us" | "eu"
 ```
-
 ```win tab
-copy .env.local.example .env.local
+set REGION="us" | "eu"
 ```
 
 ---
 
-## 5. Set your Region variable on the config file
-
-Edit `.env.local` and set the value of the `REGION` variable according to where your account was created (`us` or `eu`).
-
----
-
-## 6. Get your Tenant ID
+## 5. Get your Tenant ID
 
 <Arcade clip={Clip.FindTenantID} />
 
@@ -101,11 +94,18 @@ Log into the [Admin Console](https://console-us.beyondidentity.com), then to get
 
 2. Click **Edit Realm** on the top right side of your screen, copy the `Tenant ID` value.
 
-3. Edit `.env.local` and paste the value of the `TENANT_ID` variable from the clipboard.
+3. Run the following command to configure the `TENANT_ID` variable:
+
+```mac tab
+export TENANT_ID=<tenant_id>
+```
+```win tab
+set TENANT_ID=<tenant_id>
+```
 
 ---
 
-## 7. Create an API token
+## 6. Create an API token
 
 <Arcade clip={Clip.CreateAPIToken} />
 
@@ -115,11 +115,18 @@ From the [Admin Console](https://console-us.beyondidentity.com), create an API T
 2. Click **Beyond Identity Management API**.
 3. Click **API Tokens**.
 4. **Create a token and click the copy button**, use the API Token to set the environment variables as shown below.
-5. Edit `.env.local` and paste the value of the `API_TOKEN` variable from the clipboard.
+5. Run the following command to set the `API_TOKEN` variable: 
+
+```mac tab
+export API_TOKEN=<api-token>
+```
+```win tab
+set API_TOKEN=<api-token>
+```
 
 ---
 
-## 8. Configure Beyond Identity to manage identities for your app
+## 7. Configure Beyond Identity to manage identities for your app
 
 So far, only the [Admin Realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture#admin-realm) exists for your Beyond Identity tenant. You don't want your app's users to be created there! The steps below create a set of Beyond Identity resources that will contain your end users' identities.
 
@@ -136,7 +143,14 @@ From the Admin Console:
 3. Type the name of your new realm. Click **Create Realm**.
 4. Click **Switch to Realm**.
 5. From the Realm's Home page, click Edit.
-6. **Copy the value for Realm ID** and paste it on the `.env.local` file under `REALM_ID`.
+6. Copy the Realm ID from the response and set an environment variable for it:
+
+```mac tab
+export REALM_ID=<realm-id>
+```
+```win tab
+set REALM_ID=<realm-id>
+```
 
 ### Create an Application
 
@@ -150,29 +164,60 @@ From the Admin Console:
 2. Type a name for your new Application.
 3. Set the Protocol to "OIDC".
 4. Set the Client Type to "Confidential".
-5. Scroll to Redirect URIs, type `http://localhost:8083/api/auth/callback/beyondidentity`
+5. Scroll to Redirect URIs, type `http://localhost:8082/auth/callback`. OIDC auth callbacks are handled on the backend and 8082 is the port where the backend is served on.
 6. Ensure "Token Endpoint Auth Method" is set to "Client Secret Basic".
-7. Click on the Authenticator Config tab, change the Configuration Type to `Embedded` and set the **Invoke URL** and **Trusted Origin** values to: `http://localhost:8083`
+7. Click on the Authenticator Config tab, change the Configuration Type to `Embedded` and set the **Invoke URL** to `http://localhost:8082`. Angular handles routing on the backend and 8082 is the port where the backend is served on.
+8. In the same Authenticator Config tab, set the **Trusted Origin** to: `http://localhost:8083`. API requests from the SDK are made from the frontend, so we need to specify port 8083 since that is the port where the frontend is served on.
 8. Click Submit to save your changes.
 
 ### Complete your example application's configuration
 
-Next, we'll copy the **Application ID**, **Authenticator Configuration ID**, **App Client ID** and **App Secrets** into the `.env.local` configuration.
+Next, we'll set the **Application ID**, **Authenticator Configuration ID**, **App Client ID** and **App Secrets** variables in your environment.
 
 <Arcade clip={Clip.CopyClientIDClientSecretAndApplicationID} />
 
 From the Admin Console:
 
 1. From the navigation bar, click **Applications**, then select the application created on the step above.
-2. **Copy the value for Application ID** and paste it on the `.env.local` file under `APPLICATION_ID`.
-3. **Copy the value for Client ID** and paste it on the `.env.local` file under `APP_CLIENT_ID`.
-4. **Copy the value for Client Secret** and paste it on the `.env.local` file under `APP_CLIENT_SECRET`.
+2. Copy the `Application ID` from the response and set an environment variable:
+
+```mac tab
+export APPLICATION_ID=<application-id>
+```
+```win tab
+set APPLICATION_ID=<application-id>
+```
+
+3. Copy the `Client ID` from the response and set an environment variable:
+
+```mac tab
+export APP_CLIENT_ID=<app-client-id>
+```
+```win tab
+set APP_CLIENT_ID=<app-client-id>
+```
+
+4. Copy the `Client Secret` from the response and set an environment variable:
+
+```mac tab
+export APP_CLIENT_SECRET=<app-client-secret>
+```
+```win tab
+set APP_CLIENT_SECRET=<app-client-secret>
+```
 
 <Arcade clip={Clip.CopyAuthenticatorConfigID} />
 
 Next, copy the Authenticator Config ID into the config file:
 
-5. Click on the Authenticator Config tab, **Copy the value for Authenticator Config ID** and paste it on the `.env.local` file under `AUTHENTICATOR_CONFIG_ID`.
+5. Click on the Authenticator Config tab, copy the Authenticator Configuration ID, and set an environment variable for it:
+
+```mac tab
+export AUTH_CONFIG_ID=<authenticator-config-id>
+```
+```win tab
+set AUTH_CONFIG_ID=<authenticator-config-id>
+```
 
 Learn more about [Authenticator Configurations](/docs/v1/platform-overview/authenticator-config).
 
@@ -196,7 +241,7 @@ and run with:
 yarn start
 ```
 
-A new browser tab should open automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser.
+Open a web browser and navigate to [http://localhost:3002](http://localhost:3002). The example application will now appear and allow you to create Passkeys in the browser.
 
 <Arcade clip={Clip.GettingStartedDemoApp} />
 
