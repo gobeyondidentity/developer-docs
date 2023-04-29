@@ -241,9 +241,7 @@ and run with:
 yarn start
 ```
 
-Open a web browser and navigate to [http://localhost:3002](http://localhost:3002). The example application will now appear and allow you to create Passkeys in the browser.
-
-<Arcade clip={Clip.GettingStartedDemoApp} />
+Open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create Passkeys in the browser.
 
 You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
 
