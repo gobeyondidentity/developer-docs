@@ -19,6 +19,7 @@ const sidebars = {
     'introduction',
     'try-it-out',
     'getting-started',
+    'getting-started-angular',
     'using-bi-for-auth',
     {
       type: 'category',
