@@ -10,6 +10,7 @@ sidebar_position: 1
 # Integrate Beyond Identity Passwordless Authentication into
 - [bubble.io](/guides/bubble-io-integration.md)
 - [Expo](/guides/expo-react-native.md)
+- [Firebase](/guides/integrate-firebase.md)
 - [NextAuth](/guides/integrate-nextauth.md)
 - [Wordpress](/guides/integrate-wordpress.md)
 
