@@ -9,7 +9,7 @@ import SetupKotlin from '/docs/workflows/_sdk-setup/_setup-kotlin.mdx';
 import SetupSwift from '/docs/workflows/_sdk-setup/_setup-swift.mdx';
 import Arcade, {Clip} from '/src/components/Arcade.tsx';
 
-# Integrate Beyond Identity Passwordless Authentication into Firebase
+# Integrate Beyond Identity Passwordless Authentication with Firebase Authentication
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for an application that uses [Firebase](https://firebase.google.com/docs/auth)
 
@@ -31,7 +31,7 @@ This guide will cover:
 
 ## Install the Embedded SDK
 
-In order to use Beyond Identity functionality in your application, you will need to install the SDK. The [Android SDK](https://github.com/gobeyondidentity/bi-sdk-android) and the [Swift SDK](https://github.com/gobeyondidentity/bi-sdk-swift) provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an `Embedded` namespace.
+In order to use Beyond Identity functionality in your application, you will need to install the Beyond Identity SDK. The [Android SDK](https://github.com/gobeyondidentity/bi-sdk-android) and the [Swift SDK](https://github.com/gobeyondidentity/bi-sdk-swift) provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an `Embedded` namespace.
 
 ## Initialize the Embedded SDK
 
@@ -93,6 +93,7 @@ Now that we have created our application, we are ready to configure our custom O
 To complete set up, follow the steps for your platform
 - [Apple](https://firebase.google.com/docs/auth/ios/openid-connect)
 - [Android](https://firebase.google.com/docs/auth/android/openid-connect)
+- [Web](https://firebase.google.com/docs/auth/web/openid-connect)
 
 ## Create an Identity and generate a Universal Passkey
 
@@ -124,12 +125,16 @@ Once the user taps on the enrollment email, they will be redirected to your appl
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
 ```
 
-Once you receive the incoming URL, pass it into the SDK to complete the binding process. You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
+Once you receive the incoming URL, pass it into the Beyond Identity SDK to complete the binding process. You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="kotlin" label="Kotlin">
 
 ```kotlin
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
+
 EmbeddedSdk.bindPasskey(url = bindingLink)
 .onEach { result ->
     result.onSuccess { success ->
@@ -145,6 +150,8 @@ EmbeddedSdk.bindPasskey(url = bindingLink)
 <TabItem value="swift" label="Swift">
 
 ```swift
+import BeyondIdentityEmbedded
+
 Embedded.shared.bindPasskey(url: bindingLink) { result in
     switch result {
     case let .success(bindResponse):
@@ -172,6 +179,15 @@ Once you receive the authenticate URL, pass it into the SDK to complete the auth
 <TabItem value="kotlin" label="Kotlin">
 
 ```kotlin
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.oAuthCredential
+import com.google.firebase.ktx.Firebase
+
 private fun launchBI(context: Context, url: Uri = AUTH_URL) {
     CustomTabsIntent.Builder().build().launchUrl(context, url)
 }
@@ -223,6 +239,10 @@ private fun selectPasskeyId(callback: (String) -> Unit) {
 <TabItem value="swift" label="Swift">
 
 ```swift
+import AuthenticationServices
+import BeyondIdentityEmbedded
+import FirebaseAuth
+
 let session = ASWebAuthenticationSession(
     url: viewModel.authorizationURL,
     callbackURLScheme: viewModel.callbackScheme
