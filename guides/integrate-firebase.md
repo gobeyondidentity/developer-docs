@@ -5,13 +5,14 @@ sidebar_position: 6
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import SetupJavaScript from '/docs/workflows/_sdk-setup/_setup-javascript.mdx';
 import SetupKotlin from '/docs/workflows/_sdk-setup/_setup-kotlin.mdx';
 import SetupSwift from '/docs/workflows/_sdk-setup/_setup-swift.mdx';
 import Arcade, {Clip} from '/src/components/Arcade.tsx';
 
 # Integrate Beyond Identity Passwordless Authentication with Firebase Authentication
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for an application that uses [Firebase](https://firebase.google.com/docs/auth)
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for an application that uses [Firebase](https://firebase.google.com/docs/auth).
 
 This guide will cover:
 
@@ -28,24 +29,30 @@ This guide will cover:
 
 - [Authenticate Using OpenID Connect on Android](https://firebase.google.com/docs/auth/android/openid-connect)
 - [Authenticate Using OpenID Connect on Apple platforms](https://firebase.google.com/docs/auth/ios/openid-connect)
+- [Authenticate Using OpenID Connect in web apps](https://firebase.google.com/docs/auth/web/openid-connect).
 
 ## Install the Embedded SDK
 
-In order to use Beyond Identity functionality in your application, you will need to install the Beyond Identity SDK. The [Android SDK](https://github.com/gobeyondidentity/bi-sdk-android) and the [Swift SDK](https://github.com/gobeyondidentity/bi-sdk-swift) provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an `Embedded` namespace.
+In order to use Beyond Identity functionality in your application, you will need to install the Beyond Identity SDK. The [Android SDK](https://github.com/gobeyondidentity/bi-sdk-android), the [Swift SDK](https://github.com/gobeyondidentity/bi-sdk-swift), and the [JavaScript SDK](https://github.com/gobeyondidentity/bi-sdk-js) provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an `Embedded` namespace.
 
 ## Initialize the Embedded SDK
 
 Once you've installed the SDK, initialize it so that you can call the Embedded functions.
 
-<Tabs groupId="sdks" queryString>
-<TabItem value="kotlin" label="Kotlin">
+<Tabs groupId="platform" queryString>
+<TabItem value="android" label="Android">
 
 <SetupKotlin />
 
 </TabItem>
-<TabItem value="swift" label="Swift">
+<TabItem value="ios" label="iOS">
 
 <SetupSwift />
+
+</TabItem>
+<TabItem value="web" label="Web">
+
+<SetupJavaScript />
 
 </TabItem>
 </Tabs>
@@ -127,8 +134,8 @@ $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<rea
 
 Once you receive the incoming URL, pass it into the Beyond Identity SDK to complete the binding process. You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
-<Tabs groupId="sdks" queryString>
-<TabItem value="kotlin" label="Kotlin">
+<Tabs groupId="platform" queryString>
+<TabItem value="android" label="Android">
 
 ```kotlin
 import com.beyondidentity.embedded.sdk.EmbeddedSdk
@@ -147,7 +154,7 @@ EmbeddedSdk.bindPasskey(url = bindingLink)
 ```
 
 </TabItem>
-<TabItem value="swift" label="Swift">
+<TabItem value="ios" label="iOS">
 
 ```swift
 import BeyondIdentityEmbedded
@@ -163,6 +170,16 @@ Embedded.shared.bindPasskey(url: bindingLink) { result in
 ```
 
 </TabItem>
+<TabItem value="web" label="Web">
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-js'
+
+const bindResponse = await embedded.bindPasskey(bindingLink);
+console.log(bindResponse);
+```
+
+</TabItem>
 </Tabs>
 
 ### Authenticate
@@ -175,8 +192,8 @@ $invoke_url/bi-authenticate?request=<request>
 
 Once you receive the authenticate URL, pass it into the SDK to complete the authentication process. You can validate the incoming URL with `isAuthenticateUrl`.
 
-<Tabs groupId="sdks" queryString>
-<TabItem value="kotlin" label="Kotlin">
+<Tabs groupId="platform" queryString>
+<TabItem value="android" label="Android">
 
 ```kotlin
 import android.content.Context
@@ -236,7 +253,7 @@ private fun selectPasskeyId(callback: (String) -> Unit) {
 ```
 
 </TabItem>
-<TabItem value="swift" label="Swift">
+<TabItem value="ios" label="iOS">
 
 ```swift
 import AuthenticationServices
@@ -258,12 +275,14 @@ let session = ASWebAuthenticationSession(
         ) { result in
             switch result {
             case let .success(response):
+                // This URL contains authorization code and state parameters
+                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
                 let code = parseCode(from: response.redirectURL)
                 let token = exchangeForToken(code)
 
                 let credential = OAuthProvider.credential(
-                    withProviderID: "oidc.beyond-identity",  // As registered in Firebase console.
-                    idToken: token,  // ID token from OpenID Connect flow.
+                    withProviderID: "oidc.beyond-identity", // As registered in Firebase console.
+                    idToken: token, // ID token from OpenID Connect flow.
                     rawNonce: nil
                 )
                 Auth.auth().signIn(with: credential) { authResult, error in
@@ -283,6 +302,42 @@ session.presentationContextProvider = self
 session.start()
 
 private fun presentPasskeySelection(callback: (PasskeyID) -> Void) {
+    // Where you can perform some logic here to select a passkey, or
+    // present UI to a user to enable them to select a passkey.
+}
+```
+
+</TabItem>
+<TabItem value="web" label="Web">
+
+```javascript
+import { Embedded } from '@beyondidentity/bi-sdk-js'
+import { getAuth, signInWithCredential, OAuthProvider } from "firebase/auth";
+
+selectPasskeyId(async (selectPasskeyId) => {
+    if (embedded.isAuthenticateUrl(authenticateUrl)) {
+        let result = await embedded.authenticate(authenticateUrl, selectPasskeyId);
+
+        // This URL contains authorization code and state parameters
+        // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+        var code = parseCode(result.redirectUrl)
+        var token = exchangeForToken(code)
+
+        const provider = new OAuthProvider("oidc.beyond-identity"); // As registered in Firebase console.
+        const credential = provider.credential({
+            idToken: token, // ID token from OpenID Connect flow.
+        });
+        signInWithCredential(getAuth(), credential)
+            .then((result) => {
+                // User is signed in.
+            })
+            .catch((error) => {
+                // Handle error.
+            });
+    }
+});
+
+function selectPasskeyId(callback: (selectPasskeyId: string) => void) {
     // Where you can perform some logic here to select a passkey, or
     // present UI to a user to enable them to select a passkey.
 }
