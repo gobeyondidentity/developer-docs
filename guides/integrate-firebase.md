@@ -31,11 +31,17 @@ This guide will cover:
 - [Authenticate Using OpenID Connect on Apple platforms](https://firebase.google.com/docs/auth/ios/openid-connect)
 - [Authenticate Using OpenID Connect in web apps](https://firebase.google.com/docs/auth/web/openid-connect).
 
-## Install the Embedded SDK
+## Install the SDKs
+
+### Install the Firebase Authentication SDK
+
+In order to authenticate with Beyond Identity with Firebase Authentication, we need to use the custom OpenID Connect provider, which is supported on [iOS+](https://firebase.google.com/docs/auth/ios/openid-connect), [Android](https://firebase.google.com/docs/auth/android/openid-connect), and [Web](https://firebase.google.com/docs/auth/web/openid-connect). Please see the appropriate Get Started documentation ([iOS+](https://firebase.google.com/docs/auth/ios/start), [Android](https://firebase.google.com/docs/auth/android/start), [Web](https://firebase.google.com/docs/auth/web/start)) for instructions on how to install the Firebase Authentication SDK.
+
+### Install the Beyond Identity SDK
 
 In order to use Beyond Identity functionality in your application, you will need to install the Beyond Identity SDK. The [Android SDK](https://github.com/gobeyondidentity/bi-sdk-android), the [Swift SDK](https://github.com/gobeyondidentity/bi-sdk-swift), and the [JavaScript SDK](https://github.com/gobeyondidentity/bi-sdk-js) provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an `Embedded` namespace.
 
-## Initialize the Embedded SDK
+## Initialize the Beyond Identity SDK
 
 Once you've installed the SDK, initialize it so that you can call the Embedded functions.
 
