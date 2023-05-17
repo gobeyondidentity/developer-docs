@@ -91,6 +91,8 @@ For help choosing options, visit the following guides:
 
 <Arcade clip={Clip.CreateApplication} />
 
+### Configure Custom OpenID Connect Provider
+
 Now that we have created our application, we are ready to configure our custom OpenID Connect provider in the [Firebase console](https://console.firebase.google.com).
 
 ![Firebase Step 1](/assets/firebase-oidc-1.png)
