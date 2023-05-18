@@ -20,6 +20,7 @@ const sidebars = {
     'send-enrollment',
     'bubble-io-integration',
     'expo-react-native',
+    'integrate-firebase',
     'integrate-nextauth',
     'integrate-wordpress',
     {
