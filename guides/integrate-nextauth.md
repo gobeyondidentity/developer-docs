@@ -156,7 +156,7 @@ For more information visit [Workflows: User and Group Provisioning](/docs/v1/wor
 
 ### Generate a passkey
 
-Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
+Once you have an identity, you are ready to generate a passkey for this user. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
 
 For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/bind-passkey).
 
