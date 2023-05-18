@@ -90,17 +90,14 @@ For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/
 
 This guide is based on the popular [OpenID Connect / OAuth client](https://www.drupal.org/project/openid_connect) and will require administrative privileges to install to your Drupal site.
 
-To install, run the following command:
-
-```bash
-composer require 'drupal/openid_connect:^3.0@alpha'
-```
-
-Several drupal/openid_connect versions are available under [Releases](https://www.drupal.org/project/openid_connect). Select the version that is appropriate for your site.
+Install as you would normally install a contributed Drupal module.
+Visit: https://www.drupal.org/project/openid_connect for further information.
 
 ### Configure the module
 
 These steps will help you configure the module to use with Beyond Identity.
+
+#### Enable Generic OAuth 2.0
 
 1. Log into you Drupal admin console
 1. Keep the Beyond Identity Admin Console open in another tab or window to copy and paste values in.
@@ -109,9 +106,27 @@ These steps will help you configure the module to use with Beyond Identity.
 
 ![drupal-client-configuration](/assets/drupal-select-client.png)
 
-1. Select the **Settings** tab and configure the plugin to the settings you prefer. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
+#### Settings
+
+1. Select the **Settings** tab and configure the plugin to the settings you prefer.
+2. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
 
 ![drupal-settings-configuration](/assets/drupal-setting-user.png)
+
+#### Display login button on user login form
+
+There are two ways to do this. You can either add a block provided by module, or configure the **openID button display in user login form** in Settings.
+
+Choose the option that works best for your site:
+
+- Hidden: hides the login button and best to use when displaying a block
+- Above: displays the login button above the login form
+- Below: displays the login button below the login form
+- Replace: will hide the core login form and only show the OIDC login option.
+
+![drupal-settings-button](/assets/drupal-setting-button.png)
+
+#### Configure OIDC
 
 1. Navigate to **Add OpenID Connect client**
 1. For **Name** enter "Beyond Identity"
