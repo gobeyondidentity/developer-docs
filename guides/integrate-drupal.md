@@ -113,19 +113,6 @@ These steps will help you configure the module to use with Beyond Identity.
 
 ![drupal-settings-configuration](/assets/drupal-setting-user.png)
 
-#### Display login button on user login form
-
-There are two ways to do this. You can either add a block provided by module, or configure the **openID button display in user login form** in Settings.
-
-Choose the option that works best for your site:
-
-- Hidden: hides the login button and best to use when displaying a block
-- Above: displays the login button above the login form
-- Below: displays the login button below the login form
-- Replace: will hide the core login form and only show the OIDC login option.
-
-![drupal-settings-button](/assets/drupal-setting-button.png)
-
 #### Configure OIDC
 
 1. Navigate to **Add OpenID Connect client**
@@ -142,6 +129,19 @@ Choose the option that works best for your site:
 1. Click **"Create OpenID Connect client"**
 
 ![plugin-configuration](/assets/drupal-oidc-config.png)
+
+### Display login button on user login form
+
+There are two ways to do this. You can either add a block provided by module, or configure the **openID button display in user login form** in Settings.
+
+Choose the option that works best for your site:
+
+- Hidden: hides the login button and best to use when displaying a block
+- Above: displays the login button above the login form
+- Below: displays the login button below the login form
+- Replace: will hide the core login form and only show the OIDC login option.
+
+![drupal-settings-button](/assets/drupal-setting-button.png)
 
 ### Try logging in
 
