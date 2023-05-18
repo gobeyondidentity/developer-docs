@@ -30,8 +30,6 @@ Before continuing, make sure that the following prerequisites have been met:
 
 We need to create a new [Realm](https://developer.beyondidentity.com/docs/v1/workflows/realms) to hold identities and configuration:
 
-<Arcade clip={Clip.CreateRealm} />
-
 From the Admin Console:
 
 1. Click the Realm selector on the top-left.
@@ -39,6 +37,8 @@ From the Admin Console:
 3. Type the name of your new realm. Click **Create Realm**.
 4. Click **Switch to Realm**.
 5. From the Realm's Home page, click Edit.
+
+<Arcade clip={Clip.CreateRealm} />
 
 ### Create an Application
 
@@ -132,7 +132,7 @@ These steps will help you configure the module to use with Beyond Identity.
 
 ### Display login button on user login form
 
-There are two ways to do this. You can either add a block provided by module, or configure the **openID button display in user login form** in Settings.
+There are two ways to do this. You can either add a block provided by the module, or configure the **openID button display in user login form** in Settings. The easiest option is to configure the Settings.
 
 Choose the option that works best for your site:
 
