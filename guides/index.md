@@ -8,7 +8,9 @@ sidebar_position: 1
 - [Sending Enrollment Emails](/guides/send-enrollment)
 
 # Integrate Beyond Identity Passwordless Authentication into
+
 - [bubble.io](/guides/bubble-io-integration.md)
+- [Drupal](/guides/integrate-drupal.md)
 - [Expo](/guides/expo-react-native.md)
 - [Firebase](/guides/integrate-firebase.md)
 - [NextAuth](/guides/integrate-nextauth.md)
