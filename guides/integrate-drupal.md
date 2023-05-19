@@ -135,6 +135,8 @@ box in the Advances Settings for "Automatically connect exisiting users".
 
 If you send a passkey to a user that is not already in your Drupal system, the login will fail unless you enable the "Override registration settings" box. You can allow new users to be added to your Drupal users by checking the box in Settings.
 
+This will assign a new user as an `authenticated user` with no other defined role. You can change the user's role in your Drupal admin settings.
+
 ![drupal-override-registration](/assets/drupal-override-registration.png)
 
 ### Display login button on user login form
