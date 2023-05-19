@@ -80,6 +80,8 @@ For more information visit [Workflows: User and Group Provisioning](/docs/v1/wor
 
 Once you have an identity, you are ready to generate a passkey for this user. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
 
+Note that whichever browser or device that the user taps on the enrollment email will be the device/browser where the user can log into your Drupal site. If the user wishes to login from a different browser or device you will need to send the user another email to bind that new browser/device. Also note that private/incognito browsers act as a different browser in this case. Users can bind multiple devices and browsers.
+
 For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/bind-passkey).
 
 <Arcade clip={Clip.CreatePasskey} />
@@ -93,11 +95,7 @@ This guide is based on the popular [OpenID Connect / OAuth client](https://www.d
 Install as you would normally install a contributed Drupal module.
 Visit: https://www.drupal.org/project/openid_connect for further information.
 
-### Configure the module
-
-These steps will help you configure the module to use with Beyond Identity.
-
-#### Enable Generic OAuth 2.0
+### Configure the module using Generic OAuth 2.0
 
 1. Log into you Drupal admin console
 1. Keep the Beyond Identity Admin Console open in another tab or window to copy and paste values in.
@@ -106,14 +104,9 @@ These steps will help you configure the module to use with Beyond Identity.
 
 ![drupal-client-configuration](/assets/drupal-select-client.png)
 
-#### Settings
+### Configure OIDC
 
-1. Select the **Settings** tab and configure the plugin to the settings you prefer.
-2. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
-
-![drupal-settings-configuration](/assets/drupal-setting-user.png)
-
-#### Configure OIDC
+The following will use values from your Beyond Identity Admin Console and the application you created above.
 
 1. Navigate to **Add OpenID Connect client**
 1. For **Name** enter "Beyond Identity"
@@ -128,7 +121,25 @@ These steps will help you configure the module to use with Beyond Identity.
 1. A **Redirect URL** will be generated for you after filling out this form. If you need to, go back to the Beyond Identity Console and add this URL to the **Redirect URIs** in your application you created.
 1. Click **"Create OpenID Connect client"**
 
-![plugin-configuration](/assets/drupal-oidc-config.png)
+![module-configuration](/assets/drupal-oidc-config.png)
+
+### Allow exisiting users to login
+
+In order for a user already in your Drupal system to login, you will need to check the
+box in the Advances Settings for "Automatically connect exisiting users".
+
+1. Select the **Settings** tab and configure the plugin to the settings you prefer.
+2. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
+
+![drupal-settings-configuration](/assets/drupal-setting-user.png)
+
+### Enable new user creation on successful login
+
+If you send a passkey to a user that is not already in your Drupal system, the login will fail unless you enable the "Override registration settings" box. You can allow new users to be added to your Drupal users by checking the box in Settings.
+
+This will assign a new user as an `authenticated user` with no other defined role. You can change the user's role in your Drupal admin settings.
+
+![drupal-override-registration](/assets/drupal-override-registration.png)
 
 ### Display login button on user login form
 
