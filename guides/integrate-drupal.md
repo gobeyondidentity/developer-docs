@@ -93,11 +93,7 @@ This guide is based on the popular [OpenID Connect / OAuth client](https://www.d
 Install as you would normally install a contributed Drupal module.
 Visit: https://www.drupal.org/project/openid_connect for further information.
 
-### Configure the module
-
-These steps will help you configure the module to use with Beyond Identity.
-
-#### Enable Generic OAuth 2.0
+### Configure the module using Generic OAuth 2.0
 
 1. Log into you Drupal admin console
 1. Keep the Beyond Identity Admin Console open in another tab or window to copy and paste values in.
@@ -106,14 +102,9 @@ These steps will help you configure the module to use with Beyond Identity.
 
 ![drupal-client-configuration](/assets/drupal-select-client.png)
 
-#### Settings
+### Configure OIDC
 
-1. Select the **Settings** tab and configure the plugin to the settings you prefer.
-2. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
-
-![drupal-settings-configuration](/assets/drupal-setting-user.png)
-
-#### Configure OIDC
+The following will use values from your Beyond Identity Admin Console and the application you created above.
 
 1. Navigate to **Add OpenID Connect client**
 1. For **Name** enter "Beyond Identity"
@@ -129,6 +120,16 @@ These steps will help you configure the module to use with Beyond Identity.
 1. Click **"Create OpenID Connect client"**
 
 ![module-configuration](/assets/drupal-oidc-config.png)
+
+### Allow exisiting users to login
+
+In order for a user already in your Drupal system to login, you will need to check the
+box in the Advances Settings for "Automatically connect exisiting users".
+
+1. Select the **Settings** tab and configure the plugin to the settings you prefer.
+2. Make sure that in the advanced tab you check the box "Automatically connect exisiting users".
+
+![drupal-settings-configuration](/assets/drupal-setting-user.png)
 
 ### Enable new user creation on successful login
 
