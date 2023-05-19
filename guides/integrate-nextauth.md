@@ -158,7 +158,7 @@ For more information visit [Workflows: User and Group Provisioning](/docs/v1/wor
 
 Once you have an identity, you are ready to generate a passkey for this user. This step can also be done either in the admin console or through an API. This guide will use the admin console. Navigate back to **Identities** and select the identity you would like to bind to a passkey. Click **Add a passkey**, select your app and the click **Proceed & send email**. The user will receive an enrollment email which they can tap on to bind a passkey to their device.
 
-Note that whichever browser or device that the user taps on the enrollment email will be the device/browser where the user can log into your Drupal site. If the user wishes to login with a different browser or device you will need to send the user another email to bind that new browser/device. Users can bind multiple devices and browsers.
+Note that whichever browser or device that the user taps on the enrollment email will be the device/browser where the user can log into your Drupal site. If the user wishes to login from a different browser or device you will need to send the user another email to bind that new browser/device. Also note that private/incognito browsers act as a different browser in this case. Users can bind multiple devices and browsers.
 
 For more information visit [Workflows: Bind Passkey To User](/docs/v1/workflows/bind-passkey).
 
