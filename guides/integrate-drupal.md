@@ -128,7 +128,13 @@ These steps will help you configure the module to use with Beyond Identity.
 1. A **Redirect URL** will be generated for you after filling out this form. If you need to, go back to the Beyond Identity Console and add this URL to the **Redirect URIs** in your application you created.
 1. Click **"Create OpenID Connect client"**
 
-![plugin-configuration](/assets/drupal-oidc-config.png)
+![module-configuration](/assets/drupal-oidc-config.png)
+
+### Enable new user creation on successful login
+
+If you send a passkey to a user that is not already in your Drupal system, the login will fail unless you enable the "Override registration settings" box. You can allow new users to be added to your Drupal users by checking the box in Settings.
+
+![drupal-override-registration](/assets/drupal-override-registration.png)
 
 ### Display login button on user login form
 
