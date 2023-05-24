@@ -58,6 +58,7 @@ First, before calling the Embedded functions, make sure to initialize the SDK. T
 Embedded.initialize(
     biometricAskPrompt: viewModel.biometricAskPromptText,
     clientID: viewModel.confidentialClientID,
+    domain: viewModel.domain,
     redirectURI: viewModel.redirectURI,
     logger: viewModel.logger
 )

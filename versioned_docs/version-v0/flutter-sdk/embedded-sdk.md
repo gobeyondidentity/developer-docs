@@ -48,6 +48,7 @@ Add initialize to embeddedsdk class
 ```dart 
 await _channel.invokeMethod("initialize", {
       'clientId': clientId,
+      'domain': domain,
       'biometricPrompt': biometricPrompt,
       'redirectUri': redirectUri,
       'enableLogging': enableLogging
