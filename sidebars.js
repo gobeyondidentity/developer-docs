@@ -48,6 +48,7 @@ const sidebars = {
       label: 'SDKs',
       items: [
         'workflows/sdk-setup',
+        'sdks/sdk-size',
         'workflows/bind-passkey',
         'workflows/authentication',
         {
