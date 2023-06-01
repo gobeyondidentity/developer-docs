@@ -17,7 +17,6 @@ Sample apps are available to explore. Check out:
 [BI SDK Flutter Repo](https://github.com/gobeyondidentity/bi-sdk-flutter)
 :::
 
-
 To run the Android example app
 
 1. Run `flutter pub get` from the root of the repo
@@ -41,18 +40,31 @@ dependencies:
 ```
 and run an implicit `flutter pub get`
 
-:::note
-Add initialize to embeddedsdk class
-:::
+### Usage
 
-```dart 
-await _channel.invokeMethod("initialize", {
-      'clientId': clientId,
-      'biometricPrompt': biometricPrompt,
-      'redirectUri': redirectUri,
-      'enableLogging': enableLogging
- });
+```dart
+/// Initialize and configure the Beyond Identity Embedded SDK.
+///
+/// [clientId] is the public or confidential client ID generated during the OIDC configuration.
+/// [domain] is the region where your Beyond Identity account was created (us or eu).
+/// [biometricPrompt] is the prompt the user will see when asked for biometrics while extending a credential to another device.
+/// [redirectUri] is the URI where the user will be redirected after the authorization has completed. The redirect URI must be one of the URIs passed in the OIDC configuration.
+/// [enableLogging] enables logging if set to `true`.
+
+Embeddedsdk.initialize(
+  clientId,
+  domain,
+  biometricPrompt,
+  redirectUri,
+  enableLogging,
+);
 ```
+
+### Supporting Multiple Tenants
+
+In some use cases, your Flutter app may need to support more than one tenant. For example, you may have a tenant in the US and a tenant in the EU. In that case, you will need to initialize the Flutter sdk again, with the appropriate `clientId` and `domain`, when a user needs to authenticate against a different tenant.
+
+Note: All of the users credentials will be stored on the device, and will be visible via `Embeddedsdk.getCredentials()`. However, a credential in one tenant cannot be used to autenticate in another tenant. If you do not wish to display all of the users credentials, you can filter them out by tenant `name` or `displayName`.
 
 ## Registration and Recovery
 
@@ -122,8 +134,8 @@ token = await Embeddedsdk.authenticate();
 
 If the user already has a Credential and would like to log in with another device, the user may extend a Credential from one device to another.
 
-
 ## Extend a Credential
+
 In order to add a new device, the user must first extend a Credential from a device that contains a Credential.
 
 On a successful extend credential, you’ll receive an `ExtendCredentialStatus` indicating the extending status. The first time a token is received, the callback will fire with a status of `.started(CredentialToken)`. Every 90 seconds, the token is cycled and `.tokenUpdated(CredentialToken)` will fire with a new token. A status of `.done` indicates that a `Credential` extension completed successfully. Upon receiving a `CredentialToken`, it is up to you to display it to the user.
@@ -133,6 +145,7 @@ On a successful extend credential, you’ll receive an `ExtendCredentialStatus` 
 ```dart
 Embeddedsdk.extendCredentials(List.generate(1, (index) => tenant_handle), exportUpdateCallback);
 ```
+
 ## cancelExtendCredentials an extendCredentials
 
 Once an extendCredentials is started, it needs to be either completed or canceled. This is because all EmbeddedSDK functions are blocking. Since extendCredentials is a long running function, it will block all other function calls to EmbeddedSDK until you explicitly call EmbeddedSDK.cancelExtendCredentials.
@@ -144,6 +157,7 @@ await Embeddedsdk.cancelExtendCredentials();
 ```
 
 ## Register a Credential
+
 Once extendCredentials is initiated, you can handle registering the code on another device in one of two ways:
 
 Create a TextField or TextView in which the user can enter the 9 digit code that they see on the extended device.
@@ -167,6 +181,7 @@ credentials = await Embeddedsdk.getCredentials();
 ```
 
 ## Delete a Credential
+
 This will remove the current credential. If no other device contains a credential to extend, then the credential will be lost unless a recovery is done. 
 
 ```dart
