@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.3.0
+  version: 1.4.0
   contact:
     email: support@beyondidentity.com
   description: |
@@ -484,7 +484,7 @@ paths:
       tags:
         - Realms
       operationId: ListRealms
-      summary: List All Realms for a Tenant
+      summary: List Realms for a Tenant
       description: |
         To list all realms for a tenant, send a GET request to
         `/v1/tenants/$TENANT_ID/realms`.
@@ -898,7 +898,7 @@ paths:
       tags:
         - Groups
       operationId: ListGroups
-      summary: List All Groups for a Realm
+      summary: List Groups for a Realm
       description: |
         To list all groups for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups`.
@@ -1418,7 +1418,7 @@ paths:
       tags:
         - Groups
       operationId: ListGroupMembers
-      summary: List All Members for a Group
+      summary: List Members for a Group
       description: |
         To list members belonging to a group, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listMembers`.
@@ -1519,7 +1519,7 @@ paths:
       tags:
         - Groups
       operationId: ListGroupRoles
-      summary: List All Role Memberships for a Group
+      summary: List Role Memberships for a Group
       description: |
         To list the roles to which a group is assigned, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/groups/$GROUP_ID:listRoles`.
@@ -1768,10 +1768,15 @@ paths:
       tags:
         - Identities
       operationId: ListIdentities
-      summary: List All Identities for a Realm
+      summary: List Identities for a Realm
       description: |
-        To list all identities for a realm, send a GET request to
+        To list identities for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities`.
+
+        The response will only contain identities matching the filter in the
+        request. If no filter is provided, the request will match all identities in
+        the realm. Currently, the only supported filter is
+        `traits.username eq "$USERNAME"`.
 
         The response will contain at most 200 items and may contain a page token to
         query the remaining items. If page size is not specified, the response will
@@ -1780,8 +1785,11 @@ paths:
         change.
 
         When paginating, the page size is maintained by the page token but may be
-        overridden on subsequent requests. The skip is not maintained by the page
-        token and must be specified on each subsequent request.
+        overridden on subsequent requests. The filter is also maintained by the page
+        token but it may not be overridden. If specified, the request filter must
+        match the filter maintained by the page token, otherwise you will receive a
+        400 error. The skip is not maintained by the page token and must be
+        specified on each subsequent request.
 
         Page tokens expire after one week. Requests which specify an expired page
         token will result in undefined behavior.
@@ -1791,6 +1799,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/tenant_id'
         - $ref: '#/components/parameters/realm_id'
+        - $ref: '#/components/parameters/filter'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/page_token'
         - $ref: '#/components/parameters/skip'
@@ -2103,7 +2112,7 @@ paths:
       tags:
         - Identities
       operationId: ListIdentityGroups
-      summary: List All Group Memberships for an Identity
+      summary: List Group Memberships for an Identity
       description: |
         To list the groups to which an identity belongs, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listGroups`.
@@ -2201,7 +2210,7 @@ paths:
       tags:
         - Identities
       operationId: ListIdentityRoles
-      summary: List All Role Memberships for an Identity
+      summary: List Role Memberships for an Identity
       description: |
         To list the roles to which an identity is assigned, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID:listRoles`.
@@ -2421,7 +2430,7 @@ paths:
       tags:
         - Roles
       operationId: ListRoles
-      summary: List All Roles for a Resource Server
+      summary: List Roles for a Resource Server
       description: |
         To list all roles for a resource server, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles`.
@@ -2956,7 +2965,7 @@ paths:
       tags:
         - Roles
       operationId: ListRoleMembers
-      summary: List All Members for a Role
+      summary: List Members for a Role
       description: |
         To list members assigned to a role, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:listMembers`.
@@ -3271,7 +3280,7 @@ paths:
       tags:
         - Roles
       operationId: ListRoleScopes
-      summary: List All Scopes for a Role
+      summary: List Scopes for a Role
       description: |
         To list scopes assigned to a role, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers/$RESOURCE_SERVER_ID/roles/$ROLE_ID:listScopes`.
@@ -3364,7 +3373,7 @@ paths:
       tags:
         - Credentials
       operationId: ListCredentials
-      summary: List All Credentials for an Identity
+      summary: List Credentials for an Identity
       description: |
         To list all credentials for an identity, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credentials`.
@@ -3760,7 +3769,7 @@ paths:
       tags:
         - Credential Binding Jobs
       operationId: ListCredentialBindingJobs
-      summary: List All Credential Binding Jobs for an Identity
+      summary: List Credential Binding Jobs for an Identity
       description: |
         To list all credential binding jobs for an identity, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs`.
@@ -4408,7 +4417,7 @@ paths:
       operationId: ListApplications
       tags:
         - Applications
-      summary: List All Applications for a Realm
+      summary: List Applications for a Realm
       description: |
         To list all applications for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications`.
@@ -4833,7 +4842,7 @@ paths:
       operationId: ListAuthenticatorConfigs
       tags:
         - Authenticator Configurations
-      summary: List All Authenticator Configurations for a Realm
+      summary: List Authenticator Configurations for a Realm
       description: |
         To list all authenticator configurations for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs`.
@@ -5239,7 +5248,7 @@ paths:
       operationId: ListResourceServers
       tags:
         - Resource Servers
-      summary: List All Resource Servers For a Realm
+      summary: List Resource Servers For a Realm
       description: |
         To list all resource servers for a realm, send a GET request to
         `/v1/tenants/$TENANT_ID/realms/$REALM_ID/resource-servers`.
@@ -5916,6 +5925,13 @@ components:
           - `application`
           - `identity`
       required: false
+      schema:
+        type: string
+    filter:
+      name: filter
+      in: query
+      description: |
+        Filter to constrain the response. The response will only include resources matching this filter. Filters follow the SCIM grammar from [RFC-7644 Section 3.4.2.2](https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2).
       schema:
         type: string
     page_size:
