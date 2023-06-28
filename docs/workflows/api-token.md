@@ -72,7 +72,7 @@ curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)
 --data-urlencode "response_type=code" \
 --data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
 --data-urlencode "redirect_uri=$(REDIRECT_URI)" \
---data-urlencode "scope=openid" \
+--data-urlencode "scope=$(SCOPES)" \
 --data-urlencode "state=$(STATE)" \
 --data-urlencode "code_challenge=$(OPTIONAL_CODE_CHALLENGE)" \
 --data-urlencode "code_challenge_method=S256"'
@@ -85,7 +85,7 @@ title="/authorize"
 curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
 -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=authorization_code&code=$(CODE)&scope=$(SCOPES)&client_id=$(API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
+-d "grant_type=authorization_code&code=$(CODE)&client_id=$(API_CLIENT_ID)&code_verifier=$(OPTIONAL_CODE_VERIFIER)"'
 title="/token"
 />
 
