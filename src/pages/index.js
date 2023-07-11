@@ -26,10 +26,6 @@ function HomepageHeader() {
           </Link>
         </div>
       </div>
-      <script src="https://thepasskeyjourney.com/assets/passkey.min.js"></script>
-        <script>
-          passkeyAssessment('pRhhE3QSQijU8')
-        </script>
     </header>
   );
 }

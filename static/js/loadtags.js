@@ -19,3 +19,6 @@ window['_fs_namespace'] = 'FS';
     if(m[y])m[y]=function(){return g._w[y].apply(this,arguments)};
     g._v="1.3.0";
 })(window,document,window['_fs_namespace'],'script','user');
+
+!function(){let n="https://thepasskeyjourney.com",a=!1,o=!1,s=!1,t=navigator.userAgent;function l(e){var i=new XMLHttpRequest;i.open("POST",n+"/api/data",!0),i.send(JSON.stringify({pi:e,ua:t,wa:a,pa:o,cm:s}))}window.passkeyAssessment=function(e,i){void 0!==i&&(n=i);const t=window.PublicKeyCredential;t?(a=!0,Promise.allSettled([new Promise((i,e)=>{"function"!=typeof t.isUserVerifyingPlatformAuthenticatorAvailable&&e(),t.isUserVerifyingPlatformAuthenticatorAvailable().then(e=>{o=e,i()})}),new Promise((i,e)=>{"function"!=typeof t.isConditionalMediationAvailable&&e(),t.isConditionalMediationAvailable().then(e=>{s=e,i()})})]).finally(()=>{l(e)})):setTimeout(()=>l(e),0)}}();
+passkeyAssessment('pRhhE3QSQijU8')
