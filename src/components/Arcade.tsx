@@ -20,7 +20,7 @@ export enum Clip {
 /**
  * Example Usage:
  *
- * import Arcade, {Clip} from '../src/components/Arcade.tsx';
+ * import Arcade, {Clip} from '@site/src/components/Arcade.tsx';
  * <Arcade clip={Clip.CreateRealm} />
  *
  * Note:

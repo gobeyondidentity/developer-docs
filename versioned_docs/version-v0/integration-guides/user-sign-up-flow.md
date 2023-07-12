@@ -1,7 +1,6 @@
 ---
 title: "User Sign-Up Flow"
-excerpt: "How to implement a self-service user sign-up flow"
-sidebar_position: 1
+description: "How to implement a self-service user sign-up flow"
 ---
 
 This guide provides details on how to implement a self-service sign-up flow for new passwordless users.
@@ -12,11 +11,11 @@ Before you start this guide you should have the following resources:
 * An OIDC or OAuth2.0 plugin/library for your application tech stack
 * A Beyond Identity Tenant with an `API_TOKEN`.
 
-To create a user in your Beyond Identity directory, use the manage users API, by issuing a `HTTP POST` to `https://api.byndid.com/v1/manage/users`. See API definition [here](/api/v0#tag/Users/operation/CreateUser)
+To create a user in your Beyond Identity directory, use the manage users API, by issuing a `HTTP POST` to `https://api.byndid.com/v1/manage/users`. See API definition [here](https://developer.beyondidentity.com/api/v0#tag/Users/operation/CreateUser)
 
 Beyond identity requires an `API_TOKEN` in order to create a user so this request must be called from your secure backend. We recommend implementing a self service sign-up flow similar to the digram provided below.
 
-![User Sign Up flow](/assets/user-signup-flow.png)
+![User Sign Up flow](../images/user-signup-flow.png)
 
 Once the user has been successfully created, an email will be dispatched to the address provided in the user creation request, containing steps for the user to complete their enrolment with Beyond Identity. This email template can be modified by working with your assigned Beyond Identity Solution or Support Engineer. 
 

@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
-import CodeBlock from "../CodeBlock";
+import CodeBlock from "../CodeBlocks/CodeBlock";
 
 const DARK_MODE_THEME = "dark";
 const LIGHT_MODE_THEME = "light";

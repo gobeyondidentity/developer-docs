@@ -7,12 +7,12 @@ const Button = ({ name, isDisabled, isLoading, form, onClick, centered }) => {
   return <button
     type="submit"
     form={form}
-    className={classNames("button", "button--lg", styles.dimensions, centered ? styles.center : "")}
+    className={classNames("button", "button--primary", styles.dimensions, centered ? styles.center : "")}
     role="button"
     onClick={onClick}
     disabled={isDisabled || isLoading}>
     {isLoading ? <ClipLoader
-      color="#ffffff"
+      color="#000"
       loading={true}
       size="25px"
       aria-label="Loading Spinner"

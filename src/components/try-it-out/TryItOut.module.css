@@ -61,6 +61,10 @@
   line-height: 30px;
 }
 
+html[data-theme="dark"] .username {
+  color: black;
+}
+
 .username-input {
   width: calc(100% - 100px);
   height: 30px;
@@ -68,10 +72,16 @@
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
-  border-bottom-style: hidden;
+  border-bottom: 0.5px solid #ccc;
   border-radius: 0.25rem;
   text-indent: 1rem;
   font-family: inherit;
+}
+
+html[data-theme="dark"] .username-input {
+
+  color:black;
+  background-color: #fff;
 }
 
 .username-form {

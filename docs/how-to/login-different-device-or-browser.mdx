@@ -1,0 +1,48 @@
+---
+title: Log in from a different device or browser
+description: ''
+keywords: 
+ - tenant
+ - create
+pagination_next: null
+pagination_prev: null
+sidebar_label: Log in from a different device
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+import TenantIdNote from '../includes/_tenant-id-note.mdx';
+
+import { Alert, Col, Row } from 'antd';
+
+<Row>
+  <Col span={6}>
+    <Alert message="In progress" type="info" />
+  </Col>
+</Row>
+<br />
+
+<TenantIdNote />
+
+
+import FindTenantIdSteps from '../includes/_find-tenant-id.mdx';
+
+<FindTenantIdSteps />
+
+3. From the new device or browser, open the **Admin Console**.
+
+   - https://console-us.beyondidentity.com/login
+
+   - https://console-eu.beyondidentity.com/login
+
+4. Enter the Tenant ID and email address for the Username. 
+
+  ![Log into another account](../images/account-setup-console-login.png)
+
+  If the Tenant ID and email are found in our system, you'll receive an email with a link to bind another passkey to your new device or browser. 
+  
+4. Follow the link in the email to log into the Beyond Identity Admin Console from another device or browser. 

@@ -1,0 +1,46 @@
+---
+title: Add a Resource Server
+description: "A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. "
+keywords: 
+ - resource server
+ - create
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+import ResourceServerDescription from '../includes/_resource-server-description.mdx';
+import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
+
+import { Alert, Col, Row } from 'antd';
+
+<Row>
+  <Col span={6}>
+    <Alert message="In progress" type="info" />
+  </Col>
+</Row>
+<br />
+
+A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
+
+## Admin Console
+
+<mark>Define **Resource Server Identifier**. What's the format? Numeric? Alphanumeric? What does the user put here?</mark>
+
+## API
+
+<ResourceServerDescription />
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
+-X POST \
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
+title="/resource-servers"
+/>

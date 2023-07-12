@@ -1,0 +1,382 @@
+---
+title: Getting Started with Angular
+sidebar_label: Angular
+description: 'Create a free Beyond Identity developer account and connect it to our sample application. This application demonstrates common workflows, like creating realms, applications, and passkeys (public-private key pairs) for user authentication.'
+keywords: 
+ - get started
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import { Alert, Col, Row } from 'antd';
+
+<Row>
+  <Col span={6}>
+    <Alert message="Ready for review" type="success" />
+  </Col>
+</Row>
+<br />
+
+
+In this guide, you'll create a free Beyond Identity developer account and connect it to our sample application. 
+
+This application demonstrates common tasks, like creating <a href="#" data-tooltip="A realm is a unique administrative domain within a tenant. Each realm contains a unique set of Directory, Policy, Event, Application, and Branding objects.">realms</a>, applications, and <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication. 
+
+
+## 1. Sign up for a developer account
+
+import DeveloperSignUpProcess from '../includes/_developer-sign-up-process.mdx';
+
+<DeveloperSignUpProcess />
+
+--- 
+
+
+## 2. Clone the sample app
+
+Before you start working in the Admin Console of your developer account, let's clone the sample app hosted on [Github](https://github.com/gobeyondidentity/getting-started-angular). 
+
+```bash
+git clone https://github.com/gobeyondidentity/getting-started-angular.git
+```
+
+Change directory into the repo:
+
+```bash
+cd getting-started-angular
+```
+
+--- 
+
+## 3. Set your environment variables
+
+In this step, you'll make a copy of the local environment config file and rename it.  Making a copy of it allows you to start from scratch if needed.
+
+---
+
+### Region variable
+
+Set the `REGION` variable according to where your account was created: 
+
+<Tabs>
+<TabItem value="macOS" label="macOS">
+
+```bash
+export REGION="us" | "eu"
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+```bash
+set REGION="us" | "eu"
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### Tenant ID variable
+
+In this step, you'll hop on over to the Admin Console to get your tenant ID and then add it to the .env.local config file you copied in the previous step.  
+
+1. In the Admin Console, from the new realm's home page, click **Edit realm**.
+
+  ![Edit realm button](../images/edit-realm-button.png)
+
+2. Copy the **Tenant_ID** value and run the following command, which configures the `TENANT_ID` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export TENANT_ID=<tenant_id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set TENANT_ID=<tenant_id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+--- 
+
+### API token variable
+
+In this step, you'll continue to work in the Admin Console to create an API token for your tenant. Then you'll add to the .env.local config file. 
+
+1. In the Admin Console, switch to the **Beyond Identity Admin** realm, select **Apps > Beyond Identity Management API**.
+
+  ![Admin Console Beyond Identity Admin realm](../images/apps-beyond-identity-management-api.png)
+
+2. Select the **API Tokens** tab and click **Create a token**. 
+
+3. Enter a name for the token and click **Create token**.
+
+4. In the confirmation message, copy the API token and click **Close this message**. 
+
+  :::caution IMPORTANT
+  You must copy the API token because after you close the confirmation message, the full token will not be displayed again. You'll only have access to the token suffix.
+  :::
+
+5. Run the following command, which sets set the `API_TOKEN` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export TENANT_ID=<tenant_id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set TENANT_ID=<tenant_id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+---
+
+:::tip **CHECKPOINT**
+
+Guess what? You're halfway there! So far in your getting started journey, you should have completed the following:
+
+- [x] Signed up for a free Beyond Identity developer account, which created a passkey, tenant, and Admin Realm for you automatically.
+
+- [x] Cloned the example application.
+
+- [x] Set your **Region**, **Tenant ID**, and **API token** variables. 
+
+    In the next step, you'll set the following variables:
+    
+    - Realm ID
+    - Application ID
+    - Client ID
+    - Client Secret
+    - Authenticator Config ID<br /><br />
+
+Don't forget, if you get stuck, let us know in our **[Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
+
+:::
+
+---
+
+## 4. Configure Beyond Identity
+
+In this step, you'll create a set of Beyond Identity resources containing your end users' identities and the configuration. First, you'll create a new realm, which holds your users' identities. Next, you'll create a new application that contains the configuration for your users.
+
+### Create a new realm
+
+So far, you have the Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.  
+
+import CreateRealmConsole from '../includes/_create-realm-console.mdx';
+
+<CreateRealmConsole />
+
+5. Copy the **Realm Id** value and run the following command, which sets the `REALM_ID` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export REALM_ID=<realm-id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set REALM_ID=<realm-id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+
+### Create an application
+
+In this step, you'll create a new Application that will contain the configuration for your users.
+
+import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
+
+<AddAppAdminConsole />
+
+3. Scroll down to the **Redirect URIs** field and enter the API callback localhost URL.  
+
+  ```https
+  https://localhost:8082/api/auth/callback/
+  ```
+
+  OIDC auth callbacks are handled on port 8082 where the backend is served.
+
+4. Ensure that **Client Secret Basic**, under the Redirect URIs, is selected for the **Token Endpoint Auth Method**.
+
+5. Select the **Authenticator Config** tab and select **Embedded SDK** for the Configuration Type. 
+
+  <mark>can we explain to the user why they are selecting Embedded SDK for this getting started? Give the user some idea what to expect and why.</mark> 
+
+  ![Admin Console Authenticator Config tab embedded SDK selected](../images/authenticator-tab-embedded-sdk.png)
+
+6. Scroll down and set the **Invoke URL** to the following localhost and port. Angular handles routing on the backend using port **8082**.
+
+  The **Invoke URL** is a single URL that "points" to where your application is: an App Scheme or a Universal URL/App Link. 
+
+   ```http
+   http://localhost:8082
+   ```
+
+6. Scroll down and set the **Trusted Origins** to the following localhost and port. API requests from the SDK are made from the frontend, so we need to specify port **8083** since that is the port where the frontend is served on.
+
+  The **Trusted Origins** whitelists it and allows request to be made to our server. By default, our server blocks cross-origin requests (COR).
+
+   ```http
+   http://localhost:8083
+   ```
+
+6. Click **Submit** to save the changes. You're taken to the Apps page in the console automatically.
+
+
+### Complete the configuration
+
+In this step, you'll complete the application's configuration by setting a few more variables.  You'll add the Application ID, Client ID, Client Secret, and Authenticator Config ID to your env.local config file.   
+
+1. From the Apps page in the console, select the new application you created. 
+
+2. Copy the **Application ID**, which can be found under the application name. 
+
+  ![Admin Console Application ID](../images/admin-console/app-ID.png)
+
+3. Run the following command, which sets the `APPLICATION_ID` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export APPLICATION_ID=<application-id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set APPLICATION_ID=<application-id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+3. Scroll down to the **Client Configuration** section and copy the **Client ID**. Then run the following command, which sets the `CLIENT_ID` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export APP_CLIENT_ID=<app-client-id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set APP_CLIENT_ID=<app-client-id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+4. Copy the **Client Secret**. Then run the following command, which sets the `APP_CLIENT_SECRET` variable. 
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export APP_CLIENT_SECRET=<app-client-secret>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set APP_CLIENT_SECRET=<app-client-secret>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+5. Select the **Authenticator Config** tab and copy the **Authenticator Config ID**.    
+  
+  ![Admin Console Client ID](../images/admin-console/authenticator-id.png)
+
+6. Run the following command, which sets the `AUTH_CONFIG_ID` variable.
+
+  <Tabs>
+  <TabItem value="macOS" label="macOS">
+
+  ```bash
+  export AUTH_CONFIG_ID=<authenticator-config-id>
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  ```bash
+  set AUTH_CONFIG_ID=<authenticator-config-id>
+  ```
+
+  </TabItem>
+  </Tabs>
+
+Learn more about the [Authenticator Config](../foundations/authenticator-config).
+
+---
+
+## 5. Run the example application
+
+In this step, you'll install the dependecies and start the backend and frontend to run the example app locally.
+
+1. Install the dependencies.
+
+  ```bash
+  yarn install
+  ```
+
+2. Build your application.
+
+  ```bash
+  yarn start
+  ```
+
+Open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser. 
+
+<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
+	<iframe src='https://demo.arcade.software/6kUN385qBx2Jju7wugbM?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
+	</iframe>
+</div>
+
+You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
+
+---
+
+## What can you do next? 
+
+You can use the example application to create one or more passkeys and log in with them. 
+
+<mark>what exactly do they do next next?  are there several things? if so, list them out and describe what they will be doing and accomplishing.</mark>
+

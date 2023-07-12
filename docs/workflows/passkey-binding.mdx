@@ -1,0 +1,60 @@
+---
+title: Passkey creation & binding
+description: ''
+keywords: 
+ - passkeys
+ - binding
+ - overview
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: overview
+displayed_sidebar: mainSidebar
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import BackendGeneral from '../includes/_bind-passkey-backend-general.mdx';
+import FrontEndReturn from '../includes/_bind-passkey-frontend-return.mdx';
+import FrontEndEmail from '../includes/_bind-passkey-frontend-email.mdx';
+import BindEmailDiagram from '../includes/_bind-delivery-method-email-diagram.mdx';
+import BindReturnDiagram from '../includes/_bind-delivery-method-return-diagram.mdx';
+
+Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. This passkey gets stored in the user's device's hardware root of trust (i.e., secure enclave).
+
+The high-level flow for binding a passkey is:
+
+1. A passkey creation link is created using the Beyond Identity APIs.
+
+2. The passkey creation link is delivered to the Beyond Identity SDK that is running on your user's device. Beyond Identity provides two methods for delivering a passkey creation link using the Beyond Identity API:
+
+   1. Generate a passkey link and deliver it to your users how you want (in-line, SMS, email, etc.).
+
+   2. Send your users an email with a link to create their passkey.
+
+3. The passkey creation link is passked to the Beyond Identity SDK `bindPasskey()` function. A private key gets generated, stored in the device's hardware trust module, and the public key gets stored in the Beyond Identity Cloud. 
+
+<Tabs groupId="bind-delivery-method" queryString>
+
+<TabItem value="return" label="RETURN">
+
+   <BindReturnDiagram/>
+
+</TabItem>
+
+<TabItem value="email" label="EMAIL">
+
+
+
+   <BindEmailDiagram/>
+
+
+
+</TabItem>
+
+</Tabs>
+
+

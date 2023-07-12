@@ -1,6 +1,5 @@
 ---
-title: Create a tenant
-sidebar_position: 2
+title: 1. Create a tenant
 ---
 Beyond Identity account creation will be a manual process during this early phase.
 

@@ -1,0 +1,39 @@
+---
+title: Admin Console
+description: 'The Beyond Identity Console provides you with a UI for administering your tenant. The Console utilizes your Beyond Identity tenant (specifically the **Beyond Identity Admin** Realm and Console application configuration) to authenticate and authorize admin logins. In addition, an initial Policy gets created in the Beyond Identity Admin Realm on the deployment of your tenant. '
+keywords: 
+ - admin console
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: concept
+displayed_sidebar: mainSidebar
+---
+
+
+The Beyond Identity Console provides you with a UI for administering your tenant. 
+
+The Console utilizes your **Beyond Identity Admin** Realm and Console application configuration to authenticate and authorize admin logins. In addition, an initial Policy gets created in the Beyond Identity Admin Realm on the deployment of your tenant. 
+
+When the tenant gets deployed, the **Beyond Identity Admin Console** gets created as a managed object under **Beyond Identity Admin > Apps**. As a managed object, it is not editable through the Console.
+
+You'll access the Admin Console at any time using your selected region:
+
+```
+https://console-{REGION}.beyondidentity.com
+```
+
+The **Admin Console Access** User Group is created, and the identity established at sign-up is added. Adding users to the group will allow them to log into the Console as Administrators of your tenant utilizing any credentials established within the Admin Realm.
+
+:::caution important
+It's possible to lock yourself out of the Console with this policy and group control access.
+:::
+
+
+
+
+
+

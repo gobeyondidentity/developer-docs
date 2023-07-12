@@ -1,0 +1,8 @@
+Use these guidelines to determine the Resource Server settings of your application:
+
+| If your application... | Then... |
+| --- | --- |
+| References a Resource Server,  |  the `allowed_scopes` must be a subset of the resource server's available scopes. |
+| Doesn't reference a Resource Server  |  the application can only be used to provide authentication (identity) but not authorization (access). Therefore, the scopes must be empty.  |
+| Doesn't need to provide multiple access levels, like admin vs. user,  |  you might not need a Resource Server.  |
+|  Is for minting tokens,  |  you must set the Resource Server to the **Beyond Identity Management API**. |
