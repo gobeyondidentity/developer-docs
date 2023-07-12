@@ -9,7 +9,7 @@
   --ifm-color-primary-light: #4c6cc3;
   --ifm-color-primary-lighter: #5574c6;
   --ifm-color-primary-lightest: #718acf;
-  --ifm-color-hero-primary: #5474c2;
+  --ifm-color-hero-primary: #2b4281;
   --ifm-code-font-size: 90%;
   --ifm-color-secondary: #faf9fb;
   --ifm-color-content: rgba(7, 0, 20, 0.87);
@@ -67,7 +67,9 @@
 }
 
 div[class^='announcementBar_'] {
-  padding: 16px;
+  height: 50px;
+  font-size: 18px;
+  padding: 12px;
   font-weight: 700;
   color: var(--ifm-color-content);
   --stripe-color1: #b9c5e726;
@@ -174,7 +176,7 @@ h6 {
 p,
 li {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   margin: 0;
   padding: 0;
 }
@@ -1185,7 +1187,53 @@ html[data-theme='dark'] .intro-card h3 a {
   font-family: var(--ifm-heading-font-family);
 }
 
+/* original landing page */
+
+.hero {
+  background-color: #2b4281;
+ }
+
+.button,
+.button:visited {
+  margin-top: 12px;
+  color: var(--white);
+  font-family: var(--font-medium);
+  transition-timing-function: ease-in-out;
+  border: none;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+    background-color: var(--adam-blue);
+}
+
+.button--secondary,
+.button--secondary:visited {
+    background-color: #ffc107;
+    color: var(--black);
+}
+
+.button--secondary:hover,
+.button--secondary:focus,
+.button--secondary:active {
+    background-color: var(--adam-blue);
+    color: var(--white);
+}
+
 /* end of landing page */
+
+.badge {
+  margin-bottom: 6px;
+  margin-left: -4px;
+  padding: 9px 9px 6px 9px;
+  background-color: #eee;
+  border: none;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 14px;
+}
 
 .badgeMargin {
   margin-left: 0px;
