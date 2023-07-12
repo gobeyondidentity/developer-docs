@@ -236,7 +236,7 @@ const config = {
       footer: {
         style: 'dark',
         
-        copyright: `Copyright © ${new Date().getFullYear()} Beyond Identity`,
+        copyright: `© ${new Date().getFullYear()} Beyond Identity&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="https://www.beyondidentity.com/docs/terms-legal">Terms and Conditions</a>`,
       },
       prism: {
         theme: lightCodeTheme,
