@@ -50,7 +50,7 @@ const config = {
           versions: {
             current: {
               label: "Next 🚧",
-              path: "/next/",
+              path: "/next",
             },
             v1: {
               label: "v1",
@@ -161,7 +161,11 @@ const config = {
             label: "Documentation",
           },
 */
-          { to: 'try-it-out', label: "Try it Out! 🚀", position: "left" },   
+          {
+            to: '/docs/next/try-it-out/',
+            position: 'left',
+            label: 'Try it Out! 🚀',
+          },  
           { to: "/api/", label: "REST API", position: "left" },
           {
             to: 'https://www.beyondidentity.com/developers/blog',
