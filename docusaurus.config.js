@@ -107,6 +107,25 @@ const config = {
         },
       },
     ],
+    [
+      'redocusaurus',
+      {
+        id: "apiv2",
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            spec: 'static/api/v2/openapi.yaml',
+            url: 'api/v2/openapi.yaml',
+            route: 'api/v2',
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: '#5077c5',
+        },
+      },
+    ],
   ],
   plugins: [
     
