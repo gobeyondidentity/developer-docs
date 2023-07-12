@@ -50,7 +50,7 @@ const config = {
           versions: {
             current: {
               label: "Next 🚧",
-              path: "/next",
+              path: "/next/",
             },
             v1: {
               label: "v1",
