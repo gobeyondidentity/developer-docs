@@ -3,6 +3,7 @@
     "introduction",
     "try-it-out",
     "getting-started",
+    "getting-started-angular",
     "using-bi-for-auth",
     {
       "type": "category",
@@ -31,6 +32,7 @@
       "label": "SDKs",
       "items": [
         "workflows/sdk-setup",
+        "sdks/sdk-size",
         "workflows/bind-passkey",
         "workflows/authentication",
         {
@@ -128,7 +130,7 @@
     },
     {
       "type": "category",
-      "label": "SSO Integration Guides",
+      "label": "Integration Guides",
       "collapsed": false,
       "items": [
         {

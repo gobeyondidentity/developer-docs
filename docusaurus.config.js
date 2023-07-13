@@ -46,7 +46,7 @@ const config = {
         path: 'docs',
         showLastUpdateTime: true,
         editUrl:
-          'https://github.com/gobeyondidentity/developer-docs/edit/main/',
+          'https://github.com/gobeyondidentity/developer-docs/tree/main/',
           versions: {
             current: {
               label: "Next 🚧",
@@ -293,7 +293,7 @@ const config = {
       announcementBar: {
         id: 'support_us',
         content:
-          '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/next/introduction"><b>Check it out!</b></a>',
+          '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/next/introduction"><b>Check it out!</b></a>&nbsp;&nbsp;Go back to <a href="/docs/v1/introduction">v1</a>.',
         backgroundColor: '#b9c5e7',
         textColor: '#091E42',
         isCloseable: false,

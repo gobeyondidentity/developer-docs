@@ -41,13 +41,13 @@ export default function DocItemFooter() {
                   <ul className="text-sm">
                     <li>
                       Submit a{' '}
-                      <Link to="https://github.com/gobeyondidentity/next-dev-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+">
+                      <Link to="https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+">
                         content issue
                       </Link>
                     </li>
                     <li>
                       Suggest an{' '}
-                      <Link to="https://github.com/gobeyondidentity/next-dev-docs/issues/new?assignees=&labels=%F0%9F%8C%9F+enhancement&projects=&template=enhancement.yml">
+                      <Link to="https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=%F0%9F%8C%9F+enhancement&projects=&template=enhancement.yml">
                         idea for the documentation
                       </Link>
                     </li>
