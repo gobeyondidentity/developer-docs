@@ -46,7 +46,7 @@ const config = {
         path: 'docs',
         showLastUpdateTime: true,
         editUrl:
-          'https://github.com/gobeyondidentity/developer-docs/edit/main/',
+          'https://github.com/gobeyondidentity/developer-docs/edit/docs-staging',
           versions: {
             current: {
               label: "Next 🚧",
