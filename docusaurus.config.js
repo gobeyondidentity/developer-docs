@@ -185,7 +185,7 @@ const config = {
             position: 'left',
             label: 'Try it Out! 🚀',
           },  
-          { to: "/api/v2", label: "REST API", position: "left" },
+          { to: "/api/v1", label: "REST API", position: "left" },
           {
             to: 'https://www.beyondidentity.com/developers/blog',
             position: 'left',
