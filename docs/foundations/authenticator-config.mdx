@@ -1,5 +1,7 @@
 ---
 title: Authenticator Config 
+id: authenticator-config
+slug: '/authenticator-config'
 description: 'An authenticator config is used to tell us how and where to invoke passkey creation and authentication flows for your native/mobile or web application. Each application is tied to a single authenticator type, which is configured in Authenticator Config. This article will help you understand each of the authenticator type options and how they impact Beyond Identity passkey flows.'
 keywords: 
  - deployment model
@@ -156,7 +158,7 @@ $invoke_url/bi-authenticate?request=<request>
 ```
 
 :::note IMPORTANT
-The **Invocation Type** only impacts the authentication flow. It has no effect on the [passkey creation/binding flow](../workflows/passkey-creation).
+The **Invocation Type** only impacts the authentication flow. It has no effect on the [passkey creation/binding flow](../workflows/passkey-creation.md).
 :::
 
 Invocation Type can have one of two values:

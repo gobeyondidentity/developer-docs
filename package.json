@@ -54,6 +54,11 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.4.1",
+    "got": ">=11.8.5",
+    "trim": "0.0.3"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
@@ -65,5 +70,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }

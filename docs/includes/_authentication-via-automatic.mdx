@@ -16,9 +16,9 @@ Make sure to set up deep linking in native applications to intercept the authent
 
 ### Handle Authorization in your applicaiton
 
-The authorization flow should begin in a webview with your [crafted authorization URL](authentication#1-craft-authorization-url).
+The authorization flow should begin in a webview with your [crafted authorization URL](#craft-your-authorization-request).
 
-Don't forget to [initalize your SDK](./sdk-setup) and present some logic to the user to select a passkey ahead of time.
+Don't forget to [initalize your SDK](../sdks/sdk-setup.mdx) and present some logic to the user to select a passkey ahead of time.
 
 :::info
 In a native application, the webview used should follows best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252). This means that on iOS applications [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) should be used, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) should be used on Android devices.
@@ -36,7 +36,7 @@ This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. 
 
 1. Configuring NextAuth
 
-Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Many of the values used to configure the request are the values from your [crafted authorization URL](authentication#1-craft-authorization-url).
+Under `next-auth-example/pages/api/auth/[...nextauth].ts`, add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Many of the values used to configure the request are the values from your [crafted authorization URL](#craft-your-authorization-request).
 
 ```javascript
 ...
@@ -70,7 +70,7 @@ callbacks: {
 
 2. Wiring up `embedded.authenticate`
 
-Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../foundations/authenticator-config.mdx), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
 ```javascript
 import { useEffect, useState } from "react";
@@ -170,7 +170,7 @@ What's happening here?
 
 <TabItem value="kotlin" label="Kotlin">
 
-1. Build a [CustomTabsIntent](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch your [crafted authorization URL](authentication#1-craft-authorization-url).
+1. Build a [CustomTabsIntent](https://developer.android.com/reference/androidx/browser/customtabs/CustomTabsIntent), and launch your [crafted authorization URL](#craft-your-authorization-request).
 
 ```kotlin
 val builder = CustomTabsIntent.Builder()
@@ -196,7 +196,7 @@ intent?.data?.let { uri ->
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
 
 ```kotlin
 intent?.data?.let { uri ->
@@ -261,7 +261,7 @@ private fun selectPasskeyId(callback: (String) -> Unit) {
 </TabItem>
 <TabItem value="swift" label="Swift">
 
-1. Start an `ASWebAuthenticationSession`, and launch your [crafted authorization URL](authentication#1-craft-authorization-url).
+1. Start an `ASWebAuthenticationSession`, and launch your [crafted authorization URL](#craft-your-authorization-request).
 
 ```swift
 let session = ASWebAuthenticationSession(
@@ -293,7 +293,7 @@ let session = ASWebAuthenticationSession(
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
 
 ```swift
 Embedded.shared.authenticate(
@@ -352,7 +352,7 @@ For the reasons stated in [RFC 8252](https://www.rfc-editor.org/rfc/rfc8252#sect
 <Tabs groupId="react-native" queryString> 
 <TabItem value="expo" label="expo">
 
-1. Subscribe to the `useAuthRequest` hook with the Beyond Identity discovery url. Many of the values used to configure the request are the values from your [crafted authorization URL](authentication#1-craft-authorization-url).
+1. Subscribe to the `useAuthRequest` hook with the Beyond Identity discovery url. Many of the values used to configure the request are the values from your [crafted authorization URL](#craft-your-authorization-request).
 
 ```jsx
 const discovery = useAutoDiscovery(
@@ -394,7 +394,7 @@ React.useEffect(() => {
 }, [response]);
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
 
 ```jsx
 const { redirectURL } = await Embedded.authenticate(url, passkeys[0].id);
@@ -466,7 +466,7 @@ export default function App() {
 </TabItem>
 <TabItem value="react-native-init" label="react-native init">
 
-1. Check that an `InAppBrowser` isAvailable, and launch your [crafted authorization URL](authentication#1-craft-authorization-url).
+1. Check that an `InAppBrowser` isAvailable, and launch your [crafted authorization URL](#craft-your-authorization-request).
 
 ```tsx
 if (await InAppBrowser.isAvailable()) {
@@ -486,7 +486,7 @@ if (await InAppBrowser.isAvailable()) {
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
 
 ```tsx
 if (await Embedded.isAuthenticateUrl(response.url)) {
@@ -525,7 +525,7 @@ function presentPasskeySelection(): selectedPasskeyId {
 </TabItem>
 <TabItem value="flutter" label="Flutter">
 
-1. Make a call to `FlutterWebAuth.authenticate()`, and launch your [crafted authorization URL](authentication#1-craft-authorization-url).
+1. Make a call to `FlutterWebAuth.authenticate()`, and launch your [crafted authorization URL](#craft-your-authorization-request).
 
 ```dart
 var result = await FlutterWebAuth.authenticate(
@@ -543,7 +543,7 @@ var authenticateResponse = await Embeddedsdk.authenticate(
 );
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
 
 ```dart
 // This URL contains authorization code and state parameters

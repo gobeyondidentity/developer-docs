@@ -1,8 +1,8 @@
 ### Prerequisites
 
-- [Flutter SDK Setup](/sdk-setup?sdks=flutter)   
+- [Flutter SDK Setup](../sdks/sdk-setup.mdx?sdks=flutter)   
 
-- Before calling [`EmbeddedSdk.authenticate()`](/sdk-setup?sdks=flutter#authentication), you must Authorize with Okta. 
+- Before calling [`EmbeddedSdk.authenticate()`](../sdks/sdk-setup.mdx?sdks=flutter#authentication), you must Authorize with Okta. 
 
 <br />
 
@@ -47,7 +47,7 @@ var result = await FlutterWebAuth.authenticate(
 
 #### Step 3. Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/sdk-setup?sdks=flutter#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](../sdks/sdk-setup.mdx?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../sdks/sdk-setup.mdx?sdks=flutter#authenticate-url-validation).
 
 ```javascript
 var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);

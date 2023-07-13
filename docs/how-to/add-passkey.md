@@ -57,7 +57,7 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity.md
 
 ## API
 
-Before making any API calls you'll want to generate an [API access token](../api-tokens/create-api-token#api). 
+Before making any API calls you'll want to generate an [API access token](../api-tokens/create-api-token.md#api). 
 
 A binding job can be generated through the [Beyond Identity API](https://developer.beyondidentity.com/api/v1). There are two delivery method options to consider:
 
@@ -73,9 +73,9 @@ A binding job can be generated through the [Beyond Identity API](https://develop
 
 The RETURN  delivery method is the fastest way to get a binding link, which is the link you'll send to your application to complete the passkey binding process. You can deliver the link in-line, SMS, email, etc. This is the suggested method if you want the end user to create a passkey without leaving your application.
 
-1. Generate an API access token for API calls. See [Create an API token](../api-tokens/create-api-token#api) to create an access token.
+1. Generate an API access token for API calls. See [Create an API token](../api-tokens/create-api-token.md#api) to create an access token.
 
-2. (Optional) You'll need the `identityId` to bind to a passkey. If your user is creating a new account, you'll want to create an identity with their information, such as email address and username. Collect this information on your front end and create the identity on your back end. See [Add an identity](./add-an-identity#api) for information on creating an identity via API.
+2. (Optional) You'll need the `identityId` to bind to a passkey. If your user is creating a new account, you'll want to create an identity with their information, such as email address and username. Collect this information on your front end and create the identity on your back end. See [Add an identity](./add-an-identity.md#api) for information on creating an identity via API.
 
 3. Get a binding link for identity by creating a binding job for an existing identity. 
 
@@ -90,7 +90,7 @@ The RETURN  delivery method is the fastest way to get a binding link, which is t
 
 4. Once you have a binding link generated, feed that link into your application to complete the binding process. You'll need to query your backend for the link and feed it into the SDK. Upon success, a private key will have been created in the device's hardware trust module, and the corresponding public key will be sent to the Beyond Identity Cloud. At this point, the user has a passkey enrolled on this device.
 
-  Remember to initialize your SDK ahead of time. For more information, see [SDK Setup](../sdks/sdk-setup).
+  Remember to initialize your SDK ahead of time. For more information, see [SDK Setup](../sdks/sdk-setup.mdx).
 
   <Tabs groupId="bind-platform">
   <TabItem value="javascript" label="Javascript">
@@ -155,9 +155,9 @@ The RETURN  delivery method is the fastest way to get a binding link, which is t
 
 The EMAIL delivery method sends an email to the user to generate a passkey from the binding link provided. Clicking the link will redirect the end user to the Beyond Identity Cloud. Beyond Identity Cloud will look up the Authenticator Config that is associated with that passkey creation link and redirect the end user to the Authenticator Config's Invoke URL with an appended `/bind` path. The `Invoke URL` should be an HTTP request handler in your application. Once the user has been redirected to your application, you as the developer can handle the binding link in the SDK.
 
-1. Generate an API access token for API calls. See [Create an API token](../api-tokens/create-api-token#api) to create an access token.
+1. Generate an API access token for API calls. See [Create an API token](../api-tokens/create-api-token.md#api) to create an access token.
 
-2. (Optional) You'll need the `identityId` to bind to a passkey. If your user is creating a new account, you'll want to create an identity with their information, such as email address and username. Collect this information on your front end and create the identity on your back end. See [Add an identity](./add-an-identity#api) for information on creating an identity via API.
+2. (Optional) You'll need the `identityId` to bind to a passkey. If your user is creating a new account, you'll want to create an identity with their information, such as email address and username. Collect this information on your front end and create the identity on your back end. See [Add an identity](./add-an-identity.md#api) for information on creating an identity via API.
 
 3. Get a binding link for identity by creating a binding job for an existing identity. 
 
@@ -170,7 +170,7 @@ The EMAIL delivery method sends an email to the user to generate a passkey from 
     title="/credential-binding-jobs"
   />
 
-4. Verify the Invoke URL for deeping linking. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](../foundations/authenticator-config#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
+4. Verify the Invoke URL for deeping linking. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](../foundations/authenticator-config.mdx#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
 
   <DeepLinking />
 

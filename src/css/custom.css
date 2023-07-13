@@ -291,7 +291,7 @@ div.indent li {
 
 
 [data-theme='dark'] .header-logo {
-  background-image: url("../../static/img/BYD_ID-LOGO_FINAL_WHITE_RGB.svg")
+  background-image: url("@site/static/img/BYD_ID-LOGO_FINAL_WHITE_RGB.svg")
 }
 
 .markdown img { 
@@ -877,7 +877,7 @@ div[class^="tocCollapsibleContent"] ul li {
   border-radius: 10px;
   background-repeat: no-repeat;
   background-image: url("https://www.beyondidentity.com/sites/default/files/styles/max_2600x2600/public/guide-header-circle.webp?itok=_vJRg61D");
-  /*background-image: url("../../static/img/secure-customer-visual.png");*/
+  /*background-image: url("@site/static/img/secure-customer-visual.png");*/
   background-position: 94% 40%; 
   background-size: 28%; 
 }

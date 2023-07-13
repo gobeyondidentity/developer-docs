@@ -17,28 +17,33 @@ import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguag
 
 import { Alert, Col, Row } from 'antd';
 
-When you [request an access token](./create-api-token#api), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response.  The refresh token can be used to request additional access tokens with identical or narrower scope.  
+When you [request an access token](./create-api-token.md#api), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response.  The refresh token can be used to request additional access tokens with identical or narrower scope.  
 
 ## Prerequisites
 In order to request a refresh token, you need to have an [app configured in your Beyond Identity tenant](../how-to/add-an-application.mdx) with the **Enable Refresh Tokens** setting enabled.  
 
-If enabled, the [create token](create-api-token#api) response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4).  
+If enabled, the [create token](./create-api-token.md#api) response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4).  
 
 You can use that refresh token to obtain a new access token for the same identity with the same settings.
 
 ## API
+
 Use a refresh token to obtain a new access token as follows:  
 
 ### Endpoints
+
 The request uses the app's '/token' endpoint:  
+
 ```  
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
 ```  
 
 ### Create HTTP Request
+
 Create the HTTP request as follows:  
 
 **Request URL**
+
 ```  
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
 ```  
@@ -46,11 +51,13 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 **Request method**: POST  
 
 **Request headers**:
+
 ```  
     "content-type": "application/x-www-form-urlencoded"
 ```  
 
 **Request body**:  
+
 ```  
     "grant_type": "refresh_token",
     "refresh_token": "{refresh_token}"

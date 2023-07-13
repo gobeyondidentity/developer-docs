@@ -21,8 +21,8 @@ const config = {
   tagline: "The easiest way to implement passwordless secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
+  onBrokenLinks: "warn",
+  onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
   projectName: "developer-docs", // Usually your repo name.

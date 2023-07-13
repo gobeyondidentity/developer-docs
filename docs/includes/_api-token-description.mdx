@@ -1,4 +1,4 @@
-All [Beyond Identity API](/api) endpoints require an access token for authentication. The access token is generated through OAuth 2.0 or OIDC, using either the **Authorization Code** or **Client Credentials** flow. 
+All [Beyond Identity API](../foundations/api-endpoints.mdx) endpoints require an access token for authentication. The access token is generated through OAuth 2.0 or OIDC, using either the **Authorization Code** or **Client Credentials** flow. 
 
 The **Beyond Identity Management API** application created during developer setup only supports the **Client Credentials** flow. However, if you want to use the **Authorization Code** flow instead, create another application referencing the Beyond Identity Management API Resource Server in the **Beyond Identity Admin** realm. Then, set the application's grant type to **Authorization Code**.
 
@@ -8,7 +8,7 @@ The access tokens are JWTs with two types of token formats available:
 
 - **referential** tokens as JWE
 
-You can create an API access token using the [Beyond Identity Admin Console](/create-api-token#admin-console) or the [Beyond Identity APIs](/create-api-token#api). You'll generate the access token with your **Beyond Identity Management API** application to authorize access to any Beyond Identity APIs. The Beyond Identity Management API application is provided by default upon tenant creation and resides within the **Beyond Identity Admin Realm**. 
+You can create an API access token using the [Beyond Identity Admin Console](../api-tokens/create-api-token.md#admin-console) or the [Beyond Identity APIs](../api-tokens/create-api-token.md#api). You'll generate the access token with your **Beyond Identity Management API** application to authorize access to any Beyond Identity APIs. The Beyond Identity Management API application is provided by default upon tenant creation and resides within the **Beyond Identity Admin Realm**. 
 
 For API requests, you must provide the access token in the Authorization header, as shown in the following example:
 

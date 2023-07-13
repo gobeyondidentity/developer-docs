@@ -6,7 +6,7 @@ import DeepLinking from './_deeplinking-native-sdk.mdx';
 
 ## Deep linking
 
-When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](../platform-overview/authenticator-config#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
+When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](../foundations/authenticator-config.mdx#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
 
 <DeepLinking />
 
@@ -22,7 +22,7 @@ Once you receive the incoming URL, pass it into the SDK to complete the binding 
 
 Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
-Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](./sdk-setup).
+Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](../sdks/sdk-setup.mdx).
 
 <Tabs groupId="bind-platform">
 <TabItem value="javascript" label="Javascript">
@@ -31,7 +31,7 @@ Don't forget to initalize your SDK ahead of time. For more information see [SDK 
 This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. All code snippets are provided in the context of the [NextAuth Example App](https://github.com/nextauthjs/next-auth-example). Note that your application must be set up as a confidential application.
 :::
 
-Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../platform-overview/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](../foundations/authenticator-config.mdx), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
 ```javascript
 import { useEffect, useState } from 'react';

@@ -104,7 +104,7 @@ Each registration (credential binding) and authentication operation consults the
 
 A Directory contains the Identities, associated Credentials and Groups within a Realm. Directories are not shared across Realms.
 
-Beyond Identity offers a SCIM 2.0 compliant server for standardized approach to managing Users and Groups. It uses common REST API endpoints to create, update, and delete these entities. An access token with `scim:all` scope is required to use any SCIM functionality. For more details, see [SCIM server setup](../scim-server).
+Beyond Identity offers a SCIM 2.0 compliant server for standardized approach to managing Users and Groups. It uses common REST API endpoints to create, update, and delete these entities. An access token with `scim:all` scope is required to use any SCIM functionality. For more details, see [SCIM server setup](../scim-server.md).
 
 
 import ScimDescription from '../includes/_scim-description.mdx';
@@ -120,7 +120,7 @@ An identity can have many credentials of different types.
 
 | Type | Description |
 | --- | --- |
-| **Passkey**  | Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. This passkey gets stored in the user's device's hardware root of trust (i.e., secure enclave). A passkey is a public-private key pair that belongs to an identity. The public key is stored in Beyond Identity Cloud and the private key never leaves the device. All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. An identity can have multiple passkeys. An identity with three devices would have three passkeys, one for each device. For more details, see [Univeral Passkeys](universal-passkeys.mdx). |
+| **Passkey**  | Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. This passkey gets stored in the user's device's hardware root of trust (i.e., secure enclave). A passkey is a public-private key pair that belongs to an identity. The public key is stored in Beyond Identity Cloud and the private key never leaves the device. All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. An identity can have multiple passkeys. An identity with three devices would have three passkeys, one for each device. For more details, see [Univeral Passkeys](../foundations/universal-passkeys.mdx). |
 | **GPG Key**<p class="badgeMargin"><Badge color="primary" variant="flat" >Coming soon!</Badge></p>  | A GPG key is cryptographically tied to an identitiy's passkey. Beyond Identity's SDKs act as a gpg signing agent using the private key on the device. |
 | **SSH Key**<p class="badgeMargin"><Badge color="primary" variant="flat" >Coming soon!</Badge></p> |  A SSH key is cryptographically tied to an identitiy's passkey. This key can be used for accessing SSH servers. |
 
@@ -157,7 +157,7 @@ import AuthenticatorConfigDescription from '../includes/_authenticator-config-de
 
 <br />
 
-For more details, see [Authenticator Types](authenticator-config.mdx).
+For more details, see [Authenticator Types](../foundations/authenticator-config.mdx).
 
 
 

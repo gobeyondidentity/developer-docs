@@ -45,19 +45,16 @@ If your application is using the [NextAuth](https://next-auth.js.org) provider (
 ## Use case details
 
 - [x] **Authenticator Config**: Embedded SDK <mark>If they are required to point the Invoke URL to their application, shouldn't we say that it's a prerequisite? As mentioned below, the Invoke URL field is required and they can't leave this blank when creating their app in the Admin Console.</mark>
+
 - [x] **Grant Type**: Authorization Code flow
+
 - [x] **Client Type**: Confidential <mark>Can they have a **Public** Client Type?</mark>
 
 ## Prerequisites
 
 - Developer account
+
 - Application
-- 
-
-
-
-
-
 
 ## Craft your authorization request 
 
@@ -129,7 +126,7 @@ If your application is using the [NextAuth](https://next-auth.js.org) provider (
 
    - **Client Secret Basic**
 
-3. Start the token exchange.
+3. <a name="token-exchange"></a>Start the token exchange.
 
   <Tabs groupId="token-auth-method" queryString>
   <TabItem value="client_secret_basic" label="Client Secret Basic">

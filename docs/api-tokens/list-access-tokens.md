@@ -14,23 +14,24 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-
-import { Alert, Col, Row } from 'antd';
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 
 
 ## Prerequisites
+
 In order to list tokens, you need the following:  
- - the application_id of the application that was used to issue the token  
- - a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](./create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
+
+- the application_id of the application that was used to issue the token  
+
+- a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api))  
 
  
 ## Admin Console
-The console enables you to view issued API tokens for applications that use the client credentials 
-grant type, such as the built in Beyond Identity Management API. For apps that use the authorization code 
-grant type, you'll need to [list tokens via the API](#api).  
+
+The console enables you to view issued API tokens for applications that use the client credentials grant type, such as the built in Beyond Identity Management API. For apps that use the authorization code grant type, you'll need to [list tokens via the API](#api).  
 
 For applications that use the client credentials grant type, view issued API tokens in the Admin console as follows:  
+
 1. Under **Apps**, select the app for which you want to view issued tokens, such as the **Beyond Identity Management API** application.
 
   ![Beyond Identity Management API](../images/apps-beyond-identity-management-api.png)
@@ -38,29 +39,38 @@ For applications that use the client credentials grant type, view issued API tok
 1. Select the **API Tokens** tab.
 
 ## API
+
 Use the [list tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) to list tokens for a given application or principal.  
 
 ### List Access Tokens Request
+
 Create the HTTP request with the following properties:  
 
 **Request method:** GET  
 
 **Request URL:** 
+
 ```  
 https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens?principal_type={principal_type}  
 ```  
+
 where  
-{principal_type} is either 'application' or 'identity' (see [List Tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) for more details on query parameters)  
+
+{principal_type} is either 'application' or 'identity' (see [List Tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) for more details on query parameters) 
+
 :::note
 The list tokens API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
 :::
 
 **Request headers:**  
+
 ```  
 Authorization: {authorization_token}
 content-type: application/x-www-form-urlencoded  
 ```  
+
 where 
+
 {authorization_token} contains scope 'tokens:read' and audience 'beyondidentity'  
 
 ### Example: List access tokens for an application
