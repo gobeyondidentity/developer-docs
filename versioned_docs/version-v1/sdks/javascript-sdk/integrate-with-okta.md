@@ -6,8 +6,8 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ## Prerequisites
 
- - [Integrate With Okta](../../guides/integrate-with-okta)
- - [JavaScript SDK Setup](../../workflows/sdk-setup?sdks=javascript)
+ - [Integrate With Okta](../../guides/integrate-with-okta.md)
+ - [JavaScript SDK Setup](../../workflows/sdk-setup.mdx?sdks=javascript)
 
 :::tip NextAuth.js
 This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. All code snippets are provided in the context of the [NextAuth Example App](https://github.com/nextauthjs/next-auth-example).

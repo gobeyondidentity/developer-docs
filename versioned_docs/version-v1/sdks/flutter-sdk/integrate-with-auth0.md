@@ -7,9 +7,9 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 ## Prerequisites
 
  - [Integrate With Auth0](../../guides/integrate-with-auth0.md)
- - [Flutter SDK Setup](../../workflows/sdk-setup?sdks=flutter)
+ - [Flutter SDK Setup](../../workflows/sdk-setup.mdx?sdks=flutter)
 
-Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=flutter#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=flutter#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -44,7 +44,7 @@ var result = await FlutterWebAuth.authenticate(
 
  - Step 3: Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup?sdks=flutter#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup.mdx?sdks=flutter#authenticate-url-validation).
 
 
 ```javascript

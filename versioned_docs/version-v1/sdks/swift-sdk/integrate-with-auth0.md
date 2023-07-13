@@ -6,8 +6,8 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 
 ## Prerequisites
 
- - [Integrate With Auth0](../../guides/integrate-with-auth0)
- - [Swift SDK Setup](../../workflows/sdk-setup?sdks=swift)
+ - [Integrate With Auth0](../../guides/integrate-with-auth0.md)
+ - [Swift SDK Setup](../../workflows/sdk-setup.mdx?sdks=swift)
 
 Before calling [`Embedded.shared.authenticate`](../../workflows/sdk-setup?sdks=swift#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 

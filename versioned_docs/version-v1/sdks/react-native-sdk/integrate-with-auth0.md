@@ -6,10 +6,10 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 
 ## Prerequisites
 
-- [Integrate With Auth0](../../guides/integrate-with-auth0)
-- [React Native SDK Setup](../../workflows/sdk-setup?sdks=reactnative)
+- [Integrate With Auth0](../../guides/integrate-with-auth0.md)
+- [React Native SDK Setup](../../workflows/sdk-setup.mdx?sdks=reactnative)
 
-Before calling [`Embedded.authenticate`](../../workflows/sdk-setup?sdks=reactnative#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`Embedded.authenticate`](../../workflows/sdk-setup.mdx?sdks=reactnative#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 

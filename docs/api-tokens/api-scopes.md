@@ -33,7 +33,7 @@ There are three components to this negotiation:
  - Scopes authorized for the identity approving the authorization request (this one only applies when the authorization_code grant type is used for the token request)
 
 ### Scopes included in the token request
-Scopes included in the token request refers to the space-delimited set of scopes sent as the 'scope' parameter in the OAuth/OIDC [client credentials](./create-api-token#client-credentials-grant-type-confidential-client) or [authorization code](./create-api-token#authorization-code-with-pkce-confidential-client) grant request.  
+Scopes included in the token request refers to the space-delimited set of scopes sent as the 'scope' parameter in the OAuth/OIDC [client credentials](./create-api-token.md#client-credentials-grant-type-confidential-client) or [authorization code](./create-api-token.md#authorization-code-with-pkce-confidential-client) grant request.  
 
 
 
@@ -47,7 +47,7 @@ When using the authorization code grant type, an interactive user must authorize
 
 To enable a user to authorize particular scopes, you'll need the following: 
  - a [role](../how-to/create-role.mdx) that contains the scopes
- - a user (an [identity](../how-to/add-an-identity)) that is a [member of the role](../how-to/add-user-group-to-role.mdx), either individually or via a [group](../how-to/add-groups.mdx)
+ - a user (an [identity](../how-to/add-an-identity.md)) that is a [member of the role](../how-to/add-user-group-to-role.mdx), either individually or via a [group](../how-to/add-groups.mdx)
 
 ## Beyond Identity Management API Scopes
 Calls to the Beyond Identity Management API require access token scopes as defined in the [API documentation](https://developer.beyondidentity.com/api/v1).

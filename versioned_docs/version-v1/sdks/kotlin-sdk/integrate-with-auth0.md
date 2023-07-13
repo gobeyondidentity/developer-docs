@@ -6,10 +6,10 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 
 ## Prerequisites
 
- - [Integrate With Auth0](../../guides/integrate-with-auth0)
- - [Kotlin SDK Setup](../../workflows/sdk-setup?sdks=kotlin)
+ - [Integrate With Auth0](../../guides/integrate-with-auth0.md)
+ - [Kotlin SDK Setup](../../workflows/sdk-setup.mdx?sdks=kotlin)
 
-Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=kotlin#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
+Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=kotlin#authentication), we must [Authorize With Auth0](#authorize-with-auth0).
 
 ## Authorize With Auth0
 
@@ -41,7 +41,7 @@ builder.build().launchUrl(context, AUTH0_URL)
 
  - Step 3: Invoke URL
 
-A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [`Activity`](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [`onCreate`](https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)) &/ [`onNewIntent`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)), and call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=kotlin#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup?sdks=kotlin#authenticate-url-validation).
+A URL with the Invoke URL scheme should be triggered by the web page. The Android OS will look for an appropraite Activity to handle the Intent. In your [`Activity`](https://developer.android.com/reference/android/app/Activity), which handles your Beyond Identity scheme, override [`onCreate`](https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)) &/ [`onNewIntent`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)), and call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=kotlin#authentication). You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup.mdx?sdks=kotlin#authenticate-url-validation).
 
 ```javascript
 intent?.data?.let { uri ->

@@ -21,7 +21,7 @@ const config = {
   tagline: "The easiest way to implement passwordless secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
-  onBrokenLinks: "warn",
+  onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
@@ -29,7 +29,11 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    '@docusaurus/theme-live-codeblock', 
+    'docusaurus-theme-redoc',
+  ],
   staticDirectories: ['static'],
 
   presets: [
@@ -129,6 +133,20 @@ const config = {
   ],
   plugins: [
     
+
+    require.resolve("docusaurus-plugin-image-zoom"),
+
+//    '@chatwoot/docusaurus-plugin',
+//    [
+//      require.resolve("@easyops-cn/docusaurus-search-local"),
+//      {
+//        indexDocs: true,
+//        indexBlog: false,
+//        indexPages: true,
+//        language: "en",
+//        hashed: true
+//      }
+//    ],
   ],
   scripts: [
     {
@@ -261,6 +279,16 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
         additionalLanguages: ['dart','kotlin','swift'],
+      },
+      zoom: {
+        selector: '.markdown :not(em) > img',
+        config: {
+          // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+          background: {
+            light: 'rgb(255, 255, 255)',
+            dark: 'rgb(50, 50, 50)'
+          }
+        }
       },
       hubspot: {
         accountId: "7364297",

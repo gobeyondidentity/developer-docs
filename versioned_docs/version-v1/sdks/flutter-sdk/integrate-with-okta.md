@@ -6,10 +6,10 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ## Prerequisites
 
- - [Integrate With Okta](../../guides/integrate-with-okta)
- - [Flutter SDK Setup](../../workflows/sdk-setup?sdks=flutter)
+ - [Integrate With Okta](../../guides/integrate-with-okta.md)
+ - [Flutter SDK Setup](../../workflows/sdk-setup.mdx?sdks=flutter)
 
-Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=flutter#authentication), we must [Authorize With Okta](#authorize-with-okta).
+Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=flutter#authentication), we must [Authorize With Okta](#authorize-with-okta).
 
 ## Authorize With Okta
 
@@ -46,7 +46,7 @@ var result = await FlutterWebAuth.authenticate(
 
  - Step 3: Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup?sdks=flutter#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup.mdx?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](../../workflows/sdk-setup.mdx?sdks=flutter#authenticate-url-validation).
 
 ```javascript
 var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
