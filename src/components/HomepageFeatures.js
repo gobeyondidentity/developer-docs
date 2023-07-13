@@ -16,7 +16,7 @@ const FeatureList1 = [
     )
   },
   {
-    title: "Guides",
+    title: "Integration Guides",
     Svg: require("../../static/img/tutorials.svg").default,
     description: (
       <>
@@ -24,7 +24,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/guides"
+      "/docs/v1/guides/overview"
     )
   },
   {

@@ -132,6 +132,10 @@
       "type": "category",
       "label": "Integration Guides",
       "collapsed": false,
+      "link": {
+        "type": "doc",
+        "id": "guides/overview"
+      },
       "items": [
         {
           "type": "link",

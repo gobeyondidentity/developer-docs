@@ -6,7 +6,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ## Prerequisites
 
- - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
+ - [Integrate With Okta](../../guides/integrate-with-okta)
  - [JavaScript SDK Setup](../../workflows/sdk-setup?sdks=javascript)
 
 :::tip NextAuth.js
@@ -30,7 +30,7 @@ providers: [
 ...
 ```
 
-Note that you'll need to fill in the `<OKTA_CLIENT_ID>`, `<OKTA_CLIENT_SECRET>`, and `<OKTA_ISSUER>` with the values you generated when creating your application in Okta. See the [following](/guides/sso-integrations/integrate-with-okta) guide mentioned in the [prerequisites](#prerequisites).
+Note that you'll need to fill in the `<OKTA_CLIENT_ID>`, `<OKTA_CLIENT_SECRET>`, and `<OKTA_ISSUER>` with the values you generated when creating your application in Okta. See the [following](../../guides/integrate-with-okta) guide mentioned in the [prerequisites](#prerequisites).
 
 ## Wiring up [`embedded.authenticate`](../../workflows/sdk-setup?sdks=javascript#authentication)
 

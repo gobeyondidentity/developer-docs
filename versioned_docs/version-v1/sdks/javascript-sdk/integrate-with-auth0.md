@@ -6,7 +6,7 @@ This guide describes how to configure Auth0 to delegate to Beyond Identity for a
 
 ## Prerequisites
 
- - [Integrate With Auth0](/guides/sso-integrations/integrate-with-auth0)
+ - [Integrate With Auth0](../../guides/integrate-with-auth0)
  - [JavaScript SDK Setup](../../workflows/sdk-setup?sdks=javascript)
 
 
@@ -31,7 +31,7 @@ providers: [
 ...
 ```
 
-Note that you'll need to fill in the `<AUTH0_ID>`, `<AUTH0_SECRET>`, and `<AUTH0_ISSUER>` with the values you generated when creating your application in Auth0. See the [following](/guides/sso-integrations/integrate-with-auth0) guide mentioned in the [prerequisites](#prerequisites).
+Note that you'll need to fill in the `<AUTH0_ID>`, `<AUTH0_SECRET>`, and `<AUTH0_ISSUER>` with the values you generated when creating your application in Auth0. See the [following](../../guides/integrate-with-auth0) guide mentioned in the [prerequisites](#prerequisites).
 
 ## Wiring up [`embedded.authenticate`](../../workflows/sdk-setup?sdks=javascript#authentication)
 

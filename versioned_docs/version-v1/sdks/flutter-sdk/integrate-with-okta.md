@@ -6,7 +6,7 @@ This guide describes how to configure Okta to delegate to Beyond Identity for au
 
 ## Prerequisites
 
- - [Integrate With Okta](/guides/sso-integrations/integrate-with-okta)
+ - [Integrate With Okta](../../guides/integrate-with-okta)
  - [Flutter SDK Setup](../../workflows/sdk-setup?sdks=flutter)
 
 Before calling [`EmbeddedSdk.authenticate()`](../../workflows/sdk-setup?sdks=flutter#authentication), we must [Authorize With Okta](#authorize-with-okta).
