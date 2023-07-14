@@ -194,7 +194,7 @@ It's possible to lock yourself out of the Console with this policy and group con
 
 
 
-import { Divider, Button } from 'antd';
+import { Divider, Button, ConfigProvider } from 'antd';
 
 <Divider />
 
@@ -206,7 +206,7 @@ import { Divider, Button } from 'antd';
       <div class="col-demo">
         <div class="card-demo next-steps-card">
   <div class="card shadow--lw">
-    <div class="card__header ">
+    <div class="card__header card-header">
       <h4>Create new realm</h4>
     </div>
     <div class="card__body">
@@ -215,7 +215,17 @@ import { Divider, Button } from 'antd';
       </p>
     </div>
     <div class="card__footer">
-      <Button type="link" shape="round" block href="../how-to/create-realm">Learn more</Button>      
+    <ConfigProvider
+               theme={{
+                  token: {
+                     colorPrimary: '#2b4281',
+                     colorPrimaryHover: '#5686F1',
+                  }
+                  }
+               }
+            >
+      <Button size="middle" type="primary" shape="round" block href="/docs/next/create-realm">Learn more</Button>    
+      </ConfigProvider>  
     </div>
   </div>
 </div>
@@ -225,7 +235,7 @@ import { Divider, Button } from 'antd';
       <div class="col-demo">
         <div class="card-demo next-steps-card">
   <div class="card shadow--lw">
-    <div class="card__header">
+    <div class="card__header card-header">
       <h4>Add new app</h4>
     </div>
     <div class="card__body">
@@ -234,7 +244,17 @@ import { Divider, Button } from 'antd';
       </p>
     </div>
     <div class="card__footer">   
-      <Button type="link" block href="../how-to/add-an-application">Learn more</Button>
+      <ConfigProvider
+               theme={{
+                  token: {
+                     colorPrimary: '#2b4281',
+                     colorPrimaryHover: '#5686F1',
+                  }
+                  }
+               }
+            >
+      <Button size="middle" type="primary" shape="round" block href="/docs/next/add-an-application">Learn more</Button>    
+      </ConfigProvider>
     </div>
   </div>
 </div>
@@ -246,8 +266,8 @@ import { Divider, Button } from 'antd';
       <div class="col-demo">
         <div class="card-demo next-steps-card">
   <div class="card shadow--lw">
-    <div class="card__header ">
-      <h4>Create a role&nbsp;&nbsp;<Badge color="secondary" variant="flat" >New!</Badge></h4>
+    <div class="card__header card-header">
+      <h4>Create a role</h4>
     </div>
     <div class="card__body">
       <p>
@@ -255,7 +275,17 @@ import { Divider, Button } from 'antd';
       </p>
     </div>
     <div class="card__footer">
-      <Button type="link" shape="round" block href="../how-to/create-role">Learn more</Button>      
+      <ConfigProvider
+               theme={{
+                  token: {
+                     colorPrimary: '#2b4281',
+                     colorPrimaryHover: '#5686F1',
+                  }
+                  }
+               }
+            >
+      <Button size="middle" type="primary" shape="round" block href="/docs/next/create-role">Learn more</Button>    
+      </ConfigProvider>      
     </div>
   </div>
 </div>
@@ -265,7 +295,7 @@ import { Divider, Button } from 'antd';
       <div class="col-demo">
         <div class="card-demo next-steps-card">
   <div class="card shadow--lw">
-    <div class="card__header">
+    <div class="card__header card-header">
       <h4>Create an identity</h4>
     </div>
     <div class="card__body">
@@ -274,7 +304,17 @@ import { Divider, Button } from 'antd';
       </p>
     </div>
     <div class="card__footer">
-      <Button type="link" shape="round" block href="../how-to/add-an-identity">Learn more</Button>
+      <ConfigProvider
+               theme={{
+                  token: {
+                     colorPrimary: '#2b4281',
+                     colorPrimaryHover: '#5686F1',
+                  }
+                  }
+               }
+            >
+      <Button size="middle" type="primary" shape="round" block href="/docs/next/add-an-identity">Learn more</Button>    
+      </ConfigProvider>
     </div>
   </div>
 </div>

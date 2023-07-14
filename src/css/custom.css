@@ -241,12 +241,6 @@ dt {
   margin: 0;
 }
 
-/* card header background */
-
-.card-header {
-  background-color: var(--light-gray);
-}
-
 
 /* Breadcrumbs */
 .breadcrumbs__link {
@@ -1249,6 +1243,18 @@ html[data-theme="dark"] .hero {
   max-width: 100%;
   display: inline-block;
 }
+
+.card-header {
+  background-color: #b9c5e756;
+}
+
+.card-header h4 {
+  text-align: center;
+  padding-bottom: 10px;
+  color: #5077c5;
+  font-weight: bold;
+}
+
 
 .card__svg{
 

@@ -24,8 +24,8 @@ const config = {
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "gobeyondidentity", // Usually your GitHub org/user name.
-  projectName: "developer-docs", // Usually your repo name.
+  organizationName: "gobeyondidentity", // The GitHub org/user name.
+  projectName: "developer-docs", // The repo name.
   markdown: {
     mermaid: true,
   },
