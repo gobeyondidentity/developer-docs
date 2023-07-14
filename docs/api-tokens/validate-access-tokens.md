@@ -1,6 +1,8 @@
 ---
 title: Validate an access token
+id: validate-access-tokens
 description: ''
+slug: /validate-access-tokens
 keywords: 
  - api-tokens
  - configuration
@@ -34,7 +36,7 @@ In order to validate an access token, you need the following:
 
 - the base64 encoded access token you wish to validate (can be self contained or referential)  
 
-- the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:introspect` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token. See the examples in [Create an access token](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api)).
+- the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:introspect` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token. See the examples in [Create an access token](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api)).
 
 ## Token validation API
 

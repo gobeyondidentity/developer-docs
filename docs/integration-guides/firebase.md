@@ -1,6 +1,8 @@
 ---
 title: Integrate with Firebase
+id: firebase
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider for an application that uses Firebase."
+slug: /firebase
 keywords: 
  - firebase
 pagination_next: null
@@ -89,7 +91,7 @@ Once you've installed the SDK, initialize it so that you can call the Embedded f
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a [Realm](../how-to/create-realm) to hold identities and configuration. Inside that realm, you'll need to create an [Application](../how-to/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a [Realm](/docs/next/create-realm) to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -110,8 +112,8 @@ There is a lot to configure when creating an application. When creating your app
 
 For help choosing options, visit the following guides:
 
-- [Applications](../foundations/platform-overview#application)
-- [Authenticator Config](../foundations/authenticator-config)
+- [Applications](/docs/next/platform-overview#application)
+- [Authenticator Config](/docs/next/authenticator-config)
 
 <p><mark>We should use the include file with the step-by-step instructions with screenshots. Arcades are not scannable and they are not A11y compatible.  Reserve Arcades for the more complex configurations, tutorials, or demos of something they can do (an end-to-end process). </mark></p>
 
@@ -146,7 +148,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-For more information about identities, see [Identity and groups](../foundations/platform-overview#directory).
+For more information about identities, see [Identity and groups](/docs/next/platform-overview#directory).
 
 
 ### Generate a passkey
@@ -155,7 +157,7 @@ Once you have an identity, you are ready to generate a passkey for this user. Th
 
 Note that whichever browser or device that the user taps on the enrollment email will be the device/browser where the user can log into your Drupal site. If the user wishes to login from a different browser or device you will need to send the user another email to bind that new browser/device. Also note that private/incognito browsers act as a different browser in this case. Users can bind multiple devices and browsers.
 
-For more information visit [Bind a passkey to an identity](../how-to/add-passkey).
+For more information visit [Bind a passkey to an identity](/docs/next/add-passkey).
 
 <p><mark>We should use an include file with the step-by-step instructions with screenshots. Arcades are not scannable and they are not A11y compatible.  Reserve Arcades for the more complex configurations, tutorials, or demos of something they can do (an end-to-end process). </mark></p>
 

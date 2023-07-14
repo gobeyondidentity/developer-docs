@@ -1,6 +1,8 @@
 ---
 title: Resources
+id: resources
 description: ''
+slug: /resources 
 keywords: 
  - faq
  - help
@@ -32,7 +34,7 @@ import { Alert, Col, Row } from 'antd';
 
 - [JSON Web Token Inspector](https://jwt.io/?_gl=1*1etyhvr*rollup_ga*NzYyMjc1NTE5LjE2NzkwNjIyOTk.*rollup_ga_F1G3E656YZ*MTY4MjM3MDI4Ni4xNS4xLjE2ODIzNzAyODYuNjAuMC4w&_ga=2.232725855.1956605135.1682343022-762275519.1679062299) - Decode, verify and generate JWT
 
-- [Event and audit logging](/view-event-details) - Your applications and services depend on Beyond Identity. Monitoring Beyond Identity's health lets you report specific errors to customers or reduct user impact in case there's an issue. 
+- [Event and audit logging](/docs/next/view-event-details) - Your applications and services depend on Beyond Identity. Monitoring Beyond Identity's health lets you report specific errors to customers or reduct user impact in case there's an issue. 
 
 - [Check Beyond Identity service status](https://status.beyondidentity.com/) - View and subscribe to status updates. 
 

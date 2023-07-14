@@ -1,6 +1,8 @@
 ---
 title: Integrate with Expo
+id: expo-react-native
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider for a React Native application that uses Expo."
+slug: /expo-react-native
 keywords: 
  - expo react native
 pagination_next: null
@@ -84,7 +86,7 @@ AppRegistry.registerComponent(appName, () => App);
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](../how-to/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -132,7 +134,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-For more information about identities, see [Directory](../foundations/platform-overview#directory).
+For more information about identities, see [Directory](/docs/next/platform-overview#directory).
 
 ### Generate a passkey
 
@@ -142,7 +144,7 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 <BindPasskeyToAnIdentity />
 
-For more information, [How passkeys are created](../foundations/universal-passkeys#how-passkeys-are-created).
+For more information, [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
 
 ### Bind passkey to device
 
@@ -225,7 +227,7 @@ Crafting an authorization URL is the first step in the authorization flow.
 
 ### Authenticate
 
-There are two ways to authenticate depending on your Application Config's [Invocation Type](../foundations/authenticator-config#invocation-type). 
+There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/next/authenticator-config#invocation-type). 
 
 - **Automatic**
 - **Manual**
@@ -352,4 +354,4 @@ Calling the token endpoint is the second step in the authorization flow and usua
 
 Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
 
-See [Call the token endpoint for token exchange](../authentication/embedded-sdk-add-passkeys#call-the-token-endpoint-for-token-exchange) for more details. <mark>Are these instruction for this integration the same as what's in the referenced topic? If so, we can create an include file to reuse the content where it's needed.</mark>
+See [Call the token endpoint for token exchange](/docs/next/embedded-sdk-add-passkeys#call-the-token-endpoint-for-token-exchange) for more details. <mark>Are these instruction for this integration the same as what's in the referenced topic? If so, we can create an include file to reuse the content where it's needed.</mark>

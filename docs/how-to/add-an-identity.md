@@ -1,6 +1,8 @@
 ---
 title: Add an identity
+id: add-an-identity
 description: "Before users can start authenticating with Beyond Identity, they must be added as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities and a realm can have many identities."
+slug: /add-an-identity
 keywords: 
  - identities
  - create
@@ -36,7 +38,7 @@ You can users as an identity one of three ways:
 
 1. [Beyond Identity Admin Console](#admin-console)
 2. [Beyond Identity APIs](#api)
-3. [SCIM](../scim-server)
+3. [SCIM](/docs/next/scim-server)
 
 
 ## Prerequisites

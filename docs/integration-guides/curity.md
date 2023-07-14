@@ -1,6 +1,8 @@
 ---
 title: Integrate with Curity
+id: curity
 description: "Learn how to configure Beyond Identity as an Identity Provider in the Curity Identity Server."
+slug: /curity
 keywords: 
  - curity
 pagination_next: null

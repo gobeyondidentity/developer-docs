@@ -1,6 +1,8 @@
 ---
 title: Authentication Issues
+id: authentication-issues
 description: ''
+slug: /authentication-issues 
 keywords: 
  - troubleshooting
  - authentication issues

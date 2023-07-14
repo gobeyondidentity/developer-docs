@@ -1,6 +1,8 @@
 ---
 title: Common Issues
+id: common-issues
 description: ''
+slug: /common-issues 
 keywords: 
  - troubleshooting
  - common issues

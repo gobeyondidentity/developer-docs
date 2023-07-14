@@ -1,6 +1,8 @@
 ---
 title: isAuthenticateUrl
+id: js-reference-isAuthenticateUrl
 description: ''
+slug: /js-reference-isAuthenticateUrl
 keywords: 
  - javascript sdk
 pagination_next: null

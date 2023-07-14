@@ -1,6 +1,8 @@
 ---
 title: SDK setup
+id: sdk-setup
 description: ''
+slug: /sdk-setup
 keywords: 
  - sdk
  - setup
@@ -107,7 +109,7 @@ The Embedded SDK offers the entire passkey creation and authentication experienc
 ## Prerequisites
 
 - Set up a [developer account](https://www.beyondidentity.com/developers/signup)
-- Create an [application](../how-to/add-an-application)
+- Create an [application](/docs/next/add-an-application)
 
 
 
@@ -259,7 +261,7 @@ Embedded.logEventEmitter.addListener(
 
 The `bindPasskey` function expects a URL. This can either be a binding passkey link fetched directly from our public API, or a binding passkey instruction that is the result of a redirection to your web application. This function should be used in conjunction with [isBindPasskeyUrl](#bind-passkey-url-validation) in order to determine if the URL being passed in is a valid bind passkey URL.
 
-Checkout the [Bind passkey to an identity](../how-to/add-passkey) guide for more information.
+Checkout the [Bind passkey to an identity](/docs/next/add-passkey) guide for more information.
 
 #### Usage
 
@@ -317,7 +319,7 @@ The `authenticate` function expects a `URL` and a `PasskeyId`. This Beyond Ident
 
 Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys).
 
-Checkout the [Authentication with Passkey](../authentication/embedded-sdk-add-passkeys) guide for more information. <mark>What's the action for the user? We're sending them to this topic but we're not telling them what they can do.  Is there actionable steps they need to take?</mark>
+Checkout the [Authentication with Passkey](/docs/next/embedded-sdk-add-passkeys) guide for more information. <mark>What's the action for the user? We're sending them to this topic but we're not telling them what they can do.  Is there actionable steps they need to take?</mark>
 
 #### Usage
 

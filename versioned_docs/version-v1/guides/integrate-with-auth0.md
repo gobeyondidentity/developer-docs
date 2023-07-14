@@ -21,7 +21,7 @@ Before continuing, make sure the following prerequisites have been met:
 
 ## Add Beyond Identity as an Identity Provider
 
-Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](integrate-with-auth0#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](integrate-with-auth0#custom-social-oauth20-connection). 
+Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](/docs/v1/integrate-with-auth0#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](/docs/v1/integrate-with-auth0#custom-social-oauth20-connection). 
 
 ### Create an Inbound OIDC client in Beyond Identity
 
@@ -166,7 +166,7 @@ function(accessToken, ctx, cb) {
 
 **Setting up test users**
 
-Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User API](https://developer.beyondidentity.com/api/create-user). See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
+Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User API](https://developer.beyondidentity.com/api/v0#tag/Users/operation/CreateUser). See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
 
 https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 

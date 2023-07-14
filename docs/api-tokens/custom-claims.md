@@ -1,6 +1,8 @@
 ---
 title: Custom claims
+id: custom-claims
 description: ''
+slug: /custom-claims
 keywords: 
  - api-tokens
  - workflow

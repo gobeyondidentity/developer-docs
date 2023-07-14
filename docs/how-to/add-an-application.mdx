@@ -1,6 +1,8 @@
 ---
 title: Add new app
+id: add-an-application
 description: "An application in the Beyond Identity Cloud represents an app, such as a Todo-List iOS or AcmeCorp Android app. You'll create applications within a realm to configure your OAuth or OIDC flows. A realm contains multiple applications, and an application utilizes the realm's directory, policy, events, and branding objects."
+slug: /add-an-application 
 keywords: 
  - application
  - create
@@ -63,13 +65,13 @@ Configure your application's basic settings. After saving, the values entered wi
 
   | Setting | What you can do |
   | --- | --- |
-  | **Protocol**   |  <mark>Why choose one over the other?</mark>For examples of how to use OAuth and OIDC flows to request tokens, see [request api tokens](../api-tokens/create-api-token.md#token-request-scenarios)<ul><li><b>OAuth2</b>: With the OAuth2 protocol, you can use either the client credentials grant type or the authorization code grant type.</li><li><b>OIDC</b>: With the OIDC protocol, you must use the authorization code grant type. With OIDC, you can obtain an id_token as well as an access_token. </li></ul>  | 
+  | **Protocol**   |  <mark>Why choose one over the other?</mark>For examples of how to use OAuth and OIDC flows to request tokens, see [request api tokens](/docs/next/create-api-token#token-request-scenarios)<ul><li><b>OAuth2</b>: With the OAuth2 protocol, you can use either the client credentials grant type or the authorization code grant type.</li><li><b>OIDC</b>: With the OIDC protocol, you must use the authorization code grant type. With OIDC, you can obtain an id_token as well as an access_token. </li></ul>  | 
   |  **Client Type**  |  <ul><li><b>Confidential</b>: clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe. Think of an application with a backend.</li><li><b>Public</b>: clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not receive an application "Client Secret" if you create this type of application. </li></ul>   |
   |  **PKCE**  | If PKCE is set to **Disabled**, you do not need to send the PKCE parameters (code_challenge, code_challenge_method, and code_verifier) in your token requests. However, authorization code grant with PKCE is the recommended flow for token requests and is required for public clients. |  
   |  **Redirect URIs**  |  A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See [Section 3.1.2](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2) for more information.   |
   |  **Token Endpoint Auth Method**  |  <ul><li><b>Client Secret Basic</b>: The client uses HTTP Basic as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the Basic Authorization header.</li><li><b>Client Secret Post</b>: The client uses the HTTP POST parameters as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the body of the POST request.</li></ul>   |
   |  **Grant Type**  |  <ul><li><b>Authorization Code</b>: The authorization code grant type defined in OAuth 2.0, [Section 4.1](https://www.rfc-editor.org/rfc/rfc6749#section-4.1). Namely, the client may authorize to the token endpoint with a grant code which it obtains via the authorize endpoint.</li><li><b>Client Credentials</b>: The client credentials grant type defined in OAuth 2.0, [Section 4.4](https://www.rfc-editor.org/rfc/rfc6749#section-4.4). Namely, the client may authorize to the token endpoint with a client credentials tuple of client_id and client_secret. If you select **Client Credentials**, the application cannot have an associated authenticator configuration.</li></ul>   |
-  |  **Resource Server**  |  If the app is linked to a resource server, the resource server determines the [scopes the app can be allowed](../api-tokens/api-scopes.md) to issue.   |
+  |  **Resource Server**  |  If the app is linked to a resource server, the resource server determines the [scopes the app can be allowed](/docs/next/api-scopes) to issue.   |
   |  **Token Format**  |  The two options for token format are **Self-Contained** and **Referential**. The difference between these two options impacts how the tokens will be validated. **Self-Contained** tokens can be validated offline because they contain all of the validation information. **Referential** tokens require a call to an introspection API for validation.  |
  
 
@@ -87,7 +89,7 @@ Configure your application's basic settings. After saving, the values entered wi
 | **Enable Refresh Tokens** | When enabled, the token response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4). |  
 
 ### Authenticator Config Tab
-Select the [authenticator configuration type](../foundations/authenticator-config.mdx).
+Select the [authenticator configuration type](/docs/next/authenticator-config).
 
   <Tabs groupId="authenticator-config">
     <TabItem value="hosted-web" label="Hosted Web">
@@ -108,9 +110,9 @@ Click **Submit**. You'll be taken to the app page for the new application. Here,
 
 ## API
 
-Before creating an application by API, you must have an [API access token](../api-tokens/create-api-token.md#api). You'll also need to create a Resource Server and an Authenticator Config, which you'll do below. A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. An Authenticator Config defines the invocation type, invoke URL, and trusted origins. 
+Before creating an application by API, you must have an [API access token](/docs/next/create-api-token#api). You'll also need to create a Resource Server and an Authenticator Config, which you'll do below. A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. An Authenticator Config defines the invocation type, invoke URL, and trusted origins. 
 
-1. Create a [Resource Server](../foundations/platform-overview.md#resource-server). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
+1. Create a [Resource Server](/docs/next/add-resource-server#api). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
 
   <ResourceServerDescription />
 

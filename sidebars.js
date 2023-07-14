@@ -15,7 +15,7 @@ const sidebars = {
         id: 'foundations/foundations',
       },  
       items: [ 
-        'foundations/what-is-beyond-identity', 
+        'foundations/overview', 
         'foundations/universal-passkeys',
         'foundations/platform-overview',
         'foundations/api-endpoints',
@@ -33,8 +33,8 @@ const sidebars = {
         id: 'get-started/get-started',
       },         
       items: [ 
-        'get-started/getting-started-react',
-        'get-started/getting-started-angular',  
+        'get-started/get-started-react',
+        'get-started/get-started-angular',  
       ],
     },
     {
@@ -87,14 +87,14 @@ const sidebars = {
                       collapsed: true, 
                       collapsible: true,      
                       items: [ 
-                        'sdks/js-reference-guide/js-sdk-initialize',
-                        'sdks/js-reference-guide/js-sdk-isBindCredentialUrl',
-                        'sdks/js-reference-guide/js-sdk-bindcredential',
-                        'sdks/js-reference-guide/js-sdk-isAuthenticateUrl',
-                        'sdks/js-reference-guide/js-sdk-getCredentials',
-                        'sdks/js-reference-guide/js-sdk-authenticate',
-                        'sdks/js-reference-guide/js-sdk-deleteCredential',
-                        'sdks/js-reference-guide/js-sdk-passkey-type',
+                        'sdks/js-reference-guide/js-reference-initialize',
+                        'sdks/js-reference-guide/js-reference-isBindCredentialUrl',
+                        'sdks/js-reference-guide/js-reference-bindcredential',
+                        'sdks/js-reference-guide/js-reference-isAuthenticateUrl',
+                        'sdks/js-reference-guide/js-reference-getCredentials',
+                        'sdks/js-reference-guide/js-reference-authenticate',
+                        'sdks/js-reference-guide/js-reference-deleteCredential',
+                        'sdks/js-reference-guide/js-reference-passkey-type',
                       ],
                     },
                    {
@@ -173,7 +173,7 @@ const sidebars = {
           collapsible: true,      
           items: [ 
             'how-to/invite-teammate',
-            'how-to/login-different-device-or-browser',
+            'how-to/login-another-account',
             'how-to/create-role',
             'how-to/add-user-group-to-role',
             'how-to/add-groups',
@@ -181,7 +181,7 @@ const sidebars = {
             'how-to/add-rule-policy',
             'scim-server',
             'how-to/view-event-details',
-            'how-to/customize-branding',
+            'how-to/customize-app',
           ],
         },
         {
@@ -289,7 +289,7 @@ const sidebars = {
             },
             {
               type: 'doc',
-              id: 'integration-guides/okta',
+              id: 'integration-guides/okta-oidc',
               label: 'Okta OIDC',
             },
             

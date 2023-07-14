@@ -1,6 +1,8 @@
 ---
 title: Integrate with bubble.io
+id: bubble
 description: "Learn how to integrate Beyond Identity's Secure Customer passwordless authentication into your bubble.io app."
+slug: /bubble
 keywords: 
  - bubble.io
 pagination_next: null
@@ -69,7 +71,7 @@ Before you get started, please set up the following.
 
 - A free account in your region on [Beyond Identity Secure Customer](https://www.beyondidentity.com/developers/signup)
 
-- A [realm](../how-to/create-realm.mdx) and [application](../how-to/add-an-application.mdx) set up in Beyond Identity. 
+- A [realm](../how-to/create-realm.mdx) and [application](/docs/next/add-an-application) set up in Beyond Identity. 
 
   :::note
   You must select **Client Secret Post** for the **Token Endpoint Auth Method** in your application.

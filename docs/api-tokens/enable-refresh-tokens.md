@@ -1,6 +1,8 @@
 ---
 title: Refresh token request
+id: enable-refresh-tokens
 description: ''
+slug: /enable-refresh-tokens
 keywords: 
  - api token
  - create
@@ -17,12 +19,12 @@ import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguag
 
 import { Alert, Col, Row } from 'antd';
 
-When you [request an access token](./create-api-token.md#api), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response.  The refresh token can be used to request additional access tokens with identical or narrower scope.  
+When you [request an access token](/docs/next/create-api-token#api), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response.  The refresh token can be used to request additional access tokens with identical or narrower scope.  
 
 ## Prerequisites
-In order to request a refresh token, you need to have an [app configured in your Beyond Identity tenant](../how-to/add-an-application.mdx) with the **Enable Refresh Tokens** setting enabled.  
+In order to request a refresh token, you need to have an [app configured in your Beyond Identity tenant](/docs/next/add-an-application) with the **Enable Refresh Tokens** setting enabled.  
 
-If enabled, the [create token](./create-api-token.md#api) response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4).  
+If enabled, the [create token](/docs/next/create-api-token#api) response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4).  
 
 You can use that refresh token to obtain a new access token for the same identity with the same settings.
 

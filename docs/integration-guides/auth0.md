@@ -1,6 +1,8 @@
 ---
 title: Integrate with Auth0
+id: auth0
 description: "Set up Beyond Identity as a passwordless authentication provider in an Auth0 environment."
+slug: /auth0
 keywords: 
  - auht0
 pagination_next: null

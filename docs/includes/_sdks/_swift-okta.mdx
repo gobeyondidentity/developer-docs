@@ -1,8 +1,8 @@
 ### Prerequisites
 
-- [Swift SDK Setup](../sdks/sdk-setup.mdx?sdks=swift)
+- [Swift SDK Setup](/docs/next/sdk-setup?sdks=swift)
 
-- Before calling [`Embedded.shared.authenticate`](../sdks/sdk-setup.mdx?sdks=swift#authentication), you must Authorize with Okta. 
+- Before calling [`Embedded.shared.authenticate`](/docs/next/sdk-setup?sdks=swift#authentication), you must Authorize with Okta. 
 
 <br />
 
@@ -11,7 +11,7 @@
 See Okta's [Developer Site](https://developer.okta.com/code/#mobile-native) for the latest Swift SDKs.
 
 :::note
-At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](#using-the-web). 
+At this time, the authorization flow cannot be completed using the SDK, so we recommend [using the Web](/docs/next/okta-oidc#using-the-web). 
 :::
 
 ### Using the Web
@@ -22,7 +22,7 @@ The library follows the best practices set out in [RFC 8252 - OAuth 2.0 for Nati
 
 #### Step 1. Configuring the Authenticator Config
 
-Make sure the [Authenticator Config](/authenticator-config#embedded-sdk) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+Make sure the [Authenticator Config](/docs/next/authenticator-config#embedded-sdk) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
 
 <br />
 
@@ -34,7 +34,7 @@ To begin the authentication flow, start an `ASWebAuthenticationSession`, and loa
 By default, `prefersEphemeralWebBrowserSession` is set to `false`, which means cookies or other browsing data will be shared across the authentication session and the user will not need to sign in again if they are already authenticated on the system browser. However, the example below sets `prefersEphemeralWebBrowserSession` to `true` so that the user is prompted each time for demo consistency.
 :::
 
-import OktaIdentityProviderExample from '../../../docs/images/integration-guides/okta-identity-provider-example.png';
+import OktaIdentityProviderExample from '../../images/integration-guides/okta-identity-provider-example.png';
 
 <img src={OktaIdentityProviderExample} id="workflows" alt="Integration with Okta Identity Provider example" />
 

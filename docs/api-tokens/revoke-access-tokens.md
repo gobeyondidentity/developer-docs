@@ -1,6 +1,8 @@
 ---
 title: Revoke access tokens
+id: revoke-access-tokens
 description: ''
+slug: /revoke-access-tokens
 keywords: 
  - api-tokens
  - configuration
@@ -29,15 +31,15 @@ In order to revoke an access token, you need the following:
 
 - the application_id of the application that was used to issue the token  
 
-- the base64 encoded access token you wish to revoke (can be self contained or referential), or otherwise the token id of the token you wish to revoke (as returned from the [list access tokens api](./list-access-tokens.md))
+- the base64 encoded access token you wish to revoke (can be self contained or referential), or otherwise the token id of the token you wish to revoke (as returned from the [list access tokens api](/docs/next/list-access-tokens))
 
-- if revoking a token by token id, a bearer token with the `tokens:delete` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token. See the examples in the [Create an access token](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api)).  
+- if revoking a token by token id, a bearer token with the `tokens:delete` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token. See the examples in the [Create an access token](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api)).  
 
-- if revoking a token by passing the entire token, either the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:delete` scope and audience 'beyondidentity' for authorization  (to create a Beyond Identity API token, see examples [here](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api))   
+- if revoking a token by passing the entire token, either the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:delete` scope and audience 'beyondidentity' for authorization  (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))   
  
 ## Admin Console
 
-The console enables you to revoke API tokens for applications that use the client credentials grant type, such as the built in Beyond Identity Management API. For apps that use the authorization code grant type, you'll need to [revoke tokens via the API](./revoke-access-tokens.md#api).  
+The console enables you to revoke API tokens for applications that use the client credentials grant type, such as the built in Beyond Identity Management API. For apps that use the authorization code grant type, you'll need to [revoke tokens via the API](/docs/next/revoke-access-tokens#api).  
 
 For applications that use the client credentials grant type, revoke API tokens in the Admin console as follows:  
 
@@ -131,7 +133,7 @@ The passing an invalid token, or a token which has already been revoked or expir
 
 ### Revoke Token by passing token ID
 
-In order to revoke a token by token ID, you must use Bearer authentication with a token containing the scope 'tokens:delete' and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api))  
+In order to revoke a token by token ID, you must use Bearer authentication with a token containing the scope 'tokens:delete' and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
 
 You can revoke a token by passing its ID as follows:  
 
@@ -145,7 +147,7 @@ Create the HTTP request as follows:
 https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)  
 ```  
 
-where {TOKEN_ID} is the id of the token as returned from a call to the [list tokens API](./list-access-tokens) for the app that issued the token
+where {TOKEN_ID} is the id of the token as returned from a call to the [list tokens API](/docs/next/list-access-tokens) for the app that issued the token
 
 :::note
 The revoke token by ID API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
@@ -162,7 +164,7 @@ content-type: application/x-www-form-urlencoded
 
 where 
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity' (to create a Beyond Identity API token, see examples [here](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api))  
+{authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity' (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
 
 **Response**
 

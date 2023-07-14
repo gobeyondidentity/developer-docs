@@ -1,6 +1,8 @@
 ---
 title: Passkey creation
+id: passkey-creation
 description: ''
+slug: /passkey-creation
 keywords: 
  - passkeys
  - overview

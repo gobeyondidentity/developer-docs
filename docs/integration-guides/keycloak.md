@@ -1,6 +1,8 @@
 ---
 title: Integrate with KeyCloak
+id: keycloak
 description: ''
+slug: /keycloak
 keywords: 
  - keycloak
 pagination_next: null

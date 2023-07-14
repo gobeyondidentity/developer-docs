@@ -1,6 +1,8 @@
 ---
 title: initialize
+id: js-reference-initialize
 description: ''
+slug: /js-reference-initialize
 keywords: 
  - javascript sdk
 pagination_next: null

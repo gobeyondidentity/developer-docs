@@ -1,6 +1,8 @@
 ---
 title: Integrate with Azure AD B2C
+id: azure-ad-b2c
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment."
+slug: /azure-ad-b2c
 keywords: 
  - azure ad b2c
 pagination_next: null
@@ -186,7 +188,7 @@ import PasskeyBindingMethods from '../includes/_passkey-binding-methods.mdx';
 
   <PasskeyBindingMethods />
 
-  Open the link within the browser you wish to use for testing. For more information, see [Create a New Credential Binding Job](/api#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob).
+  Open the link within the browser you wish to use for testing. For more information, see [Create a New Credential Binding Job](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob).
 
 **Request:**
 

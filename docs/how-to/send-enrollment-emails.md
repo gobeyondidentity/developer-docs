@@ -1,6 +1,8 @@
 ---
 title: Send enrollment emails
+id: send-enrollment-emails
 description: ''
+slug: /send-enrollment-emails 
 keywords: 
  - enrollment emails
 pagination_next: null

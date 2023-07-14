@@ -1,5 +1,5 @@
 <!-- Reference Links -->
-[site]: https://[developer-docs.vercel.app](https://developer.beyondidentity.com/)/
+[site]: https://[[developer-docs.vercel.app](https://developer.beyondidentity.com/)](https://developer.beyondidentity.com/)/
 [issues]: https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+
 [repo]: https://github.com/gobeyondidentity/developer-docs
 [pr]: https://github.com/gobeyondidentity/developer-docs/pulls

@@ -1,6 +1,8 @@
 ---
 title: Expiration time
+id: expiration-time
 description: ''
+slug: /expiration-time
 keywords: 
  - api-tokens
  - workflow

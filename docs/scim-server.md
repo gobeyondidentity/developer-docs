@@ -1,6 +1,8 @@
 ---
 title: SCIM server setup
+id: scim-server
 description: ''
+slug: /scim-server
 keywords: 
  - scim server
 pagination_next: null

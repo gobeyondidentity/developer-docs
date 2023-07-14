@@ -1,6 +1,8 @@
 ---
 title: Debugging Best Practices
+id: debugging-best-practices
 description: ''
+slug: /debugging-best-practices
 keywords: 
  - sdk
  - setup

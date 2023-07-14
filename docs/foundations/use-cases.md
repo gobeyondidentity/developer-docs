@@ -1,6 +1,8 @@
 ---
 title: Use cases
+id: use-cases
 description: ''
+slug: /use-cases 
 keywords: 
  - faq
  - help

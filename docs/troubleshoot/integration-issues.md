@@ -1,6 +1,8 @@
 ---
 title: Integration Issues
+id: integration-issues
 description: ''
+slug: /integration-issues 
 keywords: 
  - troubleshooting
  - integration issues

@@ -138,40 +138,82 @@
       },
       "items": [
         {
-          "type": "link",
-          "label": "Integrate with Auth0",
-          "href": "/guides/integrate-with-auth0"
+          "type": "doc",
+          "label": "Send Enrollment Emails",
+          "id": "guides/send-enrollment"
         },
         {
-          "type": "link",
-          "label": "Integrate with Okta",
-          "href": "/guides/integrate-with-okta"
+          "type": "doc",
+          "label": "bubble.io",
+          "id": "guides/bubble-io-integration"
         },
         {
-          "type": "link",
-          "label": "Integrate with KeyCloak",
-          "href": "/guides/integrate-with-keycloak"
+          "type": "doc",
+          "label": "Drupal",
+          "id": "guides/integrate-drupal"
         },
         {
-          "type": "link",
-          "label": "Integrate with Curity",
-          "href": "/guides/integrate-with-curity"
+          "type": "doc",
+          "label": "Expo React Native",
+          "id": "guides/expo-react-native"
         },
         {
-          "type": "link",
-          "label": "Integrate with Azure AD B2C",
-          "href": "/guides/integrate-with-azureb2c"
+          "type": "doc",
+          "label": "Firebase",
+          "id": "guides/integrate-firebase"
         },
         {
-          "type": "link",
-          "label": "Integrate with Beyond Identity Workforce",
-          "href": "/guides/integrate-with-bi-workforce"
+          "type": "doc",
+          "label": "NextAuth",
+          "id": "guides/integrate-nextauth"
         },
         {
-          "type": "link",
-          "label": "Integrate with AWS Cognito",
-          "href": "/guides/integrate-with-cognito"
+          "type": "doc",
+          "label": "WordPress",
+          "id": "guides/integrate-wordpress"
+        },
+        {
+          "type": "category",
+          "label": "SSO Integrations",
+          "items": [
+            {
+              "type": "doc",
+              "label": "Integrate with Auth0",
+              "id": "guides/integrate-with-auth0"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with Okta",
+              "id": "guides/integrate-with-okta"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with KeyCloak",
+              "id": "guides/integrate-with-keycloak"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with Curity",
+              "id": "guides/integrate-with-curity"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with Azure AD B2C",
+              "id": "guides/integrate-with-azureb2c"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with Beyond Identity Workforce",
+              "id": "guides/integrate-with-bi-workforce"
+            },
+            {
+              "type": "doc",
+              "label": "Integrate with AWS Cognito",
+              "id": "guides/integrate-with-cognito"
+            }
+          ]
         }
+        
       ]
     },
     {

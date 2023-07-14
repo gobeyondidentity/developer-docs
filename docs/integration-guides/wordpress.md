@@ -1,6 +1,8 @@
 ---
 title: Integrate with WordPress
+id: wordpress
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider for a Wordpress site."
+slug: /wordpress
 keywords: 
  - wordpress
 pagination_next: null
@@ -12,7 +14,6 @@ draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
-
 import { Alert, Col, Row } from 'antd';
 
 <Row>
@@ -45,7 +46,7 @@ Before continuing, make sure that the following prerequisites have been met:
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](../how-to/add-an-application.mdx) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -102,7 +103,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-See [Directory](../foundations/platform-overview#directory) for more identity information.
+See [Directory](/docs/next/platform-overview#directory) for more identity information.
 
 ### Generate a passkey
 
@@ -116,7 +117,7 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 <BindPasskeyToAnIdentity />
 
-For more information, see [How passkeys are created](../foundations/universal-passkeys#how-passkeys-are-created).
+For more information, see [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
 
 ## Configure the OpenID Connect WordPress plugin
 

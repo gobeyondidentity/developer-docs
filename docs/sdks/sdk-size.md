@@ -1,6 +1,8 @@
 ---
 title: SDK size
+id: sdk-size
 description: ''
+slug: /sdk-size
 keywords: 
  - sdk
  - size

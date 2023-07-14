@@ -1,6 +1,8 @@
 ---
 title: passkey-type
+id: js-reference-passkey-type
 description: ''
+slug: /js-reference-passkey-type
 keywords: 
  - javascript sdk
 pagination_next: null

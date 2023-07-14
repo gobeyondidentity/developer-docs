@@ -1,6 +1,8 @@
 ---
 title: bindcredential
+id: js-reference-bindcredential
 description: ''
+slug: /js-reference-bindcredential
 keywords: 
  - javascript sdk
 pagination_next: null
@@ -24,7 +26,7 @@ import { Alert, Col, Row } from 'antd';
 
 The **bindPasskey** function enables your app to generate and bind a new passkey to an identity. The identity can be one that you create via the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity) or one that exists already in the tenant you target. 
 
-_This is a reference article that describes the **bindPasskey** function. For a complete walk through on creating a new passkey, see our guide [Bind Passkey to an identity](add-passkey)._
+_This is a reference article that describes the **bindPasskey** function. For a complete walk through on creating a new passkey, see our guide [Bind Passkey to an identity](/docs/next/add-passkey)._
 
 ## Dependencies
 The **bindPasskey** function requires the Beyond Identity Javascript SDK.
@@ -60,7 +62,7 @@ await embedded.isBindPasskeyUrl(passkeyBindingLink)
 
 ## Returns
 On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is a JSON object that contains the following keys:
-  - **passkey**: an object representing the newly created passkey. See example [passkey](./js-sdk-passkey-type).  
+  - **passkey**: an object representing the newly created passkey. See example [passkey](/docs/next/js-reference-passkey-type).  
   
   - **postBindRedirect**: a string containing the URL to redirect to upon succesfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 
@@ -240,7 +242,7 @@ if (embedded.isBindPasskeyUrl(window.location.href)) {
     });
 }
 ```  
-For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](../../how-to/add-passkey)
+For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](/docs/next/add-passkey)
 
 
 

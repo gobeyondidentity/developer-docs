@@ -1,6 +1,8 @@
 ---
 title: List access tokens
+id: list-access-tokens
 description: ''
+slug: /list-access-tokens
 keywords: 
  - api-tokens
  - configuration
@@ -14,6 +16,7 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
+
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 
 
@@ -23,7 +26,7 @@ In order to list tokens, you need the following:
 
 - the application_id of the application that was used to issue the token  
 
-- a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](./create-api-token.md#example-create-tokens-for-the-beyond-identity-management-api))  
+- a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
 
  
 ## Admin Console

@@ -166,7 +166,7 @@ The `REDIRECT_URI` is your application's App Scheme or Universal URL.
 
 ### Authenticate
 
-There are two ways to authenticate depending on your Application Config's [Invocation Type](http://localhost:3000/docs/v1/platform-overview/authenticator-config#invocation-type). Invocation Type can have one of two values: [Automatic](#automatic) or [Manual](#manual).
+There are two ways to authenticate depending on your Application Config's [Invocation Type](docs/v1/platform-overview/authenticator-config#invocation-type). Invocation Type can have one of two values: [Automatic](#automatic) or [Manual](#manual).
 
 <InvocationTip />
 

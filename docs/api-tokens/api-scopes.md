@@ -1,6 +1,8 @@
 ---
 title: Access token scopes 
+id: api-scopes
 description: ''
+slug: /api-scopes
 keywords: 
  - api scopes
 pagination_next: null
@@ -42,7 +44,7 @@ Scopes included in the token request refers to the space-delimited set of scopes
 
 ### Scopes allowed for an application
 
-Scopes allowed for an application refers to the **Allowed Scopes** property of an [application defined in Beyond Identity](../how-to/add-an-application.mdx). In order for an app to have allowed scopes, it must be linked to a [**Resource Server** defined in Beyond Identity](../how-to/add-resource-server.mdx).  
+Scopes allowed for an application refers to the **Allowed Scopes** property of an [application defined in Beyond Identity](/docs/next/add-an-application). In order for an app to have allowed scopes, it must be linked to a [**Resource Server** defined in Beyond Identity](/docs/next/add-resource-server).  
 
 The setting is located in the Beyond Identity console on the app's External protocol tab under **Token Configuration**.  
 
@@ -53,9 +55,9 @@ When using the authorization code grant type, an interactive user must authorize
 
 To enable a user to authorize particular scopes, you'll need the following: 
 
-- a [role](../how-to/create-role.mdx) that contains the scopes
+- a [role](/docs/next/create-role) that contains the scopes
 
-- a user (an [identity](../how-to/add-an-identity.md)) that is a [member of the role](../how-to/add-user-group-to-role.mdx), either individually or via a [group](../how-to/add-groups.mdx)
+- a user (an [identity](/docs/next/add-an-identity)) that is a [member of the role](/docs/next/add-user-group-to-role), either individually or via a [group](/docs/next/add-groups)
 
 ## Beyond Identity Management API Scopes
 

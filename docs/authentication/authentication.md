@@ -1,6 +1,8 @@
 ---
 title: Authentication
+id: authentication
 description: ''
+slug: /authentication 
 keywords: 
  - scenario
 pagination_next: null

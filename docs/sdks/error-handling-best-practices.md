@@ -1,6 +1,8 @@
 ---
 title: Error Handling Best Practices
+id: error-handling-best-practices
 description: ''
+slug: /error-handling-best-practices
 keywords: 
  - sdk
  - setup

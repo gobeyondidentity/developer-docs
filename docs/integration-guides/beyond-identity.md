@@ -1,6 +1,8 @@
 ---
 title: Integrate with Beyond Identity Workforce
+id: beyond-identity
 description: ''
+slug: /beyond-identity
 keywords: 
  - beyond identity
  - integration

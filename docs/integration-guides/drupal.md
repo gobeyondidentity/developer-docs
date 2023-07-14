@@ -1,6 +1,8 @@
 ---
 title: Integrate with Drupal
+id: drupal
 description: "Learn how to make your Drupal admin login more secure by setting up Beyond Identity as a passwordless authentication provider."
+slug: /drupal
 keywords: 
  - drupal
 pagination_next: null
@@ -48,7 +50,7 @@ Before continuing, make sure that the following prerequisites have been met:
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](../how-to/add-an-application.mdx) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -106,7 +108,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-See [Directory](../foundations/platform-overview#directory) for more information about identities (users) and groups.
+See [Directory](/docs/next/platform-overview#directory) for more information about identities (users) and groups.
 
 ### Generate a passkey
 
@@ -120,7 +122,7 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 <BindPasskeyToAnIdentity />
 
-For more information, see [How passkeys are created](/universal-passkeys#how-passkeys-are-created).
+For more information, see [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
 
 ## Configure the OpenID Connect Drupal module
 

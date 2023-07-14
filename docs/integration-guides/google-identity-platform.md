@@ -1,6 +1,8 @@
 ---
 title: Integrate with Google Identity Platform and Firebase
+id: google-identity-platform
 description: "Learn how to add passkey-based sign-on for Google Identity Platform identities to a Javascript web app using the Firebase SDK."
+slug: /google-identity-platform
 keywords: 
  - firebase
 pagination_next: null
@@ -126,7 +128,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Grant Type** | Authorization Code | 
   | **All other options** | Use the default values for the remaining options |  
 
-1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](../foundations/authenticator-config).
+1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authenticator-config).
 
 2. Click **Submit** to save the new app.  
 

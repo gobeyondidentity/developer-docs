@@ -1,6 +1,8 @@
 ---
 title: Create an access token 
+id: create-api-token
 description: ''
+slug: /create-api-token 
 keywords: 
  - api token
  - create
@@ -21,11 +23,11 @@ import TabItem from '@theme/TabItem';
 
 ## Prerequisites
 
-In order to request a token, you need to have an [app configured in your Beyond Identity tenant](../how-to/add-an-application.mdx). 
+In order to request a token, you need to have an [app configured in your Beyond Identity tenant](/docs/next/add-an-application). 
 
 This can be an application you configure yourself, or you can request a token for the built in Beyond Identity Management API app.  
 
-Several [app properties](./api-token-overview.md#app-properties-that-impact-token-requests-and-token-validation) impact how tokens should be requested and validated. The examples below illustrate several variations of those properties.  
+Several [app properties](/docs/next/api-token-overview#app-properties-that-impact-token-requests-and-token-validation) impact how tokens should be requested and validated. The examples below illustrate several variations of those properties.  
 
 ## Admin Console
 
@@ -74,7 +76,7 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 
 where:  
 
-- {tenant_id} is the [ID of the tenant](../how-to/find-tenant-id.mdx) in which the app is configured  
+- {tenant_id} is the [ID of the tenant](/docs/next/find-tenant-id) in which the app is configured  
 
 - {realm_id} is the **Realm Id** of the realm in which the application is configured
 
@@ -152,9 +154,9 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 In this flow, you call the app's '/authorize' endpoint, initiating a browser based flow where the user provides their credentials in exchange for a code. In a second API call to the '/token' endpoint, you then exchange the code for an access token.  
 
-Note that you will need an identity configured with the [ability to authorize the scopes](../how-to/add-user-group-to-role.mdx) your app is requesting. 
+Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/add-user-group-to-role) your app is requesting. 
 
-1. Create an [app](../how-to/add-an-application.mdx) with the following properties:  
+1. Create an [app](/docs/next/add-an-application) with the following properties:  
 
   | Parameter | Value|
   |---|---|  
@@ -252,9 +254,9 @@ where:
 #### Authorization code with PKCE (Confidential client)
 This flow is identical to the previous one, except that you authenticate the call to the '/token' endpoint with using the app's credentials.  
 
-Note that you will need an identity configured with the [ability to authorize the scopes](../how-to/add-user-group-to-role.mdx) your app is requesting.   
+Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/add-user-group-to-role) your app is requesting.   
 
-1. Create an [app](../how-to/add-an-application.mdx) with the following properties:  
+1. Create an [app](/docs/next/add-an-application) with the following properties:  
 
   | Parameter | Value|
   |---|---|  

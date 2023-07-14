@@ -1,6 +1,8 @@
 ---
 title: Integrate with AWS Cognito
+id: aws-cognito
 description: ''
+slug: /aws-cognito
 keywords: 
  - aws cognito
 pagination_next: null

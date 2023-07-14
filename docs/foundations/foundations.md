@@ -1,6 +1,8 @@
 ---
 title: Foundations 
+id: foundations
 description: ''
+slug: /foundations
 keywords: 
  - foundations
  - flow

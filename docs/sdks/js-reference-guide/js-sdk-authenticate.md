@@ -1,6 +1,8 @@
 ---
 title: authenticate
+id: js-reference-authenticate
 description: ''
+slug: /js-reference-authenticate
 keywords: 
  - javascript sdk
 pagination_next: null
@@ -70,7 +72,7 @@ On success, the **authenticate** function returns a Promise that resolves to an 
 ## Notes
 Use of the **authenticate** function requires your app to be able to generate a standard OpenID Connect (OIDC) request to Beyond Identity's API and to consume the resulting codes and tokens.  
 >The [example app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Javascript SDK uses [NextAuth.js](https://next-auth.js.org/getting-started/example) to initiate the OIDC flow and to consume the resulting code and token. 
-For step by step instructions to configure NextAuth.js and OIDC using our sample application, and to create the associated Beyond Identity tenant configuration, see [Getting Started](../../get-started/get-started.mdx). For complete guidance on authentication, see <mark>Workflow: Authentication with Passkey (content has changed; will need a new link)</mark>
+For step by step instructions to configure NextAuth.js and OIDC using our sample application, and to create the associated Beyond Identity tenant configuration, see [Getting Started](/docs/next/get-started). For complete guidance on authentication, see <mark>Workflow: Authentication with Passkey (content has changed; will need a new link)</mark>
 
 ## Examples
 ### Example: Call **authenticate** after validating URL
