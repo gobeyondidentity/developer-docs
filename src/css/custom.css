@@ -702,7 +702,7 @@ tr {
 
 td li {
   margin-bottom: 0;
-  font-size: 0.875rem;
+  font-size: 1.3rem;
 }
 
 
@@ -1253,6 +1253,10 @@ html[data-theme="dark"] .hero {
   padding-bottom: 10px;
   color: #5077c5;
   font-weight: bold;
+}
+
+html[data-theme="dark"] .card__header h4 {
+  color: white;
 }
 
 
