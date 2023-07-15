@@ -102,6 +102,7 @@ div[class^='announcementBar_'] .close {
 */
 body {
   line-height: 1.4;
+  letter-spacing: 107%;
   font-family: 'Overpass', sans-serif;
 /*  color: #383a3e; */
   background-color: var(--ifm-background-color);
@@ -177,7 +178,7 @@ h6 {
 
 p,
 li {
-  font-size: 16px;
+  font-size: 16.5px;
   font-weight: normal;
   margin: 0;
   padding: 0;

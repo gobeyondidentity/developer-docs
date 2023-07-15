@@ -69,6 +69,7 @@ function LatestVersionSuggestionLabel({versionLabel, to, onClick}) {
             </Link>
           </b>
         ),
+        
       }}>
       {
         'For up-to-date documentation, see the {latestVersionLink} ({versionLabel}).'
