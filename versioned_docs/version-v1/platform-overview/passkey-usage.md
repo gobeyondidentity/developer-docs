@@ -1,5 +1,7 @@
 ---
 title: How to authenticate using Passkeys
+last_update: 
+   date: 02/03/2023
 ---
 
 Beyond Identity uses industry standard protocol [OIDC](https://openid.net/connect/) to verify the identity of your end users. Your application delegates authentication to Beyond Identity using OIDC and we ask the end user to prove they have posession of a device with a valid passkey and have the ability to unlock that device and passkey. 

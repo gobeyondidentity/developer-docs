@@ -1,5 +1,7 @@
 ---
 title: Integrate with KeyCloak
+last_update: 
+   date: 01/05/2023
 ---
 
 This document provides information on how to configure Beyond Identity as a new OIDC identity provider for your Keycloak instance.

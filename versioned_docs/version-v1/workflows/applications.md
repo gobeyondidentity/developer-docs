@@ -1,5 +1,7 @@
 ---
 title: Applications
+last_update: 
+   date: 03/03/2023
 ---
 
 import AppSchemeCaution from '../includes/_app-scheme-caution.mdx';

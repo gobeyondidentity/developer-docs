@@ -1,5 +1,7 @@
 ---
 title: Authenticator Types
+last_update: 
+   date: 02/15/2023
 ---
 
 # Authenticator Types

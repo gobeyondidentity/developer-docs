@@ -1,5 +1,7 @@
 ---
 title: Authenticator Config 
+last_update: 
+   date: 02/09/2023
 ---
 
 import AppSchemeCaution from '../includes/_app-scheme-caution.mdx';

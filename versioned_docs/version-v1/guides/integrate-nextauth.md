@@ -1,5 +1,7 @@
 ---
 title: Integrate with NextAuth
+last_update: 
+   date: 05/19/2023
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

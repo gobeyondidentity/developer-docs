@@ -1,5 +1,7 @@
 ---
 title: Beyond Identity APIs 
+last_update: 
+   date: 09/16/2022
 ---
 
 Requests to the APIs must be authorized and contain appropriate scopes for the actions being taken. The scopes required for a given request are intended to be intuitive based on the API being called. They are formatted as `<resource>:<action>`, where `resource` will map exactly to the resource being requested (in the URL), and `action` will be a CRUD action (Create, Read, Update, Delete) that can be performed on that resource.

@@ -1,5 +1,7 @@
 ---
 title: How are Passkeys stored
+last_update: 
+   date: 07/12/2022
 ---
 
 Passkeys are stored in [Trusted Execution Environments](https://en.wikipedia.org/wiki/Trusted_execution_environment) wherever they're available. 

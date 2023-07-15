@@ -1,5 +1,7 @@
 ---
 title: deletePasskey
+last_update: 
+   date: 01/27/2023
 ---
 
 The **deletePasskey** function enables your app to delete a passkey given its passkey ID.

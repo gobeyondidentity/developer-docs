@@ -1,5 +1,7 @@
 ---
 title: Using Beyond Identity for Authentication
+last_update: 
+   date: 04/29/2023
 ---
 
 import Arcade, {Clip} from '@site/src/components/Arcade.tsx';

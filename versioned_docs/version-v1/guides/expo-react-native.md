@@ -1,5 +1,7 @@
 ---
 title: Integrate with Expo
+last_update: 
+   date: 05/19/2023
 ---
 
 import RNExpoInstallation from '../includes/_sdk-setup/_installation-react-native-expo.mdx';

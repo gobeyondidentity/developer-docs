@@ -1,5 +1,7 @@
 ---
-title: Platform Overview
+title: Architecture
+last_update: 
+   date: 02/09/2023
 ---
 
 Beyond Identity relies on two main groups of components: The Beyond Identity Cloud, and Beyond Identity Authenticators. The Beyond Identity Cloud hosts user directories, authentication servers, event logs, and policy rules. Beyond Identity Authenticators are endpoint components built with our SDKs that should be embedded in your application.

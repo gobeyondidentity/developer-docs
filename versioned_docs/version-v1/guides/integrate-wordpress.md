@@ -1,5 +1,7 @@
 ---
 title: Integrate with WordPress
+last_update: 
+   date: 02/13/2023
 ---
 
 import Arcade, {Clip} from '@site/src/components/Arcade.tsx';

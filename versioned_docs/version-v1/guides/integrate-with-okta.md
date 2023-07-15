@@ -1,5 +1,7 @@
 ---
 title: Integrate with Okta OIDC
+last_update: 
+   date: 02/03/2023
 ---
 
 This guide describes how to configure Beyond Identity as an Identity Provider for Okta using the OpenID Connect identity protocol. 

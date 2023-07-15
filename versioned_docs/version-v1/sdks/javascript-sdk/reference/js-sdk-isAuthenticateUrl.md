@@ -1,5 +1,7 @@
 ---
 title: isAuthenticateUrl
+last_update: 
+   date: 01/27/2023
 ---
 
 Validates that a URL is able to be used by the **authenticate** function.  

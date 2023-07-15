@@ -1,5 +1,7 @@
 ---
 title: Integrate with Curity
+last_update: 
+   date: 01/05/2023
 ---
 
 This short guide provides details on how to configure Beyond Identity as an Identity Provider in the Curity Identity Server.

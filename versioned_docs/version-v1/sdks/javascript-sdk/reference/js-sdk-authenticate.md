@@ -1,5 +1,7 @@
 ---
 title: authenticate
+last_update: 
+   date: 02/08/2023
 ---
 
 The **authenticate** function enables an app using the Beyond Identity Javascript SDK to perform passkey based authentication within a standard OpenID Connect authorization flow.  

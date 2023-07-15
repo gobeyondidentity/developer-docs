@@ -1,5 +1,7 @@
 ---
 title: getPasskeys
+last_update: 
+   date: 01/27/2023
 ---
 
 The **getPasskeys** function enables your app to get a list of all passkeys currently bound to the device, for example to create a user experience for selecting a passkey.

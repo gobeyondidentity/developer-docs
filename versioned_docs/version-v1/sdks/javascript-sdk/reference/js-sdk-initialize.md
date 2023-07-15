@@ -1,5 +1,7 @@
 ---
 title: initialize
+last_update: 
+   date: 01/27/2023
 ---
 
 The **initialize** function creates an instance of the Beyond Identity Javascript SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.

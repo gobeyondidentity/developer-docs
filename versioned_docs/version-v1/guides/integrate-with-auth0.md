@@ -1,5 +1,7 @@
 ---
 title: Integrate with Auth0
+last_update: 
+   date: 01/05/2023
 ---
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Auth0 environment.

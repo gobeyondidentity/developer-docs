@@ -1,5 +1,7 @@
 ---
 title: Integrate with bubble.io
+last_update: 
+   date: 01/05/2023
 ---
 
 bubble.io is a no-code solution for creating and deploying applications. It is very useful as a prototyping platform, and can actually be used to host real production apps. This tutorial will show how to integrate Beyond Identity's Secure Customer passwordless authentication into your bubble.io app.

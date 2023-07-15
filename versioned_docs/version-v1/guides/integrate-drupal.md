@@ -1,5 +1,7 @@
 ---
 title: Integrate with Drupal
+last_update: 
+   date: 05/19/2023
 ---
 
 import Arcade, {Clip} from '@site/src/components/Arcade.tsx';

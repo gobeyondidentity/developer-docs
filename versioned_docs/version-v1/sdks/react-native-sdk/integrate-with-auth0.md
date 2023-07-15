@@ -1,5 +1,7 @@
 ---
 title: Integrate With Auth0
+last_update: 
+   date: 02/07/2023
 ---
 
 This guide describes how to configure Auth0 to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
