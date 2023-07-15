@@ -334,6 +334,32 @@ img.no-border {
   max-width: 75%;
 }
 
+.icons-48 {
+  align-content: center;
+  margin-bottom: -20px;
+  margin-left: 6px;
+  margin-top: -20px;
+}
+
+.icons-img {
+  align-content: center;
+  margin-bottom: -10px;
+  margin-left: 6px;
+  margin-top: -12px;
+}
+
+.icons-svg {
+  justify-items: center;
+  margin-bottom: 0px;
+  margin-left: 6px;
+  margin-top: 20px;
+}
+
+.icons-svg h4 {
+  margin-top: -10px;
+}
+
+
 
 .footer {
   background-color: var(--adam-blue);
@@ -678,6 +704,10 @@ table td {
 }
 */
 
+.card-no-border {
+  border: none;
+}
+
 table.no-border {
   border-style: 0px;
 }
@@ -977,6 +1007,7 @@ html[data-theme="dark"] .intro-visual h4 {
 }
 
 .intro-card {
+  justify-content: center;
   border: none;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -1025,6 +1056,9 @@ html[data-theme="dark"] .intro-card h3 {
   text-decoration: none;
 }
 
+.intro-card a {
+  color: var(--ifm-color-content);
+}
 
 .intro-card a:hover {
   text-decoration: none;
