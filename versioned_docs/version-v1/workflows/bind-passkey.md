@@ -14,6 +14,7 @@ import BindEmailDiagram from '../includes/_bind-delivery-method-email-diagram.md
 import BindReturnDiagram from '../includes/_bind-delivery-method-return-diagram.mdx';
 import MultiLanguageCodeBlock from '@site/src/components/MultiLanguageCodeBlock';
 
+
 # Bind Passkey To User
 
 ## Prerequisites
