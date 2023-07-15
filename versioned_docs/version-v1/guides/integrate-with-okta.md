@@ -79,7 +79,7 @@ curl --location -g --request POST '\''https://api-us.beyondidentity.com/v1/tenan
 
 An email should be received to bind a credential.
 
-For more details about the responses to the requests above, see our guide to [Sending Enrollment Emails](/guides/send-enrollment).
+For more details about the responses to the requests above, see our guide to [Sending Enrollment Emails](docs/v1/guides/send-enrollment).
 
 ### Configure the Identity provider in Okta
 
