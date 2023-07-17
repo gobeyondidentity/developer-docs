@@ -27,7 +27,7 @@ import { Alert, Col, Row } from 'antd';
 
 Beyond Identity console settings allow you to configure the authentication experience your users see.  
 
-The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](../how-to/add-an-application).  
+The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application]((/docs/next/add-an-application).  
 
 The Beyond Identity platform offers three authenticator configuration types:  
 1. **Hosted web**: In this model, Beyond Identity's hosted web app handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. With this model, your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest.  
