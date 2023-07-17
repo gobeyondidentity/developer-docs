@@ -2,5 +2,5 @@
 | --- | --- |
 | **[Hosted Web](/authenticator-config#hosted-web)** | You want to leverage our Hosted Web Authenticator to generate and manage your application's passkeys and have Beyond Identity do the heaving lifting for you. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. |
 | **[Embedded SDK](/authenticator-config#embedded-sdk)** | You want to use your own authenticator and our SDKs to generate and manage your application's passkeys directly in your native or web app. This option requires more configuration and code but has more flexibility so that you can custom-build your end-user authentication experience. It uses our native SDKs (iOS, Android, Flutter, React Native) or our web SDK (JS).  |
-|  **None** | <mark>What if None is selected? In other words, what happens if the user doesn't select any type and leaves it as the default of None?</mark> | 
+|  **None** | If the authenticator configuration type is set to "none", it means that the application uses the client credentials grant type and does not use an authenticator. This configuration is designed to be used for machine to machine authentication | 
 

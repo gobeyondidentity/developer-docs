@@ -84,7 +84,6 @@ import AdminRealmDescription from '../includes/_admin-realm-description.mdx';
 
 Events are an immutable record of all transactions that occur in a Realm. Events can be exported to a number of SIEM products or viewed within your Console.
 
-<mark>I feel we should expand on this one a bit more, maybe a screenshot of what it looks like in the console.</mark>
 
 ## Policy
 
@@ -95,7 +94,6 @@ Each registration (credential binding) and authentication operation consults the
 
 
 
-<mark>If we have anything that goes into some detail about the policy engine (maybe).</mark>
 
 
 
@@ -116,13 +114,9 @@ import ScimDescription from '../includes/_scim-description.mdx';
 
 An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities. A realm can have many identities.
 
-An identity can have many credentials of different types. 
+An identity can have one or many credentials, also known as passskeys.  
 
-| Type | Description |
-| --- | --- |
-| **Passkey**  | Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. This passkey gets stored in the user's device's hardware root of trust (i.e., secure enclave). A passkey is a public-private key pair that belongs to an identity. The public key is stored in Beyond Identity Cloud and the private key never leaves the device. All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. An identity can have multiple passkeys. An identity with three devices would have three passkeys, one for each device. For more details, see [Univeral Passkeys](universal-passkeys.mdx). |
-| **GPG Key**<p class="badgeMargin"><Badge color="primary" variant="flat" >Coming soon!</Badge></p>  | A GPG key is cryptographically tied to an identitiy's passkey. Beyond Identity's SDKs act as a gpg signing agent using the private key on the device. |
-| **SSH Key**<p class="badgeMargin"><Badge color="primary" variant="flat" >Coming soon!</Badge></p> |  A SSH key is cryptographically tied to an identitiy's passkey. This key can be used for accessing SSH servers. |
+A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys](universal-passkeys.mdx). 
 
 import { Badge } from "@nextui-org/react";
 
@@ -130,12 +124,6 @@ import { Badge } from "@nextui-org/react";
 
 A group is a logical collection of identities. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule. (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application)
 
-
-## Resource Server
-
-<mark>Description of what the Resource Server is and if one is created for them upon tenant creation, followed by some guidelines on if they need to create one.</mark>
-
-<br />
 
 import ResourceServerDescription from '../includes/_resource-server-description.mdx';
 
@@ -185,10 +173,6 @@ The **Admin Console Access** User Group is created, and the identity established
 :::caution important
 It's possible to lock yourself out of the Console with this policy and group control access.
 :::
-
-##  Themes
-
-<mark>I'm guessing this is "Branding"?</mark>
 
 
 

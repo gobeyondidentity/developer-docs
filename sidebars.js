@@ -47,8 +47,6 @@ const sidebars = {
         id: 'authentication/authentication',
       },     
       items: [ 
-        'foundations/passwordless-connections',
-        'foundations/authenticator-config',
         {
           type: 'category',
           label: 'Hosted Web',
