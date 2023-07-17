@@ -488,7 +488,7 @@ p.quickstart, li.quickstart {
 /* Docs Sidebar */
 aside.theme-doc-sidebar-container {
   border-right: none;
-  padding-top: 18px;
+  padding-top: 0px;
 }
 .menu {
   font-weight: var(--ifm-font-weight-normal);
@@ -1326,7 +1326,7 @@ html[data-theme="dark"] .card__header h4 {
 /* end of landing page */
 
 .badge {
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   margin-left: -4px;
   padding: 9px 9px 6px 9px;
   background-color: #eee;

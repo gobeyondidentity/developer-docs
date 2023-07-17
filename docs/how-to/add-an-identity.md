@@ -1,7 +1,7 @@
 ---
 title: Add an identity
 id: add-an-identity
-description: "Before users can start authenticating with Beyond Identity, they must be added as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities and a realm can have many identities."
+description: "Learn how to add an identity to a realm so the user can start authenticating with Beyond Identity. "
 slug: /add-an-identity
 keywords: 
  - identities
