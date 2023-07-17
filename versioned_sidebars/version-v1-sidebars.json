@@ -139,7 +139,8 @@
     {
       "type": "category",
       "label": "Integration Guides",
-      "collapsed": false,
+      "collapsed": true,
+      "collapsible": true,
       "link": {
         "type": "doc",
         "id": "guides/overview"
