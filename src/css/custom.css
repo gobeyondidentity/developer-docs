@@ -513,7 +513,14 @@ nav[class^="menu"] {
 .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsed {
   background: none;
   margin-top: 0.25rem;
+
 }
+
+.theme-doc-sidebar-menu.menu__list .menu__link--active:hover {
+  font-weight: 600;
+}
+
+
 .theme-doc-sidebar-item-category-level-1
   > .menu__list-item-collapsible
   > .menu__link {

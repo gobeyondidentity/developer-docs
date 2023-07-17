@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deep Dive</title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script src="https://unpkg.com/@excalidraw/utils@0.1.0-temp/dist/excalidraw-utils.min.js"></script>
+    <script>
+      // ExcalidrawUtils is a global variable defined by excalidraw.min.js
+      const { exportToSvg } = ExcalidrawUtils;
+
+      // Create a slideshow variable in the global context so we can access it at any point.
+      // Second argument is a function called once the slideshow is rendered.
+      var slideshow = remark.create({
+        // Fetch the slides from the slides.md file in this workspace
+        sourceUrl: '/slides.md',
+      }, () => {
+        // With the utils, we can detect and replace all images loading a .draw
+        // file to SVG dynamically.
+        document.querySelectorAll('img[src$=".draw"]').forEach(img => {
+          // We fetch all image tags with a .dra extension, then fetch
+          // the content of the draw file
+          fetch(img.src).then(response => response.json()).then(draw => {
+            // Once converted to JSON, we generate an SVG image out of the .draw file
+            const svg = exportToSvg(draw);
+            
+            // And finally, we replace the image tag with the created SVG tag.
+            img.replaceWith(svg);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

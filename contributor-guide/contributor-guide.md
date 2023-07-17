@@ -193,7 +193,8 @@ To promote consistency, follow the guidelines below and mentioned throughout to 
 
 - [ ] Always keep your branch up-to-date.
 
-- [ ] The in-browser editing experience in GitHub is best for minor or infrequent changes.
+- [ ] Check and remove unused personal branches periodically for easy maintenance. Usually, when your branch is merged, you can safely delete it.
+
 
 ## Edit content (minor changes)
 
@@ -279,7 +280,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 
 1. Perform a self-review of your markdown and make sure your changes or additions follow the [style guidelines](./style-guide.md).
 
-1. Verify that the PR does not generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
+1. Verify that the PR won't generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
   
    ```bash
    yarn build

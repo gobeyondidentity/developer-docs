@@ -1,0 +1,158 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Genos:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+@import url(./static/fonts/Cobya-Semibold.ttf);
+@import url(https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800;900&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap);
+
+body {
+  font-family: 'Overpass', sans-serif;
+  color: #2b4281;
+
+}
+h1, h2, h3 {
+  font-family: 'Overpass', sans-serif;
+  font-weight: 800;
+  margin-bottom: 0;
+  color: #2b4281;
+
+}
+
+
+p, li {
+  font-size: 13pt;
+  margin: 10px 0;
+}
+
+/* This is lifted directly from the remark website, edit to add your own themes
+or content. */
+.remark-slide-content {
+  background: #b9c5e7;
+  color: #2b4281;
+}
+
+.remark-slide-content h1, h2, h3 {
+
+}
+.remark-slide-content h1 { font-size: 3.2em; }
+.remark-slide-content h2 { font-size: 1.7em; }
+.remark-slide-content h3 { font-size: 1.5em; }
+.remark-slide-content h4 { font-size: 1.2em; }
+.footnote {
+  position: absolute;
+  bottom: 3em;
+}
+li p { line-height: 1.25em; }
+.red { color: #fa0000; }
+.large { font-size: 2em; }
+a, a > code {
+  font-weight: 700;
+  color: #2b4281;
+}
+code {
+  background: #e7e8e2;
+  border-radius: 5px;
+}
+.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+.remark-code-line-highlighted     { background-color: #264653; }
+.pull-left {
+  float: left;
+  width: 50%;
+}
+.pull-right {
+  float: right;
+  width: 50%;
+}
+.pull-right-footnote {
+  float: right;
+}
+.pull-right ~ p {
+  clear: both;
+}
+#slideshow .slide .content code {
+  font-size: 0.8em;
+}
+#slideshow .slide .content pre code {
+  font-size: 0.9em;
+  padding: 15px;
+}
+
+
+.inverse {
+  background: #2b4281;
+  color: white;
+  text-shadow: 0 0 2px #999;
+}
+.inverse h1, .inverse h2 {
+  color: white;
+  line-height: 1em;
+}
+
+/* Slide-specific styling */
+#slide-inverse .footnote {
+  bottom: 12px;
+  left: 20px;
+}
+#slide-how .slides {
+  font-size: 0.9em;
+  position: absolute;
+  top:  151px;
+  right: 140px;
+}
+#slide-how .slides h3 {
+  margin-top: 0.2em;
+}
+#slide-how .slides .first, #slide-how .slides .second {
+  padding: 1px 20px;
+  height: 90px;
+  width: 120px;
+  -moz-box-shadow: 0 0 10px #999;
+  -webkit-box-shadow: 0 0 10px #999;
+  box-shadow: 0 0 10px #999;
+}
+#slide-how .slides .first {
+  background: #2b4281;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  z-index: 1;
+}
+#slide-how .slides .second {
+  position: relative;
+  background: #2b4281;
+  z-index: 0;
+}
+
+/* Two-column layout */
+.left-column {
+  color: #999;
+  width: 35%;
+  height: 92%;
+  float: left;
+}
+
+.left-column h2:last-of-type, .left-column h3:last-child {
+    color: #2b4281;
+  }
+.right-column {
+  width: 60%;
+  float: right;
+  padding: 1rem 0;
+}
+
+table {
+ width: 90%;
+}
+td, th {
+  font-size: 12pt;
+  text-align: left;
+  border-bottom: 1px solid #999;
+}
+
+.hightlight {
+  font-weight: 700;
+  background-color:  #999;
+
+}
