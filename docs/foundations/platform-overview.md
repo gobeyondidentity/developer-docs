@@ -116,7 +116,7 @@ An identity is a unique identifier that may be used by an end-user to gain acces
 
 An identity can have one or many credentials, also known as passskeys.  
 
-A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys](universal-passkeys.mdx). 
+A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys]((/docs/next/universal-passkeys). 
 
 import { Badge } from "@nextui-org/react";
 
