@@ -67,65 +67,6 @@ const sidebars = {
           items: [ 
             'authentication/embedded-sdk-add-passkeys-existing',
             'authentication/embedded-sdk-add-passkeys',          
-            {
-              type: 'category',
-              label: 'SDKs',
-              collapsed: true, 
-              collapsible: true,            
-               items: [    
-                'sdks/sdk-setup', 
-                'sdks/sdk-size'      ,
-                {
-                  type: 'category',
-                  label: 'JavaScript',
-                  collapsed: true, 
-                  collapsible: true,         
-                  items: [ 
-                    {
-                      type: 'category',
-                      label: 'JS Reference guide',
-                      collapsed: true, 
-                      collapsible: true,      
-                      items: [ 
-                        'sdks/js-reference-guide/js-reference-initialize',
-                        'sdks/js-reference-guide/js-reference-isBindCredentialUrl',
-                        'sdks/js-reference-guide/js-reference-bindcredential',
-                        'sdks/js-reference-guide/js-reference-isAuthenticateUrl',
-                        'sdks/js-reference-guide/js-reference-getCredentials',
-                        'sdks/js-reference-guide/js-reference-authenticate',
-                        'sdks/js-reference-guide/js-reference-deleteCredential',
-                        'sdks/js-reference-guide/js-reference-passkey-type',
-                      ],
-                    },
-                   {
-                      type: 'link',
-                      label: 'Documentation',
-                      href: 'https://gobeyondidentity.github.io/bi-sdk-js/',
-                    },       
-                  ],
-                },
-                {
-                  type: 'link',
-                  label: 'Kotlin',
-                  href: 'https://gobeyondidentity.github.io/bi-sdk-android/',
-                },  
-                {
-                  type: 'link',
-                  label: 'Flutter',
-                  href: 'https://gobeyondidentity.github.io/bi-sdk-flutter/',
-                }, 
-                {
-                  type: 'link',
-                  label: 'React Native',
-                  href: 'https://gobeyondidentity.github.io/bi-sdk-react-native/',
-                },
-                {
-                  type: 'link',
-                  label: 'Swift',
-                  href: 'https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/',
-                },  
-             ],
-            },
 /*
             {
               type: 'category',
@@ -149,6 +90,65 @@ const sidebars = {
           ],
         },
       ],
+    },
+    {
+      type: 'category',
+      label: 'SDKs',
+      collapsed: true, 
+      collapsible: false,        
+       items: [    
+        'sdks/sdk-setup', 
+        'sdks/sdk-size'      ,
+        {
+          type: 'category',
+          label: 'JavaScript',
+          collapsed: true, 
+          collapsible: true,         
+          items: [ 
+            {
+              type: 'category',
+              label: 'JS Reference guide',
+              collapsed: true, 
+              collapsible: true,      
+              items: [ 
+                'sdks/js-reference-guide/js-reference-initialize',
+                'sdks/js-reference-guide/js-reference-isBindCredentialUrl',
+                'sdks/js-reference-guide/js-reference-bindcredential',
+                'sdks/js-reference-guide/js-reference-isAuthenticateUrl',
+                'sdks/js-reference-guide/js-reference-getCredentials',
+                'sdks/js-reference-guide/js-reference-authenticate',
+                'sdks/js-reference-guide/js-reference-deleteCredential',
+                'sdks/js-reference-guide/js-reference-passkey-type',
+              ],
+            },
+           {
+              type: 'link',
+              label: 'Documentation',
+              href: 'https://gobeyondidentity.github.io/bi-sdk-js/',
+            },       
+          ],
+        },
+        {
+          type: 'link',
+          label: 'Kotlin',
+          href: 'https://gobeyondidentity.github.io/bi-sdk-android/',
+        },  
+        {
+          type: 'link',
+          label: 'Flutter',
+          href: 'https://gobeyondidentity.github.io/bi-sdk-flutter/',
+        }, 
+        {
+          type: 'link',
+          label: 'React Native',
+          href: 'https://gobeyondidentity.github.io/bi-sdk-react-native/',
+        },
+        {
+          type: 'link',
+          label: 'Swift',
+          href: 'https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/',
+        },  
+     ],
     },
     {
       type: 'category',

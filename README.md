@@ -68,12 +68,8 @@ Docaurus native components.
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
   - `/static/img` - Website images such as Beyond Identity logos and other assets.
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
-- `versioned_docs_` - 
-  - `version-v0` - 
-  - `version-v1` - 
-- `versioned_sidebars` - 
-  - `version-v0-sidebars.json` - 
-  - `version-v1-sidebars.json` -  
+- `versioned_docs_` - Contains the markdown files for the previous supported versions (v0 and v1).
+- `versioned_sidebars` - Contains the sidebar files for the previous versions. 
 
 
 ## Get started

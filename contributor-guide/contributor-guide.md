@@ -19,6 +19,7 @@
   - [Doc branches](#doc-branches)
   - [Site organization and files](#site-organization-and-files)
   - [When to contribute](#when-to-contribute)
+    - [Does the topic or doc exist?](#does-the-topic-or-doc-exist)
     - [Best practices](#best-practices)
   - [Edit content (minor changes)](#edit-content-minor-changes)
   - [Edit content (significant changes)](#edit-content-significant-changes)
@@ -145,23 +146,27 @@ Before you get started with the authoring work, it's necessary that you understa
 
 - `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. 
   - `/docs/images` - Images used in the documentation.
+  - `/docs/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
 - `/docusaurus.config.js` - A config file containing the site configuration.
 - `/sidebar.js` - Specify the order of documents in the sidebar. If you have a new file to add to the site, modify this file.
-- `/src/` - Non-documentation files like pages or custom React components.
+- `/src/` - Non-documentation files like pages, custom React components, or 
+Docaurus native components.
   - `/src/components` - Custom react components used for the website or included in the documentation, such as the Try It Out!
-  - `/src/pages` - Any files within this directory will be converted into a website page.
+  - `/src/pages` - Any files within this directory will be converted into a website page. Currently, we don't use this directory.
+  - `/src/theme` - Docusausus native components such as the sidebar, content page, and content page footer designs.
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
-  - `/static/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
-  - `/static/img` - Website images such as logos.
+  - `/static/img` - Website images such as Beyond Identity logos and other assets.
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
+- `versioned_docs_` - Contains the markdown files for the previous supported versions (v0 and v1).
+- `versioned_sidebars` - Contains the sidebar files for the previous versions. 
 
 ## When to contribute
 
 When relying on others to draft and review documentation, it makes sense to have a process to make it more productive and encouraging for everyone. 
 
-The acceptance criteria for contributing to Beyond Identity developer documentation is:
+### Does the topic or doc exist?
 
-**Does the topic or doc exist?**
+The acceptance criteria for contributing to Beyond Identity developer documentation is:
 
 - If yes, update the doc! Contribute until your heart's content. But first, determine which use case best fits your update:
 
@@ -180,14 +185,15 @@ The acceptance criteria for contributing to Beyond Identity developer documentat
 
 To promote consistency, follow the guidelines below and mentioned throughout to keep the process productive and beneficial for all involved.
 
-- [ ] Always create a *working branch* whenever you introduce a set of logically related changes. This helps you manage your changes through the workflow. We refer to it here as a working branch because it's a workspace to iterate or refine your changes until they can be integrated into the default `main` branch. 
+- [ ] Always verify your content for technical accuracy before submitting your Pull Request.
 
-- [ ] The in-browser editing experience is best for minor or infrequent changes. 
+- [ ] Always consult with the Sr. Technical Writer when adding topics or want to propose changes to the content structure. The Sr. Technical Writer maintains the content's quality, reduces duplication, and provides a consistent user experience. They can also strategize how to deliver complex information—for example, adding an explainer video (<90 secs) can help with complex scenarios or issues.
 
-- [ ] Always consult with the Sr. Technical Writer when adding topics or want to propose changes to the content structure.  
+- [ ] Always create a *working branch* when introducing logically related changes. This helps you manage your changes through the workflow. We refer to it here as a working branch because it's a workspace to iterate or refine your changes until they can be integrated into the default branch.
 
-- [ ] Always keep your branch up-to-date. 
+- [ ] Always keep your branch up-to-date.
 
+- [ ] The in-browser editing experience in GitHub is best for minor or infrequent changes.
 
 ## Edit content (minor changes)
 
