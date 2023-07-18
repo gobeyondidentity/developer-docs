@@ -15,14 +15,7 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={12}>
-    <Alert message="In progress (needs a copy edit)" type="info" />
-  </Col>
-</Row>
-<br />
 
 The **initialize** function creates an instance of the Beyond Identity Javascript SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
 

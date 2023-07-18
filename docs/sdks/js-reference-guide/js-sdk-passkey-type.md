@@ -15,14 +15,6 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
-
-<Row>
-  <Col span={12}>
-    <Alert message="In progress (needs a copy edit)" type="info" />
-  </Col>
-</Row>
-<br />
 
 Example passkey:
 ```

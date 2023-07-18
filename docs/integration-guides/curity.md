@@ -18,18 +18,12 @@ displayed_sidebar: mainSidebar
 import { Alert, Col, Row } from 'antd';
 
 <Row>
-  <Col span={12}>
-    <Alert message="In progress (needs copy edit)" type="info" />
+  <Col span={6}>
+    <Alert message="Ready for review" type="success" />
   </Col>
 </Row>
 <br />
 
-<Alert
-   message="Action items"
-   description="@PatriciaMcPhee and @JenField are in the process of improving the Integration guides."
-   type="error"
-/>
-<br />
 
 This short guide provides details on how to configure Beyond Identity as an Identity Provider in the Curity Identity Server.
 

@@ -25,10 +25,6 @@ import { Alert, Col, Row } from 'antd';
 <br />
 
 
-<p>
-<mark>I'm starting to wonder if this would fit better under <b>Authentication > Hosted Web > Integrations</b> and then call it "Authenticate Drupal apps", or something similar.</mark>
-</p>
-
 Make your Drupal admin login more secure!
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Drupal admin panel login.

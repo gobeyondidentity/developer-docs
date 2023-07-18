@@ -24,9 +24,6 @@ import { Alert, Col, Row } from 'antd';
 </Row>
 <br />
 
-<p>
-<mark>I'm starting to wonder if this topic would fit best under the JavaScript SDK. Maybe it would fit best under <b>Authentication > Embedded SDK > Integrations</b> and then call it "Authenticate with NextAuth", or something similar.</mark>
-</p>
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';

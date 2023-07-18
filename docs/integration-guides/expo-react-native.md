@@ -27,10 +27,6 @@ import TabItem from '@theme/TabItem';
 <br />
 
 
-<p>
-<mark>I'm starting to wonder if this topic would fit best under the React Native SDK. Maybe it would fit best under <b>Authentication > Embedded SDK > Integrations</b> and then call it "Authenticate with Expo React Native", or something similar.</mark>
-</p>
-
 import RNExpoInstallation from '../includes/_sdk-setup/_installation-react-native-expo.mdx';
 import PkceInfo from '../includes/_pkce-info.mdx';
 import StateInfo from '../includes/_state-info.mdx';

@@ -15,14 +15,7 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={12}>
-    <Alert message="In progress (needs a copy edit)" type="info" />
-  </Col>
-</Row>
-<br />
 
 The **getPasskeys** function enables your app to get a list of all passkeys currently bound to the device, for example to create a user experience for selecting a passkey.
 
