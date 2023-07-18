@@ -23,7 +23,7 @@ This section gives writing style guidelines for the Beyond Identity documentatio
 
 - Start documentation early as it's an ongoing part of the software development lifecycle and must begin alongside writing the software itself.
 - Focus on key issues, specifically those where customers submit the most support tickets or stumble the most.
-- Add visuals like screenshots, diagrams, and videos to add variety to break up the monotony of text and create a more pleasurable user experience. They can also illustrate instructions that can be clunky and difficult to communicate with words.
+- Include visuals like screenshots, diagrams, and videos to add variety to break up the monotony of text and create a more pleasurable user experience. They can also illustrate instructions that can be clunky and difficult to communicate with words.
 - Check the spelling and grammar in your articles.
 - Use a casual and friendly voice—like you're talking to another person one-on-one.
 - Use simple sentences. Easy-to-read sentences mean the reader can quickly scan and use the guidance you share.
@@ -111,35 +111,36 @@ Guidelines:
 - Minimum length = 50 words
 - Use complete sentences
 
----
-
 Avoid starting short descriptions with phrases such as "This topic describes..." or "This topic is about...."
 
-**Don’t**
-
----
-
-This support article lists steps to take if you're receiving the message “The version of Beyond Identity that you are on is no longer supported”.
-
----
+| :no_entry_sign: **DON'T** |
+| --- |
+| This support article lists steps to take if you're receiving the message “The version of Beyond Identity that you are on is no longer supported”.  |
 
 Instead, use something like, "In this guide, you'll do XYZ (what they will accomplish by the end of this guide)..." or “In this article, you’ll….”
 
-**Do**
-
----
-
-In this article, you’ll learn what to do when you get *The version of Beyond Identity that you are on is no longer supported* message.
-
----
+| :white_check_mark: **DO** |
+| --- |
+| In this article, you’ll learn what to do when you get *The version of Beyond Identity that you are on is no longer supported* message.  |
 
 ### Focus on the customer’s intent
 
-User-centered approach
+Customers have a specific purpose in mind when they consult our documentation. Before you begin writing, clearly determine who the customer is and what task he or she is trying to do. Then, write your article to help that specific customer do that specific task.
+
+As a <customer>, I <want to> <because>.
+
 
 ### Use everyday words
 
+Try to use natural language, the words your customers use. Be less formal but not less technical. Provide examples that explain new concepts.
+
 ### Write concisely
+
+Don't waste words. Be affirmative and don't use extra words. Keep sentences short and concise. Keep your article focused on the scenario or goal (the customer intent). Also, keep the number of notes to a minimum. Use a screenshot when it can save words.
+
+### Make your article easy to scan
+
+Put the most important things first. Use sections to chunk long procedures into more manageable groups of steps. (Procedures with more than 12 steps are probably too long.) Use a screenshot when it adds clarity. Also, use sentence case for titles (headings) as they are easier to scan.
 
 ### Use minimalist design
 

@@ -2,34 +2,33 @@
 [style-guide]: ./style-guide.md
 [markdown]: ./markdown-reference.md
 [contributor]: ./contributor-guide.md
-[site]: https://next-dev-docs.vercel.app/
-[issues]: https://github.com/gobeyondidentity/next-dev-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+
-[repo]: https://github.com/gobeyondidentity/next-dev-docs
-[pr]: https://github.com/gobeyondidentity/next-dev-docs/pulls
-[enhancements]: https://github.com/gobeyondidentity/next-dev-docs/issues/new?assignees=&labels=%F0%9F%8C%9F+enhancement&projects=&template=enhancement.yml
+[site]: https://developer.beyondidentity.com/
+[issues]: https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+
+[repo]: https://github.com/gobeyondidentity/developer-docs
+[pr]: https://github.com/gobeyondidentity/developer-docs/pulls
+[enhancements]: https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=%F0%9F%8C%9F+enhancement&projects=&template=enhancement.yml
 
 - [Contributor's guide](#contributors-guide)
-  - [Provide feedback](#provide-feedback)
-  - [Before you start](#before-you-start)
-  - [Local Git repo](#local-git-repo)
-    - [Prerequisites](#prerequisites)
-    - [Optional editing tools](#optional-editing-tools)
-    - [Clone the repo](#clone-the-repo)
-    - [Start the development server](#start-the-development-server)
-  - [Doc branches](#doc-branches)
+  - [When to contribute vs. provide feedback](#when-to-contribute-vs-provide-feedback)
+    - [Provide us feedback](#provide-us-feedback)
+    - [Contribute](#contribute)
+  - [Best practices](#best-practices)
+    - [Content development](#content-development)
+    - [GitHub](#github)
+    - [Pull Requests](#pull-requests)
+    - [Commit messages](#commit-messages)
   - [Site organization and files](#site-organization-and-files)
-  - [When to contribute](#when-to-contribute)
-    - [Does the topic or doc exist?](#does-the-topic-or-doc-exist)
-    - [Best practices](#best-practices)
+    - [Content files](#content-files)
+    - [Site config files](#site-config-files)
+  - [Doc site branches](#doc-site-branches)
   - [Edit content (minor changes)](#edit-content-minor-changes)
   - [Edit content (significant changes)](#edit-content-significant-changes)
   - [Add new content](#add-new-content)
   - [Create a pull request](#create-a-pull-request)
-  - [Pull request guidelines](#pull-request-guidelines)
+    - [Pull request guidelines](#pull-request-guidelines)
     - [Ownership](#ownership)
     - [Pull request template](#pull-request-template)
     - [PR descriptions](#pr-descriptions)
-    - [Commit messages](#commit-messages)
 
 
 ---
@@ -38,162 +37,139 @@
 
 Thank you for taking an interest in contributing to the Beyond Identity Developer Documentation. 
 
-We've built the documentation with [Docusaurus](https://docusaurus.io) and you can find the source code our [next-dev-docs GitHub repo][repo].
+We've built the documentation with [Docusaurus](https://docusaurus.io) and you can find the source code our [developer-docs GitHub repo][repo].
 
 You're welcome to contribute to the documentation to help make it better and we want to make it possible for you to become a contributor. Additionally, anyone can open an issue about documentation or suggest a change with a [pull request (PR)][pr] to the [GitHub repository][repo]. 
 
 This guide outlines the different ways that you can get involved. In addition, it provides some of the resources that are available to help you get started. 
 
-## Provide feedback
+If you plan to contribute, make sure to [set up your environment](../README.md#get-started).
 
-If you're not ready to contribute, you can provide us feedback.  Your feedback is essential in shaping the customer content experience. There are several ways to provide feedback:
+## When to contribute vs. provide feedback
 
-- [Submit an enhancement idea][enhancements] to make the docs better
-- [open a GitHub issue][issues] to report an issue with the content (something is incorrect or confusing)
+Our docs are a continuous work in progress. You're welcome to contribute to the documentation to help improve it, and we want to make it possible for you to become a contributor. 
 
-The team will track these ideas and issues to address your feedback. 
+### Provide us feedback 
 
-All feedback is welcome. :100:
+If you're not ready to contribute, you can provide us feedback.  Your feedback is essential in shaping the customer content experience. The team will track these ideas and issues to address your feedback. There are several ways to provide feedback:
 
-## Before you start
+- **[Submit an enhancement idea][enhancements]** to make the docs better
 
-- Make sure you're familiar with Git and GitHub, and [markdown][markdown]. We use basic markdown, extended markdown, and Docusaurus-specific markdown.
-- Review the [documentation repo's][repo] organization and structure. You'll want to understand this so you know where files are and where to add new ones.
-- Verify that you can open a [pull request][pr] and review changes.
-- Ensure an [issue][issues] exists because someone might have reported or started work on it. 
-- If the solution you are proposing is complex, prose it anyway and wait for one of the core contributors to approve it before implementing it. This helps in shorter turnaround times in merging PRs.
-  
-## Local Git repo
-
-### Prerequisites
-
-- Code editor, [VS Code](https://code.visualstudio.com) is recommended
-- [Git](https://git-scm.com)
-- [Node.js](https://nodejs.org)
-- [Yarn](https://yarnpkg.com) 
+- **[Open a GitHub issue][issues]** to report an issue with the content (something is incorrect or confusing)
 
 
-### Optional editing tools
+### Contribute
 
-If you want the WYSIWYG experience, you can install one of the VS Code extensions:
+As a contributor, you’ll need to understand the different ways to contribute and which is best based on your changes.
 
-- [Rich Markdown Editor](https://marketplace.visualstudio.com/items?itemName=patmood.rich-markdown-editor)
-- [Markdown Editor](https://marketplace.visualstudio.com/items?itemName=zaaack.markdown-editor)
-- [UNOTES](https://marketplace.visualstudio.com/items?itemName=ryanmcalister.Unotes)
+**Does the topic or document exist?**
 
-Other helpful VS Code extensions:
+- If YES, update the doc! Contribute to your heart's content. But first, determine which use case best fits your update:
 
-- [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
-- [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)
+  - **Minor changes: (use case #1)** If you only need to fix a typo or clarify a sentence or section, this option is your ideal choice. However, in this use case, you cannot upload files, such as an image, and you can update only one file.
 
-Non VS Code markdown editors:
+  - **Significant changes: (use case #2)** Suppose you must make substantial changes, such as adding an image or editing multiple topics. In that case, this method is your best friend, as you'll have one pull request to manage. Consult with the Sr. Technical Writer first before making changes.
 
-- [StackEdit](https://stackedit.io/)
-- [Dillinger](https://dillinger.io/)
-- [Pandeo MEditor.md](https://pandao.github.io/editor.md/en.html)
+- If NO, should it? If so, consider **adding it (use case #3)**, but don't add a topic or doc just because you can. Consult with the Sr. Technical Writer first before adding. For example, your new topic could be added to an existing one, consolidating and clarifying the information. It's also possible that someone else is working on a similar topic. 
+
+- If you're **not comfortable using GitHub or VS Code or don't have access to GitHub (use case #4)**, you can provide the Sr. Technical Writer a document (Google Docs, Microsoft Word, text file, or Confluence page). The document can be converted to markdown. So don't fret! We'll get your content published.
 
 
-### Clone the repo
-
-1. Go to the [main page of the repository][repo]. 
-
-1. Clone the repo.  This creates a directory named `next-dev-docs` in your current working directory.
-
-   ```bash
-   git clone https://github.com/gobeyondidentity/next-dev-docs.git
-   cd next-dev-docs
-   ```
-
-2. Next, create a new [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) from `main` (always give your branch a meaningful, descriptive name). 
-
-   ```bash
-   git checkout -b <branch_name>
-   ```
-
-Refer to the [contributor's guide][contributor] for details on how to submit edits or additions to the documentation.
-
-### Start the development server
-
-We're finally able to get to the fun stuff! Install the dependencies and start a local development server:
-
-```bash
-yarn
-yarn start
-```
-
-The `http://localhost:3000` opens in your browser so you can see your changes reflected live.
-
-## Doc branches
-
-Before you get started with the authoring work, it's necessary that you understand the different branches to work on.
-* **`main`** -  protected branch
-
-  Docs for [https://next-dev-docs.vercel.app/][site]. This branch contains the most recent stable release content.
-
-* **`docs-staging`** - protected branch
-
-  Docs for the upcoming `vNext` release. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`.
-
-* **`active-development`** - protected branch (currently used for front-end development)
-
-  Docs for a forward-version that includes features not yet included in the Beyond Identity stable version. Its content is published on [https://next-dev-docs-git-active-development-beyondidentity.vercel.app/](https://next-dev-docs-git-active-development-beyondidentity.vercel.app/) for early validation purpose.
-
-* Branches that start with `release-` contain archived release documentation for historical tracking, for example, `release-xx`.
-  
-* You can have your own personal branch to work on content for a certain issue or feature. However, be sure to check and remove unused personal branches periodically for easy maintenance. Usually when your branch is merged, you can safely delete it.
-
-## Site organization and files
-
-- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. 
-  - `/docs/images` - Images used in the documentation.
-  - `/docs/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
-- `/docusaurus.config.js` - A config file containing the site configuration.
-- `/sidebar.js` - Specify the order of documents in the sidebar. If you have a new file to add to the site, modify this file.
-- `/src/` - Non-documentation files like pages, custom React components, or 
-Docaurus native components.
-  - `/src/components` - Custom react components used for the website or included in the documentation, such as the Try It Out!
-  - `/src/pages` - Any files within this directory will be converted into a website page. Currently, we don't use this directory.
-  - `/src/theme` - Docusausus native components such as the sidebar, content page, and content page footer designs.
-- `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
-  - `/static/img` - Website images such as Beyond Identity logos and other assets.
-- `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
-- `versioned_docs_` - Contains the markdown files for the previous supported versions (v0 and v1).
-- `versioned_sidebars` - Contains the sidebar files for the previous versions. 
-
-## When to contribute
-
-When relying on others to draft and review documentation, it makes sense to have a process to make it more productive and encouraging for everyone. 
-
-### Does the topic or doc exist?
-
-The acceptance criteria for contributing to Beyond Identity developer documentation is:
-
-- If yes, update the doc! Contribute until your heart's content. But first, determine which use case best fits your update:
-
-  - **[Minor changes:](#edit-content-minor-changes)** If you only need to fix a typo or make a clarification to a sentence or section, this option is your best choice. In this use case, you will not be able to upload files, such as an image, and you can update only one file.
-    
-  - **[Significant changes:](#edit-content-significant-changes)** Suppose you need to make substantial changes, such as adding an image or editing multiple topics. In that case, this method is your best friend, as you'll have one pull request to manage. 
-
-- If not, should it? If so, consider [adding it](#add-new-content), but don't add a topic or doc just because you can. Consult with the Sr. Technical Writer first before adding. 
-  
-  The reason for consulting with the Sr. Technical Writer is to maintain the highest quality of the content and reduce duplication. For example, your new topic could be added to an existing one, consolidating and clarifying the information. It's also possible that someone else is working on a similar topic. 
-
-- (Internal only) If you're not comfortable using GitHub or VS Code, the methods mentioned above, you can provide the Sr. Technical Writer a document (Google Docs, Microsoft Word, or text file). The document can be converted to markdown. So don't fret! We'll get your content published. 
-
-
-### Best practices
+## Best practices
 
 To promote consistency, follow the guidelines below and mentioned throughout to keep the process productive and beneficial for all involved.
 
-- [ ] Always verify your content for technical accuracy before submitting your Pull Request.
+### Content development
 
-- [ ] Always consult with the Sr. Technical Writer when adding topics or want to propose changes to the content structure. The Sr. Technical Writer maintains the content's quality, reduces duplication, and provides a consistent user experience. They can also strategize how to deliver complex information—for example, adding an explainer video (<90 secs) can help with complex scenarios or issues.
+- [ ] Verify your content for technical accuracy before submitting your Pull Request.
 
-- [ ] Always create a *working branch* when introducing logically related changes. This helps you manage your changes through the workflow. We refer to it here as a working branch because it's a workspace to iterate or refine your changes until they can be integrated into the default branch.
+- [ ] Consult with the Sr. Technical Writer when adding topics or want to propose changes to the content structure. The Sr. Technical Writer maintains the content's quality, reduces duplication, and provides a consistent user experience. They can also strategize how to deliver complex information—for example, adding an explainer video (<90 secs) can help with complex scenarios or issues.
 
-- [ ] Always keep your branch up-to-date.
+### GitHub
+
+- [ ] Create a *working branch* when introducing logically related changes. This helps you manage your changes through the workflow. We refer to it here as a working branch because it's a workspace to iterate or refine your changes until they can be integrated into the default branch.
+
+- [ ] Keep your branch up-to-date.
 
 - [ ] Check and remove unused personal branches periodically for easy maintenance. Usually, when your branch is merged, you can safely delete it.
+
+### Pull Requests
+
+- [ ] Try to make the review cycle short.
+
+- [ ] Make sure the markdown follows the style guidelines of this project.
+
+- [ ] Perform a self-review of your markdown, especially spelling errors.
+
+- [ ] Verify that the PR does not generate new warnings before pushing your changes. The best way is to run the clear command.
+  
+  ```nodejs
+  npm run clear
+  yarn build
+  ```
+
+### Commit messages
+
+Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
+
+A properly formed git commit subject line should always be able to complete the following sentence:
+
+***If applied, this commit will ....***
+
+
+## Site organization and files
+
+### Content files
+
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`.
+
+  - `/docs/images` - Images used in the documentation.
+
+  - `/docs/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
+
+- `versioned_docs` - Contains the markdown files for the previous supported versions (v0 and v1).
+
+- `versioned_sidebars` - Contains the sidebar files for the previous versions.
+
+- `/sidebar.js` - Specify the order of documents in the sidebar. If you have a new file to add to the site, modify this file.
+
+- `static/api` - Contains the API documentation for v0 and v1.
+
+### Site config files
+
+- `/docusaurus.config.js` - A config file containing the site configuration.
+
+- `/src/` - Non-documentation files like pages, custom React components, or
+Docaurus native components.
+
+   - `/src/components` - Custom react components used for the website or included in the documentation, such as the Try It Out!
+
+   - `/src/pages` - Any files within this directory will be converted into a website page. Currently, we don't use this directory.
+
+   - `/src/theme` - Docusausus native components such as the sidebar, content page, and content page footer designs.
+
+- `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
+
+   - `/static/img` - Website images such as Beyond Identity logos and other assets.
+
+- `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
+
+
+## Doc site branches
+
+Before starting the authoring work, you must understand the different branches to work on. You'll use your branch to work on content for a certain issue or feature, but you'll submit your Pull Request against one of the branches listed below: 
+
+- **`main`** - protected branch
+    
+    Docs for https://deverloper.beyondidentity.com/. This branch contains the most recent stable release content.
+    
+- **`docs-staging`** - protected branch
+    
+    Docs for the upcoming release. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`.
+    
+- Branches starting with **`release-`** contain archived release documentation for historical tracking, such as `release-xx`.
+
+- **`active-development`** - protected branch (used for front-end and back-end development). 
 
 
 ## Edit content (minor changes)
@@ -227,6 +203,8 @@ Despite all efforts, small grammar and spelling errors _do_ make their way into 
 
 That's it! Team members will review your PR and merge it when approved. You may get feedback requesting changes.
 
+<div style="position: relative; padding-bottom: calc(68.66666666666666% + 44px); height: 0;"><iframe src="https://app.supademo.com/embed/clk7fd03gua59zgx6kvjhjj84" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
 
 ## Edit content (significant changes)
 
@@ -242,10 +220,10 @@ If you need to make substantial changes, add an image or add a section to a topi
 2. Create a working branch for your proposed changes. For example, **content-dev-faqs** or **update-visual-guidelines**.
 
    ```bash
-   git checkout -b {branch-name}
+   git checkout -b {your-branch-name}
    ```
 
-3. Navigate to /docs and locate the topic you want to change. 
+3. Navigate to `/docs` and locate the topic you want to change. 
 
 4. Change the date in the metadata and ensure the title, description, and author are correct. Add any additional keywords if they are missing.
 
@@ -283,6 +261,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 1. Verify that the PR won't generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
   
    ```bash
+   npm run clear
    yarn build
    ```
 
@@ -307,7 +286,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 9. Publish, or push, your changes to the main repo for merging. 
 
    ```bash
-   git push origin {branch name}
+   git push origin {your-branch-name}
    ```
 
 1. [Create a pull request](#create-a-pull-request).
@@ -325,7 +304,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 2. Create a working branch for your proposed changes. For example, **content-dev-faqs** or **update-visual-guidelines**.
 
    ```bash
-   git checkout -b {branch-name}
+   git checkout -b {your-branch-name}
    ```
 
 3. Navigate to `/docs` and locate the subdirectory for your new topic.
@@ -393,6 +372,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 1. Verify that the PR does not generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
   
    ```bash
+   npm run clear
    yarn build
    ```
 
@@ -417,7 +397,7 @@ If you need to make substantial changes, add an image or add a section to a topi
 9. Publish, or push, your changes to the main repo for merging. 
 
    ```bash
-   git push origin {branch name}
+   git push origin {your-branch-name}
    ```
 
 1. [Create a pull request](#create-a-pull-request).
@@ -435,18 +415,26 @@ Now you're ready to create and submit a pull request to have your changes or add
 
    ![Compare and pull request](https://docs.github.com/assets/cb-34106/mw-1440/images/help/pull_requests/pull-request-compare-pull-request.webp)
 
-1. Provide additional information and add reviewers. 
+1. Provide additional information and if possible add reviewers. 
 
    A pull request must be related to a JIRA issue, unless the changes are minor, for example, correcting a typo. If it is related to a JIRA issue, reference the JIRA issue in the title.
 
    A description that includes:
+
    - Links to the design files that you used
+
    - Relevant links to documentation outlining your work
+
    - A screenshot of a feature or fix you delivered
+
    - The following are extra but highly recommended:
+
      - A summary of changes and reasoning behind them
+
      - A TODO list of missing details on large pull requests
+
      - A list of open questions if there are any
+
      - (Optional) A video demonstration of the feature
 
    For more details, see [PR descriptions](#pr-descriptions).
@@ -458,7 +446,7 @@ Now you're ready to create and submit a pull request to have your changes or add
 3. After going through the review process for technical accuracy and a copy edit from a Sr. Technical Writer, they will enter `#sign-off` and merge the pull request. Your changes get merged into the `main` branch. 
 
 
-## Pull request guidelines
+### Pull request guidelines
 
 We ask that contributors submit a pull request with your changes. Here are our expectations for pull requests. Following them will expedite the process of merging and publishing your content.
 
@@ -467,15 +455,15 @@ A few things to keep in mind when creating your pull request:
 | If | Then |
 | --- | --- |
 | PR relates to issues you found in the docs  | add **inaccurate**, **typo** or **missing information** keywords in the description and use the default base branch, **main**  |
-| PR relates to GitHub issues you've addressed for `next-dev-docs`  | provide links to related GitHub issues and use the default base branch, **main**  |
+| PR relates to GitHub issues you've addressed for `developer-docs`  | provide links to related GitHub issues and use the default base branch, **main**  |
 |  PR is part of the current release | use the default base branch, **main**  |
 | PR is part of the next future release  | make it against the **docs-staging** branch  |
-|  PR is part of front-end development | make it against the **active-development** branch  |
+|  PR is part of front-end or back-end development | make it against the **active-development** branch  |
 
 
 ### Ownership
 
-The ownership of the PR is on the person who creates the PR. The author's responsibility is to get it reviewed for technical accuracy and approved by ???. 
+The ownership of the PR is on the person who creates the PR. The author's responsibility is to get it reviewed and approved for technical accuracy before submitting the PR. 
 
 ![Technical Writing process flow - GitHub](../static/img/tech-writing-process-flow.png)
 
@@ -492,17 +480,4 @@ The PR descriptions matter because it's an opportunity to set the reviewer up fo
 | The What | The Why |
 | --- | --- |
 |  Explain the changes you've made.  It doesn't need to be fancy and you don't have to get too technical. At a high level, this is where you let the reviewer know the overall effect of the PR.  It's important to explain what the change is and then reference the ticket. It's a much better experience for the reviewer if they're able to spend more time reviewing and less time studying speciications that may not even be applicable. <br /><br />**Example**<br /><br />"Added support for authentication. #JIRA-123"   | The "why" is sometimes more important than the "what." The "why" tells us what business or engineering goal this change achieves. It's a chance to explain the engineering goal and the business.<br /><br />**Example** <br /><br />"These changes complete the user login and account creation experience."    |
-
-
-### Commit messages
-
-Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
-
-A properly formed git commit subject line should always be able to complete the following sentence:
-
-***If applied, this commit will ....***
-
-
-
-
 
