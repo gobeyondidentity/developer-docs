@@ -287,7 +287,6 @@ module.exports = {
 
 
 
-
 ## Tables
 
 The simplest way to create a table in Markdown is to use pipes and lines. To create a standard table with a header, follow the first line with dashed line:
@@ -416,4 +415,88 @@ To indent text to align with a preceding paragraph or an item in a numbered or b
     > This quote block is indented four spaces.
 
 ## Docusaurus specific markdown
+
+### [Admonition](https://docusaurus.io/docs/markdown-features/admonitions)
+
+In addition to the basic Markdown syntax, we have a special admonitions syntax by wrapping text with a set of 3 colons, followed by a label denoting its type.
+
+Example:
+
+```md
+:::note
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::tip
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::info
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::caution
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+
+:::danger
+
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+
+:::
+```
+
+### Highlighting codeblocks with comments
+
+https://docusaurus.io/docs/markdown-features/code-blocks#highlighting-with-comments
+
+### Tabs
+
+https://docusaurus.io/docs/markdown-features/tabs
+
+### Details
+
+Markdown can embed HTML elements, and [`details`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) HTML elements are beautifully styled:
+
+```md
+<details>
+  <summary>Toggle me!</summary>
+  <div>
+    <div>This is the detailed content</div>
+    <br/>
+    <details>
+      <summary>
+        Nested toggle! Some surprise inside...
+      </summary>
+      <div>😲😲😲😲😲</div>
+    </details>
+  </div>
+</details>
+```
+
+
+
+<h4>Example</h4>
+
+<details>
+  <summary>Toggle me!</summary>
+  <div>
+    <div>This is the detailed content</div>
+    <br/>
+    <details>
+      <summary>
+        Nested toggle! Some surprise inside...
+      </summary>
+      <div>😲😲😲😲😲</div>
+    </details>
+  </div>
+</details>
 

@@ -15,8 +15,8 @@
   - [Best practices](#best-practices)
     - [Content development](#content-development)
     - [GitHub](#github)
-    - [Pull Requests](#pull-requests)
     - [Commit messages](#commit-messages)
+    - [Pull Requests](#pull-requests)
   - [Site organization and files](#site-organization-and-files)
     - [Content files](#content-files)
     - [Site config files](#site-config-files)
@@ -93,6 +93,16 @@ To promote consistency, follow the guidelines below and mentioned throughout to 
 
 - [ ] Check and remove unused personal branches periodically for easy maintenance. Usually, when your branch is merged, you can safely delete it.
 
+
+### Commit messages
+
+Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
+
+A properly formed git commit subject line should always be able to complete the following sentence:
+
+***If applied, this commit will ....***
+
+
 ### Pull Requests
 
 - [ ] Try to make the review cycle short.
@@ -108,13 +118,6 @@ To promote consistency, follow the guidelines below and mentioned throughout to 
   yarn build
   ```
 
-### Commit messages
-
-Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
-
-A properly formed git commit subject line should always be able to complete the following sentence:
-
-***If applied, this commit will ....***
 
 
 ## Site organization and files
