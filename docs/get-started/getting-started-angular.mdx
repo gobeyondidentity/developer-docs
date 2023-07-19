@@ -61,8 +61,6 @@ cd getting-started-angular
 
 ## 3. Set your environment variables
 
-In this step, you'll make a copy of the local environment config file and rename it.  Making a copy of it allows you to start from scratch if needed.
-
 ---
 
 ### Region variable
@@ -86,11 +84,24 @@ set REGION="us" | "eu"
 </TabItem>
 </Tabs>
 
----
+---  
+
+:::tip  
+You can set environment variables individually as described in this article, or you can create a file named '.env' at the root of your project that includes all of the required variables:  
+```  
+# Beyond Identity variables  
+REGION=<"us" | "eu">
+TENANT_ID=<tenant_id>
+REALM_ID=<realm-id>
+API_TOKEN=<api_token>
+APPLICATION_ID=<application-id>
+AUTH_CONFIG_ID=<authenticator-config-id>
+APP_CLIENT_ID=<app-client-id>
+APP_CLIENT_SECRET=<app-client-secret>
+```  
+:::
 
 ### Tenant ID variable
-
-In this step, you'll hop on over to the Admin Console to get your tenant ID and then add it to the .env.local config file you copied in the previous step.  
 
 1. In the Admin Console, from the new realm's home page, click **Edit realm**.
 
@@ -119,7 +130,7 @@ In this step, you'll hop on over to the Admin Console to get your tenant ID and 
 
 ### API token variable
 
-In this step, you'll continue to work in the Admin Console to create an API token for your tenant. Then you'll add to the .env.local config file. 
+In this step, you'll continue to work in the Admin Console to create an API token for your tenant.  
 
 1. In the Admin Console, switch to the **Beyond Identity Admin** realm, select **Apps > Beyond Identity Management API**.
 
@@ -141,14 +152,14 @@ In this step, you'll continue to work in the Admin Console to create an API toke
   <TabItem value="macOS" label="macOS">
 
   ```bash
-  export TENANT_ID=<tenant_id>
+  export API_TOKEN=<api_token>
   ```
 
   </TabItem>
   <TabItem value="windows" label="Windows">
 
   ```bash
-  set TENANT_ID=<tenant_id>
+  set API_TOKEN=<api_token>
   ```
 
   </TabItem>
@@ -223,7 +234,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 3. Scroll down to the **Redirect URIs** field and enter the API callback localhost URL.  
 
   ```https
-  https://localhost:8082/api/auth/callback/
+  http://localhost:8082/auth/callback  
   ```
 
   OIDC auth callbacks are handled on port 8082 where the backend is served.
@@ -232,7 +243,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 5. Select the **Authenticator Config** tab and select **Embedded SDK** for the Configuration Type. 
 
-  <mark>can we explain to the user why they are selecting Embedded SDK for this getting started? Give the user some idea what to expect and why.</mark> 
+ Selecting Embedded SDK means that your app will host the authentication and provide the experience for users to create, select and use passkeys.  
 
   ![Admin Console Authenticator Config tab embedded SDK selected](../images/authenticator-tab-embedded-sdk.png)
 
@@ -257,7 +268,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 ### Complete the configuration
 
-In this step, you'll complete the application's configuration by setting a few more variables.  You'll add the Application ID, Client ID, Client Secret, and Authenticator Config ID to your env.local config file.   
+In this step, you'll complete the application's configuration by setting a few more variables.  You'll add the Application ID, Client ID, Client Secret, and Authenticator Config ID.   
 
 1. From the Apps page in the console, select the new application you created. 
 
@@ -367,18 +378,9 @@ In this step, you'll install the dependecies and start the backend and frontend 
 
 Open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser. 
 
-<div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
-	<iframe src='https://demo.arcade.software/6kUN385qBx2Jju7wugbM?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
-	</iframe>
-</div>
 
 You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
 
 ---
 
-## What can you do next? 
-
-You can use the example application to create one or more passkeys and log in with them. 
-
-<mark>what exactly do they do next next?  are there several things? if so, list them out and describe what they will be doing and accomplishing.</mark>
 

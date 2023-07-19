@@ -278,7 +278,7 @@ Note that you will need an identity configured with the [ability to authorize th
   **Request url:**  
 
   ```
-  https:://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
+  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
   ```  
   
   where:  
@@ -311,7 +311,7 @@ Note that you will need an identity configured with the [ability to authorize th
   **Request url:**  
 
   ```  
-  https:://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
+  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
   ```
 
   **Request method:** POST  
