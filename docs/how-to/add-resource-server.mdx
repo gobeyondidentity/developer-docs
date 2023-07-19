@@ -1,5 +1,5 @@
 ---
-title: Add a Resource Server
+title: Add a resource server
 id: add-resource-server
 description: "A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. "
 slug: /add-resource-server
@@ -21,21 +21,41 @@ import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguag
 
 
 
-A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
-
-## Admin Console
-
-<mark>Define **Resource Server Identifier**. What's the format? Numeric? Alphanumeric? What does the user put here?</mark>
-
-## API
-
+A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application.  
 <ResourceServerDescription />
 
-<MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
--X POST \
--H "Authorization: Bearer $(TOKEN)" \
--H "Content-Type: application/json" \
--d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
-title="/resource-servers"
-/>
+## Admin Console
+A resource server can be created from the Beyond Identity Admin Console. 
+1. First, click **Go to realm** and select the realm in which you wish to create the resource server. This should be the realm of the application that you wish to link to the resource server.  
+2. Under **Authorization**, select **Resource Servers**.  
+3. Click **Create resource server**.  
+4. Fill in the Create resource server screen as follows:
+ - Enter a **Resource Server Name**. This can be any human readable string.  
+ - Enter a **Resource Server Identifier**. This identifier will be included as the audience claim in access tokens minted for an application that issues scopes owned by this resource server. 
+ - Enter one or more **Scopes** (press **Enter** or **Return** after each scope).  These scopes will be eligible to be configured as **Allowed Scopes* for applications that you link to this resource server.  
+ For more information these parameters, see the [API documentation for creating a resource server](https://developer.beyondidentity.com/api/v1#tag/Resource-Servers/operation/CreateResourceServer).  
+ 5. Finally click **Create resource server** to complete creating the resource server.  
+
+
+## API
+Before creating a resource server by API, you must have an [API access token for the Beyond Identity Management API](/docs/next/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'.  
+
+
+To create a resource server, use the [create resource server API](https://developer.beyondidentity.com/api/v1#tag/Resource-Servers/operation/CreateResourceServer).  
+
+  <MultiLanguageCodeBlock
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
+  -X POST \
+  -H "Authorization: Bearer $(TOKEN)" \
+  -H "Content-Type: application/json" \
+  -d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
+  title="/resource-servers"
+  />  
+
+where:  
+ - TOKEN is a base64 encoded [API access token for the Beyond Identity Management API](/docs/next/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'  
+ - APPLICATION_DISPLAY_NAME is any human readable string  
+ - APPLICATION_URI is a unique string will be included as the audience claim in access tokens minted for an application that issues scopes owned by this resource server (for more information see the [API documentation](https://developer.beyondidentity.com/api/v1#tag/Resource-Servers/operation/CreateResourceServer))  
+ - SCOPE is a list of scopes this resource server will be eligible to include in tokens. 
+
+
