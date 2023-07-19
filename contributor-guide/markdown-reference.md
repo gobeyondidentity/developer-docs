@@ -87,6 +87,8 @@ Use this method for articles that have the same image in multiple places. For ex
 [![alt text](imageurl)](linkurl)
 ```
 
+This method automatically reduces the image by 60% and adds a border around the image.  You can zoom in on the image to see the details.
+
 ### Other methods
 
 ```javascript
@@ -101,6 +103,12 @@ Use this method for articles that have the same image in multiple places. For ex
 import AuthenticationRequestDiagram from '../images/passkey-workflow-diagram.png';
 
 <img src={AuthenticationRequestDiagram} id="diagrams" alt="Example banner" />;
+```
+
+```javascript
+import AuthenticationRequestDiagram from '../images/passkey-workflow-diagram.png';
+
+<AuthenticationRequestDiagram />
 ```
 
 ## Lists

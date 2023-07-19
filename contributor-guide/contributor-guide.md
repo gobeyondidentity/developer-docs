@@ -446,7 +446,11 @@ Now you're ready to create and submit a pull request to have your changes or add
 
    If the pull request is a **work in progress** and not ready to be reviewed, select the **[Create draft pull request](https://github.blog/2019-02-14-introducing-draft-pull-requests/#tag-your-work-in-progress)**.
 
-3. After going through the review process for technical accuracy and a copy edit from a Sr. Technical Writer, they will enter `#sign-off` and merge the pull request. Your changes get merged into the `main` branch. 
+3. After going through the review process for technical accuracy and a copy edit from a Sr. Technical Writer, they will enter `#sign-off`.
+
+4. The developer-docs CODEOWNER will approve and merge the pull request. Your changes get merged into the `main` branch. 
+   <br />
+   >**NOTE: The Sr. Technical Writer cannot merge PRs.**  
 
 
 ### Pull request guidelines
@@ -468,7 +472,7 @@ A few things to keep in mind when creating your pull request:
 
 The ownership of the PR is on the person who creates the PR. The author's responsibility is to get it reviewed and approved for technical accuracy before submitting the PR. 
 
-![Technical Writing process flow - GitHub](../static/img/tech-writing-process-flow.png)
+![Technical Writing process flow - GitHub](../static/img/current-pr-review-process.jpg)
 
 
 ### Pull request template
@@ -482,5 +486,5 @@ The PR descriptions matter because it's an opportunity to set the reviewer up fo
 
 | The What | The Why |
 | --- | --- |
-|  Explain the changes you've made.  It doesn't need to be fancy and you don't have to get too technical. At a high level, this is where you let the reviewer know the overall effect of the PR.  It's important to explain what the change is and then reference the ticket. It's a much better experience for the reviewer if they're able to spend more time reviewing and less time studying speciications that may not even be applicable. <br /><br />**Example**<br /><br />"Added support for authentication. #JIRA-123"   | The "why" is sometimes more important than the "what." The "why" tells us what business or engineering goal this change achieves. It's a chance to explain the engineering goal and the business.<br /><br />**Example** <br /><br />"These changes complete the user login and account creation experience."    |
+|  Explain the changes you've made.  It doesn't need to be fancy and you don't have to get too technical. At a high level, this is where you let the reviewer know the overall effect of the PR.  It's important to explain what the change is and then reference the ticket. It's a much better experience for the reviewer if they're able to spend more time reviewing and less time studying speciications that may not even be applicable. <br /><br />**Example**<br /><br /><i>"Added support for authentication. #JIRA-123"</i>   | The "why" is sometimes more important than the "what." The "why" tells us what business or engineering goal this change achieves. It's a chance to explain the engineering goal and the business.<br /><br />**Example** <br /><br /><i>"These changes complete the user login and account creation experience." </i>   |
 
