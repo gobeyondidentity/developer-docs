@@ -454,7 +454,7 @@ Now you're ready to create and submit a pull request to have your changes or add
 
 4. The developer-docs CODEOWNER will approve and merge the pull request. Your changes get merged into the `main` branch. 
    <br />
-   >**NOTE: The Sr. Technical Writer cannot merge your PR to publish your changes.**  
+   >**NOTE: The Sr. Technical Writer cannot merge PRs.**  
 
 
 ### Pull request guidelines
