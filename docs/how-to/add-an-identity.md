@@ -20,14 +20,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={12}>
-    <Alert message="In progress (needs copy edit)" type="info" />
-  </Col>
-</Row>
-<br />
 
 
 Before users can start authenticating with Beyond Identity, they must be added as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities and a realm can have many identities.

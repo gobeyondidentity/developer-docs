@@ -15,18 +15,7 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={6}>
-    <Alert message="Ready for review" type="success" />
-  </Col>
-</Row>
-<br />
-
-<p>
-<mark>It's not clear whether this is a Hosted Web or Embedded SDK Authenticator Config. If it's a Hosted Web Authenticator Config, it would fit better under <b>Authentication > Hosted Web > Integrations</b> and then call it "Authenticate bubble.io apps", or something similar.</mark>
-</p>
 
 [Bubble.io](https://bubble.io/) is a no-code platform that non-developers and developers can use to build apps. We found it to be quite easy to use and extremely powerful. It has plugins and an app ecosystem to make sharing code easy. It also has numerous useful foundational components like an OIDC client that made it easy for us to build a foundation for others to use in their apps.
 

@@ -17,14 +17,7 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={6}>
-    <Alert message="Ready for review" type="success" />
-  </Col>
-</Row>
-<br />
 
 
 To authenticate with Beyond Identity, your users must register a credential (passkey) through a binding job, which generates a Universal Passkey. Upon success, a private key will be created in the device's hardware trust module, and a public key will be sent to the Beyond Identity Cloud. 

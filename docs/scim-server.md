@@ -15,14 +15,7 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={6}>
-    <Alert message="Ready for review" type="success" />
-  </Col>
-</Row>
-<br />
 
 
 To use SCIM functionality, an access token with `scim:all` scope is required on the SCIM server, which is available by default when creating a new realm. It is recommended to use a dedicated application for SCIM operations to differentiate between API and SCIM operations in the logs.

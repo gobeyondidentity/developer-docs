@@ -15,14 +15,7 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={6}>
-    <Alert message="Ready for review" type="success" />
-  </Col>
-</Row>
-<br />
 
 This document provides information on how to configure Beyond Identity as a new OIDC identity provider for your Keycloak instance.
 

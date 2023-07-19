@@ -15,13 +15,6 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
-
-<Row>
-  <Col span={6}>
-    <Alert message="Ready for review" type="success" />
-  </Col>
-</Row>
 <br />
 
 

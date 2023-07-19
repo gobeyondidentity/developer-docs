@@ -16,13 +16,7 @@ doc_type: reference
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
 
-<Row>
-  <Col span={6}>
-    <Alert message="To do" type="warning" />
-  </Col>
-</Row>
 
 ## Support channels
 

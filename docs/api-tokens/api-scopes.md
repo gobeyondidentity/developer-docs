@@ -16,6 +16,7 @@ displayed_sidebar: mainSidebar
 ---
 
 ## Why scopes
+
 Have you ever heard the saying _People don't want a quarter-inch drill. They want quarter inch holes_?  
 
 While we're not sure whether the person responsible for this quote ever sold drills, or holes for that matter, it is a useful way to illustrate the relationship between tokens and scopes.  
