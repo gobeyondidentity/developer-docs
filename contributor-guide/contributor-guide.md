@@ -213,6 +213,8 @@ That's it! Team members will review your PR and merge it when approved. You may 
 
 If you need to make substantial changes, add an image or add a section to a topic. On the other hand, if your change is minor that doesn't involve uploading a file or making changes to multiple files, follow the [Edit content - minor change](#edit-content-minor-changes) instructions instead.
 
+1. Make sure to [set up your environment](../README.md#get-started).
+
 1. Make sure you're back on the main (default) branch so you can sync your local working branch.
 
    ```bash
@@ -297,22 +299,24 @@ If you need to make substantial changes, add an image or add a section to a topi
 
 ## Add new content
 
-1. Make sure you're back on the main (default) branch so you can sync your local working branch.
+1. Make sure to [set up your environment](../README.md#get-started).
+
+2. Make sure you're back on the main (default) branch so you can sync your local working branch.
 
    ```bash
    git checkout main
    git pull origin main
    ```
 
-2. Create a working branch for your proposed changes. For example, **content-dev-faqs** or **update-visual-guidelines**.
+3. Create a working branch for your proposed changes. For example, **content-dev-faqs** or **update-visual-guidelines**.
 
    ```bash
    git checkout -b {your-branch-name}
    ```
 
-3. Navigate to `/docs` and locate the subdirectory for your new topic.
+4. Navigate to `/docs` and locate the subdirectory for your new topic.
 
-4. Add the metadata (frontmatter).
+5. Add the metadata (frontmatter).
 
    Keywords are optional but helpful. All other metadata is required.
 
@@ -337,7 +341,7 @@ If you need to make substantial changes, add an image or add a section to a topi
    ---
    ```
 
-5. Add the new markdown file in the sidebar.js file.
+6. Add the new markdown file in the sidebar.js file.
 
    ```javascript
    {
@@ -362,7 +366,7 @@ If you need to make substantial changes, add an image or add a section to a topi
    
    It's a best practice to add the markdown file early in the content development phase. Otherwise, you\'ll get an error when you run the command to build and review your content.
 
-6. Create your content and run the following command to build and review your changes.
+7. Create your content and run the following command to build and review your changes.
 
    ```bash
    yarn start
@@ -370,22 +374,22 @@ If you need to make substantial changes, add an image or add a section to a topi
 
    This command starts a local development server and opens a browser window. Most changes are reflected live without having to restart the server. If a browser window doesn't open, go to **http://localhost:3000/** to view your local changes. 
 
-1. Perform a self-review of your markdown and make sure your changes or additions follow the [style guidelines](./style-guide.md).
+8. Perform a self-review of your markdown and make sure your changes or additions follow the [style guidelines](./style-guide.md).
 
-1. Verify that the PR does not generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
+9. Verify that the PR does not generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
   
    ```bash
    npm run clear
    yarn build
    ```
 
-7. When you're ready to submit a pull request, add your changes.
+10. When you're ready to submit a pull request, add your changes.
 
    ```bash
    git add --all
    ```
 
-8. Commit your changes with a descriptive summary, for example, *Add clarity to the data table component usage examples*.
+11. Commit your changes with a descriptive summary, for example, *Add clarity to the data table component usage examples*.
 
    ```bash
    git commit -m "short description of the change"
@@ -397,13 +401,13 @@ If you need to make substantial changes, add an image or add a section to a topi
 
    ***If applied, this commit will ....***
 
-9. Publish, or push, your changes to the main repo for merging. 
+12. Publish, or push, your changes to the main repo for merging. 
 
    ```bash
    git push origin {your-branch-name}
    ```
 
-1. [Create a pull request](#create-a-pull-request).
+13. [Create a pull request](#create-a-pull-request).
 
 ## Create a pull request
 
