@@ -1,0 +1,37 @@
+name: ✨ Doc enhancement
+description: Suggest an idea to improve the developer's experience
+labels: ['🌟 enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+
+        Use this form to give a description of what your suggestion is about.
+
+        Select or describe the audience your proposal targets in terms of readers' familiarity with Beyond Identity:
+
+        - [ ] Beyond Identity Secure Customer users
+        - [ ] Those interested in passwordless authentication
+        - [ ] Those not aware of passwordless authentication yet
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Provide a clear and concise description of the rationale behind this request. Are there any particular tools, concepts, languages or platforms that readers will learn about?
+    validations:
+      required: true
+  - type: textarea
+    id: desired-behavior
+    attributes:
+      label: Outline
+      description: Provide an outline for your suggested document.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Provide any additional information or screenshots that may be relevant or helpful.
+
