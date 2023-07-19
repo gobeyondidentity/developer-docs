@@ -19,6 +19,7 @@ displayed_sidebar: mainSidebar
 ---
 
 import { Alert, Col, Row } from 'antd';
+import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 
 <Row>
   <Col span={6}>
@@ -27,6 +28,18 @@ import { Alert, Col, Row } from 'antd';
 </Row>
 <br />
 
-[create custom cards with a list of the different topics for each category (Hosted Web and Embedded SDK)]
+Beyond Identity console settings allow you to configure the authentication experience your users see.  
 
-This section is meant for "Scenarios" or "Goals." What are they trying to accomplish?
+The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).  
+
+The Beyond Identity platform offers three authenticator configuration types:  
+<AuthenticatorTypeTable />  
+
+<br/>
+
+Currently the following authentication factors are supported and more are coming soon:  
+ - Universal Passkey
+ - FIDO2 Multi-Device Passkey - Coming Soon
+ - Email OTP - Coming Soon
+ - Federated IDP - Coming Soon  
+ 
