@@ -17,7 +17,6 @@ displayed_sidebar: mainSidebar
 
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 
-import { Alert, Col, Row } from 'antd';
 
 When you [request an access token](/docs/next/create-api-token#api), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response.  The refresh token can be used to request additional access tokens with identical or narrower scope.  
 

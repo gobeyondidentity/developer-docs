@@ -18,15 +18,9 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from 'antd';
+
 import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 
-<Row>
-  <Col span={6}>
-    <Alert message="In progress" type="info" />
-  </Col>
-</Row>
-<br />
 
 Beyond Identity console settings allow you to configure the authentication experience your users see.  
 
@@ -38,8 +32,12 @@ The Beyond Identity platform offers three authenticator configuration types:
 <br/>
 
 Currently the following authentication factors are supported and more are coming soon:  
- - Universal Passkey
- - FIDO2 Multi-Device Passkey - Coming Soon
- - Email OTP - Coming Soon
- - Federated IDP - Coming Soon  
+
+- Universal Passkey
+
+- FIDO2 Multi-Device Passkey - Coming Soon
+
+- Email OTP - Coming Soon
+
+- Federated IDP - Coming Soon  
  
