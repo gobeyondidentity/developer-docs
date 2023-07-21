@@ -48,9 +48,24 @@ _If you are signing in from a different computer or browser, you can enter the e
 ## Configure your app for OAuth/OIDC calls to Beyond Identity
 
 ### If using the NextAuth sample app 
-If you are using the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org), configure Beyond Identity as an OAuth provider as follows:  
+If you are using the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org), first create an [app](/docs/next/add-an-application) with the following properties:  
 
-Make the following changes to the example app project:  
+  | Parameter | Value|
+  |---|---|  
+  | Display Name | any name you choose |
+  | Protocol | OIDC |
+  | Client Type | Confidential | 
+  | PKCE | S256 | 
+  | Redirect URIs | {your_server_host}/api/auth/callback/beyondidentity, e.g. http://localhost:8083/api/auth/callback/beyondidentity. (Note that 'beyondidentity' in this URI is the name of the OAuth provider as configured in NextAuth.js, which we will configure further down.)| 
+  | Token Endpoint Auth Method | Client Secret Basic | 
+  | Grant Type | Authorization Code | 
+  | all other options | use the default values for the remaining options |  
+  | Configuration Type (on the **Authenticator Config** tab) | Hosted Web |  
+
+  
+  Fill in a **Display Name** and at least one **Redirect URI**, then click **Submit** to save the app.  
+
+Make the following changes to the example app project to configure Beyond Identity as an OAuth provider:    
 1. Make a copy of the file env.local.example called .env.local
 
 2. In .env.local, you will configure the following variables from your Beyond Identity tenant:  
