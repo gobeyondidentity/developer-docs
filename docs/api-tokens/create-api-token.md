@@ -34,7 +34,7 @@ Several [app properties](/docs/next/api-token-overview#app-properties-that-impac
 The simplest way to acquire an access token is through the Beyond Identity Admin Console. 
 The console enables you to create an access token for applications that use the client credentials grant type, such as the built in Beyond Identity Management API. For apps that use the authorization code grant type, you'll need to [request the token programmatically](#api).  
 
-### Create an app in the console
+### Create an access token in the console
 
 import CreateApiTokenConsole from '../includes/_create-api-token-console.mdx';
 
@@ -50,7 +50,7 @@ To request tokens for an app programmatically, send a request to the app's token
 
 These requests follow the OAuth and OIDC protocols.  
 
-### Token Request API URL
+### Token Request URL and Endpoints
 
 The token request API URL is based on the Beyond Identity tenant, realm, and application for which a token is being requested. 
 
@@ -60,7 +60,7 @@ The API host name is prefixed with "auth-us" or "auth-eu", depending on the regi
 Note that the host name for token requests is distinct from the Beyond Identity Management API, which uses "api-us" or "api-eu".  
 :::  
 
-The token request API has two endpoints:   
+There are two main endpoints for requesting tokens:   
 
 The /authorize endpoint: 
 
@@ -92,271 +92,24 @@ There are three main scenarios for requesting an access token:
 
 - Using the OIDC [authorization code grant type with a confidential client (PKCE recommended)](#authorization-code-with-pkce-confidential-client)
 
-#### Client credentials grant type (Confidential client)
+### Client credentials grant type (Confidential client)
 
-In this simple flow, you will use the app's credentials to authenticate a single API call to the app's '/token' endpoint.  
+import AccessTokenCreateConfClientCreds  from '../includes/_access_token_create_conf_client_creds.mdx';
 
-First, create the app:  
+<AccessTokenCreateConfClientCreds />
 
-import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
+### Authorization code with PKCE (Public client)
 
-<AddAppAdminConsole />
+import AccessTokenCreatePublicClientPkce  from '../includes/_access_token_create_public_client_pkce.mdx';
 
-3. On the **External Protocol** tab, use the following values to complete this tab.  
+<AccessTokenCreatePublicClientPkce />
 
-  | Property | Value | 
-  |---|---|  
-  |**Protocol**|OAuth2|  
-  |**Client Type**|Confidential|
-  |**PKCE**|Disabled|
-  |**Token Endpoint Auth Method**|Client Secret Basic|
-  |**Grant Type**|Client Credentials|  
+### Authorization code with PKCE (Confidential client)
 
-4. Click **Submit** to save the new app.  
+import AccessTokenCreateConfClientPkce  from '../includes/_access_token_create_conf_client_pkce.mdx';
 
-5. Next, create the HTTP request:  
+<AccessTokenCreateConfClientPkce />
 
-      **Request url:**  
-    
-      ```  
-      https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-      ```  
-    
-      **Request method:** POST  
-    
-      **Request headers:**  
-      
-      ```  
-      Authorization: Basic {client_credentials}
-      content-type: application/x-www-form-urlencoded  
-      ```  
-    
-      where {client_credentials} is value of the app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded  
-    
-      **Request body:**  
-    
-      ``` 
-      grant_type: "client_credentials"
-      scope: {scopes}
-      expiration_time: {seconds}
-      custom_claims: {custom_claims_json}
-      ```  
-    
-      where:  
-
-       - {scopes} is one or more of the app's **Allowed Scopes**, space delimited.  
-
-       - expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting  
-
-       - custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims.
-
-#### Authorization code with PKCE (Public client)
-
-In this flow, you call the app's '/authorize' endpoint, initiating a browser based flow where the user provides their credentials in exchange for a code. In a second API call to the '/token' endpoint, you then exchange the code for an access token.  
-
-Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/add-user-group-to-role) your app is requesting. 
-
-1. Create an [app](/docs/next/add-an-application) with the following properties:  
-
-  | Parameter | Value|
-  |---|---|  
-  |Protocol|OIDC|  
-  |Client Type|Public|
-  |PKCE|S256|
-  |Token Endpoint Auth Method|None|
-  |Grant Type|Authorization Code|
-  |Configuration Type (on Authenticator Config tab)|Hosted Web| 
-
-  Fill in a **Display Name** and at least one **Redirect URI**, then click **Submit** to save the app.  
-
-2. Create your '/authorize' request  
-
-  Create the HTTP request with the following properties:  
-
-  **Request method:** GET  
-
-  **Request url:**  
-
-  ```
-  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
-  ```  
-
-  where:  
-
-   - {client_id} is your app's **Client ID**  
-
-   - {redirect_uri} is one of the app's configured **Redirect URI** values  
-
-   - {scopes} is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited  
-
-   - {state} is a value generated by your app to maintain state betewen the request and response  
-
-   - {codeChallenge} is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:  
-
-   ```javascript
-     codeVerifier = crypto.randomBytes(32).toString('base64url');
-     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-   ```  
-
-3. Consume the '/authorize' response and authorization code  
-
-  In response to the '/authorize' request, Beyond Identity redirects to the app's configured authentication url. In this example, the authenticator configuration type is "Hosted Web", so the authentication url is hosted by Beyond Identity (see [Authenticator Configurations](/docs/next/authenticator-config)). 
-
-  Once passkey based authentication is complete, Beyond Identity will redirect back to the app's configued redirect URI with a 'code' parameter in the query string.  You will use this code in the '/token' request.  
-
-1. Create your '/token' request  
-
-  Create the HTTP request with the following properties:  
-
-  **Request url:**  
-  ```  
-  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-  ```  
-  **Request method:** POST  
-
-  **Request headers:**   
-
-  ```  
-  content-type: application/x-www-form-urlencoded  
-  ```  
-
-  **Request body:**  
-  ``` 
-  grant_type: "authorization_code"
-  code: {authorization_code}
-  client_id: {client_id}
-  redirect_uri: {redirect_uri}
-  code_verifier=${codeVerifier}
-  expiration_time: {seconds}
-  custom_claims: {custom_claims_json}
-  ```  
-
-  where:  
-
-   - {authorization_code} is the code returned from the '/authorize' call  
-
-   - {client_id} is the app's configured **Client ID**    
-
-   - {redirect_uri} is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
-
-   - {codeVerifier} is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:  
-  
-   ```javascript
-    codeVerifier = crypto.randomBytes(32).toString('base64url');
-    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-   ```
-  
-   - expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting.  
-
-   - custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims.
-
-
-#### Authorization code with PKCE (Confidential client)
-This flow is identical to the previous one, except that you authenticate the call to the '/token' endpoint with using the app's credentials.  
-
-Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/add-user-group-to-role) your app is requesting.   
-
-1. Create an [app](/docs/next/add-an-application) with the following properties:  
-
-  | Parameter | Value|
-  |---|---|  
-  |Protocol|OIDC|  
-  |Client Type|Confidential|
-  |PKCE|S256|
-  |Token Endpoint Auth Method|Client Secret Basic|
-  |Grant Type|Authorization Code|
-  |Configuration Type (on Authenticator Config tab)|Hosted Web|  
-
-  Fill in a **Display Name** and at least one **Redirect URI**, then click **Submit** to save the app.  
-
-2. Create your '/authorize' request  
-
-  Create the HTTP request with the following properties:  
-
-  **Request method:** GET  
- 
-  **Request url:**  
-
-  ```
-  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
-  ```  
-  
-  where:  
- 
-   - {client_id} is your app's **Client ID**  
-
-   - {redirect_uri} is one of the app's configured **Redirect URI** values  
-
-   - {scopes} is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited  
-
-   - {state} is a value generated by your app to maintain state betewen the request and response  
-
-   - {codeChallenge} is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:  
-
-   ```javascript
-    codeVerifier = crypto.randomBytes(32).toString('base64url');
-    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-   ```  
-
-3. Consume the '/authorize' response and authorization code  
-
-  In response to the '/authorize' request, Beyond Identity redirects to the app's configured authentication url. In this example, the authenticator configuration type is "Hosted Web", so the authentication url is hosted by Beyond Identity (see [Authenticator Configurations](/docs/next/authenticator-config)).  
-
-  Once passkey based authentication is complete, Beyond Identity will redirect back to the app's configued redirect URI with a 'code' parameter in the query string.  You will use this code in the '/token' request.  
-
-1. Create your '/token' request  
-
-  Create the HTTP request with the following properties:  
-
-  **Request url:**  
-
-  ```  
-  https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-  ```
-
-  **Request method:** POST  
-
-  **Request headers:**  
-
-  ```  
-  Authorization: Basic {client_credentials}
-  content-type: application/x-www-form-urlencoded  
-  ```  
-
-  where {client_credentials} is the base64 encoded value of your app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' 
-
-  **Request body:**  
-
-  ``` 
-  grant_type: "authorization_code"
-  code: {authorization_code}
-  client_id: {client_id}
-  redirect_uri: {redirect_uri}
-  code_verifier=${codeVerifier}
-  expiration_time: {seconds}
-  custom_claims: {custom_claims_json}
-  ```  
-
-  where:  
-
-   - {authorization_code} is the code returned from the '/authorize' call  
-
-   - {client_id} is the app's configured **Client ID**  
-
-   - {redirect_uri} is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
-
-   - {codeVerifier} is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:  
-
-   ```javascript
-    codeVerifier = crypto.randomBytes(32).toString('base64url');
-    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-   ```
-  
-   - expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting  
-
-   - custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims.
-
-  
 ### Example: Create a Token for the Beyond Identity Management API
 
 <Tabs>
