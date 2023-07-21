@@ -216,7 +216,7 @@ Crafting an authorization URL is the first step in the authorization flow.
 
 ### Authenticate
 
-There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/next/authenticator-config#invocation-type). 
+There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/next/authentication#invocation-type). 
 
 - **Automatic**
 - **Manual**

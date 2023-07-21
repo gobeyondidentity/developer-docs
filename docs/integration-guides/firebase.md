@@ -99,7 +99,7 @@ There is a lot to configure when creating an application. When creating your app
 For help choosing options, visit the following guides:
 
 - [Applications](/docs/next/platform-overview#application)
-- [Authenticator Config](/docs/next/authenticator-config)
+- [Authenticator Config](/docs/next/authentication)
 
 <p><mark>We should use the include file with the step-by-step instructions with screenshots. Arcades are not scannable and they are not A11y compatible.  Reserve Arcades for the more complex configurations, tutorials, or demos of something they can do (an end-to-end process). </mark></p>
 

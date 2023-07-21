@@ -204,7 +204,7 @@ When the user clicks or taps the link in the enrollment email, they are redirect
 
   You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
-3. Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authenticator-config), this is the page that will be redirected to during a bind passkey flow. Copy the following code snippet into that page.
+3. Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during a bind passkey flow. Copy the following code snippet into that page.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">
@@ -364,7 +364,7 @@ The authenticate URL that is redirected to your application will append a `/bi-a
 $invoke_url/bi-authenticate?request=<request>
 ```
 
-Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authenticator-config), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">

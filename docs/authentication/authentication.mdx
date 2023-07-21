@@ -1,27 +1,53 @@
 ---
-title: Authenticator Config 
-id: authenticator-config
-description: 'An authenticator config is used to tell us how and where to invoke passkey creation and authentication flows for your native/mobile or web application. Each application is tied to a single authenticator type, which is configured in Authenticator Config. This article will help you understand each of the authenticator type options and how they impact Beyond Identity passkey flows.'
-slug: /authenticator-config
+title: Authentication
+id: authentication
+description: 'Learn about how each application is tied to a single authentication type, which is configured in Authenticator Config. This article will help you understand each of the authentication type options and how they impact Beyond Identity passkey flows.'
+slug: /authentication 
 keywords: 
  - deployment model
  - embedded sdk
  - hosted web authentication
+ - authenticator config
+ - authentication type
 pagination_next: null
 pagination_prev: null
 last_update: 
    date: 06/01/2023
    author: Patricia McPhee
 draft: false
-doc_type: concept
+hide_table_of_contents: false
+hide_title: false
+hide_breadcrumbs: false
+doc_type: overview
 displayed_sidebar: mainSidebar
 ---
 
 
-import AuthenticatorConfigDescription from '../includes/_authenticator-config-description.mdx';
+Beyond Identity console settings allow you to configure the authentication experience your users see.  
 
+The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).  
 
-<AuthenticatorConfigDescription />
+The Beyond Identity platform offers three authenticator configuration types:  
+
+import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
+
+<AuthenticatorTypeTable />
+
+<br />
+
+import { Badge } from "@nextui-org/react";
+
+Currently the following authentication factors are supported and more are coming soon:  
+
+- Universal Passkey
+
+- FIDO2 Multi-Device Passkey - <Badge color="primary" variant="flat" >Coming soon!</Badge>
+
+- Email OTP - <Badge color="primary" variant="flat" >Coming soon!</Badge>
+
+- Federated IDP - <Badge color="primary" variant="flat" >Coming soon!</Badge> 
+ 
+
 
 
 ## Hosted Web 

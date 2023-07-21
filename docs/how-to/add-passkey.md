@@ -165,7 +165,7 @@ The EMAIL delivery method sends an email to the user to generate a passkey from 
     title="/credential-binding-jobs"
   />
 
-4. Verify the Invoke URL for deeping linking. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](/docs/next/authenticator-config#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
+4. Verify the Invoke URL for deeping linking. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](/docs/next/authentication#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
 
   <DeepLinking />
 

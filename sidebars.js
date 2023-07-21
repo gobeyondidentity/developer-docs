@@ -19,8 +19,6 @@ const sidebars = {
         'foundations/api-endpoints',
       ],
     },
-
-
     {
       type: 'category',
       label: 'Getting Started',
@@ -35,6 +33,21 @@ const sidebars = {
         'get-started/get-started-angular',  
       ],
     },
+/*
+    {
+      type: 'category',
+      label: 'Quickstarts',
+      collapsed: true, 
+      collapsible: false,  
+      link: {
+        type: 'doc',
+        id: 'quickstarts/quickstart',
+      },         
+      items: [ 
+        
+      ],
+    },
+*/
     {
       type: 'category',
       label: 'Authentication',
