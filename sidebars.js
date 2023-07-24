@@ -31,7 +31,6 @@ const sidebars = {
       items: [ 
         'get-started/get-started-react',
         'get-started/get-started-angular',  
-        'get-started/get-started-nextauth',
         'get-started/get-started-nextjs',
       ],
     },
