@@ -257,172 +257,41 @@ Inside the **package.json** file, ensure that the scripts that run the app use t
 
 Next, you will [create users and passkeys](#create-users-and-passkeys) so that you can test the app.  
 
-## Create users and passkeys
+## 5. Create users and passkeys
 Because you created an app with the 'Hosted Web' authentication configuration type, you are ready to test without writing any more authentication code.  
-But you'll need a user with an enrolled passkey first, which you can create via the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).  
+But you'll need a user with an enrolled passkey first, which you can create via the Admin Console.  
 
 :::note  
-If you wish to create identities and passkey via the Admin Console, you can do so following the guidance here:  
- - [Add an identity](/docs/next/add-an-identity)  
- - [Add a passkey](/docs/next/add-passkey)  
+If you wish to create identities and passkeys via the **Beyond Identity API** from within your app, you can do so following the guidance **[here](/docs/next/hosted-add-passkeys#create-users-and-passkeys)**.  
 :::  
 
 
 ### Create one or more identities in your Beyond Identity app's realm
+First, make sure you are in your app's realm in the Beyond Identity Admin Console:  
+1. In the **Admin Console**, under **Tenant Management**, select **Go to realm ** and select your app's realm.  
 
-You can create an identity using the [Beyond Identity API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity).  
+2. From the Admin Console, under **Directory**, select **Identities > Add identity**.
 
-  Create the HTTP request with the following properties:  
+3. Enter a name, username, and email address. Then be sure to enter an **Email** address that is a real address where you can receive email.  
 
-  **Request url:**  
+4. Click **Add identity**.  
 
-  ```  
-  https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities
-  ```
-
-  **Request method:** POST  
-
-  **Request headers:**  
-
-  ```  
-  Authorization: Bearer {bi_api_token}
-  content-type: application/x-www-form-urlencoded  
-  ```  
-
-  where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `identities:create` at minimum.  
-
-  **Request body:**  
-
-  ``` 
-  {
-  "identity": {
-    "display_name": "{display_name}",
-    "traits": {
-      "type": "traits_v0",
-      "username": "{username}",
-      "primary_email_address": "{email_address}"
-      }
-    }
-  }
-  ```  
-
-  where:  
-   - {display_name} is a string containing any name you wish
-   - {username} is a string containing a unique, case insensitive username for the identity
-   - {email_address} is set to an address where you can receive email in the format 'user@example.com'
-
-The response JSON will contain the **id** of the new identity, which you'll use in the next call to create the passkey binding.  
 
 ### Create passkeys for your identities
-Once you've created the identity via the request above, you'll need to enroll a passkey for the new user. For this, you'll use the email enrollment flow. Double check that you created the identity above using an {email_address} that is a real address where you can receive email.  
+Once you've created the identity, you'll need to enroll a passkey for the new user. For this, you'll use the email enrollment method. Double check that you created the identity above using an Email address that is a real address where you can receive email.  
 
-Next, construct a second API call to the [Beyond Identity credential binding API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob) as follows.  
 
-  Create the HTTP request with the following properties:  
+1. In the Admin Console, under Directory, select **Identities**.  
 
-  **Request url:**  
+2. Select the identity you want to bind a passkey to and click **Add a passkey**.  
 
-  ```  
-  https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
-  ```  
+3. Select the app and then select **Delivery method** 'Send an email to user'.  
 
-  where {identity_id} is the **id** returned in the response JSON from the create identity API call above.  
+4. Click **Proceed and send email**.  
 
-  **Request method:** POST  
 
-  **Request headers:**  
+You should receive an email from Beyond Identity at the address specified as the identity's **primary_email_address**.  From the browser you wish to use for testing, open that email and click the link. This should initiate a passkey enrollment and registration for your user in the Beyond Identity realm.
 
-  ```  
-  Authorization: Bearer {bi_api_token}
-  content-type: application/x-www-form-urlencoded  
-  ```  
-
-  where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `credential-binding-jobs:create` at minimum.  
-
-  **Request body:**  
-
-  ``` 
-  { 
-    "job": { 
-      "delivery_method": "EMAIL", 
-      "authenticator_config_id": "{your app's AUTHENTICATOR_CONFIG_ID}", 
-      "post_binding_redirect_uri": "http://localhost:{your_app's_port}"
-    }
-  }  
-  ```  
-
-### Example (node.js)
-```javascript  
-    return fetch(
-        `https://api-us.beyondidentity.com/v1/tenants/${tenantId}/realms/${realm.id}/identities`,
-        {
-            method: 'POST',
-            body: `{
-                "identity": {
-                  "display_name": "BI Quickstart Identity",
-                  "traits": {
-                    "type": "traits_v0",
-                    "username": "${userName}",
-                    "primary_email_address": "${email}"
-                  }
-                }
-              }`,
-            headers: {
-                "Authorization": 'Bearer ' + apiToken,
-                "content-type": "application/json"
-            }
-    }).then(result => {
-        if (result.ok) {
-          return result.json();
-        } else {
-            if (result.status == 409) {
-                throw new ApiError(result.status, `User already exists. Choose another username`);
-            }
-            throw new ApiError(result.status, `POST request to create identity returned a ${result.status}`);
-        }
-    }).then( identityJson => {
-        console.log(`created identity with id: ${identityJson.id}`);   
-    //CREATE PASSKEY (binding job) and trigger email
-        return fetch(
-            `https://api-us.beyondidentity.com/v1/tenants/${identityJson.tenant_id}/realms/${identityJson.realm_id}/identities/${identityJson.id}/credential-binding-jobs`,
-            {
-                method: 'POST',
-                body: `{
-                    "job": {
-                      "delivery_method": "EMAIL",
-                      "post_binding_redirect_uri": "http://localhost:3000",
-                      "authenticator_config_id": "${authenticatorConfigId}"
-                    }
-                  }`,
-                headers: {
-                    "Authorization": 'Bearer ' + apiToken,
-                    "content-type": "application/json"
-                }
-            }
-        )
-    }).then(result => {
-        if (result.ok) {
-            return result.json();
-        } else {
-            if (result.status == 409) {
-                throw new ApiError(result.status, `User already exists. Choose another username`);
-            }
-            throw new ApiError(result.status, `POST request to create a credential binding job returned a ${result.status}`);
-        }
-    }).then( jobJson => {
-        console.log(`created credential binding job with id: ${jobJson.id}`);
-        return jobJson;
-    }).catch(err => {
-        console.log(err.message);
-        if (err.code !== null) {
-            return err;
-        }
-        else {
-            return err;
-        };
-
-    });
-```  
 
 ## 6. Run the example application and test sign in
 In this step, you'll start the backend and frontend to run the example app locally.  
