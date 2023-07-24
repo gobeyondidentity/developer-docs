@@ -1,12 +1,11 @@
 ---
-title: Getting Started with NextJS
-sidebar_label: NextJS
-id: get-started-nextjs
-description: 'Create a free Beyond Identity developer account and connect it to enable a sample application to use passkeys (public-private key pairs) for user authentication.'
-slug: /get-started-nextjs
+title: Getting Started with NextAuth.js
+sidebar_label: NextAuth
+id: get-started-nextauth
+description: 'Add Beyond Identity to the NextAuth.js sample application.'
+slug: /get-started-nextauth
 keywords: 
  - get started
- - NextJS
 pagination_next: null
 pagination_prev: null
 last_update: 
@@ -19,11 +18,16 @@ displayed_sidebar: mainSidebar
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { Alert, Col, Row } from 'antd';
 
+<Row>
+  <Col span={6}>
+    <Alert message="in process" type="warning" />
+  </Col>
+</Row>
+<br />
 
-
-In this guide, you'll add Beyond Identity <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication to a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/).  
-
+In this guide, you'll add Beyond Identity passwordless authentication to a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/).
   
 This guide uses Visual Studio Code (VS Code) and the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org). However, you can use these concepts to add Beyond Identity to any web app using your Beyond Identity tenant and OAuth2/OIDC.  
 
@@ -33,19 +37,7 @@ For guidance using the **Embedded SDK** authenticator type, see the **[NextAuth 
 For more information on authenticator types, check out the article **[here](/docs/next/authentication)**.  
 :::  
 
-
-
-## 1. Sign up for a developer account
-
-import DeveloperSignUpProcess from '../includes/_developer-sign-up-process.mdx';
-
-<DeveloperSignUpProcess />
-
---- 
-
-
-## 2. Clone the sample app
-### Download and install the tools
+## Download and install the tools
 First, make sure you've downloaded and installed the following tools on the development machine:
  - [git](https://git-scm.com/downloads)
  - [node.js and npm](https://nodejs.org/en/download/)
@@ -58,7 +50,7 @@ npm -v
 git --version
 ```
 
-### Create the project
+## Create the project
 1. On the development machine, create a new folder for your project.
 2. In VS Code, select File -> Open Folder and select your folder
 <!--![VS Code File menu Open Folder](.\vs_open_folder.png "VS Code File menu")  -->
@@ -70,39 +62,19 @@ cd next-auth-example
 npm install
 ```  
 
-
-## 3. Configure Beyond Identity
-
-In this step, you'll create a set of Beyond Identity resources containing your end users' identities and the configuration. First, you'll create a new realm, which holds your users' identities. Next, you'll create a new application that contains the configuration for your users.  
-
-### Create your Beyond Identity initial configuration
+## Create your Beyond Identity initial configuration
 
 1. If you haven't already created your Beyond Identity tenant, create one for free [here](https://www.beyondidentity.com/developers/signup).  
 2. Once you have your tenant, go ahead and log in . You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
 :::tip  
 _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
 :::  
+3. Next, [create a new realm and switch to that realm](/docs/next/create-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.    
+4. Then, [create an app in the realm](/docs/next/add-an-application) using the configuration options in the next section.  
 
-Next, you will [create a new realm and switch to that realm](/docs/next/get-started-nextjs#create-a-new-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.   
-### Create a new realm
+## Configure your app in Beyond Identity
 
-So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.  
-
-import CreateRealmConsole from '../includes/_create-realm-console.mdx';
-
-<CreateRealmConsole />
-
-Next, you will [create an app in the realm](/docs/next/get-started-nextjs#create-an-application) using the configuration options in the next section.  
-
-### Create an application
-
-In this step, you'll create a new Application that will contain the configuration for your users.
-
-import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
-
-<AddAppAdminConsole />
-
-Configure the [app](/docs/next/add-an-application) with the following properties:  
+Create an [app](/docs/next/add-an-application) with the following properties:  
 
 | Parameter | Value|
 |---|---|  
@@ -120,13 +92,8 @@ Configure the [app](/docs/next/add-an-application) with the following properties
 
 Click **Submit** to save the app.  
 
-
-### Complete the configuration
-#### Record your Beyond Identity configuration
-
-In this step, you'll collect the configuration elements you will need to set environment variables in the sample app's '.env.config' table.  
-
-The table below lists these elements and where to find them in the tenant.
+## Record your Beyond Identity configuration
+At this point, you'll want to record the configuration properties from your tenant that you will need to setup the app. The table below lists these elements and where to find them in the tennat.
 
 | Property Name | Where to find the value | 
 | ----------- | ----------- |
@@ -137,41 +104,9 @@ The table below lists these elements and where to find them in the tenant.
 | APP_CLIENT_SECRET | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant | 
 | AUTHENTICATOR_CONFIG_ID | Copy your app's **Authenticator Config ID** from the **Authenticator Config** tab on the app’s configuration page in your tenant | 
 
-Next, you will [configure the sample app in your VS Code project](/docs/next/get-started-nextjs#4-set-environment-variables-and-configure-beyond-identity-as-an-oauth-provider-in-the-sample-app) to setup environment variables and an OAuth provider for Beyond Identity.  
 
----
-
-
-
-:::tip **CHECKPOINT**
-
-Guess what? You're halfway there! So far in your getting started journey, you should have completed the following:
-
-- [x] Signed up for a free Beyond Identity developer account, which created a passkey, tenant, and Admin Realm for you automatically.
-
-- [x] Cloned the example application.
-
-- [x] Created the initial configuration in your tenant, including a realm and an application. 
-
-<br/>
-In the next step, you'll setup the example application locally:  
-
-- Create and populate .env.local file
-
-- Create Beyond Identity as an OAuth provider in the app
-
-- Create identities and run the app  
-<br/>  
-
-Don't forget, if you get stuck, let us know in our **[Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
-
-:::
-
----
-
-## 4. Set environment variables and configure Beyond Identity as an OAuth provider in the sample app
-### Environment variables and .env.local file
-Make the following changes to your NextAuth example app project to setup your environment variables:    
+## Create Beyond Identity as an OAuth provider in the NextAuth app  
+Make the following changes to your NextAuth example app project to configure Beyond Identity as an OAuth provider:    
 1. Make a copy of the file **env.local.example** called **.env.local**
 
 2. In .env.local, configure the following variables from your Beyond Identity tenant:  
@@ -224,9 +159,7 @@ declare namespace NodeJS {
   }
 }
 ```
-### Create OAuth provider
-Make the following changes to your NextAuth example app project to configure Beyond Identity as an OAuth provider: 
-Update the file **pages/api/auth/[...nextauth].js**. Inside the `providers` array, add the following entry:  
+4. Update the file **pages/api/auth/[...nextauth].js**. Inside the `providers` array, add the following entry:  
 
 ```javascript
 {
@@ -251,11 +184,10 @@ Update the file **pages/api/auth/[...nextauth].js**. Inside the `providers` arra
 :::note  
  [NextAuth](https://next-auth.js.org/) is becoming [Auth.js](https://authjs.dev), and Beyond Identity will be a built-in provider. Updated guidance is coming soon! In the meantime, use the guidance above.  
 :::  
+5. Inside the **package.json** file, ensure that the scripts that run the app use the correct port that matches the app's configured redirect URI in the BI tenant. For example, if the redirect URI is http://localhost:8083/api/auth/callback/beyondidentity, the script should specify port '8083' using the -p option, such as `"next -p 8083"`  
 
-### Update package.json file
-Inside the **package.json** file, ensure that the scripts that run the app use the correct port that matches the app's configured redirect URI in the BI tenant. For example, if the redirect URI is http://localhost:8083/api/auth/callback/beyondidentity, the script should specify port '8083' using the -p option, such as `"next -p 8083"`  
+Next, [create users and passkeys](#create-users-and-passkeys) so that you can test the app.  
 
-Next, you will [create users and passkeys](#create-users-and-passkeys) so that you can test the app.  
 
 ## Create users and passkeys
 Because you created an app with the 'Hosted Web' authentication configuration type, you are ready to test without writing any more authentication code.  
@@ -424,16 +356,12 @@ Next, construct a second API call to the [Beyond Identity credential binding API
     });
 ```  
 
-## 6. Run the example application and test sign in
-In this step, you'll start the backend and frontend to run the example app locally.  
-
-In VS Code, execute `npm run dev` at the terminal prompt. The app should come up at `http://localhost:{your_app's_port}`. Here you should be able to click Sign in and sign in to the app as shown below.  
+ ## Run the app and test sign in
+ In VS Code, execute `npm run dev` at the terminal prompt. The app should come up at `http://localhost:{your_app's_port}`. Here you should be able to click Sign in and sign in to the app as shown below.  
 ![NextAuth.js Example Home Page](../images/js-sdk-example-app-signin-1.JPG "NextAuth.js Example Home Page")  
 
 ![Verify Beyond Identity](../images/js-sdk-example-app-signin-2.JPG "Verify Beyond Identity")  
  
 ![NextAuth.js Example Signed In](../images/js-sdk-example-app-signin-3.JPG "NextAuth.js Example Signed In")  
 
-
----
 
