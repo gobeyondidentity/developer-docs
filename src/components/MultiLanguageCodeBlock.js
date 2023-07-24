@@ -7,7 +7,7 @@ import CodeBlock from "./CodeBlock";
 /**
  * Example Usage:
  *
- * import MultiLanguageCodeBlock from "../../src/components/MultiLanguageCodeBlock";
+ * import MultiLanguageCodeBlock from "@site/src/components/MultiLanguageCodeBlock";
  * <MultiLanguageCodeBlock
  *   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
  * -X POST \

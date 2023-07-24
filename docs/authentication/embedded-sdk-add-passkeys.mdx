@@ -1,0 +1,166 @@
+---
+title: Add passkeys to your app
+id: embedded-sdk-add-passkeys
+description: ''
+slug: /embedded-sdk-add-passkeys 
+keywords: 
+ - scenario
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+hide_table_of_contents: false
+hide_title: false
+hide_breadcrumbs: false
+doc_type: quickstart
+displayed_sidebar: mainSidebar
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import WebAuth from '../includes/_authentication-via-automatic.mdx'
+import SilentAuth from '../includes/_authentication-via-return.mdx'
+import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
+import InvocationDiagram from '../includes/_invocation-url-diagram.mdx';
+import AppSchemeCaution from '../includes/_app-scheme-caution.mdx';
+import InvocationTip from '../includes/_invocation-type-tip.mdx';
+
+import { Alert, Col, Row } from 'antd';
+
+<Row>
+  <Col span={6}>
+    <Alert message="Ready for review" type="success" />
+  </Col>
+</Row>
+<br />
+
+This guide describes how to authenticate an application with a passkey using Beyond Identity within a standard OAuth2/OIDC Authorization Code Flow.
+
+In response to an OIDC request to the Beyond Identity `/authorize` endpoint, Beyond Identity initiates passwordless authentication by returning an authentication challenge and other information to your app. Before authenticating, your app can use the Beyond Identity SDK to enumerate available passkeys and should perform some logic to select one, such as presenting selection UI to the user. Once a passkey is selected, you can then use the SDK to complete authentication and finally perform the OAuth code for token exchange.
+
+:::note important
+If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type), you will not need to complete authentication with a token exchange.
+:::
+
+## Use case details
+
+- [x] **Authenticator Config**: Embedded SDK <mark>If they are required to point the Invoke URL to their application, shouldn't we say that it's a prerequisite? As mentioned below, the Invoke URL field is required and they can't leave this blank when creating their app in the Admin Console.</mark>
+
+- [x] **Grant Type**: Authorization Code flow
+
+- [x] **Client Type**: Confidential <mark>Can they have a **Public** Client Type?</mark>
+
+## Prerequisites
+
+- Developer account
+
+- Application
+
+## Craft your authorization request 
+
+Crafting an authorization URL is the first step in the authorization flow. 
+
+1. In the Admin Console, under Apps, select the **External Protocol** tab, copy the **Authorization Endpoint** value and add it to the query parameters:
+
+  ![Authorize Url](../images/authentication-auth-url.png)
+
+  ```bash title="/authorize"
+  https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize?
+  response_type=code
+  &client_id=$APPLICATION_CLIENT_ID
+  &redirect_uri=$REDIRECT_URI
+  &scope=openid
+  &state=$STATE
+  &code_challenge_method=256
+  &code_challenge=$PKCE_CODE_CHALLENGE
+  ```
+
+2. Copy and paste the **Application Client ID** to the query parameters.
+
+1. Copy and paste the **Redirect URI**, which is your application's App Scheme or Universal URL, to the query parameters.
+
+3. Set the PKCE (code_challenge_method) to **S256** or **Plain**.  The PKCE code challenge methods supported for applications are defined by [RFC-7636](https://datatracker.ietf.org/doc/html/rfc7636). 
+
+  :::note PKCE
+  Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you must store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
+  :::
+
+1. Generate a random string from your application for **STATE** value and is returned back to you in the response. 
+
+  The `STATE` parameter mitigates [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery) by embedding a unique value for each authentication.  
+
+1. Click the **Authenticator Config** tab and set the Invoke URL to a URL that _points_ to your application. <mark>Isn't this done when you create the app because the Invoke URL field is required? Could we say "...make sure the Invoke URL points to your application"?</mark> 
+
+  In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or a Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
+
+  :::caution
+  While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
+  :::
+
+1. Start authorization for Invocation Type.
+
+  <Tabs groupId="authenticate-invocation-type" queryString>
+  <TabItem value="manual" label="Manual">
+  <SilentAuth/>
+  </TabItem>
+  <TabItem value="automatic" label="Automatic">
+  <WebAuth/>
+  </TabItem>
+  </Tabs>
+
+## Call the token endpoint for token exchange
+
+<p><mark>I think this can be an include file to be reused in the Expo integration guide.</mark></p>
+
+Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential` <mark>What if the Client Type is **Public**?</mark>. Make sure to a call the authorization endpoint first to retrieve an authorization code.
+
+<p><mark>Are they parsing the <code>redirectUrl</code> returned when calling the function <code>Embedded.authenticate</code> for a code in the query parameters and then exchanging that code for an access token?</mark></p>
+
+If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type) <mark>Where is this example? We tell them to refer to it but we don't give them a link. Is it in the SDK?</mark>, you won't need to complete authentication with a token exchange.
+
+1. Click the **External Protocol** tab and copy the **Token Endpoint**.
+
+2. Scroll down to **Client Configuration** and make a note of the **Token Endpoint Auth Method** selected. It determines how to make the token exchange call.  
+
+   - **Client Secret Post**  
+
+   - **Client Secret Basic**
+
+3. <a name="token-exchange"></a>Start the token exchange.
+
+  <Tabs groupId="token-auth-method" queryString>
+  <TabItem value="client_secret_basic" label="Client Secret Basic">
+
+  The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header.
+
+  <MultiLanguageCodeBlock
+    curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+  -X POST \
+  -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)&code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+    title="/token"
+  />
+  </TabItem>
+
+  <TabItem value="client_secret_post" label="Client Secret Post">
+
+  The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the body of the POST request as a form parameter.
+
+  <MultiLanguageCodeBlock
+    curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+  -X POST \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -F "grant_type=authorization_code" \
+  -F "code=$(CODE_FROM_AUTHORIZATION_RESPONSE)" \
+  -F "client_id=$(CLIENT_ID)" \
+  -F "client_secret=$(CLIENT_SECRET_FROM_CONFIDENTIAL_APPLICATION)" \
+  -F "code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)" \
+  -F "redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+    title="/token"
+  />
+
+  </TabItem>
+  </Tabs>

@@ -1,0 +1,8 @@
+Setting the policy for Airwatch/Workspace ONE UEM has a few configurable options depending on how the policy engine checks device posture. Below are examples of how each option works.
+
+| Policy configuration | Description |
+| --- | --- |
+| is enrolled  | The policy engine checks for **current** and **active** enrollment in Airwatch/Workspace ONE.  |
+| is unenrolled  | The policy engine checks to see if the device **was enrolled** but **no longer** has an active enrollment.  |
+| is not enrolled  | The policy engine checks to see if the device has no enrollment. This will happen if the device has **never been enrolled**.   |
+| is not unenrolled  | The policy engine checks to see if the device has a **current** enrollment or has **never** been enrolled. Devices that **have been unenrolled** will fail the check for this.  |

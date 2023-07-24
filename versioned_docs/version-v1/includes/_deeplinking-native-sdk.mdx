@@ -1,0 +1,83 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import AppSchemeCaution from './_app-scheme-caution.mdx';
+
+<AppSchemeCaution />
+
+<Tabs groupId="bind-platform">
+<TabItem value="kotlin" label="Kotlin">
+
+Android supports two ways of deep linking into an application. Pick one of the following and follow the guide:
+
+- [Custom Schemes](https://developer.android.com/training/basics/intents/filters)
+- [App Links](https://developer.android.com/training/app-links)
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+Apple supports two ways of deep linking into an application. Pick one of the following and follow the guide:
+
+- [App Schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app)
+- [Universal URLs](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+If you are using Expo, follow the [deep linking guide](https://docs.expo.dev/guides/deep-linking/).
+
+If you are using an app created with the react native CLI, follow the Kotlin and Swift guides to setting up deep linking on React Native.
+
+Also check out [React Native Linking](https://reactnative.dev/docs/linking):
+
+```javascript
+import { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
+
+export default function useDeepLinkURL() {
+  const [linkedURL, setLinkedURL] = (useState < string) | (null > null);
+
+  // If the app is not already open
+  useEffect(() => {
+    const getUrlAsync = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl !== null) {
+        setLinkedURL(decodeURI(initialUrl));
+      }
+    };
+
+    getUrlAsync();
+  }, []);
+
+  // If the app is already open
+  useEffect(() => {
+    const callback = ({ url }: { url: string }) => setLinkedURL(decodeURI(url));
+    const linkingEventListener = Linking.addEventListener('url', callback);
+    return () => {
+      linkingEventListener.remove();
+    };
+  }, []);
+
+  return { linkedURL };
+}
+
+// in App.js
+const { linkedURL } = useDeepLinkURL();
+
+useEffect(() => {
+  async function register() {
+    if (linkedURL !== null) {
+      console.log('intercepted:', linkedURL);
+    }
+  }
+
+  register();
+}, [linkedURL]);
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+Follw the [Deep linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) flutter guide.
+
+</TabItem>
+</Tabs>

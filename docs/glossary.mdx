@@ -1,0 +1,67 @@
+---
+title: Glossary
+id: glossary
+description: ''
+slug: /glossary
+keywords: 
+ - glossary
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: reference
+displayed_sidebar: mainSidebar
+---
+
+
+
+
+
+## Admin Realm
+
+When your tenant gets deployed, the Beyond Identity Admin Realm gets created and populated for you. It's a unique administrative domain created for you in your tenant when you signed up for your developer account. 
+
+It's populated with your admin identity, so you can access the Beyond Identity Admin Console. Adding more identities to the Beyond Identity Admin Realm allows other users to log into the console as administrators of your tenant.
+
+The Admin Realm contains a unique set of directories, policies, events, applications, and branding objects. It also includes the Beyond Identity Management API used to create API tokens that authorize access to the Beyond Identity APIs.
+
+:::note 
+While you can only have one tenant, a tenant can have many realms, but a tenant will always have the Beyond Identity Admin Realm. 
+:::
+
+## Email magic link
+
+<mark>do we need to define this term?</mark>
+
+## FIDO2 passkeys
+
+**FIDO2 Passkeys** refer to the passkeys that we see Apple, Google, and Microsoft refer. FIDO2 passkeys are not device-bound. They can be shared via a cloud. Which conflicts with our opinion that cloud-sharing creates vulnerability for the end user’s account to get hacked into
+
+FIDO2 Passkeys are a type of physical security key used for two-factor authentication. They use public-key cryptography to secure online accounts and prevent phishing attacks.
+
+## Policy
+
+A policy is a collection of rules that determine how to treat any given transaction managed by the Beyond Identity Cloud. A policy describes which transactions it governs and the action states how to handle the matching transactions.
+
+Each registration (credential binding) and authentication operation looks at the specific policy for an Allow, Monitor, or Deny decision before completion. A Deny decision results in rejection of the operation.
+
+## Resource Server
+
+A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
+
+
+## SCIM
+
+SCIM is a REST and JSON-based protocol defining client and server roles. A client is usually an identity provider (IdP), like Okta, containing a robust user identity directory. A service provider (SP) like Beyond Identity needs a subset of information from those identities. Identity changes in the IdP, like create, update, and delete, get synced to the SP according to the SCIM protocol. The IdP can also read identities from the SP to add to its directory and detect incorrect values in the SP that could create security vulnerabilities. For end users, this means they have seamless access to applications they’re assigned, with up-to-date profiles and permissions.
+
+## Subtle crypto
+
+<mark>need definition</mark>
+
+## Universal Passkeys
+
+Universal passkeys are unique to BYID, and our way of marketing our device-bound passkeys. A passkey can be thought of as an X.509 certificate (in fact, it’s just a wrapper on top of one). Each passkey contains a public/private key pair where the private key is stored securely in a [TEE](https://en.wikipedia.org/wiki/Trusted_execution_environment). On macOS/iOS, this would be the [Secure Enclave](https://support.apple.com/guide/security/secure-enclave-sec59b0b31ff/web). 
+
+When a user sets up an account with Beyond Identity, the device in which they register creates a passkey that becomes their identity. This private key associated with this passkey can never be removed from the device in question. It is, however, possible to extend the credential’s chain of trust by creating a new passkey on a different device and signing it with the private key of the first passkey.

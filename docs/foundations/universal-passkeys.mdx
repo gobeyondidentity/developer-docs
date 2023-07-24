@@ -1,0 +1,122 @@
+---
+title: Universal Passkeys
+id: universal-passkeys
+description: 'Beyond Identity authenticates users and their devices by cryptographically binding users to devices, providing complete control over who and what devices can access your SaaS apps and cloud infrastructure.'
+slug: /universal-passkeys
+keywords: 
+ - passkeys
+ - help
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Nikhil Khare
+draft: false
+doc_type: concept
+displayed_sidebar: mainSidebar
+---
+
+
+
+import PasskeyAndDevicesOverview from '../includes/_passkeys-and-devices-overview.mdx';
+
+<PasskeyAndDevicesOverview />
+
+
+import AuthenticationRequestDiagram from '../images/passkey-workflow-diagram.png';
+
+<img src={AuthenticationRequestDiagram} id="diagrams" alt="Example banner" />
+
+
+We take care of all the cryptographic key usage under the hood.
+
+1. Your app asks us to authenticate the user using standard authentication protocols.
+
+2. We generate a unique challenge and ask the device to locate a passkey, request the user to unlock it, and sign the unique challenge with it.
+
+3. We verify the signature and if a match is found we tell your system which user was authenticated using the same authentication protocol that initiated the flow.
+
+## Benefits of Universal Passkeys
+
+
+- Improved user experience. Users only need <mark>???</mark> to sign up.
+
+- Enhanced security. Passwords are a major vulnerability as users reuse passwords and are able to share them with others. Passwords are the biggest attack vector and are responsible for a significant percentage of breaches. They also lead to attacks such as credentials stuffing, corporate account takeover, and brute force attacks. 
+
+- Reduced total cost of ownership.  Managing passwords is expensive between implementing password complexity policies, managing password expiration and password reset processes, hashing and storing passwords, and monitoring breached password detection. 
+
+## How passkeys are created
+
+import PasskeyBindingMethods from '../includes/_passkey-binding-methods.mdx';
+
+<PasskeyBindingMethods />
+
+:::note 
+The **Invocation Type** has no effect on the passkey creation/binding flow.
+:::
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import BackendGeneral from '../includes/_bind-passkey-backend-general.mdx';
+import FrontEndReturn from '../includes/_bind-passkey-frontend-return.mdx';
+import FrontEndEmail from '../includes/_bind-passkey-frontend-email.mdx';
+import BindEmailDiagram from '../includes/_bind-delivery-method-email-diagram.mdx';
+import BindReturnDiagram from '../includes/_bind-delivery-method-return-diagram.mdx';
+
+
+The high-level flow for binding a passkey is:
+
+1. A passkey creation link is created using the Beyond Identity APIs.
+
+2. The passkey creation link is delivered to the Beyond Identity SDK that is running on your user's device. Beyond Identity uses the delivery method configured to deliver a passkey creation link using the Beyond Identity API.
+
+3. The passkey creation link is passked to the Beyond Identity SDK `bindPasskey()` function. A private key gets generated, stored in the device's hardware trust module, and the public key gets stored in the Beyond Identity Cloud. 
+
+See [Bind a passkey to an identity](/docs/next/add-passkey) to learn how.
+
+<Tabs groupId="bind-delivery-method" queryString>
+
+<TabItem value="return" label="RETURN">
+
+   <BindReturnDiagram/>
+
+</TabItem>
+
+<TabItem value="email" label="EMAIL">
+
+
+
+   <BindEmailDiagram/>
+
+
+
+</TabItem>
+
+</Tabs>
+
+
+## How authenticate works with passkeys
+
+Beyond Identity uses the industry standard protocol OIDC to verify the identities of your end users. At a high level, your application delegates authentication to Beyond Identity using OIDC. Then, we ask the end user to prove they possess a device with a valid passkey and can unlock that device and passkey.
+
+Modern devices ship with authentication primitives used to unlock the device and any keys stored on the devices. If users can unlock the device, they can prove it trusts them. And thus, they can use the digital key to sign a unique challenge that identifies them to Beyond Identity and your app.
+
+During authentication, Beyond Identity issues a challenge signed by the private keys in the device's hardware, evaluates user and device security risk in real-time, and makes a risk-based access decision based on your security requirements.
+
+## How passkeys are stored
+
+Passkeys are stored in [Trusted Execution Environments](https://en.wikipedia.org/wiki/Trusted_execution_environment) (TEE) wherever they're available. 
+
+Examples of Trusted Execution Environments supported by Beyond Identity are: 
+
+- In Apple Devices, keys are stored in [Apple T2](https://en.wikipedia.org/wiki/Apple_T2) chips.
+
+- In Windows and Linux workstations, keys are stored on [Trusted Platform Modules (TPM)](https://en.wikipedia.org/wiki/TPM2).
+
+- In ChromeOS, keys are stored in encrypted envelopes protected by keys on the [Titan chip](https://cloud.google.com/blog/products/identity-security/titan-in-depth-security-in-plaintext). 
+
+- In AWS, keys can be stored in the [Nitro enclaves](https://aws.amazon.com/ec2/nitro/) on instances that support it. They are not persisted. 
+
+If no TEE is available, our SDKs automatically fall back to OS-specific security APIs for safe storage on the hard disk. These are typically protected by a master key the OS generates with a knowledge factor as a salt. 
+
+

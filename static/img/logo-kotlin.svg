@@ -1,0 +1,10 @@
+<svg width="1em" height="1em" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M32 32H0V0h32L16 16l16 16Z" fill="url(#KotlinLogo_svg__a)"></path>
+  <defs>
+    <linearGradient id="KotlinLogo_svg__a" x1="32" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0.003" stop-color="#E44857"></stop>
+      <stop offset="0.469" stop-color="#C711E1"></stop>
+      <stop offset="1" stop-color="#7F52FF"></stop>
+    </linearGradient>
+  </defs>
+</svg>

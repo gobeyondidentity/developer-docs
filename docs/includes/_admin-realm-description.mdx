@@ -1,0 +1,16 @@
+When your tenant is deployed, the **Beyond Identity Admin Realm** gets created and populated for you. It's home for your **Beyond Identity Console** application and **Beyond Identity Management API**. In addition, it's populated with your initial Admin identity and credential, Console Authorization Policy, Console application configuration, and API configuration.
+
+While you can only have one tenant per account, a tenant can have many realms and one Beyond Identity Admin Realm. A realm contains multiple applications, and an application utilizes the realm's directory (identity and groups), policy, events, and branding objects. 
+
+Some tenants will only need the use of a single realm, in this case a realm and a tenant may seem synonymous. It's possible that you never need to create another realm for your use case. Some of the common use cases for realms include:
+
+- A need for multiple development environments - staging, QA, production - an admin could create a realm for each,
+
+- The desire to provide separated services based on different administrative domains (holding company delegating realms to its various companies, company delegating realms to its various brands, etc), and
+
+- The desire to separate Admin Console and API identities, credentials and policies from those for an end-user application.
+
+:::note
+When a new realm is created, the SCIM server is available by default and a separate SCIM server is available for each realm. However, to use any SCIM functionality, an access token with `scim:all` scope is required. See [SCIM server setup](/docs/next/scim-server) for more details.
+:::
+

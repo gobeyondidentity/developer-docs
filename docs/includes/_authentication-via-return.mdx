@@ -1,0 +1,194 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Start with a GET request to your [crafted authorization URL](#craft-your-authorization-request). If successful, you will receive an `authenticate_url` in the response. Pass that url along with a passkey id to the Embedded SDK's `authenticate` function. You can confirm the validity of the URL with `isAuthenticateUrl`.
+
+Don't forget to [initalize your SDK](/docs/next/sdk-setup) and present some logic to the user to select a passkey ahead of time.
+
+<Tabs groupId="authenticate-platform" queryString>
+
+<TabItem value="javascript" label="Javascript">
+
+```javascript
+const BeyondIdentityAuthUrl = `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${URI_ENCODED_REDIRECT_URI}&scope=openid&state=${STATE}&code_challenge_method=S256&code_challenge=${PKCE_CODE_CHALLENGE}`;
+
+let response = await fetch(BeyondIdentityAuthUrl, {
+  method: 'GET',
+  headers: new Headers({
+    'Content-Type': 'application/json',
+  }),
+});
+const data = await response.json();
+
+// Display UI for user to select a passkey
+const passkeys = await embedded.getPasskeys();
+
+if (await Embedded.isAuthenticateUrl(data.authenticate_url)) {
+  // Pass url and selected passkey ID into the Beyond Identity Embedded SDK authenticate function
+  // Parse query parameters from the 'redirectUrl' for a 'code' and then exchange that code for an access token in a server
+  const { redirectUrl } = await embedded.authenticate(
+    data.authenticate_url,
+    passkeys[0].id
+  );
+}
+```
+
+</TabItem>
+
+<TabItem value="kotlin" label="Kotlin">
+
+```kotlin
+interface BeyondIdentityService {
+    @GET("/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize")
+    suspend fun authorize(
+        @Query("client_id") client_id: String,
+        @Query("code_challenge") code_challenge: String,
+        @Query("code_challenge_method") code_challenge_method: String = "S256",
+        @Query("redirect_uri") redirect_uri: String,
+        @Query("response_type") response_type: String = "code",
+        @Query("scope") scope: String = "openid",
+        @Query("state") state: String,
+    ): Response<AuthorizeResponse>
+}
+
+val response = Retrofit.Builder()
+    .addConverterFactory(GsonConverterFactory.create())
+    .baseUrl("https://auth-${REGION}.beyondidentity.com")
+    .build()
+    .create(BeyondIdentityService::class.java)
+    .authorize(
+        client_id = "${CLIENT_ID}",
+        code_challenge = "${CODE_CHALLENGE}",
+        code_challenge_method = "S256",
+        redirect_uri = "${REDIRECT_URI}",
+        response_type = "code",
+        scope = "openid",
+        state = "{$STATE}",
+    )
+
+EmbeddedSdk.isAuthenticateUrl(response.authenticate_url) -> {
+    EmbeddedSdk.authenticate(
+        url = response.authenticate_url,
+        passkeyId = selectedPasskeyId,
+    ) { result ->
+        result.onSuccess { authenticateResponse ->
+            authenticateResponse.redirectUrl?.let { redirectUrl ->
+                // This URL contains authorization code and state parameters
+                // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.
+                var code = parseCode(redirectUrl)
+                var token = exchangeForToken(code)
+            }
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+```swift
+let redirectURI = "\(REDIRECT_URI)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+let authURL = URL(string: "https://auth-\(REGION).beyondidentity.com/v1/tenants/\(TENANT_ID)/realms/\(REALM_ID)/applications/\(APPLICATION_ID)/authorize?response_type=code&client_id=\(CLIENT_ID)&redirect_uri=\(redirectURI)&scope=openid&state=\(STATE)")!
+
+let request = URLRequest(url: authURL)
+request.httpMethod = "GET"
+request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+struct AuthResponse: Decodable {
+   let authenticate_url: String
+}
+
+let webTask = URLSession.shared.dataTask(with: request) {(data, response, error) in
+   let response = try? JSONDecoder().decode(AuthResponse.self, from: data)
+   let authenticateURL = URL(string: response.authenticate_url)!
+
+   // Display UI to user to select a passkey with Embedded.shared.getPasskeys()
+
+   if Embedded.shared.isAuthenticateUrl(authenticateURL){
+      // Pass url and selected passkey ID into the Beyond Identity Embedded SDK authenticate function
+      // Parse query parameters from the 'redirectURL' for a 'code' and then exchange that code for an access token in a server
+      Embedded.shared.authenticate(
+         url: URL(string: authenticateURL,
+         id: passkeys.first!.id
+      ){ result in
+         switch result {
+         case let .success(response):
+            print(response)
+         case let .failure(error):
+            print(error.localizedDescription)
+         }
+      }
+   }
+}
+
+webTask.resume()
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+```javascript
+import * as React from 'react';
+import { Button } from 'react-native';
+import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+
+export default function App() {
+  async function authenticate() {
+    const BeyondIdentityAuthUrl = `https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${URI_ENCODED_REDIRECT_URI}&scope=openid&state=${STATE}&code_challenge_method=S256&code_challenge=${PKCE_CODE_CHALLENGE}`;
+
+    let response = await fetch(BeyondIdentityAuthUrl, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
+    const data = await response.json();
+
+    // Display UI for user to select a passkey
+    const passkeys = await Embedded.getPasskeys();
+
+    if (await Embedded.isAuthenticateUrl(data.authenticate_url)) {
+      // Pass url and selected passkey ID into the Beyond Identity Embedded SDK authenticate function
+      // Parse query parameters from the 'redirectUrl' for a 'code' and then exchange that code for an access token in a server
+      const { redirectUrl } = await Embedded.authenticate(
+        data.authenticate_url,
+        passkeys[0].id
+      );
+    }
+  }
+
+  return <Button title="Passwordless Login" onPress={authenticate} />;
+}
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+```dart
+var response = await client.get(
+   Uri.parse(
+   "https://auth-${REGION}.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize"
+   "?state=${STATE}"
+   "&scope=openid"
+   "&response_type=code"
+   "&redirect_uri=${Uri.encodeComponent("your.app")}"
+   "&code_challenge_method=S256"
+   "&code_challenge=${pkcePair.codeChallenge}"
+   "&client_id=${CLIENT_ID}",
+   ),
+);
+Map responseBody = json.decode(response.body);
+url = responseBody['authenticate_url']
+
+// Display UI for user to select a passkey
+var passkeys = await EmbeddedSdk.getPasskeys();
+
+if (await EmbeddedSdk.isAuthenticateUrl(url)) {
+   // Pass url and selected passkey ID into the Beyond Identity Embedded SDK authenticate function
+   // Parse query parameters from the 'redirectUrl' for a 'code' and then exchange that code for an access token in a server
+   var authenticateResponse = await EmbeddedSdk.authenticate(url, passkeys.first.id);
+}
+```
+
+</TabItem>
+</Tabs>

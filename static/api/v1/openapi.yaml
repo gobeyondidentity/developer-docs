@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.4.0
+  version: 1.5.0
   contact:
     email: support@beyondidentity.com
   description: |
@@ -3975,6 +3975,8 @@ paths:
                     logo_url_light: 'https://example.com/logo_url_light.png'
                     logo_url_dark: 'https://example.com/logo_url_dark.png'
                     support_url: 'https://example.com/support'
+                    button_color: '#4673D3'
+                    button_text_color: '#FFFFFF'
       responses:
         '200':
           description: |
@@ -3994,6 +3996,8 @@ paths:
                     logo_url_dark: 'https://example.com/logo_url_dark.png'
                     support_url: 'https://example.com/support'
                     create_time: 2022-07-28T18:00:00.000Z
+                    button_color: '#4673D3'
+                    button_text_color: '#FFFFFF'
         '400':
           description: Bad request.
           content:
@@ -6784,6 +6788,14 @@ components:
           format: url
           description: URL for the customer support portal.
           example: 'https://example.com/support'
+        button_color:
+          type: string
+          description: Hexadecimal color code to use for buttons.
+          example: '#4673D3'
+        button_text_color:
+          type: string
+          description: Hexadecimal color code to use for button text.
+          example: '#FFFFFF'
     Confidentiality:
       description: |
         The confidentiality of the client, as prescribed by OAuth 2.0 and
@@ -6879,17 +6891,27 @@ components:
       example: s256
     TokenEndpointAuthMethod:
       description: |
-        Indicator of the requested authentication method for the
-        token endpoint. Allowable values are:
-        - `client_secret_post`: The client uses the HTTP POST parameters
+        Indicator of the requested authentication method for the token endpoint.
+        Allowable values are: - `client_secret_post`: The client uses the HTTP POST
+        parameters
            as defined in OAuth 2.0, Section 2.3.1. Namely, `client_id`
            and `client_secret` are sent in the body of the POST request.
         - `client_secret_basic`: The client uses HTTP Basic as defined in
            OAuth 2.0, Section 2.3.1. Namely, `client_id` and `client_secret`
            are sent in the Basic Authorization header.
-        - `none`: The `client_secret` is not part of the request body and there is no authorization header.
-           This endpoint authentication method is only allowed if the application has `confidentiality` set to `confidential`.
+        - `none`: The `client_secret` is not part of the request body and there is no
+        authorization header.
+           This endpoint authentication method is only allowed if the application has
+        `confidentiality` set to `confidential`.
+
+        Deprecation Notice: This field is deprecated. The API will ignore the value
+        of this field in requests. In responses, confidential applications will
+        always have `client_secret_basic` and public applications will always have
+        `none`. On authentication, confidential applications may use both
+        `client_secret_post` and `client_secret_basic`. Public applications may only
+        use `none`. **This field is scheduled for removal on August 1, 2023**
       type: string
+      deprecated: true
       enum:
         - client_secret_basic
         - client_secret_post

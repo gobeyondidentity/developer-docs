@@ -1,73 +1,121 @@
-<p align="center">
+<!-- Reference Links -->
+[site]: https://[[developer-docs.vercel.app](https://developer.beyondidentity.com/)](https://developer.beyondidentity.com/)/
+[issues]: https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=triage&projects=&template=content-issue.yml&title=%5BContent+issue%5D%3A+
+[repo]: https://github.com/gobeyondidentity/developer-docs
+[pr]: https://github.com/gobeyondidentity/developer-docs/pulls
+[enhancements]: https://github.com/gobeyondidentity/developer-docs/issues/new?assignees=&labels=%F0%9F%8C%9F+enhancement&projects=&template=enhancement.yml
+
+<div align="center">
    <br/>
    <a href="https://developers.beyondidentity.com" target="_blank"><img src="https://user-images.githubusercontent.com/238738/178780350-489309c5-8fae-4121-a20b-562e8025c0ee.png" width="150px" ></a>
-   <h3 align="center">Beyond Identity</h3>
-   <p align="center">Universal Passkeys for Developers</p>
-   <p align="center">
+   <h3>Beyond Identity</h3>
+   <p>Universal Passkeys for Developers</p>
+   <p>
    All devices. Any protocol. Zero shared secrets. 
    </p>
-</p>
-
-* [Getting Started](#getting-started)
-  * [What is Beyond Identity?](#what-is-beyond-identity)
-  * [Why does Beyond Identity exist?](#why-does-beyond-identity-exist)
-* [Installation](#installation)
-* [Project Resources](#project-resources)
+   <h1>Developer documentation</h1>
+</div>
 
 
-# Developer Docs
+Welcome to the Beyond Identity developer documentation repository! This repo is the source for [https://developer.beyondidentity.com/][site], also known as "Next Dev Docs"! 
 
-This is the repository for Beyond Identity's [Developer Documentation](https://developer.beyondidentity.com/) site.
+The Beyond Identity developer documentation is completely open-source and we appreciate contributions.
 
---- 
+## Provide feedback
 
-### Getting Started: 
+Your feedback is essential in shaping the customer content experience. There are several ways to provide feedback:
 
-Check out our getting started guide: 
-https://developer.beyondidentity.com/docs/v1/getting-started
+- [Submit an enhancement idea][enhancements] to make the docs better
+- [open a GitHub issue][issues] to report an issue with the content (something is incorrect or confusing)
+
+The team will track these ideas and issues to address your feedback. 
+
+## Contribute to the docs
+
+Refer to the [contributor's guide](./contributor-guide/contributor-guide.md) for details on how to submit edits or additions to the documentation.
+
+## Doc branches
+
+Before you get started with the authoring work, it's necessary that you understand the different branches to work on.
+* **`main`** -  protected branch
+
+  Docs for https://developer.beyondidentity.com/. This branch contains the most recent stable release content.
+
+* **`docs-staging`** - protected branch
+
+  Docs for the upcoming `vNext` release. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`.
+
+* **`active-development`** - protected branch (currently used for front-end development)
+
+  Docs for a forward-version that includes features not yet included in the Beyond Identity stable version. Its content is published on https://developer-docs-git-active-development-beyondidentity.vercel.app/ for early validation purpose.
+
+* Branches that start with `release-` contain archived release documentation for historical tracking, for example, `release-xx`.
+  
+* You can have your own personal branch to work on content for a certain issue or feature. However, be sure to check and remove unused personal branches periodically for easy maintenance. Usually when your branch is merged, you can safely delete it.
+
+## Site organization and files
+
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. 
+  - `/docs/images` - Images used in the documentation.
+  - `/docs/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
+- `/docusaurus.config.js` - A config file containing the site configuration.
+- `/sidebar.js` - Specify the order of documents in the sidebar. If you have a new file to add to the site, modify this file.
+- `/src/` - Non-documentation files like pages, custom React components, or 
+Docaurus native components.
+  - `/src/components` - Custom react components used for the website or included in the documentation, such as the Try It Out!
+  - `/src/pages` - Any files within this directory will be converted into a website page. Currently, we don't use this directory.
+  - `/src/theme` - Docusausus native components such as the sidebar, content page, and content page footer designs.
+- `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
+  - `/static/img` - Website images such as Beyond Identity logos and other assets.
+- `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
+- `versioned_docs_` - Contains the markdown files for the previous supported versions (v0 and v1).
+- `versioned_sidebars` - Contains the sidebar files for the previous versions. 
 
 
-### What is Beyond Identity
----
-Beyond Identity helps developers deploy the strongest authentication primitives on the planet, eliminating shared secrets for customers, employees, and contractors.
+## Get started
 
-Unique to Beyond Identity, shared secrets are eliminated for sign-up, login, and recovery. For customers, they never have to type a password, enter a code, click a push notification, or pick up a second device at all for authentication across all devices.
+### Prerequisites
 
-In addition to the fact that authentication is multi-factor by default, Beyond Identity also delivers real-time user and device risk signals that you can leverage to implement risk-based access controls that prompt for step-up authentication in scenarios you deem to be higher risk.
+- Code editor, [VS Code](https://code.visualstudio.com) is recommended
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org)
+- [Yarn](https://yarnpkg.com) 
 
-Backed by a cloud-native architecture, our platform was built for enterprise workloads. All SDKs use industry-standard protocols (OIDC/OAuth2.0) and include a sample app.
 
-### Why does Beyond Identity exist?
----
-We believe public private key pairs are fundamentally, a better way to authenticate users (and machines!).
+### Clone the repo
 
-In order to fully address challenges of customer authentication, any solution must be:
+1. Clone the repo.  This creates a directory named `developer-docs` in your current working directory.
 
-- Secure: multi-factor with zero reliance on shared secrets or phishable factors
-- Easy to use: frictionless with no need for second devices or complicated steps
-- Universal across applications and devices: consistent experience across native and web apps on any device
-- Simple for developers to integrate: to reduce engineering workload so developers can work on their core product instead of authentication
+   ```bash
+   git clone https://github.com/gobeyondidentity/developer-docs.git
+   cd developer-docs
+   ```
 
-The only solution that met the above requirements was an authentication framework built off of public-private key pairs.
+2. Next, create a new [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) from `main` (always give your branch a meaningful, descriptive name). 
 
-While we’re not the first to solve the problem with asymmetric cryptography, the existing solutions today fall short given the lack of cross-platform interoperability, and the friction presented to users.
+   ```bash
+   git checkout -b <branch_name> main
+   ```
 
-### Installation
----
+Refer to the [contributor's guide](./contributor-guide/contributor-guide.md) for details on how to submit edits or additions to the documentation.
 
-To run the docs locally you can use: 
+### Start the development server
+
+We're finally able to get to the fun stuff! Install the dependencies and start a local development server:
 
 ```bash
-$ yarn install
-$ yarn start
+yarn
+yarn start
 ```
 
-## Project Resources
----
-| Resource                                   | Description                                                                   |
-| ------------------------------------------ | ----------------------------------------------------------------------------- |
-| [CODEOWNERS](https://github.com/gobeyondidentity/developer-docs/blob/main/CODEOWNERS)                 | Outlines the project lead(s)  
+The `http://localhost:3000` opens in your browser so you can see your changes reflected live. As you make changes to the source files, the preview build will be triggered automatically, and then you can refresh your browser to see the changes.
 
-## Issues? 
----
-This is a public repository. If you find any issues, please fork and submit a pull request. 
+## Project Resources
+
+| Resource | Description |
+| ---| --- |
+| [CODEOWNERS](https://github.com/gobeyondidentity/developer-docs/blob/main/CODEOWNERS) | Outlines the project lead(s) |
+
+## Thank you!
+
+We appreciate your contributions to our documentation!

@@ -1,0 +1,56 @@
+---
+title: Create new realm
+id: create-realm
+description: "Learn how to create a realm, which is a namespace in your tenant that isolates identities and applications from other realms. "
+slug: /create-realm 
+keywords: 
+ - realm
+ - create
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+import AdminRealmDescription from '../includes/_admin-realm-description.mdx'; 
+import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
+
+
+
+
+<AdminRealmDescription />
+
+## Prerequisites
+
+- Developer account (the **Beyond Identity Admin Realm** is created by default when you create a developer account)
+
+## Admin Console
+
+import CreateRealmAdminConsole from '../includes/_create-realm-console.mdx';
+
+<CreateRealmAdminConsole />
+
+## API
+
+Realms can also be created by API. Before making any API calls you'll want to generate an API access token. Check out [API Tokens](/docs/next/create-api-token#admin-console) for help creating an access token. Once you have an access token, make a request to the `/realms` endpoint below.
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms" \
+-X POST \
+-H "Authorization: Bearer $(TOKEN)" \
+-H "Content-Type: application/json" \
+-d "{\"realms\":{\"display_name\":\"$(REALM_NAME)\"}}"'
+title="/realms"
+/>
+
+## What can you do next?
+
+<p><mark>We can expand this section to include different critical paths for the developer to take.</mark></p>
+
+- [Add an application](/docs/next/add-an-application)
+- [Add an identity](/docs/next/add-an-identity) so users can start authenticating with Beyond Identity.
+- [Add groups](/docs/next/add-groups) to organize and segment your users as needed.

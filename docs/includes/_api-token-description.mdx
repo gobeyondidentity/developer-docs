@@ -1,0 +1,20 @@
+All [Beyond Identity API](/docs/next/api-endpoints) endpoints require an access token for authentication. The access token is generated through OAuth 2.0 or OIDC, using either the **Authorization Code** or **Client Credentials** flow. 
+
+The **Beyond Identity Management API** application created during developer setup only supports the **Client Credentials** flow. However, if you want to use the **Authorization Code** flow instead, create another application referencing the Beyond Identity Management API Resource Server in the **Beyond Identity Admin** realm. Then, set the application's grant type to **Authorization Code**.
+
+The access tokens are JWTs with two types of token formats available:
+
+- **self-contained** tokens as JWS (_default token format_)
+
+- **referential** tokens as JWE
+
+You can create an API access token using the [Beyond Identity Admin Console](/docs/next/create-api-token#admin-console) or the [Beyond Identity APIs](/docs/next/create-api-token#api). You'll generate the access token with your **Beyond Identity Management API** application to authorize access to any Beyond Identity APIs. The Beyond Identity Management API application is provided by default upon tenant creation and resides within the **Beyond Identity Admin Realm**. 
+
+For API requests, you must provide the access token in the Authorization header, as shown in the following example:
+
+```bash
+curl <https://api-us.beyondidentity.com/v1/>... \\\\
+-X $HTTP_METHOD -H "Authorization: Bearer $TOKEN"
+```
+
+API access tokens are valid for three months (TTL 7776000 seconds). You can restrict the token's access with scopes by selecting a list in the Beyond Identity Admin Console or specifying a space-separated string of scopes in your API request, following [RFC6749#3.3](https://www.rfc-editor.org/rfc/rfc6749#section-3.3). You can also configure token expiration from your **Beyond Identity Management API** application.

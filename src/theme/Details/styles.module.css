@@ -1,0 +1,32 @@
+/* details */
+
+.details {
+  --docusaurus-details-decoration-color: #3856A6;
+  --docusaurus-details-transition: transform var(--ifm-transition-fast) ease;
+  margin: 0 0 var(--ifm-spacing-vertical);
+  border: 0.01px solid #3856A616;
+  color: #333333;
+}
+
+
+.detailsContainer {
+  background-color: #F6F8FA;  
+
+}
+
+.detailsContainer a {
+  color: #3856A6;
+  text-decoration: none;
+}
+
+
+/* summary */
+
+.summaryHeading {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 6px;
+  vertical-align: bottom;
+
+}
+

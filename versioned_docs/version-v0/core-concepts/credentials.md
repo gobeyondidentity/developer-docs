@@ -1,6 +1,5 @@
 ---
 title: Credentials
-sidebar_position: 1
 ---
 
 A Credential can be described as a public/private key pair where the private key is stored securely in a [TEE](https://en.wikipedia.org/wiki/Trusted_execution_environment). 

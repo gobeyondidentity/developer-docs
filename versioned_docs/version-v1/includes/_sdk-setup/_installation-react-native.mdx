@@ -1,0 +1,23 @@
+import ExpoInstallation from './_installation-react-native-expo.mdx';
+import BareInstallation from './_installation-react-native-bare.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+### Using [react-native init](https://reactnative.dev/docs/environment-setup) or an [expo](https://docs.expo.dev/get-started/create-a-project/) app.
+
+<Tabs groupId="rn-installation" queryString>
+<TabItem value="bare" label="react-native init">
+
+<BareInstallation />
+
+</TabItem>
+<TabItem value="expo" label="expo">
+
+:::info
+This package [requires custom native code](https://docs.expo.io/workflow/customizing/) and can be used with [Development builds](https://docs.expo.dev/develop/development-builds/introduction/) or  [prebuild](https://docs.expo.dev/workflow/prebuild/) and cannot be used with Expo Go.
+:::
+
+<ExpoInstallation />
+
+</TabItem>
+</Tabs>

@@ -5,7 +5,7 @@ import styles from "./HomepageFeatures.module.css";
 const FeatureList1 = [
   {
     title: "Getting started",
-    Svg: require("../../static/img/get-started.svg").default,
+    Svg: require("@site/static/img/get-started.svg").default,
     description: (
       <>
         Get started with Beyond Identity with ready made instructions for common use cases.
@@ -16,20 +16,20 @@ const FeatureList1 = [
     )
   },
   {
-    title: "Guides",
-    Svg: require("../../static/img/tutorials.svg").default,
+    title: "Integration Guides",
+    Svg: require("@site/static/img/tutorials.svg").default,
     description: (
       <>
         Get step-by step instructions for common use cases and third-party integrations. 
       </>
     ),
     link: (
-      "/guides"
+      "/docs/v1/guides/overview"
     )
   },
   {
     title: "Platform Overview",
-    Svg: require("../../static/img/platform.svg").default,
+    Svg: require("@site/static/img/platform.svg").default,
     description: (
       <>
         A review of our platform and how to put it to good use. 
@@ -44,7 +44,7 @@ const FeatureList1 = [
  const FeatureList2 = [
   {
     title: "API Reference ⧉",
-    Svg: require("../../static/img/reference.svg").default,
+    Svg: require("@site/static/img/reference.svg").default,
     description: (
       <>
         Manage resources programmatically with our API and CLI tools. 
@@ -56,7 +56,7 @@ const FeatureList1 = [
   },
   {
     title: "Products ⧉",
-    Svg: require("../../static/img/products.svg").default,
+    Svg: require("@site/static/img/products.svg").default,
     description: (
       <>
         Learn more about our products and how to use them. 
@@ -68,7 +68,7 @@ const FeatureList1 = [
   },
   {
     title: "Support ⧉",
-    Svg: require("../../static/img/slack.svg").default,
+    Svg: require("@site/static/img/slack.svg").default,
     description: (
       <>
         Join our slack community for questions or support with your Beyond Identity account. 

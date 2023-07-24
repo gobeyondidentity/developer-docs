@@ -1,0 +1,8 @@
+Use these guidelines to determine the Resource Server settings of your application:
+
+| If your application... | Then... |
+| --- | --- |
+| References a Resource Server,  |  The application can include [scopes](/docs/next/api-scopes) in issued [access tokens](/docs/next/api-token-overview). The scopes your app can issue are configured in the `allowed_scopes` setting and must be equal to or a subset of the resource server's available scopes. |
+| Doesn't reference a Resource Server  |  The application can only be used to provide authentication (identity) but not authorization (access). Therefore, the scopes element in access tokens will be empty.  |
+| Doesn't need to provide multiple access levels, like admin vs. user,  |  Does not necessarily need a resource server. <mark>the introspect api will reject tokens w/o scopes though right?</mark> |
+| Is for minting tokens for access to the Beyond Identity API  |  You must set your application's **Resource Server** to **Beyond Identity Management API**. |

@@ -1,5 +1,5 @@
 import styles from "./TryItOut.module.css";
-import padding from "../../css/Padding.module.css";
+import padding from "./Padding.module.css";
 import React, { useState } from "react";
 import classNames from "classnames";
 import AuthenticateResult from "./AuthenticateResult";
@@ -13,6 +13,7 @@ import { getPasskeys, bindPasskey, authenticate, deletePasskey } from "../../uti
 import { getOffsetForElementById } from "../../utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 const StepOne = ({ progressState, setProgressState }) => {
   const [username, setUsername] = useState("");
@@ -83,24 +84,17 @@ const StepOne = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <div className={classNames(padding["mt-1"], padding["mb-1"])}>
-        <p>Explore what's possible using the Beyond Identity platform before having to write any code.</p>
-        <p>The three steps below allow you to:</p>
-        <ol>
-          <li><strong>Register a new user:</strong> We help developers manage user accounts and associate passkeys with each.</li>
-          <li><strong>See your passkeys:</strong> To help developers and users identify which passkeys are available on any given device, we create a record on each browser of passkeys that are available for users to authenticate with.</li>
-          <li><strong>Authenticate with your passkey:</strong> In this step, you can try authentication from the user's standpoint and experience yourself how easy it is to use passkeys.</li>
-        </ol>
-      </div>
-      <h1 className={classNames(styles.heading)}>1. Register a User</h1>
+      <h2>1. Register a User</h2>
       <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
+      <br />
       <div className={classNames(styles["step-input"], "container")}>
         <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
           <label className={classNames(styles.username)} htmlFor="username">Username:</label>
           <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
         </form>
       </div>
-      <div className={classNames(padding["mt-1"])}>
+      <div>
+        <br />
         <Button
           name="Create passkey"
           isLoading={loading}
@@ -226,7 +220,7 @@ const StepTwo = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1 className={classNames(styles.heading)}>2. See your passkeys</h1>
+      <h2>2. See your passkeys</h2>
       <p>See all the passkeys you've created on this browser. If you've gone through this demo before, you'll see passkeys for all the usernames you've registered in the first step.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {passkeys !== null ? <PasskeyTable passkeys={passkeys} onClick={handlePasskeyClick}></PasskeyTable> : <Button
@@ -414,7 +408,7 @@ const StepThree = ({ progressState, setProgressState }) => {
 
   return (
     <div className={parentClassNames}>
-      <h1 className={classNames(styles.heading)}>3. Authenticate with your passkey</h1>
+      <h2>3. Authenticate with your passkey</h2>
       <p>Select a passkey to authenticate with. This flow will take you through a fully compliant OIDC authentication flow without leaving the page that you're on.</p>
       <div className={classNames(styles["step-input"], "container")}>
         {passkeys !== null ?

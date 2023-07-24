@@ -1,0 +1,159 @@
+---
+title: Add new app
+id: add-an-application
+description: "Learn how to add an application within a realm to configure your OAuth or OIDC flows. An application utilizes the realm's directory, policy, events, and branding objects."
+slug: /add-an-application 
+keywords: 
+ - application
+ - create
+ - add
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+import AppDescription from '../includes/_application-description.mdx';
+import AppSchemeCaution from '../includes/_app-scheme-caution.mdx';
+import InvocationTip from '../includes/_invocation-type-tip.mdx';
+import ResourceServerDescription from '../includes/_resource-server-description.mdx';
+import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
+import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
+import InvocationTypeTable from '../includes/_invocation-type-table.mdx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+
+
+<AppDescription />
+
+  
+
+## Prerequisites
+
+You'll need to have a developer account, which comes with the **Beyond Identity Admin Realm** and **Beyond Identity Management API** app.
+
+## Admin Console
+
+An application can be created from the Beyond Identity Admin Console. 
+
+import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
+
+<AddAppAdminConsole />
+
+### External Protocol Tab
+#### Client Configuration
+Configure your application's basic settings. After saving, the values entered will be used to generate OIDC configuration endpoints for your application as well as your Client ID and Client Secret.
+
+  | Setting | What you can do |
+  | --- | --- |
+  | **Protocol**   |  <mark>Why choose one over the other?</mark>For examples of how to use OAuth and OIDC flows to request tokens, see [request api tokens](/docs/next/create-api-token#token-request-scenarios)<ul><li><b>OAuth2</b>: With the OAuth2 protocol, you can use either the client credentials grant type or the authorization code grant type.</li><li><b>OIDC</b>: With the OIDC protocol, you must use the authorization code grant type. With OIDC, you can obtain an id_token as well as an access_token. </li></ul>  | 
+  |  **Client Type**  |  <ul><li><b>Confidential</b>: clients are applications that are able to securely authenticate with the authorization server, for example being able to keep their registered client secret safe. Think of an application with a backend.</li><li><b>Public</b>: clients are unable to use registered client secrets, such as applications running in a browser or on a mobile device. You will not receive an application "Client Secret" if you create this type of application. </li></ul>   |
+  |  **PKCE**  | If PKCE is set to **Disabled**, you do not need to send the PKCE parameters (code_challenge, code_challenge_method, and code_verifier) in your token requests. However, authorization code grant with PKCE is the recommended flow for token requests and is required for public clients. |  
+  |  **Redirect URIs**  |  A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See [Section 3.1.2](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2) for more information.   |
+  |  **Token Endpoint Auth Method**  |  <ul><li><b>Client Secret Basic</b>: The client uses HTTP Basic as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the Basic Authorization header.</li><li><b>Client Secret Post</b>: The client uses the HTTP POST parameters as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the body of the POST request.</li></ul>   |
+  |  **Grant Type**  |  <ul><li><b>Authorization Code</b>: The authorization code grant type defined in OAuth 2.0, [Section 4.1](https://www.rfc-editor.org/rfc/rfc6749#section-4.1). Namely, the client may authorize to the token endpoint with a grant code which it obtains via the authorize endpoint.</li><li><b>Client Credentials</b>: The client credentials grant type defined in OAuth 2.0, [Section 4.4](https://www.rfc-editor.org/rfc/rfc6749#section-4.4). Namely, the client may authorize to the token endpoint with a client credentials tuple of client_id and client_secret. If you select **Client Credentials**, the application cannot have an associated authenticator configuration.</li></ul>   |
+  |  **Resource Server**  |  If the app is linked to a resource server, the resource server determines the [scopes the app can be allowed](/docs/next/api-scopes) to issue.   |
+  |  **Token Format**  |  The two options for token format are **Self-Contained** and **Referential**. The difference between these two options impacts how the tokens will be validated. **Self-Contained** tokens can be validated offline because they contain all of the validation information. **Referential** tokens require a call to an introspection API for validation.  |
+ 
+
+#### Token Configuration
+| Setting | What you can do |
+| --- | --- |  
+| Allowed Scopes | If the app is configured with a Resource Server, then this setting specifies the scopes allowed to be included in tokens for this application. The allowed scopes can match or be a subset of the Resource Server scopes |  
+| Expires | Token lifetime in seconds |  
+| Subject | Property of a principal which is used to fill the subject of a token issued for this application. |  
+| Token Signing Algorithm | Signing algorithm to use for an application token. The only allowable value at present is RS256. |  
+
+#### Refresh Token Configuration
+| Setting | What you can do |
+| --- | --- |  
+| **Enable Refresh Tokens** | When enabled, the token response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4). |  
+
+### Authenticator Config Tab
+Select the [authenticator configuration type](/docs/next/authentication).
+
+  <Tabs groupId="authenticator-config">
+    <TabItem value="hosted-web" label="Hosted Web">
+      <p>Select the <b>Hosted Web</b> option if you want Beyond Identity to do the heavy lifting. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. </p><br /><p>Hosted Web Authenticator comes preconfigured with the following values:</p><ul><li><b>Invocation Type</b>: automatic </li><li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li><li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li></ul>
+    </TabItem>
+    <TabItem value="embedded" label="Embedded SDK">
+    <p>Select the <b>Embedded SDK</b> option if you want to custom-build your end-user authentication experience. This option requires more configuration and code:</p>
+    <div class="tabs-list">
+    <ol><li>Set an <b>Invocation Type</b> to specify how an authentication URL is delivered to your application.<p><InvocationTypeTable /></p></li><li>Set an <b>Invoke URL</b> that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.<p><AppSchemeCaution/></p></li><li>Set <b>Trusted Origins</b> with your website's URL to add it to a whitelist. By default, cross origin requests are blocked by our server.</li></ol>
+    </div>
+    </TabItem>
+  </Tabs>
+
+
+
+Click **Submit**. You'll be taken to the app page for the new application. Here, you'll be able to a number of things, such as edit the basic and advanced settings or configure the signup/login experience. 
+
+
+## API
+
+Before creating an application by API, you must have an [API access token](/docs/next/create-api-token#api). You'll also need to create a Resource Server and an Authenticator Config, which you'll do below. A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. An Authenticator Config defines the invocation type, invoke URL, and trusted origins. 
+
+1. Create a [Resource Server](/docs/next/add-resource-server#api). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. 
+
+  <ResourceServerDescription />
+
+  <MultiLanguageCodeBlock
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
+  -X POST \
+  -H "Authorization: Bearer $(TOKEN)" \
+  -H "Content-Type: application/json" \
+  -d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
+  title="/resource-servers"
+  />
+
+2. Create an Authenticator Config and make a note of the Authenticator Config ID. 
+
+  Follow these guidelines to determine if your use case requires the Authenticator Config ID for creating your application:
+
+  | Protocol | Grant Type | Required? |
+  | --- | --- | --- | 
+  | OAuth | Client Credentials |  No  |
+  | OAuth | Authorization Code |  Yes  |
+
+  You'll set the application's Configuration Type, Invocation Type, Invoke URL, and Trusted Origins. 
+
+  <MultiLanguageCodeBlock
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/authenticator-config" \
+  -X POST \
+  -H "Authorization: Bearer $(TOKEN)" \
+  -H "Content-Type: application/json" \
+  -d "{\"authenticator_config\":{\"config\":{\"type\":\"$(CONFIGURATION_TYPE)\",\"invoke_url\":\"$(INVOKE_URL)\",\"trusted_origins\":[\"$(TRUSTED_ORIGIN)\"],\"invocation_type\":\"$(INVOCATION_TYPE)\"}}}"'
+  title="/authenticator-config"
+  />
+
+3. Create an application using at least the Authenticator Config ID, specifically if your application's `grant_type` is set to **authorization_code**. The Resource Server ID is optional. 
+
+  You'll set the application's Display Name, Client Type (confidentiality), Token Configuration, and one ore more redirect URIs. 
+
+  There are two options available for `confidentiality`:
+
+  | Option | What to do |
+  | --- | --- |
+  |  **confidential**  |  set the `token_endpoint_auth_method` to  one of the following:<ul><li>**client_secret_post**</li><li>**client_secret_basic**</li></ul>   |
+  |  **public**  |  set the `token_endpoint_auth_method` to **none**   |
+
+  <MultiLanguageCodeBlock
+  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications" \
+  -X POST \
+  -H "Authorization: Bearer $(TOKEN)" \
+  -H "Content-Type: application/json" \
+  -d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\", \"token_format\": \"self_contained\"}}}"'
+  title="/applications"
+  />
+
+  Token configuration, such as expiration and default allowed scopes, can be modified either through the Beyond Identity Admin Console or through API on [application update](https://developer.beyondidentity.com/api/v1#tag/Applications/operation/UpdateApplication).
+
+
+## What can you do next?
+
