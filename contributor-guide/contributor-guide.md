@@ -456,9 +456,9 @@ Now you're ready to create and submit a pull request to have your changes or add
 
 3. After going through the review process for technical accuracy and a copy edit from a Sr. Technical Writer, they will enter `#sign-off`.
 
-4. A develope will approve and merge the pull request. Your changes get merged into the `main` branch. 
+4. A developer will approve and merge the pull request. Your changes get merged into the `main` branch. 
    <br />
-   >**NOTE: The Sr. Technical Writer cannot merge PRs.**  
+   >**NOTE: It is the responsibility of the developer approving the PR to merge it.  The Sr. Technical Writer cannot merge PRs.**  
 
 
 ### Pull request guidelines
