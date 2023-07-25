@@ -314,6 +314,7 @@ const sidebars = {
             'sdks/js-reference-guide/js-reference-deleteCredential',
             'sdks/js-reference-guide/js-reference-passkey-type',
             'sdks/js-reference-guide/js-reference-getAuthenticationContext',
+            'sdks/js-reference-guide/js-reference-redeemOtp',
           ],
         },
        {
