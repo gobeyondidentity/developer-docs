@@ -58,6 +58,31 @@ Hosted Web Authenticator is a constrained version of the Embedded Authenticator 
 Passkeys are tied to an origin and they are stored on a specific browser.
 :::
 
+### Authentication Profile
+
+The Authentication Profile allows you to customize the authentication flow for new or returning users. 
+
+#### Email verification for sign-up and new browser login
+
+This configuration allows you to customize the authentication flow for user registration.
+This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.
+
+Currently the following authentication factors are supported and more are coming soon:
+
+import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
+
+<AuthenticationProfileTable1 />
+
+#### Authentication method for returning login
+
+This configuration allows you to customize the authentication flow for user login.
+
+Currently the following authentication factors are supported and more are coming soon:
+
+import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
+
+<AuthenticationProfileTable2 />
+
 ## Embedded SDK
 
 Embedded SDK requires more configuration and code. Still, it has more flexibility, like silent authentication and keeping the whole experience inside your application. The embedded SDK authenticator is embedded directly in your application when you install one of our SDKs.
