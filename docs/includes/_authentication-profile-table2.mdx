@@ -1,14 +1,20 @@
+import { Badge } from "@nextui-org/react";
+
 import AuthenticationProfileTable3 from '../includes/_authentication-profile-table3.mdx';
 
-- **Hardware-bound passkey** (Recommended)
+- **Hardware-bound passkey** <Badge color="success" variant="flat">(Recommended)</Badge>
 
-    Supports biometric step-up during authentication. Available on Chrome and Edge.
+    This option generates a hardware key within your device's trusted execution environment (TEE).
+
+    Hardware-bound passkeys support biometric step-up during authentication. Available on Chrome and Edge.
 
     <AuthenticationProfileTable3 />
 
 - **Software-bound passkey**
 
-    Does not support biometric step-up during authentication.
+    This option generates a passkey securely created within the browser's context.
+
+    Software-bound passkeys do not support biometric step-up during authentication.
 
 - **One-time passcode**
 
