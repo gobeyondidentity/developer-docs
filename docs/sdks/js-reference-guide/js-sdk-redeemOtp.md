@@ -15,7 +15,7 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code.
+The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](js-reference-authenticateOtp).
 
 ## Dependencies
 
@@ -41,7 +41,13 @@ import { Embedded } from "@beyondidentity/bi-sdk-js";
 const embedded = await Embedded.initialize();
 ```
 
-3. Use **redeemOtp** to redeem an otp for a grant code
+3. Use **authenticateOtp** to initiate authentication using an OTP
+
+```javascript
+await embedded.authenticateOtp(url, email);
+```
+
+4. Use **redeemOtp** to redeem an otp for a grant code
 
 ```javascript
 await embedded.redeemOtp(url, otp);
@@ -49,10 +55,10 @@ await embedded.redeemOtp(url, otp);
 
 ## Parameters
 
-| Parameter | Type   | Description                                                  |
-| --------- | ------ | ------------------------------------------------------------ |
-| url       | string | Required. The authentication URL of the current transaction. |
-| otp       | string | Required. The OTP to redeem.                                 |
+| Parameter | Type   | Description                                                                                                                              |
+| --------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| url       | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
+| otp       | string | Required. The OTP to redeem.                                                                                                             |
 
 ## Returns
 
@@ -62,7 +68,21 @@ On success, the **redeemOtp** function returns a Promise that resolves to an **A
 - **message**: optional string containing a displayable message defined by policy returned by the cloud on success.
 - **passkeyBindingToken**: string containing a one-time-token that may be redeemed for a CredentialBindingLink.
 
+You can exchange the token for a link by calling the [credential-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) endpoint.
+
+```javascript
+const response = await fetch(
+  `/v1/tenants/${tenantId}/realms/${realmId}/applications/${applicationId}/credential-binding-jobs`,
+  {
+    method: "POST",
+    headers: { Authorization: `Bearer ${passkeyBindingToken}` },
+  }
+);
+```
+
 On failure, the **redeemOtp** function returns a Promise that resolves to an **OtpChallengeResponse**, which itself is a JSON object that contains the following keys:
+
+Note: This url should be used when calling [redeemOtp](js-reference-redeemOtp) or [authenticateOtp](js-reference-authenticateOtp) on retries.
 
 - **url**: object containing a URL containing the state of the authentication.
 
