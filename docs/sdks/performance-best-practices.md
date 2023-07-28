@@ -1,16 +1,16 @@
 ---
 title: Performance Best Practices
 id: performance-best-practices
-description: ''
+description: ""
 slug: /performance-best-practices
-keywords: 
- - sdk
- - setup
+keywords:
+  - sdk
+  - setup
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 06/01/2023
-   author: Patricia McPhee
+last_update:
+  date: 06/01/2023
+  author: Patricia McPhee
 draft: false
 doc_type: how-to
 displayed_sidebar: sdkSidebar
