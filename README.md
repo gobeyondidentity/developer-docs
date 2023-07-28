@@ -47,7 +47,7 @@ Before you get started with the authoring work, it's necessary that you understa
 
 * **`active-development`** - protected branch (currently used for front-end development)
 
-  Its content is published on https://customer-docs-git-active-development-beyondidentity.vercel.app/ for early validation purpose.
+  Its content is published on https://developer-docs-git-active-development-beyondidentity.vercel.app/ for early validation purpose.
   
 * You can have your own personal branch to work on content for a certain issue or feature. However, be sure to check and remove unused personal branches periodically for easy maintenance. Usually when your branch is merged, you can safely delete it.
 
