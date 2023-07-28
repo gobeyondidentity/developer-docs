@@ -1,6 +1,6 @@
 ---
-title: Getting Started with NextJS
-sidebar_label: NextJS
+title: Getting Started with Next.js
+sidebar_label: Next.js
 id: get-started-nextjs
 description: 'Create a free Beyond Identity developer account and connect it to enable a sample application to use passkeys (public-private key pairs) for user authentication.'
 slug: /get-started-nextjs
@@ -109,7 +109,7 @@ Configure the [app](/docs/next/add-an-application) with the following properties
 | Protocol                                                 | OIDC                                                                                                                                                                                                                                                                                                                                                                              |
 | Client Type                                              | Confidential                                                                                                                                                                                                                                                                                                                                                                      |
 | PKCE                                                     | S256                                                                                                                                                                                                                                                                                                                                                                              |
-| Redirect URIs                                            | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /> http://localhost:3000/api/auth/callback/beyondidentity <br /><br />(Note that `'beyondidentity'` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the NextJS route file structure.) |
+| Redirect URIs                                            | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /> http://localhost:3000/api/auth/callback/beyondidentity <br /><br />(Note that `'beyondidentity'` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.) |
 | Token Endpoint Auth Method                               | Client Secret Basic                                                                                                                                                                                                                                                                                                                                                               |
 | Grant Type                                               | Authorization Code                                                                                                                                                                                                                                                                                                                                                                |
 | Subject (under **Token Configuration**)                  | username                                                                                                                                                                                                                                                                                                                                                                          |
@@ -215,8 +215,8 @@ declare namespace NodeJS {
 
 Make the following change to your NextAuth example app project to configure Beyond Identity as an OAuth provider:
 
-If you are using NextJS Version 12, create a route at **pages/api/auth/[...nextauth].js**.  
-If you are using NextJS Version 13, create a route at **app/api/auth/[...nextauth]/route.ts**.
+If you are using Next.js Version 12, create a route at **pages/api/auth/[...nextauth].js**.  
+If you are using Next.js Version 13, create a route at **app/api/auth/[...nextauth]/route.ts**.
 
 Inside the `providers` array, add the following entry:
 
