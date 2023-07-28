@@ -40,23 +40,17 @@ Currently the following authentication factors are supported and more are coming
 
 - Universal Passkey
 
-- FIDO2 Multi-Device Passkey - <Badge color="primary" variant="flat" >Coming soon!</Badge>
+- Email OTP
 
-- Email OTP - <Badge color="primary" variant="flat" >Coming soon!</Badge>
+- FIDO2 Multi-Device Passkey - <Badge color="primary" variant="flat" >Coming soon!</Badge>
 
 - Federated IDP - <Badge color="primary" variant="flat" >Coming soon!</Badge>
 
 ## Hosted Web
 
-The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity to utilize your application's passkeys on a user's device. The Hosted Web Authenticator is a Beyond Identity hosted page that embeds the Javascript SDK. Think of this as a wallet hosted by Beyond Identity Cloud that holds an identity's passkeys.
+The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity. The web-based authenticator, however, can be configured with your own logo and brand colors. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. Beyond Identity can be set up as an OAuth or OpenID Connect provider using the Hosted Web Authenticator. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/). To get started, [create an application](/docs/next/add-an-application). All the values you need to configure the provider can be found in your Beyond Identity console application’s External Protocol tab.
 
-Hosted Web Authenticator is a constrained version of the Embedded Authenticator Config with the following default values:
 
-<ul><li><b>Invocation Type</b>: automatic </li><li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li><li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li></ul>
-
-:::tip KEEP IN MIND
-Passkeys are tied to an origin and they are stored on a specific browser.
-:::
 
 ### Authentication Profile
 
