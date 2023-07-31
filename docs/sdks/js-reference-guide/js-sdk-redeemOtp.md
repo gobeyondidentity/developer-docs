@@ -74,7 +74,7 @@ You can exchange the token for a link by calling the [credential-binding-jobs](h
 
 ```javascript
 const response = await fetch(
-  `https://auth-${region}.beyondidentity.run/v1/tenants/${tenantId}/realms/${realmId}/applications/${applicationId}/credential-binding-jobs`,
+  `https://auth-${region}.beyondidentity.com/v1/tenants/${tenantId}/realms/${realmId}/applications/${applicationId}/credential-binding-jobs`,
   {
     method: "POST",
     headers: { Authorization: `Bearer ${passkeyBindingToken}` },
