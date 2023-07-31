@@ -2,8 +2,6 @@ openapi: 3.0.1
 info:
   title: Beyond Identity API
   version: 1.1.0
-  contact:
-    email: support@beyondidentity.com
   description: |
     # Introduction
 

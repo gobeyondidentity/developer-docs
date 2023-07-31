@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/01/2023
-   author: Patricia McPhee
+   date: 07/18/2023
+   author: Jen Field
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
@@ -18,7 +18,7 @@ displayed_sidebar: sdkSidebar
 
 The **bindPasskey** function enables your app to generate and bind a new passkey to an identity. The identity can be one that you create via the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity) or one that exists already in the tenant you target. 
 
-_This is a reference article that describes the **bindPasskey** function. For a complete walk through on creating a new passkey, see our guide [Bind Passkey to an identity](/docs/next/add-passkey)._
+_This is a reference article that describes the **bindPasskey** function. For a complete walk-through on creating a new passkey, see our guide [Bind Passkey to an identity](/docs/next/add-passkey)._
 
 ## Dependencies
 The **bindPasskey** function requires the Beyond Identity Javascript SDK.
@@ -28,43 +28,47 @@ npm install @beyondidentity/bi-sdk-js
 ## Prerequisites
 Before making a call to **bindPasskey**, you must complete the following prerequisite calls:  
 
-1. Import the functions in the Embedded  namespace from the SDK
-```javascript
-import {Embedded} from '@beyondidentity/bi-sdk-js';
-```  
+1. Import the functions in the Embedded namespace from the SDK.
 
-2. Initialize the SDK
-```javascript
-const embedded = await Embedded.initialize();
-```  
+  ```javascript
+  import {Embedded} from '@beyondidentity/bi-sdk-js';
+  ```  
 
-3. Get a passkey binding link url using the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs).  
+2. Initialize the SDK.
 
-  > _Generating a passkey binding link has several inputs and options. For details see [passkey-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs)._   
+  ```javascript
+  const embedded = await Embedded.initialize();
+  ```  
 
-4. Use **isBindPasskeyUrl** to verify passkey binding link  
-```javascript
-await embedded.isBindPasskeyUrl(passkeyBindingLink)
-```
+3. Get a passkey binding link URL using the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs).  
+
+  > _Generating a passkey binding link has several inputs and options. For details, see [passkey-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs)._   
+
+4. Use **isBindPasskeyUrl** to verify passkey binding link.
+  
+  ```javascript
+  await embedded.isBindPasskeyUrl(passkeyBindingLink)
+  ```
 
 ## Parameters
 | Parameter | Type |Description|
 |---|---|---|
-|url| string| Required. Passkey binding link url. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity.  This url enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify.  
+|url| string| Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify.  |
 
 ## Returns
 On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is a JSON object that contains the following keys:
   - **passkey**: an object representing the newly created passkey. See example [passkey](/docs/next/js-reference-passkey-type).  
   
-  - **postBindRedirect**: a string containing the URL to redirect to upon succesfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
+  - **postBindRedirect**: a string containing the URL to redirect to upon successfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 
 ## Notes
- Call this function from client side code as it needs to run in the browser context.  
- In the [sample app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Javascript SDK, calls to this function are located in > src > components > bind-passkey.tsx.  
+ Call this function from client-side code, as it needs to run in the browser context.  
+
+In the [sample app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Javascript SDK, calls to this function are located in > src > components > bind-passkey.tsx.  
   
 
 ## Examples
-### Example: Call **bindPasskey** after validating passkey binding URL
+### Example: Call **bindPasskey*- after validating passkey binding URL
 ```javascript
 if (await embedded.isBindPasskeyUrl(passkeyBindingLink)) {
       let result = await embedded.bindPasskey(passkeyBindingLink);
@@ -72,23 +76,31 @@ if (await embedded.isBindPasskeyUrl(passkeyBindingLink)) {
 }
 ```
 
-### Example: Create identity and get passkey binding URL
-In this example from the [sample app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) we first create a new identity using the API, then generate and retrieve the passkey binding url.  
+### Example: Create an identity and get passkey binding URL
+In this example from the [sample app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example), you'll first create a new identity using the API, then generate and retrieve the passkey binding URL.  
+
 To achieve this, we use several data elements:  
-1) Configuration from your BI tenant:
- * TENANT_ID: the Tenant ID of the tenant in which the app is configured
- * REALM_ID: the Realm Id of the realm in which the app is configured
- * AUTHENTICATOR_CONFIG_ID: The Authenticator Config ID from the Authenticator Config tab of the app's configuration page  
 
-2) Other passkey binding API parameters:  
-   - delivery_method: we choose "RETURN" so that the url will be delivered directly in the response
-   - post\_binding\_redirect\_uri: this optional parameter specifies a url to which the user will be redirected _after_ a successful binding (see **Returns** above)  
+1. Configuration from your BI tenant:
 
-3) The identityId returned from the first call is used for the second call  
+  | Property | Description |
+  | --- | --- |
+  | **TENANT_ID**  |  The Tenant ID of the tenant in which the app is configured. |
+  | **REALM_ID**  | The Realm ID of the realm in which the app is configured.  |
+  | **AUTHENTICATOR_CONFIG_ID**  |  The Authenticator Config ID from the Authenticator Config tab of the app's configuration page. |
 
-4) A username passed in to the function is used to crate the user and establish their email name 
+1. Other passkey binding API parameters:  
 
-The resulting passkey binding url can be found in the **credential_binding_link** member of the response json returned from the second call.  
+  | Property | Description |
+  | --- | --- |
+  | **delivery_method**  | Select **RETURN** to deliver the URL directly in the response.   |
+  | **post\_binding\_redirect\_uri**  | An optional parameter that specifies a URL the user gets redirected to _after_ a successful binding (see **Returns** above). |
+
+3. The **identityId** returned from the first call is used for the second call. 
+
+4. A username passed into the function is used to create the user and establish their email name 
+
+You can find the resulting passkey binding URL in the **credential_binding_link** member of the response JSON returned from the second call.  
    
 ```javascript
   // Step 1. Create an identity
@@ -147,13 +159,16 @@ The resulting passkey binding url can be found in the **credential_binding_link*
 
 ```  
 ### Example: Extract passkey binding URL from passkey binding link response
+
 ```javascript
 let jsonResponse = await response.json();
 let passkeyBindingLink = jsonResponse.credential_binding_link;
 ```
 
 ### Example: Get passkey binding URL for existing identity
-To obtain a passkey binding URL for an existing identity, replace Step 1 above with an API call such as the below to retrieve the identity ID for a known user. Once you have the identity ID, the process to retrieve the passkey binding URL is identical to Step 2 above.
+
+To obtain a passkey binding URL for an existing identity, replace Step 1 above with an API call such as the one below to retrieve the identity ID for a known user. Once you have the identity ID, the process to retrieve the passkey binding URL is identical to Step 2 above.
+
 ```javascript
 //get identity ID for identity
 app.get('/example', function(req, res) {
@@ -184,7 +199,9 @@ app.get('/example', function(req, res) {
 
 ```
 ### Example: Get passkey binding URL via email
-The following example shows how to obtain a passkey binding URL for a known identity ID via email.
+
+The following example shows how to obtain a passkey binding URL via email for a known identity ID.
+
 ```javascript
   const credentialBindingLinkResponse = await fetch(
     `${apiUrl().toString()}v1/tenants/${TENANT_ID}/realms/${REALM_ID}/identities/${identityId}/credential-binding-jobs`,
@@ -210,17 +227,22 @@ The following example shows how to obtain a passkey binding URL for a known iden
 
   res.send(credentialBindingLinkResponseJson);
 ```  
+
 where the following data elements are used: 
- * TENANT_ID: the Tenant ID of the tenant in which the app is configured
- * REALM_ID: the Realm Id of the realm in which the app is configured
- * AUTHENTICATOR_CONFIG_ID: The Authenticator Config ID from the Authenticator Config tab of the app's configuration page  
- * delivery_method: we choose "EMAIL" so that the url will be delivered to the primary_email_address from the user's profile  
- * post\_binding\_redirect\_uri: this optional parameter specifies a url to which the user will be redirected _after_ a successful binding (see **Returns** above)
- * identityId: the id property from the user's profile  
 
-When the user clicks the link in the Beyond Identity registration email, they will be redirected to your application's Invoke URL, as configured in the Authenticator Config tab in your BI tenant, with an automatically appended '/bind' route, for example 'http://example.com/bind', with several query string parameters appended.
+| Data element | Description |
+| --- | --- |
+| **TENANT_ID**  |  The Tenant ID of the tenant in which the app is configured. |
+| **REALM_ID**  | The Realm ID of the realm in which the app is configured.  |
+| **AUTHENTICATOR_CONFIG_ID**  |  The Authenticator Config ID from the Authenticator Config tab of the app's configuration page. |
+| **delivery_method**  | Select **EMAIL** so that the url will be delivered to the primary_email_address from the user's profile.   |
+| **post\_binding\_redirect\_uri**  | An optional parameter that specifies a URL the user gets redirected to _after_ a successful binding (see **Returns** above). |
+| **identityId**  | The ID property from the user's profile. |
 
-Your app must have a route or page to intercept this redirect, take the complete url (window.location.href), and send it to the **bindPasskey** function as follows:
+When the user clicks the link in the Beyond Identity registration email, they will be redirected to your application's Invoke URL, as configured in the Authenticator Config tab in your BI tenant, with an automatically appended '/bind' route, for example, 'http://example.com/bind', with several query string parameters appended.
+
+Your app must have a route or page to intercept this redirect, take the complete URL (window.location.href), and send it to the **bindPasskey** function as follows:
+
 ```javascript
 if (embedded.isBindPasskeyUrl(window.location.href)) {
   // Only bind if the URL is a "bind" URL
@@ -234,9 +256,4 @@ if (embedded.isBindPasskeyUrl(window.location.href)) {
     });
 }
 ```  
-For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](/docs/next/add-passkey)
-
-
-
-
-
+For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](/docs/next/add-passkey).

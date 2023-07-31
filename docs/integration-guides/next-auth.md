@@ -15,8 +15,6 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-<br />
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import SetupJavaScript from '../includes/_sdk-setup/_setup-javascript.mdx';
@@ -24,20 +22,24 @@ import SetupJavaScript from '../includes/_sdk-setup/_setup-javascript.mdx';
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/) (which is becoming [Auth.js](https://authjs.dev)).
 
 :::note  
-This guide uses the **Embedded SDK** Beyond Identity authenticator type, which allows full customization in your app. This solution involves creating more routes. For a lighter weight solution, see guidance using the **Hosted Web** authenticator type, in the guide: **[Getting Started with Next.js](/docs/next/get-started-nextjs)**.
-For more information on authenticator types, see our  **[Authentication](/docs/next/authentication)** article.  
+This guide uses the **Embedded SDK** Beyond Identity authenticator type, allowing full app customization. This solution involves creating more routes. For a lighter-weight solution, see guidance using the **Hosted Web** authenticator type in the guide: **[Getting Started with Next.js](/docs/next/get-started-nextjs)**.
+See our  **[Authentication](/docs/next/authentication)** article for more information on authenticator types.  
 :::
 
 In this guide, you'll:
 
 - Configure Beyond Identity as an Identity Provider
+
 - Create an identity and generate a passkey
+
 - Authenticate with a passkey
 
 ## Prerequisites
 
 - A [Beyond Identity developer account](https://www.beyondidentity.com/developers/signup)
+
 - The JavaScript SDK [installed](/docs/next/sdk-setup#installation) and [initialized](/docs/next/sdk-setup#setup)
+
 - A Next.js Application with NextAuth installed
 
 ## NextAuth
@@ -45,76 +47,79 @@ In this guide, you'll:
 The following are provided for your reference:
 
 - [NextAuth.js Initialization](https://next-auth.js.org/configuration/initialization)
+
 - [NextAuth.js OAuth Providers](https://next-auth.js.org/configuration/providers/oauth)
 
 - [Auth.js Introduction](https://authjs.dev/getting-started/introduction)
+
 - [Auth.js Guides](https://authjs.dev/guides)
+
 - [Beyond Identity Provider](https://authjs.dev/reference/core/providers_beyondidentity)
 
 <h3>Example</h3>
 
-You'll overwrite the _wellKnown_, _clientId_ and _clientSecret_ values later in this process, so you can use a dummy value for now.
+You'll overwrite the _wellKnown_, _clientId_, and _clientSecret_ values later in this process so that you can use a dummy value for now.
 
-Create an auth route in your Next.js project:  
+1. Create an auth route in your Next.js project  
 
- | Next.js Version | Route |
+  | Next.js Version | Route |
   | --- | --- |
-  | **12** | create a route at `pages/api/auth/[...nextauth].js` |
-  | **13** | create a route at `app/api/auth/[...nextauth]/route.ts` |
+  | **12** | Create a route at `pages/api/auth/[...nextauth].js`. |
+  | **13** | Create a route at `app/api/auth/[...nextauth]/route.ts`. |
 
-Add the following content:
+2. Add the following content.
 
-<Tabs groupId="nextjs" queryString>
-<TabItem value="nextauth" label="NextAuth.js">
-
-```javascript
-import NextAuth from 'next-auth';
-
-export default NextAuth({
-  providers: [
-    {
-      id: 'beyondidentity',
-      name: 'Beyond Identity',
-      type: 'oauth',
-      wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
-      authorization: { params: { scope: 'openid' } },
-      clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
-      clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
-      idToken: true,
-      checks: ['state', 'pkce'],
-      profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.sub,
-          email: profile.sub,
-        };
-      },
-    },
-  ],
-});
-```
-
-</TabItem>
-<TabItem value="auth" label="Auth.js">
-
-```javascript
-import { Auth } from '@auth/core';
-import BeyondIdentity from '@auth/core/providers/beyondidentity';
-
-const request = new Request('https://example.com');
-const response = await Auth(request, {
-  providers: [BeyondIdentity({ clientId: '', clientSecret: '', issuer: '' })],
-});
-```
-
-You'll overwrite the `Request` _url_ and `BeyondIdentity` _clientId_, _clientSecret_ and _issuer_ values later in this process, so you can use the dummy value for now.
-
-</TabItem>
-</Tabs>
+    <Tabs groupId="nextjs" queryString>
+    <TabItem value="nextauth" label="NextAuth.js">
+    
+    ```javascript
+    import NextAuth from 'next-auth';
+    
+    export default NextAuth({
+      providers: [
+        {
+          id: 'beyondidentity',
+          name: 'Beyond Identity',
+          type: 'oauth',
+          wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
+          authorization: { params: { scope: 'openid' } },
+          clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
+          clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
+          idToken: true,
+          checks: ['state', 'pkce'],
+          profile(profile) {
+            return {
+              id: profile.sub,
+              name: profile.sub,
+              email: profile.sub,
+            };
+          },
+        },
+      ],
+    });
+    ```
+    
+    </TabItem>
+    <TabItem value="auth" label="Auth.js">
+    
+    ```javascript
+    import { Auth } from '@auth/core';
+    import BeyondIdentity from '@auth/core/providers/beyondidentity';
+    
+    const request = new Request('https://example.com');
+    const response = await Auth(request, {
+      providers: [BeyondIdentity({ clientId: '', clientSecret: '', issuer: '' })],
+    });
+    ```
+    
+    You'll overwrite the `Request` _url_ and `BeyondIdentity` _clientId_, _clientSecret_, and _issuer_ values later, so you can use the dummy value for now.
+    
+    </TabItem>
+    </Tabs>
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](../how-to/add-an-application.mdx) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you must create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. You can configure these in the admin console, which was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -130,31 +135,31 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 3. On the **External Protocol** tab, use the following values to complete this tab.
 
-  | Property                       | Value                                                                                                                                                                                                                                                                                                                                                                              |
+  | Property | Value  |
   | --- | --- |
-  | **Display Name**               | any name you choose                                                                                                                                                                                                                                                                                                                                                                |
-  | **Protocol**                   | OIDC                                                                                                                                                                                                                                                                                                                                                                               |
-  | **Client Type**                | Confidential                                                                                                                                                                                                                                                                                                                                                                       |
-  | **PKCE**                       | S256                                                                                                                                                                                                                                                                                                                                                                               |
-  | **Redirect URIs**              | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /> http://localhost:3000/api/auth/callback/beyondidentity <br /><br />(Note that `'beyondidentity'` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.) |
-  | **Token Endpoint Auth Method** | Client Secret Basic                                                                                                                                                                                                                                                                                                                                                                |
-  | **Grant Type**                 | Authorization Code                                                                                                                                                                                                                                                                                                                                                                 |
-  | **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                   |
+  | **Display Name** | Descriptive name you choose   |
+  | **Protocol** | OIDC  |
+  | **Client Type**| Confidential|
+  | **PKCE**  | S256   |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class="note-message note-message-table"><p>The `beyondidentity` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic   |
+  | **Grant Type**  | Authorization Code |
+  | **All other options**  | Use the default values for the remaining options  |
 
-4. On the **Authenticator Config** tab, use the following values to complete this tab.
+1. On the **Authenticator Config** tab, use the following values to complete this tab.
 
-  | Property               | Value                                               |
-  | ---------------------- | --------------------------------------------------- |
-  | **Configuration Type** | Embedded SDK                                        |
-  | **Invocation Type**    | Automatic                                           |
-  | **Invoke URL**         | Use your application's App Scheme or Universal URL. |
-  | **Trusted Origin**     | Use your application's App Scheme or Universal URL. |
+  | Property | Value  |
+  | --- | --- |
+  | **Configuration Type** | Embedded SDK |
+  | **Invocation Type**    | Automatic  |
+  | **Invoke URL**         | Your application's App Scheme or Universal URL |
+  | **Trusted Origin**     | Your application's App Scheme or Universal URL |
 
 5. Click **Submit** to save the new app.
 
 ### Configure environment variables
 
-Now that you've create an app in Beyond Identity, you're ready to update some values. Store these values in your Next application's environment variables to use with the Beyond Identity provider.
+Now that you've created an app in Beyond Identity, you're ready to update some values. Store these values in your Next application's environment variables to use with the Beyond Identity provider.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">
@@ -177,15 +182,16 @@ Now that you've create an app in Beyond Identity, you're ready to update some va
 </TabItem>
 </Tabs>
 
-You will need to store a few more Beyond Identity values for API calls.
+You'll need to store a few more Beyond Identity values for API calls.
 
-- `BEYOND_IDENTITY_REGION`: This your tenant's region, either "us" or "eu", that can be found in the URL of the Beyond Identity Admin Console.
+| API calls | Description |
+| --- | --- |
+| **`BEYOND_IDENTITY_REGION`** |  This is your tenant's region, either "us" or "eu", which you can locate in the URL of the Beyond Identity Admin Console.  |
+| **`BEYOND_IDENTITY_TENANT_ID`** |  From your realm's Home page, click **Edit realm**, then copy the **Tenant ID** from the Edit realm page. If you need help finding your tenant ID, see our [Find Tenant ID](docs/next/find-tenant-id) how-to article.  |
+| **`BEYOND_IDENTITY_REALM_ID`** | From your realm's Home page, click **Edit realm**, then copy the **Realm Id** from the Edit realm page.   |
+| **`BEYOND_IDENTITY_APPLICATION_CONFIG_ID`** |  From **Applications > _{New Application}_ > Authenticator Config > Authenticator Config ID**  |
 
-- `BEYOND_IDENTITY_TENANT_ID`: From your realm's Home page, click **Edit realm**, then copy the **Tenant ID** from the Edit realm page. If you need help finding your tenant ID, see our [Find Tenant ID](docs/next/find-tenant-id) how-to article.
-
-- `BEYOND_IDENTITY_REALM_ID`: From your realm's Home page, click **Edit realm**, then copy the **Realm Id** from the Edit realm page..
-
-- `BEYOND_IDENTITY_APPLICATION_CONFIG_ID`: From **Applications > _{New Application}_ > Authenticator Config > Authenticator Config ID**
+<br />
 
 Your **.env** file's contents should look something like the example below:
 
@@ -208,13 +214,13 @@ BEYOND_IDENTITY_APPLICATION_CONFIG_ID=2e540d7a-4caf-7448-94ba-70183a82b4ad
 
 ## Create an Identity and generate a passkey
 
-Once you have an application in the admin console you are ready to provision users in your realm's directory, generate passkeys, and handle those passkeys in your application.
+Once you've created an application in the admin console, you're ready to provision users in your realm's directory, generate passkeys, and handle those passkeys in your application.
 
 ### Create an Identity
 
-Creating a user can be done either in the admin console or through an API.
+User creation can be done either in the admin console or through an API.
 
-**Using the Admin Console**:
+#### Using the Admin Console
 
 import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
@@ -222,9 +228,9 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 For more information about identities, see [Add an identity](/docs/next/add-an-identity).
 
-**Creating an API**:
+#### Creating an API
 
-In your application, create an API to make a call to the Beyond Identity Cloud. All API's require an Authorization with an accessToken. For information, see [Access tokens](docs/next/api-tokens).
+In your application, create an API to call the Beyond Identity Cloud. All APIs require Authorization with an accessToken. See [Access tokens](docs/next/api-tokens) for information.
 
 ```javascript
 const identityResponse = await fetch(
@@ -248,7 +254,7 @@ const identityResponse = await fetch(
 );
 ```
 
-The response should contain an identity ID that you will need to generate a passkey.
+The response should contain an identity ID you'll need to generate a passkey.
 
 ```javascript
 let identityResponseJson = await identityResponse.json();
@@ -257,9 +263,9 @@ let identityId = identityResponseJson.id;
 
 ### Generate a passkey
 
-Once you have an identity you can generate a passkey.
+Once you have an identity, you can generate a passkey.
 
-**Using the Admin Console**:
+#### Using the Admin Console
 
 import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-send-an-email-to-user.mdx';
 
@@ -267,11 +273,11 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 For more information, [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
 
-**Creating an API**:
+#### Creating an API
 
-Continuing your API, use the `identityId` you generated above, create a credential binding job. A device enrollment email is sent to you user's primary email address.
+Continuing your API, use the `identityId` you generated above, and create a credential-binding job. A device enrollment email gets sent to your user's primary email address.
 
-The `postBindingRedirectUri` is the URL that you would like the user to be redirected to after successfully binding a passkey.
+The `postBindingRedirectUri` is the URL you want to redirect the user toafter successfully binding a passkey.
 
 ```javascript
 const credentialBindingLinkResponse = await fetch(`https://api-${process.env.BEYOND_IDENTITY_REGION}.beyondidentity.com/v1/tenants/${process.env.BEYOND_IDENTITY_TENANT_ID}/realms/${process.env.BEYOND_IDENTITY_REALM_ID}/identities/${identityId}/credential-binding-jobs`,
@@ -303,7 +309,7 @@ For more information on this API, see [Add a passkey](/docs/next/add-passkey#api
 
 When the user clicks or taps the link in the enrollment email, they are redirected to your application. You must create a route in your application to intercept the link.
 
-1. Intercept the link from the enrollment email. The link that is redirected to your application will have the `/bind` path appended to your Invoke URL and several other query parameters.
+1. Intercept the link from the enrollment email. The link that redirects to your application will have the `/bind` path appended to your Invoke URL and several other query parameters.<br />
 
   ```
   $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
@@ -311,16 +317,16 @@ When the user clicks or taps the link in the enrollment email, they are redirect
 
 2. Pass the link from the enrollment email into the SDK to complete the binding process.
 
-  You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
+  You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key is created in the device's hardware trust module, and the corresponding public key will be sent to the Beyond Identity Cloud. At this point, the user has a passkey enrolled on this device.
 
 3. Create a bind route.
 
- | Next.js Version | Route |
+  | Next.js Version | Route |
   | --- | --- |
   | **12** | create a `page.tsx` page under `/app/bind/` |
   | **13** | create a `bind.tsx` page under `/pages/` |
 
-  As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during a bind passkey flow. Copy the following code snippet into that page.
+  If your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this page gets redirected to during a bind passkey flow. Copy the following code snippet into that page.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">
@@ -401,11 +407,11 @@ export default BIBindPasskey;
 
 1. After tapping the email sent to the user's device, the user is directed to your application's `/bind` route appending to the `invoke_url` configured in the application config.
 
-2. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
+2. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page redirected to is, in fact, a valid `bind` URL.
 
 3. If the URL is valid, the URL using `window.location.href` is passed directly into `embedded.bindPasskey` to complete the binding process.
 
-4. Finally, the response of `embedded.bindPasskey` contains a `passkey` object, which represents the passkey bound to the device.
+4. Finally, the response of `embedded.bindPasskey` contains a `passkey` object, representing the passkey bound to the device.
 
 Once you have one passkey bound to a device, you can use it to [authenticate](#authenticate).
 
@@ -421,12 +427,12 @@ Once you have one passkey bound to a device, you can use it to [authenticate](#a
 
 ### Configure the NextAuth Provider
 
- | Next.js Version | Route |
-  | --- | --- |
-  | **12** | create a `[...nextauth].ts` page under `/pages/api/auth/` |
-  | **13** | create a `page.tsx` page under `/app/auth/[...nextauth]/` |
+| Next.js Version | Route |
+| --- | --- |
+| **12** | create a `[...nextauth].ts` page under `/pages/api/auth/` |
+| **13** | create a `page.tsx` page under `/app/auth/[...nextauth]/` |
 
-Add the following Beyond Identity provider. The provider will go through an OAuth/OIDC that will result in fetching an id token that will log you in to the example app. Use the values you saved in your environment variables when creating an application above.
+Add the following Beyond Identity provider. The provider goes through an OAuth/OIDC that fetches an ID token to log you into the example app. Use the values you saved in your environment variables when creating an application above.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">
@@ -481,20 +487,22 @@ providers: [
 
 ### Authenticate
 
-The authenticate URL that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL.
+The authenticate URL redirecting to your application will append a `/bi-authenticate` path to your Invoke URL.
 
-  ```
-  $invoke_url/bi-authenticate?request=<request>
-  ```
+```
+$invoke_url/bi-authenticate?request=<request>
+```
 
-1. Create a `/bi-authenticate` route to intercept this URL in your application.
+Create a `/bi-authenticate` route to intercept this URL in your application.
 
- | Next.js Version | Route |
-  | --- | --- |
-  | **12** | create a `bi-authenticate.tsx` page under `/pages/` |
-  | **13** | create a `page.tsx` page under `/app/bi-authenticate/` |
+| Next.js Version | Route |
+| --- | --- |
+| **12** | create a `bi-authenticate.tsx` page under `/pages/` |
+| **13** | create a `page.tsx` page under `/app/bi-authenticate/` |
 
-As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+<br />
+
+If your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this page gets redirected to during a bind passkey flow. Copy the following code snippet into that page.
 
 <Tabs groupId="nextjs" queryString>
 <TabItem value="nextauth" label="NextAuth.js">
@@ -588,19 +596,19 @@ export default BIAuthenticate;
 
 **What's happening here?**
 
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isAuthenticateUrl` to check if the current page that was redirected to is in fact a valid `bi-authenticate` URL.
+1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page redirected to is, in fact, a valid `bind` URL.
 
-2. If the URL is valid, the URL using `window.location.href` is passed directly into `biAuthenticate` in step 3.
+2. If the URL is valid, the URL using `window.location.href` is passed directly into `biAuthenticate`.
 
-3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic in order to prompt a user to select a passkey if there is more than one.
+3. `biAuthenticate` calls `embedded.authenticate` with a valid `bi-authenticate` URL. This function performs a challenge/response against a passkey bound to your browser. Note that the callback in `embedded.authenticate` contains logic to prompt a user to select a passkey if there is more than one.
 
-4. Finally, the response of `embedded.authenticate` contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
+4. Finally, the `embedded.authenticate` response contains a `redirectURL`. Follow this redirectURL to complete the OAuth/OIDC flow.
 
 </TabItem>
 <TabItem value="auth" label="Auth.js">
 
 :::caution WIP
-@auth/nextjs is work in progress. For now, use [NextAuth.js](?nextjs=nextauth#authenticate).
+@auth/nextjs is work in progress. Use [NextAuth.js](?nextjs=nextauth#authenticate) for now.
 :::
 
 </TabItem>
@@ -613,9 +621,9 @@ export default BIAuthenticate;
 <Tabs>
   <TabItem value="version12" label="Next.js 12" default>
 
-  NextAuth has a `useSession` hook to access session data and authentication status on the client side. In order to use this hook your components must be wrapped in a `SessionProvider` which uses React Context.
+NextAuth has a `useSession` hook to access session data and authentication status on the client side. To use this hook, you must wrap your components in a `SessionProvider`, which uses React Context.
 
-  1. Wrap your main components in a `SessionProvider`
+1. Wrap your main components in a `SessionProvider`
 
   ```javascript
   import { SessionProvider } from 'next-auth/react';
@@ -630,7 +638,7 @@ export default BIAuthenticate;
   }
   ```
   
-  2. Use the `useSession()` hook as well as `signIn` and `signOut` from `next-auth/react` inside a component.
+1. Use the `useSession()` hook and `signIn` and `signOut` from `next-auth/react` inside a component.
 
   :::note
   `'beyondidentity'` in `signIn` is the ID of the OAuth provider as configured in the providers array above.
@@ -679,12 +687,12 @@ export default BIAuthenticate;
   ```
   
 
-  </TabItem>
-  <TabItem value="version13" label="Next.js 13">
+</TabItem>
+<TabItem value="version13" label="Next.js 13">
   
-  Next.js version 13 introduces React Server Components. To work access session data from a server componets use `getServerSession`.
+Next.js version 13 introduces React Server Components. To work access session data from server components, use `getServerSession`.
 
-  1. Update **app/api/auth/[...nextauth]/route.ts** to export the handler so we can use this in `getServerSession`.
+1. Update **app/api/auth/[...nextauth]/route.ts** to export the handler so we can use this in `getServerSession`.
 
   ```javascript
   const handler = NextAuth({
@@ -713,7 +721,7 @@ export default BIAuthenticate;
   export { handler as GET, handler as POST };
   ```
 
-  2. In your `/app/page.tsx`, use `getServerSession` to access the `session`.
+1. In your `/app/page.tsx`, use `getServerSession` to access the `session`.
 
   ```javascript
   import { getServerSession } from 'next-auth/next';
@@ -725,7 +733,7 @@ export default BIAuthenticate;
   }
   ```
 
-  3. Pass the `session` prop to a Login component and use `signIn` and `signOut` from `next-auth/react`.
+1. Pass the `session` prop to a Login component and use `signIn` and `signOut` from `next-auth/react`.
 
   :::note
   `'beyondidentity'` in `signIn` is the ID of the OAuth provider as configured in the providers array above.
@@ -779,9 +787,3 @@ export default BIAuthenticate;
 
   </TabItem>
 </Tabs>
-
-
-
-
-
-

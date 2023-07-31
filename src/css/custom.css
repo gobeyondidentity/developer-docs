@@ -826,12 +826,16 @@ div[class^="tocCollapsibleContent"] ul li {
 /***** Admonition *****/
 
 .note-message {
-  color: #059;
-  background-color: #54c7ec26;
-  border-left: 4px solid #059;
+  color: var(--ifm-color-primary-darkest);
+  background-color: #3e5fb826;
+  border-left: 4px solid var(--ifm-color-primary-darkest);
   margin: 10px 0;
   padding: 10px;
   border-radius: 5px;
+}
+
+.note-message-table p {
+  font-size: 1em;
 }
 
 .success-msg {

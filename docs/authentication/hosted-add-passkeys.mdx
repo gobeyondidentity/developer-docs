@@ -30,32 +30,43 @@ import { Alert, Col, Row } from 'antd';
 If you use the 'hosted web' **Configuration Type** (on the **Authenticator Config** tab), you can add passkeys to your app using standard OAuth2/OIDC calls and without installing the Embedded SDK.  
 
 With this guide you will enable your app to:  
- - Call the Beyond Identity API to create users and passkeys  
- - Use an OAuth2/OIDC `/authorize` call to initiate passkey based authentication with Beyond Identity  
- - Consume the resulting code and token(s)  
- 
+
+- Call the Beyond Identity API to create users and passkeys  
+
+- Use an OAuth2/OIDC `/authorize` call to initiate passkey based authentication with Beyond Identity  
+
+- Consume the resulting code and token(s)  
+
 ## Create your Beyond Identity initial configuration
 
 1. If you haven't already created your Beyond Identity tenant, create one for free [here](https://www.beyondidentity.com/developers/signup).  
+
 2. Once you have your tenant, go ahead and log in. You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
-:::tip  
-_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
-:::  
+
+  :::tip  
+  _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
+  :::  
+
 3. Next, [create a new realm and switch to that realm](/docs/next/create-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.    
+
 4. Then, [create an app in the realm](/docs/next/add-an-application). On the **Authenticator Config** tab, be sure to select 'Hosted Web' as the **Configuration Type**.  
 
 
 ## Configure your app for OAuth/OIDC calls to Beyond Identity
 
 ### If using the NextAuth sample app 
-If you are using the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org), follow the [NextAuth Getting Started Guide](/docs/next/get-started-nextauth) to add Beyond Identity as an OAuth provider, configure your app, and test passwordless sign on.  
+
+If you are using the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org), follow the [NextAuth Integration Guide](/docs/next/next-auth) to add Beyond Identity as an OAuth provider, configure your app, and test passwordless sign on.  
 
 Otherwise follow the guidance below.  
 
 ### Using your own app
+
 You can add Beyond Identity to any web app using OAuth/OIDC. 
+
 The example below shows a standard confidential client using the authorization code flow with PKCE. 
-You can find more examples in the [Create an Access Token](/docs/next/create-api-token) guide.  
+
+Find more examples in the [Create an Access Token](/docs/next/create-api-token) guide.  
 
 import AccessTokenCreateConfClientPkce  from '../includes/_access_token_create_conf_client_pkce.mdx';
 
@@ -63,7 +74,9 @@ import AccessTokenCreateConfClientPkce  from '../includes/_access_token_create_c
 
 
 ## Create users and passkeys
+
 Because you created an app with the 'Hosted Web' authentication configuration type, you are ready to test without writing any more authentication code.  
+
 But you'll need a user with an enrolled passkey first, which you can create via the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).  
 
 :::note  
@@ -77,84 +90,87 @@ If you wish to create identities and passkey via the Admin Console, you can do s
 
 You can create an identity using the [Beyond Identity API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity).  
 
-  Create the HTTP request with the following properties:  
+Create the HTTP request with the following properties:  
 
-  **Request url:**  
+**Request url:**  
 
-  ```  
-  https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities
-  ```
+```  
+https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities
+```
 
-  **Request method:** POST  
+**Request method:** POST  
 
-  **Request headers:**  
+**Request headers:**  
 
-  ```  
-  Authorization: Bearer {bi_api_token}
-  content-type: application/x-www-form-urlencoded  
-  ```  
+```  
+Authorization: Bearer {bi_api_token}
+content-type: application/x-www-form-urlencoded  
+```  
 
-  where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `identities:create` at minimum.  
+where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `identities:create` at minimum.  
 
-  **Request body:**  
+**Request body:**  
 
-  ``` 
-  {
-  "identity": {
-    "display_name": "{display_name}",
-    "traits": {
-      "type": "traits_v0",
-      "username": "{username}",
-      "primary_email_address": "{email_address}"
-      }
+``` 
+{
+"identity": {
+  "display_name": "{display_name}",
+  "traits": {
+    "type": "traits_v0",
+    "username": "{username}",
+    "primary_email_address": "{email_address}"
     }
   }
-  ```  
+}
+```  
 
-  where:  
-   - {display_name} is a string containing any name you wish
-   - {username} is a string containing a unique, case insensitive username for the identity
-   - {email_address} is set to an address where you can receive email in the format 'user@example.com'
+where:  
+- \{display_name\} is a string containing any name you wish
+
+- \{username\} is a string containing a unique, case insensitive username for the identity
+
+- \{email_address\} is set to an address where you can receive email in the format 'user@example.com'
 
 The response JSON will contain the **id** of the new identity, which you'll use in the next call to create the passkey binding.  
 
 ### Create passkeys for your identities
+
 Once you've created the identity via the request above, you'll need to enroll a passkey for the new user. For this, you'll use the email enrollment flow. Double check that you created the identity above using an {email_address} that is a real address where you can receive email.  
 
 Next, construct a second API call to the [Beyond Identity credential binding API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob) as follows.  
 
-  Create the HTTP request with the following properties:  
+Create the HTTP request with the following properties:  
 
-  **Request url:**  
+**Request url:**  
 
-  ```  
-  https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
-  ```  
+```  
+https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
+```  
 
-  where {identity_id} is the **id** returned in the response JSON from the create identity API call above.  
+where {identity_id} is the **id** returned in the response JSON from the create identity API call above.  
 
-  **Request method:** POST  
+**Request method:** POST  
 
-  **Request headers:**  
+**Request headers:**  
 
-  ```  
-  Authorization: Bearer {bi_api_token}
-  content-type: application/x-www-form-urlencoded  
-  ```  
+```  
+Authorization: Bearer {bi_api_token}
+content-type: application/x-www-form-urlencoded  
+```  
 
-  where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `credential-binding-jobs:create` at minimum.  
+where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `credential-binding-jobs:create` at minimum.  
 
-  **Request body:**  
+**Request body:**  
 
-  ``` 
-  { 
-    "job": { 
-      "delivery_method": "EMAIL", 
-      "authenticator_config_id": "{your app's AUTHENTICATOR_CONFIG_ID}", 
-      "post_binding_redirect_uri": "http://localhost:{your_app's_port}"
-    }
-  }  
-  ```  
+``` 
+{ 
+  "job": { 
+    "delivery_method": "EMAIL", 
+    "authenticator_config_id": "{your app's AUTHENTICATOR_CONFIG_ID}", 
+    "post_binding_redirect_uri": "http://localhost:{your_app's_port}"
+  }
+}  
+```  
 
 ### Example (node.js)
 ```javascript  
