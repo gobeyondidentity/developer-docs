@@ -715,5 +715,5 @@ export default function Login({ session }: LoginProps) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
-...
+  ...
 ```
