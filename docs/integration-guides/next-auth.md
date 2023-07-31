@@ -38,7 +38,7 @@ In this guide, you'll:
 
 - A [Beyond Identity developer account](https://www.beyondidentity.com/developers/signup)
 - The JavaScript SDK [installed](/docs/next/sdk-setup#installation) and [initialized](/docs/next/sdk-setup#setup)
-- Next.js Application with NextAuth installed.
+- A Next.js Application with NextAuth installed
 
 ## NextAuth
 
