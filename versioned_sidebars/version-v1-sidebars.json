@@ -197,6 +197,11 @@
             },
             {
               "type": "doc",
+              "label": "Integrate with Azure AD B2C",
+              "id": "guides/integrate-with-azureb2c"
+            },
+            {
+              "type": "doc",
               "label": "Integrate with KeyCloak",
               "id": "guides/integrate-with-keycloak"
             },
@@ -204,21 +209,6 @@
               "type": "doc",
               "label": "Integrate with Curity",
               "id": "guides/integrate-with-curity"
-            },
-            {
-              "type": "doc",
-              "label": "Integrate with Azure AD B2C",
-              "id": "guides/integrate-with-azureb2c"
-            },
-            {
-              "type": "doc",
-              "label": "Integrate with Beyond Identity Workforce",
-              "id": "guides/integrate-with-bi-workforce"
-            },
-            {
-              "type": "doc",
-              "label": "Integrate with AWS Cognito",
-              "id": "guides/integrate-with-cognito"
             }
           ]
         }

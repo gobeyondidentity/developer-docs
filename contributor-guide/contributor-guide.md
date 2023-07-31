@@ -127,11 +127,13 @@ Before starting the authoring work, you must understand the different branches t
     
 - **`docs-staging`** - protected branch
     
-    Docs for the upcoming release. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`.
-    
-- Branches starting with **`release-`** contain archived release documentation for historical tracking, such as `release-xx`.
+   Docs for a forward-version that includes features not yet included in the Beyond Identity stable version. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`. Its content is published on https://developer-docs-git-docs-staging-beyondidentity.vercel.app/ for early validation purpose.  Think of this branch as **rolling**. 
 
 - **`active-development`** - protected branch (used for front-end and back-end development). 
+
+  Its content is published on https://developer-docs-git-active-development-beyondidentity.vercel.app/ for early validation purpose.
+
+- You can have your own personal branch to work on content for a certain issue or feature. However, be sure to check and remove unused personal branches periodically for easy maintenance. Usually when your branch is merged, you can safely delete it.
 
 
 ## Best practices
@@ -470,7 +472,7 @@ A few things to keep in mind when creating your pull request:
 | If | Then |
 | --- | --- |
 | PR relates to issues you found in the docs  | add **inaccurate**, **typo** or **missing information** keywords in the description and use the default base branch, **main**  |
-| PR relates to GitHub issues you've addressed for `customer-docs`  | provide links to related GitHub issues and use the default base branch, **main**  |
+| PR relates to GitHub issues you've addressed for `developer-docs`  | provide links to related GitHub issues and use the default base branch, **main**  |
 |  PR is part of the current release | use the default base branch, **main**  |
 | PR is part of the next future release  | make it against the **docs-staging** branch  |
 |  PR is part of front-end or back-end development | make it against the **active-development** branch  |
