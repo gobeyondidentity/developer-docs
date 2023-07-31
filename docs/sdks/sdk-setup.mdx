@@ -1,97 +1,95 @@
 ---
 title: SDK setup
 id: sdk-setup
-description: ''
+description: ""
 slug: /sdk-setup
-keywords: 
- - sdk
- - setup
+keywords:
+  - sdk
+  - setup
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 06/01/2023
-   author: Patricia McPhee
+last_update:
+  date: 06/01/2023
+  author: Patricia McPhee
 draft: false
 doc_type: how-to
 displayed_sidebar: sdkSidebar
 ---
 
+import SampleAppFlutter from "../includes/_sdk-setup/_sample-app-flutter.mdx";
+import SampleAppJavaScript from "../includes/_sdk-setup/_sample-app-javascript.mdx";
+import SampleAppKotlin from "../includes/_sdk-setup/_sample-app-kotlin.mdx";
+import SampleAppReactNative from "../includes/_sdk-setup/_sample-app-react-native.mdx";
+import SampleAppSwift from "../includes/_sdk-setup/_sample-app-swift.mdx";
 
-import SampleAppFlutter from '../includes/_sdk-setup/_sample-app-flutter.mdx';
-import SampleAppJavaScript from '../includes/_sdk-setup/_sample-app-javascript.mdx';
-import SampleAppKotlin from '../includes/_sdk-setup/_sample-app-kotlin.mdx';
-import SampleAppReactNative from '../includes/_sdk-setup/_sample-app-react-native.mdx';
-import SampleAppSwift from '../includes/_sdk-setup/_sample-app-swift.mdx';
+import InstallationFlutter from "../includes/_sdk-setup/_installation-flutter.mdx";
+import InstallationJavaScript from "../includes/_sdk-setup/_installation-javascript.mdx";
+import InstallationKotlin from "../includes/_sdk-setup/_installation-kotlin.mdx";
+import InstallationReactNative from "../includes/_sdk-setup/_installation-react-native.mdx";
+import InstallationSwift from "../includes/_sdk-setup/_installation-swift.mdx";
 
-import InstallationFlutter from '../includes/_sdk-setup/_installation-flutter.mdx';
-import InstallationJavaScript from '../includes/_sdk-setup/_installation-javascript.mdx';
-import InstallationKotlin from '../includes/_sdk-setup/_installation-kotlin.mdx';
-import InstallationReactNative from '../includes/_sdk-setup/_installation-react-native.mdx';
-import InstallationSwift from '../includes/_sdk-setup/_installation-swift.mdx';
+import SetupFlutter from "../includes/_sdk-setup/_setup-flutter.mdx";
+import SetupJavaScript from "../includes/_sdk-setup/_setup-javascript.mdx";
+import SetupKotlin from "../includes/_sdk-setup/_setup-kotlin.mdx";
+import SetupReactNative from "../includes/_sdk-setup/_setup-react-native.mdx";
+import SetupSwift from "../includes/_sdk-setup/_setup-swift.mdx";
 
-import SetupFlutter from '../includes/_sdk-setup/_setup-flutter.mdx';
-import SetupJavaScript from '../includes/_sdk-setup/_setup-javascript.mdx';
-import SetupKotlin from '../includes/_sdk-setup/_setup-kotlin.mdx';
-import SetupReactNative from '../includes/_sdk-setup/_setup-react-native.mdx';
-import SetupSwift from '../includes/_sdk-setup/_setup-swift.mdx';
+import SdkApiDocumentationFlutter from "../includes/_sdk-setup/_sdk-api-documentation-flutter.mdx";
+import SdkApiDocumentationJavaScript from "../includes/_sdk-setup/_sdk-api-documentation-javascript.mdx";
+import SdkApiDocumentationKotlin from "../includes/_sdk-setup/_sdk-api-documentation-kotlin.mdx";
+import SdkApiDocumentationReactNative from "../includes/_sdk-setup/_sdk-api-documentation-react-native.mdx";
+import SdkApiDocumentationSwift from "../includes/_sdk-setup/_sdk-api-documentation-swift.mdx";
 
-import SdkApiDocumentationFlutter from '../includes/_sdk-setup/_sdk-api-documentation-flutter.mdx';
-import SdkApiDocumentationJavaScript from '../includes/_sdk-setup/_sdk-api-documentation-javascript.mdx';
-import SdkApiDocumentationKotlin from '../includes/_sdk-setup/_sdk-api-documentation-kotlin.mdx';
-import SdkApiDocumentationReactNative from '../includes/_sdk-setup/_sdk-api-documentation-react-native.mdx';
-import SdkApiDocumentationSwift from '../includes/_sdk-setup/_sdk-api-documentation-swift.mdx';
+import BindPasskeyRequestFlutter from "./code-snippets/bind-passkey-request-flutter.mdx";
+import BindPasskeyRequestJavaScript from "./code-snippets/bind-passkey-request-javascript.mdx";
+import BindPasskeyRequestKotlin from "./code-snippets/bind-passkey-request-kotlin.mdx";
+import BindPasskeyRequestReactNative from "./code-snippets/bind-passkey-request-react-native.mdx";
+import BindPasskeyRequestSwift from "./code-snippets/bind-passkey-request-swift.mdx";
 
-import BindPasskeyRequestFlutter from './code-snippets/bind-passkey-request-flutter.mdx';
-import BindPasskeyRequestJavaScript from './code-snippets/bind-passkey-request-javascript.mdx';
-import BindPasskeyRequestKotlin from './code-snippets/bind-passkey-request-kotlin.mdx';
-import BindPasskeyRequestReactNative from './code-snippets/bind-passkey-request-react-native.mdx';
-import BindPasskeyRequestSwift from './code-snippets/bind-passkey-request-swift.mdx';
+import BindPasskeyResponseFlutter from "./code-snippets/bind-passkey-response-flutter.mdx";
+import BindPasskeyResponseJavaScript from "./code-snippets/bind-passkey-response-javascript.mdx";
+import BindPasskeyResponseKotlin from "./code-snippets/bind-passkey-response-kotlin.mdx";
+import BindPasskeyResponseReactNative from "./code-snippets/bind-passkey-response-react-native.mdx";
+import BindPasskeyResponseSwift from "./code-snippets/bind-passkey-response-swift.mdx";
 
-import BindPasskeyResponseFlutter from './code-snippets/bind-passkey-response-flutter.mdx';
-import BindPasskeyResponseJavaScript from './code-snippets/bind-passkey-response-javascript.mdx';
-import BindPasskeyResponseKotlin from './code-snippets/bind-passkey-response-kotlin.mdx';
-import BindPasskeyResponseReactNative from './code-snippets/bind-passkey-response-react-native.mdx';
-import BindPasskeyResponseSwift from './code-snippets/bind-passkey-response-swift.mdx';
+import AuthenticateRequestFlutter from "./code-snippets/authenticate-request-flutter.mdx";
+import AuthenticateRequestJavaScript from "./code-snippets/authenticate-request-javascript.mdx";
+import AuthenticateRequestKotlin from "./code-snippets/authenticate-request-kotlin.mdx";
+import AuthenticateRequestReactNative from "./code-snippets/authenticate-request-react-native.mdx";
+import AuthenticateRequestSwift from "./code-snippets/authenticate-request-swift.mdx";
 
-import AuthenticateRequestFlutter from './code-snippets/authenticate-request-flutter.mdx';
-import AuthenticateRequestJavaScript from './code-snippets/authenticate-request-javascript.mdx';
-import AuthenticateRequestKotlin from './code-snippets/authenticate-request-kotlin.mdx';
-import AuthenticateRequestReactNative from './code-snippets/authenticate-request-react-native.mdx';
-import AuthenticateRequestSwift from './code-snippets/authenticate-request-swift.mdx';
+import AuthenticateResponseFlutter from "./code-snippets/authenticate-response-flutter.mdx";
+import AuthenticateResponseJavaScript from "./code-snippets/authenticate-response-javascript.mdx";
+import AuthenticateResponseKotlin from "./code-snippets/authenticate-response-kotlin.mdx";
+import AuthenticateResponseReactNative from "./code-snippets/authenticate-response-react-native.mdx";
+import AuthenticateResponseSwift from "./code-snippets/authenticate-response-swift.mdx";
 
-import AuthenticateResponseFlutter from './code-snippets/authenticate-response-flutter.mdx';
-import AuthenticateResponseJavaScript from './code-snippets/authenticate-response-javascript.mdx';
-import AuthenticateResponseKotlin from './code-snippets/authenticate-response-kotlin.mdx';
-import AuthenticateResponseReactNative from './code-snippets/authenticate-response-react-native.mdx';
-import AuthenticateResponseSwift from './code-snippets/authenticate-response-swift.mdx';
+import IsBindPasskeyUrlFlutter from "./code-snippets/is-bind-passkey-url-flutter.mdx";
+import IsBindPasskeyUrlJavaScript from "./code-snippets/is-bind-passkey-url-javascript.mdx";
+import IsBindPasskeyUrlKotlin from "./code-snippets/is-bind-passkey-url-kotlin.mdx";
+import IsBindPasskeyUrlReactNative from "./code-snippets/is-bind-passkey-url-react-native.mdx";
+import IsBindPasskeyUrlSwift from "./code-snippets/is-bind-passkey-url-swift.mdx";
 
-import IsBindPasskeyUrlFlutter from './code-snippets/is-bind-passkey-url-flutter.mdx';
-import IsBindPasskeyUrlJavaScript from './code-snippets/is-bind-passkey-url-javascript.mdx';
-import IsBindPasskeyUrlKotlin from './code-snippets/is-bind-passkey-url-kotlin.mdx';
-import IsBindPasskeyUrlReactNative from './code-snippets/is-bind-passkey-url-react-native.mdx';
-import IsBindPasskeyUrlSwift from './code-snippets/is-bind-passkey-url-swift.mdx';
+import IsAuthenticateUrlFlutter from "./code-snippets/is-authenticate-url-flutter.mdx";
+import IsAuthenticateUrlJavaScript from "./code-snippets/is-authenticate-url-javascript.mdx";
+import IsAuthenticateUrlKotlin from "./code-snippets/is-authenticate-url-kotlin.mdx";
+import IsAuthenticateUrlReactNative from "./code-snippets/is-authenticate-url-react-native.mdx";
+import IsAuthenticateUrlSwift from "./code-snippets/is-authenticate-url-swift.mdx";
 
-import IsAuthenticateUrlFlutter from './code-snippets/is-authenticate-url-flutter.mdx';
-import IsAuthenticateUrlJavaScript from './code-snippets/is-authenticate-url-javascript.mdx';
-import IsAuthenticateUrlKotlin from './code-snippets/is-authenticate-url-kotlin.mdx';
-import IsAuthenticateUrlReactNative from './code-snippets/is-authenticate-url-react-native.mdx';
-import IsAuthenticateUrlSwift from './code-snippets/is-authenticate-url-swift.mdx';
+import GetPasskeysFlutter from "./code-snippets/get-passkeys-flutter.mdx";
+import GetPasskeysJavaScript from "./code-snippets/get-passkeys-javascript.mdx";
+import GetPasskeysKotlin from "./code-snippets/get-passkeys-kotlin.mdx";
+import GetPasskeysReactNative from "./code-snippets/get-passkeys-react-native.mdx";
+import GetPasskeysSwift from "./code-snippets/get-passkeys-swift.mdx";
 
-import GetPasskeysFlutter from './code-snippets/get-passkeys-flutter.mdx';
-import GetPasskeysJavaScript from './code-snippets/get-passkeys-javascript.mdx';
-import GetPasskeysKotlin from './code-snippets/get-passkeys-kotlin.mdx';
-import GetPasskeysReactNative from './code-snippets/get-passkeys-react-native.mdx';
-import GetPasskeysSwift from './code-snippets/get-passkeys-swift.mdx';
+import DeletePasskeyFlutter from "./code-snippets/delete-passkey-flutter.mdx";
+import DeletePasskeyJavaScript from "./code-snippets/delete-passkey-javascript.mdx";
+import DeletePasskeyKotlin from "./code-snippets/delete-passkey-kotlin.mdx";
+import DeletePasskeyReactNative from "./code-snippets/delete-passkey-react-native.mdx";
+import DeletePasskeySwift from "./code-snippets/delete-passkey-swift.mdx";
 
-import DeletePasskeyFlutter from './code-snippets/delete-passkey-flutter.mdx';
-import DeletePasskeyJavaScript from './code-snippets/delete-passkey-javascript.mdx';
-import DeletePasskeyKotlin from './code-snippets/delete-passkey-kotlin.mdx';
-import DeletePasskeyReactNative from './code-snippets/delete-passkey-react-native.mdx';
-import DeletePasskeySwift from './code-snippets/delete-passkey-swift.mdx';
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 This guide enables you to set up each of the Beyond Identity SDKs and to learn about the functionality they contain.
 
@@ -101,8 +99,6 @@ The Embedded SDK offers the entire passkey creation and authentication experienc
 
 - Set up a [developer account](https://www.beyondidentity.com/developers/signup)
 - Create an [application](/docs/next/add-an-application)
-
-
 
 ## Sample App
 
@@ -135,12 +131,15 @@ The Embedded SDK offers the entire passkey creation and authentication experienc
 </Tabs>
 
 ## Installation
+
 To use Beyond Identity functionality in your application, you will need to install the SDK.
 
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<p>The JavaScript SDK provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an <code>Embedded</code> namespace.</p>
+<p>
+  The JavaScript SDK provides functionality from passkey creation to passwordless authentication. A set of functions are provided to you through an <code>Embedded</code> namespace.
+</p>
 
 <InstallationJavaScript />
 
@@ -174,7 +173,9 @@ First, before calling the Embedded functions, make sure to initialize the SDK.
 <Tabs groupId="sdks" queryString>
 <TabItem value="javascript" label="JavaScript">
 
-<p>Once you've installed the SDK, initialize it so that you can call the Embedded functions.</p>
+<p>
+  Once you've installed the SDK, initialize it so that you can call the Embedded functions.
+</p>
 
 <SetupJavaScript />
 
@@ -198,12 +199,12 @@ You may also add a listener to log native events with `Embedded.logEventEmitter`
 #### Usage
 
 ```javascript
-import { Embedded } from '@beyondidentity/bi-sdk-react-native';
+import { Embedded } from "@beyondidentity/bi-sdk-react-native";
 
 Embedded.initialize("Please verify it's really you").catch(console.error);
 
 Embedded.logEventEmitter.addListener(
-  'BeyondIdentityLogger',
+  "BeyondIdentityLogger",
   (message: string) => {
     console.log(message);
   }
@@ -310,7 +311,7 @@ The `authenticate` function expects a `URL` and a `PasskeyId`. This Beyond Ident
 
 Before calling this function you will need to ask the user to select a passkey that has been bound to the device. A selection view can be built in conjunction with [getPasskeys](#listing-passkeys).
 
-Checkout the [Authentication with Passkey](/docs/next/embedded-sdk-add-passkeys) guide for more information. <mark>What's the action for the user? We're sending them to this topic but we're not telling them what they can do.  Is there actionable steps they need to take?</mark>
+Checkout the [Authentication with Passkey](/docs/next/embedded-sdk-add-passkeys) guide for more information. <mark>What's the action for the user? We're sending them to this topic but we're not telling them what they can do. Is there actionable steps they need to take?</mark>
 
 #### Usage
 
