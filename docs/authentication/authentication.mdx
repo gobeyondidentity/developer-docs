@@ -2,8 +2,8 @@
 title: Authentication
 id: authentication
 description: 'Learn about how each application is tied to a single authentication type, which is configured in Authenticator Config. This article will help you understand each of the authentication type options and how they impact Beyond Identity passkey flows.'
-slug: /authentication 
-keywords: 
+slug: /authentication
+keywords:
  - deployment model
  - embedded sdk
  - hosted web authentication
@@ -11,7 +11,7 @@ keywords:
  - authentication type
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 06/01/2023
    author: Patricia McPhee
 draft: false
@@ -22,12 +22,11 @@ doc_type: overview
 displayed_sidebar: mainSidebar
 ---
 
+Beyond Identity console settings allow you to configure the authentication experience your users see.
 
-Beyond Identity console settings allow you to configure the authentication experience your users see.  
+The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).
 
-The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).  
-
-The Beyond Identity platform offers three authenticator configuration types:  
+The Beyond Identity platform offers three authenticator configuration types:
 
 import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 
@@ -37,124 +36,142 @@ import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 
 import { Badge } from "@nextui-org/react";
 
-Currently the following authentication factors are supported and more are coming soon:  
+Currently the following authentication factors are supported and more are coming soon:
 
 - Universal Passkey
 
+- Email OTP
+
 - FIDO2 Multi-Device Passkey - <Badge color="primary" variant="flat" >Coming soon!</Badge>
 
-- Email OTP - <Badge color="primary" variant="flat" >Coming soon!</Badge>
+- Federated IDP - <Badge color="primary" variant="flat" >Coming soon!</Badge>
 
-- Federated IDP - <Badge color="primary" variant="flat" >Coming soon!</Badge> 
- 
+## Hosted Web
 
-
-
-## Hosted Web 
-
-The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity to utilize your application's passkeys on a user's device. The Hosted Web Authenticator is a Beyond Identity hosted page that embeds the Javascript SDK. Think of this as a wallet hosted by Beyond Identity Cloud that holds an identity's passkeys.
-
-
-Hosted Web Authenticator is a constrained version of the Embedded Authenticator Config with the following default values:
-
-<ul><li><b>Invocation Type</b>: automatic </li><li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li><li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li></ul>
-
-
-:::tip KEEP IN MIND
-Passkeys are tied to an origin and they are stored on a specific browser.
-:::
+The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity. The web-based authenticator, however, can be configured with your own logo and brand colors. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. Beyond Identity can be set up as an OAuth or OpenID Connect provider using the Hosted Web Authenticator. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/). To get started, [create an application](/docs/next/add-an-application). All the values you need to configure the provider can be found in your Beyond Identity console application’s External Protocol tab.
 
 
 
+### Authentication Profile
+
+The Authentication Profile allows you to customize the authentication flow for new or returning users. 
+
+#### Email verification for sign-up and new browser login
+
+This configuration allows you to customize the authentication flow for user registration.
+This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.
+
+Currently the following authentication factors are supported and more are coming soon:
+
+import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
+
+<AuthenticationProfileTable1 />
+
+#### Authentication method for returning login
+
+This configuration allows you to customize the authentication flow for user login.
+
+Currently the following authentication factors are supported and more are coming soon:
+
+import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
+
+<AuthenticationProfileTable2 />
 
 ## Embedded SDK
 
-Embedded SDK requires more configuration and code. Still, it has more flexibility, like silent authentication and keeping the whole experience inside your application. The embedded SDK authenticator is embedded directly in your application when you install one of our SDKs. 
-
+Embedded SDK requires more configuration and code. Still, it has more flexibility, like silent authentication and keeping the whole experience inside your application. The embedded SDK authenticator is embedded directly in your application when you install one of our SDKs.
 
 <section class="sdk-cards-content-page">
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="col-demo">
-<Card class="intro-card">
-<a href="https://gobeyondidentity.github.io/bi-sdk-js/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <rect x="2" y="2" width="28" height="28" fill="#FFCA28"/>
-            <path d="M19 25.2877L21.0615 23.9236C21.2231 24.4311 22.2462 25.6366 23.5385 25.6366C24.8308 25.6366 25.4308 24.9308 25.4308 24.4629C25.4308 23.1877 24.1112 22.7381 23.4774 22.5221C23.374 22.4869 23.289 22.4579 23.2308 22.4326C23.2009 22.4196 23.1558 22.4023 23.0979 22.3802C22.393 22.1109 19.7923 21.1173 19.7923 18.2372C19.7923 15.0648 22.8538 14.7 23.5462 14.7C23.9991 14.7 26.1769 14.7555 27.2615 16.7938L25.2615 18.1896C24.8231 17.3013 24.0946 17.0079 23.6462 17.0079C22.5385 17.0079 22.3077 17.82 22.3077 18.1896C22.3077 19.2268 23.5112 19.6917 24.5273 20.0842C24.7932 20.1869 25.0462 20.2847 25.2615 20.3864C26.3692 20.9099 28 21.7664 28 24.4629C28 25.8134 26.8672 28 24.0154 28C20.1846 28 19.1692 25.7001 19 25.2877Z" fill="#3E3E3E"/>
-            <path d="M9 25.5586L11.1487 24.1951C11.317 24.7025 11.9713 25.6378 12.9205 25.6378C13.8698 25.6378 14.3557 24.6628 14.3557 24.1951V15H16.9982V24.1951C17.041 25.4634 16.3376 28 13.2332 28C10.379 28 9.19242 26.3037 9 25.5586Z" fill="#3E3E3E"/>
-            </svg>
-            <p><b>JavaScript</b></p>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="col-demo">
+          <Card class="intro-card">
+            <a href="https://gobeyondidentity.github.io/bi-sdk-js/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="2" width="28" height="28" fill="#FFCA28" />
+                <path d="M19 25.2877L21.0615 23.9236C21.2231 24.4311 22.2462 25.6366 23.5385 25.6366C24.8308 25.6366 25.4308 24.9308 25.4308 24.4629C25.4308 23.1877 24.1112 22.7381 23.4774 22.5221C23.374 22.4869 23.289 22.4579 23.2308 22.4326C23.2009 22.4196 23.1558 22.4023 23.0979 22.3802C22.393 22.1109 19.7923 21.1173 19.7923 18.2372C19.7923 15.0648 22.8538 14.7 23.5462 14.7C23.9991 14.7 26.1769 14.7555 27.2615 16.7938L25.2615 18.1896C24.8231 17.3013 24.0946 17.0079 23.6462 17.0079C22.5385 17.0079 22.3077 17.82 22.3077 18.1896C22.3077 19.2268 23.5112 19.6917 24.5273 20.0842C24.7932 20.1869 25.0462 20.2847 25.2615 20.3864C26.3692 20.9099 28 21.7664 28 24.4629C28 25.8134 26.8672 28 24.0154 28C20.1846 28 19.1692 25.7001 19 25.2877Z" fill="#3E3E3E" />
+                <path d="M9 25.5586L11.1487 24.1951C11.317 24.7025 11.9713 25.6378 12.9205 25.6378C13.8698 25.6378 14.3557 24.6628 14.3557 24.1951V15H16.9982V24.1951C17.041 25.4634 16.3376 28 13.2332 28C10.379 28 9.19242 26.3037 9 25.5586Z" fill="#3E3E3E" />
+              </svg>
+              <p>
+                <b>JavaScript</b>
+              </p>
             </a>
-      </Card>
-</div>
-    </div>
-    <div class="col">
-      <div class="col-demo">
-<Card class="intro-card">
-      <a href="https://gobeyondidentity.github.io/bi-sdk-android/">
-            <svg width="32" height="32" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 32H0V0h32L16 16l16 16Z" fill="url(#KotlinLogo_svg__a)"></path>
-            <defs>
-            <linearGradient id="KotlinLogo_svg__a" x1="32" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop offset="0.003" stop-color="#E44857"></stop>
-                  <stop offset="0.469" stop-color="#C711E1"></stop>
-                  <stop offset="1" stop-color="#7F52FF"></stop>
-            </linearGradient>
-            </defs>
-            </svg>
-            <p><b>Kotlin</b></p>
+          </Card>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-demo">
+          <Card class="intro-card">
+            <a href="https://gobeyondidentity.github.io/bi-sdk-android/">
+              <svg width="32" height="32" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32 32H0V0h32L16 16l16 16Z" fill="url(#KotlinLogo_svg__a)" />
+                <defs>
+                  <linearGradient id="KotlinLogo_svg__a" x1="32" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop offset="0.003" stop-color="#E44857" />
+                    <stop offset="0.469" stop-color="#C711E1" />
+                    <stop offset="1" stop-color="#7F52FF" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <p>
+                <b>Kotlin</b>
+              </p>
             </a>
-      </Card>
-</div>
-    </div>
-    <div class="col">
-      <div class="col-demo">
-<Card class="intro-card">
+          </Card>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-demo">
+          <Card class="intro-card">
             <a href="https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M30 16C30 23.728 23.735 30 16 30C8.265 30 2 23.728 2 16C2 8.265 8.265 2 16 2C23.735 2 30 8.265 30 16Z" fill="#283544"/>
-<path d="M22.5621 12.4574C22.4857 12.502 20.6671 13.4425 20.6671 15.5279C20.7528 17.9061 22.9621 18.7401 23 18.7401C22.9621 18.7847 22.6665 19.8763 21.7907 21.0205C21.0956 22.0062 20.3242 23 19.1528 23C18.0385 23 17.6385 22.3431 16.3528 22.3431C14.972 22.3431 14.5813 23 13.5242 23C12.3528 23 11.5242 21.953 10.7913 20.9766C9.8391 19.6986 9.02978 17.6931 9.00121 15.7675C8.98195 14.7471 9.19189 13.744 9.72481 12.8921C10.477 11.7026 11.8198 10.8952 13.2863 10.8686C14.4099 10.8333 15.4099 11.5875 16.0956 11.5875C16.7528 11.5875 17.9814 10.8686 19.3714 10.8686C19.9714 10.8692 21.5714 11.0376 22.5621 12.4574ZM16.0006 10.6649C15.8006 9.73303 16.3528 8.80119 16.8671 8.20677C17.5242 7.48792 18.5621 7 19.4571 7C19.5143 7.93185 19.1522 8.84575 18.505 9.51136C17.9242 10.2302 16.9242 10.7714 16.0006 10.6649Z" fill="white"/>
-</svg>            
-            <p><b>Swift</b></p>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 16C30 23.728 23.735 30 16 30C8.265 30 2 23.728 2 16C2 8.265 8.265 2 16 2C23.735 2 30 8.265 30 16Z" fill="#283544" />
+                <path d="M22.5621 12.4574C22.4857 12.502 20.6671 13.4425 20.6671 15.5279C20.7528 17.9061 22.9621 18.7401 23 18.7401C22.9621 18.7847 22.6665 19.8763 21.7907 21.0205C21.0956 22.0062 20.3242 23 19.1528 23C18.0385 23 17.6385 22.3431 16.3528 22.3431C14.972 22.3431 14.5813 23 13.5242 23C12.3528 23 11.5242 21.953 10.7913 20.9766C9.8391 19.6986 9.02978 17.6931 9.00121 15.7675C8.98195 14.7471 9.19189 13.744 9.72481 12.8921C10.477 11.7026 11.8198 10.8952 13.2863 10.8686C14.4099 10.8333 15.4099 11.5875 16.0956 11.5875C16.7528 11.5875 17.9814 10.8686 19.3714 10.8686C19.9714 10.8692 21.5714 11.0376 22.5621 12.4574ZM16.0006 10.6649C15.8006 9.73303 16.3528 8.80119 16.8671 8.20677C17.5242 7.48792 18.5621 7 19.4571 7C19.5143 7.93185 19.1522 8.84575 18.505 9.51136C17.9242 10.2302 16.9242 10.7714 16.0006 10.6649Z" fill="white" />
+              </svg>
+              <p>
+                <b>Swift</b>
+              </p>
             </a>
-      </Card>
-</div>
-    </div>
-    <div class="col">
-      <div class="col-demo">
-<Card class="intro-card">
+          </Card>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-demo">
+          <Card class="intro-card">
             <a href="https://gobeyondidentity.github.io/bi-sdk-flutter/">
-            <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-                  <path xmlns="http://www.w3.org/2000/svg" d="M16.1435 65.9891L0.744629 50.5902L50.7446 0.594238H81.5384L16.1435 65.9891ZM81.5384 46.7304H50.7446L39.2096 58.2654L54.6085 73.6643" fill="#42A5F5" fill-opacity="0.8"/>
-                  <path xmlns="http://www.w3.org/2000/svg" d="M39.2095 89.0592L50.7445 100.594H81.5384L54.6084 73.6643" fill="#0D47A1"/>
-                  <path xmlns="http://www.w3.org/2000/svg" d="M23.8472 73.6724L39.2218 58.2937L54.5965 73.6684L39.2218 89.0471L23.8472 73.6724Z" fill="#42A5F5"/>
-                  <path xmlns="http://www.w3.org/2000/svg" d="M39.2217 89.047L54.5963 73.6724L56.7425 75.8185L41.3678 91.1932L39.2217 89.047Z" fill="url(#paint0_linear_25_430)"/>
-                  <path xmlns="http://www.w3.org/2000/svg" d="M39.2095 89.0591L62.0573 81.1656L54.6084 73.6602" fill="url(#paint1_linear_25_430)"/>
-            </svg>
-            <p><b>Flutter</b></p>
+              <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+                <path xmlns="http://www.w3.org/2000/svg" d="M16.1435 65.9891L0.744629 50.5902L50.7446 0.594238H81.5384L16.1435 65.9891ZM81.5384 46.7304H50.7446L39.2096 58.2654L54.6085 73.6643" fill="#42A5F5" fill-opacity="0.8" />
+                <path xmlns="http://www.w3.org/2000/svg" d="M39.2095 89.0592L50.7445 100.594H81.5384L54.6084 73.6643" fill="#0D47A1" />
+                <path xmlns="http://www.w3.org/2000/svg" d="M23.8472 73.6724L39.2218 58.2937L54.5965 73.6684L39.2218 89.0471L23.8472 73.6724Z" fill="#42A5F5" />
+                <path xmlns="http://www.w3.org/2000/svg" d="M39.2217 89.047L54.5963 73.6724L56.7425 75.8185L41.3678 91.1932L39.2217 89.047Z" fill="url(#paint0_linear_25_430)" />
+                <path xmlns="http://www.w3.org/2000/svg" d="M39.2095 89.0591L62.0573 81.1656L54.6084 73.6602" fill="url(#paint1_linear_25_430)" />
+              </svg>
+              <p>
+                <b>Flutter</b>
+              </p>
             </a>
-      </Card>
-</div>
-    </div>
-    <div class="col">
-      <div class="col-demo">
-<Card class="intro-card">
-<a href="https://gobeyondidentity.github.io/bi-sdk-react-native/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M18.6789 15.9759C18.6789 14.5415 17.4796 13.3785 16 13.3785C14.5206 13.3785 13.3211 14.5415 13.3211 15.9759C13.3211 17.4105 14.5206 18.5734 16 18.5734C17.4796 18.5734 18.6789 17.4105 18.6789 15.9759Z" fill="#53C1DE"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M24.7004 11.1537C25.2661 8.92478 25.9772 4.79148 23.4704 3.39016C20.9753 1.99495 17.7284 4.66843 16.0139 6.27318C14.3044 4.68442 10.9663 2.02237 8.46163 3.42814C5.96751 4.82803 6.73664 8.8928 7.3149 11.1357C4.98831 11.7764 1 13.1564 1 15.9759C1 18.7874 4.98416 20.2888 7.29698 20.9289C6.71658 23.1842 5.98596 27.1909 8.48327 28.5877C10.9973 29.9932 14.325 27.3945 16.0554 25.7722C17.7809 27.3864 20.9966 30.0021 23.4922 28.6014C25.9956 27.1963 25.3436 23.1184 24.7653 20.8625C27.0073 20.221 31 18.7523 31 15.9759C31 13.1835 26.9903 11.7923 24.7004 11.1537ZM24.4162 19.667C24.0365 18.5016 23.524 17.2623 22.8971 15.9821C23.4955 14.7321 23.9881 13.5088 24.3572 12.3509C26.0359 12.8228 29.7185 13.9013 29.7185 15.9759C29.7185 18.07 26.1846 19.1587 24.4162 19.667ZM22.85 27.526C20.988 28.571 18.2221 26.0696 16.9478 24.8809C17.7932 23.9844 18.638 22.9422 19.4625 21.7849C20.9129 21.6602 22.283 21.4562 23.5256 21.1777C23.9326 22.7734 24.7202 26.4763 22.85 27.526ZM9.12362 27.5111C7.26143 26.47 8.11258 22.8946 8.53957 21.2333C9.76834 21.4969 11.1286 21.6865 12.5824 21.8008C13.4123 22.9332 14.2816 23.9741 15.1576 24.8857C14.0753 25.9008 10.9945 28.557 9.12362 27.5111ZM2.28149 15.9759C2.28149 13.874 5.94207 12.8033 7.65904 12.3326C8.03451 13.5165 8.52695 14.7544 9.12123 16.0062C8.51925 17.2766 8.01977 18.5341 7.64085 19.732C6.00369 19.2776 2.28149 18.0791 2.28149 15.9759ZM9.1037 4.50354C10.9735 3.45416 13.8747 6.00983 15.1159 7.16013C14.2444 8.06754 13.3831 9.1006 12.5603 10.2265C11.1494 10.3533 9.79875 10.5569 8.55709 10.8297C8.09125 9.02071 7.23592 5.55179 9.1037 4.50354ZM20.3793 11.5771C21.3365 11.6942 22.2536 11.85 23.1147 12.0406C22.8562 12.844 22.534 13.6841 22.1545 14.5453C21.6044 13.5333 21.0139 12.5416 20.3793 11.5771ZM16.0143 8.0481C16.6054 8.66897 17.1974 9.3623 17.7798 10.1145C16.5985 10.0603 15.4153 10.0601 14.234 10.1137C14.8169 9.36848 15.414 8.67618 16.0143 8.0481ZM9.8565 14.5444C9.48329 13.6862 9.16398 12.8424 8.90322 12.0275C9.75918 11.8418 10.672 11.69 11.623 11.5748C10.9866 12.5372 10.3971 13.5285 9.8565 14.5444ZM11.6503 20.4657C10.6679 20.3594 9.74126 20.2153 8.88556 20.0347C9.15044 19.2055 9.47678 18.3435 9.85796 17.4668C10.406 18.4933 11.0045 19.4942 11.6503 20.4657ZM16.0498 23.9915C15.4424 23.356 14.8365 22.6531 14.2448 21.8971C15.4328 21.9423 16.6231 21.9424 17.811 21.891C17.2268 22.6608 16.6369 23.3647 16.0498 23.9915ZM22.1667 17.4222C22.5677 18.3084 22.9057 19.1657 23.1742 19.9809C22.3043 20.1734 21.3652 20.3284 20.3757 20.4435C21.015 19.4607 21.6149 18.4536 22.1667 17.4222ZM18.7473 20.5941C16.9301 20.72 15.1016 20.7186 13.2838 20.6044C12.2509 19.1415 11.3314 17.603 10.5377 16.0058C11.3276 14.4119 12.2404 12.8764 13.2684 11.4158C15.0875 11.2825 16.9178 11.2821 18.7369 11.4166C19.7561 12.8771 20.6675 14.4086 21.4757 15.9881C20.6771 17.5812 19.7595 19.1198 18.7473 20.5941ZM22.8303 4.4666C24.7006 5.51254 23.8681 9.22726 23.4595 10.8426C22.2149 10.5641 20.8633 10.3569 19.4483 10.2281C18.6239 9.09004 17.7698 8.05518 16.9124 7.15949C18.1695 5.98441 20.9781 3.43089 22.8303 4.4666Z" fill="#53C1DE"/>
-            </svg>
-   
-            <p><b>React Native</b></p>
+          </Card>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-demo">
+          <Card class="intro-card">
+            <a href="https://gobeyondidentity.github.io/bi-sdk-react-native/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M18.6789 15.9759C18.6789 14.5415 17.4796 13.3785 16 13.3785C14.5206 13.3785 13.3211 14.5415 13.3211 15.9759C13.3211 17.4105 14.5206 18.5734 16 18.5734C17.4796 18.5734 18.6789 17.4105 18.6789 15.9759Z" fill="#53C1DE" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M24.7004 11.1537C25.2661 8.92478 25.9772 4.79148 23.4704 3.39016C20.9753 1.99495 17.7284 4.66843 16.0139 6.27318C14.3044 4.68442 10.9663 2.02237 8.46163 3.42814C5.96751 4.82803 6.73664 8.8928 7.3149 11.1357C4.98831 11.7764 1 13.1564 1 15.9759C1 18.7874 4.98416 20.2888 7.29698 20.9289C6.71658 23.1842 5.98596 27.1909 8.48327 28.5877C10.9973 29.9932 14.325 27.3945 16.0554 25.7722C17.7809 27.3864 20.9966 30.0021 23.4922 28.6014C25.9956 27.1963 25.3436 23.1184 24.7653 20.8625C27.0073 20.221 31 18.7523 31 15.9759C31 13.1835 26.9903 11.7923 24.7004 11.1537ZM24.4162 19.667C24.0365 18.5016 23.524 17.2623 22.8971 15.9821C23.4955 14.7321 23.9881 13.5088 24.3572 12.3509C26.0359 12.8228 29.7185 13.9013 29.7185 15.9759C29.7185 18.07 26.1846 19.1587 24.4162 19.667ZM22.85 27.526C20.988 28.571 18.2221 26.0696 16.9478 24.8809C17.7932 23.9844 18.638 22.9422 19.4625 21.7849C20.9129 21.6602 22.283 21.4562 23.5256 21.1777C23.9326 22.7734 24.7202 26.4763 22.85 27.526ZM9.12362 27.5111C7.26143 26.47 8.11258 22.8946 8.53957 21.2333C9.76834 21.4969 11.1286 21.6865 12.5824 21.8008C13.4123 22.9332 14.2816 23.9741 15.1576 24.8857C14.0753 25.9008 10.9945 28.557 9.12362 27.5111ZM2.28149 15.9759C2.28149 13.874 5.94207 12.8033 7.65904 12.3326C8.03451 13.5165 8.52695 14.7544 9.12123 16.0062C8.51925 17.2766 8.01977 18.5341 7.64085 19.732C6.00369 19.2776 2.28149 18.0791 2.28149 15.9759ZM9.1037 4.50354C10.9735 3.45416 13.8747 6.00983 15.1159 7.16013C14.2444 8.06754 13.3831 9.1006 12.5603 10.2265C11.1494 10.3533 9.79875 10.5569 8.55709 10.8297C8.09125 9.02071 7.23592 5.55179 9.1037 4.50354ZM20.3793 11.5771C21.3365 11.6942 22.2536 11.85 23.1147 12.0406C22.8562 12.844 22.534 13.6841 22.1545 14.5453C21.6044 13.5333 21.0139 12.5416 20.3793 11.5771ZM16.0143 8.0481C16.6054 8.66897 17.1974 9.3623 17.7798 10.1145C16.5985 10.0603 15.4153 10.0601 14.234 10.1137C14.8169 9.36848 15.414 8.67618 16.0143 8.0481ZM9.8565 14.5444C9.48329 13.6862 9.16398 12.8424 8.90322 12.0275C9.75918 11.8418 10.672 11.69 11.623 11.5748C10.9866 12.5372 10.3971 13.5285 9.8565 14.5444ZM11.6503 20.4657C10.6679 20.3594 9.74126 20.2153 8.88556 20.0347C9.15044 19.2055 9.47678 18.3435 9.85796 17.4668C10.406 18.4933 11.0045 19.4942 11.6503 20.4657ZM16.0498 23.9915C15.4424 23.356 14.8365 22.6531 14.2448 21.8971C15.4328 21.9423 16.6231 21.9424 17.811 21.891C17.2268 22.6608 16.6369 23.3647 16.0498 23.9915ZM22.1667 17.4222C22.5677 18.3084 22.9057 19.1657 23.1742 19.9809C22.3043 20.1734 21.3652 20.3284 20.3757 20.4435C21.015 19.4607 21.6149 18.4536 22.1667 17.4222ZM18.7473 20.5941C16.9301 20.72 15.1016 20.7186 13.2838 20.6044C12.2509 19.1415 11.3314 17.603 10.5377 16.0058C11.3276 14.4119 12.2404 12.8764 13.2684 11.4158C15.0875 11.2825 16.9178 11.2821 18.7369 11.4166C19.7561 12.8771 20.6675 14.4086 21.4757 15.9881C20.6771 17.5812 19.7595 19.1198 18.7473 20.5941ZM22.8303 4.4666C24.7006 5.51254 23.8681 9.22726 23.4595 10.8426C22.2149 10.5641 20.8633 10.3569 19.4483 10.2281C18.6239 9.09004 17.7698 8.05518 16.9124 7.15949C18.1695 5.98441 20.9781 3.43089 22.8303 4.4666Z" fill="#53C1DE" />
+              </svg>
+              <p>
+                <b>React Native</b>
+              </p>
             </a>
-      </Card>
-</div>
+          </Card>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </section>
-
 
 The embedded SDKs handle all cryptographic operations on the user's device, such as creating passkeys and logging in with a passkey. We redirect to your native or web app to authenticate against those passkeys. Passkeys are stored on the same device as your native application or on a specific browser and origin for your web application.
 
@@ -165,7 +182,6 @@ This option enables three additional fields to configure:
 - Invoke URL
 
 - Trusted Origins
-
 
 ### Invocation Type
 
@@ -189,7 +205,6 @@ import InvocationTypeTable from '../includes/_invocation-type-table.mdx';
 
 <InvocationDiagram />
 
-
 ### Invoke URL
 
 The invoke URL is a single URL that _points_ to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or a Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
@@ -204,8 +219,8 @@ There are two scenarios in which the Invoke URL is used for:
 
 | Scenario | When to use |
 | --- | --- |
-| **Binding a passkey**  | You want to generate a passkey link to deliver to your users how you want (inline, SMS, email, etc.) or you want to send your users an email with a link to create their passkey. Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser.   |
-| **Authentication**  |   |
+| **Binding a passkey** | You want to generate a passkey link to deliver to your users how you want (inline, SMS, email, etc.) or you want to send your users an email with a link to create their passkey. Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. |
+| **Authentication** |   |
 
 #### Invoke URL as used for binding a passkey
 
@@ -242,6 +257,7 @@ Credential binding flows that use **RETURN delivery_method** do not make use of 
 <BindReturnDiagram />
 
 </TabItem>
+
 </Tabs>
 
 #### Invoke URL as used for Authentication
@@ -250,12 +266,10 @@ The path `/bi-authenticate` is appended to the `invoke_url` and must be implemen
 
 The authentication flow responses differs based on the Invocation Type specified (Automatic or Manual).
 
-
 ```javascript title="Invocation Type Automatic"
 HTTP/1.1 302 Found
 Location: $invoke_url/bi-authenticate?request=<request>
 ```
-
 
 ```javascript title="Invocation Type Manual"
 HTTP/1.1 200 OK
@@ -267,7 +281,6 @@ Content-Type: application/json
 ```
 
 <InvocationDiagram/>
-
 
 ### Trusted Origins
 
