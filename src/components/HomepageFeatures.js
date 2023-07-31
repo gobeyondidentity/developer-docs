@@ -63,7 +63,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "https://www.beyondidentity.com/products/secure-customers"
+      "https://www.beyondidentity.com/developers#/mobile"
     )
   },
   {
