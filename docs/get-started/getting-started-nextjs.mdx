@@ -59,8 +59,11 @@ git --version
 ### Create the project
 
 1. On the development machine, create a new folder for your project.
-2. In VS Code, select **File -> Open Folder** and select your folder
-3. In VS Code, open the terminal (**View -> Terminal**)
+
+2. In VS Code, select **File > Open Folder** and select your folder
+
+3. In VS Code, open the terminal (**View > Terminal**)
+
 4. In the VS Code terminal, execute the following commands to use git to clone the example app, change to the app’s directory, and install the app’s dependencies:
 
 ```
@@ -73,17 +76,9 @@ npm install
 
 In this step, you'll create a set of Beyond Identity resources containing your end users' identities and the configuration. First, you'll create a new realm, which holds your users' identities. Next, you'll create a new application that contains the configuration for your users.
 
-### Create your Beyond Identity initial configuration
-
-1. If you haven't already created your Beyond Identity tenant, set up a [developer account](https://www.beyondidentity.com/developers/signup) for free.
-
-2. Once you have your tenant, go ahead and log in . You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
-
-   :::tip  
-   _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
-   :::
-
-Next, you will [create a new realm and switch to that realm](/docs/next/get-started-nextjs#create-a-new-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.
+:::tip  
+_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
+:::
 
 ### Create a new realm
 
@@ -92,8 +87,6 @@ So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant
 import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
 <CreateRealmConsole />
-
-Next, you will [create an app in the realm](/docs/next/get-started-nextjs#create-an-application) using the configuration options in the next section.
 
 ### Create an application
 
@@ -122,19 +115,15 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 ### Complete the configuration
 
-#### Record your Beyond Identity configuration
-
-In this step, you'll collect the configuration elements you will need to set environment variables in the sample app's '.env.config' table.
+In this step, you'll collect the configuration elements you will need to set environment variables in the sample app's `.env.config` table.
 
 The table below lists these elements and where to find them in the tenant.
 
-| Property Name                 | Where to find the value                                                                                                  |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| BEYOND_IDENTITY_CLIENT_ID     | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
-| BEYOND_IDENTITY_CLIENT_SECRET | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
-| BEYOND_IDENTITY_DISCOVERY     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
-
-Next, you will [configure the sample app in your VS Code project](/docs/next/get-started-nextjs#4-set-environment-variables-and-configure-beyond-identity-as-an-oauth-provider-in-the-sample-app) to setup environment variables and an OAuth provider for Beyond Identity.
+| Property Name | Where to find the value  |
+| --- | --- |
+| **`BEYOND_IDENTITY_CLIENT_ID`**  | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
+| BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
+| BEYOND_IDENTITY_DISCOVERY`**     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
 ---
 
@@ -164,7 +153,9 @@ Don't forget, if you get stuck, let us know in our **[Slack community](https://j
 
 ---
 
-## 4. Set environment variables and configure Beyond Identity as an OAuth provider in the sample app
+## 4. Configure Beyond Identity as an OAuth provider
+
+In this step, set your environement variables and configure Beyond Identity as an OAuth provider in the sample app.
 
 ### Environment variables and .env.local file
 
@@ -174,49 +165,52 @@ Make the following changes to your NextAuth example app project to setup your en
 
 2. In .env.local, configure the following variables from your Beyond Identity tenant:
 
-| Variable Name                 | Where to find the value                                                                                                  |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| NEXTAUTH_URL                  | Use the default value of http://localhost:3000                                                                           |
-| NEXTAUTH_SECRET               | generate one here: https://generate-secret.vercel.app/32                                                                 |
-| BEYOND_IDENTITY_CLIENT_ID     | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
-| BEYOND_IDENTITY_CLIENT_SECRET | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
-| BEYOND_IDENTITY_DISCOVERY     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
+  | Variable Name  | Where to find the value |
+  | --- | --- |
+  | **`NEXTAUTH_URL`**  | Use the default value of http://localhost:3000 |
+  | **`NEXTAUTH_SECRET`**  | generate one here: https://generate-secret.vercel.app/32                                                                 |
+  | **`BEYOND_IDENTITY_CLIENT_ID`** | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
+  | **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
+  | **`BEYOND_IDENTITY_DISCOVERY`**  | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
-Copy and paste the value from **Applications > {New Application} > External Protocol > Issuer**.
-Your **.env.local** file's contents should look something like the example below:
+1. Copy and paste the value from **Applications > \{New Application\} > External Protocol > Issuer**.
 
-```javascript
-# Next Auth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247
-...
+  Your **.env.local** file's contents should look something like the example below:
 
-# Beyond Identity
-BEYOND_IDENTITY_CLIENT_ID=Njlb6brHbCofRyCWGkiUQweTz
-BEYOND_IDENTITY_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
-BEYOND_IDENTITY_DISCOVERY=https://auth-us.beyondidentity.com/v1/tenants/000111222333/realms/444555666777888/applications/1233449b-11c4-4884-b622-0bfbaefd44d3
-```
+  ```javascript
+  # Next Auth
+  NEXTAUTH_URL=http://localhost:3000
+  NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247
+  ...
+
+  # Beyond Identity
+  BEYOND_IDENTITY_CLIENT_ID=Njlb6brHbCofRyCWGkiUQweTz
+  BEYOND_IDENTITY_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
+  BEYOND_IDENTITY_DISCOVERY=https://auth-us.beyondidentity.com/v1/tenants/000111222333/realms/444555666777888/applications/1233449b-11c4-4884-b622-0bfbaefd44d3
+  ```
 
 3. Update the contents of the file **process.d.ts** to the following:
 
-```javascript
-declare namespace NodeJS {
-  export interface ProcessEnv {
-    NEXTAUTH_URL: string
-    NEXTAUTH_SECRET: string
-    BEYOND_IDENTITY_CLIENT_ID: string
-    BEYOND_IDENTITY_CLIENT_SECRET: string
-    BEYOND_IDENTITY_DISCOVERY: string
+  ```javascript
+  declare namespace NodeJS {
+    export interface ProcessEnv {
+      NEXTAUTH_URL: string
+      NEXTAUTH_SECRET: string
+      BEYOND_IDENTITY_CLIENT_ID: string
+      BEYOND_IDENTITY_CLIENT_SECRET: string
+      BEYOND_IDENTITY_DISCOVERY: string
+    }
   }
-}
-```
+  ```
 
 ### Create OAuth provider
 
 Make the following change to your NextAuth example app project to configure Beyond Identity as an OAuth provider:
 
-If you are using Next.js Version 12, create a route at **pages/api/auth/[...nextauth].js**.  
-If you are using Next.js Version 13, create a route at **app/api/auth/[...nextauth]/route.ts**.
+| Next.js Version | Route |
+| --- | --- |
+| **12** | Create a route at **pages/api/auth/[...nextauth].js**. |
+| **13** | Create a route at **app/api/auth/[...nextauth]/route.ts**. |
 
 Inside the `providers` array, add the following entry:
 
