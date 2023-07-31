@@ -19,7 +19,7 @@ displayed_sidebar: mainSidebar
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import SetupJavaScript from '../includes/\_sdk-setup/\_setup-javascript.mdx';
+import SetupJavaScript from '../includes/_sdk-setup/_setup-javascript.mdx';
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/) (which is becoming [Auth.js](https://authjs.dev)).
 
