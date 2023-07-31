@@ -57,8 +57,8 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
 | Parameter | Type  | Description |
 | --- | --- | --- |
-| url       | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
-| otp       | string | Required. The OTP to redeem.  |
+| **url**       | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
+| **otp**       | string | Required. The OTP to redeem.  |
 
 ## Returns
 

@@ -1,10 +1,10 @@
 ---
 title: initialize
 id: js-reference-initialize
-description: ''
+description: ""
 slug: /js-reference-initialize
-keywords: 
- - javascript sdk
+keywords:
+  - javascript sdk
 pagination_next: null
 pagination_prev: null
 last_update: 
@@ -14,8 +14,6 @@ draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
-
-
 
 The **initialize** function creates an instance of the Beyond Identity Javascript SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
 
@@ -44,6 +42,7 @@ none
 On success, returns an instance of the **Embedded** class.
 
 ## Examples
+
 ### Example: create an instance of the Embedded namespace prior to calling its functions
 
 ```javascript

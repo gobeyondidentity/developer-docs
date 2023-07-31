@@ -75,8 +75,10 @@ In this step, you'll create a set of Beyond Identity resources containing your e
 
 ### Create your Beyond Identity initial configuration
 
-1. If you haven't already created your Beyond Identity tenant, create one for free [here](https://www.beyondidentity.com/developers/signup).
+1. If you haven't already created your Beyond Identity tenant, set up a [developer account](https://www.beyondidentity.com/developers/signup) for free.
+
 2. Once you have your tenant, go ahead and log in . You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
+
    :::tip  
    _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
    :::
@@ -101,28 +103,22 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-Configure the [app](/docs/next/add-an-application) with the following properties:
+3. On the **External Protocol** tab, use the following values to complete this tab.
 
-| Parameter                                                | Value                                                                                                                                                                                                                                                                                                                                                                             |
-| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Display Name                                             | any name you choose                                                                                                                                                                                                                                                                                                                                                               |
-| Protocol                                                 | OIDC                                                                                                                                                                                                                                                                                                                                                                              |
-| Client Type                                              | Confidential                                                                                                                                                                                                                                                                                                                                                                      |
-| PKCE                                                     | S256                                                                                                                                                                                                                                                                                                                                                                              |
-| Redirect URIs                                            | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /> http://localhost:3000/api/auth/callback/beyondidentity <br /><br />(Note that `'beyondidentity'` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.) |
-| Token Endpoint Auth Method                               | Client Secret Basic                                                                                                                                                                                                                                                                                                                                                               |
-| Grant Type                                               | Authorization Code                                                                                                                                                                                                                                                                                                                                                                |
-| Subject (under **Token Configuration**)                  | username                                                                                                                                                                                                                                                                                                                                                                          |
-| Configuration Type (on the **Authenticator Config** tab) | Hosted Web                                                                                                                                                                                                                                                                                                                                                                        |
-| Authentication Profile (on the **Authenticator Config** tab) | Keep recommended options selected. For more information visit the [authentication guide](docs/next/authentication)                                                                                                                                                                                                                                                                                                       |
-| all other options                                        | use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                  |
+  | Property | Value  |
+  | --- | --- |
+  | **Display Name** | Descriptive name you choose   |
+  | **Protocol** | OIDC  |
+  | **Client Type**| Confidential|
+  | **PKCE**  | S256   |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class="note-message note-message-table"><p>The `beyondidentity` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic   |
+  | **Grant Type**  | Authorization Code |
+  | **All other options**  | Use the default values for the remaining options  |
 
-<br />
+1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
 
-docs/next/authentication
-
-
-Click **Submit** to save the app.
+2. Click **Submit** to save the new app.
 
 ### Complete the configuration
 

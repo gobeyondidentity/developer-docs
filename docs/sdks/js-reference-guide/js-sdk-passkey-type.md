@@ -1,10 +1,10 @@
 ---
 title: passkey-type
 id: js-reference-passkey-type
-description: ''
+description: ""
 slug: /js-reference-passkey-type
-keywords: 
- - javascript sdk
+keywords:
+  - javascript sdk
 pagination_next: null
 pagination_prev: null
 last_update: 
@@ -15,8 +15,8 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-
 Example passkey:
+
 ```
 {
   "id": "9c9cd3f7b2e1e4054d3efea7c37a64bdf9a2f6cbe0fb6c144705f10e9ae72171",
@@ -48,4 +48,4 @@ Example passkey:
   },
   "keyType": "webauthn"
 }
-```  
+```
