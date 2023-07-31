@@ -114,7 +114,7 @@ To set up Beyond Identity as an Identity Provider, you need to create a Realm to
 
 ### Create a Realm
 
-import CreateRealmAdminConsole from '../includes/\_create-realm-console.mdx';
+import CreateRealmAdminConsole from '../includes/_create-realm-console.mdx';
 
 <CreateRealmAdminConsole />
 
