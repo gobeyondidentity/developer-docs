@@ -29,13 +29,13 @@ npm install @beyondidentity/bi-sdk-js
 
 Before making a call to **redeemOtp**, you must complete the following prerequisite calls:
 
-1. Import the required types and functions from the SDK
+1. Import the required types and functions from the SDK.
 
   ```javascript
   import { Embedded } from "@beyondidentity/bi-sdk-js";
   ```
 
-2. Initialize the SDK
+2. Initialize the SDK.
 
   ```javascript
   const embedded = await Embedded.initialize();
@@ -55,10 +55,10 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
 ## Parameters
 
-| Parameter | Type  | Description |
+| Parameter | Type | Description |
 | --- | --- | --- |
-| **url**       | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
-| **otp**       | string | Required. The OTP to redeem.  |
+| **url** | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
+| **otp** | string | Required. The OTP to redeem. |
 
 ## Returns
 
@@ -74,13 +74,15 @@ You can exchange the token for a link by calling the [credential-binding-jobs](h
 
 ```javascript
 const response = await fetch(
-  `/v1/tenants/${tenantId}/realms/${realmId}/applications/${applicationId}/credential-binding-jobs`,
+  `https://auth-${region}.beyondidentity.com/v1/tenants/${tenantId}/realms/${realmId}/applications/${applicationId}/credential-binding-jobs`,
   {
     method: "POST",
     headers: { Authorization: `Bearer ${passkeyBindingToken}` },
   }
 );
 ```
+
+This response will contain a `credential_binding_link`, which can be used by [isBindPasskeyUrl](js-reference-isBindPasskeyUrl) and [bindPasskey](js-reference-bindPasskey) to bind the credential.
 
 On failure, the **redeemOtp** function returns a Promise that resolves to an **OtpChallengeResponse**, which itself is a JSON object that contains the following keys:
 

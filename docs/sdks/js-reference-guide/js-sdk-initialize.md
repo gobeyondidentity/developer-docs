@@ -7,9 +7,9 @@ keywords:
   - javascript sdk
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/01/2023
-   author: Jen Field
+last_update:
+  date: 07/01/2023
+  author: Jen Field
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
@@ -30,8 +30,8 @@ npm install @beyondidentity/bi-sdk-js
 Before making a call to **initialize**, you must import the Embedded namespace from the SDK.
 
 ```javascript
-import {Embedded} from '@beyondidentity/bi-sdk-js';
-```  
+import { Embedded } from "@beyondidentity/bi-sdk-js";
+```
 
 ## Parameters
 

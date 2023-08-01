@@ -7,9 +7,9 @@ keywords:
   - javascript sdk
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/01/2023
-   author: Jen Field
+last_update:
+  date: 07/01/2023
+  author: Jen Field
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
