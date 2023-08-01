@@ -16,26 +16,28 @@
 
 ## Headings
 
-All heading levels (e.g., H1, H2, etc.), are marked by the hashtag (#) at the beginning of a line.  
+All heading levels (e.g., h1, h2, etc.), are marked by the hashtag (#) at the beginning of a line.  
+
+>**NOTE** Avoid using h1 (#) headings. The metadata tile represents this heading level and is automatically displayed. Always start with h2 (##), and respect the order h2 → h3 → h4. Never skip the hierarchy level, such as h2 → h4. Avoid h5 and h6 as much as possible. If you have content with h5 and h6 headers, rethink the structure of your document. Can the content be better scanned in a table or bullet list?
 
 ```markdown
-# This is a first level heading (H1)
+## This is a second level heading (h2)
 
-## This is a second level heading (H2)
+### This is a second level heading (h3)
 
-...
+#### This is a second level heading (h4)
 
-###### This is a sixth level heading (H6)
 ```
 
 ### Heading best practices
-Always put a space between the hash tag and the heading name.
+
+**Always put a space between the hash tag and the heading name.**
 
 | :white_check_mark: **DO** | :no_entry_sign: **DON'T** |
 | --- | --- |
 | `# Here's a Heading `  | `#Here's a Heading`  |
 
-Also, put blank lines before and after a heading.
+**Always put blank lines before and after a heading.**
 
 | :white_check_mark: **DO** | :no_entry_sign: **DON'T** |
 | --- | --- |

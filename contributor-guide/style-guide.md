@@ -104,6 +104,8 @@ Maintain the heading hierarchy throughout the doc, and follow heading levels. Do
 
 - 👉 Keep headings short and place the most important idea at the beginning. If there is a lot to say, use lower-level headings to break up the section into smaller, more scannable chunks. 
 
+- Avoid using h1 (#) headings. The metadata tile represents this heading level and is automatically displayed. Always start with h2 (##), and respect the order h2 → h3 → h4. Never skip the hierarchy level, such as h2 → h4. Avoid h5 and h6 as much as possible. If you have content with h5 and h6 headers, rethink the structure of your document. Can the content be better scanned in a table or bullet list?
+
 - Avoid having two headings in a row without text in between, as this may indicate a problem with organization or redundancy. Do not use filler text to separate headings.
 
 - Each new heading should introduce a new or more specific topic in an interesting way.
