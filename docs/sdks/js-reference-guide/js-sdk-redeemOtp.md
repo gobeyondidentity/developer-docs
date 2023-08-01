@@ -82,6 +82,8 @@ const response = await fetch(
 );
 ```
 
+This response will contain a `credential_binding_link`, which can be used by [isBindPasskeyUrl](js-reference-isBindCredentialUrl) and [bindPasskey](js-reference-bindcredential) to bind a credential.
+
 On failure, the **redeemOtp** function returns a Promise that resolves to an **OtpChallengeResponse**, which itself is a JSON object that contains the following keys:
 
 Note: This url should be used when calling [redeemOtp](js-reference-redeemOtp) or [authenticateOtp](js-reference-authenticateOtp) on retries.
