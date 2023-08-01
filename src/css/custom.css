@@ -237,7 +237,7 @@ dt {
 
 .logoWidth {
   border: none;
-  width: 96px;
+  width: 64px;
   align-self: center;
   margin: 0;
 }
@@ -969,12 +969,12 @@ html[data-theme="dark"] .intro-text h1 {
   margin-bottom: 10px;
   text-align: center;
   padding: 10px;
-  min-height: max-content;
+  max-height: max-content;
 }
 
 .get-started-container h4 {
-  margin: 0;
-  text-align:center;
+  margin: -10px 0 0 0;
+  text-align: center;
 }
 
 .intro-visual h5 {
