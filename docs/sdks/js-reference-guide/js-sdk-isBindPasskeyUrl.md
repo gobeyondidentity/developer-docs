@@ -1,8 +1,8 @@
 ---
-title: isBindCredentialUrl
-id: js-reference-isBindCredentialUrl
+title: isBindPasskeyUrl
+id: js-reference-isBindPasskeyUrl
 description: ""
-slug: /js-reference-isBindCredentialUrl
+slug: /js-reference-isBindPasskeyUrl
 keywords:
   - javascript sdk
 pagination_next: null

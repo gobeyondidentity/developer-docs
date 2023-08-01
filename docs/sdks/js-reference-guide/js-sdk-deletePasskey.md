@@ -1,8 +1,8 @@
 ---
-title: deleteCredential
-id: js-reference-deleteCredential
+title: deletePasskey
+id: js-reference-deletePasskey
 description: ""
-slug: /js-reference-deleteCredential
+slug: /js-reference-deletePasskey
 keywords:
   - javascript sdk
 pagination_next: null

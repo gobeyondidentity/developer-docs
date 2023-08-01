@@ -1,8 +1,8 @@
 ---
-title: bindcredential
-id: js-reference-bindcredential
+title: bindPasskey
+id: js-reference-bindPasskey
 description: ""
-slug: /js-reference-bindcredential
+slug: /js-reference-bindPasskey
 keywords:
   - javascript sdk
 pagination_next: null

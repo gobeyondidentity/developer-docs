@@ -1,8 +1,8 @@
 ---
-title: getCredentials
-id: js-reference-getCredentials
+title: getPasskeys
+id: js-reference-getPasskeys
 description: ""
-slug: /js-reference-getCredentials
+slug: /js-reference-getPasskeys
 keywords:
   - javascript sdk
 pagination_next: null
