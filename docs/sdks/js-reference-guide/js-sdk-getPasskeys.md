@@ -1,8 +1,8 @@
 ---
-title: getCredentials
-id: js-reference-getCredentials
+title: getPasskeys
+id: js-reference-getPasskeys
 description: ""
-slug: /js-reference-getCredentials
+slug: /js-reference-getPasskeys
 keywords:
   - javascript sdk
 pagination_next: null
@@ -31,15 +31,15 @@ Before making a call to **getPasskeys**, you must complete the following prerequ
 
 1. Import the required types and functions from the SDK.
 
-```javascript
-import { Embedded } from "@beyondidentity/bi-sdk-js";
-```
+  ```javascript
+  import { Embedded } from "@beyondidentity/bi-sdk-js";
+  ```
 
 2. Initialize the SDK.
 
-```javascript
-const embedded = await Embedded.initialize();
-```
+  ```javascript
+  const embedded = await Embedded.initialize();
+  ```
 
 ## Parameters
 
