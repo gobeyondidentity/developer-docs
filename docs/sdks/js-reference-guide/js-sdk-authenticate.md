@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 06/01/2023
-  author: Patricia McPhee
+  date: 08/01/2023
+  author: William May
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
@@ -68,13 +68,14 @@ On success, the **authenticate** function returns a Promise that resolves to an 
 
 - **redirectURL**: string containing the complete URL to which your app should redirect the user to complete the OIDC flow.
 
-  In keeping with the OIDC specifications, this includes the code and state parameters as query parameters to the redirect_url specified in the original OIDC request to the `/authorize` endpoint for the authentication URL.
+  Keeping with the OIDC specifications, this includes the code and state parameters as query parameters to the redirect_url specified in the original OIDC request to the `/authorize` endpoint for the authentication URL.
 
 - **message**: string containing a message your app may optionally consume or display.
 
-On success, the **authenticate** function returns a Promise that resolves to an **AuthenticateResponse**, which itself is a JSON object that contains the following keys:
+  On success, the **authenticate** function returns a Promise that resolves to an **AuthenticateResponse**, which itself is a JSON object that contains the following keys:
 
-- **redirectURL**: string containing the complete url to which your app should redirect the user in order to complete the OIDC flow. In keeping with the OIDC specifications this includes the code and state parameters as query parameters to the redirect_url that was specified in the original OIDC request to the `/authorize` endpoint for the an authentication url.
+- **redirectURL**: string containing the complete URL to which your app should redirect the user to complete the OIDC flow. Keeping with the OIDC specifications, this includes the code and state parameters as query parameters to the redirect_url specified in the original OIDC request to the `/authorize` endpoint for the authentication URL.
+
 - **message**: string containing a message your app may optionally consume or display.
 
 ## Notes
@@ -83,7 +84,7 @@ Using the **authenticate** function requires your app to generate a standard Ope
 
 > The [example app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Javascript SDK uses [NextAuth.js](https://next-auth.js.org/getting-started/example) to initiate the OIDC flow and to consume the resulting code and token.
 
-For step-by-step instructions to configure NextAuth.js and OIDC using our sample application, and to create the associated Beyond Identity tenant configuration, see [Getting Started](/docs/next/get-started). For complete guidance on authentication, see <mark>Workflow: Authentication with Passkey (content has changed; will need a new link)</mark>
+For step-by-step instructions to configure NextAuth.js and OIDC using our sample application, and to create the associated Beyond Identity tenant configuration, see [Getting Started](/docs/next/get-started). For complete guidance on authentication, see <mark>Authentication with Passkey (content has changed; will need a new link)</mark>
 
 ## Examples
 
