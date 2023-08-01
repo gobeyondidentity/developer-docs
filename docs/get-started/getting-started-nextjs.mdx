@@ -104,12 +104,14 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
   | **Protocol** | OIDC  |
   | **Client Type**| Confidential|
   | **PKCE**  | S256   |
-  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class="note-message note-message-table"><p>The `beyondidentity` in this URI is the id of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class="note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
   | **Token Endpoint Auth Method** | Client Secret Basic   |
   | **Grant Type**  | Authorization Code |
   | **All other options**  | Use the default values for the remaining options  |
 
-1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
+1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. 
+
+  It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
 
 2. Click **Submit** to save the new app.
 
