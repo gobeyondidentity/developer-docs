@@ -7,9 +7,9 @@ keywords:
   - javascript sdk
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/18/2023
-   author: Jen Field
+last_update:
+  date: 07/18/2023
+  author: Jen Field
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
@@ -29,17 +29,17 @@ npm install @beyondidentity/bi-sdk-js
 
 Before making a call to **deletePasskey**, you must complete the following prerequisite calls:
 
-1. Import the required types and functions from the SDK
+1. Import the required types and functions from the SDK.
 
-```javascript
-import { Embedded } from "@beyondidentity/bi-sdk-js";
-```
+  ```javascript
+  import { Embedded } from "@beyondidentity/bi-sdk-js";
+  ```
 
-2. Initialize the SDK
+2. Initialize the SDK.
 
-```javascript
-const embedded = await Embedded.initialize();
-```
+  ```javascript
+  const embedded = await Embedded.initialize();
+  ```
 
 ## Parameters
 

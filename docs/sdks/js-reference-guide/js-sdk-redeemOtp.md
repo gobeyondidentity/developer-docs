@@ -29,13 +29,13 @@ npm install @beyondidentity/bi-sdk-js
 
 Before making a call to **redeemOtp**, you must complete the following prerequisite calls:
 
-1. Import the required types and functions from the SDK
+1. Import the required types and functions from the SDK.
 
   ```javascript
   import { Embedded } from "@beyondidentity/bi-sdk-js";
   ```
 
-2. Initialize the SDK
+2. Initialize the SDK.
 
   ```javascript
   const embedded = await Embedded.initialize();
@@ -55,10 +55,10 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
 ## Parameters
 
-| Parameter | Type  | Description |
+| Parameter | Type | Description |
 | --- | --- | --- |
-| **url**       | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
-| **otp**       | string | Required. The OTP to redeem.  |
+| **url** | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
+| **otp** | string | Required. The OTP to redeem. |
 
 ## Returns
 

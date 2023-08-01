@@ -7,9 +7,9 @@ keywords:
   - javascript sdk
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/01/2023
-   author: Jen Field
+last_update:
+  date: 07/01/2023
+  author: Jen Field
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
@@ -27,25 +27,25 @@ npm install @beyondidentity/bi-sdk-js
 
 ## Prerequisites
 
-Before making a call to **isBindPasskeyUrl**, you must complete the following prerequisite calls:  
+Before making a call to **isBindPasskeyUrl**, you must complete the following prerequisite calls:
 
 1. Import the required types and functions from the SDK.
 
   ```javascript
-  import {Embedded} from '@beyondidentity/bi-sdk-js';
-  ```  
+  import { Embedded } from "@beyondidentity/bi-sdk-js";
+  ```
 
 2. Initialize the SDK.
 
   ```javascript
   const embedded = await Embedded.initialize();
-  ```  
+  ```
 
 ## Parameters
 
-| Parameter | Type |Description|
-|---|---|---|
-|**url**| string| Required. Url to be validated as Beyond Identity passkey binding url.|
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | string | Required. Url to be validated as Beyond Identity passkey binding url. |
 
 ## Returns
 
