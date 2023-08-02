@@ -72,7 +72,7 @@ Part of the default configuration for your App client is that the **client type*
 ## Configure OIDC between Beyond Identity and AWS
 
 ### Create AWS as an OIDC client in Beyond Identity
-In this section, you will create a resource server and app in your Beyond Identity realm to represent AWS Cognito.
+In this section, you'll create a resource server and app in your Beyond Identity realm to represent AWS Cognito.
 
 ### Create a resource server
 
