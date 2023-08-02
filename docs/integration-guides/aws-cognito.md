@@ -123,7 +123,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <br/>  
 
-Click **Submit** to save the app.  
+1. Click **Submit** to save the app.  
 
 ### Add a Federated OIDC IDP to the User Pool in AWS
 In this section, you'll configure your AWS user pool with an OIDC connection to the Beyond Identity app you created earlier.  
