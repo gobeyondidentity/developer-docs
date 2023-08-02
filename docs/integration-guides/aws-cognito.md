@@ -163,6 +163,7 @@ Now, you'll connect your user pool's app client to the OIDC provider you created
 
 ## Test OIDC connection
 
+
 Now you'll use AWS Cognito's "Hosted UI" test tool to test the integration.  
 
 1. Go to the [AWS Console](https://console.aws.amazon.com/cognito/home) and select **User pools**.
