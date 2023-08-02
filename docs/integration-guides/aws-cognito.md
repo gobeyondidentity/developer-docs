@@ -158,7 +158,7 @@ Now, you'll connect your user pool's app client to the OIDC provider you created
 
 5. Scroll down to **Hosted UI** and click Edit.
 
-6. Under **Identity providers**, in the drop down list for **Select identity providers**. select the federated provider you created earlier.
+6. Under **Identity providers**, in the drop down list for **Select identity providers**, select the federated provider you created earlier.
 
 7. Click **Save changes**.
 
