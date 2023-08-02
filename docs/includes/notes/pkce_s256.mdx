@@ -1,9 +1,5 @@
 :::info Why S256?
 
-PKCE code challenge methods supported for applications, as defined by [RFC-7636](https://datatracker.ietf.org/doc/html/rfc7636).
-
-<br />
-
-PKCE is enabled for this application, and the server will correlate the `code_challenge` and `code_verifier` between the `authorize` and `token` requests. In this configuration, those fields are required to equate as follows: `code_challenge` = `base64url(sha256(ascii(code_verifier)))`. This is the higher security option and should always be preferred if it is supported by the client.
+Choosing the "S256" PKCE type is strongly recommended for public clients like SPAs or mobile apps. It offers a significant security improvement over the "disabled" and "plain" options, effectively protecting against code interception attacks, which are a major concern in less secure client environments. By using "S256" PKCE, you can ensure a higher level of security for your OAuth 2.0 and OIDC flows and better protect your users' data and resources.
 
 :::
