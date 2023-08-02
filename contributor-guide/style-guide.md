@@ -81,13 +81,6 @@ Maintain the heading hierarchy throughout the doc, and follow heading levels. Do
  ---
  // highlight-end 
 
- OR
-
- // highlight-next-line
- # Top-level heading
-
- ---
-
  // highlight-start
  // Lower-level headings within the topic
  ## Lower-level heading
@@ -246,7 +239,7 @@ Only add a "Learn more..." sentence if the help text addresses more than one con
 
 ### Avoid "and/or"
 
-Rewrite the sentence to clarify the meaning. Note that or can mean _either_ or _both_.
+Rewrite the sentence to clarify the meaning. Note that _or_ can mean _either_ or _both_.
 
 **Example**
 
