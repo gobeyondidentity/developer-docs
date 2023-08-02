@@ -1,17 +1,17 @@
 ---
-title: Getting Started with NextJS
-sidebar_label: NextJS
+title: Getting Started with Next.js
+sidebar_label: Next.js
 id: get-started-nextjs
 description: 'Create a free Beyond Identity developer account and connect it to enable a sample application to use passkeys (public-private key pairs) for user authentication.'
 slug: /get-started-nextjs
-keywords: 
- - get started
- - NextJS
+keywords:
+  - get started
+  - NextJS
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/24/2023
-   author: Jen Field
+last_update:
+  date: 07/27/2023
+  author: Anna Garcia
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -20,20 +20,15 @@ displayed_sidebar: mainSidebar
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+In this guide, you'll add Beyond Identity <a href= "#" data-tooltip= "A public and private key pair. The private key is generated and stored and never leaves the user's devices' hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication to a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/).
 
-
-In this guide, you'll add Beyond Identity <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication to a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/).  
-
-  
-This guide uses Visual Studio Code (VS Code) and the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org). However, you can use these concepts to add Beyond Identity to any web app using your Beyond Identity tenant and OAuth2/OIDC.  
+This guide uses Visual Studio Code (VS Code) and the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org). However, you can use these concepts to add Beyond Identity to any web app using your Beyond Identity tenant and OAuth2/OIDC.
 
 :::note  
-This guide uses the **Hosted Web** Beyond Identity authenticator type, which has a lighter footprint in your app. 
-For guidance using the **Embedded SDK** authenticator type, see the **[NextAuth integration guide](/docs/next/next-auth)**. 
-For more information on authenticator types, check out the article **[here](/docs/next/authentication)**.  
-:::  
-
-
+This guide uses the **Hosted Web** Beyond Identity authenticator type, which has a lighter footprint in your app.
+For guidance using the **Embedded SDK** authenticator type, see the **[NextAuth integration guide](/docs/next/next-auth)**.
+See the **[Authentication](/docs/next/authentication)** article for more information on authenticator types.  
+:::
 
 ## 1. Sign up for a developer account
 
@@ -41,17 +36,20 @@ import DeveloperSignUpProcess from '../includes/_developer-sign-up-process.mdx';
 
 <DeveloperSignUpProcess />
 
---- 
-
+---
 
 ## 2. Clone the sample app
-### Download and install the tools
-First, make sure you've downloaded and installed the following tools on the development machine:
- - [git](https://git-scm.com/downloads)
- - [node.js and npm](https://nodejs.org/en/download/)
- - [VS Code](https://code.visualstudio.com/download)
 
-You can verify that node, npm and git are installed using the following commands:
+### Download and install the tools
+
+First, make sure you've downloaded and installed the following tools on the development machine:
+
+- [git](https://git-scm.com/downloads)
+- [node.js and npm](https://nodejs.org/en/download/)
+- [VS Code](https://code.visualstudio.com/download)
+
+You can verify that node, npm, and git are installed using the following commands:
+
 ```
 node -v
 npm -v
@@ -59,89 +57,75 @@ git --version
 ```
 
 ### Create the project
-1. On the development machine, create a new folder for your project.
-2. In VS Code, select **File -> Open Folder** and select your folder
-<!--![VS Code File menu Open Folder](.\vs_open_folder.png "VS Code File menu")  -->
-3. In VS Code, open the terminal (**View -> Terminal**)  
-4. In the VS Code terminal, execute the following commands to use git to clone the example app, change to the app’s directory, and install the app’s dependencies:  
-```
-git clone https://github.com/nextauthjs/next-auth-example.git
-cd next-auth-example
-npm install
-```  
 
+1. On the development machine, create a new folder for your project.
+
+2. In VS Code, select **File > Open Folder** and select your project folder.
+
+3. Open the terminal (**View > Terminal**) and clone the example app, change to the app's directory, and install the app's dependencies.
+
+  ```
+  git clone https://github.com/nextauthjs/next-auth-example.git
+  cd next-auth-example
+  npm install
+  ```
 
 ## 3. Configure Beyond Identity
 
-In this step, you'll create a set of Beyond Identity resources containing your end users' identities and the configuration. First, you'll create a new realm, which holds your users' identities. Next, you'll create a new application that contains the configuration for your users.  
+In this step, you'll create a set of Beyond Identity resources containing your end users' identities and the configuration. First, you'll create a new realm that holds your users' identities. Next, you'll create a new application containing your users' configuration.
 
-### Create your Beyond Identity initial configuration
-
-1. If you haven't already created your Beyond Identity tenant, create one for free [here](https://www.beyondidentity.com/developers/signup).  
-2. Once you have your tenant, go ahead and log in . You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
 :::tip  
-_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
-:::  
+_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one-time link to sign in and enroll a passkey from the new browser._  
+:::
 
-Next, you will [create a new realm and switch to that realm](/docs/next/get-started-nextjs#create-a-new-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.   
 ### Create a new realm
 
-So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.  
+So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.
 
 import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
 <CreateRealmConsole />
 
-Next, you will [create an app in the realm](/docs/next/get-started-nextjs#create-an-application) using the configuration options in the next section.  
-
 ### Create an application
 
-In this step, you'll create a new Application that will contain the configuration for your users.
+In this step, you'll create a new Application containing the configuration for your users.
 
-import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
+import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-Configure the [app](/docs/next/add-an-application) with the following properties:  
+3. On the **External Protocol** tab, use the following values to complete this tab.
 
-| Parameter | Value|
-|---|---|  
-| Display Name | any name you choose |
-| Protocol | OIDC |
-| Client Type | Confidential | 
-| PKCE | S256 | 
-| Redirect URIs | http://localhost:3000/api/auth/callback/beyondidentity (Note that 'beyondidentity' in this URI is the **id** of the OAuth provider as configured in the `providers` array in NextAuth.js. We will configure this further down.)     
-| Token Endpoint Auth Method | Client Secret Basic | 
-| Grant Type | Authorization Code | 
-| Subject (under **Token Configuration**) | username | 
-| Configuration Type (on the **Authenticator Config** tab) | Hosted Web |  
-| all other options | use the default values for the remaining options |  
+  | Property | Value  |
+  | --- | --- |
+  | **Display Name** | Descriptive name you choose   |
+  | **Protocol** | OIDC  |
+  | **Client Type**| Confidential|
+  | **PKCE**  | S256   |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic   |
+  | **Grant Type**  | Authorization Code |
+  | **All other options**  | Use the default values for the remaining options  |
 
-<br/>  
+1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. 
 
-Click **Submit** to save the app.  
+  It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
 
+2. Click **Submit** to save the new app.
 
 ### Complete the configuration
-#### Record your Beyond Identity configuration
 
-In this step, you'll collect the configuration elements you will need to set environment variables in the sample app's '.env.config' table.  
+In this step, you'll collect the configuration elements you must set environment variables in the sample app's `.env.config` table.
 
 The table below lists these elements and where to find them in the tenant.
 
-| Property Name | Where to find the value | 
-| ----------- | ----------- |
-| TENANT_ID | From your realm's Home page, click **Edit realm**, then copy the **Tenant ID** from the Edit realm page. For help, see the guidance [here](/docs/next/find-tenant-id) |
-| REALM_ID | From your realm's Home page, click **Edit realm**, then copy the **Realm Id** from the Edit realm page. | 
-| APPLICATION_ID | Copy your app’s **Application ID** from the top of the app’s configuration page in your tenant | 
-| APP_CLIENT_ID | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant | 
-| APP_CLIENT_SECRET | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant | 
-
-Next, you will [configure the sample app in your VS Code project](/docs/next/get-started-nextjs#4-set-environment-variables-and-configure-beyond-identity-as-an-oauth-provider-in-the-sample-app) to setup environment variables and an OAuth provider for Beyond Identity.  
+| Property Name | Where to find the value  |
+| --- | --- |
+| **`BEYOND_IDENTITY_CLIENT_ID`**  | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
+| **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
+| **`BEYOND_IDENTITY_DISCOVERY`**     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
 ---
-
-
 
 :::tip **CHECKPOINT**
 
@@ -151,17 +135,17 @@ Guess what? You're halfway there! So far in your getting started journey, you sh
 
 - [x] Cloned the example application.
 
-- [x] Created the initial configuration in your tenant, including a realm and an application. 
+- [x] Created the initial configuration in your tenant, including a realm and an application.
 
-<br/>
-In the next step, you'll setup the example application locally:  
+<br />
+In the next step, you'll set up the example application locally:  
 
 - Create and populate .env.local file
 
 - Create Beyond Identity as an OAuth provider in the app
 
-- Create identities and run the app  
-<br/>  
+- Create identities and run the app
+  <br />  
 
 Don't forget, if you get stuck, let us know in our **[Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
@@ -169,67 +153,76 @@ Don't forget, if you get stuck, let us know in our **[Slack community](https://j
 
 ---
 
-## 4. Set environment variables and configure Beyond Identity as an OAuth provider in the sample app
+## 4. Configure Beyond Identity as an OAuth provider
+
+In this step, set your environment variables and configure Beyond Identity as an OAuth provider in the sample app.
+
 ### Environment variables and .env.local file
-Make the following changes to your NextAuth example app project to setup your environment variables:    
+
+Make the following changes to your NextAuth example app project to set up your environment variables:
+
 1. Make a copy of the file **.env.local.example** called **.env.local**
 
-2. In .env.local, configure the following variables from your Beyond Identity tenant:  
+2. In .env.local, configure the following variables from your Beyond Identity tenant:
 
-| Variable Name | Where to find the value | 
-| ----------- | ----------- |
-| NEXTAUTH_URL | Use the default value of http://localhost:3000 | 
-| REGION | This your tenant's region, either "us" or "eu", that can be found in the URL of the Beyond Identity Admin Console | 
-| TENANT_ID | From your realm's Home page, click **Edit realm**, then copy the **Tenant ID** from the Edit realm page. For help, see the guidance [here](/docs/next/find-tenant-id) | 
-| REALM_ID | From your realm's Home page, click **Edit realm**, then copy the **Realm Id** from the Edit realm page. | 
-| APPLICATION_ID | Copy your app’s **Application ID** from the top of the app’s configuration page in your tenant | 
-| APP_CLIENT_ID | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant | 
-| APP_CLIENT_SECRET | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant | 
+  | Variable Name  | Where to find the value |
+  | --- | --- |
+  | **`NEXTAUTH_URL`**  | Use the default value of http://localhost:3000 |
+  | **`NEXTAUTH_SECRET`**  | generate one here: https://generate-secret.vercel.app/32                                                                 |
+  | **`BEYOND_IDENTITY_CLIENT_ID`** | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
+  | **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
+  | **`BEYOND_IDENTITY_DISCOVERY`**  | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
-Your **.env.local** file's contents should look something like the example below:  
-```javascript
-NEXTAUTH_URL=http://localhost:3000
-...
+1. Copy and paste the value from **Applications > \{New Application\} > External Protocol > Issuer**.
 
-# -- Beyond Identity
-REGION="us"
-TENANT_ID=00045678db8e1e3c
-REALM_ID=6aae0d38c246f6c4
+  Your **.env.local** file's contents should look something like the example below:
 
-APPLICATION_ID=238736b2-97e5-4c89-8406-b5f218f2d420
-APP_CLIENT_ID=Njlb6brHbCofRyCWGkiUweTz
-APP_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
-```
+  ```javascript
+  # Next Auth
+  NEXTAUTH_URL=http://localhost:3000
+  NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247
+  ...
 
-3. Update the contents of the file **process.d.ts** to the following:  
-```javascript
-declare namespace NodeJS {
-  export interface ProcessEnv {
-    NEXTAUTH_URL: string
-    NEXTAUTH_SECRET: string
-    TENANT_ID: string
-    REALM_ID: string
-    APPLICATION_ID: string
-    APP_CLIENT_ID: string
-    APP_CLIENT_SECRET: string
-    REGION: string
+  # Beyond Identity
+  BEYOND_IDENTITY_CLIENT_ID=Njlb6brHbCofRyCWGkiUQweTz
+  BEYOND_IDENTITY_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
+  BEYOND_IDENTITY_DISCOVERY=https://auth-us.beyondidentity.com/v1/tenants/000111222333/realms/444555666777888/applications/1233449b-11c4-4884-b622-0bfbaefd44d3
+  ```
+
+3. Update the contents of the file **process.d.ts** to the following:
+
+  ```javascript
+  declare namespace NodeJS {
+    export interface ProcessEnv {
+      NEXTAUTH_URL: string
+      NEXTAUTH_SECRET: string
+      BEYOND_IDENTITY_CLIENT_ID: string
+      BEYOND_IDENTITY_CLIENT_SECRET: string
+      BEYOND_IDENTITY_DISCOVERY: string
+    }
   }
-}
-```
-### Create OAuth provider
-Make the following change to your NextAuth example app project to configure Beyond Identity as an OAuth provider:  
+  ```
 
-Update the file **pages/api/auth/[...nextauth].js**. Inside the `providers` array, add the following entry:  
+### Create OAuth provider
+
+Make the following change to your NextAuth example app project to configure Beyond Identity as an OAuth provider:
+
+| Next.js Version | Route |
+| --- | --- |
+| **12** | Create a route at **pages/api/auth/[...nextauth].js**. |
+| **13** | Create a route at **app/api/auth/[...nextauth]/route.ts**. |
+
+Inside the `providers` array, add the following entry:
 
 ```javascript
 {
     id: "beyondidentity",
     name: "Beyond Identity",
     type: "oauth",
-    wellKnown: `https://auth-${process.env.REGION}.beyondidentity.com/v1/tenants/${process.env.TENANT_ID}/realms/${process.env.REALM_ID}/applications/${process.env.APPLICATION_ID}/.well-known/openid-configuration`,
+    wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
     authorization: { params: { scope: "openid" } },
-    clientId: process.env.APP_CLIENT_ID,
-    clientSecret: process.env.APP_CLIENT_SECRET,
+    clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
+    clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
     idToken: true,
     checks: ["pkce", "state"],
     profile(profile) {
@@ -240,71 +233,42 @@ Update the file **pages/api/auth/[...nextauth].js**. Inside the `providers` arra
     }
     },
 },
-```  
-:::note  
- [NextAuth](https://next-auth.js.org/) is becoming [Auth.js](https://authjs.dev), and Beyond Identity will be a built-in provider. Updated guidance is coming soon! In the meantime, use the guidance above.  
-:::  
-
-### Double check the package.json file
-Inside the **package.json** file, ensure that the scripts that run the app use the correct port that is used in the following URLs:  
-- your NEXTAUTH_URL, such as 'http://localhost:3000'  
-- the app's configured redirect URI in the BI tenant, such as 'http://localhost:3000/api/auth/callback/beyondidentity'  
-
-Next's default port is 3000, so you do not need to specify a port if you are using port 3000.  
+```
 
 :::note  
-If you are using a different port in your NEXTAUTH_URL, for example '8083', the app's redirect URI would be specified as http://localhost:8083/api/auth/callback/beyondidentity, and the script should start the app using the -p option, for example `"next -p 8083"`  
+ [NextAuth](https://next-auth.js.org/) is becoming [Auth.js](https://authjs.dev), and Beyond Identity will be a built-in provider. The updated guidance is coming soon! In the meantime, use the guidance above.  
 :::
 
-Next, you will [create users and passkeys](#create-users-and-passkeys) so that you can test the app.  
+### Double-check the package.json file
 
-## 5. Create users and passkeys
-Because you created an app with the 'Hosted Web' authentication configuration type, you are ready to test without writing any more authentication code.  
-But you'll need a user with an enrolled passkey first, which you can create via the Admin Console.  
+Inside the **package.json** file, ensure that the scripts that run the app use the correct port for the following URLs:
+
+- your NEXTAUTH_URL, such as 'http://localhost:3000'
+- the app's configured redirect URI in the BI tenant, such as 'http://localhost:3000/api/auth/callback/beyondidentity'
+
+Next's default port is 3000, so you do not need to specify a port if you use port 3000.
 
 :::note  
-If you wish to create identities and passkeys via the **Beyond Identity API** from within your app, you can do so following the guidance **[here](/docs/next/hosted-add-passkeys#create-users-and-passkeys)**.  
-:::  
+If you are using a different port in your NEXTAUTH_URL, for example, '8083', the app's redirect URI would be  http://localhost:8083/api/auth/callback/beyondidentity, and the script should start the app using the -p option, for example `"next -p 8083" `  
+:::
 
+Next, you'll [create users and passkeys](#create-users-and-passkeys) test the app.
 
-### Create one or more identities in your Beyond Identity app's realm
-First, make sure you are in your app's realm in the Beyond Identity Admin Console:  
-1. In the **Admin Console**, under **Tenant Management**, select **Go to realm ** and select your app's realm.  
+## 5. Create users and passkeys
 
-2. From the Admin Console, under **Directory**, select **Identities > Add identity**.
-
-3. Enter a name, username, and email address. **Be sure to enter an Email address that is a real address where you can receive email.**  
-
-4. Click **Add identity**.  
-
-
-### Create passkeys for your identities
-Once you've created the identity, you'll need to enroll a passkey for the new user. For this, you'll use the email enrollment method. Double check that you created the identity above using an Email address that is a real address where you can receive email.  
-
-
-1. In the Admin Console, under Directory, select **Identities**.  
-
-2. Select the identity you want to bind a passkey to and click **Add a passkey**.  
-
-3. Select the app you created, and then select **Delivery method** 'Send an email to user'.  
-
-4. Click **Proceed and send email**.  
-
-
-You should receive an email from Beyond Identity at the address specified as the identity's **primary_email_address**.  From the browser you wish to use for testing, open that email and click the link. This should initiate a passkey enrollment and registration for your user in the Beyond Identity realm.
-
+You are ready to test without writing more code because you created an app with the 'Hosted Web' authentication configuration type. The 'Hosted Web' authentication configuration handles user registration and authentication. If you want more customization, consider using the 'Embedded SDK' configuration type. For more information, see the **[NextAuth integration guide](/docs/next/next-auth)**.
 
 ## 6. Run the example application and test sign in
-In this step, you'll start the backend and frontend to run the example app locally.  
 
-In VS Code, execute `npm run dev` at the terminal prompt. From the browser where you created the passkey above, navigate to `http://localhost:3000`. Here you should be able to click Sign in and sign in to the app as shown below.  
+In this step, you'll start the backend and frontend to run the example app locally.
 
-![NextAuth.js Example Home Page](../images/js-sdk-example-app-signin-1.png "NextAuth.js Example Home Page")  
-
-![Verify Beyond Identity](../images/js-sdk-example-app-signin-2.png "Verify Beyond Identity")  
+1. In VS Code, run:
  
-![NextAuth.js Example Signed In](../images/js-sdk-example-app-signin-3.png "NextAuth.js Example Signed In")  
+  ```bash
+  npm run dev
+  ``` 
+2. From the browser where you created the passkey above, navigate to `http://localhost:3000`. 
 
+3. Sign in to the app, as shown below. 
 
----
-
+  Registration and passkey binding happens in the Hosted Web UI. The user gets prompted to provide an email for verification on the first authentication. They'll have the option to generate a passkey on trusted devices, which they'll use on this device each time they authenticate.

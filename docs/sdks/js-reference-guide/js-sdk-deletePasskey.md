@@ -1,8 +1,8 @@
 ---
-title: isAuthenticateUrl
-id: js-reference-isAuthenticateUrl
+title: deletePasskey
+id: js-reference-deletePasskey
 description: ""
-slug: /js-reference-isAuthenticateUrl
+slug: /js-reference-deletePasskey
 keywords:
   - javascript sdk
 pagination_next: null
@@ -15,11 +15,11 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-Validates that a URL is able to be used by the **authenticate** function.
+The **deletePasskey** function enables your app to delete a passkey given its passkey ID.
 
 ## Dependencies
 
-The **isAuthenticateUrl** function requires the Beyond Identity Javascript SDK.
+The **deletePasskey** function requires the Beyond Identity Javascript SDK.
 
 ```
 npm install @beyondidentity/bi-sdk-js
@@ -27,7 +27,7 @@ npm install @beyondidentity/bi-sdk-js
 
 ## Prerequisites
 
-Before making a call to **isAuthenticateUrl**, you must complete the following prerequisite calls:
+Before making a call to **deletePasskey**, you must complete the following prerequisite calls:
 
 1. Import the required types and functions from the SDK.
 
@@ -45,18 +45,12 @@ Before making a call to **isAuthenticateUrl**, you must complete the following p
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | string | Required. Url to be validated as Beyond Identity authentication url. |
-
-## Returns
-
-Returns a boolean.
+| **id** | string | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/next/js-reference-passkey-type) that is available on the device. |
 
 ## Examples
 
-### Example: Authenticate only if the provided url is valid
+### Example: Delete a passkey
 
 ```javascript
-if (embedded.isAuthenticateUrl(url)) {
-  // authenticate against a passkey bound to the device
-}
+await embedded.deletePasskey(passkey.id);
 ```

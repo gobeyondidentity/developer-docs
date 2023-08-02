@@ -148,11 +148,6 @@
       "items": [
         {
           "type": "doc",
-          "label": "Send Enrollment Emails",
-          "id": "guides/send-enrollment"
-        },
-        {
-          "type": "doc",
           "label": "bubble.io",
           "id": "guides/bubble-io-integration"
         },

@@ -1,8 +1,8 @@
 ---
-title: isAuthenticateUrl
-id: js-reference-isAuthenticateUrl
+title: isBindPasskeyUrl
+id: js-reference-isBindPasskeyUrl
 description: ""
-slug: /js-reference-isAuthenticateUrl
+slug: /js-reference-isBindPasskeyUrl
 keywords:
   - javascript sdk
 pagination_next: null
@@ -15,11 +15,11 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-Validates that a URL is able to be used by the **authenticate** function.
+Validates that a URL is able to be used by the **bindPasskey** function.
 
 ## Dependencies
 
-The **isAuthenticateUrl** function requires the Beyond Identity Javascript SDK.
+The **isBindPasskeyUrl** function requires the Beyond Identity Javascript SDK.
 
 ```
 npm install @beyondidentity/bi-sdk-js
@@ -27,7 +27,7 @@ npm install @beyondidentity/bi-sdk-js
 
 ## Prerequisites
 
-Before making a call to **isAuthenticateUrl**, you must complete the following prerequisite calls:
+Before making a call to **isBindPasskeyUrl**, you must complete the following prerequisite calls:
 
 1. Import the required types and functions from the SDK.
 
@@ -45,7 +45,7 @@ Before making a call to **isAuthenticateUrl**, you must complete the following p
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | string | Required. Url to be validated as Beyond Identity authentication url. |
+| **url** | string | Required. Url to be validated as Beyond Identity passkey binding url. |
 
 ## Returns
 
@@ -53,10 +53,10 @@ Returns a boolean.
 
 ## Examples
 
-### Example: Authenticate only if the provided url is valid
+### Example: Call **bindPasskey** after validating URL
 
 ```javascript
-if (embedded.isAuthenticateUrl(url)) {
-  // authenticate against a passkey bound to the device
+if (await embedded.isBindPasskeyUrl(passkeyBindingLink)) {
+  let result = await embedded.bindPasskey(passkeyBindingLink);
 }
 ```

@@ -6,7 +6,7 @@ last_update:
 
 # How to
 
-- [Sending Enrollment Emails](send-enrollment.md)
+- [Sending Enrollment Emails](docs/v1/workflows/send-enrollment)
 
 # Integrate Beyond Identity Passwordless Authentication into
 

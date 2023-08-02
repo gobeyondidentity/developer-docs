@@ -61,7 +61,7 @@ We support the following **Users**`(urn:ietf:params:scim:schemas:core:2.0:User)`
 | displayName    | SVA            | string    | Y         | Y          | The name of the User, suitable for display to end-users.  The name SHOULD be the full name of the User being described, if known. |
 | emails         | CMVA           | n/a       | N         | Y          | Email for the User. Only one email is allowed. Primary must be set to true.                                                       |
 | email.value    | SVA            | string    | Y         | Y          | Address of the user email.                                                                                                        |
-| email.primary  | SVA            | bool      | Y         | N          | Indicates if this email is primary email of the user.  Currently always set to `true`                                             |
+| email.primary  | SVA            | bool      | Y         | N          | Indicates if this email is primary email of the user.  Always set to `true`                                             |
 
 <br />
 

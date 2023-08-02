@@ -237,7 +237,7 @@ dt {
 
 .logoWidth {
   border: none;
-  width: 96px;
+  width: 64px;
   align-self: center;
   margin: 0;
 }
@@ -826,12 +826,16 @@ div[class^="tocCollapsibleContent"] ul li {
 /***** Admonition *****/
 
 .note-message {
-  color: #059;
-  background-color: #54c7ec26;
-  border-left: 4px solid #059;
+  color: var(--ifm-color-primary-darkest);
+  background-color: #3e5fb826;
+  border-left: 4px solid var(--ifm-color-primary-darkest);
   margin: 10px 0;
   padding: 10px;
   border-radius: 5px;
+}
+
+.note-message-table p {
+  font-size: 1em;
 }
 
 .success-msg {
@@ -965,12 +969,12 @@ html[data-theme="dark"] .intro-text h1 {
   margin-bottom: 10px;
   text-align: center;
   padding: 10px;
-  min-height: max-content;
+  max-height: max-content;
 }
 
 .get-started-container h4 {
-  margin: 0;
-  text-align:center;
+  margin: -10px 0 0 0;
+  text-align: center;
 }
 
 .intro-visual h5 {

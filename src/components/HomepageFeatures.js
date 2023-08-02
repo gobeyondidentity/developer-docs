@@ -8,7 +8,7 @@ const FeatureList1 = [
     Svg: require("@site/static/img/get-started.svg").default,
     description: (
       <>
-        Get started with Beyond Identity with ready made instructions for common use cases.
+        Get started with Beyond Identity with ready-made instructions for common use cases.
       </>
     ),
     link: (
@@ -20,7 +20,7 @@ const FeatureList1 = [
     Svg: require("@site/static/img/tutorials.svg").default,
     description: (
       <>
-        Get step-by step instructions for common use cases and third-party integrations. 
+        Get step-by-step instructions for common use cases and third-party integrations. 
       </>
     ),
     link: (
@@ -63,7 +63,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "https://www.beyondidentity.com/products/secure-customers"
+      "https://www.beyondidentity.com/developers#/mobile"
     )
   },
   {
@@ -71,7 +71,7 @@ const FeatureList1 = [
     Svg: require("@site/static/img/slack.svg").default,
     description: (
       <>
-        Join our slack community for questions or support with your Beyond Identity account. 
+        Join our Slack community for questions or support with your Beyond Identity account. 
       </>
     ),
     link: (
