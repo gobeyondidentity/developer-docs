@@ -119,7 +119,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
    | Allowed Scopes | Select scopes from the set of scopes assigned to the resource server you created above. | 
    | Subject  (under **Token Configuration**) | email |  
    | Configuration Type (on the **Authenticator Config** tab) | Hosted Web |  
-| all other options | Use the default values for the remaining options. |  
+   | all other options | Use the default values for the remaining options. |  
 
 <br/>  
 
