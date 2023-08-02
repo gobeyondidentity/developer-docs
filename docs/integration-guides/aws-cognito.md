@@ -106,7 +106,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 1. Configure the [app](/docs/next/add-an-application) with the following properties:  
 
-| Parameter | Value|
+   | Parameter | Value|
 |---|---|  
 | Display Name | any name you choose |
 | Protocol | OIDC |
