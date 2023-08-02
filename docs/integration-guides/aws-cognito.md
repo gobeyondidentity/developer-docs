@@ -117,7 +117,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 | Grant Type | Authorization Code | 
 | Resource Server | Select the resource server you created above. | 
    | Allowed Scopes | Select scopes from the set of scopes assigned to the resource server you created above. | 
-| Subject  (under **Token Configuration**) | email |  
+   | Subject  (under **Token Configuration**) | email |  
 | Configuration Type (on the **Authenticator Config** tab) | Hosted Web |  
 | all other options | Use the default values for the remaining options. |  
 
