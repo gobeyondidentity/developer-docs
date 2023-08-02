@@ -430,9 +430,9 @@ If you need to make substantial changes, add an image or add a section to a topi
 
    1. Select the branch.  
 
-     :::note important  
-     All pull requests should be opened against the `main` branch unless the it's for the upcoming next release. In that case, the PR should be opened against the `docs-staging` branch. 
-     :::
+      :::note important  
+      All pull requests should be opened against the `main` branch unless the it's for the upcoming next release. In that case, the PR should be opened against the `docs-staging` branch. 
+      :::
 
    1. Ensure that the summary title is short but descriptive. If it is associated with a JIRA ticket, append it to the beginning in brackets, for example, **[MD-111] mac desktop login**. 
 
