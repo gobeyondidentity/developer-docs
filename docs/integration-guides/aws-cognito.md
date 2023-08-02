@@ -104,7 +104,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-Configure the [app](/docs/next/add-an-application) with the following properties:  
+1. Configure the [app](/docs/next/add-an-application) with the following properties:  
 
 | Parameter | Value|
 |---|---|  
