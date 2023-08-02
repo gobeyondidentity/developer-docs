@@ -111,7 +111,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
    | Display Name | any name you choose |
    | Protocol | OIDC |
    | Client Type | Confidential | 
-| PKCE | Disabled (It's recommended to use PKCE where it is supported, but it is not a requirement for confidential clients.| 
+   | PKCE | Disabled (It's recommended to use PKCE where it is supported, but it is not a requirement for confidential clients.| 
 | Redirect URIs | https://your-user-pool-domain/oauth2/idpresponse, where your-user-pool-domain can be found on your AWS User pool's **App integration** tab under **Domain**|   
 | Token Endpoint Auth Method | Client Secret Basic | 
 | Grant Type | Authorization Code | 
