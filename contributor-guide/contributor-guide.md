@@ -481,7 +481,7 @@ Once they get their content to the point where it's technically accurate, then t
 
 Some developers and product managers are comfortable with this process, but some are not.  In that case, you can provide the Sr. Technical Writer with the document (Google Docs or text file) and they can convert it to markdown. 
 
-![Detailed breakdown of the content development process.](../../static/img/current-pr-review-process.jpg "Detailed breakdown of the content development process.")
+![Detailed breakdown of the content development process.](../static/img/current-pr-review-process.jpg "Detailed breakdown of the content development process.")
 
 ## Pull request template
 
