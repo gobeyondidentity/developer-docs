@@ -30,7 +30,7 @@ Before configuring OIDC integration between Beyond Identity and AWS Cognito, you
 If you still need to create your Beyond Identity tenant, [sign up with Beyond Identity to create one for free](https://www.beyondidentity.com/developers/signup).  
 2. Now that you have your tenant, log in. You can access the Beyond Identity Admin Console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.   
 :::tip  
-_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
+_If you're signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one-time link to sign in and enroll a passkey from the new browser._   
 :::  
 
 Next, you will create a new realm and switch to that realm in your tenant. A realm is just a logical grouping that helps you apply policy later.   
