@@ -143,6 +143,7 @@ In this section, you'll configure your AWS user pool with an OIDC connection to 
 
 ## Update Hosted UI to point to the new Federated Provider
 
+
 Now, you'll connect your user pool's app client to the OIDC provider you created earlier.  
 
 1. Go to [AWS Console](https://console.aws.amazon.com/cognito/home) and select **User pools**.  
