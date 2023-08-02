@@ -37,7 +37,7 @@ Next, you will create a new realm and switch to that realm in your tenant. A rea
 
 ### Create a new realm in Beyond Identity
 
-By default you have only the Beyond Identity Admin realm in your  tenant. In this step, you'll create a new realm to hold the app and identities you will create using this guide.   
+By default, you have only the Beyond Identity Admin Realm in your tenant. In this step, you'll create a new realm to hold the app and identities you'll create using this guide.  
 
 import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
