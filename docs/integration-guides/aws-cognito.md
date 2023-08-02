@@ -17,7 +17,7 @@ displayed_sidebar: mainSidebar
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for an AWS Cognito User Pool.
 
-In this guide you will:
+In this guide, you will:
  - Configure Beyond Identity as an OIDC provider for AWS Cognito
  - Configure AWS Cognito as an OIDC client in Beyond Identity
  - Test the authorization code flow using the Amazon Cognito hosted UI
