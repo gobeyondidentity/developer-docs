@@ -85,7 +85,7 @@ Configure the [resource server](/docs/next/add-resource-server) with the followi
 | Parameter | Value|
 |---|---|  
 | Resource Server Name | any name you choose |
-| Resource Server Identifier |  Enter a unique identifier such as 'awsresourceserver'. This identifier will be included as the audience claim in access tokens minted for your application.  |
+| Resource Server Identifier |  Enter a unique identifier such as 'awsresourceserver'. This identifier is included as the audience claim in access tokens minted for your application.  |
 | Client Type | Enter one or more scopes, such as 'aws:customclaim', pressing Enter after each scope | 
 
 ### Create an application
