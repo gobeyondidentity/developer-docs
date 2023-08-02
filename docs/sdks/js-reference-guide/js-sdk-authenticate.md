@@ -130,8 +130,8 @@ where the following elements match the corresponding properties of the app as co
 
 When the Invocation Type configured on the Authenticator Config tab of the app's configuration page is set to Manual, it returns a JSON object:
 
-```
-{"authenticate_url":"http://localhost:8083/bi-authenticate?request={BI_JWT}"}
+```json
+{ "authenticate_url": "http://localhost:8083/bi-authenticate?request={BI_JWT}" }
 ```
 
 where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
@@ -141,9 +141,7 @@ When the Invocation Type on the app is set to Automatic, it returns an HTTP 302 
 ```
 HTTP/1.1 302 Found
 ...
-
 location: http://localhost:8083/bi-authenticate?request={BI_JWT}
-
 ```
 
 where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
