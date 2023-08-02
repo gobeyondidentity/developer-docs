@@ -52,7 +52,8 @@ The AWS user pool will connect your AWS apps to the Beyond Identity OIDC provide
  - select the Federated identity providers option under **Provider types**
  - select Email under **Cognito user pool sign-in options**
  - under **Federated sign-in options** select OpenID Connect
-4. In the **Configure security requirements** section:
+4. In the **Configure security requirements** section, under **MFA methods**, select Authenticator apps.
+
  - under **MFA methods** select Authenticator apps
 5. In the **Connect federated identity providers** section, click Skip for now, then click Next. (We will add the OIDC provider after we create it below)  
 6. In the **Integrate your app** section:
