@@ -1,3 +1,5 @@
+
+
 <!-- Reference links -->
 [style-guide]: ./style-guide.md
 [markdown]: ./markdown-reference.md
@@ -154,6 +156,7 @@ To promote consistency, follow the guidelines below and mentioned throughout to 
 - Keep your branch up-to-date.
 
 - Check and remove unused personal branches periodically for easy maintenance. Usually, when your branch is merged, you can safely delete it.
+
 
 ### Commit messages
 
@@ -350,69 +353,69 @@ If you need to make substantial changes, add an image or add a section to a topi
 
 6. Add the new markdown file in the sidebar.js file.
 
-   ```javascript
-   {
-     type: 'category',
-     label: 'Foundations',  
-     collapsed: false, 
-     collapsible: false,     
-     link: {
-       type: 'doc',
-       id: 'foundations/foundations',
-     },  
-     items: [ 
-       'foundations/overview', 
-       'foundations/architecture',
-       'foundations/universal-passkeys',
-       'foundations/authenticator-config',
-       'foundations/api-endpoints',
-       'foundations/passwordless-connections',
-     ],
-   },
-   ```
+    ```javascript
+    {
+      type: 'category',
+      label: 'Foundations',  
+      collapsed: false, 
+      collapsible: false,     
+      link: {
+        type: 'doc',
+        id: 'foundations/foundations',
+      },  
+      items: [ 
+        'foundations/overview', 
+        'foundations/architecture',
+        'foundations/universal-passkeys',
+        'foundations/authenticator-config',
+        'foundations/api-endpoints',
+        'foundations/passwordless-connections',
+      ],
+    },
+    ```
    
-   It's a best practice to add the markdown file early in the content development phase. Otherwise, you\'ll get an error when you run the command to build and review your content.
+    It's a best practice to add the markdown file early in the content development phase. Otherwise, you\'ll get an error when you run the command to build and review your content.
 
 7. Create your content and run the following command to build and review your changes.
 
-   ```bash
-   yarn start
-   ```
+    ```bash
+    yarn start
+    ```
 
-   This command starts a local development server and opens a browser window. Most changes are reflected live without having to restart the server. If a browser window doesn't open, go to **http://localhost:3000/** to view your local changes. 
+    This command starts a local development server and opens a browser window. Most changes are reflected live without having to restart the server. If a browser window doesn't open, go to **http://localhost:3000/** to view your local changes. 
 
 8. Perform a self-review of your markdown and make sure your changes or additions follow the [style guidelines](./style-guide.md).
 
 9. Verify that the PR does not generate warnings or errors, such as broken links. If so, address them and ensure it builds without issues.
   
-   ```bash
-   npm run clear
-   yarn build
-   ```
+    ```bash
+    npm run clear
+    yarn build
+    ```
 
 10. When you're ready to submit a pull request, add your changes.
-
-   ```bash
-   git add --all
-   ```
+ 
+    ```bash
+    git add --all
+    ```
 
 11. Commit your changes with a descriptive summary, for example, *Add clarity to the data table component usage examples*.
 
-   ```bash
-   git commit -m "short description of the change"
-   ```
+    ```bash
+    git commit -m "short description of the change"
+    ```
 
-   Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
+    Ensure that your commit message is a proper sentence. Refer to this [guide on writing good commit messages](https://cbea.ms/git-commit/).
 
-   A properly formed git commit subject line should always be able to complete the following sentence:
+    A properly formed git commit subject line should always be able to complete the following sentence:
 
-   ***If applied, this commit will ....***
+    ***If applied, this commit will ....***
 
 12. Publish, or push, your changes to the main repo for merging. 
 
-   ```bash
-   git push origin {your-branch-name}
-   ```
+    ```bash
+    git push origin {your-branch-name}
+    ```
 
 13. [Create a pull request](#create-a-pull-request).
 
