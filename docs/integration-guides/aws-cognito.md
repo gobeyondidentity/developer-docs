@@ -115,7 +115,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
    | Redirect URIs | https://your-user-pool-domain/oauth2/idpresponse, where your-user-pool-domain can be found on your AWS User pool's **App integration** tab under **Domain**|   
    | Token Endpoint Auth Method | Client Secret Basic | 
    | Grant Type | Authorization Code | 
-| Resource Server | Select the resource server you created above. | 
+   | Resource Server | Select the resource server you created above. | 
    | Allowed Scopes | Select scopes from the set of scopes assigned to the resource server you created above. | 
    | Subject  (under **Token Configuration**) | email |  
    | Configuration Type (on the **Authenticator Config** tab) | Hosted Web |  
