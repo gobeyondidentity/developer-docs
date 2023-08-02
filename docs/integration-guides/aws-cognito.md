@@ -27,7 +27,7 @@ Before configuring OIDC integration between Beyond Identity and AWS Cognito, you
 
 ### Create your Beyond Identity tenant
 
-1. If you haven't already created your Beyond Identity tenant, [sign up with Beyond Identity to create one for free](https://www.beyondidentity.com/developers/signup).  
+If you still need to create your Beyond Identity tenant, [sign up with Beyond Identity to create one for free](https://www.beyondidentity.com/developers/signup).  
 2. Now that you have your tenant, go ahead and log in. You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
 :::tip  
 _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
