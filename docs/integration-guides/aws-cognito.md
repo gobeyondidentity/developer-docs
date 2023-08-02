@@ -108,7 +108,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
    | Parameter | Value|
    |---|---|  
-| Display Name | any name you choose |
+   | Display Name | any name you choose |
 | Protocol | OIDC |
 | Client Type | Confidential | 
 | PKCE | Disabled (It's recommended to use PKCE where it is supported, but it is not a requirement for confidential clients.| 
