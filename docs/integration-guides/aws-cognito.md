@@ -20,7 +20,7 @@ This guide provides information on how to set up Beyond Identity as a passwordle
 In this guide, you will:
  - Configure Beyond Identity as an OIDC provider for AWS Cognito
  - Configure AWS Cognito as an OIDC client in Beyond Identity
- - Test the authorization code flow using the Amazon Cognito hosted UI
+ - Test the authorization code flow using the Amazon Cognito-hosted UI
 
 ## Prerequisites
 Before configuring OIDC integration between Beyond Identity and AWS Cognito, you must have a Beyond Identity tenant and realm and an AWS user pool.  
