@@ -118,7 +118,7 @@ Configure the [app](/docs/next/add-an-application) with the following properties
 Click **Submit** to save the app.  
 
 ### Add a Federated OIDC IDP to the User Pool in AWS
-In this section, you will configure your AWS user pool with an OIDC connection to the Beyond Identity app you created above.  
+In this section, you'll configure your AWS user pool with an OIDC connection to the Beyond Identity app you created earlier.  
 
 1. Go to the [AWS Console](https://console.aws.amazon.com/cognito/home) and choose **User pools**  
 2. Select user pool you created above  
