@@ -10,8 +10,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 07/27/2023
-  author: Anna Garcia
+  date: 08/02/2023
+  author: William May
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -19,6 +19,12 @@ displayed_sidebar: mainSidebar
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+
+import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
+import PKCES256 from '../includes/_pkce_s256.mdx';
+import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
+import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
+import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
 
 In this guide, you'll add Beyond Identity <a href= "#" data-tooltip= "A public and private key pair. The private key is generated and stored and never leaves the user's devices' hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication to a [Next](https://nextjs.org) application that uses [NextAuth](https://next-auth.js.org/).
 
@@ -96,22 +102,22 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 3. On the **External Protocol** tab, use the following values to complete this tab.
 
-  | Property | Value  |
+  | Property | Value |
   | --- | --- |
-  | **Display Name** | Descriptive name you choose   |
-  | **Protocol** | OIDC  |
-  | **Client Type**| Confidential|
-  | **PKCE**  | S256   |
+  | **Display Name** | Descriptive name you choose |
+  | **Protocol** | OIDC<br /><ProtocolOIDC/> |
+  | **Client Type** | Confidential<br /><ClientTypeConfidential/> |
+  | **PKCE** | S256<br /><PKCES256/> |
   | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
-  | **Token Endpoint Auth Method** | Client Secret Basic   |
-  | **Grant Type**  | Authorization Code |
-  | **All other options**  | Use the default values for the remaining options  |
+  | **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/> |
+  | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
+  | **All other options** | Use the default values for the remaining options |
 
-1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. 
+4. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type.
 
   It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
 
-2. Click **Submit** to save the new app.
+5. Click **Submit** to save the new app.
 
 ### Complete the configuration
 
@@ -119,11 +125,11 @@ In this step, you'll collect the configuration elements you must set environment
 
 The table below lists these elements and where to find them in the tenant.
 
-| Property Name | Where to find the value  |
+| Property Name | Where to find the value |
 | --- | --- |
-| **`BEYOND_IDENTITY_CLIENT_ID`**  | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
-| **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
-| **`BEYOND_IDENTITY_DISCOVERY`**     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
+| **`BEYOND_IDENTITY_CLIENT_ID`** | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant |
+| **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant |
+| **`BEYOND_IDENTITY_DISCOVERY`** | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
 ---
 
@@ -138,14 +144,14 @@ Guess what? You're halfway there! So far in your getting started journey, you sh
 - [x] Created the initial configuration in your tenant, including a realm and an application.
 
 <br />
-In the next step, you'll set up the example application locally:  
+In the next step, you'll set up the example application locally:
 
 - Create and populate .env.local file
 
 - Create Beyond Identity as an OAuth provider in the app
 
 - Create identities and run the app
-  <br />  
+<br />
 
 Don't forget, if you get stuck, let us know in our **[Slack community](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ)**.
 
@@ -165,13 +171,13 @@ Make the following changes to your NextAuth example app project to set up your e
 
 2. In .env.local, configure the following variables from your Beyond Identity tenant:
 
-  | Variable Name  | Where to find the value |
+  | Variable Name | Where to find the value |
   | --- | --- |
-  | **`NEXTAUTH_URL`**  | Use the default value of http://localhost:3000 |
-  | **`NEXTAUTH_SECRET`**  | generate one here: https://generate-secret.vercel.app/32                                                                 |
-  | **`BEYOND_IDENTITY_CLIENT_ID`** | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
-  | **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
-  | **`BEYOND_IDENTITY_DISCOVERY`**  | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
+  | **`NEXTAUTH_URL`** | Use the default value of http://localhost:3000 |
+  | **`NEXTAUTH_SECRET`** | generate one here: https://generate-secret.vercel.app/32 |
+  | **`BEYOND_IDENTITY_CLIENT_ID`** | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant |
+  | **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant |
+  | **`BEYOND_IDENTITY_DISCOVERY`** | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
 1. Copy and paste the value from **Applications > \{New Application\} > External Protocol > Issuer**.
 
@@ -249,7 +255,7 @@ Inside the **package.json** file, ensure that the scripts that run the app use t
 Next's default port is 3000, so you do not need to specify a port if you use port 3000.
 
 :::note  
-If you are using a different port in your NEXTAUTH_URL, for example, '8083', the app's redirect URI would be  http://localhost:8083/api/auth/callback/beyondidentity, and the script should start the app using the -p option, for example `"next -p 8083" `  
+If you are using a different port in your NEXTAUTH_URL, for example, '8083', the app's redirect URI would be http://localhost:8083/api/auth/callback/beyondidentity, and the script should start the app using the -p option, for example `"next -p 8083" `
 :::
 
 Next, you'll [create users and passkeys](#create-users-and-passkeys) test the app.
@@ -263,12 +269,13 @@ You are ready to test without writing more code because you created an app with 
 In this step, you'll start the backend and frontend to run the example app locally.
 
 1. In VS Code, run:
- 
+
   ```bash
   npm run dev
-  ``` 
-2. From the browser where you created the passkey above, navigate to `http://localhost:3000`. 
+  ```
 
-3. Sign in to the app, as shown below. 
+2. From the browser where you created the passkey above, navigate to `http://localhost:3000`.
+
+3. Sign in to the app, as shown below.
 
   Registration and passkey binding happens in the Hosted Web UI. The user gets prompted to provide an email for verification on the first authentication. They'll have the option to generate a passkey on trusted devices, which they'll use on this device each time they authenticate.
