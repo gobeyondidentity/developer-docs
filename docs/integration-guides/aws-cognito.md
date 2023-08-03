@@ -8,7 +8,7 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 8/2/2023
+   date: 8/3/2023
    author: Jen Field
 draft: false
 doc_type: how-to
@@ -25,25 +25,18 @@ In this guide, you will:
 ## Prerequisites
 Before configuring OIDC integration between Beyond Identity and AWS Cognito, you must have a Beyond Identity tenant and realm and an AWS user pool.  
 
+
 ### Create your Beyond Identity tenant
 
-If you still need to create your Beyond Identity tenant, [sign up with Beyond Identity to create one for free](https://www.beyondidentity.com/developers/signup).  
+import CreateTenantSignup from '../includes/_create-tenant-signup.mdx';
 
-
-Now that you have your tenant, log in. You can access the Beyond Identity Admin Console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.   
-:::tip  
-_If you're signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one-time link to sign in and enroll a passkey from the new browser._   
-:::  
-
-Next, you'll create a new realm and switch to that realm in your tenant. A realm is just a logical grouping that helps you apply policy later.   
+<CreateTenantSignup />
 
 ### Create a new realm in Beyond Identity
 
-By default, you have only the Beyond Identity Admin Realm in your tenant. In this step, you'll create a new realm to hold the app and identities you'll create using this guide.  
+import CreateRealm from '../includes/_create-realm.mdx';
 
-import CreateRealmConsole from '../includes/_create-realm-console.mdx';
-
-<CreateRealmConsole />
+<CreateRealm />
 
 ### Create a User Pool in AWS
 The AWS user pool connects your AWS apps to the Beyond Identity OIDC provider. Follow the steps below to create the user pool.  
@@ -180,10 +173,16 @@ Now you'll use AWS Cognito's "Hosted UI" test tool to test the integration.
 
 As a result of this test, you should have an authorization code returned to your app client's redirect URI, such as 'http://localhost:3000/?code={authorization_code}'.
 
-## Next steps
-Next, your app must exchange that code for an access token, optionally an ID token and a refresh token.  
+## Obtain code and tokens in your app
+The Hosted UI test tool above submits a request to the `/authorize` endpoint of your user pool domain, which then redirects to the [Cognito /login endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/login-endpoint.html) with a request like the following:  
+```  
+GET https://{your-user-pool-domain}.auth.us-east-2.amazoncognito.com/login?client_id=70vjd30ctaloisp7h1tlalvcjg&response_type=code&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A3000
+```  
 
-<mark>in process: guidance for code for token exchange and authorization</mark>  
+In your app, especially if it is a public app, you will want to send PKCE parameters `code_challenge_method` and `code_challenge` with the `/authorize` request.
+
+When your app receives the response with query string parameter `code`, you will then exchange that code for an access token by [calling the `/token` endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/token-endpoint.html) with the required parameters including the `code` and if necessary the PKCE `code_verifier`.
+
 
 ## Reference
 See the following articles for more information on the AWS Cognito configuration steps described in this guide:  
@@ -194,3 +193,7 @@ See the following articles for more information on the AWS Cognito configuration
 
 - [Add an app client and set up the hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-configuring-app-integration.html)  
 
+ - [Cognito `/login` endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/login-endpoint.html)  
+
+ - [Cognito `/token` endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/token-endpoint.html)  
+ 
