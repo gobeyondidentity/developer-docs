@@ -100,7 +100,7 @@ where the following elements match the corresponding properties of the app as co
 
 When the Invocation Type configured on the Authenticator Config tab of the app's configuration page is set to Manual, returns a JSON object:
 
-```
+```json
 { "authenticate_url": "http://localhost:8083/bi-authenticate?request={BI_JWT}" }
 ```
 
