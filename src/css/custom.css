@@ -530,7 +530,7 @@ nav[class^="menu"] {
   letter-spacing: 0.01786em;
 
   color: var(--ifm-font-color-base);
-  cursor: default;
+  cursor: pointer;
 }
 .theme-doc-sidebar-item-category-level-1 > .menu__list {
   padding-left: 12px;
