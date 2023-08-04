@@ -22,7 +22,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
       **Request url:**  
     
-      ```
+      ```http
       https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
       ```
     
@@ -30,7 +30,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
     
       **Request headers:**  
       
-      ```
+      ```http
       Authorization: Basic {client_credentials}
       content-type: application/x-www-form-urlencoded  
       ```
@@ -39,7 +39,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
     
       **Request body:**  
     
-      ```
+      ```http
       grant_type: "client_credentials"
       scope: {scopes}
       expiration_time: {seconds}

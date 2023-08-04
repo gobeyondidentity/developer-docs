@@ -279,7 +279,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['dart','gradle','kotlin','swift'],
+        additionalLanguages: ['dart','gradle','http','kotlin','swift'],
       },
       zoom: {
         selector: '.markdown :not(em) > img',

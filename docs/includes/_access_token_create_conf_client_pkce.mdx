@@ -25,7 +25,7 @@ Note that you will need an identity configured with the [ability to authorize th
  
   **Request url:**  
 
-  ```plaintext
+  ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
   ```
   
@@ -63,7 +63,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   **Request url:**  
 
-  ```plaintext
+  ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
   ```
 
@@ -71,7 +71,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   **Request headers:**  
 
-  ```plaintext
+  ```http
   Authorization: Basic {client_credentials}
   content-type: application/x-www-form-urlencoded  
   ```
@@ -80,7 +80,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   **Request body:**  
 
-  ```plaintext
+  ```http
   grant_type: "authorization_code"
   code: {authorization_code}
   client_id: {client_id}
