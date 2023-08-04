@@ -106,7 +106,7 @@ In this step, you'll make a copy of the local environment config file and rename
 
 2. Edit the **.env.local** file and set the `REGION` value according to the region you selected during the signup process (`us` or `eu`).
 
-  ```text title=".env.local"
+  ```javascript title=".env.local"
   # -- Next Auth
   NEXTAUTH_URL=http://localhost:8083
   NEXTAUTH_SECRET= # Linux: `openssl rand -hex 32` or go to https://generate-secret.now.sh/32
@@ -141,7 +141,7 @@ In this step, you'll hop on over to the Admin Console to get your tenant ID and 
 
 2. Copy the **Tenant_ID** value and paste it into the `.env.local` file in `TENANT_ID`. Then save your changes but don't close it because you still have values to add.
 
-  ```text title=".env.local"
+  ```javascript title=".env.local"
   # -- Next Auth
   NEXTAUTH_URL=http://localhost:8083
   NEXTAUTH_SECRET= # Linux: `openssl rand -hex 32` or go to https://generate-secret.now.sh/32
@@ -183,7 +183,7 @@ In this step, you'll continue to work in the Admin Console to create an API toke
 
 5. In the `.env.local` config file, paste the `API_TOKEN`. Then save your changes but don't close it becuase you'll need it for the next step.
 
-  ```text title=".env.local"
+  ```javascript title=".env.local"
   # -- Next Auth
   NEXTAUTH_URL=http://localhost:8083
   NEXTAUTH_SECRET= # Linux: `openssl rand -hex 32` or go to https://generate-secret.now.sh/32
@@ -247,7 +247,7 @@ import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
   ![Edit realm copy realm ID](../images/edit-realm-realm-id.png)
 
-  ```text title=".env.local"
+  ```javascript title=".env.local"
   # -- Next Auth
   NEXTAUTH_URL=http://localhost:8083
   NEXTAUTH_SECRET= # Linux: `openssl rand -hex 32` or go to https://generate-secret.now.sh/32
@@ -315,7 +315,7 @@ In this step, you'll complete the application's configuration by adding a few mo
 
   ![Admin Console Application ID](../images/admin-console/app-ID.png)
 
-  ```text title=".env.local"
+  ```javascript title=".env.local"
   # -- Next Auth
   NEXTAUTH_URL=http://localhost:8083
   NEXTAUTH_SECRET= # Linux: `openssl rand -hex 32` or go to https://generate-secret.now.sh/32
