@@ -114,7 +114,7 @@ if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
 
 The app sends an OIDC call to the Beyond Identity API's `/authorize` endpoint:
 
-```
+```plaintext
 GET https://auth-us.beyondidentity.com/v1/tenants/{TENANT_ID}/realms/{REALM_ID}/applications/{APPLICATION_ID}/authorize?client_id={CLIENT_ID}&scope=openid&response_type=code&redirect_uri={REDIRECT_URI}&state=8LIY29kN8Oz7zrAhb8xb0yvem-gvnRy1HTn03MAuL_E
 ```
 
@@ -138,8 +138,8 @@ where **BI_JWT** is a base64url encoded JWT token containing the challenge and o
 
 When the Invocation Type on the app is set to Automatic, it returns an HTTP 302 to the authentication URL:
 
-```
-HTTP/1.1 302 Found
+```plaintext
+http/1.1 302 Found
 ...
 location: http://localhost:8083/bi-authenticate?request={BI_JWT}
 ```

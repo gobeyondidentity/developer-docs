@@ -64,13 +64,13 @@ There are two main endpoints for requesting tokens:
 
 The /authorize endpoint: 
 
-```
+```plaintext
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize  
 ```
 
 and the /token endpoint:  
 
-```
+```plaintext
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
 ```
 

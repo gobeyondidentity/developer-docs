@@ -81,7 +81,7 @@ set REGION="us" | "eu"
 
 :::tip  
 You can set environment variables individually as described in this article, or you can create a file named '.env' at the root of your project that includes all of the required variables:  
-```
+```plaintext
 # Beyond Identity variables  
 REGION=<"us" | "eu">
 TENANT_ID=<tenant_id>
@@ -226,7 +226,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 3. Scroll down to the **Redirect URIs** field and enter the API callback localhost URL.  
 
-  ```https
+  ```plaintexts
   http://localhost:8082/auth/callback  
   ```
 
@@ -244,7 +244,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   The **Invoke URL** is a single URL that "points" to where your application is: an App Scheme or a Universal URL/App Link. 
 
-   ```http
+   ```plaintext
    http://localhost:8082
    ```
 
@@ -252,7 +252,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   The **Trusted Origins** whitelists it and allows request to be made to our server. By default, our server blocks cross-origin requests (COR).
 
-   ```http
+   ```plaintext
    http://localhost:8083
    ```
 

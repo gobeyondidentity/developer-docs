@@ -57,13 +57,13 @@ Beyond Identity exposes two different endpoints to revoke a token. Both endpoint
 
 1. The Revoke Endpoint is [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant, needs the whole token and accepts bearer or basic auth.
 
-  ```
+  ```plaintext
   https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke
   ```
 
 2. Revoke Token by ID is not RFC-7009 compliant, only needs the token_id and only accepts bearer.
 
-  ```
+  ```plaintext
   https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)
   ```
 
@@ -85,7 +85,7 @@ Create the HTTP request as follows:
 
 **Request URL**
 
-```
+```plaintext
 https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/revoke  
 ```
 
@@ -93,7 +93,7 @@ https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM
 
 **Request headers**:
 
-```
+```plaintext
 Authorization: Basic {client_credentials}
 content-type: application/x-www-form-urlencoded  
 ```
@@ -106,7 +106,7 @@ Using client credentials for authorization only works for apps configured with *
 
 -OR-  
 
-```
+```plaintext
 Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
 ```
@@ -116,7 +116,7 @@ where
 {authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'  
 
 **Request body**:  
-```
+```plaintext
   "token": "{token_to_revoke}"
 ```
 
@@ -143,7 +143,7 @@ Create the HTTP request as follows:
 
 **Request URL**
 
-```
+```plaintext
 https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)  
 ```
 
@@ -157,7 +157,7 @@ The revoke token by ID API hostname is prefixed with "api-us" or "api-eu", not "
 
 **Request headers**:
 
-```
+```plaintext
 Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
 ```

@@ -52,7 +52,7 @@ Depending on your Auth0 subscription (license), you can add Beyond Identity as a
 
      **Example:** 
 
-     ```http
+     ```plaintext
      https://byndid-auth0-demo.us.auth0.com/login/callback
      ```
 
