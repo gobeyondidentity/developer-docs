@@ -1,7 +1,9 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.5.0
+  version: 1.6.0
+  contact:
+    email: support@beyondidentity.com
   description: |
     # Introduction
 
@@ -4781,7 +4783,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
-                Success:
+                Success Embedded:
                   value:
                     id: 73731b7f-eb76-4143-9b4b-81a720385f5a
                     realm_id: caf2ff640497591a
@@ -4791,6 +4793,28 @@ paths:
                       type: embedded
                       invoke_url: 'http://localhost:8092'
                       invocation_type: automatic
+                      trusted_origins:
+                        - 'http://localhost:8092'
+                Success Hosted Login:
+                  value:
+                    id: 73731b7f-eb76-4143-9b4b-81a720385f5a
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    display_name: Pet Authenticator Configuration
+                    config:
+                      type: hosted_login
+                      authentication_methods:
+                        - subtle_crypto_passkey
+                      trusted_origins:
+                        - 'http://localhost:8092'
+                Success Hosted Web:
+                  value:
+                    id: 73731b7f-eb76-4143-9b4b-81a720385f5a
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    display_name: Pet Authenticator Configuration
+                    config:
+                      type: hosted_web
                       trusted_origins:
                         - 'http://localhost:8092'
         '400':
@@ -4962,7 +4986,7 @@ paths:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
                 Success:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Embedded'
         '401':
           description: Unauthorized.
           content:
@@ -5041,8 +5065,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
-                Success:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
+                Success Embedded:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Embedded'
+                Success Hosted Login:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Hosted%20Login'
+                Success Hosted Web:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Hosted%20Web'
         '400':
           description: Bad request.
           content:
@@ -7103,17 +7131,6 @@ components:
           description: |
             An object specifying the settings for the supported authenticator type.
           oneOf:
-            - title: Web Authenticator
-              description: |
-                Configuration options for the hosted web authenticator. This authenticator is maintained by Beyond Identity and requires no additional configuration from the caller.
-              type: object
-              required:
-                - type
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - hosted_web
             - title: Embedded SDK Authenticator
               description: Configuration options for the embedded SDK authenticator.
               type: object
@@ -7122,33 +7139,90 @@ components:
                 - invoke_url
                 - trusted_origins
               properties:
-                type:
-                  type: string
-                  enum:
-                    - embedded
-                invoke_url:
-                  type: string
-                  description: URL to invoke during the authentication flow.
-                  example: 'http://localhost:8092'
                 invocation_type:
-                  type: string
+                  default: automatic
+                  description: |
+                    The method used to invoke the `invoke_url` in the embedded authenticator
+                    config type. The two methods available are:
+
+                    The value `automatic` indicates that this invocation type automatically
+                    redirects you to your native or web app using the Invoke URL with a
+                    challenge that your app will need to sign.
+
+                    The value `manual` indicates that this invocation type will cause the
+                    challenge to be returned to you as part of a JSON response. It will then
+                    be up to you to get it to your native/web app any way you see fit. This is
+                    useful for flows where you require a lot more control when redirecting to
+                    your native/web app. Since the challenge is packaged as part of a URL,
+                    following the URL will result in the same behavior as if an Invocation
+                    Type of "automatic" were selected.
                   enum:
                     - automatic
                     - manual
-                  default: automatic
-                  description: |
-                    The method used to invoke the `invoke_url` in the embedded authenticator config type. The two methods available are:
-                      - automatic: This invocation type automatically redirects you to your
-                    native or web app using the Invoke URL with a challenge that your app will need to sign.
-                      - manual: This invocation type will cause the challenge to be returned
-                    to you as part of a JSON response. It will then be up to you to get it to your native/web app any way you see fit. This is useful for flows where you require a lot more control when redirecting to your native/web app. Since the challenge is packaged as part of a URL, following the URL will result in the same behavior as if an Invocation Type of "automatic" were selected.
+                  type: string
+                invoke_url:
+                  description: URL to invoke during the authentication flow.
+                  example: 'http://localhost:8092'
+                  type: string
                 trusted_origins:
-                  type: array
-                  items:
-                    type: string
-                    example: 'http://localhost:8092'
                   description: |
                     Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
+                  items:
+                    example: 'http://localhost:8092'
+                    type: string
+                  type: array
+                type:
+                  enum:
+                    - embedded
+                  type: string
+            - title: Hosted Web Authenticator
+              description: |
+                Configuration options for the hosted login experience. This authenticator is maintained by Beyond Identity and allows the caller to customize authentication methods.
+              type: object
+              required:
+                - type
+                - authentication_methods
+                - trusted_origins
+              properties:
+                authentication_methods:
+                  items:
+                    properties:
+                      type:
+                        description: |
+                          Within our hosted login product, an array of values determines the
+                          client-side authentication workflows:
+
+                          The value `webauthn_passkey` triggers a workflow that generates a hardware
+                          key within your device's trusted execution environment (TEE). If webauthn
+                          passkeys are not supported in the browser, specifying one of the other two
+                          authentication methods will result in a fallback to that mechanism.
+
+                          The value `software_passkey` activates a workflow where a passkey is
+                          securely created within the browser's context.
+
+                          The value `email_one_time_password` enables a workflow that verifies
+                          identity via an email one-time password.
+                        enum:
+                          - email_one_time_password
+                          - software_passkey
+                          - webauthn_passkey
+                        type: string
+                    required:
+                      - type
+                    title: AuthenticationMethod
+                    type: object
+                  type: array
+                trusted_origins:
+                  description: |
+                    Trusted origins are URLs that will be allowed to make requests from a browser to the Beyond Identity API. This is used with Cross-Origin Resource Sharing (CORS). These may be in the form of `<scheme> "://" <host> [ ":" <port> ]`, such as `https://auth.your-domain.com` or `http://localhost:3000`.
+                  items:
+                    example: 'http://localhost:8092'
+                    type: string
+                  type: array
+                type:
+                  enum:
+                    - hosted_login
+                  type: string
     ListApplicationsResponse:
       title: List Applications Response
       description: Response for ListApplications.
