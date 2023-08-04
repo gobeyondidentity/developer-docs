@@ -2,36 +2,22 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import DeepLinking from './_deeplinking-native-sdk.mdx';
 
-# Setup your front end
-
-## Deep linking
-
-When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](/docs/next/authentication#invoke-url). This URI should either be an app scheme or a Universal URL / App link.
-
-<DeepLinking />
-
-## Handle link in the SDK
-
-The binding link that is redirected to your application will take on the following form. A `/bind` path will be appended to your Invoke URL as well as several other query parameters. Use a "/bind" route to intercept this url in your application:
-
-```http
-$invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
-```
-
-Once you receive the incoming URL, pass it into the SDK to complete the binding process.
-
-Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
-
-Don't forget to initalize your SDK ahead of time. For more information see [SDK Setup](/docs/next/sdk-setup).
+:::tip
+Remember to initialize your SDK ahead of time. For more information, see [**SDK Setup**](/docs/next/sdk-setup).
+:::
 
 <Tabs groupId="bind-platform">
 <TabItem value="javascript" label="Javascript">
 
-:::tip NextAuth.js
-This guide uses [NextAuth](https://next-auth.js.org/) for all OAuth/OIDC flows. All code snippets are provided in the context of the [NextAuth Example App](https://github.com/nextauthjs/next-auth-example). Note that your application must be set up as a confidential application.
-:::
+```javascript
+const bindResponse = await embedded.bindPasskey(bindingLink);
+console.log(bindResponse);
+```
 
-Create a `bind.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+</TabItem>
+<TabItem value="nextjs" label="Next.js">
+
+Create a `bind.tsx` page under `/pages`. Copy the following code snippet into that page:
 
 ```javascript
 import { useEffect, useState } from 'react';
@@ -65,37 +51,14 @@ const BindPasskeyFromRedirect = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-    >
-      <div className="container">
-        <div className="row">
-          {bindPasskeyResult.length > 0 && (
-            <div className="row row-cols-1 row-cols-md-1 mt-3">
-              <div className="col">
-                {JSON.stringify(bindPasskeyResult, null, 2)}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+    <div className="container">
+      {JSON.stringify(bindPasskeyResult, null, 2)}
     </div>
   );
 };
 
 export default BindPasskeyFromRedirect;
 ```
-
-What's happening here?
-
-1. The `useEffect` is only called once on page load. In this function, we initialize the Beyond Identity SDK and use `embedded.isBindPasskeyUrl` to check if the current page that was redirected to is in fact a valid `bind` URL.
-2. If the URL is valid, we pull the URL using `window.location.href` and pass that directly into `embedded.bindPasskey`.
-3. `embedded.bindPasskey` completes the binding process and stores a passkey in the user's browser.
 
 </TabItem>
 <TabItem value="kotlin" label="Kotlin">

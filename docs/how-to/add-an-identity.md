@@ -9,8 +9,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/01/2023
-   author: Patricia McPhee
+   date: 08/04/2023
+   author: Anna Garcia
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -20,14 +20,11 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
 
+Before your users can use Beyond Identity or obtain a passkey, they need to be added as a member in a realm. This realm is like a container for different apps, settings and users. Each user needs thier own identity to access an application in that realm. 
 
+An identity is a unique identifier and an end-user may have multiple identities. Identities can also be part of a group or belong to many groups. Groups are commonly used as a predicate in a policy rule (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application).
 
-
-Before users can start authenticating with Beyond Identity, they must be added as an identity under a realm. An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities and a realm can have many identities.
-
-Identities can be part of a group. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application).
-
-You can users as an identity one of three ways:
+You can add user identities one of three ways:
 
 1. [Beyond Identity Admin Console](#admin-console)
 2. [Beyond Identity APIs](#api)
@@ -48,6 +45,11 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 ## API
 
 The following examples show how to create an identity via API.
+
+:::note
+You can find the `REGION`, `TENANT_ID` and `REALM_ID` in your console.  
+You can generate an `API_TOKEN` from you Beyond Identity Management API application.
+:::
 
 <MultiLanguageCodeBlock
 curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities" \
