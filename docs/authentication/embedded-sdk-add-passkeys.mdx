@@ -48,9 +48,17 @@ If your application is using the [NextAuth](https://next-auth.js.org) provider (
 
 - [x] **Authenticator Config**: Embedded SDK <mark>If they are required to point the Invoke URL to their application, shouldn't we say that it's a prerequisite? As mentioned below, the Invoke URL field is required and they can't leave this blank when creating their app in the Admin Console.</mark>
 
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
+
 - [x] **Grant Type**: Authorization Code flow
 
 - [x] **Client Type**: Confidential <mark>Can they have a **Public** Client Type?</mark>
+
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
 
 ## Prerequisites
 
@@ -93,6 +101,10 @@ The `STATE` parameter mitigates [CSRF attacks](https://en.wikipedia.org/wiki/Cro
 
 1. Click the **Authenticator Config** tab and set the Invoke URL to a URL that _points_ to your application. <mark>Isn't this done when you create the app because the Invoke URL field is required? Could we say "...make sure the Invoke URL points to your application"?</mark>
 
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
+
 In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or a Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.
 
 :::caution
@@ -118,7 +130,15 @@ While app schemes are generally easier to set up, Universal URLs and App Links a
   </mark>
 </p>
 
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
+
 Calling the token endpoint is the second step in the authorization flow and usually happens in your backend if your application's Client Type is `Confidential` <mark>What if the Client Type is **Public**?</mark>. Make sure to a call the authorization endpoint first to retrieve an authorization code.
+
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
 
 <p>
   <mark>
@@ -126,7 +146,15 @@ Calling the token endpoint is the second step in the authorization flow and usua
   </mark>
 </p>
 
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
+
 If your application is using the [NextAuth](https://next-auth.js.org) provider (see the Javascript Authorization example using Automatic Invocation Type) <mark>Where is this example? We tell them to refer to it but we don't give them a link. Is it in the SDK?</mark>, you won't need to complete authentication with a token exchange.
+
+  <p>
+    <font color="green">WM: MARK</font>
+  </p>
 
 1. Click the **External Protocol** tab and copy the **Token Endpoint**.
 
