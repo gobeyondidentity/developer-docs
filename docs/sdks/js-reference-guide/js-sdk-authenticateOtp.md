@@ -21,7 +21,7 @@ The **authenticateOtp** function enables an app using the Beyond Identity Javasc
 
 The **authenticateOtp** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

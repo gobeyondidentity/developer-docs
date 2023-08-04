@@ -21,7 +21,7 @@ The **getPasskeys** function enables your app to get a list of all passkeys curr
 
 The **getPasskeys** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

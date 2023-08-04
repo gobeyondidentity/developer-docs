@@ -21,7 +21,7 @@ The **initialize** function creates an instance of the Beyond Identity Javascrip
 
 The **initialize** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

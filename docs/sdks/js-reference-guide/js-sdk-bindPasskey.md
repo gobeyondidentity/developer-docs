@@ -23,7 +23,7 @@ _This is a reference article that describes the **bindPasskey** function. For a 
 
 The **bindPasskey** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

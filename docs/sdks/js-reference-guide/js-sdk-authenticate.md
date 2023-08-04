@@ -25,7 +25,7 @@ _The [example app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/examp
 
 The **authenticate** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

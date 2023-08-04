@@ -190,7 +190,7 @@ import PasskeyBindingMethods from '../includes/_passkey-binding-methods.mdx';
 <Tabs groupId="bind-os">
 <TabItem value="mac" label="macOS">
 
-```
+```bash
 curl -X POST \
 -H "Authorization: Bearer $API_TOKEN" \
 -H "Accept: application/json" \
@@ -206,7 +206,7 @@ curl -X POST \
 </TabItem>
 <TabItem value="win" label="Windows">
 
-```
+```bash
 curl -X POST \
 -H "Authorization: Bearer %API_TOKEN%" \
 -H "Accept: application/json" \

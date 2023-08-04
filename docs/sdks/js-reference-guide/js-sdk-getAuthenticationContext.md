@@ -21,7 +21,7 @@ The **getAuthenticationContext** function enables an app using the Beyond Identi
 
 The **getAuthenticationContext** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

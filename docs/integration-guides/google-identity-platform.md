@@ -208,7 +208,7 @@ You'll create a new VS Code project and install the Firebase SDK.
 
 4. Initialize your package.json file and install the Firebase node modules:
 
-  ```
+  ```bash
   npm init
   npm install firebase
   npm install firebase-tools
