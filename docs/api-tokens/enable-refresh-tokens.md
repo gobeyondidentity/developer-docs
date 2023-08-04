@@ -54,13 +54,13 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 
 **Request headers**:
 
-```plaintext
+```json
     "content-type": "application/x-www-form-urlencoded"
 ```
 
 **Request body**:  
 
-```plaintext
+```json
     "grant_type": "refresh_token",
     "refresh_token": "{refresh_token}"
 ```

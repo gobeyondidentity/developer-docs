@@ -113,7 +113,7 @@ title="/introspect"
 A successful introspect query will return a JSON object containing the key
 `"active"` set to the boolean value `true`, plus information about the token.
 
-```
+```json
 {
   "active": true,
   "bi_ty": "authorization_code",

@@ -17,7 +17,7 @@ displayed_sidebar: sdkSidebar
 
 Example passkey:
 
-```
+```json
 {
   "id": "9c9cd3f7b2e1e4054d3efea7c37a64bdf9a2f6cbe0fb6c144705f10e9ae72171",
   "localCreated": "2023-02-15T16:21:06.731+00:00",

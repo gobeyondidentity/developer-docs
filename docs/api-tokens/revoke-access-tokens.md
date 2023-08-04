@@ -116,7 +116,7 @@ where
 {authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'  
 
 **Request body**:  
-```plaintext
+```json
   "token": "{token_to_revoke}"
 ```
 
