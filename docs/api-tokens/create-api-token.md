@@ -66,13 +66,13 @@ The /authorize endpoint:
 
 ```
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize  
-```  
+```
 
 and the /token endpoint:  
 
-```  
+```
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
-```  
+```
 
 where:  
 
@@ -180,7 +180,7 @@ Our example uses `S256`, but using the `plain` `code_challenge_method` might be 
   ```javascript
     codeVerifier = crypto.randomBytes(32).toString('base64url');
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```  
+  ```
 
 2. Create an access token with the authorization code.
 
@@ -208,7 +208,7 @@ Our example uses `S256`, but using the `plain` `code_challenge_method` might be 
   ```javascript
     codeVerifier = crypto.randomBytes(32).toString('base64url');
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```  
+  ```
 
 </TabItem>
 </Tabs>
@@ -267,7 +267,7 @@ where:
 ```javascript
   codeVerifier = crypto.randomBytes(32).toString('base64url');
   codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-```  
+```
 
 <MultiLanguageCodeBlock
   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
@@ -293,7 +293,7 @@ where:
   ```javascript
     codeVerifier = crypto.randomBytes(32).toString('base64url');
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```  
+  ```
 
 - the value of expiration_time parameter is the desired lifetime, in seconds, of the requested token, for example 3600 would indicate 1 hour
 
@@ -323,7 +323,7 @@ fields. You can now verify that the difference between expiration time ('exp') a
     "bi_s": "",
     "bi_x": "n3eBAmnWIDw3amXoCgaSn-b2Yo3_JtWe"
 }
-```  
+```
 ### Example: Create a Token with Custom Claims
 
 The `custom_claims` parameter allows for additional information to be stored within a token. The provided data must be a valid JSON object. Upon a successful token request, the data will be available within the `bi_custom` field of the response JWT payload.  
@@ -378,7 +378,7 @@ where:
   ```javascript
       codeVerifier = crypto.randomBytes(32).toString('base64url');
       codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```  
+  ```
 
 <MultiLanguageCodeBlock
   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
@@ -404,7 +404,7 @@ where:
   ```javascript  
     codeVerifier = crypto.randomBytes(32).toString('base64url');
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```  
+  ```
 
 - the value of the custom_claims parameter is a JSON string containing the key/value pairs you wish the token to include 
 
@@ -439,5 +439,5 @@ After a token is created, when introspected, the token will contain the `bi_cust
     "bi_s": "",
     "bi_x": "UdTa2Lh1_bRKr3mdOTt3yE1dHE1UlUlH"
 }
-```  
+```
 

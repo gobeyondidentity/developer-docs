@@ -22,29 +22,29 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
       **Request url:**  
     
-      ```  
+      ```
       https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-      ```  
+      ```
     
       **Request method:** POST  
     
       **Request headers:**  
       
-      ```  
+      ```
       Authorization: Basic {client_credentials}
       content-type: application/x-www-form-urlencoded  
-      ```  
+      ```
     
       where {client_credentials} is value of the app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded  
     
       **Request body:**  
     
-      ``` 
+      ```
       grant_type: "client_credentials"
       scope: {scopes}
       expiration_time: {seconds}
       custom_claims: {custom_claims_json}
-      ```  
+      ```
     
       where:  
 
