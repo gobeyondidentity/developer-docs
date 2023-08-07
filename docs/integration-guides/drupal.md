@@ -28,8 +28,8 @@ This guide provides information on how to set up Beyond Identity as a passwordle
 
 In this guide, you'll:
 
-- Configure Beyond Identity as an Identity Provider
-- Install and configure the required module to support an OpenID Connect (OIDC) integration
+1. Configure Beyond Identity as an Identity Provider
+1. Install and configure the required module to support an OpenID Connect (OIDC) integration
 
 ## Prerequisites
 

@@ -34,10 +34,10 @@ This guide provides information on how to set up Beyond Identity as a passwordle
 
 In this guide, you'll:
 
-- Install the React Native SDK
-- Configure Beyond Identity as an Identity Provider
-- Create an identity and generate a passkey
-- Authenticate with a passkey
+1. Install the React Native SDK
+1. Configure Beyond Identity as an Identity Provider
+1. Create an identity and generate a passkey
+1. Authenticate with a passkey
 
 ## Prerequisites
 
