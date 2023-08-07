@@ -16,8 +16,7 @@
    <h1>Developer documentation</h1>
 </div>
 
-
-Welcome to the Beyond Identity developer documentation repository! This repo is the source for [https://developer.beyondidentity.com/][site], also known as "Next Dev Docs"! 
+Welcome to the Beyond Identity developer documentation repository! This repo is the source for [https://developer.beyondidentity.com/][site], also known as "Next Dev Docs"!
 
 The Beyond Identity developer documentation is completely open-source and we appreciate contributions.
 
@@ -28,7 +27,7 @@ Your feedback is essential in shaping the customer content experience. There are
 - [Submit an enhancement idea][enhancements] to make the docs better
 - [open a GitHub issue][issues] to report an issue with the content (something is incorrect or confusing)
 
-The team will track these ideas and issues to address your feedback. 
+The team will track these ideas and issues to address your feedback.
 
 ## Contribute to the docs
 
@@ -37,29 +36,29 @@ Refer to the [contributor's guide](./contributor-guide/contributor-guide.md) for
 ## Doc branches
 
 Before you get started with the authoring work, it's necessary that you understand the different branches to work on.
-* **`main`** -  protected branch
+
+* **`main`** - protected branch
 
   Docs for https://developer.beyondidentity.com/. This branch contains the most recent stable release content.
 
 * **`docs-staging`** - protected branch
 
-  Docs for a forward-version that includes features not yet included in the Beyond Identity stable version. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`. Its content is published on https://customer-docs-git-docs-staging-beyondidentity.vercel.app/ for early validation purpose. 
+  Docs for a forward-version that includes features not yet included in the Beyond Identity stable version. When Secure Customer has a release, its `docs-staging` branch will be merged into `main`. Its content is published on https://customer-docs-git-docs-staging-beyondidentity.vercel.app/ for early validation purpose.
 
 * **`active-development`** - protected branch (currently used for front-end development)
 
   Its content is published on https://developer-docs-git-active-development-beyondidentity.vercel.app/ for early validation purpose.
-  
+
 * You can have your own personal branch to work on content for a certain issue or feature. However, be sure to check and remove unused personal branches periodically for easy maintenance. Usually when your branch is merged, you can safely delete it.
 
 ## Site organization and files
 
-- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. 
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`.
   - `/docs/images` - Images used in the documentation.
   - `/docs/includes` - Reusable content such as feature descriptions, notes, common steps, and so on.
 - `/docusaurus.config.js` - A config file containing the site configuration.
 - `/sidebar.js` - Specify the order of documents in the sidebar. If you have a new file to add to the site, modify this file.
-- `/src/` - Non-documentation files like pages, custom React components, or 
-Docaurus native components.
+- `/src/` - Non-documentation files like pages, custom React components, or Docaurus native components.
   - `/src/components` - Custom react components used for the website or included in the documentation, such as the Try It Out!
   - `/src/pages` - Any files within this directory will be converted into a website page. Currently, we don't use this directory.
   - `/src/theme` - Docusausus native components such as the sidebar, content page, and content page footer designs.
@@ -67,8 +66,7 @@ Docaurus native components.
   - `/static/img` - Website images such as Beyond Identity logos and other assets.
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them.
 - `versioned_docs_` - Contains the markdown files for the previous supported versions (v0 and v1).
-- `versioned_sidebars` - Contains the sidebar files for the previous versions. 
-
+- `versioned_sidebars` - Contains the sidebar files for the previous versions.
 
 ## Get started
 
@@ -77,19 +75,18 @@ Docaurus native components.
 - Code editor, [VS Code](https://code.visualstudio.com) is recommended
 - [Git](https://git-scm.com)
 - [Node.js](https://nodejs.org)
-- [Yarn](https://yarnpkg.com) 
-
+- [Yarn](https://yarnpkg.com)
 
 ### Clone the repo
 
-1. Clone the repo.  This creates a directory named `developer-docs` in your current working directory.
+1. Clone the repo. This creates a directory named `developer-docs` in your current working directory.
 
    ```bash
    git clone https://github.com/gobeyondidentity/developer-docs.git
    cd developer-docs
    ```
 
-2. Next, create a new [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) from `main` (always give your branch a meaningful, descriptive name). 
+2. Next, create a new [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) from `main` (always give your branch a meaningful, descriptive name).
 
    ```bash
    git checkout -b <branch_name> main
@@ -111,7 +108,7 @@ The `http://localhost:3000` opens in your browser so you can see your changes re
 ## Project Resources
 
 | Resource | Description |
-| ---| --- |
+| --- | --- |
 | [CODEOWNERS](https://github.com/gobeyondidentity/developer-docs/blob/main/CODEOWNERS) | Outlines the project lead(s) |
 
 ## Thank you!
