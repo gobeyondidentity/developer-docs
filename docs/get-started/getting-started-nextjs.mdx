@@ -22,6 +22,7 @@ import TabItem from '@theme/TabItem';
 
 import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
 import PKCES256 from '../includes/_pkce_s256.mdx';
+import HostedWeb from '../includes/_hosted-web.mdx';
 import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
@@ -113,9 +114,12 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
   | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
   | **All other options** | Use the default values for the remaining options |
 
-4. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type.
-
-  It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
+4. Click the **Authenticator Config** tab
+  
+  | Property | Value | 
+  | ----------- | ----------- |
+  | **Configuration Type** | Hosted Web <br /><HostedWeb/> |
+  | **Authentication Profile** | Use the default values for the remaining options |
 
 5. Click **Submit** to save the new app.
 
