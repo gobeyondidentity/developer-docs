@@ -28,9 +28,9 @@ In this scenario, you'll use the Beyond Identity Hosted Web Authenticator, but a
 
 In this guide, you'll:
 
-* Configure Beyond Identity as an Identity Provider
+1. Configure Beyond Identity as an Identity Provider
 
-* Configure an Azure AD B2C tenant as a relying party to Beyond Identity
+1. Configure an Azure AD B2C tenant as a relying party to Beyond Identity
 
 ## Prerequisites
 
