@@ -15,7 +15,10 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-
+import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
+import HostedWeb from '../includes/_hosted-web.mdx';
+import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
+import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 
 
 Make your Drupal admin login more secure!
@@ -61,12 +64,12 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   | Property | Value | 
   | ----------- | ----------- |
-  | **Protocol** | OIDC |
-  | **Client Type** | Confidential | 
+  | **Protocol** | OIDC<br /><ProtocolOIDC/> |
+  | **Client Type** | Confidential<br /><ClientTypeConfidential/> |
   | **PKCE** | Disabled  | 
   | **Redirect URIs** | This URL will also be generated for you in the OIDC module. You can always come back to change it.<br /><br />Your redirect URI follows the pattern:<br /><br /> `https://${your-website-domain.com}/openid-connect/${client_machine_name}` | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
-  | **Grant Type** | Authorization Code | 
+  | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
   | **All other options** | Use the default values for the remaining options | 
 
   <br />
@@ -75,7 +78,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   
   | Property | Value | 
   | ----------- | ----------- |
-  | **Configuration Type** | Hosted Web |
+  | **Configuration Type** | Hosted Web <br /><HostedWeb/> |
   | **Authentication Profile** | Use the default values for the remaining options |
 
 4. Click **Submit** to save the new app. 
