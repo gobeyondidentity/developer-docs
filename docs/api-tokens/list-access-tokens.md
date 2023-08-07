@@ -53,9 +53,9 @@ Create the HTTP request with the following properties:
 
 **Request URL:** 
 
-```  
+```http
 https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens?principal_type={principal_type}  
-```  
+```
 
 where  
 
@@ -67,10 +67,10 @@ The list tokens API hostname is prefixed with "api-us" or "api-eu", not "auth-us
 
 **Request headers:**  
 
-```  
+```http
 Authorization: {authorization_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where 
 

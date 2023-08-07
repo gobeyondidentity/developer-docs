@@ -153,7 +153,7 @@ For more information visit [Bind a passkey to an identity](/docs/next/add-passke
 
 Once the user taps on the enrollment email, they will be redirected to your application. Intercept the link from the enrollment email. The link that is redirected to your application will take on the following form. A `/bind` path will be appended to your Invoke URL (configured in your application above) as well as several other query parameters.
 
-```
+```http
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
 ```
 
@@ -211,7 +211,7 @@ console.log(bindResponse);
 
 The authenticate url that is redirected to your application will append a `/bi-authenticate` path to your Invoke URL:
 
-```
+```http
 $invoke_url/bi-authenticate?request=<request>
 ```
 

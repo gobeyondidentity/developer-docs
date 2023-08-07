@@ -14,7 +14,7 @@ When we send out a passkey email, the link will redirect to your application spe
 
 The binding link that is redirected to your application will take on the following form. A `/bind` path will be appended to your Invoke URL as well as several other query parameters. Use a "/bind" route to intercept this url in your application:
 
-```
+```http
 $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
 ```
 

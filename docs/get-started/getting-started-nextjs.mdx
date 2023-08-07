@@ -56,7 +56,7 @@ First, make sure you've downloaded and installed the following tools on the deve
 
 You can verify that node, npm, and git are installed using the following commands:
 
-```
+```bash
 node -v
 npm -v
 git --version
@@ -70,7 +70,7 @@ git --version
 
 3. Open the terminal (**View > Terminal**) and clone the example app, change to the app's directory, and install the app's dependencies.
 
-  ```
+  ```bash
   git clone https://github.com/nextauthjs/next-auth-example.git
   cd next-auth-example
   npm install
@@ -183,7 +183,7 @@ Make the following changes to your NextAuth example app project to set up your e
 
   Your **.env.local** file's contents should look something like the example below:
 
-  ```javascript
+  ```javascript title=".env.local"
   # Next Auth
   NEXTAUTH_URL=http://localhost:3000
   NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247

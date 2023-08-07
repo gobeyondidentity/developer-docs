@@ -25,9 +25,9 @@ Note that you will need an identity configured with the [ability to authorize th
  
   **Request url:**  
 
-  ```
+  ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scopes}&state={state}&code_challenge={codeChallenge}&code_challenge_method=S256
-  ```  
+  ```
   
   where:  
  
@@ -44,7 +44,7 @@ Note that you will need an identity configured with the [ability to authorize th
    ```javascript
     codeVerifier = crypto.randomBytes(32).toString('base64url');
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-   ```  
+   ```
 
 3. Consume the '/authorize' response and authorization code  
 
@@ -63,7 +63,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   **Request url:**  
 
-  ```  
+  ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
   ```
 
@@ -71,16 +71,16 @@ Note that you will need an identity configured with the [ability to authorize th
 
   **Request headers:**  
 
-  ```  
+  ```http
   Authorization: Basic {client_credentials}
   content-type: application/x-www-form-urlencoded  
-  ```  
+  ```
 
   where {client_credentials} is the base64 encoded value of your app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' 
 
   **Request body:**  
 
-  ``` 
+  ```http
   grant_type: "authorization_code"
   code: {authorization_code}
   client_id: {client_id}
@@ -88,7 +88,7 @@ Note that you will need an identity configured with the [ability to authorize th
   code_verifier=${codeVerifier}
   expiration_time: {seconds}
   custom_claims: {custom_claims_json}
-  ```  
+  ```
 
   where:  
 

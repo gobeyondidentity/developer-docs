@@ -47,9 +47,9 @@ The token validation API consists of the '/introspect' endpoint, which is compli
 
 The introspection endpoint has the following structure:  
 
-```  
+```http
 https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect  
-```  
+```
 
 ### Token validation request  
 
@@ -59,16 +59,16 @@ Create the HTTP request with the following properties:
 
 **Request URL:** 
 
-```  
+```http
 https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
-```  
+```
 
 **Request headers:**  
 
-```  
+```http
 Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where 
 
@@ -76,10 +76,10 @@ where
 
 -OR-
 
-```  
+```http
 Authorization: Basic {app_client_credentials_b64}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where 
 
@@ -91,9 +91,9 @@ The that token validation requests can be authenticated with the client credenti
 
 **Request body:**  
 
-```  
+```http
 token: {token_to_introspect} 
-```  
+```
 
 where {token_to_introspect} is the base64 encoded access token you wish to validate  
 
@@ -113,7 +113,7 @@ title="/introspect"
 A successful introspect query will return a JSON object containing the key
 `"active"` set to the boolean value `true`, plus information about the token.
 
-```
+```json
 {
   "active": true,
   "bi_ty": "authorization_code",

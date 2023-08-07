@@ -12,7 +12,7 @@ Docusaurus.io
 
 You can build the docs locally with this command to test the build:
 
-```
+```bash
 npm run clear
 yarn build
 ```

@@ -47,7 +47,7 @@ These are the things you'll need for this walkthrough.
    ```bash
    node -v
    npm -v
-   ```  
+   ```
 
 
 ## Create the Google/Firebase project  
@@ -82,7 +82,7 @@ Need help with the relationship between Google Cloud projects and Firebase proje
      messagingSenderId: "{your_sender_id}",
      appId: "{your_app_id}"
   };
-  ```  
+  ```
 
 ## Configure your Beyond Identity tenant
 
@@ -208,11 +208,11 @@ You'll create a new VS Code project and install the Firebase SDK.
 
 4. Initialize your package.json file and install the Firebase node modules:
 
-  ```
+  ```bash
   npm init
   npm install firebase
   npm install firebase-tools
-  ```  
+  ```
 
 ### Configure the firebaseConfig file
 
@@ -227,7 +227,7 @@ You'll create a new VS Code project and install the Firebase SDK.
   const firebaseConfig = {
     //your Firebase web app config here
   };
-  ```  
+  ```
 3. Within the firebaseConfig object, add the Firebase configuration parameters for your web app.
 
   :::tip
@@ -252,7 +252,7 @@ You'll create a new VS Code project and install the Firebase SDK.
     appId: "{your_app_id}"
   };
   
-  ```  
+  ```
 
 ## Build out the auth flow
 The following code snippets show the key pieces of the auth flow for your web app. To see them in context, refer to the [example app](https://github.com/gobeyondidentity/bi-goog-fb-js-example).  
@@ -274,7 +274,7 @@ provider.addScope('email');
 //create auth object (used for auth functions)
 const auth = getAuth(app);
 
-```  
+```
 ### Add Sign-in and Sign-out functions
 
 Next, you'll need sign-in and sign-out functions. For sign-in, there is sign-in via redirect (signInWithRedirect), popup (signInWithPopup), or directly by providing credentials to the function call (signInWithCredential). The below example shows sign-in with redirect: 
@@ -287,7 +287,7 @@ Next, you'll need sign-in and sign-out functions. For sign-in, there is sign-in 
     await signInWithRedirect(auth, provider);
   
   }
-```  
+```
 
 In Firebase, the sign-in functions have explicit functions to retrieve their results. You can use the below function in your page to retrieve the results of a redirect-based sign-in. If no sign-in has taken place, the function will return null:  
 
@@ -304,7 +304,7 @@ getRedirectResult(auth).then((result) => {
   }).catch((error) => {
     //handle sign-in error
   })
-```  
+```
 
 Finally, the sign-out call is straightforward:  
 
@@ -360,7 +360,7 @@ cd bi-goog-firebase-example
 npm install
 .\node_modules\.bin\webpack
 serve dist
-```  
+```
 
 Then, navigate a browser to http://localhost:3000.  
 

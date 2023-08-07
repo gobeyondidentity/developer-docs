@@ -93,7 +93,7 @@ Create the HTTP request with the following properties:
 
 **Request url:**  
 
-```  
+```http
 https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities
 ```
 
@@ -101,16 +101,16 @@ https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/
 
 **Request headers:**  
 
-```  
+```http
 Authorization: Bearer {bi_api_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `identities:create` at minimum.  
 
 **Request body:**  
 
-``` 
+```json
 {
 "identity": {
   "display_name": "{display_name}",
@@ -121,7 +121,7 @@ where {bi_api_token} is an [API token you create for the Beyond Identity API](/d
     }
   }
 }
-```  
+```
 
 where:  
 - \{display_name\} is a string containing any name you wish
@@ -140,9 +140,9 @@ Create the HTTP request with the following properties:
 
 **Request url:**  
 
-```  
+```http
 https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
-```  
+```
 
 where {identity_id} is the **id** returned in the response JSON from the create identity API call above.  
 
@@ -150,16 +150,16 @@ where {identity_id} is the **id** returned in the response JSON from the create 
 
 **Request headers:**  
 
-```  
+```http
 Authorization: Bearer {bi_api_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `credential-binding-jobs:create` at minimum.  
 
 **Request body:**  
 
-``` 
+```json
 { 
   "job": { 
     "delivery_method": "EMAIL", 
@@ -167,7 +167,7 @@ where {bi_api_token} is an [API token you create for the Beyond Identity API](/d
     "post_binding_redirect_uri": "http://localhost:{your_app's_port}"
   }
 }  
-```  
+```
 
 ### Example (node.js)
 

@@ -153,7 +153,7 @@ When the user clicks or taps the link in the enrollment email, they are redirect
 
 1. Intercept the link from the enrollment email. The link that is redirected to your application will have the `/bind` path appended to your Invoke URL and several other query parameters.
 
-  ```
+  ```http
   $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
   ```
 

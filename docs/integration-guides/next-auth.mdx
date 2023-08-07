@@ -202,7 +202,7 @@ You'll need to store a few more Beyond Identity values for API calls.
 
 Your **.env** file's contents should look something like the example below:
 
-```javascript
+```javascript title=".env.local"
 # Next Auth
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=generate one here: https://generate-secret.vercel.app/32
@@ -318,7 +318,7 @@ When the user clicks or taps the link in the enrollment email, they are redirect
 
 1. Intercept the link from the enrollment email. The link that redirects to your application will have the `/bind` path appended to your Invoke URL and several other query parameters.<br />
 
-  ```
+  ```http
   $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
   ```
 
@@ -496,7 +496,7 @@ providers: [
 
 The authenticate URL redirecting to your application will append a `/bi-authenticate` path to your Invoke URL.
 
-```
+```http
 $invoke_url/bi-authenticate?request=<request>
 ```
 
