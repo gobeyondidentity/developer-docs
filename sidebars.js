@@ -66,9 +66,7 @@ const sidebars = {
           collapsible: true,      
           items: [ 
             'authentication/hosted-add-passkeys',
-            'authentication/hosted-add-fido2',
             'authentication/hosted-add-otp-email',
-            'authentication/hosted-add-idp-federated',    
           ],
         },
         {
@@ -78,9 +76,7 @@ const sidebars = {
           collapsible: true,      
           items: [ 
             'authentication/embedded-sdk-add-passkeys',    
-            'authentication/embedded-sdk-add-fido2',
-            'authentication/embedded-sdk-add-otp-email',
-            'authentication/embedded-sdk-add-idp-federated',      
+            'authentication/embedded-sdk-add-otp-email',   
 /*
             {
               type: 'category',
