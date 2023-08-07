@@ -1,15 +1,15 @@
 ---
-title: Add passkeys to your app
-id: hosted-add-passkeys
+title: Add authentication
+id: hosted-add-authentication
 description: ""
-slug: /hosted-add-passkeys
+slug: /hosted-add-authentication
 keywords:
   - scenario
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 07/21/2023
-  author: Jen Field
+  date: 08/07/2023
+  author: Anna Garcia
 draft: false
 hide_table_of_contents: false
 hide_title: false
@@ -18,44 +18,82 @@ doc_type: quickstart
 displayed_sidebar: mainSidebar
 ---
 
-import { Alert, Col, Row } from "antd";
+import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
+import PKCES256 from '../includes/_pkce_s256.mdx';
+import HostedWeb from '../includes/_hosted-web.mdx';
+import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
+import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
+import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
 
-<Row>
-  <Col span={6}>
-    <Alert message="in process" type="warning" />
-  </Col>
-</Row>
-<br />
 
-If you use the 'hosted web' **Configuration Type** (on the **Authenticator Config** tab), you can add passkeys to your app using standard OAuth2/OIDC calls and without installing the Embedded SDK.
+**Hosted Web** is one of two Configuration Types in the Authenticator Config tab that can be configured when [creating an application](/docs/next/add-an-application). Selecting this option requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity.
 
-With this guide you will enable your app to:
+The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. 
 
-- Call the Beyond Identity API to create users and passkeys
-- Use an OAuth2/OIDC `/authorize` call to initiate passkey based authentication with Beyond Identity
-- Consume the resulting code and token(s)
+The Hosted Web Authenticator can be set up using an OpenID Connect or OAuth2 client library. Many frameworks and languages have their own. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/) under **Certified Relying Party Libraries**.
 
-## Create your Beyond Identity initial configuration
+## Overview
 
-1. If you haven't already created your Beyond Identity tenant, set up a [developer account](https://www.beyondidentity.com/developers/signup) for free.
+With this guide you will:
 
-2. Once you have your tenant, go ahead and log in. You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
+1. Create a Beyond Identity application using the Hosted Web Authenticator
+1. Use on OAuth2/OIDC `/authorize` call to initiate passkey based authentication with Beyond Identity
+1. Consume the resulting code and token(s)
 
-   :::tip  
-   _If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
-   :::
+## Create your Beyond Identity application
 
-3. Next, [create a new realm and switch to that realm](/docs/next/create-realm) in your tenant. A realm is just a logical grouping that helps you apply policy later.
+### Prerequisites
 
-4. Then, [create an app in the realm](/docs/next/add-an-application). On the **Authenticator Config** tab, be sure to select 'Hosted Web' as the **Configuration Type**.
+- [x] If you haven't already created your Beyond Identity tenant, set up a [developer account](https://www.beyondidentity.com/developers).
+- [x] Once you have your tenant, go ahead and log in.  
 
-## Configure your app for OAuth/OIDC calls to Beyond Identity
+You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
 
-### If using the NextAuth sample app
+:::tip  
+_If you are signing in from a different computer or browser, you can enter the ema
+address you used when you signed up. Beyond Identity will send you a one time li
+you can use to sign in and enroll a passkey from the new browser._  
+:::
 
-If you are using the [example app](https://github.com/nextauthjs/next-auth-example) from [NextAuth.js](https://next-auth.js.org), follow the [NextAuth Integration Guide](/docs/next/next-auth) to add Beyond Identity as an OAuth provider, configure your app, and test passwordless sign on.
+### Create a new realm
 
-Otherwise follow the guidance below.
+So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities and the configuration. 
+
+import CreateRealmConsole from '../includes/_create-realm-console.mdx';
+
+<CreateRealmConsole />
+
+### Create an application
+
+In this step, you'll create a new Application containing the configuration for your users.
+
+import AddAppAdminConsole from '../includes/_add-application-console.mdx';
+
+<AddAppAdminConsole />
+
+On the **External Protocol** tab, use the following values to complete this tab.
+
+  | Property | Value |
+  | --- | --- |
+  | **Display Name** | Descriptive name you choose |
+  | **Protocol** | OIDC<br /><ProtocolOIDC/> |
+  | **Client Type** | Confidential<br /><ClientTypeConfidential/> |
+  | **PKCE** | S256<br /><PKCES256/> |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an OAuth or OpenID Connect client library, a redirect URI may be specefied for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/> |
+  | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
+  | **All other options** | Use the default values for the remaining options |
+
+On the **Authenticator Config** tab, use the following values to complete this tab.
+
+   | Property | Value | 
+   | ----------- | ----------- |
+   | **Configuration Type** | Hosted Web <br /><HostedWeb/> |
+   | **Authentication Profile** | Use the default values for the remaining options |
+
+
+### Configure your app for OAuth/OIDC calls to Beyond Identity
+
 
 ### Using your own app
 
