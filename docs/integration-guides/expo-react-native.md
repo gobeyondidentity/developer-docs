@@ -25,6 +25,10 @@ import PkceInfo from '../includes/_pkce-info.mdx';
 import StateInfo from '../includes/_state-info.mdx';
 import InvocationTip from '../includes/_invocation-type-tip.mdx';
 
+import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
+import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
+import PKCES256 from '../includes/_pkce_s256.mdx';
+
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a React Native application that uses Expo.
 
@@ -93,12 +97,12 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   | Property | Value | 
   | ----------- | ----------- |
-  | **Protocol** | OIDC |
+  | **Protocol** | OIDC<br /><ProtocolOIDC/> |
   | **Client Type** | <mark>What's recommended for this particular use case?</mark> | 
-  | **PKCE** | S256 | 
+  | **PKCE** | S256<br /><PKCES256/> |
   | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an app scheme, your redirect URI may follow the pattern:<br /><br /> `myapp://` <br /> <br />Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app) | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
-  | **Grant Type** | Authorization Code | 
+  | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
   | **All other options** | Use the default values for the remaining options |  
 
 1. Click the **Authenticator Config** tab and use the following values. 
