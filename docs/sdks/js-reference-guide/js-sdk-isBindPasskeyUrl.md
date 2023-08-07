@@ -21,7 +21,7 @@ Validates that a URL is able to be used by the **bindPasskey** function.
 
 The **isBindPasskeyUrl** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

@@ -57,15 +57,15 @@ Beyond Identity exposes two different endpoints to revoke a token. Both endpoint
 
 1. The Revoke Endpoint is [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant, needs the whole token and accepts bearer or basic auth.
 
-  ```  
+  ```http
   https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke
-  ```  
+  ```
 
 2. Revoke Token by ID is not RFC-7009 compliant, only needs the token_id and only accepts bearer.
 
-  ```  
+  ```http
   https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)
-  ```  
+  ```
 
 ### Revoke Token Scenarios
 
@@ -85,18 +85,18 @@ Create the HTTP request as follows:
 
 **Request URL**
 
-```  
+```http
 https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/revoke  
-```  
+```
 
 **Request method**: POST  
 
 **Request headers**:
 
-```  
+```http
 Authorization: Basic {client_credentials}
 content-type: application/x-www-form-urlencoded  
-```  
+```
  
 where {client_credentials} is the value of the **Client ID** and **Client Secret** of the app that issued the token, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded
 
@@ -106,19 +106,19 @@ Using client credentials for authorization only works for apps configured with *
 
 -OR-  
 
-```  
+```http
 Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where 
 
 {authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'  
 
 **Request body**:  
-```  
+```json
   "token": "{token_to_revoke}"
-```  
+```
 
 where {token_to_revoke} is the base64 encoded token you wish to revoke  
 
@@ -143,9 +143,9 @@ Create the HTTP request as follows:
 
 **Request URL**
 
-```  
+```http
 https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)  
-```  
+```
 
 where {TOKEN_ID} is the id of the token as returned from a call to the [list tokens API](/docs/next/list-access-tokens) for the app that issued the token
 
@@ -157,10 +157,10 @@ The revoke token by ID API hostname is prefixed with "api-us" or "api-eu", not "
 
 **Request headers**:
 
-```  
+```http
 Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
-```  
+```
 
 where 
 

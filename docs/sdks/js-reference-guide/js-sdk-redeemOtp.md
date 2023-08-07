@@ -21,7 +21,7 @@ The **redeemOtp** function enables an app using the Beyond Identity Javascript S
 
 The **redeemOtp** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 

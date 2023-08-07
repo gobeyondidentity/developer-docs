@@ -21,7 +21,7 @@ The **deletePasskey** function enables your app to delete a passkey given its pa
 
 The **deletePasskey** function requires the Beyond Identity Javascript SDK.
 
-```
+```bash
 npm install @beyondidentity/bi-sdk-js
 ```
 
