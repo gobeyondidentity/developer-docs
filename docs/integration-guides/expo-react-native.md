@@ -93,21 +93,22 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   | Property | Value | 
   | ----------- | ----------- |
-  | **Protocol** | <mark>What's recommended for this particular use case?</mark> |
+  | **Protocol** | OIDC |
   | **Client Type** | <mark>What's recommended for this particular use case?</mark> | 
-  | **PKCE** | <mark>What's recommended for this particular use case?</mark> | 
-  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your real redirect URI follows the pattern:<br /><br /> <mark>Can we provide an example?</mark> | 
-  | **Token Endpoint Auth Method** | <mark>What's recommended for this particular use case?</mark> | 
-  | **Grant Type** | <mark>What's recommended for this particular use case?</mark> | 
+  | **PKCE** | S256 | 
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an app scheme, your redirect URI may follow the pattern:<br /><br /> `myapp://` <br /> <br />Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app) | 
+  | **Token Endpoint Auth Method** | Client Secret Post | 
+  | **Grant Type** | Authorization Code | 
   | **All other options** | Use the default values for the remaining options |  
 
-1. Click the **Authenticator Config** tab, select **Embedded SDK** as the Configuration Type, and use the following values. 
+1. Click the **Authenticator Config** tab and use the following values. 
 
   | Property | Value | 
   | ----------- | ----------- |
-  | **Invocation Type** | <mark>What's recommended for this particular use case?</mark> |
+  | **Configuration Type** | Embedded SDK |
+  | **Invocation Type** | Automatic or Manual |
   | **Invoke URL** | Use your application's App Scheme or Universal URL. | 
-  | **Trusted Origin** | <mark>Are they leaving this blank?</mark> | 
+  | **Trusted Origin** | Use your application's App Scheme or Universal URL. | 
 
 1. Click **Submit** to save the new app.  
 
@@ -133,13 +134,13 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 <BindPasskeyToAnIdentity />
 
-For more information, [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
+For more information, [Add a passkey](/docs/next/add-passkey).
 
 ### Bind passkey to device
 
 When the user clicks or taps the link in the enrollment email, they are redirected to your application. Links that launched your app can be observed using [Linking](https://docs.expo.dev/versions/latest/sdk/linking/).
 
-1. Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app). <mark>Are they following the steps in the docs and then registering a scheme in their Expo config? The original content implied that registering is optional. I'm guessing it's required but I want to confirm it.</mark> 
+1. Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app).  
 
 2. Register a scheme in your Expo config under the scheme key.
 

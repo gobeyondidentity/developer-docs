@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/20/2023
-   author: Patricia McPhee
+   date: 08/07/2023
+   author: Anna Garcia
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -20,7 +20,7 @@ displayed_sidebar: mainSidebar
 
 Make your Drupal admin login more secure!
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Drupal admin panel login.
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a Drupal site.
  
 
 In this guide, you'll:
@@ -32,7 +32,7 @@ In this guide, you'll:
 
 Before continuing, make sure that the following prerequisites have been met:
 
-- A [Beyond Identity developer account](https://www.beyondidentity.com/developers/signup).
+- A [Beyond Identity developer account](https://beyondidentity.com/developers).
 
 - A live Druapl site running and administrator privileges to install and configure modules.
 
@@ -64,58 +64,31 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Protocol** | OIDC |
   | **Client Type** | Confidential | 
   | **PKCE** | Disabled  | 
-  | **Redirect URIs** | Use your application's App Scheme or Universal URL. This URL will also be generated for you in the OIDC module. You can always come back to change it.<br /><br />Your real redirect URI follows the pattern:<br /><br /> `https://${your-website-domain.com}/openid-connect/${client_machine_name}` | 
+  | **Redirect URIs** | This URL will also be generated for you in the OIDC module. You can always come back to change it.<br /><br />Your redirect URI follows the pattern:<br /><br /> `https://${your-website-domain.com}/openid-connect/${client_machine_name}` | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
-  | **Resource Server** | None |
-  | **Grant Type** | <mark>What's recommended for this particular use case?</mark> | 
-  | **Token Format** | <mark>What's recommended for this particular use case?</mark> | 
+  | **Grant Type** | Authorization Code | 
+  | **All other options** | Use the default values for the remaining options | 
 
   <br />
 
-  <h4>Token Configuration</h4>
-
+4. Click the **Authenticator Config** tab and use the following values. 
+  
   | Property | Value | 
-  | --- | --- |
-  | **Expires** | <mark>What's recommended for this particular use case?</mark> |
-  | **Subject** | id |  
-  | **Token Signing Algorithm** | <mark>What's recommended for this particular use case?</mark> |
+  | ----------- | ----------- |
+  | **Configuration Type** | Hosted Web |
+  | **Authentication Profile** | Use the default values for the remaining options |
 
-1. Click the **Authenticator Config** tab, select **Hosted Web** as the Configuration Type and click **Submit** to save the new app.  
+4. Click **Submit** to save the new app. 
 
-
-Once you have an application in the Admin Console, you are ready to provision users in your realm's directory, generate passkeys, and handle those passkeys in your application.
-
-### Create an Identity
-
-User creation can be done in the admin console or through an API. This guide will use the admin console. 
-
-:::note important
-<mark>Shouldn't this be a prerequisite? Think of it as a "main" ingredient to "this" recipe.</mark> It's best if the user is already in the Drupal system. An excellent place to start is for yourself as the administrator. Also, make sure that the Username matches the Drupal Username. 
-:::
-
-import AddAnIdentity from '../includes/_add-an-identity.mdx';
-
-<AddAnIdentity />
-
-See [Directory](/docs/next/platform-overview#directory) for more information about identities (users) and groups.
-
-### Generate a passkey
-
-Once you have an identity, you can generate a passkey in the Admin Console. 
-
-:::note important
-Users can bind multiple devices and browsers. Whichever browser or device is used to enroll is where the user can log into your Drupal site. If the user wants to log in from a different browser or device, you'll need to send the user another email to bind that new browser/device. Also, private/incognito browsers act as different browsers in this case.
-:::
-
-import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-send-an-email-to-user.mdx';
-
-<BindPasskeyToAnIdentity />
-
-For more information, see [How passkeys are created](/docs/next/universal-passkeys#how-passkeys-are-created).
+At this point, your Beyond Identity Admin Console should be configured with a realm and an application set up. The Hosted Web handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. You are now ready to configure the OpenID Connect Drupal module.
 
 ## Configure the OpenID Connect Drupal module
 
-The module allows you to use an external OpenID Connect login provider to authenticate and log in users on your site. Existing users are automatically logged into your Drupal site, while new users get created in Drupal.
+This module allows you to use an external OpenID Connect login provider to authenticate and log in users on your site. Existing users are automatically logged into your Drupal site, while new users get created in Drupal.
+
+:::note
+User roles will need to be managed from your admin dashboard. New users created in your Drupal database will have a default "Authenticated" user role. 
+:::
 
 ### Install the OIDC module
 
@@ -125,7 +98,7 @@ Install the OIDC module as you would install a contributed Drupal module.
 
 ### Configure the module 
 
-You'll use Generic OAuth 2.0 to configure the module. After you've enabled the module, you'll add the required values from your application you created in the Beyond Identity Admin Console.
+After you've installed and enabled the module, you'll add the required values from your application you created in the Beyond Identity Admin Console.
 
 1. Log into you Drupal admin console.
 
@@ -143,12 +116,12 @@ You'll use Generic OAuth 2.0 to configure the module. After you've enabled the m
 
   | Property | Beyond Identity Admin Console value | 
   | --- | --- |
-  | **Client ID** | Client ID |
-  | **Client Secret Key** | Client Secret |
+  | **Client ID** | Copy and paste the **Client ID** value from your application's **External Protocol** tab. |
+  | **Client Secret Key** | Copy and paste the **Client Secret** value from your application's **External Protocol** tab. |
   | **Allowed domains** | _Ignore this field_ |
-  | **Authorization endpoint** | Authorization Endpoint |
-  | **Token endpoint** | Token Endpoint |
-  | **Userinfo endpoint** | User Info Endpoint |
+  | **Authorization endpoint** | Copy and paste the **Authorization Endpoint** value from your application's **External Protocol** tab. |
+  | **Token endpoint** | Copy and paste the **Token Endpoint** value from your application's **External Protocol** tab. |
+  | **Userinfo endpoint** | Copy and paste the **User Info Endpoint** value from your application's **External Protocol** tab. |
   | **End Session endpoint** | _Leave blank_ |
   | **Scopes** | email profile openid |
 
@@ -156,7 +129,7 @@ You'll use Generic OAuth 2.0 to configure the module. After you've enabled the m
 
   A redirect URL is generated. 
 
-  <p><mark>Will they need to add the Redirect URL to the app in the Beyond Identity Admin Console? The original content implies that this is optional.</mark></p>
+  From the Beyond Identity Admin Console, under **Applications**, select your application, scroll down to the **Redirect URIs** field and paste the generated URL. 
 
   ![module-configuration](../images/integration-guides/drupal-oidc-config.png)
 
@@ -179,7 +152,7 @@ If you send a passkey to a user not in your Drupal system, the login fails. You 
 
 1. Select the **Override registration settings** checkbox. 
 
-  This assigns a new user as an `authenticated user` with no other defined role. You can change the user's role in your Drupal admin settings.
+  This assigns a new user as an `Authenticated user` with no other defined role. You can change the user's role in your Drupal admin settings.
 
   ![drupal-override-registration](../images/integration-guides/drupal-override-registration.png)
 
