@@ -55,8 +55,8 @@ If your user is creating a new account, you'll want to create an identity with t
 Create an endpoint in your application following the below code example: 
 
 :::note
-You can find the `REGION`, `TENANT_ID` and `REALM_ID` in your console.  
-You can generate an `API_TOKEN` from you Beyond Identity Management API application.
+- You can find the `REGION`, `TENANT_ID` and `REALM_ID` in your console.  
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `identities:create`.  
 :::
 
 For more information, visit the [add an identity](/docs/next/add-an-identity) guide.
@@ -121,9 +121,9 @@ The **RETURN** delivery method is the fastest way to get a binding link, which i
   />
 
 :::note
-You will need the user's `IDENTITY_ID` from identity creation above.  
-You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.  
-You can generate an `API_TOKEN` from you Beyond Identity Management API application.
+- You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API. 
+- You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.  
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
 :::
 
 The result of calling this API will be a JSON response with a `credential_binding_link`.
@@ -176,9 +176,10 @@ The **EMAIL** delivery method sends an email to the user. Clicking the link will
   />
 
 :::note
-You will need the user's `IDENTITY_ID` from identity creation above.  
-You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.You can generate an `API_TOKEN` from you Beyond Identity Management API application.  
-Set the `POST_BINDING_REDIRECT_URI` to a URI in your application. On successful passkey binding the user will be re-directed to this URI.
+- You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API.   
+- You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
+- Set the `POST_BINDING_REDIRECT_URI` to a URI in your application. On successful passkey binding the user will be re-directed to this URI.
 :::
 
 The result of calling this API will send your user with an email from Beyond Identity with a link to click on. That link will look like the following: 

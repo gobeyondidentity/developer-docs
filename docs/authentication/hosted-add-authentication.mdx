@@ -18,6 +18,10 @@ doc_type: quickstart
 displayed_sidebar: mainSidebar
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import MultiLanguageCodeBlock from '@site/src/components/MultiLanguageCodeBlock';
+
 import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
 import PKCES256 from '../includes/_pkce_s256.mdx';
 import HostedWeb from '../includes/_hosted-web.mdx';
@@ -25,34 +29,32 @@ import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
 
+In this guide, we will explore the process of integrating authentication into your application using the Hosted Web Authenticator offered by Beyond Identity. This powerful tool streamlines the authentication flow by handling passkey registration and  authentication, including generating new passkeys, presenting users with authenticator choice options and validating passkey assertions. By seamlessly incorporating the Hosted Web Authenticator into your application, you can focus more on delivering exceptional user experiences and innovative features, without compromising security.
 
-**Hosted Web** is one of two Configuration Types in the Authenticator Config tab that can be configured when [creating an application](/docs/next/add-an-application). Selecting this option requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity.
+**Hosted Web** is one of two Configuration Types that can be configured when [creating an application](/docs/next/add-an-application). Selecting this option requires less configuration and code. Your app simply needs to redirect to Beyond Identity's Hosted Web Authenticator, and we do the rest.
 
-The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. 
-
-The Hosted Web Authenticator can be set up using an OpenID Connect or OAuth2 client library. Many frameworks and languages have their own. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/) under **Certified Relying Party Libraries**.
+The Hosted Web Authenticator can be set up using an OpenID Connect or OAuth2 client library. Many frameworks and languages have their own. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/).
 
 ## Overview
 
 With this guide you will:
 
 1. Create a Beyond Identity application using the Hosted Web Authenticator
-1. Use on OAuth2/OIDC `/authorize` call to initiate passkey based authentication with Beyond Identity
-1. Consume the resulting code and token(s)
+1. Configure an OpenID Connect or OAuth2 client library or build your own.
 
 ## Create your Beyond Identity application
 
 ### Prerequisites
 
-- [x] If you haven't already created your Beyond Identity tenant, set up a [developer account](https://www.beyondidentity.com/developers).
-- [x] Once you have your tenant, go ahead and log in.  
+- [x] A [developer account](https://www.beyondidentity.com/developers)
+- [x] Logged into your admin console
 
-You can access the Beyond Identity admin console for your tenant at [BI admin console US](https://console-us.beyondidentity.com/login) or [BI admin console EU](https://console-eu.beyondidentity.com/login), depending on the region you chose when you signed up.  
+Depending on your reagion you chose when you signed up, you can access the Beyond Identity admin console for your tenant at:   
+- [BI admin console US](https://console-us.beyondidentity.com/login)  
+- [BI admin console EU](https://console-eu.beyondidentity.com/login)
 
 :::tip  
-_If you are signing in from a different computer or browser, you can enter the ema
-address you used when you signed up. Beyond Identity will send you a one time li
-you can use to sign in and enroll a passkey from the new browser._  
+_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
 :::
 
 ### Create a new realm
@@ -79,7 +81,7 @@ On the **External Protocol** tab, use the following values to complete this tab.
   | **Protocol** | OIDC<br /><ProtocolOIDC/> |
   | **Client Type** | Confidential<br /><ClientTypeConfidential/> |
   | **PKCE** | S256<br /><PKCES256/> |
-  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an OAuth or OpenID Connect client library, a redirect URI may be specefied for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Redirect URIs** | Use a route in your app this is capable of handling the authorization code exchange.<br /><br />If you are using an OAuth or OpenID Connect client library, a redirect URI may be specified for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
   | **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/> |
   | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
   | **All other options** | Use the default values for the remaining options |
@@ -91,208 +93,173 @@ On the **Authenticator Config** tab, use the following values to complete this t
    | **Configuration Type** | Hosted Web <br /><HostedWeb/> |
    | **Authentication Profile** | Use the default values for the remaining options |
 
-
-### Configure your app for OAuth/OIDC calls to Beyond Identity
-
-
-### Using your own app
-
-You can add Beyond Identity to any web app using OAuth/OIDC. 
-
-The example below shows a standard confidential client using the authorization code flow with PKCE. 
-
-Find more examples in the [Create an Access Token](/docs/next/create-api-token) guide.  
-
-
-import AccessTokenCreateConfClientPkce from "../includes/_access_token_create_conf_client_pkce.mdx";
-
-<AccessTokenCreateConfClientPkce />
-
-## Create users and passkeys
-
-Because you created an app with the 'Hosted Web' authentication configuration type, you are ready to test without writing any more authentication code.  
-
-But you'll need a user with an enrolled passkey first, which you can create via the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).  
-
-:::note
-
-If you wish to create identities and passkey via the Admin Console, you can do so following the guidance here:
-
-- [Add an identity](/docs/next/add-an-identity)
-- [Add a passkey](/docs/next/add-passkey)
-
+:::tip **CHECKPOINT**
+Congrats!
+You've created and configured a Beyond Identity application. You're now ready to use the values from this applications for your OpenID Connect or OAuth2 client.
 :::
 
-### Create one or more identities in your Beyond Identity app's realm
+## Configure an OpenID Connect or OAuth2 client library
 
-You can create an identity using the [Beyond Identity API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity).
+Using a library is the recommended approach becasue it handles authorization, token exchange and accessing user info for you. 
 
-Create the HTTP request with the following properties:  
+There are many libraries available depending on your application's tech stack. If you need help finding an OpenID Connect client for your tech stack, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/).
 
-**Request url:**  
+While there are many libraries available, they all need similar values to configure. You can find all the values you need under your **External Protocol** section of the application you created above. 
 
-```http
-https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities
+`Client ID` and `Client Secret` will be needed for all of them, but there may be some variation in the URLs needed. 
+
+The `Issuer` and the `Discovery Endpoint` URL are both used by the client to identify the OpenID endpoints. The Discovery Endpoint is the _Issuer_ + _/.well-known/openid-configuration_
+
+You can also access individual endpoints in this tab. Some libraries require copying over these URLs individually rather than using an issuer/discovery endpoint. These URLs are `Authorization Endpoint`, `Token Endpoint` and `User Info Endpoint`.
+
+Consult your library for more details on which values are needed.
+
+![Hosted Web Configuration](../images/hosted-web-authentication.png) 
+
+## Configure your own client / How it works
+
+### Authorization
+
+If you prefer to build your own client, you will need to start with the **Authorization Endpoint** found in your application's **External Protocol** tab. 
+
+This url should look like the following:
+
+```bash title="Authorization Endpoint"
+https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize
 ```
 
-**Request method:** POST  
+Copy the `Authorization Endpoint` from to console and append the following parameters:
 
-**Request headers:**  
-
-```http
-Authorization: Bearer {bi_api_token}
-content-type: application/x-www-form-urlencoded  
+```bash title="/authorize"
+$(Authorization Endpoint)?
+response_type=code
+&client_id=$CLIENT_ID
+&redirect_uri=$REDIRECT_URI
+&scope=openid
+&state=$STATE
+&code_challenge_method=256
+&code_challenge=$PKCE_CODE_CHALLENGE
 ```
 
-where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `identities:create` at minimum.  
+| Parameter | Value |
+| --- | --- |
+| **response_type** | code <br /><br />This parameter specifies that the authorization server should return an authorization code to the client. The code will be used by the client to request an access token.<div class= "note-message note-message-table"><p>**Grant Type** must be set to **Authorization Code** in the console application. </p></div> |
+| **client_id** | Copy and paste the **Client ID** value from your application's **External Protocol** tab. |
+| **redirect_uri** | This parameter specifies the URL to which the authorization server can send an authorization code. If a state parameter was specified in the /authorize request, then that will be echoed back to this URL as well.<br /><br /><div class= "note-message note-message-table"><p>This must match one of the **Redirect URIs** registered in your console application.</p></div> |
+| **scope** | openid |
+| **state** | This parameter is a random value generated by the client. It is included in the authorization request and returned in the response. This parameter helps the client maintain state between the request and the callback to prevent cross-site request forgery (CSRF) attacks. |
+| **code_challenge_method** | 256 <br /><PKCES256/><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be set to **S256** in the console application. If it is not set then you should not send the **code_challenge_method** or **code_challenge** parameters</p></div>|
+| **code_challenge** | This used in conjunction with **code_challenge_method** ensures that the authorization code obtained by the client can only be used by the client that originally requested it.<br /><br />You will need to store the hash of the **code_challenge** so that it can be passed to the token exchange endpoint later as a **code_verifier**.<br /><br /><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be set in the console application. If it is not set then you should not send the **code_challenge_method** or **code_challenge** parameters.</p></div> |
 
-**Request body:**  
+<br />
 
-```json
-{
-"identity": {
-  "display_name": "{display_name}",
-  "traits": {
-    "type": "traits_v0",
-    "username": "{username}",
-    "primary_email_address": "{email_address}"
-    }
-  }
-}
+#### Initiate Authorization
+
+After you have constructed the authorization URL, ensure to URL encode it and then incorporate it into your application:
+
+```html
+<a href="https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize?response_type=code&amp;scope=email%20openid&amp;client_id=$CLIENT_ID&amp;state=$STATE&amp;redirect_uri=$REDIRECT_URI">
+Login with passwordless
+</a>
 ```
 
-where:  
-- \{display_name\} is a string containing any name you wish
+#### Hosted Web Authenticator
 
-- \{username\} is a string containing a unique, case insensitive username for the identity
+When a user taps the above link, they will be redirected to the Beyond Identity Hosted Web Authenticator. The user will be presented with UI that handles passkey registration and authentication. The URL that the user will land on will look like the following:
 
-- \{email_address\} is set to an address where you can receive email in the format 'user@example.com'
-
-The response JSON will contain the **id** of the new identity, which you'll use in the next call to create the passkey binding.
-
-### Create passkeys for your identities
-
-Once you've created the identity via the request above, you'll need to enroll a passkey for the new user. For this, you'll use the email enrollment flow. Double check that you created the identity above using an {email_address} that is a real address where you can receive email.  
-
-Create the HTTP request with the following properties:  
-
-**Request url:**  
-
-```http
-https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/identities/{identity_id}/credential-binding-jobs
+```bash title=302
+https://auth-$REGION.beyondidentity.com/authenticator/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs/$AUTHENTICATOR_CONFIG_ID/bi-authenticate?request=$JWT
 ```
 
-where {identity_id} is the **id** returned in the response JSON from the create identity API call above.  
+![Hosted Web OTP Email](../images/hosted-web-otp-email.png) 
 
-**Request method:** POST  
+#### Back to your application
 
-**Request headers:**  
+Upon successfully completing the UI flow, the Hosted Web Authenticator will redirect the user back to your application based on the provided **redirect_uri** in the authorization request appended with an **authorization code** and a **state**. 
 
-```http
-Authorization: Bearer {bi_api_token}
-content-type: application/x-www-form-urlencoded  
+```bash title=302
+$(REDIRECT_URI)
+&code=$(AUTHORIZATION_CODE)
+&state=$(STATE)
 ```
 
-where {bi_api_token} is an [API token you create for the Beyond Identity API](/docs/next/create-api-token#create-an-access-token-in-the-console), containing the scope `credential-binding-jobs:create` at minimum.  
+The **code** is a short-lived authorization code that the client can exchange with the authorization server for an access token. The access token is what the client application uses to access protected resources on behalf of the user.
 
-**Request body:**  
+The **state** should be the same random value that the client included in the initial authorization request. This helps the client maintain the integrity of the authorization process. The client should then compare the received state with the original state to ensure that the response corresponds to the correct request and that the process wasn't tampered with (to prevent CSRF attacks).
 
-```json
-{ 
-  "job": { 
-    "delivery_method": "EMAIL", 
-    "authenticator_config_id": "{your app's AUTHENTICATOR_CONFIG_ID}", 
-    "post_binding_redirect_uri": "http://localhost:{your_app's_port}"
-  }
-}  
+
+### Token Exchange
+
+Now that your client has recieved an **authorization code** it's time to exchange the code for an **access token**. An access token is used to access protected resources on behalf of a user. 
+
+Use the **Token Endpoint** value from your application's **External Protocol** tab.
+
+<Tabs groupId="token-auth-method" queryString>
+<TabItem value="client_secret_basic" label="Client Secret Basic">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$(AUTHORIZATION_CODE)&code_verifier=$(CODE_VERIFIER)&redirect_uri=$(REDIRECT_URI)"'
+  title="/token"
+/>
+</TabItem>
+
+<TabItem value="client_secret_post" label="Client Secret Post">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the body of the POST request as a form parameter.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-F "grant_type=authorization_code" \
+-F "code=$(AUTHORIZATION_CODE)" \
+-F "client_id=$(CLIENT_ID)" \
+-F "client_secret=$(CLIENT_SECRET)" \
+-F "code_verifier=$(CODE_VERIFIER)" \
+-F "redirect_uri=$(REDIRECT_URI)"'
+  title="/token"
+/>
+
+</TabItem>
+</Tabs>
+
+| Parameter | Value |
+| --- | --- |
+| **grant_type** | authorization_code <br /><br />This indicates the grant type of this token request. |
+| **code** | This is the authorization code that was obtained in the last redirect. |
+| **redirect_uri** | This must match the redirect URI that was used in the initial authorization request |
+| **client_id** | Copy and paste the **Client ID** value from your application's **External Protocol** tab. |
+| **client_secret** | Copy and paste the **Client Secret** value from your application's **External Protocol** tab.<div class= "note-message note-message-table"><p>This value is optional. The **Client Type** must be set to **Confidential** in the console application.</p></div> |
+| **code_verifier** | The hashed value of the **code_challenge** sent in the original authorization request. <div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be set in the console application. If it is not set then you should not send the **code_challenge_method**, **code_challenge** or **code_verifier**.</p></div>|
+
+### User Info
+
+Once you have an **access token** you can use this to access information about the user. Use the **User Info Endpoint** value from your application's **External Protocol** tab.
+
+```bash /userinfo
+GET /userinfo HTTP/1.1
+Host: User Info Endpoint
+Authorization: Bearer <access_token>
 ```
 
-### Example (node.js)
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/userinfo" \
+-X GET \
+-H "Authorization: Bearer $(ACCESS_TOKEN)"'
+  title="/token"
+/>
 
-```javascript
-return fetch(
-  `https://api-us.beyondidentity.com/v1/tenants/${tenantId}/realms/${realm.id}/identities`,
-  {
-    method: "POST",
-    body: `{
-              "identity": {
-                "display_name": "BI Quickstart Identity",
-                "traits": {
-                  "type": "traits_v0",
-                  "username": "${userName}",
-                  "primary_email_address": "${email}"
-                }
-              }
-            }`,
-    headers: {
-      Authorization: "Bearer " + apiToken,
-      "content-type": "application/json",
-    },
-  }
-)
-  .then((result) => {
-    if (result.ok) {
-      return result.json();
-    } else {
-      if (result.status == 409) {
-        throw new ApiError(
-          result.status,
-          `User already exists. Choose another username`
-        );
-      }
-      throw new ApiError(
-        result.status,
-        `POST request to create identity returned a ${result.status}`
-      );
-    }
-  })
-  .then((identityJson) => {
-    console.log(`created identity with id: ${identityJson.id}`);
-    //CREATE PASSKEY (binding job) and trigger email
-    return fetch(
-      `https://api-us.beyondidentity.com/v1/tenants/${identityJson.tenant_id}/realms/${identityJson.realm_id}/identities/${identityJson.id}/credential-binding-jobs`,
-      {
-        method: "POST",
-        body: `{
-                  "job": {
-                    "delivery_method": "EMAIL",
-                    "post_binding_redirect_uri": "http://localhost:3000",
-                    "authenticator_config_id": "${authenticatorConfigId}"
-                  }
-                }`,
-        headers: {
-          Authorization: "Bearer " + apiToken,
-          "content-type": "application/json",
-        },
-      }
-    );
-  })
-  .then((result) => {
-    if (result.ok) {
-      return result.json();
-    } else {
-      if (result.status == 409) {
-        throw new ApiError(
-          result.status,
-          `User already exists. Choose another username`
-        );
-      }
-      throw new ApiError(
-        result.status,
-        `POST request to create a credential binding job returned a ${result.status}`
-      );
-    }
-  })
-  .then((jobJson) => {
-    console.log(`created credential binding job with id: ${jobJson.id}`);
-    return jobJson;
-  })
-  .catch((err) => {
-    console.log(err.message);
-    if (err.code !== null) {
-      return err;
-    } else {
-      return err;
-    }
-  });
-```
+The following user values may be returned:
+
+| Parameter | Value |
+| --- | --- |
+| **subject** | The subject is used to uniquely identify the user within the context of Beyond Identity. |
+| **name** | The name of the user<div class= "note-message note-message-table"><p>This value is optional.</p></div> |
+| **preferred_username** | The preferred username is often a user-friendly string that identifies the user.<div class= "note-message note-message-table"><p>This value is optional.</p></div> |
+| **email** | The email address associated with the authenticated user's account.<div class= "note-message note-message-table"><p>This value is optional.</p></div> |
