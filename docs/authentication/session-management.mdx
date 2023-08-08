@@ -18,12 +18,234 @@ displayed_sidebar: mainSidebar
 
 ## What is Session Management
 
+Session management refers to the process of securely and efficiently handling user sessions in web applications or other network-based systems. A session is a period of interaction between a user and a system, typically starting when the user logs in and ending when they log out or the session times out due to inactivity.
+
+The main goals of session management are to maintain the state of a user's activities across multiple requests and responses, provide a personalized and seamless user experience, and ensure the security and privacy of user data. Here's a brief overview of how session management works and its key components:
+
+1. Session Identifier: When a user logs into a web application, the server assigns a unique session identifier (usually a long random string) to that user. This identifier is stored as a cookie in the user's web browser or passed through URL parameters, and it is used to track subsequent requests from the same user.
+
+1. Session State: Along with the session identifier, the server maintains a session state object that holds specific information about the user's interactions and preferences during the session. This may include items like user preferences, shopping cart contents, or authentication tokens.
+
+1. Session Tracking: As the user interacts with the web application, the session identifier is passed back and forth between the client (web browser) and the server on every request and response. This allows the server to identify the user and retrieve the relevant session state for each request.
+
+1. Session Timeout: To improve security and conserve server resources, sessions usually have a timeout mechanism. If the user remains inactive for a specified period, the session will expire, and the user will need to log in again to establish a new session.
+
+1. Security Considerations: Session management is crucial for preventing security issues like session hijacking, session fixation, and session sniffing. Developers must implement secure session handling practices, such as using secure cookies, regenerating session identifiers upon significant events (e.g., login, privilege change), and employing HTTPS to encrypt communication between the client and server.
+
+1. Logout: When the user explicitly logs out, the session is terminated on the server side, and the associated session state is cleared. Additionally, the session identifier is invalidated on the client-side by deleting the session cookie.
+
+Effective session management is essential for maintaining the integrity and confidentiality of user data, providing a smooth user experience, and protecting web applications from security vulnerabilities. Developers should follow best practices and adhere to industry standards to ensure proper session handling.
+
 ## How to add session management to my application
+
+A `session` corresponds to something we call a `token`.
+
+There are a few functions of tokens that you should be aware of. You can create a token, introspect a token, revoke a token, and retrieve active tokens.
+
+### Create a Token
+
+Creating a token is done via existing authorization code flow or client credentials flow.
+
+TODO: Copy [Create an access token](https://developer.beyondidentity.com/docs/next/create-api-token)
+
+#### Client Credentials Flow
+
+Creating a session is done via the `token` endpoint.
+
+Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#client-credentials-flow).
+
+TODO: Copy [API Tokens](https://developer.beyondidentity.com/docs/v1/workflows/api-token#create-token-with-the-beyond-identity-api)
+
+#### Authorization Code Flow
+
+Creating a session is done via the `authorize` endpoint.
+
+Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#authorization-code-flow).
+
+TODO: Copy [API Tokens](https://developer.beyondidentity.com/docs/v1/workflows/api-token#create-token-with-the-beyond-identity-api)
+
+### Introspect a Token
+
+The token can be introspected via [RFC-7662](https://www.rfc-editor.org/rfc/rfc7662) compliant endpoint.
+
+Introspecting a session is done via existing `introspect` endpoint.
+
+Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#introspection-online-validation).
+
+TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+
+### Revoke a Token
+
+The token can be revoked via token ID.
+
+Revoking a session by id is done via the `tokens` endpoint.
+
+Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#revoke-token-by-id).
+
+TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+
+The token can be revoked via [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant endpoint.
+
+Revoking a session is done via the `revoke` endpoint.
+
+Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#revoking-access-tokens).
+
+TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+
+### List Active Tokens
+
+A user can list their active tokens. On listing tokens, the available data shall be:
+
+- Display name of the token
+
+- Expiration time as a unix timestamp
+
+- Creation time as a unix timestamp
+
+- Scopes
+
+- Issuer application
+
+- Token ID (can be used to revoke)
+
+An endpoint to list active tokens issued for an application.
+
+Listing active tokens is done via the `tokens` endpoint.
+
+Documentation is available [here](https://gitlab.com/zeropw/zero/-/merge_requests/12676).
+
+TODO: Copy [List access tokens](https://developer.beyondidentity.com/docs/next/list-access-tokens)
+
+There are various strategies for implementing session management in your application. Two common approaches are:
 
 ### JWT Strategy with Refresh/Access Tokens
 
+The JWT (JSON Web Token) strategy with access/refresh tokens is a popular authentication and authorization mechanism used in web applications and APIs. It combines the benefits of JWTs with a token-based approach to manage user sessions securely. The strategy involves using two types of tokens: access tokens and refresh tokens.
+
+1. Access Token:
+
+- An access token is a compact and digitally signed JWT that contains information about the authenticated user and their permissions (claims).
+
+- It is short-lived and typically has a relatively short expiration time, usually just a few minutes or hours.
+
+- The access token is issued to a user after they successfully authenticate (e.g., login) and is used to grant access to protected resources or perform authorized actions on the server.
+
+- The server verifies the access token's authenticity and expiration to validate the user's identity and access privileges.
+
+1. Refresh Token:
+
+- A refresh token is also a JWT, but it is long-lived compared to the access token, often lasting days or even weeks.
+
+- The refresh token's purpose is to obtain a new access token once the previous one expires without requiring the user to log in again.
+
+- When the access token expires, the client can make a secure request to the server with the refresh token to obtain a new access token.
+
+- This helps improve user experience by allowing them to stay authenticated without frequent logins while also mitigating some security risks associated with long-lived tokens.
+
+The general flow of JWT strategy with access/refresh tokens works as follows:
+
+1. Authentication: When a user logs in with valid credentials, the server issues both an access token and a refresh token.
+
+1. Accessing Protected Resources: The client includes the access token in the request headers whenever accessing protected resources on the server.
+
+1. Access Token Expiry: The access token has a short lifespan, and once it expires, the client needs to use the refresh token to get a new access token.
+
+1. Refreshing Access Token: The client sends the refresh token securely to the server to request a new access token.
+
+1. Server Validation: The server verifies the refresh token's authenticity, and if it's valid and hasn't expired, it issues a new access token to the client.
+
+1. Repeat: The client continues to use the new access token for accessing protected resources until it expires again, at which point the process repeats with the refresh token.
+
+The use of short-lived access tokens and long-lived refresh tokens helps balance security and usability. Even if an access token gets compromised, its short expiration time limits the potential damage, and the refresh token can be revoked or used for more robust validation.
+
+Developers should carefully implement this strategy, considering security best practices, token storage, and token transmission mechanisms to prevent token leakage and unauthorized access.
+
 #### Why/why not to use local storage
+
+Storing tokens in local storage can be a security risk and is generally not recommended for sensitive tokens like access tokens or refresh tokens. Here are some reasons why you should avoid storing tokens in local storage:
+
+1. Vulnerable to Cross-Site Scripting (XSS) Attacks: Local storage is accessible by JavaScript running on the same domain. If your web application is vulnerable to XSS attacks, an attacker could inject malicious scripts into your application and steal tokens stored in local storage.
+
+1. No Built-in Security Mechanisms: Local storage does not provide built-in security features like HTTP-only cookies. HTTP-only cookies prevent client-side scripts from accessing cookies, reducing the risk of token theft in the event of an XSS attack.
+
+1. Longer Lifespan: Tokens stored in local storage typically have a longer lifespan and do not expire when the browser is closed. This increases the window of opportunity for an attacker to steal and abuse the token.
+
+1. Lack of Automatic Token Handling: Unlike HTTP cookies, local storage does not automatically include tokens in the request headers. Developers need to manually add tokens to each request, increasing the chances of accidentally exposing the token through log files or other vulnerable channels.
+
+So, if not local storage, what should you use instead?
+
+For sensitive tokens like access tokens and refresh tokens, it is best to store them in HTTP-only cookies with the Secure flag. HTTP-only cookies cannot be accessed by client-side scripts, making them more secure against XSS attacks. The Secure flag ensures that the cookies are only transmitted over secure HTTPS connections, preventing eavesdropping on unencrypted connections.
+
+If you need to store some non-sensitive data on the client-side, you can consider using other mechanisms like session storage, which is similar to local storage but limited to the lifetime of a single browser tab or window. However, it is essential to avoid storing any sensitive information in client-side storage.
+
+For optimal security and protection of sensitive tokens, consider using an authentication flow that relies on secure HTTP-only cookies for storing tokens and always use HTTPS to encrypt communication between the client and server. Additionally, follow security best practices and keep your application up to date with the latest security patches.
 
 ### Session Cookie Strategy
 
+The Session Cookie Strategy is a technique used for managing user sessions in web applications. It relies on the use of session cookies to maintain session state information on the client-side. When a user logs in, the server generates a session identifier and stores relevant session data on the server side. This session identifier is then sent to the client as a cookie, and the client includes this cookie in subsequent requests to the server. This way, the server can associate the incoming requests with the appropriate session data.
+
+Here's how the Session Cookie Strategy typically works:
+
+1. Session Initialization: When a user logs in or starts a new session, the server creates a unique session identifier (session ID) for the user's session. This session ID is usually a long, random string.
+
+1. Setting the Cookie: The server sets a session cookie in the HTTP response header, which contains the session ID. The client's web browser stores this cookie locally.
+
+1. Sending the Cookie: With each subsequent HTTP request, the client's web browser automatically includes the session cookie in the request headers. This allows the server to identify the user's session based on the session ID in the cookie.
+
+1. Server-Side Session Data: On the server side, the session ID is used as a key to associate the incoming requests with the corresponding session data stored on the server. This session data may include user-specific information, such as preferences, authentication status, or shopping cart contents.
+
+1. Expiry and Timeout: Session cookies usually have an expiration time, and the server may also set a timeout period. If the user remains inactive for a certain duration, the session may expire, and the session data is cleared from the server. The client's browser will still hold the expired session cookie, but it will become invalid for future requests.
+
+Benefits of the Session Cookie Strategy:
+
+1. Scalability: Since session data is stored on the server, this strategy allows web applications to scale more efficiently, as the client-side cookies only contain a session ID, not the actual data.
+
+1. Security: By storing session data on the server, sensitive information is not exposed on the client-side. Also, session cookies can be configured with HTTP-only and secure flags to enhance security.
+
+1. Statelessness: The Session Cookie Strategy maintains the state on the client-side, making the server stateless and simplifying load balancing across multiple servers.
+
+However, it's essential to consider the security aspects of session cookies. Developers should implement secure cookie handling practices, such as using secure and HttpOnly flags, employing HTTPS to protect cookie transmission, and setting appropriate cookie expiration times to reduce the risk of session hijacking and other security vulnerabilities.
+
 ### Admin Console actions to support the various development options
+
+#### Token Format
+
+There are two token formats that can be validated: `self-contained` or `referential`.
+
+The main distinguishing factor is whether introspection is optional or required. Self-contained tokens contain claims which can be used to validate the token. Referential tokens require an introspect call in order to retrieve the claims and validate the token.
+
+When validating self-contained tokens, consider if you want to revoke your tokens. If revoked tokens are accepted (as in a MVP case), then the token can be validated [offline](https://developer.beyondidentity.com/docs/v1/workflows/api-token#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](https://developer.beyondidentity.com/docs/v1/workflows/api-token#introspection-online-validation).
+
+#### Token Configuration: Expiration
+
+This is the time, in seconds, for which the token will be considered after minting. The default value is `86400`, or 24 hours.
+
+#### Token Configuration: Subject
+
+Property of a principal which is used to fill the subject of a token issued for this application. The default value is `id`. You may also choose to use `email` or `username`.
+
+#### Token Configuration: Token Signing Algorithm
+
+The Token Signing Algorithm is is the algorithm to used to sign an application token. The only allowable value at present is `RS256`. RS256 algorithm is an asymmetric algorithm that uses a private key to sign a JWT and a public key to verify that signature.
+
+#### Refresh Token Configuration: Refresh Token Setting
+
+The Refresh Token Setting allows you to enable refresh tokens. The default is `enabled`.
+
+If enabled, when an access token is minted, a refresh token will also be minted. When an access token expires, the refresh token can be used to exchange for a new access token, via the `token` endpoint.
+
+If disabled, when an access token is minted, a refresh token will not be minted. When an access token expires, the user will need to authenticate, and a new access token can be minted.
+
+#### Refresh Token Configuration: Absolute Duration
+
+The Absolute Duration is the total amount of time, in seconds, a refresh token is allowed to live before a user must re-authenticate. The default value is `0`.
+
+When a refresh token expires, the user will need to authenticate, and a new access token and refresh token pair can be minted.
+
+#### Refresh Token Configuration: Rotate
+
+Rotate defines if the server should issue a new refresh token on each call to the refresh_token flow, or if the client could hold onto the old token. True if rotation should be enabled. The default is `disabled`.
+
+If rotation is enabled, then the old refresh tokens are revoked each time a new refresh token is minted, and must be discarded.
+
+If rotation is disabled, then a refresh tokens may continue to be used until it expires or is revoked.
