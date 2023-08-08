@@ -99,6 +99,10 @@ const sidebars = {
 */
           ],
         },
+        {
+          type: 'doc',
+          id: 'authentication/session-management',
+        },
       ],
     },
     {
