@@ -29,7 +29,7 @@ import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
 
-In this guide, we will explore the process of integrating authentication into your application using the Hosted Web Authenticator offered by Beyond Identity. This powerful tool streamlines the authentication flow by handling passkey registration and  authentication, including generating new passkeys, presenting users with authenticator choice options and validating passkey assertions. By seamlessly incorporating the Hosted Web Authenticator into your application, you can focus more on delivering exceptional user experiences and innovative features, without compromising security.
+This guide shows how to add authentication to your application using Hosted Web Authenticator integration model. Hosted Web handles passkey registration and authentication and offers an easy developer integration experience to your application.
 
 **Hosted Web** is one of two Configuration Types that can be configured when [creating an application](/docs/next/add-an-application). Selecting this option requires less configuration and code. Your app simply needs to redirect to Beyond Identity's Hosted Web Authenticator, and we do the rest.
 
@@ -155,7 +155,14 @@ response_type=code
 | **code_challenge_method** | 256 <br /><PKCES256/><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be enabled to **S256** in the console application. If it is not enabled then you should not send the **code_challenge_method** or **code_challenge** parameters</p></div>|
 | **code_challenge** | This used in conjunction with **code_challenge_method** ensures that the authorization code obtained by the client can only be used by the client that originally requested it.<br /><br />You will need to store the hash of the **code_challenge** so that it can be passed to the token exchange endpoint later as a **code_verifier**.<br /><br /><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be enabled in the console application. If it is not enabled then you should not send the **code_challenge_method** or **code_challenge** parameters.</p></div> |
 
-<br />
+:::tip
+The **code_challenge** is generated as defined in [**RFC 7636**](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
+
+```javascript
+  codeVerifier = crypto.randomBytes(32).toString('base64url');
+  codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+```
+:::
 
 #### Initiate Authorization
 
