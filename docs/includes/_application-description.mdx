@@ -1,4 +1,4 @@
-An application in the Beyond Identity Cloud represents an app, such as a Todo-List iOS or AcmeCorp Android app. You'll create applications within a realm to configure your OAuth or OIDC flows. A realm contains multiple applications, and an application utilizes the realm's directory, policy, events, and branding objects. 
+An application in the Beyond Identity Cloud represents an app, such as a Todo-List iOS or AcmeCorp Android app. You'll create applications within a realm to configure your OAuth or OIDC flows. A realm contains multiple applications, and an application utilizes the realm's directory, policy, events, and branding objects.
 
 Applications contain client and token configurations that allows you to configure passkey binding and authentication in your mobile/web apps. Each application is tied to a single authenticator type (Hosted Web or Embedded SDK). You can create an application through the Admin Console or via the [Beyond Identity API](https://developer.beyondidentity.com/api/v1).
 
@@ -6,6 +6,5 @@ There are two scenarios for your apps:
 
 | Scenario | When to use |
 | --- | --- |
-|  **One application <u>per</u> platform**  |  One admin console application is created per app **on each** platform your app supports (iOS, Android, Web, etc.). This approach is easier to configure upfront and provides flexibility regarding platform-specific configurability. However, generating passkey binding links across platforms can be more challenging.  |
-|  **One application for <u>all</u> platforms** |  One admin console application is created for your app **across all** platforms you support. This approach is more difficult to configure upfront because it requires building a web routing layer to redirect passkey binding links appropriately. However, generating passkey binding links across platforms makes it easier to accomplish a more seamless experience.  |
-
+| **One application <u>per</u> platform** | One admin console application is created per app **on each** platform your app supports (iOS, Android, Web, etc.). This approach is easier to configure upfront and provides flexibility regarding platform-specific configurability. However, generating passkey binding links across platforms can be more challenging. |
+| **One application for <u>all</u> platforms** | One admin console application is created for your app **across all** platforms you support. This approach is more difficult to configure upfront because it requires building a web routing layer to redirect passkey binding links appropriately. However, generating passkey binding links across platforms makes it easier to accomplish a more seamless experience. |

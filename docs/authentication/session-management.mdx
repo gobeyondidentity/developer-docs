@@ -16,91 +16,784 @@ doc_type: overview
 displayed_sidebar: mainSidebar
 ---
 
+import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Session Management
 
-Session management is a crucial aspect of web application development that involves securely managing user sessions. A session is a period of user interaction with the application, typically starting with login and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
+Session management is a crucial aspect of web application development that involves securely managing user sessions. An authentication session is a period of user interaction with the application, typically starting with the user providing credentials and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
+
+The Beyond Identity session consists of something we call a `token`, specifically access tokens. An access token, also called an API token, is an object or file that enables access to an application or resource. The token is digitally signed and contains information about what resources can be accessed and for how long.
 
 ## How to add session management to my application
 
-A `session` corresponds to something we call a `token`.
-
 There are a few functions of tokens that you should be aware of. You can create a token, introspect a token, revoke a token, and retrieve active tokens.
+
+Applications may utilize cookies, local storage or other strategies to associate session with the end-user’s application. Beyond Identity doesn’t provide an API/SDK for this purpose; it is up to you to decide how to handle the end-user’s session. One option is store the JWT received from Beyond Identity in the end user’s application. Another solution is to store the JWT received from Beyond Identity on the server and use a cookie. This is a common solution offered by many web frameworks and is more secure as the JWT is more sensitive.
 
 ### Create a Token
 
-Creating a token is done via existing authorization code flow or client credentials flow.
+To request tokens for an app programmatically, send a request to the app's token request API.
 
-TODO: Copy [Create an access token](https://developer.beyondidentity.com/docs/next/create-api-token)
+These requests follow the OAuth and OIDC protocols.
 
-#### Client Credentials Flow
+#### Token Request URL and Endpoints
 
-Creating a session is done via the `token` endpoint.
+The token request API URL is based on the Beyond Identity tenant, realm, and application for which a token is being requested.
 
-Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#client-credentials-flow).
+The API host name is prefixed with "auth-us" or "auth-eu", depending on the region of the tenant.
 
-TODO: Copy [API Tokens](https://developer.beyondidentity.com/docs/v1/workflows/api-token#create-token-with-the-beyond-identity-api)
+:::note  
+Note that the host name for token requests is distinct from the Beyond Identity Management API, which uses "api-us" or "api-eu".  
+:::
 
-#### Authorization Code Flow
+There are two main endpoints for requesting tokens:
 
-Creating a session is done via the `authorize` endpoint.
+The /authorize endpoint:
 
-Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#authorization-code-flow).
+```http
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize
+```
 
-TODO: Copy [API Tokens](https://developer.beyondidentity.com/docs/v1/workflows/api-token#create-token-with-the-beyond-identity-api)
+and the /token endpoint:
+
+```http
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
+```
+
+where:
+
+- '{tenant_id}' is the [ID of the tenant](/docs/next/find-tenant-id) in which the app is configured
+
+- '{realm_id}' is the **Realm Id** of the realm in which the application is configured
+
+- '{application_id}' is the **Application ID** of the app
+
+#### Token Request Scenarios
+
+There are three main scenarios for requesting an access token:
+
+- Using the OAuth [client credentials grant type with a confidential client](#client-credentials-grant-type-confidential-client)
+
+- Using the OIDC [authorization code grant type with a public client (PKCE required)](#authorization-code-with-pkce-public-client)
+
+- Using the OIDC [authorization code grant type with a confidential client (PKCE recommended)](#authorization-code-with-pkce-confidential-client)
+
+#### Client credentials grant type (Confidential client)
+
+import AccessTokenCreateConfClientCreds from '../includes/_access_token_create_conf_client_creds.mdx';
+
+<AccessTokenCreateConfClientCreds />
+
+#### Authorization code with PKCE (Public client)
+
+import AccessTokenCreatePublicClientPkce from '../includes/_access_token_create_public_client_pkce.mdx';
+
+<AccessTokenCreatePublicClientPkce />
+
+#### Authorization code with PKCE (Confidential client)
+
+import AccessTokenCreateConfClientPkce from '../includes/_access_token_create_conf_client_pkce.mdx';
+
+<AccessTokenCreateConfClientPkce />
+
+#### Example: Create a Token for the Beyond Identity Management API
+
+<Tabs>
+<TabItem value="client-credentials" label="Client Credentials">
+
+The Beyond Identity Management API application created during developer setup only supports the **Client Credentials** flow. Use the below example to create an access token.
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
+-X POST \
+-u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=client_credentials&scope=$(SCOPES)"'
+title="/token"
+/>
+
+where:
+
+- MANAGEMENT_APPLICATION_ID is the **Application ID** of the built in app 'Beyond Identity Management API', or of an app created with the built in **Resource Server** 'Beyond Identity Management API'
+
+- MANAGEMENT_API_CLIENT_ID and MANAGEMENT_API_CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the built in app 'Beyond Identity Management API', or of an app created with the built in **Resource Server** 'Beyond Identity Management API'
+
+- SCOPES is one or more of the app's **Allowed Scopes**, space delimited
+
+:::info important  
+We recommend that you create a copy of the built in 'Beyond Identity Management API' app, pointing to the 'Beyond Identity Management API' **Resource Server**, and use the credentials of the new app rather than using the built in app's credentials.  
+:::
+
+</TabItem>
+<TabItem value="authorization-code" label="Authorization Code">
+
+To use this flow, create an application referencing the built in 'Beyond Identity Management API' **Resource Server** in the **Beyond Identity Admin** Realm. Set the application's **Protocol** to 'OIDC' and **Grant Type** to 'Authorization Code'.
+
+<br />
+
+Use the following examples to obtain an authorization code and then to create a token with that code.
+
+:::tip
+Our example uses `S256`, but using the `plain` `code_challenge_method` might be easier to get started. This is because PKCE requires storing the hash of the value passed as `code_challenge` so it gets passed to the token endpoint later.
+:::
+
+1. Authenticate to obtain an authorization code.
+
+  <MultiLanguageCodeBlock
+  curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
+  --data-urlencode "response_type=code" \
+  --data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
+  --data-urlencode "redirect_uri=$(REDIRECT_URI)" \
+  --data-urlencode "scope=$(SCOPES)" \
+  --data-urlencode "state=$(STATE)" \
+  --data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
+  --data-urlencode "code_challenge_method=S256"'
+  title="/authorize"
+  />
+
+  where:
+
+    - APPLICATION_CLIENT_ID is the app's **Client ID**
+
+    - REDIRECT_URI is one of the app's configured **Redirect URI** values
+
+    - SCOPES is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited
+
+    - STATE is a value generated by your app to maintain state betewen the request and response
+
+    - CODE_CHALLENGE is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
+
+    ```javascript
+    codeVerifier = crypto.randomBytes(32).toString('base64url');
+    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+    ```
+
+2. Create an access token with the authorization code.
+
+  <MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+  -X POST \
+  -u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(APP_CLIENT_ID)&code_verifier=$(CODE_VERIFIER)"'
+  title="/token"
+  />
+
+  where:
+
+    - MANAGEMENT_API_CLIENT_ID and MANAGEMENT_API_CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app created with the built in **Resource Server** 'Beyond Identity Management API'
+
+    - CODE is the code returned from the '/authorize' call
+
+    - REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call
+
+    - APP_CLIENT_ID is the app's configured **Client ID**
+
+    - CODE_VERIFIER is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:
+
+    ```javascript
+    codeVerifier = crypto.randomBytes(32).toString('base64url');
+    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+    ```
+
+</TabItem>
+</Tabs>
+
+#### Example: Create a Token with a Limited Expiration Time
+
+This parameter is used to set a custom expiration time on individual tokens, to a value that is less than what was originally configured. This is done by passing an `expiration_time` parameter to the `/token` endpoint.
+
+<Tabs>
+<TabItem value="client-credentials" label="Client Credentials">
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=client_credentials&scope=$(SCOPES)&expiration_time=3600"'
+title="/token"
+/>
+
+where:
+
+- CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app
+
+- SCOPES is one or more of the app's **Allowed Scopes**, space delimited
+
+- the value of expiration_time parameter is the desired lifetime, in seconds, of the requested token, for example 3600 would indicate 1 hour
+
+</TabItem>
+<TabItem value="authorization-code" label="Authorization Code">
+
+<MultiLanguageCodeBlock
+curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
+--data-urlencode "response_type=code" \
+--data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
+--data-urlencode "redirect_uri=$(REDIRECT_URI)" \
+--data-urlencode "scope={SCOPES}" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
+--data-urlencode "state=$(STATE)" \
+--data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
+--data-urlencode "code_challenge_method=S256"'
+title="/authorize"
+/>
+
+where:
+
+- APPLICATION_CLIENT_ID is your app's **Client ID**
+
+- REDIRECT_URI is one of the app's configured **Redirect URI** values
+
+- SCOPES is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited
+
+- STATE is a value generated by your app to maintain state betewen the request and response
+
+- CODE_CHALLENGE is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
+
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+```
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600"'
+title="/token"
+/>
+
+where:
+
+- CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app
+
+- CODE is the code returned from the '/authorize' call
+
+- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call
+
+- CLIENT_ID is the app's configured **Client ID**
+
+- CODE_VERIFIER is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:
+
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+```
+
+- the value of expiration_time parameter is the desired lifetime, in seconds, of the requested token, for example 3600 would indicate 1 hour
+
+</TabItem>
+</Tabs>
+
+When calling inspect on the newly created token you will see the following fields. You can now verify that the difference between expiration time ('exp') and issued at time ('iat') is equal to the value sent as the expiration_time request parameter, in this example 3600 seconds.
+
+```json
+{
+    "active": true,
+    "bi_ty": "authorization_code",
+    "iss": "https://auth-us.beyondidentity.com/v1/tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/applications/235231f7-bd5d-404a-bb58-c6370b544c54",
+    "sub": "7a8cce58fd160449",
+    "aud": [
+        "RY-N2xUjQb5PqKl9HwBLgpnV",
+        "http://myexampleapi"
+    ],
+    "exp": 1689041630,
+    "nbf": 1689038030,
+    "iat": 1689038030,
+    "jti": "7USu6gCUKhmQuvMmrhwam7QnYiGyl4aq",
+    "scope": "myapp:write myapp:read",
+    "azp": "tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/applications/235231f7-bd5d-404a-bb58-c6370b544c54",
+    "bi_p": "tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/identities/7a8cce58fd160449",
+    "bi_s": "",
+    "bi_x": "n3eBAmnWIDw3amXoCgaSn-b2Yo3_JtWe"
+}
+```
+
+#### Example: Create a Token with Custom Claims
+
+The `custom_claims` parameter allows for additional information to be stored within a token. The provided data must be a valid JSON object. Upon a successful token request, the data will be available within the `bi_custom` field of the response JWT payload.
+
+<Tabs>
+<TabItem value="client-credentials" label="Client Credentials">
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=client_credentials&scope=$(SCOPES)&custom_claims={"a": "b", "c": "d"}"'
+title="/token"
+/>
+
+where:
+
+- CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app
+
+- SCOPES is one or more of the app's **Allowed Scopes**, space delimited
+
+- the value of the custom_claims parameter is a JSON string containing the key/value pairs you wish the token to include
+
+</TabItem>
+<TabItem value="authorization-code" label="Authorization Code">
+
+<MultiLanguageCodeBlock
+curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
+--data-urlencode "response_type=code" \
+--data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
+--data-urlencode "redirect_uri=$(REDIRECT_URI)" \
+--data-urlencode "scope={SCOPES}" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
+--data-urlencode "state=$(STATE)" \
+--data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
+--data-urlencode "code_challenge_method=S256"'
+title="/authorize"
+/>
+
+where:
+
+- APPLICATION_CLIENT_ID is your app's **Client ID**
+
+- REDIRECT_URI is one of the app's configured **Redirect URI** values
+
+- SCOPES is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited
+
+- STATE is a value generated by your app to maintain state betewen the request and response
+
+- CODE_CHALLENGE is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
+
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+```
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(APP_CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600&custom_claims={"a": "b", "c": "d"}"'
+title="/token"
+/>
+
+where:
+
+- CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app
+
+- CODE is the code returned from the '/authorize' call
+
+- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call
+
+- CLIENT_ID is the app's configured **Client ID**
+
+- CODE_VERIFIER is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:
+
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
+```
+
+- the value of the custom_claims parameter is a JSON string containing the key/value pairs you wish the token to include
+
+</TabItem>
+</Tabs>
+
+After a token is created, when introspected, the token will contain the `bi_custom` field with all of the claims. In this case, we sent `{"a": "b", "c": "d"}` as the custom_claims parameter.
+
+```json
+{
+    "active": true,
+    "bi_ty": "authorization_code",
+    "iss": "https://auth-us.beyondidentity.com/v1/tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/applications/c08e8bd9-d41d-4fc8-aa8e-309fe8843d5d",
+    "sub": "7a8cce58fd160449",
+    "aud": [
+        "btSEEvQcWay6F_lGI6lI-V8z",
+        "http://myexampleapi"
+    ],
+    "exp": 1689126046,
+    "nbf": 1689039646,
+    "iat": 1689039646,
+    "jti": "xJE5aS6_nZgmmWaY9fMnFD6F3YxiwjmL",
+    "scope": "myapp:read myapp:write",
+    "azp": "tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/applications/c08e8bd9-d41d-4fc8-aa8e-309fe8843d5d",
+    "bi_p": "tenants/00018c7edb8e1e3c/realms/1fa458f68ece5b5d/identities/7a8cce58fd160449",
+    "bi_custom": {
+        "a": "b",
+        "c": "d"
+    },
+    "bi_s": "",
+    "bi_x": "UdTa2Lh1_bRKr3mdOTt3yE1dHE1UlUlH"
+}
+```
 
 ### Introspect a Token
 
-The token can be introspected via [RFC-7662](https://www.rfc-editor.org/rfc/rfc7662) compliant endpoint.
+The token validation API consists of the '/introspect' endpoint, which is compliant with [RFC-7662](https://datatracker.ietf.org/doc/html/rfc7662).
 
-Introspecting a session is done via existing `introspect` endpoint.
+#### Introspection endpoint
 
-Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#introspection-online-validation).
+The introspection endpoint has the following structure:
 
-TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+```http
+https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
+```
+
+#### Token validation request
+
+Create the HTTP request with the following properties:
+
+**Request method:** POST
+
+**Request URL:**
+
+```http
+https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
+```
+
+**Request headers:**
+
+```http
+Authorization: Bearer {authorization_token}
+content-type: application/x-www-form-urlencoded
+```
+
+where
+
+'{authorization_token}' is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'
+
+-OR-
+
+```http
+Authorization: Basic {app_client_credentials_b64}
+content-type: application/x-www-form-urlencoded
+```
+
+where
+
+'{app_client_credentials_b64}' is the value of the application's Client ID and Client secret in the format '{client_id}:{client_secret}' and base64 encoded
+
+:::note
+The that token validation requests can be authenticated with the client credentials of the application for which the token was issued.  
+:::
+
+**Request body:**
+
+```http
+token: {token_to_introspect}
+```
+
+where '{token_to_introspect}' is the base64 encoded access token you wish to validate
+
+#### Example
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/introspect" \
+-X POST \
+-u "$(APP_CLIENT_ID):$(APP_CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "token=$(TOKEN_TO_INTROSPECT)"'
+title="/introspect"
+/>
+
+##### Successful Response
+
+A successful introspect query will return a JSON object containing the key `"active"` set to the boolean value `true`, plus information about the token.
+
+```json
+{
+    "active": true,
+    "bi_ty": "authorization_code",
+    "iss": "https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}",
+    "sub": "7a8cce58fd160449",
+    "aud": [
+        "{client_id}",
+        "http://myexampleapi"
+    ],
+    "exp": 1688488934,
+    "nbf": 1688402534,
+    "iat": 1688402534,
+    "jti": "cKigHwlWRW5h3Dv4CCMBICiqf-j1i1yJ",
+    "scope": "myapp:read myapp:write",
+    "azp": "tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}",
+    "bi_p": "tenants/{tenant_id}/realms/{realm_id}/identities/7a8cce58fd160449",
+    "bi_s": "",
+    "bi_x": "c6EBNy5gJnhfSmDr1Q70fzfw5v7kpssL"
+}
+```
+
+##### Unsuccessful Response
+
+Pursuant to RFC-7662, the introspect endpoint returns HTTP 200 status code even if the token is revoked. If the token is revoked, expired or its signature is invalid the introspect endpoint returns a JSON object with a single key `"active"` set to the boolean value `false`.
+
+```json
+{
+    "active": false
+}
+```
+
+Apart from this, the introspect endpoint might return other error codes in case the request is malformed or unauthorized.
+
+#### Offline Validation
+
+In order to validate a token offline, the JWT header and claims must be decoded. Decode both and follow the steps below:
+
+1. Parse the [host](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2) of the URI in the `jku` header field. If it equals `auth-$REGION.beyondidentity.com`, then proceed. Otherwise, reject the token.
+
+2. Download the public key for token validation from the `jku` in the JWT header. The key can be cached for the number of seconds specified by the [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#response_directives) max-age directive. Check the token signature against the key with matching `kid` downloaded from `jku`.
+
+3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. It is sufficient if at least one of the allowed audiences is in the token `aud` claim.
+
+4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
+
+5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
+
+6. Check that JWT claims has the expected scopes.
 
 ### Revoke a Token
 
-The token can be revoked via token ID.
+#### Endpoints
 
-Revoking a session by id is done via the `tokens` endpoint.
+Beyond Identity exposes two different endpoints to revoke a token. Both endpoints achieve the same goal.
 
-Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#revoke-token-by-id).
+1. The Revoke Endpoint is [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant, needs the whole token and accepts bearer or basic auth.
 
-TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+  ```http
+  https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke
+  ```
 
-The token can be revoked via [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) compliant endpoint.
+2. Revoke Token by ID is not RFC-7009 compliant, only needs the token_id and only accepts bearer.
 
-Revoking a session is done via the `revoke` endpoint.
+  ```http
+  https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)
+  ```
 
-Documentation is available [here](https://developer.beyondidentity.com/docs/v1/workflows/api-token#revoking-access-tokens).
+#### Revoke Token Scenarios
 
-TODO: Copy [Validate an access token](https://developer.beyondidentity.com/docs/next/validate-access-tokens)
+Which endpoint to use is based on the information available to you, which depends on the use case. For example:
+
+- Imagine an administrator configures an application to use referential tokens. Then, a user logs into the application and their token leaks somewhere. Now, the administrator wants to revoke the token. For this use case, it's only possible to use the [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint as the administrator has no way of knowing the token_id of the referential token.
+
+- Imagine a developer uses the Beyond Identity Management API to implement session management. They display a screen with a list of active tokens. For each token, they want to display a button that revokes the token. The token listing endpoint as specified provides only token_id. It doesn't provide the cryptographic string representing the token, which makes it impossible to use the [RFC-7009](https://www.rfc-editor.org/rfc/rfc7009) endpoint.
+
+#### Revoke Token by passing whole token
+
+You can revoke a token by passing the whole token as follows:
+
+##### Create HTTP Request
+
+Create the HTTP request as follows:
+
+**Request URL**
+
+```http
+https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/revoke
+```
+
+**Request method**: POST
+
+**Request headers**:
+
+```http
+Authorization: Basic {client_credentials}
+content-type: application/x-www-form-urlencoded
+```
+
+where '{client_credentials}' is the value of the **Client ID** and **Client Secret** of the app that issued the token, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded
+
+:::note important
+Using client credentials for authorization only works for apps configured with **Protocol** setting 'OAuth2'. Apps configured with **Protocol** 'OIDC' need to use bearer authorization as described below.  
+:::
+
+-OR-
+
+```http
+Authorization: Bearer {authorization_token}
+content-type: application/x-www-form-urlencoded
+```
+
+where
+
+'{authorization_token}' is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'
+
+**Request body**:
+
+```json
+{
+    "token": "{token_to_revoke}"
+}
+```
+
+where '{token_to_revoke}' is the base64 encoded token you wish to revoke
+
+**Response**
+
+The response will be an HTTP 200 with no contents.
+
+:::note
+The passing an invalid token, or a token which has already been revoked or expired, will produce a success response, pursuant to [RFC7009§2.2](https://www.rfc-editor.org/rfc/rfc7009#section-2.2).
+:::
+
+#### Revoke Token by passing token ID
+
+In order to revoke a token by token ID, you must use Bearer authentication with a token containing the scope 'tokens:delete' and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))
+
+You can revoke a token by passing its ID as follows:
+
+##### Create HTTP Request
+
+Create the HTTP request as follows:
+
+**Request URL**
+
+```http
+https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)
+```
+
+where '{TOKEN_ID}' is the id of the token as returned from a call to the [list tokens API](/docs/next/list-access-tokens) for the app that issued the token
+
+:::note
+The revoke token by ID API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
+:::
+
+**Request method**: DELETE
+
+**Request headers**:
+
+```http
+Authorization: Bearer {authorization_token}
+content-type: application/x-www-form-urlencoded
+```
+
+where
+
+'{authorization_token}' is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity' (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))
+
+**Response**
+
+The response will be an HTTP 200 with no contents.
+
+#### Example: Revoke by passing whole token
+
+<MultiLanguageCodeBlock
+curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/revoke" \
+-X POST \
+-H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
+-H "Content-Type: application/json" \
+-d "token=$(TOKEN_TO_REVOKE)"'
+title="/revoke"
+/>
+
+#### Example: Revoke Token by ID
+
+<MultiLanguageCodeBlock
+curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)" \
+-X DELETE \
+-H "Authorization: Bearer $(MANAGEMENT_API_TOKEN)" \
+-H "Content-Type: application/json"'
+title="DELETE /tokens/{TOKEN_ID}"
+/>
 
 ### List Active Tokens
 
-A user can list their active tokens. On listing tokens, the available data shall be:
+Use the [list tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) to list tokens for a given application or principal.
 
-- Display name of the token
+#### List Access Tokens Request
 
-- Expiration time as a unix timestamp
+Create the HTTP request with the following properties:
 
-- Creation time as a unix timestamp
+**Request method:** GET
 
-- Scopes
+**Request URL:**
 
-- Issuer application
+```http
+https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens?principal_type={principal_type}
+```
 
-- Token ID (can be used to revoke)
+where
 
-An endpoint to list active tokens issued for an application.
+'{principal_type}' is either 'application' or 'identity' (see [List Tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) for more details on query parameters)
 
-Listing active tokens is done via the `tokens` endpoint.
+:::note
+The list tokens API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
+:::
 
-Documentation is available [here](https://gitlab.com/zeropw/zero/-/merge_requests/12676).
+**Request headers:**
 
-TODO: Copy [List access tokens](https://developer.beyondidentity.com/docs/next/list-access-tokens)
+```http
+Authorization: {authorization_token}
+content-type: application/x-www-form-urlencoded
+```
 
-There are various strategies for implementing session management in your application. Two common approaches are:
+where
+
+'{authorization_token}' contains scope 'tokens:read' and audience 'beyondidentity'
+
+#### Example: List access tokens for an application
+
+<MultiLanguageCodeBlock
+curl='curl -G "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens" \
+--data-urlencode "principal_type=application" \
+--data-urlencode "principal_id=$(APPLICATION_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
+title="/tokens"
+/>
+
+#### Example Response
+
+```json
+{
+    "tokens": [
+        {
+            "id": "uZcs8hF4_vR69eonor3U_lottYxtSfrX",
+            "scopes": ["tenants:create"],
+            "expires": 1675177245,
+            "issued_at": 1675090845,
+            "token_type": "access",
+            "token_format": "self_contained"
+            "token_suffix": "Jv_1828r9",
+        }
+    ],
+    "total_size": 1
+}
+```
+
+#### Example: List access tokens for an identity
+
+<MultiLanguageCodeBlock
+curl='curl -G "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens" \
+--data-urlencode "principal_type=identity" \
+--data-urlencode "principal_id=$(IDENTITY_ID)" \
+-H "Authorization Bearer $(MANAGEMENT_API_TOKEN)"'
+title="/tokens"
+/>
+
+#### Example Response
+
+```json
+{
+    "tokens": [
+        {
+            "id": "cKigHwlWRW5h3Dv4CCMBICiqf-j1i1yJ",
+            "scopes": ["myapp:read"],
+            "expires": 1688488934,
+            "issued_at": 1688402534,
+            "token_type": "access",
+            "token_format": "self_contained"
+        },
+        {
+            "id": "Kh-yAOSh9ex7cVuVbVUr84EMmou6VBA-",
+            "scopes": ["myapp:read"],
+            "expires": 1688488934,
+            "issued_at": 1688402534,
+            "token_type": "access",
+            "token_format": "self_contained"
+        }
+    ],
+    "total_size": 2,
+    "next_page_token": null
+}
+```
 
 ### JWT Strategy with Refresh/Access Tokens
 
