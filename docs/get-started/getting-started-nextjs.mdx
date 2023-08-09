@@ -236,11 +236,11 @@ Inside the `providers` array, add the following entry:
     idToken: true,
     checks: ["pkce", "state"],
     profile(profile) {
-    return {
+      return {
         id: profile.sub,
         name: profile.sub,
         email: profile.sub,
-    }
+      }
     },
 },
 ```

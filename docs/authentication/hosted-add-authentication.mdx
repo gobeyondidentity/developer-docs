@@ -28,6 +28,7 @@ import HostedWeb from '../includes/_hosted-web.mdx';
 import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
+import HWADiagram from '../includes/_hwa-diagram.mdx';
 
 This guide shows how to add authentication to your application using Hosted Web Authenticator integration model. Hosted Web handles passkey registration and authentication and offers an easy developer integration experience to your application.
 
@@ -116,15 +117,45 @@ The `Issuer` and the `Discovery Endpoint` URL are both used by the client to ide
 
 You can also access individual endpoints in this tab. Some libraries require copying over these URLs individually rather than using an issuer/discovery endpoint. These URLs are `Authorization Endpoint`, `Token Endpoint` and `User Info Endpoint`.
 
+:::tip
+Some libraries will require you to explicitly pass **scopes** or explicitly define that you are using **PKCE** or **state**. Be sure to use **"openid"** as a scope and configure all relevant values.    
+
+For example using a NextAuth Provider:
+```javascript
+{
+    id: "beyondidentity",
+    name: "Beyond Identity",
+    type: "oauth",
+    wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
+    authorization: { params: { scope: "openid" } },
+    clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
+    clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
+    idToken: true,
+    checks: ["pkce", "state"],
+    profile(profile) {
+      return {
+        id: profile.sub,
+        name: profile.name,
+        email: profile.email,
+      }
+    },
+},
+```
+:::
+
 Consult your library for more details on which values are needed.
 
 ![Hosted Web Configuration](../images/hosted-web-authentication.png) 
 
-## Configure your own client / How it works
+## How it works / Configure your own client
+
+If you are not using a library, you will need to configure your own client. Use the **Authorization Endpoint**, **Token Endpoint**, and **User Info Endpoint** found in your application's **External Protocol** tab. 
+
+<HWADiagram/>
 
 ### Authorization
 
-If you prefer to build your own client, you will need to start with the **Authorization Endpoint** found in your application's **External Protocol** tab. 
+Start with the **Authorization Endpoint** found in your application's **External Protocol** tab. 
 
 This url should look like the following:
 
@@ -132,7 +163,7 @@ This url should look like the following:
 https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize
 ```
 
-Copy the `Authorization Endpoint` from to console and append the following parameters:
+Copy the **Authorization Endpoint** from to console and append the following parameters:
 
 ```bash title="/authorize"
 $(Authorization Endpoint)?
@@ -206,6 +237,10 @@ The **state** should be the same random value that the client included in the in
 Now that your client has recieved an **authorization code** it's time to exchange the code for an **access token**. An access token is used to access protected resources on behalf of a user. 
 
 Use the **Token Endpoint** value from your application's **External Protocol** tab.
+
+:::note
+If the **Client Type** is set to **Public** then you will not have a `Client Secret`. You can still make a token exchange without the `Client Secret`, but it is highly recommended that you do use **PKCE S256** throughout this process. POST all of the below parameters as part of the request body.  
+:::
 
 <Tabs groupId="token-auth-method" queryString>
 <TabItem value="client_secret_basic" label="Client Secret Basic">
