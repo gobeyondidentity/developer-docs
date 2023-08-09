@@ -12,7 +12,7 @@ last_update:
    date: 07/10/2023
    author: Jen Field
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 import ApiTokenDescription from '../includes/_api-token-description.mdx';

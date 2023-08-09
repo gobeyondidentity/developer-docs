@@ -13,7 +13,7 @@ last_update:
    author: Patricia McPhee
 draft: false
 doc_type: overview
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';

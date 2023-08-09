@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **bindPasskey** function enables your app to generate and bind a new passkey to an identity. The identity can be one that you create via the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity) or one that exists already in the tenant you target.

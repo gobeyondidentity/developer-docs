@@ -13,7 +13,7 @@ last_update:
    author: Patricia McPhee
 draft: false
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: integrationGuidesSidebar
 ---
 
 import { Badge } from "@nextui-org/react";

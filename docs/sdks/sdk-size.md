@@ -13,7 +13,7 @@ last_update:
   author: Patricia McPhee
 draft: false
 doc_type: how-to
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 This page outlines the size of the Beyond Identity SDKs.

@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 Validates that a URL is able to be used by the **authenticate** function.

@@ -12,7 +12,7 @@ last_update:
    date: 06/01/2023
    author: Patricia McPhee
 doc_type: overview
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 

@@ -13,5 +13,5 @@ last_update:
   author: Patricia McPhee
 draft: false
 doc_type: how-to
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---

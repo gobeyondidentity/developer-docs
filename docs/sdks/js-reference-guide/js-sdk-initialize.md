@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **initialize** function creates an instance of the Beyond Identity Javascript SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.

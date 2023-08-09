@@ -14,7 +14,7 @@ last_update:
   author: Anna Garcia
 draft: false
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 import Tabs from '@theme/Tabs';

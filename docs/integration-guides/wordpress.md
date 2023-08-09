@@ -12,7 +12,7 @@ last_update:
    author: Anna Garcia
 draft: false
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: integrationGuidesSidebar
 ---
 
 import ProtocolOIDC from '../includes/_protocol_oidc.mdx';

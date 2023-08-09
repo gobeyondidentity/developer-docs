@@ -13,7 +13,7 @@ last_update:
    author: Patricia McPhee
 draft: false
 doc_type: reference
-displayed_sidebar: mainSidebar
+displayed_sidebar: foundationsSidebar
 ---
 
 [instead of just links to the use cases, maybe a card style (hero banner) for each]

@@ -12,7 +12,7 @@ last_update:
    author: Patricia McPhee
 draft: false
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 In Beyond Identity, passkeys get created within the device's default Browser or specific SDK instance associated with an Application. 

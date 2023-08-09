@@ -12,7 +12,7 @@ last_update:
    author: Jen Field
 draft: false
 doc_type: how-to
-displayed_sidebar: mainSidebar
+displayed_sidebar: integrationGuidesSidebar
 ---
 
 In this walkthrough, you'll add passkey-based sign-on for Google Identity Platform identities to a Javascript web app using the Firebase SDK.  

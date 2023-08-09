@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **getAuthenticationContext** function enables an app using the Beyond Identity Javascript SDK to get information associated with the current authentication request.

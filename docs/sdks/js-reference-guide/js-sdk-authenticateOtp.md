@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **authenticateOtp** function enables an app using the Beyond Identity Javascript SDK to initiate authentication using an OTP. The OTP gets sent to the provided email address. This function is used in conjunction with [redeemOtp](js-reference-redeemOtp).

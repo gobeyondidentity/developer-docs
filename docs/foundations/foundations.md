@@ -16,7 +16,7 @@ hide_table_of_contents: true
 hide_title: false
 hide_breadcrumbs: false
 doc_type: concept
-displayed_sidebar: mainSidebar
+displayed_sidebar: foundationsSidebar
 ---
 
 ### New to Beyond Identity?

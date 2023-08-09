@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **getPasskeys** function enables your app to get a list of all passkeys currently bound to the device, for example to create a user experience for selecting a passkey.

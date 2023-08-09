@@ -12,7 +12,7 @@ last_update:
   author: William May
 draft: false
 doc_type: reference
-displayed_sidebar: sdkSidebar
+displayed_sidebar: sdksSidebar
 ---
 
 The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](js-reference-authenticateOtp).

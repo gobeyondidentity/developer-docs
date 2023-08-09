@@ -12,7 +12,7 @@ last_update:
    author: Jen Field
 draft: false
 doc_type: reference
-displayed_sidebar: mainSidebar
+displayed_sidebar: howToGuidesSidebar
 ---
 
 ## Why scopes

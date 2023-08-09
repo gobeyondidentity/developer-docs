@@ -3,35 +3,14 @@ const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   mainSidebar: [
     {
-      type: 'category',
+      type: 'doc',
       label: 'Foundations',
-      collapsed: false,
-      collapsible: false,
-      link: {
-        type: 'doc',
-        id: 'foundations/foundations',
-      },
-      items: [
-        'foundations/overview',
-        'foundations/universal-passkeys',
-        'foundations/platform-overview',
-        'foundations/api-endpoints',
-      ],
+      id: 'foundations/foundations',
     },
     {
-      type: 'category',
+      type: 'doc',
       label: 'Getting Started',
-      collapsed: true,
-      collapsible: false,
-      link: {
-        type: 'doc',
-        id: 'get-started/get-started',
-      },
-      items: [
-        'get-started/get-started-react',
-        'get-started/get-started-angular',
-        'get-started/get-started-nextjs',
-      ],
+      id: 'get-started/get-started',
     },
 /*
     {
@@ -57,6 +36,218 @@ const sidebars = {
       type: 'doc',
       label: 'SDKs',
       id: 'sdks/sdk-setup',
+    },
+    {
+      type: 'doc',
+      label: 'How-to Guides',
+      id: 'how-to/how-to-guides',
+    },
+    {
+      type: 'doc',
+      label: 'Integration Guides',
+      id: 'integration-guides/integration-guides',
+    },
+    {
+      type: 'doc',
+      label: 'Resources',
+      id: 'resources',
+    },
+  ],
+
+  foundationsSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
+    {
+      type: 'category',
+      label: 'Foundations',
+      collapsed: false,
+      collapsible: false,
+      link: {
+        type: 'doc',
+        id: 'foundations/foundations',
+      },
+      items: [
+        'foundations/overview',
+        'foundations/universal-passkeys',
+        'foundations/platform-overview',
+        'foundations/api-endpoints',
+      ],
+    },
+  ],
+
+  gettingStartedSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
+    {
+      type: 'category',
+      label: 'Getting Started',
+      collapsed: true,
+      collapsible: false,
+      link: {
+        type: 'doc',
+        id: 'get-started/get-started',
+      },
+      items: [
+        'get-started/get-started-react',
+        'get-started/get-started-angular',
+        'get-started/get-started-nextjs',
+      ],
+    },
+  ],
+
+  authenticationSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
+    {
+      type: 'category',
+      label: 'Authentication',
+      collapsed: true,
+      collapsible: false,
+      link: {
+        type: 'doc',
+        id: 'authentication/authentication',
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Hosted Web',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'authentication/hosted-add-passkeys',
+            'authentication/hosted-add-otp-email',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Embedded SDK',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'authentication/embedded-sdk-add-passkeys',
+            'authentication/embedded-sdk-add-otp-email',
+/*
+            {
+              type: 'category',
+              label: 'Integrations',
+              collapsed: true,
+              collapsible: true,
+               items: [
+                {
+                  type: 'doc',
+                  id: 'integration-guides/expo-react-native',
+                  label: 'Expo React Native',
+                },
+                {
+                  type: 'doc',
+                  id: 'integration-guides/next-auth',
+                  label: 'NextAuth',
+                },
+             ],
+            },
+*/
+          ],
+        },
+      ],
+    },
+  ],
+
+  sdksSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
+    'sdks/sdk-setup',
+    'sdks/sdk-size',
+    {
+      type: 'category',
+      label: 'JavaScript',
+      collapsed: true,
+      collapsible: true,
+      items: [
+        {
+          type: 'category',
+          label: 'JS Reference guide',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'sdks/js-reference-guide/js-reference-initialize',
+            'sdks/js-reference-guide/js-reference-isBindPasskeyUrl',
+            'sdks/js-reference-guide/js-reference-bindPasskey',
+            'sdks/js-reference-guide/js-reference-isAuthenticateUrl',
+            'sdks/js-reference-guide/js-reference-authenticate',
+            'sdks/js-reference-guide/js-reference-getPasskeys',
+            'sdks/js-reference-guide/js-reference-deletePasskey',
+            'sdks/js-reference-guide/js-reference-passkey-type',
+            'sdks/js-reference-guide/js-reference-getAuthenticationContext',
+            'sdks/js-reference-guide/js-reference-authenticateOtp',
+            'sdks/js-reference-guide/js-reference-redeemOtp',
+          ],
+        },
+        {
+          type: 'link',
+          label: 'Documentation',
+          href: 'https://gobeyondidentity.github.io/bi-sdk-js/',
+        },
+      ],
+    },
+    {
+      type: 'link',
+      label: 'Kotlin',
+      href: 'https://gobeyondidentity.github.io/bi-sdk-android/',
+    },
+    {
+      type: 'link',
+      label: 'Flutter',
+      href: 'https://gobeyondidentity.github.io/bi-sdk-flutter/',
+    },
+    {
+      type: 'link',
+      label: 'React Native',
+      href: 'https://gobeyondidentity.github.io/bi-sdk-react-native/',
+    },
+    {
+      type: 'link',
+      label: 'Swift',
+      href: 'https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/',
+    },
+  ],
+
+  howToGuidesSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
     },
     {
       type: 'category',
@@ -112,6 +303,18 @@ const sidebars = {
           ],
         },
       ],
+    },
+  ],
+
+  integrationGuidesSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
     },
     {
       type: 'category',
@@ -203,6 +406,18 @@ const sidebars = {
         },
       ],
     },
+  ],
+
+  resourcesSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
     {
       type: 'category',
       label: 'Resources',
@@ -220,136 +435,6 @@ const sidebars = {
           href: 'https://status.beyondidentity.com/',
         },
       ],
-    },
-  ],
-
-  authenticationSidebar: [
-    {
-      type: 'doc',
-      id: 'welcome',
-      label: '<- Back to main docs',
-    },
-    {
-      type: 'html',
-      value: '<hr>',
-    },
-    {
-      type: 'category',
-      label: 'Authentication',
-      collapsed: true,
-      collapsible: false,
-      link: {
-        type: 'doc',
-        id: 'authentication/authentication',
-      },
-      items: [
-        {
-          type: 'category',
-          label: 'Hosted Web',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            'authentication/hosted-add-passkeys',
-            'authentication/hosted-add-otp-email',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Embedded SDK',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            'authentication/embedded-sdk-add-passkeys',
-            'authentication/embedded-sdk-add-otp-email',
-/*
-            {
-              type: 'category',
-              label: 'Integrations',
-              collapsed: true,
-              collapsible: true,
-               items: [
-                {
-                  type: 'doc',
-                  id: 'integration-guides/expo-react-native',
-                  label: 'Expo React Native',
-                },
-                {
-                  type: 'doc',
-                  id: 'integration-guides/next-auth',
-                  label: 'NextAuth',
-                },
-             ],
-            },
-*/
-          ],
-        },
-      ],
-    },
-  ],
-
-  sdkSidebar: [
-    {
-      type: 'doc',
-      id: 'welcome',
-      label: '<- Back to main docs',
-    },
-    {
-      type: 'html',
-      value: '<hr>',
-    },
-    'sdks/sdk-setup',
-    'sdks/sdk-size',
-    {
-      type: 'category',
-      label: 'JavaScript',
-      collapsed: true,
-      collapsible: true,
-      items: [
-        {
-          type: 'category',
-          label: 'JS Reference guide',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            'sdks/js-reference-guide/js-reference-initialize',
-            'sdks/js-reference-guide/js-reference-isBindPasskeyUrl',
-            'sdks/js-reference-guide/js-reference-bindPasskey',
-            'sdks/js-reference-guide/js-reference-isAuthenticateUrl',
-            'sdks/js-reference-guide/js-reference-authenticate',
-            'sdks/js-reference-guide/js-reference-getPasskeys',
-            'sdks/js-reference-guide/js-reference-deletePasskey',
-            'sdks/js-reference-guide/js-reference-passkey-type',
-            'sdks/js-reference-guide/js-reference-getAuthenticationContext',
-            'sdks/js-reference-guide/js-reference-authenticateOtp',
-            'sdks/js-reference-guide/js-reference-redeemOtp',
-          ],
-        },
-        {
-          type: 'link',
-          label: 'Documentation',
-          href: 'https://gobeyondidentity.github.io/bi-sdk-js/',
-        },
-      ],
-    },
-    {
-      type: 'link',
-      label: 'Kotlin',
-      href: 'https://gobeyondidentity.github.io/bi-sdk-android/',
-    },
-    {
-      type: 'link',
-      label: 'Flutter',
-      href: 'https://gobeyondidentity.github.io/bi-sdk-flutter/',
-    },
-    {
-      type: 'link',
-      label: 'React Native',
-      href: 'https://gobeyondidentity.github.io/bi-sdk-react-native/',
-    },
-    {
-      type: 'link',
-      label: 'Swift',
-      href: 'https://gobeyondidentity.github.io/bi-sdk-swift/documentation/beyondidentityembedded/',
     },
   ],
 };
