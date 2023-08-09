@@ -49,56 +49,9 @@ const sidebars = {
     },
 */
     {
-      type: 'category',
+      type: 'doc',
       label: 'Authentication',
-      collapsed: true,
-      collapsible: false,
-      link: {
-        type: 'doc',
-        id: 'authentication/authentication',
-      },
-      items: [
-        {
-          type: 'category',
-          label: 'Hosted Web',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            'authentication/hosted-add-passkeys',
-            'authentication/hosted-add-otp-email',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Embedded SDK',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            'authentication/embedded-sdk-add-passkeys',
-            'authentication/embedded-sdk-add-otp-email',
-/*
-            {
-              type: 'category',
-              label: 'Integrations',
-              collapsed: true,
-              collapsible: true,
-               items: [
-                {
-                  type: 'doc',
-                  id: 'integration-guides/expo-react-native',
-                  label: 'Expo React Native',
-                },
-                {
-                  type: 'doc',
-                  id: 'integration-guides/next-auth',
-                  label: 'NextAuth',
-                },
-             ],
-            },
-*/
-          ],
-        },
-      ],
+      id: 'authentication/authentication',
     },
     {
       type: 'doc',
@@ -265,6 +218,70 @@ const sidebars = {
           type: 'link',
           label: 'Service Status',
           href: 'https://status.beyondidentity.com/',
+        },
+      ],
+    },
+  ],
+
+  authenticationSidebar: [
+    {
+      type: 'doc',
+      id: 'welcome',
+      label: '<- Back to main docs',
+    },
+    {
+      type: 'html',
+      value: '<hr>',
+    },
+    {
+      type: 'category',
+      label: 'Authentication',
+      collapsed: true,
+      collapsible: false,
+      link: {
+        type: 'doc',
+        id: 'authentication/authentication',
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Hosted Web',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'authentication/hosted-add-passkeys',
+            'authentication/hosted-add-otp-email',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Embedded SDK',
+          collapsed: true,
+          collapsible: true,
+          items: [
+            'authentication/embedded-sdk-add-passkeys',
+            'authentication/embedded-sdk-add-otp-email',
+/*
+            {
+              type: 'category',
+              label: 'Integrations',
+              collapsed: true,
+              collapsible: true,
+               items: [
+                {
+                  type: 'doc',
+                  id: 'integration-guides/expo-react-native',
+                  label: 'Expo React Native',
+                },
+                {
+                  type: 'doc',
+                  id: 'integration-guides/next-auth',
+                  label: 'NextAuth',
+                },
+             ],
+            },
+*/
+          ],
         },
       ],
     },
