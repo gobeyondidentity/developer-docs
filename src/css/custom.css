@@ -235,14 +235,6 @@ dt {
   width: 85%;
 }
 
-.logoWidth {
-  border: none;
-  width: 64px;
-  align-self: center;
-  margin: 0;
-}
-
-
 /* Breadcrumbs */
 .breadcrumbs__link {
   display: inline-block;
@@ -966,10 +958,8 @@ html[data-theme="dark"] .intro-text h1 {
 .get-started-card {
   border: none;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   text-align: center;
-  padding: 10px;
-  max-height: max-content;
 }
 
 .get-started-container h4 {
@@ -1317,6 +1307,16 @@ html[data-theme="dark"] .card__header h4 {
 
 .card__body {
   color: --ifm-color-primary-lightest;
+}
+
+.card {
+  /* Your initial styling here... */
+  transition: box-shadow 0.2s ease-in-out; /* This will animate the shadow */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Initial shadow */
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Stronger shadow on hover */
 }
 
 .square {
