@@ -76,7 +76,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | Property | Value | 
   | ----------- | ----------- |
   | **Configuration Type** | Hosted Web <br /><HostedWeb/> |
-  | **Authentication Profile** | Use the default values for the remaining options |
+  | **Authentication Profile** | Use the recommended values for the remaining options |
 
 1. Click **Submit** to save the new app.
 
