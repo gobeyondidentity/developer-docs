@@ -1,0 +1,6 @@
+<!-- embedded_sdk.svg -->
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/>
+    <rect x="22" y="22" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M28 22V42M36 22V42M22 28H42M22 36H42" stroke="currentColor" stroke-width="2"/>
+</svg>

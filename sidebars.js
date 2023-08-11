@@ -33,6 +33,20 @@ const sidebars = {
         'get-started/get-started-nextjs',
       ],
     },
+    {
+      type: 'category',
+      label: 'Try it Out',
+      collapsed: true, 
+      collapsible: false,  
+      link: {
+        type: 'doc',
+        id: 'try-it-out/select-experience',
+      },         
+      items: [ 
+        'try-it-out/try-it-out-embedded',
+        'try-it-out/try-it-out-hosted'
+      ],
+    },
 /*
     {
       type: 'category',
