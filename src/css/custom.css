@@ -1319,6 +1319,15 @@ html[data-theme="dark"] .card__header h4 {
   box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Stronger shadow on hover */
 }
 
+[data-theme='dark'] .card {
+  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(255,255,255,0.05);
+}
+
+[data-theme='dark'] .card:hover {
+  box-shadow: 0 8px 16px rgba(255,255,255,0.1);
+}
+
 .square {
   padding: 16px !important;
   display: flex;
