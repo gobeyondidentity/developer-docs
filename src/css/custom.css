@@ -112,6 +112,10 @@ body {
   hyphens: none;
 }
 
+body, h1, h2, h3, h4, h5, h6, a, p, li, button, input, textarea, select {
+  font-family: 'Overpass', sans-serif;
+}
+
 
 h1 {
   font-size: 34px;
