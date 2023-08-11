@@ -111,14 +111,14 @@ The **RETURN** delivery method is the fastest way to get a binding link, which i
 
 1. Call the endpoint in your application following the below code example. 
 
-<MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
--X POST \
--H "Authorization: Bearer $(API_TOKEN)" \
--H "Content-Type: application/json" \
--d "{\"job\":{\"delivery_method\":\"RETURN\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\"}}"'
-  title="/credential-binding-jobs"
-/>
+  <MultiLanguageCodeBlock
+      curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
+  -X POST \
+  -H "Authorization: Bearer $(API_TOKEN)" \
+  -H "Content-Type: application/json" \
+    -d "{\"job\":{\"delivery_method\":\"RETURN\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\"}}"'
+    title="/credential-binding-jobs"
+  />
 
 :::note
 - You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API. 
@@ -126,7 +126,7 @@ curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/rea
 - You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
 :::
 
-The result of calling this API will be a JSON response with a `credential_binding_link`.
+  The result of calling this API will be a JSON response with a `credential_binding_link`.
 
 ```json
 {
@@ -166,35 +166,35 @@ The **EMAIL** delivery method sends an email to the user. Clicking the link will
 
 2. Call the endpoint in your application following the below code example. 
 
-<MultiLanguageCodeBlock
-curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
--X POST \
--H "Authorization: Bearer $(API_TOKEN)" \
--H "Content-Type: application/json" \
--d "{\"job\":{\"delivery_method\":\"EMAIL\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"post_binding_redirect_uri\":\"$(POST_BINDING_REDIRECT_URI)\"}}"'
-  title="/credential-binding-jobs"
-/>
+  <MultiLanguageCodeBlock
+      curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities/$(IDENTITY_ID)/credential-binding-jobs" \
+  -X POST \
+  -H "Authorization: Bearer $(API_TOKEN)" \
+  -H "Content-Type: application/json" \
+      -d "{\"job\":{\"delivery_method\":\"EMAIL\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"post_binding_redirect_uri\":\"$(POST_BINDING_REDIRECT_URI)\"}}"'
+    title="/credential-binding-jobs"
+  />
 
 :::note
-- You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API.   
-- You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.
-- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
-- Set the `POST_BINDING_REDIRECT_URI` to a URI in your application. On successful passkey binding the user will be re-directed to this URI.
+  - You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API.   
+  - You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.
+  - You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
+  - Set the `POST_BINDING_REDIRECT_URI` to a URI in your application. On successful passkey binding the user will be re-directed to this URI.
 :::
 
-The result of calling this API will send your user with an email from Beyond Identity with a link to click on. That link will look like the following: 
+  The result of calling this API will send your user with an email from Beyond Identity with a link to click on. That link will look like the following: 
 
-```bash
-http://your-app.com/v1/tenants/000183a77dd50fa9/realms/cdf4862dc4d49791/identities/87fabad6956c6d4b/credential-binding-jobs/c4fc2d753ca22b14:invokeAuthenticator?token=1St9IKIIrYyQ8sOSeuk5UkbLKnBJhuD4I7nWIqt-BNANDEFS-XVuOHxB7TFdZcRm
-```
+  ```bash
+  http://your-app.com/v1/tenants/000183a77dd50fa9/realms/cdf4862dc4d49791/identities/87fabad6956c6d4b/credential-binding-jobs/c4fc2d753ca22b14:invokeAuthenticator?token=1St9IKIIrYyQ8sOSeuk5UkbLKnBJhuD4I7nWIqt-BNANDEFS-XVuOHxB7TFdZcRm
+  ```
 
 3. Add a /bind route to your application to handle redirection
 
-When the user taps on the link in the email, they will be redirected to the Beyond Identity Cloud which will redirect them back to your application. The Beyond Identity Cloud will use the application's Authenticator Config's Invoke URL. A `/bind` path will be appended to your Invoke URL as well as several other query parameters. The path `/bind` must be implemented as a route in your application to intercept this URL:
+  When the user taps on the link in the email, they will be redirected to the Beyond Identity Cloud which will redirect them back to your application. The Beyond Identity Cloud will use the application's Authenticator Config's Invoke URL. A `/bind` path will be appended to your Invoke URL as well as several other query parameters. The path `/bind` must be implemented as a route in your application to intercept this URL:
 
-```bash
-$invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
-```
+  ```bash
+  $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
+  ```
 
 4. Once you receive the incoming URL, pass it into the SDK to complete the binding process.
 
