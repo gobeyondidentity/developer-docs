@@ -7,14 +7,12 @@ import classNames from "classnames";
 import padding from "../try-it-out-embedded/Padding.module.css";
 
 export default function TryItOut() {
-  const oidcClient = new OIDC();
   const [tokenResponse, setTokenResponse] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoading(true);
-    oidcClient.getToken().then((tokenResponse) => {
-      console.log(tokenResponse);
+    OIDC.getToken().then((tokenResponse) => {
       setTokenResponse(tokenResponse);
       setIsLoading(false);
     });
@@ -27,7 +25,7 @@ export default function TryItOut() {
           name={tokenResponse ? "Try Again" : "Continue With Passwordless"}
           isDisabled={isLoading}
           isLoading={isLoading}
-          onClick={oidcClient.authenticate}
+          onClick={OIDC.authenticate}
           centered={true}
         ></Button>
       </div>
