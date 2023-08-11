@@ -1,26 +1,21 @@
 import React from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 
-const ImageSwitcher = ({ lightSrc, darkSrc }) => {
-  const { colorMode, setColorMode } = useColorMode();
-
+const ImageSwitcher = ({id, lightSrc, darkSrc, alt}) => {
+  const {colorMode, setColorMode} = useColorMode();
+  
   var imgSrc = "";
   if (colorMode === 'dark') {
-    console.log("color = %s", colorMode);
-    imgSrc = darkSrc;
-    console.log(imgSrc);
+      imgSrc = darkSrc;
   } else if (colorMode === 'light') {
-    console.log("color = %s", colorMode);
-    imgSrc = lightSrc;
-    console.log(imgSrc);
+      imgSrc = lightSrc;
   } else {
-    console.log("color undefined");
-    console.log("color = %s", colorMode);
     imgSrc = lightSrc;
-    console.log(imgSrc);
   }
 
-  return <img src={imgSrc} />;
-};
+  return (
+    <img id={id} alt={alt} src={imgSrc} />
+  )
+}
 
 export default ImageSwitcher;

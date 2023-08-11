@@ -112,7 +112,7 @@ body {
   hyphens: none;
 }
 
-body, h1, h2, h3, h4, h5, h6, a, p, li, button, input, textarea, select {
+body, h1, h2, h3, h4, h5, h6, a, p, li, button, input, textarea, select, .ant-btn {
   font-family: 'Overpass', sans-serif;
 }
 

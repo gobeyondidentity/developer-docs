@@ -1,32 +1,34 @@
-/* details */
-
 .details {
-  --docusaurus-details-decoration-color: #3856A6;
+  --docusaurus-details-decoration-color: var(--ifm-color-primary-dark);
   --docusaurus-details-transition: transform var(--ifm-transition-fast) ease;
   margin: 0 0 var(--ifm-spacing-vertical);
-  border: 0.01px solid #3856A616;
-  color: #333333;
+  border: 0.01px solid var(--ifm-border-color);
+  color: var(--ifm-color-content);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);  /* Light shadow for light mode */
 }
 
+[data-theme='dark'] .details {
+  --docusaurus-details-decoration-color: var(--ifm-color-primary-darker);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);  /* Increased intensity for dark mode */
+}
 
 .detailsContainer {
-  background-color: #F6F8FA;  
-
+  background-color: var(--ifm-color-secondary);  
 }
 
 .detailsContainer a {
-  color: #3856A6;
+  color: var(--ifm-color-primary);
   text-decoration: none;
 }
 
+[data-theme='dark'] .detailsContainer a {
+  color: var(--ifm-color-primary-light);
+}
 
 /* summary */
-
 .summaryHeading {
   font-size: 20px;
   font-weight: 600;
   margin-top: 6px;
   vertical-align: bottom;
-
 }
-
