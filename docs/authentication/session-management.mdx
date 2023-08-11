@@ -22,15 +22,20 @@ import TabItem from '@theme/TabItem';
 
 ## What is Session Management
 
-Session management is a crucial aspect of web application development that involves securely managing user sessions. An authentication session is a period of user interaction with the application, typically starting with the user providing credentials and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
+Session management is a crucial aspect of web application development. An authentication session is a period of user interaction with the application, typically starting with the user providing credentials and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
 
 The Beyond Identity session consists of something we call a `token`, specifically access tokens. An access token, also called an API token, is an object or file that enables access to an application or resource. The token is digitally signed and contains information about what resources can be accessed and for how long.
 
 ## How to add session management to my application
 
-There are a few functions of tokens that you should be aware of. You can create a token, introspect a token, revoke a token, and retrieve active tokens.
+There are a few functions of tokens that you should be aware of.
 
-Applications may utilize cookies, local storage or other strategies to associate session with the end-user’s application. Beyond Identity doesn’t provide an API/SDK for this purpose; it is up to you to decide how to handle the end-user’s session. One option is store the JWT received from Beyond Identity in the end user’s application. Another solution is to store the JWT received from Beyond Identity on the server and use a cookie. This is a common solution offered by many web frameworks and is more secure as the JWT is more sensitive.
+- [Create a Token](#create-a-token)
+- [Introspect a Token](#introspect-a-token)
+- [Revoke a Token](#revoke-a-token)
+- [Retrieve Active Tokens](#list-active-tokens)
+
+Applications may utilize cookies, local storage or other strategies to associate session with the end-user’s application. Beyond Identity doesn’t provide an API/SDK for this purpose; it is up to you to decide how to handle the end-user’s session. One option is to store the JWT received from Beyond Identity in the end user’s application. Another solution is to store the JWT received from Beyond Identity on the server and use a cookie. This is a common solution offered by many web frameworks and is more secure as the JWT is more sensitive.
 
 ### Create a Token
 

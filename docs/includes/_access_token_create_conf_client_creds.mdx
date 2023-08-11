@@ -1,4 +1,4 @@
-In this simple flow, you will use the app's credentials to authenticate a single API call to the app's '/token' endpoint.
+In this simple flow, you will use the app's credentials to authenticate a single API call to the app's `/token` endpoint.
 
 First, create the app:
 
@@ -10,15 +10,24 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
   | Property | Value |
   | --- | --- |
-  | **Protocol** | OAuth2 |
+  | **Display Name** | Descriptive name you choose |
+  | **Protocol** | OIDC |
   | **Client Type** | Confidential |
   | **PKCE** | Disabled |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
   | **Token Endpoint Auth Method** | Client Secret Basic |
   | **Grant Type** | Client Credentials |
 
-4. Click **Submit** to save the new app.
+4. Click the **Authenticator Config** tab
 
-5. Next, create the HTTP request:
+  | Property | Value | 
+  | ----------- | ----------- |
+  | **Configuration Type** | Hosted Web |
+  | **Authentication Profile** | Use the recommended values for the remaining options |
+
+5. Click **Submit** to save the new app.
+
+6. Next, create the HTTP request:
 
   **Request url:**
 
