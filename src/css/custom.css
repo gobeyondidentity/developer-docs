@@ -1328,6 +1328,16 @@ html[data-theme="dark"] .card__header h4 {
   box-shadow: 0 8px 16px rgba(255,255,255,0.1);
 }
 
+/* SVG default color for light mode */
+.intro-card svg path {
+  fill: #2b4281; /* This is the color currently set in your SVGs */
+}
+
+/* When in dark mode, change SVG color to white */
+[data-theme='dark'] .intro-card svg path {
+  fill: #ffffff;
+}
+
 .square {
   padding: 16px !important;
   display: flex;
