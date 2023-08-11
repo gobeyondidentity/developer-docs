@@ -65,7 +65,7 @@ const sidebars = {
           collapsed: true, 
           collapsible: true,      
           items: [ 
-            'authentication/hosted-add-passkeys',
+            'authentication/hosted-add-authentication',
             'authentication/hosted-add-otp-email',
           ],
         },

@@ -126,7 +126,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Redirect URIs** | You'll get this from Google later in this guide, so enter a placeholder URL such as http://someexample.com for now.<br /><br />Your real redirect URI follows the pattern:<br /><br /> `https://{your_google-firebase_project_name}.firebaseapp.com/__/auth/handler`.| 
   | **Token Endpoint Auth Method** | Client Secret Basic | 
   | **Grant Type** | Authorization Code | 
-  | **All other options** | Use the default values for the remaining options |  
+  | **All other options** | Use the recommended values for the remaining options |  
 
 1. Click the **Authenticator Config** tab and select **Hosted Web** as the Configuration Type. It's the simplest type of authenticator configuration, where Beyond Identity handles the passkey creation and selection experience. For more information on authenticator configuration types, see [authenticator configurations](/docs/next/authentication).
 
