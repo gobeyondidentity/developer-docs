@@ -1,0 +1,40 @@
+---
+title: Configure Administrative Roles
+id: configure-rbac-admin-realm
+description: ""
+slug: /configure-rbac-admin-realm
+keywords:
+  - role based access
+  - rbac
+pagination_next: null
+pagination_prev: null
+last_update:
+  date: 08/13/2023
+  author: Harry Guo
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+## Introduction
+
+In this guide you will learn how to create custom **Administrative Roles** and assign **users** and **groups** to those roles for your Beyond Identity Console.
+This will allow you to have fine grained access control of your Beyond Identity Console users.
+
+:::note
+This guide only applies to the **Beyond Identity Admin** realm and the **Beyond Identity Admin Console** application. All actions should be performed in the **Beyond Identity Admin** realm. 
+For a general guide on configuring Roles Based Access Control for your application, see our guide to **[Configure RBAC](/docs/next/configure-rbac)**.
+:::
+
+## Administrative Roles
+
+By default, there is a **Super Administrators** role that is a role capable of all Management API actions. This role allows any action performed in the Beyond Identity Console.
+
+To create a new role, follow the steps to [Create a role](docs/next/create-role). Select all scopes that you would like that role to have and give it a proper name and description.
+
+To add identities and groups to that role, follow the steps to [Add a user or group to a role](/docs/next/add-user-group-to-role). Those identities and groups should now have the
+permissions granted to them.
+
+:::note
+For roles to kick into effect, your admins must logout and login again.
+:::

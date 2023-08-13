@@ -1,29 +1,93 @@
 ---
 title: Configure RBAC
 id: configure-rbac
-description: ''
-slug: /configure-rbac 
-keywords: 
- - role based access
- - rbac
+description: ""
+slug: /configure-rbac
+keywords:
+  - role based access
+  - rbac
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 06/27/2023
-   author: Patricia McPhee
+last_update:
+  date: 08/13/2023
+  author: Harry Guo
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import TenantIdNote from '../includes/_tenant-id-note.mdx';
+## Introduction
 
+In this guide you will learn how to restrict an identity's access to resources using **Role-Based Access Control (RBAC)**.
 
-import { Alert, Col, Row } from 'antd';
+:::note
+RBAC only comes into play with access management of access tokens of _identities_.
+This means that your application's authentication flow must go through the **authorization code** grant type and the access token minted must be on behalf of an _identity_.
+:::
 
-<Row>
-  <Col span={6}>
-    <Alert message="To do" type="warning" />
-  </Col>
-</Row>
-<br />
+Consider the following scenario:
+
+Imagine you are a developer working on an e-commerce platform specializing in shoe sales, accompanied by a customer loyalty program featuring two distinct tiers: **Free Members** and 
+**VIP Members**. **VIP Members** are entitled to early access new shoe releases, in addition to enjoying all the privileges available to Free Members. In the context of a user attempting 
+to access specific sections of your website, RBAC can be leveraged to effectively grant or restrict entry.
+
+Now, let's identify the different components that make up RBAC and walk through the example above.
+
+## Resource Servers and Scopes
+
+Resource servers represent entities hosting protected resources that the client is attempting to access. They hold the entire set of permissions that are allowed on a resource.
+These permissions are expressed through [scopes](/docs/next/api-scopes), which are strings that represent the set of permissions.
+
+For our example above, we would [create a resource server](/docs/next/add-resource-server) called Shoes and the available scopes would be 
+`shoes:read`, `shoes:buy`, `clearance:buy`, `new-arrivals:read`, and `new-arrivals:buy`.
+
+## Roles
+
+Identities are assigned to roles. These roles map to a set of allowed scopes defined in a resource server. 
+
+For the example above, the following roles and scopes would be created:
+
+| Role                              | Scopes           |
+| --------------------- | ------------|
+| **Free Member**       | `shoes:read`, `shoes:buy`, `clearance:buy`       |         
+| **VIP Member**        | `shoes:read`, `shoes:buy`, `clearance:buy`, `new-arrivals:read`, `new-arrivals:buy`       |\     
+
+Roles are significant in two key areas:  
+1. [Token Minting](#token-minting)
+2. [Token Introspection](#token-introspection)
+
+## Token Minting
+
+When an access token is minted on behalf of an identity, the scopes on that token are the intersection of the three following scope sets:
+
+1. Scopes on the `/authorize` request (during the OAuth2 / OIDC flow).
+1. Scopes supported by the Application the identity is authenticating into.
+1. Scopes tied to the identity's roles.
+
+For the example above, a **Free Member** authenticating into the e-commerce website would have an access token with the scopes `shoes:read`, `shoes:buy`, `clearance:buy`, and a **VIP
+Member's** access token would contain the scopes `shoes:read`, `shoes:buy`, `clearance:buy`, `new-arrivals:read`, `new-arrivals:buy`.
+
+## Token Introspection
+
+When invoking [token introspection](/docs/next/validate-access-tokens#introspection-endpoint) for an access token associated with an identity as the principal, the returned scopes in the 
+introspection response will contain **only a subset of the scopes for which the identity has the role(s) for**.
+
+For the most part, the scopes in the token introspection response will match the scopes on the token itself unless permissions change. But should a user's roles change,
+the introspect response will reflect those changes.
+
+In the scenario presented earlier, consider a situation where a **VIP Member** logs into the website. However, during the course of their session, their VIP status is revoked. Subsequently, 
+when the member (now categorized as free) endeavors to access the new arrivals section, it is expected that the introspection response must NOT include the `new-arrivals:read` scope, 
+thereby resulting in denial of access to the respective page.
+
+:::note
+It is still the duty of your application to ultimately decide the appropriate action following the result of token introspection. Beyond Identity will return the proper permissions for a
+user, but it is the responsibility of your application to enforce proper access.
+:::
+
+## Putting it all together
+
+After creating the aforementioned resource server and roles above, the next step involves the creation of an application employing the authorization code flow using the roles and scopes 
+created. Consequently, whenever a user logs in and attempts to access different sections of your website, Role-Based Access Control (RBAC) will ensure that the logged in user can only 
+access the resources that are allowed to them by their designated role.
+
+RBAC is an authorization tool that can be used to validate access permissions on the end user, and is just one of the tools that Beyond Identity can help you accomplish your identity and access management goals.
