@@ -20,8 +20,8 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 4. Click the **Authenticator Config** tab
 
-  | Property | Value | 
-  | ----------- | ----------- |
+  | Property | Value |
+  | --- | --- |
   | **Configuration Type** | Hosted Web |
   | **Authentication Profile** | Use the recommended values for the remaining options |
 
@@ -57,8 +57,8 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
   where:
 
-    - {scopes} is one or more of the app's **Allowed Scopes**, space delimited.
-
-    - expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting
-
-    - custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims.
+  | Property | Value |
+  | --- | --- |
+  | **scope** | {scopes} is one or more of the app's **Allowed Scopes**, space delimited. |
+  | **expiration_time** | expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting |
+  | **custom_claims** | custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims. |

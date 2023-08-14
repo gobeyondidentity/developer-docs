@@ -1,0 +1,8 @@
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto
+  .createHash('sha256')
+  .update(codeVerifier)
+  .digest()
+  .toString('base64url');
+```

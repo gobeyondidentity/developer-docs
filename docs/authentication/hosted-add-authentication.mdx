@@ -22,6 +22,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import MultiLanguageCodeBlock from '@site/src/components/MultiLanguageCodeBlock';
 
+import CodeChallengeVerifier from '../includes/_code-challenge-verifier.mdx';
 import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
 import PKCES256 from '../includes/_pkce_s256.mdx';
 import HostedWeb from '../includes/_hosted-web.mdx';
@@ -190,17 +191,7 @@ response_type=code
 | **code_challenge**        | This used in conjunction with **code_challenge_method** ensures that the authorization code obtained by the client can only be used by the client that originally requested it.<br /><br />You will need to store the hash of the **code_challenge** so that it can be passed to the token exchange endpoint later as a **code_verifier**.<br /><br /><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be enabled in the console application. If it is not enabled then you should not send the **code_challenge_method** or **code_challenge** parameters.</p></div> |
 
 :::tip
-The **code_challenge** is generated as defined in [**RFC 7636**](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
-
-```javascript
-codeVerifier = crypto.randomBytes(32).toString('base64url');
-codeChallenge = crypto
-  .createHash('sha256')
-  .update(codeVerifier)
-  .digest()
-  .toString('base64url');
-```
-
+The **code_challenge** is generated as defined in [**RFC 7636**](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:<br/><br/><CodeChallengeVerifier/>
 :::
 
 #### Initiate Authorization
