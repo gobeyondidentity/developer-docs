@@ -43,8 +43,8 @@ const sidebars = {
         id: 'try-it-out/select-experience',
       },         
       items: [ 
-        'try-it-out/try-it-out-embedded',
-        'try-it-out/try-it-out-hosted'
+        'try-it-out/try-it-out-hosted',
+        'try-it-out/try-it-out-embedded'
       ],
     },
 /*
