@@ -81,6 +81,8 @@ where:
 
 - {application_id} is the **Application ID** of the app
 
+These endpoints can also be found in the Console, by navigating to your Application, then to the **External Protocol** tab, and scrolling down until you find the **Authorization Endpoint** and **Token Endpoint** respectively.
+
 ### Token Request Scenarios
 
 There are three main scenarios for requesting an access token:

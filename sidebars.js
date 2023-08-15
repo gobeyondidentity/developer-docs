@@ -109,11 +109,7 @@ const sidebars = {
           },
           items: [
             'authentication/session-management-overview',
-            'api-tokens/create-api-token',
-            'api-tokens/validate-access-tokens',
-            'api-tokens/list-access-tokens',
-            'api-tokens/revoke-access-tokens',
-            'api-tokens/enable-refresh-tokens',
+            'authentication/session-management-console',
           ],
         },
       ],
