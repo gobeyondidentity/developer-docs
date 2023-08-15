@@ -19,9 +19,13 @@ displayed_sidebar: mainSidebar
 When you sign up for a [free developer account](https://www.beyondidentity.com/developers/signup), you won't need to wait for an email. Instead, you'll immediately arrive at the Beyond Identity Admin Console with a <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkey</a> and <a href="#" data-tooltip="A Beyond Identity tenant represents an organization in the Beyond Identity Cloud. It serves as the root container for all other cloud components in your configuration. Your tenant has a unique identifier, a modifiable name, and contains one or more realms that make up the organization.">tenant</a> created for you automatically.
 
 import DevSignUpFlow from '../images/sign-up-flow.png';
+import DevSignUpFlowDark from '../images/sign-up-flow-dark.png';
+import ImageSwitcher from '../../src/components/ImageSwitcher';
+import AngularLogo from '../../static/img/Angular_full_color_logo.svg';
+import ReactLogo from '../../static/img/React-icon.svg';
+import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
 
-<img src={DevSignUpFlow} id="workflows" alt="Developer account sign up workflow" />
-
+<ImageSwitcher id="workflows" lightSrc={DevSignUpFlow} darkSrc={DevSignUpFlowDark} alt="Developer account sign up workflow" />
 
 <br />
 
@@ -64,7 +68,7 @@ import DevSignUpFlow from '../images/sign-up-flow.png';
       <div class="get-started-card">
          <div class="card__image">
          <br />
-            <NextJsLogo />
+            <NextJsLogoComponent />
          </div> 
          <div class="card__body">
          <br />
@@ -77,13 +81,3 @@ import DevSignUpFlow from '../images/sign-up-flow.png';
    </div>
 </div>
 </section>
-
-
-
-
-import AngularLogo from '../../static/img/Angular_full_color_logo.svg';
-import ReactLogo from '../../static/img/React-icon.svg';
-import NextJsLogo from '../../static/img/nextjs.svg';
-
-
-
