@@ -205,7 +205,7 @@ a {
 }
 
 a:hover {
-  font-weight: 600;
+  text-shadow: 0 0 0.01px black;
   text-decoration: none;
 }
 
