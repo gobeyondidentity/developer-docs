@@ -46,33 +46,25 @@ Note that the list of **Scopes** available to request comes from the **Resource 
 
 ## API
 
-To request tokens for an app programmatically, send a request to the app's token request API. 
+To request tokens for an app programmatically, send a request to the app's `/authorization` and/or `/token` API endpoints. The requests should follow the OAuth and OIDC protocols as described below.
 
-These requests follow the OAuth and OIDC protocols.  
+### Authorization and Token request URLs
 
-### Token Request URL and Endpoints
-
-The token request API URL is based on the Beyond Identity tenant, realm, and application for which a token is being requested. 
-
-The API host name is prefixed with "auth-us" or "auth-eu", depending on the region of the tenant. 
-
-:::note  
-Note that the host name for token requests is distinct from the Beyond Identity Management API, which uses "api-us" or "api-eu".  
-:::  
+The URLs to send authorization and token requests for an app are based on the Beyond Identity tenant, realm, and application ID.  
 
 There are two main endpoints for requesting tokens:   
 
 The /authorize endpoint: 
 
 ```http
-https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize  
-```
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize   
+```  
 
 and the /token endpoint:  
 
 ```http
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
-```
+```  
 
 where:  
 
@@ -80,7 +72,25 @@ where:
 
 - {realm_id} is the **Realm Id** of the realm in which the application is configured
 
-- {application_id} is the **Application ID** of the app
+- {application_id} is the **Application ID** of the app  
+
+:::note  
+Note that the host name for token requests is is prefixed with "auth-us" or "auth-eu", whereas the the Beyond Identity Management API is prefixed with "api-us" or "api-eu".  
+:::  
+
+### Finding app endpoint URLs
+For any Beyond Identity application, you can find the authorization and token request URLs in the Admin Console on the app's External Protocol tab.  
+
+#### App that uses the Client Credentials grant type
+An app that uses the client credentials grant type will only have a `/token` endpoint as shown here:  
+
+![Client credentials endpoints](../images/admin-console/client-credentials-app-endpoints.png)  
+
+#### App that uses the Authorization Code grant type
+An app that uses the authorization code grant type will have both `/authorization` and `/token` endpoints as shown below:  
+
+![Authorization code endpoints](../images/admin-console/authorization-code-app-endpoints.png)  
+
 
 ### Token Request Scenarios
 
