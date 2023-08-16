@@ -16,6 +16,39 @@ doc_type: overview
 displayed_sidebar: mainSidebar
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ThemedImage from '@theme/ThemedImage';
+
+## Admin Console
+
+In the Admin Console, there are a number of options for token configuration within your application.
+
+Note: Refresh tokens can only be configured and enabled for applications with an "Authorization Code" grant type.
+
+<Tabs>
+<TabItem value="client-credentials" label="Client Credentials">
+
+<ThemedImage
+  sources={{
+    light: '/img/docs/console-client-credentials-tokens-configuration.png',
+    dark: '/img/docs/console-client-credentials-tokens-configuration-dark.png',
+  }}
+/>
+
+</TabItem>
+<TabItem value="authorization-code" label="Authorization Code">
+
+<ThemedImage
+  sources={{
+    light: '/img/docs/console-authorization-code-tokens-configuration.png',
+    dark: '/img/docs/console-authorization-code-tokens-configuration-dark.png',
+  }}
+/>
+
+</TabItem>
+</Tabs>
+
 ### Token Format
 
 There are two token formats that can be validated: `self-contained` or `referential`.
@@ -24,7 +57,7 @@ The main distinguishing factor is whether introspection is optional or required.
 
 When validating self-contained tokens, consider if you want to revoke your tokens. If revoked tokens are accepted (as in a MVP case), then the token can be validated [offline](/docs/next/validate-access-tokens#offline-validation) by validating the signature and parsing the claims of the JWT token. In all other cases the token should be [introspected](https://developer.beyondidentity.com/docs/v1/workflows/api-token#introspection-online-validation).
 
-### Token Configuration: Expiration
+### Token Configuration: Expires
 
 This is the time, in seconds, for which the token will be considered after minting. The default value is `86400`, or 24 hours.
 

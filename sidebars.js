@@ -43,9 +43,7 @@ const sidebars = {
         type: 'doc',
         id: 'quickstarts/quickstart',
       },
-      items: [
-
-      ],
+      items: [],
     },
 */
     {
@@ -82,7 +80,7 @@ const sidebars = {
               label: 'Integrations',
               collapsed: true,
               collapsible: true,
-               items: [
+              items: [
                 {
                   type: 'doc',
                   id: 'integration-guides/expo-react-native',
@@ -93,7 +91,7 @@ const sidebars = {
                   id: 'integration-guides/next-auth',
                   label: 'NextAuth',
                 },
-             ],
+              ],
             },
 */
           ],
