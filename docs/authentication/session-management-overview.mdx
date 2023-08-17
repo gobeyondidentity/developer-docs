@@ -24,9 +24,11 @@ import TabItem from '@theme/TabItem';
 
 Session management is a crucial aspect of web application development. An authentication session is a period of user interaction with the application, typically starting with the user providing credentials and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
 
-The Beyond Identity session consists of something we call a `token`, specifically [access token](/docs/next/api-token-overview)s. An access token, also called an API token, is an object or file that enables access to an application or resource. The token is a JWT, which is digitally signed and contains information about what resources can be accessed and for how long.
+The Beyond Identity session consists of a `token`, specifically an [access token](/docs/next/api-token-overview), which is implemented as a JSON Web Token (JWT). An access token, also used for API authenitcation, enables access to an application or resource. The token is digitally signed and contains information about what resources can be accessed and for how long.
 
-When you request an [access token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response. The refresh token can be used to request additional access tokens with identical or narrower scope.
+By default, a token expires after 24 hours, but this can be configured in the [Admin Console](/docs/next/session-management-console).
+
+Additionally, when you request an [access token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response. The refresh token can be used to request additional access tokens with identical or narrower scope.
 
 ## How to add session management to my application
 
@@ -37,6 +39,10 @@ There are a few functions of tokens that you should be aware of.
 - [Introspect a Token](/docs/next/validate-access-tokens)
 - [Revoke a Token](/docs/next/revoke-access-tokens)
 - [Retrieve Active Tokens](/docs/next/list-access-tokens)
+
+If you have enabled refresh tokens for your application, you can also refresh the access token to extend the duration of the user's session without requiring authentication.
+
+- [Refresh token request](/docs/next/enable-refresh-tokens)
 
 ## How to store tokens
 
