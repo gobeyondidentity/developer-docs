@@ -35,7 +35,7 @@ export default function TryItOut() {
         </div>
       ) : null}
       <Button
-        name={tokenResponse ? "Try Again" : "Try Hosted Login"}
+        name={tokenResponse ? "Try Again" : "Try Hosted Web Authenticator"}
         isDisabled={isLoading}
         isLoading={isLoading}
         onClick={OIDC.authenticate}
