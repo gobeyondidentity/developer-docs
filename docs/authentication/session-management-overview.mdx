@@ -1,7 +1,7 @@
 ---
 title: Session Management overview
 id: session-management-overview
-description: ''
+description: 'An overview of session management and how to handle it within your application'
 slug: /session-management-overview
 keywords:
   - api token
@@ -36,6 +36,7 @@ There are a few functions of tokens that you should be aware of.
 
 - [Create a Token](/docs/next/create-api-token) (Pre-Requisite)
 - [Store Tokens](#how-to-store-tokens)
+- [Create Session Cookie](#where-to-store-tokens)
 - [Introspect a Token](/docs/next/validate-access-tokens)
 - [Revoke a Token](/docs/next/revoke-access-tokens)
 - [Retrieve Active Tokens](/docs/next/list-access-tokens)
@@ -50,58 +51,82 @@ Applications may utilize cookies, local storage or other strategies to associate
 
 ### JWT Strategy with Refresh/Access Tokens
 
-In the context of session management, the central element is the JSON Web Token (JWT), which serves as the token that encapsulates and conveys the authentication and authorization information necessary for maintaining secure user sessions.
+The JWT (JSON Web Token) strategy with access/refresh tokens is a popular authentication and authorization mechanism used in web applications and APIs. It combines the benefits of JWTs with a token-based approach to manage user sessions securely. The strategy involves using two types of tokens: access tokens and refresh tokens.
 
-#### Access Tokens:
+**Access Token:**
 
-- Access tokens play a pivotal role in this strategy. These tokens are short-lived JWTs issued upon successful user authentication.
+- An access token is a compact and digitally signed JWT that contains information about the authenticated user and their permissions (claims).
 
-- They contain crucial user details and permissions in the form of claims.
+- It is short-lived and typically has a relatively short expiration time, usually just a few minutes or hours.
 
-- When a user interacts with the application, they present the access token in their requests. The server validates the access token to ascertain the user's identity and determine the extent of their authorized actions within the application.
+- The access token is issued to a user after they successfully authenticate (e.g., login) and is used to grant access to protected resources or perform authorized actions on the server.
 
-#### Refresh Tokens:
+- The server verifies the access token's authenticity and expiration to validate the user's identity and access privileges.
 
-- Refresh tokens complement access tokens within the JWT strategy. These tokens are designed to have a longer lifespan compared to access tokens.
+**Refresh Token:**
 
-- Their primary purpose is to securely facilitate the renewal of access tokens without necessitating frequent user logins.
+- A refresh token is also a JWT, but it is long-lived compared to the access token, often lasting days or even weeks.
 
-- In cases where an access token expires, the client can utilize the refresh token to request a new access token without needing the user's credentials again.
+- The refresh token's purpose is to obtain a new access token once the previous one expires without requiring the user to log in again.
 
-- It's important to emphasize that refresh tokens should be stored and handled with great care, as their exposure could lead to unauthorized access. They should not be accessible by client-side scripts or prone to XSS attacks.
+- When the access token expires, the client can make a secure request to the server with the refresh token to obtain a new access token.
 
-#### Why/Why Not to Use Local Storage with JWTs:
+- This helps improve user experience by allowing them to stay authenticated without frequent logins while also mitigating some security risks associated with long-lived tokens.
 
-- The JWT, as the token, should not be stored in local storage due to potential security vulnerabilities.
+The general flow of JWT strategy with access/refresh tokens works as follows:
 
-- Local storage is susceptible to Cross-Site Scripting (XSS) attacks, which could lead to the theft of tokens by malicious scripts.
+1. **Authentication:** When a user logs in with valid credentials, the server issues both an access token and a refresh token.
 
-- Furthermore, tokens residing in local storage tend to have a more extended lifespan, increasing the risk window for potential attacks.
+1. **Accessing Protected Resources:** The client includes the access token in the request headers whenever accessing protected resources on the server.
 
-- To mitigate these risks, it is recommended to use HTTP-only cookies combined with the Secure flag, enhancing security and safeguarding against XSS attacks.
+1. **Access Token Expiry:** The access token has a short lifespan, and once it expires, the client needs to use the refresh token to get a new access token.
+
+1. **Refreshing Access Token:** The client sends the refresh token securely to the server to request a new access token.
+
+1. **Server Validation:** The server verifies the refresh token's authenticity, and if it's valid and hasn't expired, it issues a new access token to the client.
+
+1. **Repeat:** The client continues to use the new access token for accessing protected resources until it expires again, at which point the process repeats with the refresh token.
+
+The use of short-lived access tokens and long-lived refresh tokens helps balance security and usability. Even if an access token gets compromised, its short expiration time limits the potential damage, and the refresh token can be revoked or used for more robust validation.
+
+### Where to store tokens
+
+Storing tokens in local storage can be a security risk and is generally not recommended for sensitive tokens like access tokens or refresh tokens. Here are some reasons why you should avoid storing tokens in local storage:
+
+1. **Vulnerable to Cross-Site Scripting (XSS) Attacks:** Local storage is accessible by JavaScript running on the same domain. If your web application is vulnerable to XSS attacks, an attacker could inject malicious scripts into your application and steal tokens stored in local storage.
+
+1. **No Built-in Security Mechanisms:** Local storage does not provide built-in security features like HTTP-only cookies. HTTP-only cookies prevent client-side scripts from accessing cookies, reducing the risk of token theft in the event of an XSS attack.
+
+1. **Longer Lifespan:** Tokens stored in local storage typically have a longer lifespan and do not expire when the browser is closed. This increases the window of opportunity for an attacker to steal and abuse the token.
+
+1. **Lack of Automatic Token Handling:** Unlike HTTP cookies, local storage does not automatically include tokens in the request headers. Developers need to manually add tokens to each request, increasing the chances of accidentally exposing the token through log files or other vulnerable channels.
+
+So, if not local storage, what should you use instead?
+
+For sensitive tokens like access tokens and refresh tokens, it is best to store them in HTTP-only cookies with the Secure flag. HTTP-only cookies cannot be accessed by client-side scripts, making them more secure against XSS attacks. The Secure flag ensures that the cookies are only transmitted over secure HTTPS connections, preventing eavesdropping on unencrypted connections.
+
+If you need to store some non-sensitive data on the client-side, you can consider using other mechanisms like session storage, which is similar to local storage but limited to the lifetime of a single browser tab or window. However, it is essential to avoid storing any sensitive information in client-side storage.
+
+For optimal security and protection of sensitive tokens, consider using an authentication flow that relies on secure HTTP-only cookies for storing tokens and always use HTTPS to encrypt communication between the client and server. Additionally, follow security best practices and keep your application up to date with the latest security patches.
+
+For more information, the Open Worldwide Application Security Project (OWASP) has a Cheat Sheet on [Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
 
 ### Session Cookie Strategy
 
-This strategy uses cookies to manage user sessions.
+The Session Cookie Strategy is a technique used for managing user sessions in web applications. It relies on the use of session cookies to maintain session state information on the client-side. When a user logs in, the server generates a session identifier and stores relevant session data on the server side. This session identifier is then sent to the client as a cookie, and the client includes this cookie in subsequent requests to the server. This way, the server can associate the incoming requests with the appropriate session data.
 
-#### Session Initialization:
+Here's how the Session Cookie Strategy typically works:
 
-- Upon login, the server generates a unique session identifier (session ID) and stores session data on the server.
+1. **Session Initialization:** When a user logs in or starts a new session, the server generates a unique session identifier (session ID) for the user's session and stores session data on the server. This session ID is usually a long, random string. This session data may include user-specific information, such as the access token and the refresh token.
 
-#### Setting the Cookie:
+1. **Setting the Cookie:** The server sets a session cookie in the HTTP response header, which contains the session ID. The client's web browser stores this cookie locally.
 
-- The server sends a session cookie to the client containing the session ID.
+1. **Sending the Cookie:** With each subsequent HTTP request, the client's web browser automatically includes the session cookie in the request headers. This allows the server to identify the user's session based on the session ID in the cookie.
 
-- The client's web browser stores this cookie locally.
+1. **Server-Side Session Data:** On the server side, the session ID is used as a key to associate the incoming requests with the corresponding session data stored on the server.
 
-#### Sending the Cookie:
+1. **Expiry and Timeout:** Session cookies usually have an expiration time, and the server may also set a timeout period. If the user remains inactive for a certain duration, the session may expire, and the session data is cleared from the server. The client's browser will still hold the expired session cookie, but it will become invalid for future requests.
 
-- The client automatically includes the session cookie in each subsequent request.
+## How to handle session on logout
 
-#### Server-Side Session Data:
-
-- The server associates incoming requests with the appropriate session data using the session ID.
-
-#### Expiry and Timeout:
-
-- Session cookies can have an expiration time and a timeout mechanism to handle inactivity.
+On logout, we recommend removing the session cookie and revoking both access token and refresh tokens. This prevents unauthorized access after a user logs out.
