@@ -49,6 +49,16 @@ If you have enabled refresh tokens for your application, you can also refresh th
 
 Applications may utilize cookies, local storage or other strategies to associate session with the end-user’s application. Beyond Identity doesn’t provide an API/SDK for this purpose; it is up to you to decide how to handle the end-user’s session. One option is to store the JWT received from Beyond Identity in the end user’s application. Another solution is to store the JWT received from Beyond Identity on the server and use a cookie. This is a common solution offered by many web frameworks and is more secure as the JWT is more sensitive.
 
+### Frameworks
+
+Many Web development frameworks, like J2EE, ASP.NET, and PHP, provide their own session management features.
+
+There are also many third-party pacakges. If you are following our Getting Started Guides,
+
+- [React](/docs/next/get-started-react): If you are using Redux, then [`redux-react-session`](https://www.npmjs.com/package/redux-react-session) is a popular choice. Otherise, [`react-session-api`](https://www.npmjs.com/package/react-session-api) is another helpful package found on npm.
+- [Angular](/docs/next/get-started-angular): [`ngStorage`](https://github.com/gsklee/ngStorage) and [`NgIdle`](https://github.com/moribvndvs/ng-idle) are both popular libraries.
+- [Next.js](/docs/next/get-started-nextjs): [NextAuth.js](https://next-auth.js.org/) provides a solution for authentication, session management and user account creation.
+
 ### JWT Strategy with Refresh/Access Tokens
 
 The JWT (JSON Web Token) strategy with access/refresh tokens is a popular authentication and authorization mechanism used in web applications and APIs. It combines the benefits of JWTs with a token-based approach to manage user sessions securely. The strategy involves using two types of tokens: access tokens and refresh tokens.
