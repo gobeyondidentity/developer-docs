@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./TryItOut.module.css";
 import OIDC from "./oidc";
-import AuthenticateResult from "../try-it-out-embedded/AuthenticateResult";
-import Button from "../try-it-out-embedded/Button";
+import AuthenticateResult from "../Embedded/AuthenticateResult";
+import Button from "../Embedded/Button";
 import classNames from "classnames";
-import padding from "../try-it-out-embedded/Padding.module.css";
-import { getOffsetForElementById } from "../../utils/helpers";
+import padding from "../Embedded/Padding.module.css";
+import { getOffsetForElementById } from "../../../utils/helpers";
 
 export default function TryItOut() {
   const [tokenResponse, setTokenResponse] = React.useState(null);

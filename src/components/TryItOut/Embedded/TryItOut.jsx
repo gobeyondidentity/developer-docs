@@ -8,9 +8,9 @@ import PasskeyTable from "./PasskeyTable";
 import SelectPasskeyTable from "./SelectPasskeyTable";
 import PasskeyModal from "./PasskeyModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import { generateRandomStringOfLength, generateCodeChallenge } from "../../utils/pkce";
-import { getPasskeys, bindPasskey, authenticate, deletePasskey } from "../../utils/bi-sdk-js";
-import { getOffsetForElementById } from "../../utils/helpers";
+import { generateRandomStringOfLength, generateCodeChallenge } from "../../../utils/pkce";
+import { getPasskeys, bindPasskey, authenticate, deletePasskey } from "../../../utils/bi-sdk-js";
+import { getOffsetForElementById } from "../../../utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

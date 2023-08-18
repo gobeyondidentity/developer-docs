@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import classNames from "classnames";
-import CodeBlock from "../CodeBlocks/CodeBlock";
+import CodeBlock from "../../CodeBlocks/CodeBlock";
 import styles from "./PasskeyModal.module.css";
 import padding from "./Padding.module.css";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
