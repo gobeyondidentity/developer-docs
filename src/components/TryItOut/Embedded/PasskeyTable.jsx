@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./PasskeyTable.module.css";
-import padding from "./Padding.module.css";
+import padding from "../Shared/Padding.module.css";
 
 const PasskeyTable = ({ passkeys, onClick }) => {
   return passkeys.map((passkey, i) => {

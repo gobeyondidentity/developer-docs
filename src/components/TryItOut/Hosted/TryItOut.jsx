@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./TryItOut.module.css";
 import OIDC from "./oidc";
-import AuthenticateResult from "../Embedded/AuthenticateResult";
-import Button from "../Embedded/Button";
+import AuthenticateResult from "../Shared/AuthenticateResult";
+import Button from "../Shared/Button";
 import classNames from "classnames";
-import padding from "../Embedded/Padding.module.css";
+import padding from "../Shared/Padding.module.css";
 import { getOffsetForElementById } from "../../../utils/helpers";
 
 export default function TryItOut() {

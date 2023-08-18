@@ -1,9 +1,9 @@
 import styles from "./TryItOut.module.css";
-import padding from "./Padding.module.css";
+import padding from "../Shared/Padding.module.css";
 import React, { useState } from "react";
 import classNames from "classnames";
-import AuthenticateResult from "./AuthenticateResult";
-import Button from "./Button";
+import AuthenticateResult from "../Shared/AuthenticateResult";
+import Button from "../Shared/Button";
 import PasskeyTable from "./PasskeyTable";
 import SelectPasskeyTable from "./SelectPasskeyTable";
 import PasskeyModal from "./PasskeyModal";
