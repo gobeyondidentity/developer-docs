@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
 
 /* You can override the default Infima variables here. */
 :root {
@@ -103,8 +104,6 @@ div[class^='announcementBar_'] .close {
 body {
   line-height: 1.4;
   letter-spacing: 107%;
-  font-family: 'Overpass', sans-serif;
-/*  color: #383a3e; */
   background-color: var(--ifm-background-color);
   font-weight: 400;
   -webkit-hyphens: none;
@@ -112,10 +111,21 @@ body {
   hyphens: none;
 }
 
-body, h1, h2, h3, h4, h5, h6, a, p, li, button, input, textarea, select, .ant-btn {
+body, h1, h2, h3, h4, h5, h6, a, p, button, input, textarea, select, .ant-btn {
   font-family: 'Overpass', sans-serif;
 }
 
+code {
+  font-family: 'Overpass Mono', monospace !important;
+}
+
+pre > code {
+  font-family: 'Overpass Mono', monospace !important;
+}
+
+.redoc-json > code {
+  font-family: 'Overpass Mono', monospace !important;
+}
 
 h1 {
   font-size: 34px;
