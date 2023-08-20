@@ -840,6 +840,11 @@ div[class^="tocCollapsibleContent"] ul li {
   border-radius: 5px;
 }
 
+[data-theme='dark'] .note-message {
+  color: var(--ifm-color-primary-lightest);
+  border-left: 4px solid var(--ifm-color-primary-lighter);
+}
+
 .note-message-table p {
   font-size: 1em;
 }
