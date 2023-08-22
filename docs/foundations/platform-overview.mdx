@@ -68,13 +68,37 @@ import AdminRealmDescription from '../includes/_admin-realm-description.mdx';
 <AdminRealmDescription />
 
 
-
-
-
 ## Event
 
-Events are an immutable record of all transactions that occur in a Realm. Events can be exported to a number of SIEM products or viewed within your Console.  
+Events are an immutable record of all transactions carried out by an end user or an administrator that occur in a Realm. Events may be used for auditing, debugging or understanding the system.
 
+Events can be exported to a number of SIEM products or viewed within your Console.
+
+In console, the events table presents a chronologically sorted view of all
+events that have occurred in the currently selected realm of the current
+tenant. The events are persisted for 90 days.
+
+### Principal Actor
+
+Principal actor is the entity whose action caused the event to be recorded.
+
+There are three types of actors:
+
+- Identity - this type of actor represents the end user
+- Application - this actor is used in case that a token minted using client_id + client_secret has been used to authorize an operation
+- Anonymous - used when there’s no actor information available. For example, at the very beginning of the login process, we don’t know who the user is yet, so there’s no way to supply an actor.
+
+### Correlation ID
+
+Unique identifier that links together events that are part of a single flow.
+
+### Outcome
+
+Outcome is a short, machine-readable description of the result of the operation that the event represents. By convention, outcome is formatted as an UPPERCASE string.
+
+Outcome is especially important for events that represent an attempt to perform an operation rather than the fact that an operation has been performed.
+
+Each event type has a different set of possible outcomes. Some event types don’t use an outcome because they are expressive enough by themselves.
 
 ## Policy
 
