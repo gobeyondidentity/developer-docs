@@ -9,7 +9,7 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 07/07/2023
+   date: 08/22/2023
    author: Jen Field
 draft: false
 doc_type: how-to
@@ -36,7 +36,7 @@ In order to validate an access token, you need the following:
 
 - the base64 encoded access token you wish to validate (can be self contained or referential)  
 
-- the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:introspect` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token. See the examples in [Create an access token](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api)).
+- the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:introspect` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see the examples in [Create an access token](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api)).
 
 ## Token validation API
 
@@ -48,7 +48,7 @@ The token validation API consists of the '/introspect' endpoint, which is compli
 The introspection endpoint has the following structure:  
 
 ```http
-https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect  
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect  
 ```
 
 ### Token validation request  
@@ -60,7 +60,7 @@ Create the HTTP request with the following properties:
 **Request URL:** 
 
 ```http
-https://auth-us.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
 ```
 
 **Request headers:**  
@@ -85,9 +85,6 @@ where
 
 {app_client_credentials_b64} is the value of the application's Client ID and Client secret in the format {client_id}:{client_secret} and base64 encoded  
 
-:::note
-The that token validation requests can be authenticated with the client credentials of the application for which the token was issued.  
-:::  
 
 **Request body:**  
 
