@@ -122,6 +122,9 @@ const sidebars = {
         'how-to/add-an-application',
         'how-to/add-an-identity',
         'how-to/add-passkey',
+        'how-to/configure-rbac',
+        'how-to/create-role',
+        'how-to/add-user-group-to-role',
         {
           type: 'category',
           label: 'Administrative',
@@ -130,10 +133,8 @@ const sidebars = {
           items: [ 
             'how-to/invite-teammate',
             'how-to/login-another-account',
-            'how-to/create-role',
-            'how-to/add-user-group-to-role',
             'how-to/add-groups',
-            'how-to/configure-rbac',
+            'how-to/configure-rbac-admin-realm',
             'how-to/add-rule-policy',
             'scim-server',
             'how-to/view-event-details',
