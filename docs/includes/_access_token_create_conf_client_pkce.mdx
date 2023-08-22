@@ -1,6 +1,6 @@
-In this flow, you call the app's '/authorize' endpoint, initiating a browser based flow where the user provides their credentials in exchange for a code. 
-In a second API call to the '/token' endpoint, you then exchange the code for an access token. 
-You authenticate the call to the '/token' endpoint with the app's credentials.  
+In this flow, you call the app's `/authorize` endpoint, initiating a browser based flow where the user provides their credentials in exchange for a code. 
+In a second API call to the `/token` endpoint, you then exchange the code for an access token. 
+You authenticate the call to the `/token` endpoint with the app's credentials.  
 
 Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/api-scopes#scopes-authorized-for-the-identity-approving-the-authorization-request) your app is requesting.   
 
@@ -17,7 +17,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   Fill in a **Display Name** and at least one **Redirect URI**, then click **Submit** to save the app.  
 
-2. Create your '/authorize' request  
+2. Create your `/authorize` request  
 
   Create the HTTP request with the following properties:  
 
@@ -46,18 +46,18 @@ Note that you will need an identity configured with the [ability to authorize th
     codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
    ```
 
-3. Consume the '/authorize' response and authorization code  
+3. Consume the `/authorize` response and authorization code  
 
-  In response to the '/authorize' request, Beyond Identity redirects to the app's configured authentication url. 
+  In response to the `/authorize` request, Beyond Identity redirects to the app's configured authentication url. 
   In this example, the authenticator configuration type is "Hosted Web", so the authentication url is hosted by Beyond Identity (see [Authenticator Configurations](/docs/next/authentication)).  
 
   :::info important  
   Please note that the redirection must be handled in the front end (such as React, Angular, or vanilla JavaScript running in the user's browser) in order for passkey authentication to work.  
   :::  
 
-  Once passkey based authentication is complete, Beyond Identity will redirect back to the app's configued redirect URI with a 'code' parameter in the query string.  You will use this code in the '/token' request.  
+  Once passkey based authentication is complete, Beyond Identity will redirect back to the app's configued redirect URI with a 'code' parameter in the query string.  You will use this code in the `/token` request.  
 
-1. Create your '/token' request  
+1. Create your `/token` request  
 
   Create the HTTP request with the following properties:  
 
@@ -65,7 +65,7 @@ Note that you will need an identity configured with the [ability to authorize th
 
   ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-  ```
+  ```  
 
   **Request method:** POST  
 
@@ -92,11 +92,11 @@ Note that you will need an identity configured with the [ability to authorize th
 
   where:  
 
-   - {authorization_code} is the code returned from the '/authorize' call  
+   - {authorization_code} is the code returned from the `/authorize` call  
 
    - {client_id} is the app's configured **Client ID**  
 
-   - {redirect_uri} is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
+   - {redirect_uri} is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the `/authorize` call  
 
    - {codeVerifier} is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:  
 
