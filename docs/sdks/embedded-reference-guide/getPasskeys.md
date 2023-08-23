@@ -1,8 +1,8 @@
 ---
 title: getPasskeys
-id: reference-getPasskeys
+id: embedded-reference-getPasskeys
 description: ""
-slug: /getPasskeys
+slug: /embedded-reference-getPasskeys
 keywords:
   - embedded sdk
 pagination_next: null
@@ -47,7 +47,7 @@ none
 
 ## Returns
 
-Upon success, returns a Promise that resolves to an array of [Passkey](/docs/next/js-reference-passkey-type).
+Upon success, returns a Promise that resolves to an array of [Passkey](/docs/next/embedded-reference-passkey-type).
 
 ## Examples
 

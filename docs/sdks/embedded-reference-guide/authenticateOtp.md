@@ -1,8 +1,8 @@
 ---
 title: authenticateOtp
-id: reference-authenticateOtp
+id: embedded-reference-authenticateOtp
 description: ""
-slug: /authenticateOtp
+slug: /embedded-reference-authenticateOtp
 keywords:
   - embedded sdk
 pagination_next: null
@@ -15,7 +15,7 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **authenticateOtp** function enables an app using the Beyond Identity Javascript SDK to initiate authentication using an OTP. The OTP gets sent to the provided email address. This function is used in conjunction with [redeemOtp](js-reference-redeemOtp).
+The **authenticateOtp** function enables an app using the Beyond Identity Javascript SDK to initiate authentication using an OTP. The OTP gets sent to the provided email address. This function is used in conjunction with [redeemOtp](embedded-reference-redeemOtp).
 
 ## Dependencies
 
@@ -61,7 +61,7 @@ On success, the **authenticateOtp** function returns a Promise that resolves to 
 **url**: object containing a URL containing the authentication state.
 
 :::note
-This URL should be saved and used when calling [redeemOtp](js-reference-redeemOtp).
+This URL should be saved and used when calling [redeemOtp](embedded-reference-redeemOtp).
 :::
 
 ## Examples

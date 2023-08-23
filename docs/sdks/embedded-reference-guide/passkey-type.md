@@ -1,8 +1,8 @@
 ---
 title: passkey-type
-id: reference-passkey-type
+id: embedded-reference-passkey-type
 description: ""
-slug: /passkey-type
+slug: /embedded-reference-passkey-type
 keywords:
   - embedded sdk
 pagination_next: null

@@ -1,8 +1,8 @@
 ---
 title: deletePasskey
-id: reference-deletePasskey
+id: embedded-reference-deletePasskey
 description: ""
-slug: /deletePasskey
+slug: /embedded-reference-deletePasskey
 keywords:
   - embedded sdk
 pagination_next: null
@@ -45,7 +45,7 @@ Before making a call to **deletePasskey**, you must complete the following prere
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **id** | string | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/next/js-reference-passkey-type) that is available on the device. |
+| **id** | string | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/next/embedded-reference-passkey-type) that is available on the device. |
 
 ## Examples
 

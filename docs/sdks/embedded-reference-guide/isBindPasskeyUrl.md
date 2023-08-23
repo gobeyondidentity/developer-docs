@@ -1,8 +1,8 @@
 ---
 title: isBindPasskeyUrl
-id: reference-isBindPasskeyUrl
+id: embedded-reference-isBindPasskeyUrl
 description: ""
-slug: /isBindPasskeyUrl
+slug: /embedded-reference-isBindPasskeyUrl
 keywords:
   - embedded sdk
 pagination_next: null

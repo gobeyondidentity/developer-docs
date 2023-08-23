@@ -1,8 +1,8 @@
 ---
 title: authenticate
-id: reference-authenticate
+id: embedded-reference-authenticate
 description: ""
-slug: /authenticate
+slug: /embedded-reference-authenticate
 keywords:
   - embedded sdk
 pagination_next: null

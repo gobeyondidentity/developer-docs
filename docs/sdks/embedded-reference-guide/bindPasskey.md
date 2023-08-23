@@ -1,8 +1,8 @@
 ---
 title: bindPasskey
-id: reference-bindPasskey
+id: embedded-reference-bindPasskey
 description: ""
-slug: /bindPasskey
+slug: /embedded-reference-bindPasskey
 keywords:
   - embedded sdk
 pagination_next: null
@@ -59,7 +59,7 @@ npm install @beyondidentity/bi-sdk-js
 
 On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is a JSON object that contains the following keys:
 
-- **passkey**: an object representing the newly created passkey. See example [passkey](/docs/next/js-reference-passkey-type).
+- **passkey**: an object representing the newly created passkey. See example [passkey](/docs/next/embedded-reference-passkey-type).
 
 - **postBindRedirect**: a string containing the URL to redirect to upon successfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 

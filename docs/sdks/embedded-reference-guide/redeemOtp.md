@@ -1,8 +1,8 @@
 ---
 title: redeemOtp
-id: reference-redeemOtp
+id: embedded-reference-redeemOtp
 description: ""
-slug: /redeemOtp
+slug: /embedded-reference-redeemOtp
 keywords:
   - embedded sdk
 pagination_next: null
@@ -15,7 +15,7 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](js-reference-authenticateOtp).
+The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](embedded-reference-authenticateOtp).
 
 ## Dependencies
 
@@ -57,7 +57,7 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](js-reference-authenticateOtp). |
+| **url** | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](embedded-reference-authenticateOtp). |
 | **otp** | string | Required. The OTP to redeem. |
 
 ## Returns
@@ -82,11 +82,11 @@ const response = await fetch(
 );
 ```
 
-This response will contain a `credential_binding_link`, which can be used by [isBindPasskeyUrl](js-reference-isBindPasskeyUrl) and [bindPasskey](js-reference-bindPasskey) to bind the credential.
+This response will contain a `credential_binding_link`, which can be used by [isBindPasskeyUrl](embedded-reference-isBindPasskeyUrl) and [bindPasskey](embedded-reference-bindPasskey) to bind the credential.
 
 On failure, the **redeemOtp** function returns a Promise that resolves to an **OtpChallengeResponse**, which itself is a JSON object that contains the following keys:
 
-Note: This url should be used when calling [redeemOtp](js-reference-redeemOtp) or [authenticateOtp](js-reference-authenticateOtp) on retries.
+Note: This url should be used when calling [redeemOtp](embedded-reference-redeemOtp) or [authenticateOtp](embedded-reference-authenticateOtp) on retries.
 
 - **url**: object containing a URL containing the state of the authentication.
 

@@ -1,8 +1,8 @@
 ---
 title: getAuthenticationContext
-id: reference-getAuthenticationContext
+id: embedded-reference-getAuthenticationContext
 description: ""
-slug: /getAuthenticationContext
+slug: /embedded-reference-getAuthenticationContext
 keywords:
   - embedded sdk
 pagination_next: null

@@ -1,8 +1,8 @@
 ---
 title: isAuthenticateUrl
-id: reference-isAuthenticateUrl
+id: embedded-reference-isAuthenticateUrl
 description: ""
-slug: /isAuthenticateUrl
+slug: /embedded-reference-isAuthenticateUrl
 keywords:
   - embedded sdk
 pagination_next: null
