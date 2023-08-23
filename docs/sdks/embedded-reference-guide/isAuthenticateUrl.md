@@ -1,10 +1,10 @@
 ---
 title: isAuthenticateUrl
-id: js-reference-isAuthenticateUrl
+id: reference-isAuthenticateUrl
 description: ""
-slug: /js-reference-isAuthenticateUrl
+slug: /isAuthenticateUrl
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

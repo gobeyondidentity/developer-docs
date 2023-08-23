@@ -1,10 +1,10 @@
 ---
 title: deletePasskey
-id: js-reference-deletePasskey
+id: reference-deletePasskey
 description: ""
-slug: /js-reference-deletePasskey
+slug: /deletePasskey
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

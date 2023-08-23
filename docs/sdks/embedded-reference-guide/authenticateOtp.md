@@ -1,10 +1,10 @@
 ---
 title: authenticateOtp
-id: js-reference-authenticateOtp
+id: reference-authenticateOtp
 description: ""
-slug: /js-reference-authenticateOtp
+slug: /authenticateOtp
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

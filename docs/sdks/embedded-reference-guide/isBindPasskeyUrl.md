@@ -1,10 +1,10 @@
 ---
 title: isBindPasskeyUrl
-id: js-reference-isBindPasskeyUrl
+id: reference-isBindPasskeyUrl
 description: ""
-slug: /js-reference-isBindPasskeyUrl
+slug: /isBindPasskeyUrl
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

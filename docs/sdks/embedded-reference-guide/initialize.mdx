@@ -1,10 +1,10 @@
 ---
 title: initialize
-id: js-reference-initialize
+id: reference-initialize
 description: ""
-slug: /js-reference-initialize
+slug: /initialize
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:
@@ -15,23 +15,19 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **initialize** function creates an instance of the Beyond Identity Javascript SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
+The **initialize** function creates an instance of the Beyond Identity SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
 
 ## Dependencies
 
-The **initialize** function requires the Beyond Identity Javascript SDK.
+The **initialize** function requires the Beyond Identity SDK.
 
-```bash
-npm install @beyondidentity/bi-sdk-js
-```
+<InstallationAll />
 
 ## Prerequisites
 
 Before making a call to **initialize**, you must import the Embedded namespace from the SDK.
 
-```javascript
-import { Embedded } from "@beyondidentity/bi-sdk-js";
-```
+<ImportAll />
 
 ## Parameters
 
@@ -48,3 +44,6 @@ On success, returns an instance of the **Embedded** class.
 ```javascript
 let embedded = await Embedded.initialize();
 ```
+
+import InstallationAll from '../../includes/_sdk-setup/_installation-all.mdx';
+import ImportAll from '../../includes/_sdk-setup/_import-all.mdx';

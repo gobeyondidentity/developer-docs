@@ -1,10 +1,10 @@
 ---
 title: authenticate
-id: js-reference-authenticate
+id: reference-authenticate
 description: ""
-slug: /js-reference-authenticate
+slug: /authenticate
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

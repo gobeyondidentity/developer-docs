@@ -1,10 +1,10 @@
 ---
 title: getAuthenticationContext
-id: js-reference-getAuthenticationContext
+id: reference-getAuthenticationContext
 description: ""
-slug: /js-reference-getAuthenticationContext
+slug: /getAuthenticationContext
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

@@ -1,10 +1,10 @@
 ---
 title: getPasskeys
-id: js-reference-getPasskeys
+id: reference-getPasskeys
 description: ""
-slug: /js-reference-getPasskeys
+slug: /getPasskeys
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

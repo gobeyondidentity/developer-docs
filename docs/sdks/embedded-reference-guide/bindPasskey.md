@@ -1,10 +1,10 @@
 ---
 title: bindPasskey
-id: js-reference-bindPasskey
+id: reference-bindPasskey
 description: ""
-slug: /js-reference-bindPasskey
+slug: /bindPasskey
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

@@ -1,10 +1,10 @@
 ---
 title: passkey-type
-id: js-reference-passkey-type
+id: reference-passkey-type
 description: ""
-slug: /js-reference-passkey-type
+slug: /passkey-type
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:

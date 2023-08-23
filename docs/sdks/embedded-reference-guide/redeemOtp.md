@@ -1,10 +1,10 @@
 ---
 title: redeemOtp
-id: js-reference-redeemOtp
+id: reference-redeemOtp
 description: ""
-slug: /js-reference-redeemOtp
+slug: /redeemOtp
 keywords:
-  - javascript sdk
+  - embedded sdk
 pagination_next: null
 pagination_prev: null
 last_update:
