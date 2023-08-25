@@ -9,7 +9,7 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 07/10/2023
+   date: 08/21/2023
    author: Jen Field
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -46,33 +46,45 @@ Note that the list of **Scopes** available to request comes from the **Resource 
 
 ## API
 
-To request tokens for an app programmatically, send a request to the app's token request API. 
+Using API requests, you can create tokens for apps that use either the client credentials or the authorization code grant type. To request tokens for an app programmatically, send a request to the app's `/authorize` and/or `/token` API endpoints. The requests  follow the OAuth and OIDC protocols as described below.    
 
-These requests follow the OAuth and OIDC protocols.  
 
-### Token Request URL and Endpoints
+### Token Request Scenarios
 
-The token request API URL is based on the Beyond Identity tenant, realm, and application for which a token is being requested. 
+There are three main scenarios for requesting an access token:  
 
-The API host name is prefixed with "auth-us" or "auth-eu", depending on the region of the tenant. 
+1. Using the OAuth [client credentials grant type with a confidential client](#client-credentials-grant-type-confidential-client)  
 
-:::note  
-Note that the host name for token requests is distinct from the Beyond Identity Management API, which uses "api-us" or "api-eu".  
-:::  
+    Use this grant type for an app or script that accesses resources under its own identity with no user involved (machine to machine). The app must provide its own credentials for authentication to the authorization server.  
+
+2. Using the OIDC [authorization code grant type with a public client (PKCE required)](#authorization-code-with-pkce-public-client)  
+
+    The authorization code grant type is intended for scenarios in which a user must provide their credentials and authorize access. Based on the user's authentication and consent, the authorization server returns a code that the app can then exchange for access tokens. In addition, the OIDC protocol provides for an id_token that the client app itself can consume for information about the user.   
+
+    A "public client" refers to an app that runs on the client side, such as a native mobile app or a javascript app that runs entirely in the browser, that cannot protect client credentials. [PKCE](https://datatracker.ietf.org/doc/html/rfc7637) is required for such apps.  
+
+3. Using the OIDC [authorization code grant type with a confidential client (PKCE recommended)](#authorization-code-with-pkce-confidential-client)     
+
+    This scenario is like the above, except that a "confidential client" is an app with a back end that can protect client credentials. [PKCE](https://datatracker.ietf.org/doc/html/rfc7637) is recommended but not required for such apps.  
+
+
+### Authorization and Token request URLs
+
+The URLs to send authorization and token requests for an app are based on the Beyond Identity tenant, realm, and application ID.  
 
 There are two main endpoints for requesting tokens:   
 
-The /authorize endpoint: 
+The `/authorize` endpoint: 
 
 ```http
-https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize  
-```
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize   
+```  
 
-and the /token endpoint:  
+and the `/token` endpoint:  
 
 ```http
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
-```
+```  
 
 where:  
 
@@ -80,17 +92,21 @@ where:
 
 - {realm_id} is the **Realm Id** of the realm in which the application is configured
 
-- {application_id} is the **Application ID** of the app
+- {application_id} is the **Application ID** of the app  
 
-### Token Request Scenarios
+### Finding app endpoint URLs
+For any Beyond Identity application, you can find the authorization and token request URLs in the Admin Console on the app's External Protocol tab.  
 
-There are three main scenarios for requesting an access token:  
+#### App that uses the Client Credentials grant type
+An app that uses the client credentials grant type will only have a `/token` endpoint as shown here:  
 
-- Using the OAuth [client credentials grant type with a confidential client](#client-credentials-grant-type-confidential-client)
+![Client credentials endpoints](../images/admin-console/client-credentials-app-endpoints.png)  
 
-- Using the OIDC [authorization code grant type with a public client (PKCE required)](#authorization-code-with-pkce-public-client)
+#### App that uses the Authorization Code grant type
+An app that uses the authorization code grant type will have both `/authorize` and `/token` endpoints as shown below:  
 
-- Using the OIDC [authorization code grant type with a confidential client (PKCE recommended)](#authorization-code-with-pkce-confidential-client)
+![Authorization code endpoints](../images/admin-console/authorization-code-app-endpoints.png)  
+
 
 ### Client credentials grant type (Confidential client)
 
@@ -110,108 +126,51 @@ import AccessTokenCreateConfClientPkce  from '../includes/_access_token_create_c
 
 <AccessTokenCreateConfClientPkce />
 
+### Token response
+#### Client credentials response
+The reponse to a `/token` request using the client credentials grant type for an OAuth app is a json object that contains an access_token:  
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... VC-aYWQ62_A1WJj3fPZVEvXhClbZUhGbE3Eu78z",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "scope": "myapp:read"
+}
+```
+
+#### Access token response
+The reponse to a `/token` request using the authorization code grant type for an OIDC app is a json object that contains an access_token and an id_token:  
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... WRDP_TWtJJe_qKiX6l4HiTFBv6jcPf2chkroDm",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "scope": "myapp:read",
+  "id_token": "eyJhbGciOiJSUzI1NiIsImtpZ ... RedXTbWhBjxcYfh3MTWCnijaozSEud4S8WatKsvg"
+}
+```
+
+#### Access token and refresh token response
+The reponse to a `/token` request using the authorization code grant type for an OIDC app that has <b>Enable Refresh Tokens</b> checked is a json object that contains an access_token, refresh_token, and id_token:  
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... 0NJrpbRJjyafVvV3iFgwgf51y9HO",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJh ... _ATJOHUEeKuScnIWnHtNdmxwIT2H",
+  "scope": "myapp:read",
+  "id_token": "eyJhbGciOiJSUzI1Ni ... rApNYtgqpWY7ripecTXqoHXHna8kq2M7W"
+}
+```
+
 ### Example: Create a Token for the Beyond Identity Management API
 
-<Tabs>
-<TabItem value="client-credentials" label="Client Credentials">
+import CreateBiApiTokenExample from '../includes/_access_token_create_bi_api_example.mdx';
 
-The Beyond Identity Management API application created during developer setup only supports the **Client Credentials** flow. Use the below example to create an access token. 
-
-<MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(MANAGEMENT_APPLICATION_ID)/token" \
--X POST \
--u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
--H "Content-Type: application/x-www-form-urlencoded" \
--d "grant_type=client_credentials&scope=$(SCOPES)"'
-title="/token"
-/>  
-
-where:  
-
-- MANAGEMENT_APPLICATION_ID is the **Application ID** of the built in app 'Beyond Identity Management API', or of an app created with the built in **Resource Server** 'Beyond Identity Management API'  
-
-- MANAGEMENT_API_CLIENT_ID and MANAGEMENT_API_CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the built in app 'Beyond Identity Management API', or of an app created with the built in **Resource Server** 'Beyond Identity Management API'
-
-- SCOPES is one or more of the app's **Allowed Scopes**, space delimited  
-
-:::info important  
-We recommend that you create a copy of the built in 'Beyond Identity Management API' app, pointing to the 'Beyond Identity Management API' **Resource Server**, and use the credentials of the new app rather than using the built in app's credentials.  
-:::  
-
-
-</TabItem>
-<TabItem value="authorization-code" label="Authorization Code">
-
-To use this flow, create an application referencing the built in 'Beyond Identity Management API' **Resource Server** in the **Beyond Identity Admin** Realm. Set the application's **Protocol** to 'OIDC' and **Grant Type** to 'Authorization Code'.  
-<br />
-
-Use the following examples to obtain an authorization code and then to create a token with that code. 
-
-:::tip
-Our example uses `S256`, but using the `plain` `code_challenge_method` might be easier to get started. This is because PKCE requires storing the hash of the value passed as `code_challenge` so it gets passed to the token endpoint later. 
-:::
-
-1. Authenticate to obtain an authorization code.
-
-  <MultiLanguageCodeBlock
-  curl='curl -G "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/authorize" \
-  --data-urlencode "response_type=code" \
-  --data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
-  --data-urlencode "redirect_uri=$(REDIRECT_URI)" \
-  --data-urlencode "scope=$(SCOPES)" \
-  --data-urlencode "state=$(STATE)" \
-  --data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
-  --data-urlencode "code_challenge_method=S256"'
-  title="/authorize"
-  />
-
-  where:  
-  
-   - APPLICATION_CLIENT_ID is the app's **Client ID**  
-  
-   - REDIRECT_URI is one of the app's configured **Redirect URI** values  
- 
-   - SCOPES is 'openid' plus one or more of the app's **Allowed Scopes**, space delimited  
- 
-   - STATE is a value generated by your app to maintain state betewen the request and response  
- 
-   - CODE_CHALLENGE is generated as defined in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:  
-
-  ```javascript
-    codeVerifier = crypto.randomBytes(32).toString('base64url');
-    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```
-
-2. Create an access token with the authorization code.
-
-  <MultiLanguageCodeBlock
-  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
-  -X POST \
-  -u "$(MANAGEMENT_API_CLIENT_ID):$(MANAGEMENT_API_CLIENT_SECRET)" --basic \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(APP_CLIENT_ID)&code_verifier=$(CODE_VERIFIER)"'
-  title="/token"
-  />  
-
-  where:  
-
-   - MANAGEMENT_API_CLIENT_ID and MANAGEMENT_API_CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app created with the built in **Resource Server** 'Beyond Identity Management API'  
-
-   - CODE is the code returned from the '/authorize' call  
- 
-   - REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
-
-   - APP_CLIENT_ID is the app's configured **Client ID**  
-
-   - CODE_VERIFIER is defined as in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1), example JavaScript snippet below:  
-
-  ```javascript
-    codeVerifier = crypto.randomBytes(32).toString('base64url');
-    codeChallenge = crypto.createHash('sha256').update(codeVerifier).digest().toString('base64url');
-  ```
-
-</TabItem>
-</Tabs>
+<CreateBiApiTokenExample />  
 
 ### Example: Create a Token with a Limited Expiration Time
 
@@ -282,9 +241,9 @@ where:
 
 - CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app  
 
-- CODE is the code returned from the '/authorize' call  
+- CODE is the code returned from the `/authorize` call  
 
-- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
+- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the `/authorize` call  
 
 - CLIENT_ID is the app's configured **Client ID**  
 
@@ -393,9 +352,9 @@ where:
 
 - CLIENT_ID and CLIENT_SECRET are the **Client ID** and **Client Secret**, respectively, of the app  
 
-- CODE is the code returned from the '/authorize' call  
+- CODE is the code returned from the `/authorize` call  
 
-- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the '/authorize' call  
+- REDIRECT_URI is one of the app's configured **Redirect URI** values and matches the redirect_uri sent in the `/authorize` call  
 
 - CLIENT_ID is the app's configured **Client ID**  
 
