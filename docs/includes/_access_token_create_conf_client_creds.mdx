@@ -11,23 +11,16 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
   | Property | Value |
   | --- | --- |
   | **Display Name** | Descriptive name you choose |
-  | **Protocol** | OIDC |
+  | **Protocol** | OAuth2 |
   | **Client Type** | Confidential |
   | **PKCE** | Disabled |
   | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
   | **Token Endpoint Auth Method** | Client Secret Basic |
   | **Grant Type** | Client Credentials |
 
-4. Click the **Authenticator Config** tab
+4. Click **Submit** to save the new app.
 
-  | Property | Value |
-  | --- | --- |
-  | **Configuration Type** | Hosted Web |
-  | **Authentication Profile** | Use the recommended values for the remaining options |
-
-5. Click **Submit** to save the new app.
-
-6. Next, create the HTTP request:
+  Next, create the HTTP request:
 
   **Request url:**
 
@@ -35,7 +28,9 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
   ```
 
-  This endpoint can also be found in the Console, by navigating to your Application, then to the **External Protocol** tab, and scrolling down until you find the **Token Endpoint**.
+  You can find the `/token` url in the Admin Console on the app's External Protocol tab as shown here:
+
+  ![Client credentials endpoints](../images/admin-console/client-credentials-app-endpoints.png)
 
   **Request method:** POST
 
