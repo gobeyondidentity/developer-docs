@@ -1,51 +1,49 @@
-In this simple flow, you will use the app's credentials to authenticate a single API call to the app's `/token` endpoint.  
+In this simple flow, you will use the app's credentials to authenticate a single API call to the app's `/token` endpoint.
 
-First, create the app:  
+First, create the app:
 
-import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
+import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-3. On the **External Protocol** tab, use the following values to complete this tab.  
+3. On the **External Protocol** tab, use the following values to complete this tab.
 
-  | Property | Value | 
-  |---|---|  
-  |**Protocol**|OAuth2|  
-  |**Client Type**|Confidential|
-  |**PKCE**|Disabled|
-  |**Token Endpoint Auth Method**|Client Secret Basic|
-  |**Grant Type**|Client Credentials|  
+  | Property | Value |
+  | --- | --- |
+  | **Display Name** | Descriptive name you choose |
+  | **Protocol** | OAuth2 |
+  | **Client Type** | Confidential |
+  | **PKCE** | Disabled |
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic |
+  | **Grant Type** | Client Credentials |
 
-4. Click **Submit** to save the new app.  
+4. Click **Submit** to save the new app.
 
-Next, create the HTTP request:  
+  Next, create the HTTP request:
 
-  **Request url:**  
+  **Request url:**
 
   ```http
   https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token
-  ```  
+  ```
 
-You can find the `/token` url in the Admin Console on the app's External Protocol tab as shown here:  
+  You can find the `/token` url in the Admin Console on the app's External Protocol tab as shown here:
 
-![Client credentials endpoints](../images/admin-console/client-credentials-app-endpoints.png)  
+  ![Client credentials endpoints](../images/admin-console/client-credentials-app-endpoints.png)
 
+  **Request method:** POST
 
-  **Request method:** POST  
-
-  **Request headers:**  
+  **Request headers:**
 
   ```http
   Authorization: Basic {client_credentials}
-  content-type: application/x-www-form-urlencoded  
+  content-type: application/x-www-form-urlencoded
   ```
 
-  where:  
-  - {client_credentials} is value of the app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded  
+  where {client_credentials} is value of the app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded
 
-
-
-  **Request body:**  
+  **Request body:**
 
   ```http
   grant_type: "client_credentials"
@@ -54,10 +52,10 @@ You can find the `/token` url in the Admin Console on the app's External Protoco
   custom_claims: {custom_claims_json}
   ```
 
-  where:  
+  where:
 
-  - {scopes} is one or more of the app's **Allowed Scopes**, space delimited.  
-
-  - expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting  
-
-  - custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims.
+  | Property | Value |
+  | --- | --- |
+  | **scope** | {scopes} is one or more of the app's **Allowed Scopes**, space delimited. |
+  | **expiration_time** | expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting |
+  | **custom_claims** | custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims. |

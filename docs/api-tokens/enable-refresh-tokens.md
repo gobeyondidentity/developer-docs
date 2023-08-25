@@ -34,7 +34,7 @@ Use a refresh token to obtain a new access token as follows:
 
 ### Endpoints
 
-The request uses the app's '/token' endpoint:  
+The request uses the app's `/token` endpoint:  
 
 ```http
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token  
