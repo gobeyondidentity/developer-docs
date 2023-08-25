@@ -1,5 +1,5 @@
 ---
-title: passkey-type
+title: passkeyType
 id: embedded-reference-passkey-type
 description: ""
 slug: /embedded-reference-passkey-type

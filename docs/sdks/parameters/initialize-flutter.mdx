@@ -1,0 +1,5 @@
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **biometricAskPrompt** | `String` | **Required.** A prompt the user will see when asked for biometrics while extending a passkey to another device. |
+| **allowedDomains** | `List<String>?` | Optional array of domains that we whitelist against for network operations. This will default to Beyond Identity's allowed domains. |
+| **logger** | `Future<Function>?` | Custom logger to get logs from the SDK. To enable logging, pass `EmbeddedSdk.enableLogger`, otherwise, pass null. |

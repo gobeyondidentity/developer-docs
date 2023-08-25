@@ -314,10 +314,10 @@ const sidebars = {
         "sdks/embedded-reference-guide/embedded-reference-authenticate",
         "sdks/embedded-reference-guide/embedded-reference-getPasskeys",
         "sdks/embedded-reference-guide/embedded-reference-deletePasskey",
-        "sdks/embedded-reference-guide/embedded-reference-passkey-type",
         "sdks/embedded-reference-guide/embedded-reference-getAuthenticationContext",
         "sdks/embedded-reference-guide/embedded-reference-authenticateOtp",
         "sdks/embedded-reference-guide/embedded-reference-redeemOtp",
+        "sdks/embedded-reference-guide/embedded-reference-passkey-type",
       ],
     },
     {
