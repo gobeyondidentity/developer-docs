@@ -111,7 +111,17 @@ Storing tokens in local storage can be a security risk and is generally not reco
 
 1. **Lack of Automatic Token Handling:** Unlike HTTP cookies, local storage does not automatically include tokens in the request headers. Developers need to manually add tokens to each request, increasing the chances of accidentally exposing the token through log files or other vulnerable channels.
 
+For more information, the Open Worldwide Application Security Project (OWASP) has a Cheat Sheet on [Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
+
 So, if not local storage, what should you use instead?
+
+We recommend storing session information in session cookies; There are several built-in security features specifically intended to protect session-related data.
+
+Depending on your application, you can store the [access and refresh tokens](#session-cookie-strategy-tokens) in session cookies. This is useful if you want to manage sessions on your application's frontend.
+
+Alteratively, you can securely store your access and refresh tokens in your server, and generate a [session id](#session-cookie-strategy-session-id) which can be used by your client. This is useful if you want to manage sessions on your application's backend.
+
+### Session Cookie Strategy (Tokens)
 
 For sensitive tokens like access tokens and refresh tokens, it is best to store them in HTTP-only cookies with the Secure flag. HTTP-only cookies cannot be accessed by client-side scripts, making them more secure against XSS attacks. The Secure flag ensures that the cookies are only transmitted over secure HTTPS connections, preventing eavesdropping on unencrypted connections.
 
@@ -119,9 +129,7 @@ If you need to store some non-sensitive data on the client-side, you can conside
 
 For optimal security and protection of sensitive tokens, consider using an authentication flow that relies on secure HTTP-only cookies for storing tokens and always use HTTPS to encrypt communication between the client and server. Additionally, follow security best practices and keep your application up to date with the latest security patches.
 
-For more information, the Open Worldwide Application Security Project (OWASP) has a Cheat Sheet on [Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
-
-### Session Cookie Strategy
+### Session Cookie Strategy (Session ID)
 
 The Session Cookie Strategy is a technique used for managing user sessions in web applications. It relies on the use of session cookies to maintain session state information on the client-side. When a user logs in, the server generates a session identifier and stores relevant session data on the server side. This session identifier is then sent to the client as a cookie, and the client includes this cookie in subsequent requests to the server. This way, the server can associate the incoming requests with the appropriate session data.
 
