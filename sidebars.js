@@ -137,6 +137,8 @@ const sidebars = {
             'how-to/add-rule-policy',
             'scim-server',
             'how-to/view-event-details',
+            'how-to/view-auth-logs',
+            'how-to/view-admin-actions',
             'how-to/customize-app',
           ],
         },
