@@ -130,35 +130,41 @@ import AccessTokenCreateConfClientPkce  from '../includes/_access_token_create_c
 #### Client credentials response
 The reponse to a `/token` request using the client credentials grant type for an OAuth app is a json object that contains an access_token:  
 
-```json  
-{"access_token":"eyJ0eXAiOiJKV1QiLCJh ... VC-aYWQ62_A1WJj3fPZVEvXhClbZUhGbE3Eu78z",
- "token_type":"Bearer",
- "expires_in":86400,
- "scope":"myapp:read"}
-```  
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... VC-aYWQ62_A1WJj3fPZVEvXhClbZUhGbE3Eu78z",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "scope": "myapp:read"
+}
+```
 
 #### Access token response
 The reponse to a `/token` request using the authorization code grant type for an OIDC app is a json object that contains an access_token and an id_token:  
 
 ```json
-{"access_token":"eyJ0eXAiOiJKV1QiLCJh ... WRDP_TWtJJe_qKiX6l4HiTFBv6jcPf2chkroDm",
- "token_type":"Bearer",
- "expires_in":86400,
- "scope":"myapp:read",
- "id_token":"eyJhbGciOiJSUzI1NiIsImtpZ ... RedXTbWhBjxcYfh3MTWCnijaozSEud4S8WatKsvg"}
-```  
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... WRDP_TWtJJe_qKiX6l4HiTFBv6jcPf2chkroDm",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "scope": "myapp:read",
+  "id_token": "eyJhbGciOiJSUzI1NiIsImtpZ ... RedXTbWhBjxcYfh3MTWCnijaozSEud4S8WatKsvg"
+}
+```
 
 #### Access token and refresh token response
 The reponse to a `/token` request using the authorization code grant type for an OIDC app that has <b>Enable Refresh Tokens</b> checked is a json object that contains an access_token, refresh_token, and id_token:  
 
 ```json
-{"access_token":"eyJ0eXAiOiJKV1QiLCJh ... 0NJrpbRJjyafVvV3iFgwgf51y9HO",
- "token_type":"Bearer",
- "expires_in":86400,
- "refresh_token":"eyJ0eXAiOiJKV1QiLCJh ... _ATJOHUEeKuScnIWnHtNdmxwIT2H",
- "scope":"myapp:read",
- "id_token":"eyJhbGciOiJSUzI1Ni ... rApNYtgqpWY7ripecTXqoHXHna8kq2M7W"}
-```  
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJh ... 0NJrpbRJjyafVvV3iFgwgf51y9HO",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJh ... _ATJOHUEeKuScnIWnHtNdmxwIT2H",
+  "scope": "myapp:read",
+  "id_token": "eyJhbGciOiJSUzI1Ni ... rApNYtgqpWY7ripecTXqoHXHna8kq2M7W"
+}
+```
 
 ### Example: Create a Token for the Beyond Identity Management API
 
