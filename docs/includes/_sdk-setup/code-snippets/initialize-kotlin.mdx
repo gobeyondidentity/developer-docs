@@ -1,0 +1,27 @@
+```kotlin
+// --- Initialize with required arguments
+EmbeddedSdk.init(
+  app = this,
+  keyguardPrompt = { allowCallback ->
+    // launch the keyguard service and then
+    // call allowCallback with the result
+  },
+  logger = { logMessage ->
+    Log.d("BeyondIdentityLog", logMessage)
+  }
+)
+
+// --- Initialize with required and optional arguments
+EmbeddedSdk.init(
+  app = this,
+  keyguardPrompt = { allowCallback ->
+    // launch the keyguard service and then
+    // call allowCallback with the result
+  },
+  logger = { logMessage ->
+    Log.d("BeyondIdentityLog", logMessage)
+  },
+  biometricAskPrompt = getString(R.string.embedded_export_biometric_prompt_title),
+  allowedDomains = listOf("example.com", "another-example.com")
+)
+```

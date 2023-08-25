@@ -1,0 +1,15 @@
+```dart
+// --- Initialize with required arguments
+EmbeddedSdk.initialize('Please provide your biometric');
+
+// --- Initialize with required and optional arguments
+EmbeddedSdk.initialize(
+  'Please provide your biometric',
+  allowedDomains: ["example.com", "another-example.com"],
+  logger: EmbeddedSdk.enableLogger
+).then(() {
+  print('Initialization successful');
+}).catchError((error) {
+  print('Initialization failed: $error');
+});
+```

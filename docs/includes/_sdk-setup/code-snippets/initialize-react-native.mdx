@@ -1,0 +1,20 @@
+```javascript
+// --- Initialize with required arguments
+try {
+  const response = await Embedded.initialize("Please provide your biometric");
+  console.log(response);
+} catch (error) {
+  console.error("Initialization failed:", error);
+}
+
+// --- Initialize with required and optional arguments
+try {
+  const response = await Embedded.initialize(
+    "Please provide your biometric", [
+    ("example.com", "another-example.com"),
+  ]);
+  console.log(response);
+} catch (error) {
+  console.error("Initialization failed:", error);
+}
+```
