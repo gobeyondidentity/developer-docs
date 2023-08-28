@@ -146,6 +146,7 @@ const sidebars = {
             'how-to/login-another-account',
             'how-to/add-groups',
             'how-to/configure-rbac-admin-realm',
+            'how-to/create-bi-api-token',
             'how-to/add-rule-policy',
             'scim-server',
             'how-to/view-event-details',
@@ -228,11 +229,6 @@ const sidebars = {
               type: 'doc',
               id: 'integration-guides/azure-ad-b2c',
               label: 'Azure AD B2C',
-            },
-            {
-              type: 'doc',
-              id: 'integration-guides/beyond-identity',
-              label: 'Beyond Identity Workforce',
             },
             {
               type: 'doc',

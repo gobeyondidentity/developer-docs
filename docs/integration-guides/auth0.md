@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/15/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -38,31 +38,35 @@ Before continuing, make sure you've met the following prerequisites:
 
 ## Add Beyond Identity as an Identity Provider
 
-Depending on your Auth0 subscription (license), you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](#custom-social-oauth20-connection). 
+Depending on your Auth0 subscription (license), you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](#custom-social-oidc-connection). 
 
-### Step 1. Create an Inbound OIDC client in Beyond Identity
+### Create an OIDC App in Beyond Identity
 
-1. From the Admin Console, under **Authentication**, select **Apps > Add new app** and use the following values:
+import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
-   * **Display Name** = Auth0 SSO
+<AddAppAdminConsole />
 
-   * **Redirect URIs** = `https://DOMAIN.auth0.com/login/callback`
+3. Select **Protocol** 'OIDC'.  
 
-   * Replace `DOMAIN` with your Auth0 domain URL
+4. Configure the **Redirect URIs** as follows:
+
+   `https://DOMAIN.auth0.com/login/callback`
+
+   where `DOMAIN` is replaced with your Auth0 domain URL
 
      **Example:** 
 
      ```http
-     https://byndid-auth0-demo.us.auth0.com/login/callback
-     ```
+     https://dev-myauth099.us.auth0.com/login/callback
+     ```  
 
-3. Leave all other fields with their default values and click **Submit**. 
+5. On the **Authenticator Config** tab, for **Configuration Type** select 'Hosted Web'.  
 
-  <p><mark>It looks like this image is old.  If so, we'll need a new image.</mark></p>
+6. Leave all other fields with their default values and click **Submit**.  
 
-  ![](../images/integration-guides/sso-auth0-oidc-client.png)
+7. Click the newly created OIDC client app and copy and save the following values because you'll need them for the next few steps.
 
-4. Select the newly created OIDC client configuration and copy and save the following values because you'll need them for the next few steps.
+   * **Issuer**
 
    * **Authorization Endpoint**
 
@@ -72,11 +76,8 @@ Depending on your Auth0 subscription (license), you can add Beyond Identity as a
 
    * **Client Secret**
 
-  <p><mark>Do we need a screenshot here because the instruction (step) is explicit enough?</mark></p>
 
-  ![](../images/integration-guides/sso-auth0-edit-sso.png)
-
-### Step 2. Enterprise OIDC Connection
+### Enterprise OIDC Connection
 
 1. On the left side menu, click **Authentication**,  and click **Enterprise** from the expanded menu.
 
@@ -115,28 +116,24 @@ Depending on your Auth0 subscription (license), you can add Beyond Identity as a
 
 1. Scroll down and click **Save**.
 
-### Step 3. Custom Social (OAuth2.0) Connection
+### Custom Social OIDC Connection
 
 1. On the left side menu, click **Authentication**, and from the expanded menu, click **Social**.
 
-2. On the **Social Connections** page,  click the **+ Create Connection** button in the top right corner:
+2. On the **Social Connections** page,  click the **+ Create Connection** button in the top right corner, then scroll down and select **Create Custom**:
 
   ![custom-auth](../images/integration-guides/sso-auth0-custom-auth.png)
 
-3. On the **New Social Connection** page, scroll down to **Create Custom**.
-
-  ![enable-connection](../images/integration-guides/sso-auth0-enable-connection.png)
-
-4. On the new connection form, enter the following values:
+3. On the new connection form, enter the following values:
 
   | Field | Value |
   | --- | --- |
-  | **Connection Name**  | **Beyond Identity**  |
-  | **Authorization URL**  | From Authorization URL created in Beyond Identity  |
-  | **Token URL**  | From Token URL created in Beyond Identity  |
+  | **Connection Name**  | **Beyond-Identity**  |
+  | **Authorization URL**  | From the **Authorization Endpoint** for the app created in Beyond Identity  |
+  | **Token URL**  | From the **Token Endpoint** for the app created in Beyond Identity  |
   | **Scope**  | `openid email`  |
-  | **Client ID**  | From OIDC client created in Beyond Identity  |
-  | **Client Secret**  | From OIDC client created in Beyond Identity  |
+  | **Client ID**  | From the **Client ID** of the app created in Beyond Identity  |
+  | **Client Secret**  | From the **Client Secret** of the app created in Beyond Identity  |
 
 5. Enter the following code snippet under **Fetch User profile Script**:
 
@@ -164,7 +161,9 @@ Depending on your Auth0 subscription (license), you can add Beyond Identity as a
         }
      });
   }
-  ```
+  ```  
+  where `<BEYOND_IDENTITY_BASE_URL>/userinfo` is replaced with the **User Info Endpoint** from the app you created in Beyond Identity  
+
 
 5. Leave the other values as default and click **Create**.
 
@@ -186,53 +185,66 @@ Depending on your Auth0 subscription (license), you can add Beyond Identity as a
   
   - Auth0's API reference: https://auth0.com/docs/api/authentication#social 
 
-### Step 4. Enable the Beyond Identity connection in Auth0
 
-1. From the left side menu, select **Connections > Enterprise > Beyond-Identity > Applications**.
 
-2. Enable OIDC or Custom OAuth2.0 for the Beyond Identity Admin portal and any applications you wish to use Beyond Identity.
 
-![callback)](../images/integration-guides/sso-auth0-callback.png)
-
-### Step 5. Confirm Callback URL
+### Confirm Auth0 Callback URL in Beyond Identity
 
 :::note important
 Check that the Auth0 callback URL is correct in the Beyond Identity OIDC integration.
 :::
 
-1. In Auth0, under the **Settings** tab of the **Beyond Identity OIDC connection** created above, make a note of the Callback URL as shown below:
+1. In Auth0, under the **Settings** tab of the **Beyond Identity OIDC connection** created above, make a note of the Callback URL as shown below:  
+![callback)](../images/integration-guides/sso-auth0-callback.png)  
 
-  ![](../images/integration-guides/sso-auth0-edit-sso.png)
 
-2. Navigate to the Beyond Identity Admin portal, select the **Integrations tab**, and click **OIDC Clients**. <mark>This sounds like the Secure Workforce BI Admin Console.</mark>
+2. Navigate to the Beyond Identity Admin portal, Under **Authentication** click  **Apps**.  
 
-1. Select the OIDC client you created above and click **Edit**.
+3. Click the Auth0 app you created above.
 
-3. Ensure that the **Redirect URI** value matches the value in the Auth0 connection. If the values do not match, update the value with the **Callback URL** from Auth0.
+4. Ensure that the **Redirect URI** value matches the value in the Auth0 connection. If the values do not match, update the value with the **Callback URL** from Auth0 and click **Submit**.
 
-### Step 6. Provision a test user
-
-Before users can authenticate with Beyond Identity, you must provision them in the Beyond Identity Directory. As Auth0 does not support SCIM, you must manually provision users using the Beyond Identity Admin Portal or the [Create User API](https://developer.beyondidentity.com/api/v0#tag/Users/operation/CreateUser). See the [Admin Console video tutorial](https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview) that shows how to navigate to the directory area of the admin portal. 
-
-import AddAnIdentity from '../includes/_add-an-identity.mdx';
-
-<AddAnIdentity />
-
-<mark>Will the user need to add a passkey at this point?</mark>
-
-:::tip Deprovision users
-To deprovision users from the Beyond Identity experience, access the Beyond Identity Admin Console and manually delete the appropriate user(s).
-:::
 
 ## Configure Auth0 to delegate to Beyond Identity
-
-<p><mark> I'm not quite sure what to call this section, but it's specific for JavaScript, Kotlin, and so forth. </mark></p>
-
-This section of the guide describes how to configure Auth0 to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
+This section of the guide describes how to configure Auth0 to delegate requests to Beyond Identity for authentication during an OAuth2 authorization flow. 
 
 import IntegrateWithAuth0Flow from '../images/integration-guides/integrate-with-auth0-flow.png';
 
-<img src={IntegrateWithAuth0Flow} id="workflows" alt="Integration with Auth0 flow" />
+<img src={IntegrateWithAuth0Flow} id="workflows" alt="Integration with Auth0 flow" />  
+
+
+In this section you will
+ - Configure your example app to use Auth0 for authentication, including creating the app in Auth0
+ - Configure Auth0 to ensure the authentication requests from the app to Auth0 can use Beyond Identity for authentication  
+
+### Create the app in Auth0
+In your Auth0 tenant:  
+1. On the left side menu, click **Applications**,  and then **Applications** from the expanded menu.
+
+2. On the **Applications** page, click **Create Application**.  
+
+3. Provide the app a name such as "NextAuth.js App" or similar and select the appropriate app type based on your platform, then click **Create**
+
+4. Click the **Settings** tab 
+
+5. In the **Allowed Callback Urls**, specify a route in your app that is capable of handling the code that is returned from the authorization call and exchanging it for access and/or refresh tokens. For a web app this will be a URL, or for a native app this will be an App Scheme or Universal URL.  
+
+  For example: In a Next.js application using NextAuth, your redirect URI would follow the pattern:
+`http://localhost:3000/api/auth/callback/auth0`
+
+6. Copy the values for **Domain**, **Client ID**, and **Client Secret** 
+
+7. Click **Save** to save the new app
+
+### Enable the app on your Beyond Identity connection in Auth0
+In order for Beyond Identity to show up as an authentication option for your app, you need to enable the Beyond Identity connection for that app in Auth0:
+
+1. In Auth0, navigate to the Enterprise or Social connection you created above for Beyond Identity.  
+
+2. Within the Enterprise or Social connection, click the **Applications** tab and toggle the entry for the app you have just created.
+
+#### Configure Auth0 connection in the NextAuth.js sample app
+Now you will create Auth0 as an OAuth provider in your app:  
 
 
 import Tabs from '@theme/Tabs';
@@ -261,4 +273,5 @@ import SwiftAuth0 from '../includes/_sdks/_swift-auth0.mdx';
   <TabItem value="swift" label="Swift">
     <SwiftAuth0 />
   </TabItem>
-</Tabs>
+</Tabs>  
+

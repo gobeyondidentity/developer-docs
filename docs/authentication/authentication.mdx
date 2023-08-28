@@ -12,8 +12,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/02/2023
-  author: Anna Garcia
+  date: 08/25/2023
+  author: Jen Field
 draft: false
 hide_table_of_contents: false
 hide_title: false
@@ -283,7 +283,6 @@ import InvocationTypeTable from "../includes/_invocation-type-table.mdx";
 
 <br />
 
-<InvocationDiagram />
 
 ### Invoke URL
 
@@ -293,16 +292,13 @@ The invoke URL is a single URL that _points_ to where your application is. In th
 While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.
 :::
 
-There are two scenarios in which the Invoke URL is used for:
+There are two scenarios in which the Invoke URL is used:
 
-<mark>
-  If I understand the documentation correctly, the following are scenarios. If I'm wrong, then we just need to change the column headers and give details and relevance. In other words, "what is it" and "why" should the customer care.
-</mark>
 
-| Scenario              | When to use                                                                                                                                                                                                                                                                                                        |
+| Scenario              | How Invoke URL is used                                                                                                                                                                                                                                                                                                        |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Binding a passkey** | You want to generate a passkey link to deliver to your users how you want (inline, SMS, email, etc.) or you want to send your users an email with a link to create their passkey. Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. |
-| **Authentication**    |                                                                                                                                                                                                                                                                                                                    |
+| **Binding a passkey** | You can send a passkey enrollment (binding) link to your users (such as via email). When your user clicks the link, Beyond Identity redirects to the **Invoke URL** of your app. Note that the path `/bind` is appended to the **Invoke URL** and must be implemented as a route in your application.|
+| **Authentication**    | When a user authenticates with a passkey, your app's **Invoke URL** is appended with `/bi-authenticate?` and the query string parameter `request` that contains the authentication challenge.  For **automatic** invocation type, a 302 redirect is used, causing the user agent to automatically redirect to the authentication url. For invocation type **manual**, the authentication url is returned to your app as part of a JSON response. Note that the path `/bi-authenticate` is appended to the **Invoke URL** and must be implemented as a route in your application. |
 
 #### Invoke URL as used for binding a passkey
 
@@ -320,9 +316,6 @@ import BindEmailDiagram from "../includes/_bind-delivery-method-email-diagram.md
 import BindReturnDiagram from "../includes/_bind-delivery-method-return-diagram.mdx";
 import InvocationDiagram from "../includes/_invocation-url-diagram.mdx";
 
-<mark>
-  I think the following can be an _include file as it's also part of the "workflow" (Passkey Binding) and "how-to" (Bind passkeys) topics.
-</mark>
 
 <Tabs>
 

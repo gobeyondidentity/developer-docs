@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/07/2023
-  author: Anna Garcia
+  date: 08/25/2023
+  author: Jen Field
 draft: false
 hide_table_of_contents: false
 hide_title: false
@@ -30,6 +30,9 @@ import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
 import HWADiagram from '../includes/_hwa-diagram.mdx';
+
+import OIDCLibrary from '../includes/_configure_oidc_client_library.mdx';
+
 
 This guide shows how to add authentication to your application using the Hosted Web Authenticator integration model. Hosted Web offers an easy developer integration experience to your application as it directly handles passkey registration and authentication for you through a hosted web page.
 
@@ -84,7 +87,7 @@ On the **External Protocol** tab, use the following values to complete this tab.
 | **Protocol**                   | OIDC<br /><ProtocolOIDC/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **Client Type**                | Confidential<br /><ClientTypeConfidential/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | **PKCE**                       | S256<br /><PKCES256/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **Redirect URIs**              | Use a route in your app this is capable of handling the authorization code exchange.<br /><br />If you are using an OpenID Connect client library, a redirect URI may be specified for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the Auth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+| **Redirect URIs**              | Use a route in your app that is capable of handling the authorization code exchange.<br /><br />If you are using an OpenID Connect client library, a redirect URI may be specified for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the Auth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
 | **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | **Grant Type**                 | Authorization Code<br /><GrantTypeAuthorizationCode/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -99,55 +102,12 @@ On the **Authenticator Config** tab, use the following values to complete this t
 :::tip **CHECKPOINT**
 Congrats!
 You've created and configured a Beyond Identity application. You're now ready to use the values from this applications for your OpenID Connect client.
-:::
+:::  
 
 ## Configure an OpenID Connect client library
 
-Using a library is the recommended approach becasue it handles authorization, token exchange and accessing user info for you.
+<OIDCLibrary />
 
-There are many libraries available depending on your application's tech stack. If you need help finding an OpenID Connect client for your tech stack, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/).
-
-While there are many libraries available, they all need similar values to configure. You can find all the values you need under your **External Protocol** section of the application you created above.
-
-`Client ID` and `Client Secret` will be needed for all of them, but there may be some variation in the URLs needed.
-
-:::note
-Remeber, if your **Client Type** is set to **Confidential** in your application's **External Protocol** tab then you will have a `Client Secret`. If the **Client Type** is set to **Public** then you will not have this value.
-:::
-
-The `Issuer` and the `Discovery Endpoint` URL are both used by the client to identify the OpenID endpoints. The Discovery Endpoint is the _Issuer_ + _/.well-known/openid-configuration_.
-
-You can also access individual endpoints in this tab. Some libraries require copying over these URLs individually rather than using an issuer/discovery endpoint. These URLs are `Authorization Endpoint`, `Token Endpoint` and `User Info Endpoint`.
-
-:::tip
-Some libraries will require you to explicitly pass **scopes** or explicitly define that you are using **PKCE** or **state**. Be sure to use **"openid"** as a scope and configure all relevant values.
-
-For example using a NextAuth Provider:
-
-```javascript
-{
-    id: "beyondidentity",
-    name: "Beyond Identity",
-    type: "oauth",
-    wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
-    authorization: { params: { scope: "openid" } },
-    clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
-    clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
-    idToken: true,
-    checks: ["pkce", "state"],
-    profile(profile) {
-      return {
-        id: profile.sub,
-        name: profile.name,
-        email: profile.email,
-      }
-    },
-},
-```
-
-:::
-
-Consult your library for more details on which values are needed.
 
 ![Hosted Web Configuration](../images/hosted-web-authentication.png)
 

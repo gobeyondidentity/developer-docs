@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/16/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -71,14 +71,14 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Redirect URIs** | https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp<br /><br />If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp <br /><br />Replace **{your-tenant-name}** with the name of your Azure tenant, and **{your-domain-name}** with your custom domain.  | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
   | **Resource Server** | None |
-  | **Grant Type** | <mark>What's recommended for this particular use case?</mark> | 
-  | **Token Format** | <mark>What's recommended for this particular use case?</mark> | 
+  | **Grant Type** | Authorization Code | 
+  | **Token Format** | Use the default value | 
 
   <h4>Token Configuration</h4>
 
   | Property | Value | 
   | --- | --- |
-  | **Expires** | <mark>What's recommended for this particular use case?</mark> |
+  | **Expires** | Use the default value |
   | **Subject** | email | 
 
 1. Click the **Authenticator Config** tab, select **Hosted Web** as the Configuration Type, and click **Submit**.
@@ -95,10 +95,11 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 
 ## Configure Azure AD B2C
+In your Azure AD B2C tenant, you'll need to register an application and configure an OIDC provider.
 
-1. [Register an application](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga). <mark>Shouldn't this be a prerequisite?</mark>
+1. First, register a web application following [this tutorial from Microsoft]](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga). 
 
-2. In the Azure portal, select **Identity Providers > New OpenID Connect provider** and use the following values. Then click **Save**.
+2. Next, in the Azure portal, select **Identity Providers > New OpenID Connect provider** and use the following values. Then click **Save**.
   
   ![](../images/azure-ad-b2c-identity-providers-new-oidc-connection.png)
 
@@ -110,7 +111,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Client secret** | Beyond Identity Client secret value |
   | **Scope** | openid<br /><br />For more details on scopes and claims mappings, see [More Complex Integrations](#more-complex-integrations). |
   | **Response type** | code |
-  | **Response mode** | <mark>What's recommended for this use case? This field is required.</mark> |
+  | **Response mode** | query<br/> For more information see the [OAuth2 specification for response_mode](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html#ResponseModes) |
   | **User ID** | sub |
   | **Display name** | sub |
   | **Email** | sub |
@@ -149,85 +150,9 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 
 ## Test the configuration
-
-<p><mark>Can we rework this section? We are creating a test user, binding a passkey to the test user's identity, and making an API (which isn't mentioned in the "Bind a passkey to an identity" topic).</mark></p>
-
-### Create a Test User
-
-Create the identity in the same realm as the test app. 
-
-import AddAnIdentity from '../includes/_add-an-identity.mdx';
-
-<AddAnIdentity />
-
-4. Select the new user identity and copy and paste the ID because you'll need it in the next step.
-
-
-### Create Credential Binding Job
-
-The user must register a credential (passkey) to authenticate via your created application. For production usage, the user/credential registration flow would be implemented by your application, but for testing purposes, the user passkey will be created and delivered manually. In the future, performing via the Admin Console will be possible.
-
-With WebAuthn, browsers restrict passkey usage to the domain where registration occurred. This domain could relate to the hosted Web Authenticator (https://auth-{us|eu}.beyondidentity.com). As a result, when generating a credential-binding job, it is important to reference the specific configured authenticator for the application.
-
-:::caution
-You won't be able to use the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process to test access. It was registered for the Admin Console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result, browsers will not permit that passkey to access your own application.
-:::
-
-import PasskeyBindingMethods from '../includes/_passkey-binding-methods.mdx';
-
- 1. Within the Beyond Identity Admin Console, select your application and click the **Authenticator Config** tab.
-
- 2. Copy and paste the **Authenticator Config ID** value.
-
- 3. Make an API call to create the credential binding job. 
-
-  <PasskeyBindingMethods />
-
-  Open the link within the browser you wish to use for testing. For more information, see [Create a New Credential Binding Job](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob).
-
-**Request:**
-
-<Tabs groupId="bind-os">
-<TabItem value="mac" label="macOS">
-
-```bash
-curl -X POST \
--H "Authorization: Bearer $API_TOKEN" \
--H "Accept: application/json" \
--H "Content-Type: application/json" \
--d '{
-  "job": {
-    "delivery_method": "EMAIL",
-    "authenticator_config_id": "$AUTH_CONFIG_ID"
-  }
-}' https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs
-```
-
-</TabItem>
-<TabItem value="win" label="Windows">
-
-```bash
-curl -X POST \
--H "Authorization: Bearer %API_TOKEN%" \
--H "Accept: application/json" \
--H "Content-Type: application/json" \
--d '{
-  "job": {
-    "delivery_method": "EMAIL",
-    "authenticator_config_id": "%AUTH_CONFIG_ID%"
-  }
-}' "https://api-%REGION%.beyondidentity.com/v1/tenants/%TENANT_ID%/realms/%REALM_ID%/identities/%IDENTITY_ID%/credential-binding-jobs"
-```
-
-</TabItem>
-</Tabs>
-
-The user now has a registered passkey within their chosen browser, which they can use to authenticate any application using the Hosted Web Authenticator in your tenant/realm.
+To test your application's integration easily, Azure AD B2C includes a test utility. 
 
 ### Invoke Authentication Flow
-
-Testing your application's integration is optional, as Azure AD B2C includes a test utility. 
-
 1. Select the **User flow** you created earlier in the Azure portal.
 
 2. At the top of the user flow overview page, select **Run user flow**. A pane opens at the right side of the page.
@@ -245,9 +170,7 @@ Testing your application's integration is optional, as Azure AD B2C includes a t
   ![](../images/token.png)
 
 
-## More Complex Integrations
-
-<p><mark>If I'm reading this correctly, this section is only talking about one additional thing that the user can do --> Configure a custom policy. If that's the case, the title of this section should be changed.</mark></p>
+## Use a custom policy to get additional claims
 
 As mentioned earlier, when using user flow policies, Azure AD B2C is only able to extract a single identifier from the sub(ject) of the Beyond Identity identity token. It does NOT attempt to retrieve additional claims from Beyond Identity's userinfo endpoint.
 

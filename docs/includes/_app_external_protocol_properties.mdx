@@ -1,0 +1,30 @@
+
+The application's External Protocol settings determine how tokens should be requested, what tokens issued for the app look like, and how they should be validated.  
+
+
+#### Client Configuration
+
+  | Setting | Impact |
+  | --- | --- |
+  | **Protocol**   |  Determines which protocol flow the app must use to request tokens:<ul><li><b>OAuth2</b>: With the OAuth2 protocol, you can use either the client credentials grant type or the authorization code grant type.</li><li><b>OIDC</b>: With the OIDC protocol, you must use the authorization code grant type. With OIDC, you can obtain an id_token as well as an access_token. </li></ul>For help determining which to select, see [API Token Request Scenarios](/docs/next/create-api-token#token-request-scenarios)  | 
+  |  **Client Type**  |  <ul><li><b>Confidential</b>: Confidential clients are applications that are able to keep their registered client credentials (such as a client secret) safe. Think of an application with a backend. The client credentials can then be used to authenticate calls to the token APIs. </li><li><b>Public</b>: Public clients, such as applications running in a browser or on a mobile device, are unable to protect registered client secrets and are not issued client credentials. </li></ul>   |
+  |  **PKCE**  | <ul><li>If the app's PKCE setting is **S256**, the app will need to create and send the PKCE parameters (code_challenge, code_challenge_method, and code_verifier) in token requests as described in this [Create an access token example](/docs/next/create-api-token#authorization-code-with-pkce-confidential-client)</li><li>If PKCE is set to **Disabled**, you do not need to send the PKCE parameters (code_challenge, code_challenge_method, and code_verifier) in your token requests. However, authorization code grant with PKCE is the recommended flow for token requests and is required for public clients.</li></ul> |  
+  |  **Redirect URIs**  |  A list of valid URIs to redirect the resource owner's user-agent to after completing its interaction with the authorization server. See [Section 3.1.2](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2) for more information.   |
+  |  **Token Endpoint Auth Method**  |  <ul><li><b>Client Secret Basic</b>: The client uses HTTP Basic as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the Basic Authorization header.</li><li><b>Client Secret Post</b>: The client uses the HTTP POST parameters as defined in OAuth 2.0, [Section 2.3.1](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1). The client ID and client secret are sent in the body of the POST request.</li></ul>   |
+  |  **Grant Type**  |  <ul><li><b>Authorization Code</b>: The authorization code grant type defined in OAuth 2.0, [Section 4.1](https://www.rfc-editor.org/rfc/rfc6749#section-4.1). Namely, the client may authorize to the token endpoint with a grant code which it obtains via the authorize endpoint.</li><li><b>Client Credentials</b>: The client credentials grant type defined in OAuth 2.0, [Section 4.4](https://www.rfc-editor.org/rfc/rfc6749#section-4.4). Namely, the client may authorize to the token endpoint with a client credentials tuple of client_id and client_secret. If you select **Client Credentials**, the application cannot have an associated authenticator configuration.</li></ul>   |
+  |  **Resource Server**  |  If the app is linked to a resource server, the resource server determines the [scopes the app can be allowed](/docs/next/api-scopes) to issue.   |
+  |  **Token Format**  |  The two options for token format are **Self-Contained** and **Referential**. The difference between these two options impacts how the tokens will be validated. **Self-Contained** tokens can be validated offline because they contain all of the validation information. **Referential** tokens require a [call to the introspection endpoint for validation](/docs/next/validate-access-tokens).  |
+ 
+
+#### Token Configuration
+| Setting | Impact |
+| --- | --- |  
+| Allowed Scopes | If the app is configured with a Resource Server, then this setting specifies the scopes allowed to be included in tokens for this application. The allowed scopes can match or be a subset of the Resource Server scopes |  
+| Expires | Token lifetime in seconds |  
+| Subject | Property of a principal which is used to fill the subject of a token issued for this application. |  
+| Token Signing Algorithm | Signing algorithm to use for an application token. The only allowable value at present is RS256. |  
+
+#### Refresh Token Configuration
+| Setting | Impact |
+| --- | --- |  
+| **Enable Refresh Tokens** | When enabled, the token response JSON object will contain an additional field called `refresh_token`, similar to [RFC6749#4.1.4](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4). |  

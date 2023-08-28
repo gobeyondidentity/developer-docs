@@ -1,0 +1,46 @@
+
+Using a library is the recommended approach because it handles authorization, token exchange and accessing user info for you.
+
+There are many libraries available depending on your application's tech stack. If you need help finding an OpenID Connect client for your tech stack, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/).
+
+While there are many libraries available, they all need similar values to configure. You can find all the values you need under your **External Protocol** section of the application you created above.
+
+`Client ID` and `Client Secret` will be needed for all of them, but there may be some variation in the URLs needed.
+
+:::note
+Remeber, if your **Client Type** is set to **Confidential** in your application's **External Protocol** tab then you will have a `Client Secret`. If the **Client Type** is set to **Public** then you will not have this value.
+:::
+
+The `Issuer` and the `Discovery Endpoint` URL are both used by the client to identify the OpenID endpoints. The Discovery Endpoint is the _Issuer_ + _/.well-known/openid-configuration_.
+
+You can also access individual endpoints in this tab. Some libraries require copying over these URLs individually rather than using an issuer/discovery endpoint. These URLs are `Authorization Endpoint`, `Token Endpoint` and `User Info Endpoint`.
+
+:::tip
+Some libraries will require you to explicitly pass **scopes** or explicitly define that you are using **PKCE** or **state**. Be sure to use **"openid"** as a scope and configure all relevant values.
+
+For example using a NextAuth Provider:
+
+```javascript
+{
+    id: "beyondidentity",
+    name: "Beyond Identity",
+    type: "oauth",
+    wellKnown: process.env.BEYOND_IDENTITY_DISCOVERY,
+    authorization: { params: { scope: "openid" } },
+    clientId: process.env.BEYOND_IDENTITY_CLIENT_ID,
+    clientSecret: process.env.BEYOND_IDENTITY_CLIENT_SECRET,
+    idToken: true,
+    checks: ["pkce", "state"],
+    profile(profile) {
+      return {
+        id: profile.sub,
+        name: profile.name,
+        email: profile.email,
+      }
+    },
+},
+```
+
+:::
+
+Consult your library for more details on which values are needed.

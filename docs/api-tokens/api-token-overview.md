@@ -9,12 +9,13 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 07/07/2023
+   date: 08/25/2023
    author: Jen Field
 doc_type: overview
 displayed_sidebar: mainSidebar
 ---   
 
+import AppExternalProtocolProperties from '../includes/_app_external_protocol_properties.mdx';
 
 ## What is an access token
 
@@ -64,48 +65,6 @@ In order to request a token, you need to have an [app configured in your Beyond 
 
 This can be an application you configure yourself, or you can request a token for the built in Beyond Identity Management API app.  
 
-Several app properties impact how tokens should be requested and validated.   
-  
-- **Protocol**: the two options for protocol are OAuth2 and OIDC:  
+<AppExternalProtocolProperties />  
 
-  - With the OAuth2 protocol, you can use either the client credentials grant type or the authorization code grant type.
 
-  - With the OIDC protocol, you must use the authorization code grant type. The OIDC response will contain an id_token as well as an access_token.  
-
-  With either protocol, you can configure your client to be either a confidential or a public client.  
-
-- **Client type**: the two options for client type are **Confidential** and **Public**. 
-
-  - A **Confidential** client has client credentials (a client secret) that it can use to authenticate a token request API call. 
-
-  - A **Public** client does not. 
-
-- **PKCE** setting: 
-
-  - If the app's PKCE setting is 's256', you will need to create and send the PKCE parameters (code_challenge, code_challenge_method, and code_verifier) in your token requests as described [in the examples here](/docs/next/create-api-token)
-
-  - If the app's PKCE setting is **Disabled**, you do not need to send the PKCE parameters in your token requests. However, authorization code grant with PKCE is the recommended flow for token requests and is required for public clients.  
-
-- **Token Endpoint Auth Method**: this setting determines how token requests that contain client credentials send those credentials    
-
-  - **Client secret basic** means that the client credentials are sent as HTTP headers  
-
-  - **Client secret POST** means that client credentials are sent in the POST body of the HTTP request
-
-- **Grant Type**: the two options for grant type are **Client Credentials** and **Authorization Code**. This determines how you will construct the token requests and what the user experience will be. 
-
-- **Resource Server**: If the app is linked to a resource server, the resource server determines the [scopes the app can be allowed](/docs/next/api-scopes) to issue.
-
-- **Token Format**: the two options for token format are **Self-Contained** and **Referential**. The difference between these two options impacts how the tokens will be validated. 
-
-  - **Self-Contained** tokens can be validated offline because they contain all of the validation information. 
-
-  - **Referential** tokens require a [call to an introspection API for validation](/docs/next/validate-access-tokens).  
-
-- **Token Configuration**: within an app's token configuration, the **Allowed Scopes** and **Expires** attributes determine, respectively, which [scopes can be requested from the app](/docs/next/api-scopes), and how long tokens will be valid.
-
-  :::note
-  The **Allowed Scopes** will not be available unless the app is linked to a [resource server](/docs/next/add-resource-server).
-  :::
-
-- **Enable refresh tokens**: Finally, the **Enable Refresh Tokens** option determines whether refresh tokens will be included in token responses in addition to access tokens.  
