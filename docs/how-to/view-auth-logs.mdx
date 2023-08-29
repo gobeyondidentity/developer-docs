@@ -1,0 +1,199 @@
+---
+title: Viewing Authentication Logs
+id: view-auth-logs
+description: "How to use the events page to view authentication logs"
+slug: /view-auth-logs
+keywords: 
+ - event
+ - authentication logs
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 08/22/2023
+   author: Tomas Jasek
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+
+## How to
+
+Any authentication starts with an /authorize request as dictated by [RFC-6749](https://datatracker.ietf.org/doc/html/rfc6749). The best way to list all authentications is this:
+
+
+- Filter by event type AUTHORIZE_REQUEST
+- Find the event of interest
+- Filter by the correlation ID of the chosen event
+- Cancel the event type filter to see other events in the flow
+
+## Event Types Reference
+
+### PolicyEvaluation
+
+Information about a policy evaluation.
+
+### TransactionOperation
+
+Event recorded when transactions are accessed.
+
+The content of the transactions field depending on action is:
+
+- if action == CREATE, the created objects.
+- if action == READ, the objects returned by the operation.
+- if action == UPDATE, the updated objects.
+- if action == DELETE, the deleted objects.
+
+### PgwTransactionOperation
+
+Event recorded when PGW transactions are accessed.
+
+The content of the transactions field depending on action is:
+
+- if action == CREATE, the created objects.
+- if action == READ, the objects returned by the operation.
+- if action == UPDATE, the updated objects.
+- if action == DELETE, the deleted objects.
+
+### TokenOperation
+
+Event recorded when tokens are accessed.
+
+The content of the tokens field depending on action is:
+
+- if action == CREATE, the created objects.
+- if action == READ, the objects returned by the operation.
+- if action == UPDATE, the updated objects.
+- if action == DELETE, the deleted objects.
+
+### GrantOperation
+
+Event recorded when grants are accessed.
+
+The content of the grants field depending on action is:
+
+- if action == CREATE, the created objects.
+- if action == READ, the objects returned by the operation.
+- if action == UPDATE, the updated objects.
+- if action == DELETE, the deleted objects.
+
+### CredentialChange
+
+Event recorded when a credential is bound to an identity or revoked.
+AuthenticationTransaction
+
+The Authentication Transaction event is recorded whenever the Beyond
+Identity cloud touches an authentication transaction. This might happen
+for a number of reasons, such as:
+
+- Someone has initiated an authentication transaction by hitting an authorize endpoint
+- Beyond Identity has suspended the authentication transaction to wait for more data
+- Beyond Identity has resumed the authentication transaction to consume supplied data
+- Beyond Identity has completed the authentication transaction
+
+Usually, Authentication Transaction events occur in a chain that is
+started by an Authorize Request event. 
+
+#### Possible outcomes
+
+The cause of the event being recorded can be determined using its outcome as follows:
+
+- START: The authentication transaction has been started on the cloud. No authenticator interaction has happened so far.
+- SUSPEND: The authentication transaction has been suspended on the cloud. This usually means that the cloud has issued a challenge for the authenticator.
+- RESUME: The authentication transaction has been resumed on the cloud to consume an answer from the authenticator.
+- COMPLETE:DENY: The authentication transaction has been completed and the end user has been denied access to the system.
+- COMPLETE:ALLOW: The authentication transaction has been completed and the end user has been granted access to the system.
+- ERROR: The authentication transaction couldn’t have been completed because an error has occurred. The end user has been denied access to the system.
+
+#### Notes about actor
+
+For this event type, the availability of the actor might is limited by
+the authentication method used by the end user. In case the end user is
+authenticating using a passkey, the actor is set to the identity that
+owns the passkey.
+
+### AuthorizeRequest
+
+This event is recorded whenever the OAuth/OIDC /authorize endpoint is
+hit for any application in this tenant & realm. The operation represented
+by this event typically kicks off a chain of other operations that
+together represent an authentication attempt to some application within
+this tenant & realm. All of the operations representing the
+authentication attempt share the same correlation ID as this event.
+
+#### Possible outcomes
+
+Before this event is recorded, Beyond Identity validates the request
+using the rules from [RFC-6749](https://datatracker.ietf.org/doc/html/rfc6749).
+
+
+If the request satisfies the rules, the outcome is set to ACCEPTED. 
+
+If the request does not satisfy the rules, the outcome is set to ERROR. 
+Notes about actor
+
+This event does not carry any information about the end user’s identity
+because it happens before Beyond Identity has a chance to determine who
+the end user is. This event does not represent an operation that modifies
+the system.
+
+### TokenRequest
+
+This event is recorded whenever the OAuth/OIDC token endpoint is hit for
+some application in the tenant & realm. This event does not represent an
+operation that modifies the system. Beyond Identity supports two major
+OAuth grant types: client credentials and authorization code. 
+
+In case authorization code grant is used, this event is usually the
+last part of a full authentication chain together with Authorize Request,
+Authentication Transaction and Grant Operation events. All of the events
+that are part of a full authentication process share the same correlation
+ID.
+
+In case client_credentials grant is used, this event is usually the
+last part of a smaller chain that doesn’t involve an authenticator.
+Because of that, there are no Authorize Request or Authentication
+Transaction events involved in the process. Event presence
+
+It's important to remember that this event might not be present in the
+chain in case the token endpoint is never called during the
+authentication. If the token endpoint is never called, that just means
+that the authentication hasn’t been finished.
+
+#### Possible Outcomes
+
+Before this event is recorded, Beyond Identity validates the request
+using the rules from [RFC-6749#4.1.3](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3) (in case of authorization code grant) or
+[RFC-6749#4.4.2](https://datatracker.ietf.org/doc/html/rfc6749#section-4.4.2) (in case of client credentials grant).
+
+If the request satisfies the rules, the outcome field of this event is set to ACCEPTED.
+
+If the request does not satisfy the rules, the outcome field of this event is set to ERROR.
+
+##### ERROR outcome
+
+The event contains an error field which might contain useful
+information about why the attempted operation has failed.
+
+#### Notes about actor
+
+The token endpoint call is usually initiated by an application that the
+end user is logging in to. However, the actor of this event answers the
+question “who is the subject of the token?” instead of “who caused this
+operation?”. The type of the actor depends on which grant type has been
+used to call the token endpoint.
+
+In case of client credentials, the actor is set to the application that
+owns the client credentials used to authenticate the call.
+
+In case of authorization code, the actor is set to the identity that has
+completed the authentication process and obtained the one-time grant code
+in previous steps of the flow.
+
+### UserinfoRead
+
+Event recorded when the userinfo endpoint is used.

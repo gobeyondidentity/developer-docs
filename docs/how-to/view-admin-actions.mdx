@@ -1,0 +1,144 @@
+---
+title: Viewing Administrator Actions
+id: view-admin-actions
+description: "How to use the events page to view administrator actions"
+slug: /view-admin-actions
+keywords: 
+ - event
+ - administrator actions
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 08/22/2023
+   author: Tomas Jasek
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+## Prerequisites
+
+- Set up a [developer account](./account-setup.md)
+
+## How to
+
+Administrator actions are operations that modify the tenant resources like applications, authenticator configuration, identities, groups, roles and others. To view the administrator actions, one needs to filter the event view to the following event types:
+
+- ApplicationOperation
+- AuthenticatorConfigOperation
+- ResourceServerOperation
+- CredentialBindingJobChange
+- BrandingThemeConfigurationChange
+- EmailStatusChange
+- V1TenantChange
+- V1RealmChange
+- V1GroupChange
+- IdentityChange
+- V1GroupMembershipChange
+- RoleOperation
+- RoleMembershipOperation
+- RoleScopesOperation
+- CredentialBindingEmailTemplateConfigurationChange
+- OtpEmailTemplateConfigurationChange
+
+## Event Types Reference
+
+### ApplicationOperation
+
+Application Operation event represents a modification of an Application
+resource in the Beyond Identity cloud. The
+event is only recorded when the operation is successful. This event
+represents an operation that usually is initiated by an administrator
+using the admin console.
+Possible outcomes
+
+- CREATE - The applications have been created
+- READ - The applications have been accessed
+- UPDATE - The applications have been updated
+- DELETE - The applications have been deleted
+
+#### Actor
+
+This event carries an actor which is set to the entity that has performed this operation.
+
+### AuthenticatorConfigOperation
+
+Authenticator Config Operation event represents a modification of an Authenticator Config
+resource in the Beyond Identity cloud. The
+event is only recorded when the operation is successful. This event
+represents an operation that usually is initiated by an administrator
+using the admin console.
+Possible outcomes
+
+- CREATE - The authenticator configurations have been created
+- READ - The authenticator configurations have been accessed
+- UPDATE - The authenticator configurations have been updated
+- DELETE - The authenticator configurations have been deleted
+
+#### Actor
+
+This event carries an actor which is set to the entity that has performed this operation.
+ResourceServerOperation
+
+Resource Server Operation event represents a modification of a Resource
+Server resource in the Beyond Identity cloud. The event is only recorded
+when the operation is successful. This event represents an operation that
+usually is initiated by an administrator using the admin console.
+Possible outcomes
+
+- CREATE - The resource servers have been created
+- READ - The resource servers have been accessed
+- UPDATE - The resource servers have been updated
+- DELETE - The resource servers have been deleted
+
+### CredentialBindingJobChange
+
+Event recorded when the state of a credential binding job has changed.
+
+### BrandingThemeConfigurationChange
+
+Event recorded branding theme configuration is modified.
+
+### EmailStatusChange
+
+Event recorded when email delivery status is changing.
+
+### V1TenantChange
+
+Event recorded when a tenant is created, updated, or deleted.
+
+### V1RealmChange
+
+Event recorded when a realm is created, updated, or deleted.
+
+### V1GroupChange
+
+Event recorded when a group is created, updated, or deleted.
+
+### IdentityChange
+
+Event recorded when a identity is created, updated, or deleted.
+
+### V1GroupMembershipChange
+
+Event recorded when identities are added to or removed from a group.
+
+### RoleOperation
+
+Event recorded when a role is accessed.
+
+### RoleMembershipOperation
+
+Event recorded when role members are accessed.
+
+### RoleScopesOperation
+
+Event recorded when role scopes are accessed.
+
+### CredentialBindingEmailTemplateConfigurationChange
+
+Event recorded when a credential binding email template configuration is modified.
+
+### OtpEmailTemplateConfigurationChange
+
+Event recorded when a one-time password email template configuration is modified.
