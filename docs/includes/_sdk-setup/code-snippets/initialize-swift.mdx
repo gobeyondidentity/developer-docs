@@ -1,11 +1,7 @@
 ```swift
 // --- Initialize with required arguments
 Embedded.shared.initialize(
-  allowedDomains: ["example.com", "another-example.com"],
-  biometricAskPrompt: "Please provide your biometric",
-  logger: { (logType, message) in
-    print("\(logType): \(message)")
-  }
+  biometricAskPrompt: "Please provide your biometric"
 ) { result in
   switch result {
   case .success():
@@ -17,7 +13,11 @@ Embedded.shared.initialize(
 
 // --- Initialize with required and optional arguments
 Embedded.shared.initialize(
-  biometricAskPrompt: "Please provide your biometric"
+  allowedDomains: ["example.com", "another-example.com"],
+  biometricAskPrompt: "Please provide your biometric",
+  logger: { (logType, message) in
+    print("\(logType): \(message)")
+  }
 ) { result in
   switch result {
   case .success():

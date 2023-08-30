@@ -1,5 +1,27 @@
 ```kotlin
-if (EmbeddedSdk.isBindPasskeyUrl(url)) {
-    // bind the passkey using `bindPasskey`
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
+
+val url = "credential-binding-url"
+
+CoroutineScope(Dispatchers.Main).launch {
+  EmbeddedSdk.isBindPasskeyUrl(url, Dispatchers.IO).collect { isValid ->
+    if (isValid) {
+      // The URL is valid for binding a passkey
+      EmbeddedSdk.bindPasskey(url, Dispatchers.IO).collect { result ->
+        result.onSuccess {
+          print("Success")
+        }
+        result.onFailure {
+          print("Failure")
+        }
+      }
+    } else {
+      print("The URL is not a valid Bind Passkey URL")
+    }
+  }
 }
 ```

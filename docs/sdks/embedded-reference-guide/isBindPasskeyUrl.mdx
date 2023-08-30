@@ -37,9 +37,7 @@ Before making a call to **isBindPasskeyUrl**, you must complete the following pr
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| **url** | string | Required. Url to be validated as Beyond Identity passkey binding url. |
+<IsBindPasskeyUrlParametersAll />
 
 ## Returns
 
@@ -49,12 +47,10 @@ Returns a boolean.
 
 ### Example: Call **bindPasskey** after validating URL
 
-```javascript
-if (await embedded.isBindPasskeyUrl(passkeyBindingLink)) {
-  let result = await embedded.bindPasskey(passkeyBindingLink);
-}
-```
+<IsBindPasskeyUrlAll />
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import IsBindPasskeyUrlParametersAll from "../parameters/is-bind-passkey-url-all.mdx";
+import IsBindPasskeyUrlAll from "../../includes/_sdk-setup/code-snippets/is-bind-passkey-url-all.mdx";
