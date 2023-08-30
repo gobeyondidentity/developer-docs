@@ -19,11 +19,9 @@ The **deletePasskey** function enables your app to delete a passkey given its pa
 
 ## Dependencies
 
-The **deletePasskey** function requires the Beyond Identity Javascript SDK.
+The **deletePasskey** function requires the Beyond Identity SDK.
 
-```bash
-npm install @beyondidentity/bi-sdk-js
-```
+<InstallationAll />
 
 ## Prerequisites
 
@@ -31,15 +29,11 @@ Before making a call to **deletePasskey**, you must complete the following prere
 
 1. Import the required types and functions from the SDK.
 
-  ```javascript
-  import { Embedded } from "@beyondidentity/bi-sdk-js";
-  ```
+  <ImportAll />
 
 2. Initialize the SDK.
 
-  ```javascript
-  const embedded = await Embedded.initialize();
-  ```
+  <InitializeAll />
 
 ## Parameters
 
@@ -54,3 +48,7 @@ Before making a call to **deletePasskey**, you must complete the following prere
 ```javascript
 await embedded.deletePasskey(passkey.id);
 ```
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";

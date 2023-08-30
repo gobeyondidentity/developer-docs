@@ -15,15 +15,13 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **redeemOtp** function enables an app using the Beyond Identity Javascript SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](embedded-reference-authenticateOtp).
+The **redeemOtp** function enables an app using the Beyond Identity SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](embedded-reference-authenticateOtp).
 
 ## Dependencies
 
-The **redeemOtp** function requires the Beyond Identity Javascript SDK.
+The **redeemOtp** function requires the Beyond Identity SDK.
 
-```bash
-npm install @beyondidentity/bi-sdk-js
-```
+<InstallationAll />
 
 ## Prerequisites
 
@@ -31,15 +29,11 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
 1. Import the required types and functions from the SDK.
 
-  ```javascript
-  import { Embedded } from "@beyondidentity/bi-sdk-js";
-  ```
+  <ImportAll />
 
 2. Initialize the SDK.
 
-  ```javascript
-  const embedded = await Embedded.initialize();
-  ```
+  <InitializeAll />
 
 3. Use **authenticateOtp** to initiate authentication using an OTP
 
@@ -97,3 +91,7 @@ Note: This url should be used when calling [redeemOtp](embedded-reference-redeem
 ```javascript
 let authenticateResponse = await embedded.redeemOtp(url, otp);
 ```
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";

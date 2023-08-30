@@ -15,15 +15,13 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **authenticateOtp** function enables an app using the Beyond Identity Javascript SDK to initiate authentication using an OTP. The OTP gets sent to the provided email address. This function is used in conjunction with [redeemOtp](embedded-reference-redeemOtp).
+The **authenticateOtp** function enables an app using the Beyond Identity SDK to initiate authentication using an OTP. The OTP gets sent to the provided email address. This function is used in conjunction with [redeemOtp](embedded-reference-redeemOtp).
 
 ## Dependencies
 
 The **authenticateOtp** function requires the Beyond Identity Javascript SDK.
 
-```bash
-npm install @beyondidentity/bi-sdk-js
-```
+<InstallationAll />
 
 ## Prerequisites
 
@@ -31,15 +29,11 @@ Before making a call to **authenticateOtp**, you must complete the following pre
 
 1. Import the required types and functions from the SDK.
 
-  ```javascript
-  import { Embedded } from "@beyondidentity/bi-sdk-js";
-  ```
+  <ImportAll />
 
 2. Initialize the SDK.
 
-  ```javascript
-  const embedded = await Embedded.initialize();
-  ```
+  <InitializeAll />
 
 3. Use **authenticateOtp** to initiate authentication using an OTP.
 
@@ -107,3 +101,7 @@ location: http://localhost:8083/bi-authenticate?request={BI_JWT}
 ```
 
 where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";

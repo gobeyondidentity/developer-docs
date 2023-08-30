@@ -15,19 +15,13 @@ doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **authenticate** function enables an app using the Beyond Identity Javascript SDK to perform passkey-based authentication within a standard OpenID Connect authorization flow.
-
-:::note
-_The [example app](https://github.com/gobeyondidentity/bi-sdk-js/tree/main/example) for the Javascript SDK uses [NextAuth.js](https://next-auth.js.org/getting-started/example) to initiate the OIDC flow and to consume the resulting code and token._  
-:::
+The **authenticate** function enables an app using the Beyond Identity SDK to perform passkey-based authentication within a standard OpenID Connect authorization flow.
 
 ## Dependencies
 
-The **authenticate** function requires the Beyond Identity Javascript SDK.
+The **authenticate** function requires the Beyond Identity SDK.
 
-```bash
-npm install @beyondidentity/bi-sdk-js
-```
+<InstallationAll />
 
 ## Prerequisites
 
@@ -35,19 +29,15 @@ Before making a call to **authenticate**, you must complete the following prereq
 
 1. Import the required types and functions from the SDK.
 
-  ```javascript
-  import { Embedded } from "@beyondidentity/bi-sdk-js";
-  ```
+  <ImportAll />
 
 1. Initialize the SDK.
 
-  ```javascript
-  const embedded = await Embedded.initialize();
-  ```
+  <InitializeAll />
 
 1. Identify the passkey you wish to authenticate with and obtain its passkey ID.
 
-  > _How you achieve this depends upon your app, but you can obtain a list of passkeys available on the device via the **getPasskeys** function. This returns an array of passkeys that you can use, for example, to prompt the user interactively to select one. The **id** property of the selected **Passkey** is the passkey id this function expects_
+  > _How you achieve this depends upon your app, but you can obtain a list of passkeys available on the device via the [**getPasskeys**](./embedded-reference-getPasskeys) function. This returns an array of passkeys that you can use, for example, to prompt the user interactively to select one. The **id** property of the selected [**Passkey**](./embedded-reference-passkey-type) is the passkey id this function expects_
 
 4. Use isAuthenticateUrl to verify the `url` parameter you intend to send to the function
 
@@ -145,3 +135,7 @@ location: http://localhost:8083/bi-authenticate?request={BI_JWT}
 ```
 
 where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
