@@ -1,4 +1,4 @@
-Go to the [sign-up form](https://www.beyondidentity.com/developers/signup) to get your free Beyond Identity developer account. 
+Go to the [sign-up form](https://www.beyondidentity.com/developers/signup) to get your free Beyond Identity developer account.
 
 After you've completed the form, you won't need to wait for an email. Instead, you'll immediately arrive at the Beyond Identity [Admin Console](/docs/next/admin-console) with a passkey and tenant created for you automatically. The Admin Console is where you can configure the example application to authorize and authenticate users with Beyond Identity.
 
@@ -10,12 +10,14 @@ import DevSignUpFlow from '../images/sign-up-flow.png';
 
 The sign-up process, in a nutshell, automatically creates the following:
 
-* A **free Beyond Identity developer account** in your selected region, which hosts your tenant. Beyond Identity offers US and EU regions that meet regional data requirements and privacy laws. 
+* A **free Beyond Identity developer account** in your selected region, which hosts your tenant. Beyond Identity offers US and EU regions that meet regional data requirements and privacy laws.
 
 * A **tenant with a unique identifier** representing the root container for all other cloud components in your configuration. A tenant represents an organization in the Beyond Identity Cloud.
 
 * A <a href="#" data-tooltip="A unique administrative domain created in your tenant when you signed up for your developer account. It's populated with your admin identity, so you can access the Beyond Identity Admin Console. The Admin Realm contains a unique set of directories, policies, events, applications, and branding objects. It also includes the Beyond Identity Management API used to create API tokens that authorize access to the Beyond Identity APIs. A tenant will always have the Beyond Identity Admin Realm."><b>Beyond Identity Admin Realm</b></a>, which is created and populated with an admin identity linked to your email. It is the home for your Beyond Identity Admin Console and Beyond Identity Management API, which only supports the client credentials flow.
 
-* The **Admin Console Access User Group** and **rule-based authentication policy** using the Beyond Identity Admin Console application and this user group. 
+* The **Admin Console Access User Group** and **rule-based authentication policy** using the Beyond Identity Admin Console application and this user group.
 
 * A <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs."><b>Universal Passkey</b></a> for accessing the Admin Console, bound to your identity and stored on your device or browser. You'll be logged into the Admin Console automatically during this process step. You'll log in without a password when logging into the console from the same device or browser.
+
+* A bootstrap Realm and Application called **My First Realm** and **My First Application**, to be used with our [Getting Started with NextJS](/docs/next/get-started-nextjs) guide.

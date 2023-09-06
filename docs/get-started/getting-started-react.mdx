@@ -4,11 +4,11 @@ sidebar_label: React
 id: get-started-react
 description: 'Create a free Beyond Identity developer account and connect it to our sample application. This application demonstrates common workflows, like creating realms, applications, and passkeys (public-private key pairs) for user authentication.'
 slug: /get-started-react
-keywords: 
+keywords:
  - get started
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 06/01/2023
    author: Patricia McPhee
 draft: false
@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 
 
-In this guide, you'll create a free Beyond Identity developer account and connect it to our sample application. 
+In this guide, you'll create a free Beyond Identity developer account and connect it to our sample application.
 
-This application demonstrates common tasks, like creating <a href="#" data-tooltip="A realm is a unique administrative domain within a tenant. Each realm contains a unique set of Directory, Policy, Event, Application, and Branding objects.">realms</a>, applications, and <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication. 
+This application demonstrates common tasks, like creating <a href="#" data-tooltip="A realm is a unique administrative domain within a tenant. Each realm contains a unique set of Directory, Policy, Event, Application, and Branding objects.">realms</a>, applications, and <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkeys</a> (public-private key pairs) for user authentication.
 
 
 ## 1. Sign up for a developer account
@@ -34,7 +34,7 @@ import DeveloperSignUpProcess from '../includes/_developer-sign-up-process.mdx';
 
 <DeveloperSignUpProcess />
 
---- 
+---
 
 
 ## 2. Clone the sample app
@@ -61,7 +61,7 @@ Before you start working in the Admin Console of your developer account, let's c
 		<li>Download and install <a href="https://git-scm.com/downloads">Git</a>.<br /><br /></li>
 		<li>Download and install <a href="https://nodejs.org/en/download/">NodeJS</a>.<br /><br /></li>
 		<li>Install the yarn package manager.<p>
-<pre>npm install --global yarn</pre></p>		
+<pre>npm install --global yarn</pre></p>
 </li>
 	</ol>
   </TabItem>
@@ -76,12 +76,12 @@ cd getting-started
 
 
 
---- 
+---
 
 ## 3. Set your environment variables
 
 
-In this step, you'll make a copy of the local environment config file and rename it.  Making a copy of it allows you to start from scratch if needed. 
+In this step, you'll make a copy of the local environment config file and rename it.  Making a copy of it allows you to start from scratch if needed.
 
 ### Region variable
 
@@ -127,15 +127,15 @@ In this step, you'll make a copy of the local environment config file and rename
   ```
 
 
-3. Save your changes, but don't close the file because you'll use it to add the TENANT_ID, API_TOKEN, REALM_ID, and other variables to complete the setup.  
+3. Save your changes, but don't close the file because you'll use it to add the TENANT_ID, REALM_ID, API_TOKEN, and other variables to complete the setup.
 
 ---
 
 ### Tenant ID variable
 
-In this step, you'll hop on over to the Admin Console to get your tenant ID and then add it to the .env.local config file you copied in the previous step.  
+In this step, you'll hop on over to the Admin Console to get your tenant ID and then add it to the .env.local config file you copied in the previous step.
 
-1. In the Admin Console, from the new realm's home page, click **Edit realm**.
+1. In the Admin Console, from a realm's home page, click **Edit realm**.
 
   ![Edit realm button](../images/edit-realm-button.png)
 
@@ -161,27 +161,31 @@ In this step, you'll hop on over to the Admin Console to get your tenant ID and 
   APP_CLIENT_SECRET=
   ```
 
---- 
+---
 
 ### API token variable
 
-In this step, you'll continue to work in the Admin Console to create an API token for your tenant. Then you'll add to the .env.local config file. 
+In this step, you'll continue to work in the Admin Console to create an API token for your tenant. Then you'll add to the .env.local config file.
 
-1. In the Admin Console, switch to the **Beyond Identity Admin** realm, select **Apps > Beyond Identity Management API**.
+1. In the Admin Console, switch to the **Beyond Identity Admin** realm by selecting **Go to realm > Beyond Identity Admin**.
 
-  ![Admin Console Beyond Identity Admin realm](../images/apps-beyond-identity-management-api.png)
+  ![Go To Beyond Identity Admin Realm](../images/go-to-bi-admin-realm.png)
 
-2. Select the **API Tokens** tab and click **Create a token**. 
+1. Select **Apps > Beyond Identity Management API**.
 
-3. Enter a name for the token and click **Create token**.
+  ![Management API Application](../images/apps-beyond-identity-management-api.png)
 
-4. In the confirmation message, copy the API token and click **Close this message**. 
+1. Select the **API Tokens** tab and click **Create a token**.
+
+1. Enter a name for the token and click **Create token**.
+
+1. In the confirmation message, copy the API token and click **Close this message**.
 
   :::caution IMPORTANT
   You must copy the API token because after you close the confirmation message, the full token will not be displayed again. You'll only have access to the token suffix.
   :::
 
-5. In the `.env.local` config file, paste the `API_TOKEN`. Then save your changes but don't close it becuase you'll need it for the next step.
+1. In the `.env.local` config file, paste the `API_TOKEN`. Then save your changes but don't close it becuase you'll need it for the next step.
 
   ```javascript title=".env.local"
   # -- Next Auth
@@ -215,10 +219,10 @@ Guess what? You're halfway there! So far in your getting started journey, you sh
 
 - [x] Cloned the example application.
 
-- [x] Updated the .env.local config file with your **Region**, **Tenant ID**, and **API token** variables. 
+- [x] Updated the .env.local config file with your **Region**, **Tenant ID**, and **API token** variables.
 
     In the next step, you'll set the following variables:
-    
+
     - Realm ID
     - Application ID
     - Client ID
@@ -237,7 +241,11 @@ In this step, you'll create a set of Beyond Identity resources containing your e
 
 ### Create a new realm
 
-So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.  
+So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities.
+
+:::note
+You can skip straight to **Step 4** below, as we've already created **My First Realm** for you. But if you want to go through the steps of creating a new realm yourself, follow **Steps 1 - 3** below.
+:::
 
 import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
@@ -270,13 +278,18 @@ import CreateRealmConsole from '../includes/_create-realm-console.mdx';
 
 ### Create an application
 
-In this step, you'll create a new Application that will contain the configuration for your users.
+In this step, you'll create a new Application that will contain the configuration for your authentication.
+
+:::caution note:
+You will need to create a new Application. **My First Application** has been configured specifically for the [**Getting Started with NextJS**](/docs/next/get-started-nextjs) guide
+which uses our Hosted Web Authenticator.
+:::
 
 import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-3. Scroll down to the **Redirect URIs** field and enter the API callback localhost URL.  
+3. Scroll down to the **Redirect URIs** field and enter the API callback localhost URL.
 
   ```http
   http://localhost:8083/api/auth/callback/beyondidentity
@@ -286,15 +299,15 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   The client uses HTTP Basic as defined in OAuth 2.0, Section 2.3.1. Namely, client_id and client_secret are sent in the Basic Authorization header.
 
-5. Select the **Authenticator Config** tab and select **Embedded SDK** for the Configuration Type. 
+5. Select the **Authenticator Config** tab and select **Embedded SDK** for the Configuration Type.
 
-  Selecting Embedded SDK means that your app will host the authentication and provide the experience for users to create, select and use passkeys.  
+  Selecting Embedded SDK means that your app will host the authentication and provide the experience for users to create, select and use passkeys.
 
   ![Admin Console Authenticator Config tab embedded SDK selected](../images/authenticator-tab-embedded-sdk.png)
 
 6. Scroll down and set the **Invoke URL** and **Trusted Origins** to the following localhost and port. For more details about these settings, see about [Authenticator Types](/docs/next/authentication).
 
-  The **Invoke URL** is a single URL that "points" to where your application is: an App Scheme or a Universal URL/App Link. 
+  The **Invoke URL** is a single URL that "points" to where your application is: an App Scheme or a Universal URL/App Link.
 
   The **Trusted Origins** whitelists it and allows request to be made to our server. By default, our server blocks cross-origin requests (COR).
 
@@ -307,9 +320,9 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 ### Complete the configuration
 
-In this step, you'll complete the application's configuration by adding a few more things to the `.env.local` config file.  You'll add the Application ID, Client ID, Client Secret, and Authenticator Config ID to your env.local config file.  
+In this step, you'll complete the application's configuration by adding a few more things to the `.env.local` config file.  You'll add the Application ID, Client ID, Client Secret, and Authenticator Config ID to your env.local config file.
 
-1. From the Apps page in the console, select the new application you created. 
+1. From the Apps page in the console, select the new application you created.
 
 2. Copy the **Application ID**, which can be found under the application name. Then paste it into the `.env.local` config file.
 
@@ -337,10 +350,10 @@ In this step, you'll complete the application's configuration by adding a few mo
 
 3. Scroll down to the **Client Configuration** section and copy the **Client ID**. Then paste it into the `.env.local` config file.
 
-4. Copy the **Client Secret**. Then paste it into the `.env.local` config file. 
+4. Copy the **Client Secret**. Then paste it into the `.env.local` config file.
 
-5. Select the **Authenticator Config** tab and copy the **Authenticator Config ID**.  Then paste it into the `.env.local` config file and save and close it.  
-  
+5. Select the **Authenticator Config** tab and copy the **Authenticator Config ID**.  Then paste it into the `.env.local` config file and save and close it.
+
   ![Admin Console Client ID](../images/admin-console/authenticator-id.png)
 
 
@@ -368,7 +381,7 @@ npm start
 </TabItem>
 </Tabs>
 
-A new browser tab opens automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser. 
+A new browser tab opens automatically. If it doesn't, open a web browser and navigate to [http://localhost:8083](http://localhost:8083). The example application will now appear and allow you to create passkeys in the browser.
 
 <div style={{position: 'relative', paddingBottom: 'calc(73% + 20px)', height: '0'}}>
 	<iframe src='https://demo.arcade.software/6kUN385qBx2Jju7wugbM?embed&forceNoOpeningAnimation=true' frameBorder="0" style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'}}>
