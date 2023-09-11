@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/15/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -24,7 +24,11 @@ This guide provides information on how to configure Beyond Identity as an Identi
 
 ## Prerequisites
 
-Access to a Beyond Identity tenant. If you still need to, [sign up for a tenant](https://www.beyondidentity.com/developers/signup).
+ - Access to a Beyond Identity tenant. If you still need to, [sign up for a tenant](https://www.beyondidentity.com/developers/signup).  
+
+ - If you do not have a Okta developer account, [sign up for one](https://developer.okta.com/signup/).
+
+ - Create a user in Okta that you'll use for testing. Ensure the email and username of the test user in Okta matches an account for which you can receive email. You will provision a Beyond Identity identity and passkey based on this email. 
 
 
 ## Create a new realm
@@ -76,40 +80,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   ![](../images/edit-realm-realm-id-tenant-id.png)
 
 
-## Create an API Token 
-
-import CreateApiTokenConsole from '../includes/_create-api-token-console.mdx';
-import SendCrendtialBindingEmailCurlCmd from '../includes/_send-a-credential-binding-email-curl-cmd.mdx';
-
-In this step, you'll create an API token for sending a credential binding email to the newly created identity in the new realm. 
-
-<CreateApiTokenConsole />
-
-4. Copy the token to your clipboard.
-
-5. Go back to the second realm that contains the Okta application.
-
-  Now we need to send a credential binding email to the new identity in the second realm. 
-  
-6. Locate the Authenticator Config ID of the Okta application with the following API call and newly minted bearer token:
-
-  ```bash
-  curl --location --request GET 'https://api-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/authenticator-configs' \
-  	--header 'Authorization: Bearer ${api_token}'
-  ```
-7. Using the `authenticator_config_id` from the previous API call, send a credential binding email. The `identity_id` is visible after selecting the identity in the Admin Console. <mark>We don't have a step for copying and saving the `identity_id`.</mark>
-
-  <SendCrendtialBindingEmailCurlCmd />
-
-  An email should be received to bind a credential.
-
-  For more details about the responses to the requests above, see our guide to Sending Enrollment Emails. <p><mark>need a new link since this topic has changed</mark></p>
-
 ## Configure the identity provider in Okta
-
-If you do not have a Okta developer account, [sign up for one](https://developer.okta.com/signup/).
-
-Create a user in Okta that you'll use for testing. Ensure the email or username of the test user in Okta matches the identity provisioned in the second realm. 
 
 1. In Okta, select **Security > Identity Providers**.
 
@@ -138,17 +109,16 @@ Create a user in Okta that you'll use for testing. Ensure the email or username 
 
 8. Click the **Routing Rules** tab, click **Add Routing Rule**, and give the rule a name.
 
-9. From the **THEN Use this identity provider** drop-down, select the newly created Identity provider. The rule should match the email attribute of the newly created identity.
+9. From the **THEN Use this identity provider** drop-down, select the newly created Identity provider. The rule should match the email attribute of the test user.
 
 10. Click **Create Rule** and at the prompt click **Activate**.
 
 11. Click **Finish** and log out of Okta to test authentication with the newly provisioned identity. 
 
-## Configure Okta to delegate to Beyond Identity
+## Configure Okta to delegate authorization requests to Beyond Identity
 
-This section describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow. 
-
-<p><mark>What are we doing in this section? How do we transition from the above to this section? Is this section optional? If so, what are they going to accomplish here?</mark></p>
+This section describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.   
+Okta will route authorization requests from a sample application you create using one of the platforms below to Beyond Identity.  
 
 import IntegrateWithOktaFlow from '../images/integration-guides/integrate-with-okta-flow.png';
 

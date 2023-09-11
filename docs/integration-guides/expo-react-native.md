@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/23/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -28,6 +28,8 @@ import InvocationTip from '../includes/_invocation-type-tip.mdx';
 import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
 import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
 import PKCES256 from '../includes/_pkce_s256.mdx';
+
+import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
 
 
 This guide provides information on how to set up Beyond Identity as a passwordless authentication provider for a React Native application that uses Expo.
@@ -98,7 +100,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | Property | Value | 
   | ----------- | ----------- |
   | **Protocol** | OIDC<br /><ProtocolOIDC/> |
-  | **Client Type** | <mark>What's recommended for this particular use case?</mark> | 
+  | **Client Type** | Confidential<br /><ClientTypeConfidential/> | 
   | **PKCE** | S256<br /><PKCES256/> |
   | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an app scheme, your redirect URI may follow the pattern:<br /><br /> `myapp://` <br /> <br />Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app) | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
@@ -348,4 +350,4 @@ Calling the token endpoint is the second step in the authorization flow and usua
 
 Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
 
-See [Call the token endpoint for token exchange](/docs/next/embedded-sdk-add-passkeys#call-the-token-endpoint-for-token-exchange) for more details. <mark>Are these instruction for this integration the same as what's in the referenced topic? If so, we can create an include file to reuse the content where it's needed.</mark>
+For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/next/embedded-sdk-add-passkeys#call-the-token-endpoint-for-token-exchange).  

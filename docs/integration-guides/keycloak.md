@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/08/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -28,7 +28,7 @@ Before continuing, make sure you have the following:
 
 * A Keycloak instance with Administration Console access allowing you to configure a new Identity Provider under an existing or new realm in your Keycloak instance.
 
-* ### Create a Tenant
+* A Beyond Identity tenant
 Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
 
 Once your tenant has been created with Beyond Identity, you can continue to create an Application. 
@@ -37,9 +37,9 @@ Once your tenant has been created with Beyond Identity, you can continue to crea
 
 To integrate with Keycloak:
 
-### Step 1. Configure an OIDC identity provider
+### Configure Beyond Identity as an OIDC identity provider
 
-<mark>Can we give them more details on what they are doing and why? </mark>
+In this step you will create Beyond Identity as an OIDC provider in Keycloak.  
 
 1. Create an Identity Provider of type **OpenID Connect v1.0**. 
 
@@ -84,9 +84,9 @@ To integrate with Keycloak:
 | Allowed clock skew | empty |
 | Forwarded Query Parameters | empty |
 
-### Step 2: Enable the identity provider
+### Enable the identity provider
 
-<mark>Can we give them more details on what they are doing and why? </mark>
+In this step you will enable Keycloak to delegate authorization requests to the newly created Beyond Identity IDP for authentication.  
 
 1. Navigate to the Authentication configuration page.
 2. Under Identity Provider Redirector, click **Actions > Config**. 
@@ -95,13 +95,13 @@ To integrate with Keycloak:
 
 ![sso-keycloak-3](../images/integration-guides/sso-keycloak-3.png)
 
-### Step 3: Test the integration
+### Test the integration
 
-<mark>Can we give them more details on what they are doing and why? What are they looking for in terms of success or failures? </mark>
+In this step you'll test the integration from Keycloak's own login page.  
 
 1. Open a new Incognito Mode browser bindow. 
-2. Navigate to the Login Page of the realm under which the Beyond Identity Provider was configured. 
-3. Login with Beyond Identity.
+2. Navigate to the Login Page of the Keycloak realm under which the Beyond Identity Provider was configured above.
+3. Click the button to login with Beyond Identity.
 
 ![sso-keycloak-4](../images/integration-guides/sso-keycloak-4.png)
 
@@ -119,11 +119,11 @@ You can read more about the use cases for the Token Exchange grant here: https:/
 
 ## Configuring the token exchange
 
-Perform the following steps to configure the token exchange for the Beyond Identity provided created above:
+Perform the following steps to configure the token exchange for the Beyond Identity provider created above:
 
-### Step 1. Enable the token exchange permission
+### Enable the token exchange permission
 
-In this step, you'll be enabling the token exchange permission for the identity provider. <mark>Can we give them more details on what they are doing and why? </mark>
+In this step, you will enable (grant permissions for) Keycloak to perform token exchange with the Beyond Identity identity provider for particular apps (clients). 
 
 1. From the left navigation pane, click **Identity Providers**.
 2. When the Identity Providers section loads, choose the **Beyond Identity** provider from the list as shown below:
@@ -152,9 +152,9 @@ In this step, you'll be enabling the token exchange permission for the identity 
 Leave the other fields with their default values.
 :::
 
-### Step 2: Add a client policy
+### Add a client policy
 
-<mark>Can we give them more details on what they are doing and why? </mark>
+In this step, you will specify for which clients (apps) Keycloak can get tokens from the Beyond Identity identity provider.
 
 1. Enter a **Name** for the client policy,  for example, ‘Exchange Beyond Identity Token’.
 2. Optionally, enter a description.

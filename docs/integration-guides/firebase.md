@@ -8,8 +8,8 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update: 
-   date: 06/08/2023
-   author: Patricia McPhee
+   date: 08/27/2023
+   author: Jen Field
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
@@ -101,7 +101,6 @@ For help choosing options, visit the following guides:
 - [Applications](/docs/next/platform-overview#application)
 - [Authenticator Config](/docs/next/authentication)
 
-<p><mark>We should use the include file with the step-by-step instructions with screenshots. Arcades are not scannable and they are not A11y compatible.  Reserve Arcades for the more complex configurations, tutorials, or demos of something they can do (an end-to-end process). </mark></p>
 
 ### Configure Custom OpenID Connect Provider
 
@@ -145,7 +144,6 @@ Note that whichever browser or device that the user taps on the enrollment email
 
 For more information visit [Bind a passkey to an identity](/docs/next/add-passkey).
 
-<p><mark>We should use an include file with the step-by-step instructions with screenshots. Arcades are not scannable and they are not A11y compatible.  Reserve Arcades for the more complex configurations, tutorials, or demos of something they can do (an end-to-end process). </mark></p>
 
 ## Configure Application
 
