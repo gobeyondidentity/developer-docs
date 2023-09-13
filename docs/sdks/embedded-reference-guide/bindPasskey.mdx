@@ -43,15 +43,11 @@ Before making a call to **bindPasskey**, you must complete the following prerequ
 
 4. Use **isBindPasskeyUrl** to verify passkey binding link.
 
-  ```javascript
-  await embedded.isBindPasskeyUrl(passkeyBindingLink);
-  ```
+  <IsBindPasskeyUrl />
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| **url** | string | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
+  <BindPasskeyUrlParametersAll />
 
 ## Returns
 
@@ -267,3 +263,5 @@ For complete guidance on binding a passkey to a user, see [Bind Passkey to an id
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import IsBindPasskeyUrl from "../code-snippets/is-bind-passkey-url-all.mdx";
+import BindPasskeyUrlParametersAll from "../parameters/bind-passkey-url-all.mdx";
