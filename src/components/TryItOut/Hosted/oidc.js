@@ -1,8 +1,8 @@
 import { OAuth2Client, generateCodeVerifier } from "@badgateway/oauth2-client";
 
 const DISCOVERY_ENDPOINT =
-  "https://auth-us.beyondidentity.run/v1/tenants/0001303dc41a7c4d/realms/296201a3b2a7fd0c/applications/870ea8f5-02b7-4850-b67b-534ffcf12b6b/.well-known/openid-configuration";
-const CLIENT_ID = "Q1xIcik7sSY0LRPg6jrQtkRX";
+  "https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/7b92d0ea-4be7-4687-b458-102dc7d63ba6/.well-known/openid-configuration";
+const CLIENT_ID = "E6LMHngzsuvYBCFCQ5cAoFd4";
 
 class OIDC {
   static async authenticate() {
