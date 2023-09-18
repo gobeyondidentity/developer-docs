@@ -350,4 +350,4 @@ Calling the token endpoint is the second step in the authorization flow and usua
 
 Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
 
-For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/next/embedded-sdk-add-passkeys#call-the-token-endpoint-for-token-exchange).  
+For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/next/embedded-sdk-add-authentication#call-the-token-endpoint-for-token-exchange).  

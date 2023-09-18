@@ -74,7 +74,7 @@ const sidebars = {
           items: [
             "authentication/embedded-sdk-add-passkeys",
             "authentication/embedded-sdk-add-otp-email",
-            /*
+/*
             {
               type: 'category',
               label: 'Integrations',
