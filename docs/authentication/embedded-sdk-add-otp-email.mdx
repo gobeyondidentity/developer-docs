@@ -20,7 +20,7 @@ displayed_sidebar: mainSidebar
 
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 
-This guide describes how to add email based OTP (one-time passcode) to your app. OTP is an auto generated code that is sent to the user's email address that can only be used once for a single login. This can be used to prove that the user has access to the email address associated with the account in question. You will find that OTP email verification is used on the [Hosted Web Authenticator](/docs/next/authentication#hosted-web) for sign-up and new browser logins. This guide will help you implement your own OTP solution for your application using the Beyond Identity Embedded SDK.
+This guide describes how to add email based OTP (one-time password) to your app. OTP is an auto generated code that is sent to the user's email address that can only be used once for a single login. This can be used to prove that the user has access to the email address associated with the account in question. You will find that OTP email verification is used on the [Hosted Web Authenticator](/docs/next/authentication#hosted-web) for sign-up and new browser logins. This guide will help you implement your own OTP solution for your application using the Beyond Identity Embedded SDK.
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ Use the following guides for language specific information:
 
 ### 1. Send the user an OTP
 
-In your application, create a text field for the user to enter an email address. After the user enters an email address you will want to call the Embedded SDK function [authenticateOtp](/docs/next/js-reference-authenticateOtp) with the current authenticate url and the user's email address. Calling this functions will enable Beyond Identity to send the user an email with a one-time passcode.
+In your application, create a text field for the user to enter an email address. After the user enters an email address you will want to call the Embedded SDK function [authenticateOtp](/docs/next/js-reference-authenticateOtp) with the current authenticate url and the user's email address. Calling this functions will enable Beyond Identity to send the user an email with a one-time password.
 
 The result of calling this function will return an [OtpChallengeResponse](/docs/next/js-reference-authenticateOtp#returns) that contains a `URL`. This URL should be saved and used when calling [redeemOtp](/docs/next/js-reference-redeemOtp) or other calls to [authenticate](/docs/next/js-reference-authenticate) or [authenticateOtp](/docs/next/js-reference-authenticateOtp) in the same transaction.
 
@@ -65,7 +65,7 @@ Use this new authenticate URL when calling **[redeemOtp](/docs/next/js-reference
 
 ### 2. Redeem the user's OTP
 
-After calling the function [authenticateOtp](/docs/next/js-reference-authenticateOtp), the user should receive an email with a one-time passcode. They have 10 minutes to redeem thier passcode. To redeem that code for your user, you will need to call the function [redeemOtp](/docs/next/js-reference-redeemOtp). Create a text field for your user to enter the code that was received in thier email. After the user has entered that code, you will want to call the Embedded SDK function [redeemOtp](/docs/next/js-reference-redeemOtp) with the current authenticate url and the user's OTP.
+After calling the function [authenticateOtp](/docs/next/js-reference-authenticateOtp), the user should receive an email with a one-time password. They have 10 minutes to redeem thier OTP. To redeem that code for your user, you will need to call the function [redeemOtp](/docs/next/js-reference-redeemOtp). Create a text field for your user to enter the code that was received in thier email. After the user has entered that code, you will want to call the Embedded SDK function [redeemOtp](/docs/next/js-reference-redeemOtp) with the current authenticate url and the user's OTP.
 
 The result of calling this function will return either an [AuthenticateResponse](/docs/next/js-reference-redeemOtp#returns) or an [OtpChallengeResponse](/docs/next/js-reference-redeemOtp#returns).
 
