@@ -65,7 +65,7 @@ Use this new authenticate URL when calling **[redeemOtp](/docs/next/js-reference
 
 ### 2. Redeem the user's OTP
 
-After calling the function [authenticateOtp](/docs/next/js-reference-authenticateOtp), the user should receive an email with a one-time passcode. To redeem that code you will need to call the function [redeemOtp](/docs/next/js-reference-redeemOtp). Create a text field for your user to enter the code that was received in thier email. After the user has entered that code, you will want to call the Embedded SDK function [redeemOtp](/docs/next/js-reference-redeemOtp) with the current authenticate url and the user's OTP code.
+After calling the function [authenticateOtp](/docs/next/js-reference-authenticateOtp), the user should receive an email with a one-time passcode. They have 10 minutes to redeem thier passcode. To redeem that code for your user, you will need to call the function [redeemOtp](/docs/next/js-reference-redeemOtp). Create a text field for your user to enter the code that was received in thier email. After the user has entered that code, you will want to call the Embedded SDK function [redeemOtp](/docs/next/js-reference-redeemOtp) with the current authenticate url and the user's OTP.
 
 The result of calling this function will return either an [AuthenticateResponse](/docs/next/js-reference-redeemOtp#returns) or an [OtpChallengeResponse](/docs/next/js-reference-redeemOtp#returns).
 
