@@ -104,8 +104,7 @@ If your application is using the [NextAuth](https://next-auth.js.org) provider (
 
 The token endpoint base url can also be found in the Beyond Identity Admin Console under your application, select "EXTERNAL PROTOCOL". Copy the `Token Endpoint`.
 
-![Token Url](../images/
-authentication-token-url.png)
+![Token Url](../images/authentication-token-url.png)
 
 ### 2. Token Endpoint Auth Method
 
