@@ -1,7 +1,9 @@
 openapi: 3.0.1
 info:
   title: Beyond Identity API
-  version: 1.5.0
+  version: 1.6.1
+  contact:
+    email: support@beyondidentity.com
   description: |
     # Introduction
 
@@ -730,7 +732,7 @@ paths:
       operationId: DeleteRealm
       summary: Delete a Realm
       description: |
-        To delete a realm, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. To be deleted, a realm must not have any identities or groups. All associated resources must first be deleted or you will receive a 409 error.
+        To delete a realm, send a DELETE request to `/v1/tenants/$TENANT_ID/realms/$REALM_ID`. To be deleted, a realm must not have any identities, groups, or roles. All associated resources must first be deleted or you will receive a 409 error.
         A successful request will receive a 200 status code with no body in the response. This indicates that the request was processed successfully.
       security:
         - BearerAuth:
@@ -4781,7 +4783,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
-                Success:
+                Success Embedded:
                   value:
                     id: 73731b7f-eb76-4143-9b4b-81a720385f5a
                     realm_id: caf2ff640497591a
@@ -4791,6 +4793,16 @@ paths:
                       type: embedded
                       invoke_url: 'http://localhost:8092'
                       invocation_type: automatic
+                      trusted_origins:
+                        - 'http://localhost:8092'
+                Success Hosted Web:
+                  value:
+                    id: 73731b7f-eb76-4143-9b4b-81a720385f5a
+                    realm_id: caf2ff640497591a
+                    tenant_id: 00011f1183c67b69
+                    display_name: Pet Authenticator Configuration
+                    config:
+                      type: hosted_web
                       trusted_origins:
                         - 'http://localhost:8092'
         '400':
@@ -4962,7 +4974,7 @@ paths:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
                 Success:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Embedded'
         '401':
           description: Unauthorized.
           content:
@@ -5041,8 +5053,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthenticatorConfig'
               examples:
-                Success:
-                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success'
+                Success Embedded:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Embedded'
+                Success Hosted Web:
+                  $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1authenticator-configs/post/responses/200/content/application~1json/examples/Success%20Hosted%20Web'
         '400':
           description: Bad request.
           content:
