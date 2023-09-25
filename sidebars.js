@@ -72,7 +72,7 @@ const sidebars = {
           collapsed: true,
           collapsible: true,
           items: [
-            "authentication/embedded-sdk-add-passkeys",
+            "authentication/embedded-sdk-add-authentication",
             "authentication/embedded-sdk-add-otp-email",
 /*
             {
