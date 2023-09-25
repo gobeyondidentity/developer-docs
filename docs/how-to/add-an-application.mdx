@@ -103,57 +103,57 @@ Before creating an application by API, you must have an [API access token](/docs
 
 1. Create a [Resource Server](/docs/next/add-resource-server#api). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application.
 
-<ResourceServerDescription />
+  <ResourceServerDescription />
 
-<MultiLanguageCodeBlock
-  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
-  -X POST \
-  -H "Authorization: Bearer $(TOKEN)" \
-  -H "Content-Type: application/json" \
-  -d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
-  title="/resource-servers"
-/>
+  <MultiLanguageCodeBlock
+    curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/resource-servers" \
+    -X POST \
+    -H "Authorization: Bearer $(TOKEN)" \
+    -H "Content-Type: application/json" \
+    -d "{\"resource_server\":{\"display_name\":\"$(APPLICATION_DISPLAY_NAME)\",\"identifier\":\"$(APPLICATION_URI)\",\"scopes\":[\"$(SCOPE)\"]}}"'
+    title="/resource-servers"
+  />
 
 2. Create an Authenticator Config and make a note of the Authenticator Config ID.
 
-Follow these guidelines to determine if your use case requires the Authenticator Config ID for creating your application:
+  Follow these guidelines to determine if your use case requires the Authenticator Config ID for creating your application:
 
-| Protocol | Grant Type         | Required? |
-| -------- | ------------------ | --------- |
-| OAuth    | Client Credentials | No        |
-| OAuth    | Authorization Code | Yes       |
+  | Protocol | Grant Type         | Required? |
+  | -------- | ------------------ | --------- |
+  | OAuth    | Client Credentials | No        |
+  | OAuth    | Authorization Code | Yes       |
 
-You'll set the application's Configuration Type, Invocation Type, Invoke URL, and Trusted Origins.
+  You'll set the application's Configuration Type, Invocation Type, Invoke URL, and Trusted Origins.
 
-<MultiLanguageCodeBlock
-  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/authenticator-config" \
-  -X POST \
-  -H "Authorization: Bearer $(TOKEN)" \
-  -H "Content-Type: application/json" \
-  -d "{\"authenticator_config\":{\"config\":{\"type\":\"$(CONFIGURATION_TYPE)\",\"invoke_url\":\"$(INVOKE_URL)\",\"trusted_origins\":[\"$(TRUSTED_ORIGIN)\"],\"invocation_type\":\"$(INVOCATION_TYPE)\"}}}"'
-  title="/authenticator-config"
-/>
+  <MultiLanguageCodeBlock
+    curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/authenticator-config" \
+    -X POST \
+    -H "Authorization: Bearer $(TOKEN)" \
+    -H "Content-Type: application/json" \
+    -d "{\"authenticator_config\":{\"config\":{\"type\":\"$(CONFIGURATION_TYPE)\",\"invoke_url\":\"$(INVOKE_URL)\",\"trusted_origins\":[\"$(TRUSTED_ORIGIN)\"],\"invocation_type\":\"$(INVOCATION_TYPE)\"}}}"'
+    title="/authenticator-config"
+  />
 
 3. Create an application using at least the Authenticator Config ID, specifically if your application's `grant_type` is set to **authorization_code**. The Resource Server ID is optional.
 
-You'll set the application's Display Name, Client Type (confidentiality), Token Configuration, and one ore more redirect URIs.
+  You'll set the application's Display Name, Client Type (confidentiality), Token Configuration, and one ore more redirect URIs.
 
-There are two options available for `confidentiality`:
+  There are two options available for `confidentiality`:
 
-| Option           | What to do                                                                                                                            |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| **confidential** | set the `token_endpoint_auth_method` to one of the following:<ul><li>**client_secret_post**</li><li>**client_secret_basic**</li></ul> |
-| **public**       | set the `token_endpoint_auth_method` to **none**                                                                                      |
+  | Option           | What to do                                                                                                                            |
+  | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+  | **confidential** | set the `token_endpoint_auth_method` to one of the following:<ul><li>**client_secret_post**</li><li>**client_secret_basic**</li></ul> |
+  | **public**       | set the `token_endpoint_auth_method` to **none**                                                                                      |
 
-<MultiLanguageCodeBlock
-  curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications" \
-  -X POST \
-  -H "Authorization: Bearer $(TOKEN)" \
-  -H "Content-Type: application/json" \
-  -d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\", \"token_format\": \"self_contained\"}}}"'
-  title="/applications"
-/>
+  <MultiLanguageCodeBlock
+    curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications" \
+    -X POST \
+    -H "Authorization: Bearer $(TOKEN)" \
+    -H "Content-Type: application/json" \
+    -d "{\"application\":{\"display_name\":\"$(DISPLAY_NAME)\",\"resource_server_id\":\"$(RESOURCE_SERVER_ID)\",\"authenticator_config_id\":\"$(AUTHENTICATOR_CONFIG_ID)\",\"protocol_config\":{\"type\":\"oidc\",\"allowed_scopes\": [\"$(SCOPE)\"],\"confidentiality\": \"$(CLIENT_TYPE)\",\"token_endpoint_auth_method\":\"$(TOKEN_ENDPOINT_AUTH_METHOD)\",\"grant_type\": [\"authorization_code\"],\"redirect_uris\": [\"$(REDIRECT_URI)\"],\"token_configuration\":{\"subject_field\":\"$(TOKEN_SUBJECT_FIELD)\",\"expires_after\":86400,\"token_signing_algorithm\":\"RS256\"},\"pkce\":\"s256\", \"token_format\": \"self_contained\"}}}"'
+    title="/applications"
+  />
 
-Token configuration, such as expiration and default allowed scopes, can be modified either through the Beyond Identity Admin Console or through API on [application update](https://developer.beyondidentity.com/api/v1#tag/Applications/operation/UpdateApplication).
+  Token configuration, such as expiration and default allowed scopes, can be modified either through the Beyond Identity Admin Console or through API on [application update](https://developer.beyondidentity.com/api/v1#tag/Applications/operation/UpdateApplication).
 
 ## What can you do next?
