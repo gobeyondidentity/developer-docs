@@ -12,7 +12,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/next/get-started"
+      "/docs/get-started"
     )
   },
   {
@@ -24,7 +24,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/next/integration-guides"
+      "/docs/integration-guides"
     )
   },
   {
@@ -36,7 +36,7 @@ const FeatureList1 = [
       </>
     ),
     link: (
-      "/docs/next/platform-overview"
+      "/docs/platform-overview"
     )
   },
  ];

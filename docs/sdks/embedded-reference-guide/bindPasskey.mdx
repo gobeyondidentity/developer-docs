@@ -17,7 +17,7 @@ displayed_sidebar: sdkSidebar
 
 The **bindPasskey** function enables your app to generate and bind a new passkey to an identity. The identity can be one that you create via the Beyond Identity [API](https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity) or one that exists already in the tenant you target.
 
-_This is a reference article that describes the **bindPasskey** function. For a complete walk-through on creating a new passkey, see our guide [Bind Passkey to an identity](/docs/next/add-passkey)._
+_This is a reference article that describes the **bindPasskey** function. For a complete walk-through on creating a new passkey, see our guide [Bind Passkey to an identity](/docs/add-passkey)._
 
 ## Dependencies
 
@@ -53,7 +53,7 @@ Before making a call to **bindPasskey**, you must complete the following prerequ
 
 On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is an object that contains the following keys:
 
-- **passkey**: an object representing the newly created passkey. See example [passkey](/docs/next/embedded-reference-passkey-type).
+- **passkey**: an object representing the newly created passkey. See example [passkey](/docs/embedded-reference-passkey-type).
 
 - **postBindRedirect**: a string containing the URL to redirect to upon successfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 
@@ -294,7 +294,7 @@ Your app must have a route or page to intercept this redirect, and send it to th
 
 <IsBindPasskeyUrlExample />
 
-For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](/docs/next/add-passkey).
+For complete guidance on binding a passkey to a user, see [Bind Passkey to an identity](/docs/add-passkey).
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";

@@ -18,7 +18,7 @@ Make sure to set up deep linking in native applications to intercept the authent
 
 The authorization flow should begin in a webview with your [crafted authorization URL](#craft-your-authorization-request).
 
-Don't forget to [initalize your SDK](/docs/next/sdk-setup) and present some logic to the user to select a passkey ahead of time.
+Don't forget to [initalize your SDK](/docs/sdk-setup) and present some logic to the user to select a passkey ahead of time.
 
 :::info
 In a native application, the webview used should follows best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252). This means that on iOS applications [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) should be used, and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) should be used on Android devices.
@@ -70,7 +70,7 @@ callbacks: {
 
 2. Wiring up `embedded.authenticate`
 
-Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/next/authentication), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
+Create a `bi-authenticate.tsx` page under `/next-auth-example/pages`. As long as your `Invoke URL` is configured properly in your [Authenticator Config](/docs/authentication), this is the page that will be redirected to during an authorization flow. Copy the following code snippet into that page.
 
 ```javascript
 import { useEffect, useState } from "react";
@@ -394,7 +394,7 @@ React.useEffect(() => {
 }, [response]);
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/embedded-sdk-add-authentication#token-exchange).
 
 ```jsx
 const { redirectURL } = await Embedded.authenticate(url, passkeys[0].id);
@@ -486,7 +486,7 @@ if (await InAppBrowser.isAvailable()) {
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/embedded-sdk-add-authentication#token-exchange).
 
 ```tsx
 if (await Embedded.isAuthenticateUrl(response.url)) {
@@ -543,7 +543,7 @@ var authenticateResponse = await Embeddedsdk.authenticate(
 );
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/embedded-sdk-add-authentication#token-exchange).
 
 ```dart
 // This URL contains authorization code and state parameters

@@ -39,7 +39,7 @@ A resource server can be created from the Beyond Identity Admin Console.
 
 
 ## API
-Before creating a resource server by API, you must have an [API access token for the Beyond Identity Management API](/docs/next/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'.  
+Before creating a resource server by API, you must have an [API access token for the Beyond Identity Management API](/docs/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'.  
 
 
 To create a resource server, use the [create resource server API](https://developer.beyondidentity.com/api/v1#tag/Resource-Servers/operation/CreateResourceServer).  
@@ -54,7 +54,7 @@ To create a resource server, use the [create resource server API](https://develo
   />  
 
 where:  
- - TOKEN is a base64 encoded [API access token for the Beyond Identity Management API](/docs/next/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'  
+ - TOKEN is a base64 encoded [API access token for the Beyond Identity Management API](/docs/create-api-token#example-create-a-token-for-the-beyond-identity-management-api) that contains the scope 'resource-servers:create'  
  - APPLICATION_DISPLAY_NAME is any human readable string  
  - APPLICATION_URI is a unique string will be included as the audience claim in access tokens minted for an application that issues scopes owned by this resource server (for more information see the [API documentation](https://developer.beyondidentity.com/api/v1#tag/Resource-Servers/operation/CreateResourceServer))  
  - SCOPE is a list of scopes this resource server will be eligible to include in tokens. 

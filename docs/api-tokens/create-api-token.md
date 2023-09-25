@@ -22,11 +22,11 @@ import TabItem from '@theme/TabItem';
 
 ## Prerequisites
 
-In order to request a token, you need to have an [app configured in your Beyond Identity tenant](/docs/next/add-an-application).
+In order to request a token, you need to have an [app configured in your Beyond Identity tenant](/docs/add-an-application).
 
 This can be an application you configure yourself, or you can request a token for the built in Beyond Identity Management API app.
 
-Several [app properties](/docs/next/api-token-overview#app-properties-that-impact-token-requests-and-token-validation) impact how tokens should be requested and validated. The examples below illustrate several variations of those properties.
+Several [app properties](/docs/api-token-overview#app-properties-that-impact-token-requests-and-token-validation) impact how tokens should be requested and validated. The examples below illustrate several variations of those properties.
 
 ## Admin Console
 
@@ -85,7 +85,7 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 
 where:
 
-  - {tenant_id} is the [ID of the tenant](/docs/next/find-tenant-id) in which the app is configured
+  - {tenant_id} is the [ID of the tenant](/docs/find-tenant-id) in which the app is configured
 
   - {realm_id} is the **Realm Id** of the realm in which the application is configured
 

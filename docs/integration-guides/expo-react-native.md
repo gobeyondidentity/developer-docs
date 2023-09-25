@@ -81,7 +81,7 @@ AppRegistry.registerComponent(appName, () => App);
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll also create an [Application](/docs/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -130,7 +130,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-For more information about identities, see [Directory](/docs/next/platform-overview#directory).
+For more information about identities, see [Directory](/docs/platform-overview#directory).
 
 ### Generate a passkey
 
@@ -140,7 +140,7 @@ import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-se
 
 <BindPasskeyToAnIdentity />
 
-For more information, [Add a passkey](/docs/next/add-passkey).
+For more information, [Add a passkey](/docs/add-passkey).
 
 ### Bind passkey to device
 
@@ -223,7 +223,7 @@ Crafting an authorization URL is the first step in the authorization flow.
 
 ### Authenticate
 
-There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/next/authentication#invocation-type). 
+There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/authentication#invocation-type). 
 
 - **Automatic**
 - **Manual**
@@ -350,4 +350,4 @@ Calling the token endpoint is the second step in the authorization flow and usua
 
 Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
 
-For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/next/embedded-sdk-add-authentication#call-the-token-endpoint-for-token-exchange).  
+For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/embedded-sdk-add-authentication#call-the-token-endpoint-for-token-exchange).  

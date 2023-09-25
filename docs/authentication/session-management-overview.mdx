@@ -24,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 Session management is a crucial aspect of web application development. An authentication session is a period of user interaction with the application, typically starting with the user providing credentials and ending with logout or inactivity timeout. Effective session management ensures user data privacy, maintains session state, and provides a seamless user experience.
 
-The Beyond Identity session consists of a `token`, specifically an [access token](/docs/next/api-token-overview), which is implemented as a JSON Web Token (JWT). An access token, also used for API authentication, enables access to an application or resource. The token is digitally signed and contains information about what resources can be accessed and for how long.
+The Beyond Identity session consists of a `token`, specifically an [access token](/docs/api-token-overview), which is implemented as a JSON Web Token (JWT). An access token, also used for API authentication, enables access to an application or resource. The token is digitally signed and contains information about what resources can be accessed and for how long.
 
-By default, a token expires after 24 hours, but this can be configured in the [Admin Console](/docs/next/session-management-console).
+By default, a token expires after 24 hours, but this can be configured in the [Admin Console](/docs/session-management-console).
 
 Additionally, when you request an [access token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4), it is possible to receive an additional token called a [refresh token](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5) in the response. The refresh token can be used to request additional access tokens with identical or narrower scope.
 
@@ -34,16 +34,16 @@ Additionally, when you request an [access token](https://datatracker.ietf.org/do
 
 There are a few functions of sessions that you should be aware of.
 
-- [Create a Token](/docs/next/create-api-token) (Pre-Requisite)
+- [Create a Token](/docs/create-api-token) (Pre-Requisite)
 - [Store Tokens](#how-to-store-tokens)
 - [Create Session Cookie](#where-to-store-tokens)
-- [Introspect a Token](/docs/next/validate-access-tokens)
-- [Revoke a Token](/docs/next/revoke-access-tokens)
-- [Retrieve Active Tokens](/docs/next/list-access-tokens)
+- [Introspect a Token](/docs/validate-access-tokens)
+- [Revoke a Token](/docs/revoke-access-tokens)
+- [Retrieve Active Tokens](/docs/list-access-tokens)
 
 If you have enabled refresh tokens for your application, you can also refresh the access token to extend the duration of the user's session without requiring authentication.
 
-- [Refresh token request](/docs/next/enable-refresh-tokens)
+- [Refresh token request](/docs/enable-refresh-tokens)
 
 ## How to store tokens
 
@@ -55,9 +55,9 @@ Many Web development frameworks, like J2EE, ASP.NET, and PHP, provide their own 
 
 There are also many third-party pacakges. If you are following our Getting Started Guides,
 
-- [React](/docs/next/get-started-react): If you are using Redux, then [`redux-react-session`](https://www.npmjs.com/package/redux-react-session) is a popular choice. Otherise, [`react-session-api`](https://www.npmjs.com/package/react-session-api) is another helpful package found on npm.
-- [Angular](/docs/next/get-started-angular): [`ngStorage`](https://github.com/gsklee/ngStorage) and [`NgIdle`](https://github.com/moribvndvs/ng-idle) are both popular libraries.
-- [Next.js](/docs/next/get-started-nextjs): [NextAuth.js](https://next-auth.js.org/) provides a solution for authentication, session management and user account creation.
+- [React](/docs/get-started-react): If you are using Redux, then [`redux-react-session`](https://www.npmjs.com/package/redux-react-session) is a popular choice. Otherise, [`react-session-api`](https://www.npmjs.com/package/react-session-api) is another helpful package found on npm.
+- [Angular](/docs/get-started-angular): [`ngStorage`](https://github.com/gsklee/ngStorage) and [`NgIdle`](https://github.com/moribvndvs/ng-idle) are both popular libraries.
+- [Next.js](/docs/get-started-nextjs): [NextAuth.js](https://next-auth.js.org/) provides a solution for authentication, session management and user account creation.
 
 ### JWT Strategy with Refresh/Access Tokens
 
@@ -85,9 +85,9 @@ The JWT (JSON Web Token) strategy with access/refresh tokens is a popular authen
 
 The general flow of JWT strategy with access/refresh tokens works as follows:
 
-1. **Authentication:** When a user logs in with valid credentials, the server issues either an access token or an access token and a refresh token, depending on whether you have enabled refresh tokens for your application in the [Admin Console](/docs/next/session-management-console#refresh-token-configuration-refresh-token-setting).
+1. **Authentication:** When a user logs in with valid credentials, the server issues either an access token or an access token and a refresh token, depending on whether you have enabled refresh tokens for your application in the [Admin Console](/docs/session-management-console#refresh-token-configuration-refresh-token-setting).
 
-1. **Accessing Protected Resources:** The client includes the access token in the request headers whenever accessing protected resources on the server. You can use [Custom Claims](/docs/next/create-api-token#example-create-a-token-with-custom-claims) to further protect resources on the server by adding metadata to a token, such as a custom user role or a user's subscription or vip status.
+1. **Accessing Protected Resources:** The client includes the access token in the request headers whenever accessing protected resources on the server. You can use [Custom Claims](/docs/create-api-token#example-create-a-token-with-custom-claims) to further protect resources on the server by adding metadata to a token, such as a custom user role or a user's subscription or vip status.
 
 1. **Access Token Expiry:** The access token has a short lifespan, and once it expires, the client needs to use the refresh token to get a new access token.
 

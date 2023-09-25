@@ -33,11 +33,11 @@ Setting up passkeys for your users involves two main steps:
 1. Create an identity for the user
 1. Bind a passkey to the user's identity and device through a credential binding link
 
-You have two options for setting up passkeys in your application. The options described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).
+You have two options for setting up passkeys in your application. The options described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/add-an-application).
 
 | Type | Passkey Support |
 | --- | --- |
-| **Hosted Web** | You will NOT need to manage creating a user identity and binding a passkey for this user. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, using an OIDC client - similar to any other Identity Provider (think social providers). For more information, see the [Hosted Web](/docs/next/authentication#hosted-web). You do not need to continue reading this document.  |
+| **Hosted Web** | You will NOT need to manage creating a user identity and binding a passkey for this user. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, using an OIDC client - similar to any other Identity Provider (think social providers). For more information, see the [Hosted Web](/docs/authentication#hosted-web). You do not need to continue reading this document.  |
 | **Embedded SDK**  | You will need to manage creating a user identity and binding a passkey for this user. Continue reading this document for more information. |  
 
 ## Prerequisites
@@ -56,10 +56,10 @@ Create an endpoint in your application following the below code example:
 
 :::note
 - You can find the `REGION`, `TENANT_ID` and `REALM_ID` in your console.  
-- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `identities:create`.  
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `identities:create`.  
 :::
 
-For more information, visit the [add an identity](/docs/next/add-an-identity) guide.
+For more information, visit the [add an identity](/docs/add-an-identity) guide.
 
 <MultiLanguageCodeBlock
 curl='curl "https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/identities" \
@@ -123,7 +123,7 @@ The **RETURN** delivery method is the fastest way to get a binding link, which i
 :::note
 - You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API. 
 - You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.  
-- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
 :::
 
   The result of calling this API will be a JSON response with a `credential_binding_link`.
@@ -160,7 +160,7 @@ The **EMAIL** delivery method sends an email to the user. Clicking the link will
 
 <BindEmailDiagram/>
 
-1. Verify the application's Invoke URL. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](/docs/next/authentication#invoke-url). This should either be an app scheme or a Universal URL / App link.
+1. Verify the application's Invoke URL. When we send out a passkey email, the link will redirect to your application specified by the Authenticator Config's [Invoke URL](/docs/authentication#invoke-url). This should either be an app scheme or a Universal URL / App link.
 
   <DeepLinking />
 
@@ -178,7 +178,7 @@ The **EMAIL** delivery method sends an email to the user. Clicking the link will
 :::note
   - You will need the user's `IDENTITY_ID` from identity creation above. This is the **id** returned in the response JSON from the create identity API.   
   - You can find the `REGION`, `TENANT_ID`, `REALM_ID` and `AUTHENTICATOR_CONFIG_ID` in your console.
-  - You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
+  - You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `credential-binding-jobs:create`.  
   - Set the `POST_BINDING_REDIRECT_URI` to a URI in your application. On successful passkey binding the user will be re-directed to this URI.
 :::
 
@@ -208,4 +208,4 @@ Upon success, a private key will be created in the user's device's hardware trus
 
 ## What can I do next?
 
-After you have a passkey bound to an identity, you're ready to authenticate. See [Add authentication](/docs/next/embedded-sdk-add-authentication) for next steps on authentication and token exchange.
+After you have a passkey bound to an identity, you're ready to authenticate. See [Add authentication](/docs/embedded-sdk-add-authentication) for next steps on authentication and token exchange.

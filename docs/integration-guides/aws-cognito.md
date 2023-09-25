@@ -83,7 +83,7 @@ import AddResourceServerConsole  from '../includes/_add-resource-server-console.
 
 <AddResourceServerConsole />
 
-Configure the [resource server](/docs/next/add-resource-server) with the following properties:  
+Configure the [resource server](/docs/add-resource-server) with the following properties:  
 
 | Parameter | Value|
 |---|---|  
@@ -99,7 +99,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-1. Configure the [app](/docs/next/add-an-application) with the following properties:  
+1. Configure the [app](/docs/add-an-application) with the following properties:  
 
    | Parameter | Value|
    |---|---|  

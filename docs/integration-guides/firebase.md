@@ -77,7 +77,7 @@ Once you've installed the SDK, initialize it so that you can call the Embedded f
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a [Realm](/docs/next/create-realm) to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/next/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a [Realm](/docs/create-realm) to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -98,8 +98,8 @@ There is a lot to configure when creating an application. When creating your app
 
 For help choosing options, visit the following guides:
 
-- [Applications](/docs/next/platform-overview#application)
-- [Authenticator Config](/docs/next/authentication)
+- [Applications](/docs/platform-overview#application)
+- [Authenticator Config](/docs/authentication)
 
 
 ### Configure Custom OpenID Connect Provider
@@ -133,7 +133,7 @@ import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
 <AddAnIdentity />
 
-For more information about identities, see [Identity and groups](/docs/next/platform-overview#directory).
+For more information about identities, see [Identity and groups](/docs/platform-overview#directory).
 
 
 ### Generate a passkey
@@ -142,7 +142,7 @@ Once you have an identity, you are ready to generate a passkey for this user. Th
 
 Note that whichever browser or device that the user taps on the enrollment email will be the device/browser where the user can log into your Drupal site. If the user wishes to login from a different browser or device you will need to send the user another email to bind that new browser/device. Also note that private/incognito browsers act as a different browser in this case. Users can bind multiple devices and browsers.
 
-For more information visit [Bind a passkey to an identity](/docs/next/add-passkey).
+For more information visit [Bind a passkey to an identity](/docs/add-passkey).
 
 
 ## Configure Application

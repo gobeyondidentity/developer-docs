@@ -54,7 +54,7 @@ const config = {
           versions: {
             current: {
               label: "v2",
-              path: "next",
+              path: "",
             },
             v1: {
               label: "v1",
@@ -187,7 +187,7 @@ const config = {
         },
         items: [
           {
-            to: '/docs/next/select-experience/',
+            to: '/docs/select-experience/',
             position: 'left',
             label: 'Try it Out! 🚀',
           },  
@@ -310,7 +310,7 @@ const config = {
       // announcementBar: {
       //   id: 'support_us',
       //   content:
-      //     '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/next/"><b>Check it out!</b></a>&nbsp;&nbsp;Go back to <a href="/docs/v1/introduction">v1</a>.',
+      //     '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/"><b>Check it out!</b></a>&nbsp;&nbsp;Go back to <a href="/docs/v1/introduction">v1</a>.',
       //   backgroundColor: '#b9c5e7',
       //   textColor: '#091E42',
       //   isCloseable: false,

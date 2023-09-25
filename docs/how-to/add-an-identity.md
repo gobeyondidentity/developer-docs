@@ -28,7 +28,7 @@ You can add user identities one of three ways:
 
 1. [Beyond Identity Admin Console](#admin-console)
 2. [Beyond Identity APIs](#api)
-3. [SCIM](/docs/next/scim-server)
+3. [SCIM](/docs/scim-server)
 
 ## Prerequisites
 
@@ -47,7 +47,7 @@ You can create an identity using the [Beyond Identity API](https://developer.bey
 
 :::note
 - You can find the `REGION`, `TENANT_ID` and `REALM_ID` in your console.  
-- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/next/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `identities:create`.  
+- You can generate an `API_TOKEN` from your [**Beyond Identity Management API application**](/docs/create-api-token#create-an-access-token-in-the-console) where the token contains the scope `identities:create`.  
 :::
 
 :::note
@@ -90,4 +90,4 @@ The response JSON will contain the **id** of the new identity, which you'll use 
 }
 ```
 
-See [Add a passkey](/docs/next/add-passkey) for more information and next steps.
+See [Add a passkey](/docs/add-passkey) for more information and next steps.
