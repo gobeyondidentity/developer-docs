@@ -1259,6 +1259,11 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@badgateway/oauth2-client@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@badgateway/oauth2-client/-/oauth2-client-2.2.3.tgz#4c30fffd1f57a4d860e98902f184ec23d0c77098"
+  integrity sha512-5y/0dzWfy16SJuB91oZaoIdMsNxG8QyTOz4EQoMZgxOTzvharPr9LTffqdQkECNvBufXaixDeJ3eY7EaC62zDA==
+
 "@beyondidentity/bi-sdk-js@^2.0.1":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@beyondidentity/bi-sdk-js/-/bi-sdk-js-2.0.3.tgz#f71d559b47e7eee33789deba8a38ac97c4822ab5"

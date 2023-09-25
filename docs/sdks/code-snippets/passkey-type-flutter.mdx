@@ -1,0 +1,272 @@
+```dart
+/// A Universal Passkey is a public and private key pair. The private key is generated, stored, and never leaves the user's devices' hardware root of trust (i.e. Secure Enclave).
+/// The public key is sent to the Beyond Identity cloud. The private key cannot be tampered with, viewed, or removed from the device in which it is created unless the user explicitly indicates that the trusted device be removed.
+/// Passkeys are cryptographically linked to devices and an Identity. A single device can store multiple passkeys for different users and a single Identity can have multiple passkeys.
+class Passkey {
+  /// The Globally unique ID of this passkey.
+  String id;
+
+  /// The time when this passkey was created locally. This could be different from "created" which is the time when this passkey was created on the server.
+  String localCreated;
+
+  /// The last time when this passkey was updated locally. This could be different from "updated" which is the last time when this passkey was updated on the server.
+  String localUpdated;
+
+  /// The base url for all binding & auth requests
+  String apiBaseUrl;
+
+  /// Associated key handle.
+  String keyHandle;
+
+  /// The current state of this passkey
+  PasskeyState state;
+
+  /// The time this passkey was created.
+  String created;
+
+  /// The last time this passkey was updated.
+  String updated;
+
+  /// Tenant information associated with this passkey.
+  PasskeyTenant tenant;
+
+  /// Realm information associated with this passkey.
+  PasskeyRealm realm;
+
+  /// Identity information associated with this passkey.
+  PasskeyIdentity identity;
+
+  /// Theme information associated with this passkey
+  PasskeyTheme theme;
+
+  Passkey({
+    required this.id,
+    required this.localCreated,
+    required this.localUpdated,
+    required this.apiBaseUrl,
+    required this.keyHandle,
+    required this.state,
+    required this.created,
+    required this.updated,
+    required this.tenant,
+    required this.realm,
+    required this.identity,
+    required this.theme,
+  });
+
+  static Passkey mapToPasskey(dynamic passkey) {
+    return Passkey(
+      id: passkey["id"],
+      localCreated: passkey["localCreated"],
+      localUpdated: passkey["localUpdated"],
+      apiBaseUrl: passkey["apiBaseUrl"],
+      keyHandle: passkey["keyHandle"],
+      state: PasskeyStateHelper.fromString(passkey["state"]),
+      created: passkey["created"],
+      updated: passkey["updated"],
+      tenant: PasskeyTenant.mapToTenant(passkey["tenant"]),
+      realm: PasskeyRealm.mapToRealm(passkey["realm"]),
+      identity: PasskeyIdentity.mapToIdentity(passkey["identity"]),
+      theme: PasskeyTheme.mapToTheme(passkey["theme"]),
+    );
+  }
+
+  String toJson() {
+    return "{"
+        "\"id\":\"$id\","
+        "\"localCreated\":\"$localCreated\","
+        "\"localUpdated\":\"$localUpdated\","
+        "\"apiBaseUrl\":\"$apiBaseUrl\","
+        "\"keyHandle\":\"$keyHandle\","
+        "\"state\":\"$state\","
+        "\"created\":\"$created\","
+        "\"updated\":\"$updated\","
+        "\"tenant\":${tenant.toJson()},"
+        "\"realm\":${realm.toJson()},"
+        "\"identity\":${identity.toJson()},"
+        "\"theme\":${theme.toJson()}}";
+  }
+
+  @override
+  String toString() {
+    return "{\"Passkey\":${toJson()}}";
+  }
+}
+
+/// State of a given [Passkey]
+enum PasskeyState {
+  /// [Passkey] is active
+  // ignore: constant_identifier_names
+  ACTIVE,
+
+  /// [Passkey] is revoked
+  // ignore: constant_identifier_names
+  REVOKED,
+}
+
+class PasskeyStateHelper {
+  static PasskeyState fromString(String state) {
+    switch (state.toLowerCase()) {
+      case "active":
+        return PasskeyState.ACTIVE;
+      case "revoked":
+        return PasskeyState.REVOKED;
+      default:
+        throw Exception(
+            "Cannot initialize PasskeyState from invalid String value $state");
+    }
+  }
+}
+
+/// Tenant information associated with a [Passkey]. A Tenant represents an organization in the Beyond Identity Cloud and serves as a root container for all other cloud components in your configuration.
+class PasskeyTenant {
+  /// The unique identifier of the tenant.
+  String id;
+
+  /// The display name of the tenant.
+  String displayName;
+
+  PasskeyTenant({
+    required this.id,
+    required this.displayName,
+  });
+
+  static PasskeyTenant mapToTenant(dynamic passkey) {
+    return PasskeyTenant(
+      id: passkey["id"],
+      displayName: passkey["displayName"],
+    );
+  }
+
+  String toJson() {
+    return "{"
+        "\"id\":\"$id\","
+        "\"displayName\":\"$displayName\"}";
+  }
+
+  @override
+  String toString() {
+    return "{\"Tenant\":${toJson()}}";
+  }
+}
+
+/// Realm information associated with a [Passkey].
+/// A Realm is a unique administrative domain within a `Tenant`.
+/// Some Tenants will only need the use of a single Realm, in this case a Realm and a Tenant may seem synonymous.
+/// Each Realm contains a unique set of Directory, Policy, Event, Application, and Branding objects.
+class PasskeyRealm {
+  /// The unique identifier of the realm.
+  String id;
+
+  /// The display name of the realm.
+  String displayName;
+
+  PasskeyRealm({
+    required this.id,
+    required this.displayName,
+  });
+
+  static PasskeyRealm mapToRealm(dynamic passkey) {
+    return PasskeyRealm(
+      id: passkey["id"],
+      displayName: passkey["displayName"],
+    );
+  }
+
+  String toJson() {
+    return "{"
+        "\"id\":\"$id\","
+        "\"displayName\":\"$displayName\"}";
+  }
+
+  @override
+  String toString() {
+    return "{\"Realm\":${toJson()}}";
+  }
+}
+
+/// Identity information associated with a [Passkey].
+/// An Identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity.
+/// An Identity is created at the Realm level.
+/// An end-user may have multiple identities. A Realm can have many Identities.
+class PasskeyIdentity {
+  /// The unique identifier of the identity.
+  String id;
+
+  /// The display name of the identity.
+  String displayName;
+
+  /// The username of the identity.
+  String username;
+
+  /// The primary email address of the identity.
+  String? primaryEmailAddress;
+
+  PasskeyIdentity({
+    required this.id,
+    required this.displayName,
+    required this.username,
+    required this.primaryEmailAddress,
+  });
+
+  static PasskeyIdentity mapToIdentity(dynamic passkey) {
+    return PasskeyIdentity(
+      id: passkey["id"],
+      displayName: passkey["displayName"],
+      username: passkey["username"],
+      primaryEmailAddress: passkey["primaryEmailAddress"],
+    );
+  }
+
+  String toJson() {
+    return "{"
+        "\"id\":\"$id\","
+        "\"displayName\":\"$displayName\","
+        "\"username\":\"$username\","
+        "\"primaryEmailAddress\":\"$primaryEmailAddress\"}";
+  }
+
+  @override
+  String toString() {
+    return "{\"Identity\":${toJson()}}";
+  }
+}
+
+/// Theme associated with a [Passkey].
+class PasskeyTheme {
+  /// URL to for resolving the logo image for light mode.
+  String logoLightUrl;
+
+  /// URL to for resolving the logo image for dark mode.
+  String logoDarkUrl;
+
+  /// URL for customer support portal.
+  String supportUrl;
+
+  PasskeyTheme({
+    required this.logoLightUrl,
+    required this.logoDarkUrl,
+    required this.supportUrl,
+  });
+
+  static PasskeyTheme mapToTheme(dynamic passkey) {
+    return PasskeyTheme(
+      logoLightUrl: passkey["logoLightUrl"],
+      logoDarkUrl: passkey["logoDarkUrl"],
+      supportUrl: passkey["supportUrl"],
+    );
+  }
+
+  String toJson() {
+    return "{"
+        "\"logoLightUrl\":\"$logoLightUrl\","
+        "\"logoDarkUrl\":\"$logoDarkUrl\","
+        "\"supportUrl\":\"$supportUrl\"}";
+  }
+
+  @override
+  String toString() {
+    return "{\"Theme\":${toJson()}}";
+  }
+}
+```

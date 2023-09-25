@@ -1,5 +1,19 @@
 ```javascript
-if (await Embedded.isBindPasskeyUrl(url)) {
-  // bind the passkey using `bindPasskey`
-}
+const url = "credential-binding-url";
+
+Embedded.isBindPasskeyUrl(url)
+  .then(isValid => {
+    if (isValid) {
+      // The URL is valid for binding a passkey
+      return Embedded.bindPasskey(url);
+    } else {
+      throw new Error("The URL is not a valid Bind Passkey URL");
+    }
+  })
+  .then(response => {
+    console.log("Success:", response);
+  })
+  .catch(err => {
+    console.error("Error:", err.message);
+  });
 ```

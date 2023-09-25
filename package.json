@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "@badgateway/oauth2-client": "^2.2.3",
     "@beyondidentity/bi-sdk-js": "^2.0.1",
     "@docusaurus/core": "^2.4.1",
     "@docusaurus/plugin-debug": "^2.4.1",

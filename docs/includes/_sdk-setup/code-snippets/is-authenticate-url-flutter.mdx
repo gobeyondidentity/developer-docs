@@ -1,5 +1,29 @@
 ```dart
-if (await Embeddedsdk.isAuthenticateUrl(url)) {
-    // authenticate against a passkey bound to the device
+final url = "authenticate-url";
+
+// Fetch all passkeys for this device
+List<Passkey> passkeys = await EmbeddedSdk.getPasskeys();
+
+// Check if there are any passkeys available
+if (passkeys.isNotEmpty) {
+  // TODO: Instead of automatically selecting the first passkey, 
+  // present a UI to the user to let them select the desired passkey.
+  // For the purpose of this example, we're using the first passkey.
+  String passkeyId = passkeys.first.passkeyId;
+
+  bool isValid = await EmbeddedSdk.isAuthenticateUrl(url);
+  if (isValid) {
+    // The URL is valid for authenticating against a passkey
+    try {
+      AuthenticateResponse response = await EmbeddedSdk.authenticate(url, passkeyId);
+      print("Successfully authenticated against passkey bound to this device. Response: $response");
+    } catch (e) {
+      print("Error authenticating against a passkey: $e");
+    }
+  } else {
+    print("The URL is not a valid Authenticate Passkey URL");
+  }
+} else {
+  print("No passkeys available for this device");
 }
 ```

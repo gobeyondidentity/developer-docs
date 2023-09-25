@@ -1,0 +1,118 @@
+---
+title: authenticate
+id: embedded-reference-authenticate
+description: ""
+slug: /embedded-reference-authenticate
+keywords:
+  - embedded sdk
+pagination_next: null
+pagination_prev: null
+last_update:
+  date: 08/01/2023
+  author: William May
+draft: false
+doc_type: reference
+displayed_sidebar: sdkSidebar
+---
+
+The **authenticate** function enables an app using the Beyond Identity SDK to perform passkey-based authentication within a standard OpenID Connect authorization flow.
+
+## Dependencies
+
+The **authenticate** function requires the Beyond Identity SDK.
+
+<InstallationAll />
+
+## Prerequisites
+
+Before making a call to **authenticate**, you must complete the following prerequisite calls:
+
+1. Import the required types and functions from the SDK.
+
+  <ImportAll />
+
+1. Initialize the SDK.
+
+  <InitializeAll />
+
+1. Identify the passkey you wish to authenticate with and obtain its passkey ID.
+
+  > _How you achieve this depends upon your app, but you can obtain a list of passkeys available on the device via the [**getPasskeys**](./embedded-reference-getPasskeys) function. This returns an array of passkeys that you can use, for example, to prompt the user interactively to select one. The **id** property of the selected [**Passkey**](./embedded-reference-passkey-type) is the passkey id this function expects_
+
+4. Use isAuthenticateUrl to verify the `url` parameter you intend to send to the function
+
+  <IsAuthenticateUrl />
+
+## Parameters
+
+<AuthenticateParametersAll />
+
+## Returns
+
+On success, the **authenticate** function returns the following response:
+
+<AuthenticateResponseAll />
+
+- **redirectURL**: string containing the complete URL to which your app should redirect the user to complete the OIDC flow.
+
+  Keeping with the OIDC specifications, this includes the code and state parameters as query parameters to the redirect_url specified in the original OIDC request to the `/authorize` endpoint for the authentication URL.
+
+- **message**: string containing a message your app may optionally consume or display.
+
+## Notes
+
+Using the **authenticate** function requires your app to generate a standard OpenID Connect (OIDC) request to Beyond Identity's API and consume the resulting codes and tokens.
+
+For step-by-step instructions to on how to configure authentication using the embedded SDK, see [this guide](/docs/next/embedded-sdk-add-passkeys).
+
+## Examples
+
+### Example: Call **authenticate** with selected ID after prompting the user with a list of passkeys
+
+<IsAuthenticateUrlAll />
+
+### Example: Retrieve Beyond Identity authentication url via OIDC call
+
+The app sends an OIDC call to the Beyond Identity API's `/authorize` endpoint:
+
+<MultiLanguageCodeBlock
+  curl='curl -X GET "https://auth-us.beyondidentity.com/v1/tenants/${TENANT_ID}/realms/${REALM_ID}/applications/${APPLICATION_ID}/authorize?client_id=${CLIENT_ID}&scope=openid&response_type=code&redirect_uri=${REDIRECT_URI}&state=8LIY29kN8Oz7zrAhb8xb0yvem-gvnRy1HTn03MAuL_E"'
+  title="Call /authorize Endpoint to Initiate OIDC Call"
+  />
+
+where the following elements match the corresponding properties of the app as configured in your Beyond Identity tenant:
+
+| Property | Description |
+| --- | --- |
+| **TENANT_ID** | The Tenant ID of the tenant in which the app is configured. |
+| **REALM_ID** | The Realm ID of the realm in which the app is configured. |
+| **APPLICATION_ID** | The Application ID from the header of the app's configuration page. |
+| **CLIENT_ID** | The Client ID from the External Protocol tab of the app's configuration page. |
+| **REDIRECT_URI** | Matches one of the Redirect URIs configured on the External Protocol tab of the app's configuration page, URL encoded. |
+
+When the Invocation Type configured on the Authenticator Config tab of the app's configuration page is set to Manual, it returns a JSON object:
+
+```json
+{ "authenticate_url": "http://localhost:8083/bi-authenticate?request={BI_JWT}" }
+```
+
+where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
+
+When the Invocation Type on the app is set to Automatic, it returns an HTTP 302 to the authentication URL:
+
+```http
+http/1.1 302 Found
+...
+location: http://localhost:8083/bi-authenticate?request={BI_JWT}
+```
+
+where **BI_JWT** is a base64url encoded JWT token containing the challenge and other data to kick off the passkey authentication.
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import IsAuthenticateUrl from "../code-snippets/is-authenticate-url-all.mdx";
+import AuthenticateParametersAll from "../parameters/authenticate-all.mdx";
+import AuthenticateResponseAll from "../code-snippets/authenticate-response-all.mdx";
+import IsAuthenticateUrlAll from "../../includes/_sdk-setup/code-snippets/is-authenticate-url-all.mdx";
+import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";

@@ -1,0 +1,7 @@
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **allowedDomains** | `List<String>?` | Optional array of domains that we whitelist against for network operations. This will default to Beyond Identity's allowed domains. |
+| **app** | `Application` | **Required.** The application context. |
+| **biometricAskPrompt** | `String` | A prompt the user will see when asked for biometrics while extending a passkey to another device. Defaults to `app.getString(R.string.embedded_export_biometric_prompt_title)`. |
+| **keyguardPrompt** | `((allow: Boolean, Exception?) -> Unit) -> Unit?` | **Required.** If no biometrics is set, this callback should launch the keyguard service and return the answer. |
+| **logger** | `(String) -> Unit` | **Required.** Custom logger to get logs from the SDK. |

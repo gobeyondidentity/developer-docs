@@ -1,5 +1,16 @@
 ```dart
-if (await Embeddedsdk.isBindPasskeyUrl(url)) {
-    // bind the passkey using `bindPasskey`
+final url = "credential-binding-url";
+
+bool isValid = await isBindPasskeyUrl(url);
+if (isValid) {
+  // The URL is valid for binding a passkey
+  try {
+    BindPasskeyResponse response = await bindPasskey(url);
+    print("Successfully bound the passkey. Response: $response");
+  } catch (e) {
+    print("Error binding the passkey: $e");
+  }
+} else {
+  print("The URL is not a valid Bind Passkey URL");
 }
 ```

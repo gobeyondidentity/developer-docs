@@ -199,7 +199,7 @@ const config = {
           },
 */
           {
-            to: '/docs/next/try-it-out/',
+            to: '/docs/next/select-experience/',
             position: 'left',
             label: 'Try it Out! 🚀',
           },  

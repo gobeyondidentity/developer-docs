@@ -1,0 +1,12 @@
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | String | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
+| **callback** | (`Result<BindPasskeyResponse>`) -> Unit | A callback that returns a result of type `BindPasskeyResponse`. |
+
+<br />
+<b>Alternatively, you can use an overloaded version of this function to specify a dispatcher:</b>
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | String | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
+| **dispatcher** | CoroutineDispatcher | Optional. Specifies which coroutine dispatcher to use. Default is `Dispatchers.Default`. |

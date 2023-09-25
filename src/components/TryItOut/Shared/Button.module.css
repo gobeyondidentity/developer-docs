@@ -1,0 +1,9 @@
+.center {
+  margin: 0 auto;
+  display: block;
+}
+
+.dimensions {
+  height: 40px;
+  min-width: 100px;
+}
