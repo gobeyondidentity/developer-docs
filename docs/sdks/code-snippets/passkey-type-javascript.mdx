@@ -1,0 +1,95 @@
+```javascript
+/**
+ * A Universal Passkey is a public and private key pair. The private key is
+ * generated and stored securely on the device's TEE. The public key is sent
+ * to the Beyond Identity cloud. The private key cannot be tampered with,
+ * viewed, or removed from the device in which it is created unless the user
+ * explicitly indicates that the trusted device be removed. Passkeys are
+ * cryptographically linked to devices and an Identity. A single device can
+ * store multiple passkeys for different users and a single Identity can have
+ * multiple passkeys.
+ */
+export interface Passkey {
+  /** The globally unique identifier of the passkey. */
+  id: string;
+  /**
+   * The time when this passkey was created locally. This could be different
+   * from "created" which is the time when this passkey was created on
+   * the server.
+   */
+  localCreated: string;
+  /**
+   * The last time when this passkey was updated locally. This could be
+   * different from "updated" which is the last time when this passkey
+   * was updated on the server.
+   */
+  localUpdated: string;
+  /** The base url for all binding & auth requests */
+  apiBaseUrl: string;
+  /** Associated key handle */
+  keyHandle: KeyHandle;
+  /**
+   * KeyType indicates where the key was created. This can be either "subtle"
+   * or "webauthn".
+   */
+  keyType?: KeyType;
+  /** The current state of this passkey */
+  state: "Active" | "Revoked";
+  /** The time this passkey was created. */
+  created: string;
+  /** The last time this passkey was updated */
+  updated: string;
+  /** Tenant information associated with this passkey */
+  tenant: Tenant;
+  /** Realm information associated with this passkey */
+  realm: Realm;
+  /** Identity information associated with this passkey */
+  identity: Identity;
+  /** Theme information associated with this passkey */
+  theme: Theme;
+}
+
+/**
+ * Realm information associated with a `Passkey`. A Realm is a unique
+ * administrative domain within a `Tenant`. Some Tenants will only need
+ * the use of a single Realm, in this case a Realm and a Tenant may seem
+ * synonymous. Each Realm contains a unique set of Directory, Policy, Event,
+ * Application, and Branding objects.
+ */
+export interface Realm {
+  id: string;
+  displayName: string;
+}
+
+/**
+ * Identity information associated with a `Passkey`. An Identity is a unique
+ * identifier that may be used by an end-user to gain access governed by
+ * Beyond Identity. An Identity is created at the Realm level. An end-user
+ * may have multiple identities. A Realm can have many Identities.
+ */
+export interface Identity {
+  id: string;
+  displayName: string;
+  username: string;
+  primaryEmailAddress?: string;
+}
+
+/**
+ * Theme associated with a `Passkey`.
+ */
+export interface Theme {
+  logoUrlLight: string;
+  logoUrlDark: string;
+  supportUrl: string;
+}
+
+/**
+ * Tenant information associated with a `Passkey`. A Tenant represents an
+ * organization in the Beyond Identity Cloud and serves as a root container
+ * for all other cloud components in your configuration.
+ */
+export interface Tenant {
+  id: string;
+  displayName: string;
+}
+```
