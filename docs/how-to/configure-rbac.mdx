@@ -36,9 +36,9 @@ Now, let's identify the different components that make up RBAC and walk through 
 ## Resource Servers and Scopes
 
 Resource servers represent entities hosting protected resources that the client is attempting to access. They hold the entire set of permissions that are allowed on a resource.
-These permissions are expressed through [scopes](/docs/next/api-scopes), which are strings that represent the set of permissions.
+These permissions are expressed through [scopes](/docs/api-scopes), which are strings that represent the set of permissions.
 
-For our example above, we would [create a resource server](/docs/next/add-resource-server) called Shoes and the available scopes would be 
+For our example above, we would [create a resource server](/docs/add-resource-server) called Shoes and the available scopes would be 
 `shoes:read`, `shoes:buy`, `clearance:buy`, `new-arrivals:read`, and `new-arrivals:buy`.
 
 ## Roles
@@ -69,7 +69,7 @@ Member's** access token would contain the scopes `shoes:read`, `shoes:buy`, `cle
 
 ## Token Introspection
 
-When invoking [token introspection](/docs/next/validate-access-tokens#introspection-endpoint) for an access token associated with an identity as the principal, the returned scopes in the 
+When invoking [token introspection](/docs/validate-access-tokens#introspection-endpoint) for an access token associated with an identity as the principal, the returned scopes in the 
 introspection response will contain **only a subset of the scopes for which the identity has the role(s) for**.
 
 For the most part, the scopes in the token introspection response will match the scopes on the token itself unless permissions change. But should a user's roles change,

@@ -53,8 +53,8 @@ const config = {
           'https://github.com/gobeyondidentity/developer-docs/edit/main',
           versions: {
             current: {
-              label: "Next 🚧",
-              path: "/next/",
+              label: "v2",
+              path: "",
             },
             v1: {
               label: "v1",
@@ -186,20 +186,8 @@ const config = {
           className: 'header-logo',
         },
         items: [
-          // { // remove this and see if anybody complains
-          //   type: 'docsVersionDropdown',
-          //   position: 'left',
-          //   dropdownActiveClassDisabled: false,
-          // },
-/*          {
-            type: "doc",
-            docId: "introduction",
-            position: "left",
-            label: "Documentation",
-          },
-*/
           {
-            to: '/docs/next/select-experience/',
+            to: '/docs/select-experience/',
             position: 'left',
             label: 'Try it Out! 🚀',
           },  
@@ -319,24 +307,14 @@ const config = {
 
       },
 
-      announcementBar: {
-        id: 'support_us',
-        content:
-          '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/next/"><b>Check it out!</b></a>&nbsp;&nbsp;Go back to <a href="/docs/v1/introduction">v1</a>.',
-        backgroundColor: '#b9c5e7',
-        textColor: '#091E42',
-        isCloseable: false,
-      },
-
-/*      announcementBar: {
-        id: 'hello_world',
-        content:
-        'Hello world! <a target="_blank" rel="noopener noreferrer" href="https://www.beyondidentity.com/developers/blog/hello-world-presenting-beyond-identity-universal-passkey-sdks-and-apis-developers">Presenting Beyond Identity Universal Passkey SDKs and APIs for Developers.</a>',
-        backgroundColor: '#5077c5',
-        textColor: '#ffffff',
-        isCloseable: true,
-      },
-*/
+      // announcementBar: {
+      //   id: 'support_us',
+      //   content:
+      //     '👋 We\'re working on a new doc site.  <a rel="noopener noreferrer" href="/docs/"><b>Check it out!</b></a>&nbsp;&nbsp;Go back to <a href="/docs/v1/introduction">v1</a>.',
+      //   backgroundColor: '#b9c5e7',
+      //   textColor: '#091E42',
+      //   isCloseable: false,
+      // },
     }),
 };
 

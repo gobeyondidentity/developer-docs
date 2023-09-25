@@ -24,7 +24,7 @@ displayed_sidebar: mainSidebar
 
 Beyond Identity console settings allow you to configure the authentication experience your users see.
 
-The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/next/add-an-application).
+The settings described here are configured via the **Configuration Type** on the **Authenticator Config** tab when you [add an application](/docs/add-an-application).
 
 The Beyond Identity platform offers three authenticator configuration types:
 
@@ -48,7 +48,7 @@ Currently, the following authentication factors are supported and more are comin
 
 ## Hosted Web
 
-The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity. The web-based authenticator, however, can be configured with your own logo and brand colors. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. Beyond Identity can be set up as an OAuth or OpenID Connect provider using the Hosted Web Authenticator. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/). To get started, [create an application](/docs/next/add-an-application). All the values you need to configure the provider can be found in your Beyond Identity console application’s External Protocol tab.
+The Hosted Web Authenticator is a constrained version of the Embedded SDK authenticator type. It requires less configuration and code, but it does require redirecting your users to a web-based authenticator hosted by Beyond Identity. The web-based authenticator, however, can be configured with your own logo and brand colors. The Hosted Web Authenticator handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. Your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. Beyond Identity can be set up as an OAuth or OpenID Connect provider using the Hosted Web Authenticator. If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/). To get started, [create an application](/docs/add-an-application). All the values you need to configure the provider can be found in your Beyond Identity console application’s External Protocol tab.
 
 ### Authentication Profile
 
@@ -272,7 +272,7 @@ $invoke_url/bi-authenticate?request=<request>
 ```
 
 :::note IMPORTANT
-The **Invocation Type** only impacts the authentication flow. It has no effect on the [passkey creation/binding flow](/docs/next/passkey-creation).
+The **Invocation Type** only impacts the authentication flow. It has no effect on the [passkey creation/binding flow](/docs/passkey-creation).
 :::
 
 Invocation Type can have one of two values:

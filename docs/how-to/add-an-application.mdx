@@ -41,7 +41,7 @@ An application can be created from the Beyond Identity Admin Console.
 
 :::tip
 
-Most of the time you will want to create a new application in a different realm other than your Beyond Identity Admin Realm. Applications created in the Beyond Identity Admin Realm default to the Client Credentials grant which is used for applications requesting access outside of the context of a user. Applications created in another realm default to the Authorization Code grant which is used by users requesting access. If you need guidance, visit **[Create a realm](/docs/next/create-realm)**.
+Most of the time you will want to create a new application in a different realm other than your Beyond Identity Admin Realm. Applications created in the Beyond Identity Admin Realm default to the Client Credentials grant which is used for applications requesting access outside of the context of a user. Applications created in another realm default to the Authorization Code grant which is used by users requesting access. If you need guidance, visit **[Create a realm](/docs/create-realm)**.
 :::
 
 import AddAppAdminConsole from '../includes/_add-application-console.mdx';
@@ -58,7 +58,7 @@ After saving, the values entered will be used to generate OIDC configuration end
 
 ### Authenticator Config Tab
 
-Select the [authenticator configuration type](/docs/next/authentication).
+Select the [authenticator configuration type](/docs/authentication).
 
   <Tabs groupId="authenticator-config">
     <TabItem value="hosted-web" label="Hosted Web">
@@ -99,9 +99,9 @@ Click **Submit**. You'll be taken to the app page for the new application. Here,
 
 ## API
 
-Before creating an application by API, you must have an [API access token](/docs/next/create-api-token#api). You'll also need to create a Resource Server and an Authenticator Config, which you'll do below. A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. An Authenticator Config defines the invocation type, invoke URL, and trusted origins.
+Before creating an application by API, you must have an [API access token](/docs/create-api-token#api). You'll also need to create a Resource Server and an Authenticator Config, which you'll do below. A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application. An Authenticator Config defines the invocation type, invoke URL, and trusted origins.
 
-1. Create a [Resource Server](/docs/next/add-resource-server#api). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application.
+1. Create a [Resource Server](/docs/add-resource-server#api). A Resource Server is a namespace for application scopes that are a set of all scopes supported by the application.
 
   <ResourceServerDescription />
 

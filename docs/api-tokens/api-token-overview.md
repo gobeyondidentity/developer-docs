@@ -52,16 +52,16 @@ The information contained in (or referenced by) an access token varies, but some
 
 - Subject: An identifier of either the user or the app the token represents / was issued to  
 
-- Scope: One or more identifiers of specific access levels the token will allow.  Find out more about scopes [here](/docs/next/api-scopes).  
+- Scope: One or more identifiers of specific access levels the token will allow.  Find out more about scopes [here](/docs/api-scopes).  
 
 
 ## How to get a token
 
-You can obtain tokens [via the Beyond Identity console](/docs/next/create-api-token#admin-console) or [programmatically via the Beyond Identity API](/docs/next/create-api-token#api).  
+You can obtain tokens [via the Beyond Identity console](/docs/create-api-token#admin-console) or [programmatically via the Beyond Identity API](/docs/create-api-token#api).  
 
 ## App properties that impact token requests and token validation
 
-In order to request a token, you need to have an [app configured in your Beyond Identity tenant](/docs/next/add-an-application). 
+In order to request a token, you need to have an [app configured in your Beyond Identity tenant](/docs/add-an-application). 
 
 This can be an application you configure yourself, or you can request a token for the built in Beyond Identity Management API app.  
 

@@ -1,15 +1,15 @@
 ### Prerequisites
 
-- [Flutter SDK Setup](/docs/next/sdk-setup?sdks=flutter)   
+- [Flutter SDK Setup](/docs/sdk-setup?sdks=flutter)   
 
-- Before calling [`EmbeddedSdk.authenticate()`](/docs/next/sdk-setup?sdks=flutter#authentication), you must Authorize with Okta. 
+- Before calling [`EmbeddedSdk.authenticate()`](/docs/sdk-setup?sdks=flutter#authentication), you must Authorize with Okta. 
 
 <br />
 
 ### Using an SDK
 
 :::note
-At this time, there is no Okta SDK for Flutter, so we recommend [using the Web](/docs/next/okta-oidc#using-the-web).
+At this time, there is no Okta SDK for Flutter, so we recommend [using the Web](/docs/okta-oidc#using-the-web).
 :::
 
 See Okta's [Developer Site](https://developer.okta.com/code/#mobile-native) for the latest Flutter SDKs or Widgets.
@@ -26,7 +26,7 @@ This guide uses the [Web Auth for Flutter](https://github.com/LinusU/flutter_web
 
 #### Step 1. Configuring the Authenticator Config
 
-Make sure the [Authenticator Config](/docs/next/authentication#embedded-sdk) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link. Note: You may want to use a separate scheme for Beyond Identity and Okta.
+Make sure the [Authenticator Config](/docs/authentication#embedded-sdk) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link. Note: You may want to use a separate scheme for Beyond Identity and Okta.
 
 <br />
 
@@ -47,7 +47,7 @@ var result = await FlutterWebAuth.authenticate(
 
 #### Step 3. Invoke URL
 
-The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/docs/next/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/next/sdk-setup?sdks=flutter#authenticate-url-validation).
+The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/docs/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/sdk-setup?sdks=flutter#authenticate-url-validation).
 
 ```javascript
 var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);

@@ -4,9 +4,9 @@ In this flow, you call the app's `/authorize` endpoint, initiating a browser bas
 In a second API call to the `/token` endpoint, you then exchange the code for an access token.
 You authenticate the call to the `/token` endpoint with the app's credentials.
 
-Note that you will need an identity configured with the [ability to authorize the scopes](/docs/next/api-scopes#scopes-authorized-for-the-identity-approving-the-authorization-request) your app is requesting.
+Note that you will need an identity configured with the [ability to authorize the scopes](/docs/api-scopes#scopes-authorized-for-the-identity-approving-the-authorization-request) your app is requesting.
 
-1. Create an [app](/docs/next/add-an-application) with the following properties:
+1. Create an [app](/docs/add-an-application) with the following properties:
 
   | Property | Value |
   | --- | --- |
@@ -44,7 +44,7 @@ Note that you will need an identity configured with the [ability to authorize th
 1. Consume the `/authorize` response and authorization code
 
   In response to the `/authorize` request, Beyond Identity redirects to the app's configured authentication url.
-  In this example, the authenticator configuration type is "Hosted Web", so the authentication url is hosted by Beyond Identity (see [Authenticator Configurations](/docs/next/authentication)).
+  In this example, the authenticator configuration type is "Hosted Web", so the authentication url is hosted by Beyond Identity (see [Authenticator Configurations](/docs/authentication)).
 
   :::info important  
   Please note that the redirection must be handled in the front end (such as React, Angular, or vanilla JavaScript running in the user's browser) in order for passkey authentication to work.  

@@ -111,7 +111,7 @@ Each registration (credential binding) and authentication operation consults the
 
 A Directory contains the Identities, associated Credentials and Groups within a Realm. Directories are not shared across Realms.
 
-Beyond Identity offers a SCIM 2.0 compliant server for standardized approach to managing Users and Groups. It uses common REST API endpoints to create, update, and delete these entities. An access token with `scim:all` scope is required to use any SCIM functionality. For more details, see [SCIM server setup](/docs/next/scim-server).
+Beyond Identity offers a SCIM 2.0 compliant server for standardized approach to managing Users and Groups. It uses common REST API endpoints to create, update, and delete these entities. An access token with `scim:all` scope is required to use any SCIM functionality. For more details, see [SCIM server setup](/docs/scim-server).
 
 
 import ScimDescription from '../includes/_scim-description.mdx';
@@ -125,7 +125,7 @@ An identity is a unique identifier that may be used by an end-user to gain acces
 
 An identity can have one or many credentials, also known as passskeys.  
 
-A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys]((/docs/next/universal-passkeys).  
+A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys]((/docs/universal-passkeys).  
 
 import { Badge } from "@nextui-org/react";
 
@@ -136,11 +136,11 @@ A group is a logical collection of identities. A realm can have many groups. An 
 
 ## Resource Server
 
-A resource server is a logical grouping of [scopes](/docs/next/api-scopes). Scopes are data elements included in [access tokens](/docs/next/api-token-overview) that enable applications to provide fine grained levels of access control.  
+A resource server is a logical grouping of [scopes](/docs/api-scopes). Scopes are data elements included in [access tokens](/docs/api-token-overview) that enable applications to provide fine grained levels of access control.  
 
 There is one built in resource server, the Beyond Identity Management API, located in the Beyond Identity Admin Realm. It is linked to the two built in Beyond Identity Admin apps: the Beyond Identity Management API and the Beyond Identity Admin Console.  
 
-In order to use scopes for your application's tokens, you must [create at least one resource server](/docs/next/add-resource-server) in the same realm as the application that requires scopes.  
+In order to use scopes for your application's tokens, you must [create at least one resource server](/docs/add-resource-server) in the same realm as the application that requires scopes.  
 
 <br />
 
@@ -164,7 +164,7 @@ import AuthenticatorConfigDescription from '../includes/_authenticator-config-de
 
 <br />
 
-For more details, see [Authenticator Types](/docs/next/authentication).
+For more details, see [Authenticator Types](/docs/authentication).
 
 
 
@@ -226,7 +226,7 @@ import { Divider, Button, ConfigProvider } from 'antd';
                   }
                }
             >
-      <Button size="middle" type="primary" shape="round" block href="/docs/next/create-realm">Learn more</Button>    
+      <Button size="middle" type="primary" shape="round" block href="/docs/create-realm">Learn more</Button>    
       </ConfigProvider>  
     </div>
   </div>
@@ -255,7 +255,7 @@ import { Divider, Button, ConfigProvider } from 'antd';
                   }
                }
             >
-      <Button size="middle" type="primary" shape="round" block href="/docs/next/add-an-application">Learn more</Button>    
+      <Button size="middle" type="primary" shape="round" block href="/docs/add-an-application">Learn more</Button>    
       </ConfigProvider>
     </div>
   </div>
@@ -286,7 +286,7 @@ import { Divider, Button, ConfigProvider } from 'antd';
                   }
                }
             >
-      <Button size="middle" type="primary" shape="round" block href="/docs/next/create-role">Learn more</Button>    
+      <Button size="middle" type="primary" shape="round" block href="/docs/create-role">Learn more</Button>    
       </ConfigProvider>      
     </div>
   </div>
@@ -315,7 +315,7 @@ import { Divider, Button, ConfigProvider } from 'antd';
                   }
                }
             >
-      <Button size="middle" type="primary" shape="round" block href="/docs/next/add-an-identity">Learn more</Button>    
+      <Button size="middle" type="primary" shape="round" block href="/docs/add-an-identity">Learn more</Button>    
       </ConfigProvider>
     </div>
   </div>

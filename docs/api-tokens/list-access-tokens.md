@@ -26,7 +26,7 @@ In order to list tokens, you need the following:
 
 - the application_id of the application that was used to issue the token  
 
-- a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](/docs/next/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
+- a bearer token with the `tokens:read` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see examples [here](/docs/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
 
  
 ## Admin Console
