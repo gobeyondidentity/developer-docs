@@ -37,9 +37,7 @@ Before making a call to **isAuthenticateUrl**, you must complete the following p
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| **url** | string | Required. Url to be validated as Beyond Identity authentication url. |
+<IsAuthenticateUrlParametersAll />
 
 ## Returns
 
@@ -49,12 +47,10 @@ Returns a boolean.
 
 ### Example: Authenticate only if the provided url is valid
 
-```javascript
-if (embedded.isAuthenticateUrl(url)) {
-  // authenticate against a passkey bound to the device
-}
-```
+<IsAuthenticateUrlAll />
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import IsAuthenticateUrlParametersAll from "../parameters/is-authenticate-url-all.mdx";
+import IsAuthenticateUrlAll from "../../includes/_sdk-setup/code-snippets/is-authenticate-url-all.mdx";

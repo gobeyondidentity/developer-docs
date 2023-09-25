@@ -1,5 +1,35 @@
 ```swift
-if (Embedded.shared.isAuthenticateUrl(url)) {
-    // authenticate against a passkey bound to the device
+let url = URL(string: "authenticate-url")!
+
+// Fetch all passkeys for this device
+Embedded.shared.getPasskeys { result in
+    switch result {
+    case .success(let passkeys):
+        // Check if there are any passkeys available
+        if !passkeys.isEmpty {
+            // TODO: Instead of automatically selecting the first passkey, 
+            // present a UI to the user to let them select the desired passkey.
+            // For the purpose of this example, we're using the first passkey.
+            let passkeyId = passkeys.first!.id
+
+            if Embedded.shared.isAuthenticateUrl(url) {
+                // The URL is valid for authenticating against a passkey
+                Embedded.shared.authenticate(url: url, id: passkeyId) { authResult in
+                    switch authResult {
+                    case .success(let response):
+                        print("Successfully authenticated against passkey bound to this device. Response: \(response)")
+                    case .failure(let error):
+                        print("Error authenticating against a passkey: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                print("The URL is not a valid Authenticate Passkey URL")
+            }
+        } else {
+            print("No passkeys available for this device")
+        }
+    case .failure(let error):
+        print("Error fetching passkeys: \(error.localizedDescription)")
+    }
 }
 ```
