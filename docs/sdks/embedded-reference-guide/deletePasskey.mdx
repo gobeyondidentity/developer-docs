@@ -37,18 +37,16 @@ Before making a call to **deletePasskey**, you must complete the following prere
 
 ## Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| **id** | string | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/next/embedded-reference-passkey-type) that is available on the device. |
+<DeletePasskeyParametersAll />
 
 ## Examples
 
 ### Example: Delete a passkey
 
-```javascript
-await embedded.deletePasskey(passkey.id);
-```
+<DeletePasskeyAll />
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import DeletePasskeyParametersAll from "../parameters/delete-passkey-all.mdx";
+import DeletePasskeyAll from "../../includes/_sdk-setup/code-snippets/delete-passkey-all.mdx";
