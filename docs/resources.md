@@ -19,7 +19,7 @@ displayed_sidebar: mainSidebar
 
 
 ## Support channels
-
+- [Slack](https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ) 
 
 
 
