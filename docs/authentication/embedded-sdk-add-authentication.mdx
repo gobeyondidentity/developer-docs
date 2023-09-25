@@ -1,8 +1,8 @@
 ---
 title: Add authentication
-id: embedded-sdk-add-passkeys
+id: embedded-sdk-add-authentication
 description: ""
-slug: /embedded-sdk-add-passkeys
+slug: /embedded-sdk-add-authentication
 keywords:
   - scenario
 pagination_next: null
@@ -176,7 +176,7 @@ codeChallenge = crypto
 </Tabs>
 
 ## Call the token endpoint for token exchange
-The [authenticate call returns](/docs/next/js-reference-authenticate#returns) an object that contains a **redirectURL** to which your app should redirect the user to complete the OIDC flow.  
+The [authenticate call returns](/docs/next/embedded-reference-authenticate#returns) an object that contains a **redirectURL** to which your app should redirect the user to complete the OIDC flow.  
 Keeping with the OIDC specifications, this URL includes the **code** and **state** parameters as query parameters.
 
 Calling the `/token` endpoint is the second step in the authorization flow. In this call, your app sends the **code** as part of an OAuth call to exchange it for an access token.  

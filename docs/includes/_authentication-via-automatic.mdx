@@ -196,7 +196,7 @@ intent?.data?.let { uri ->
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-authentication.mdx#token-exchange).
 
 ```kotlin
 intent?.data?.let { uri ->
@@ -293,7 +293,7 @@ let session = ASWebAuthenticationSession(
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-passkeys.mdx#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](../authentication/embedded-sdk-add-authentication.mdx#token-exchange).
 
 ```swift
 Embedded.shared.authenticate(
@@ -394,7 +394,7 @@ React.useEffect(() => {
 }, [response]);
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-passkeys#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
 
 ```jsx
 const { redirectURL } = await Embedded.authenticate(url, passkeys[0].id);
@@ -486,7 +486,7 @@ if (await InAppBrowser.isAvailable()) {
 }
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-passkeys#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
 
 ```tsx
 if (await Embedded.isAuthenticateUrl(response.url)) {
@@ -543,7 +543,7 @@ var authenticateResponse = await Embeddedsdk.authenticate(
 );
 ```
 
-3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-passkeys#token-exchange).
+3. A `redirectURL` is returned from a successful `AuthenticateResponse`. The authorization code and the state parameter are attached to this URL. You can now exchange the code for an id token using your [Beyond Identity Token Endpoint](/docs/next/embedded-sdk-add-authentication#token-exchange).
 
 ```dart
 // This URL contains authorization code and state parameters

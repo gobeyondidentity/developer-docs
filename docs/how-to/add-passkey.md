@@ -208,4 +208,4 @@ Upon success, a private key will be created in the user's device's hardware trus
 
 ## What can I do next?
 
-After you have a passkey bound to an identity, you're ready to authenticate. See [Add passkeys to your app](/docs/next/embedded-sdk-add-passkeys) for next steps on authentication and token exchange.
+After you have a passkey bound to an identity, you're ready to authenticate. See [Add authentication](/docs/next/embedded-sdk-add-authentication) for next steps on authentication and token exchange.
