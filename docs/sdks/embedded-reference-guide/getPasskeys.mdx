@@ -41,16 +41,15 @@ none
 
 ## Returns
 
-Upon success, returns a Promise that resolves to an array of [Passkey](/docs/next/embedded-reference-passkey-type).
+Upon success, returns an array/list of [Passkey](/docs/next/embedded-reference-passkey-type).
 
 ## Examples
 
 ### Example: Call getPasskeys and surface the list to the user to select a passkey
 
-```javascript
-const allPasskeys = await embedded.getPasskeys();
-```
+<GetPasskeysAll />
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import GetPasskeysAll from "../../includes/_sdk-setup/code-snippets/get-passkeys-all.mdx";

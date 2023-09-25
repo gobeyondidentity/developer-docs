@@ -3,7 +3,7 @@ const url = "authenticate-url";
 
 try {
   // Fetch all passkeys for this device
-  const passkeys = await getPasskeys();
+  const passkeys = await Embedded.getPasskeys();
 
   // Check if there are any passkeys available
   if (passkeys.length > 0) {
@@ -12,11 +12,11 @@ try {
     // For the purpose of this example, we're using the first passkey.
     const passkeyId = passkeys[0].passkeyId;
 
-    const isValid = await isAuthenticateUrl(url);
+    const isValid = await Embedded.isAuthenticateUrl(url);
     if (isValid) {
       // The URL is valid for authenticating against a passkey
       try {
-        const response = await authenticate(url, passkeyId);
+        const response = await Embedded.authenticate(url, passkeyId);
         console.log("Successfully authenticated against passkey bound to this device. Response:", response);
       } catch (e) {
         console.error("Error authenticating against a passkey:", e);

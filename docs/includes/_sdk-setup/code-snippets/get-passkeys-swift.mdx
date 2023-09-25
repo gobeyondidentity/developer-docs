@@ -1,5 +1,10 @@
 ```swift
-Embedded.shared.getPasskeys(
-    callback: @escaping (Result<[Passkey], BISDKError>) -> Void
-)
+Embedded.shared.getPasskeys { result in
+    switch result {
+    case .success(let passkeys):
+        print("Passkeys: \(passkeys)")
+    case .failure(let error):
+        print("Error fetching passkeys: \(error.localizedDescription)")
+    }
+}
 ```

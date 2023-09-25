@@ -3,7 +3,7 @@ const url = "authenticate-url";
 
 try {
   // Fetch all passkeys for this browser
-  const passkeys = await getPasskeys();
+  const passkeys = await embedded.getPasskeys();
 
   // Check if there are any passkeys available
   if (passkeys.length > 0) {
@@ -12,9 +12,9 @@ try {
     // For the purpose of this example, we're using the first passkey.
     const passkeyId = passkeys[0].passkeyId;
 
-    if (isAuthenticateUrl(url)) {
+    if (embedded.isAuthenticateUrl(url)) {
       // The URL is valid for authenticating against a passkey
-      const response = await authenticate(url, passkeyId);
+      const response = await embedded.authenticate(url, passkeyId);
       console.log(`Successfully authenticated against passkey bound to this browser. Response: ${JSON.stringify(response)}`);
     } else {
       console.log("The URL is not a valid Authenticate Passkey URL");
