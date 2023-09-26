@@ -7,6 +7,7 @@
     "@badgateway/oauth2-client": "^2.2.3",
     "@beyondidentity/bi-sdk-js": "^2.0.1",
     "@docusaurus/core": "^2.4.1",
+    "@docusaurus/plugin-client-redirects": "^2.4.3",
     "@docusaurus/plugin-debug": "^2.4.1",
     "@docusaurus/plugin-google-gtag": "^2.4.1",
     "@docusaurus/plugin-sitemap": "^2.4.1",

@@ -147,6 +147,18 @@ const config = {
 //        hashed: true
 //      }
 //    ],
+
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/docs/platform-overview',
+            from: '/docs/next/platform-overview',
+          },
+        ],
+      },
+    ],
   ],
   scripts: [
     {
