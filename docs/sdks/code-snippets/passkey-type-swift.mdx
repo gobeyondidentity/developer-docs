@@ -66,21 +66,6 @@ public struct Passkey: Equatable, Identifiable, Hashable {
         self.identity = identity
         self.theme = theme
     }
-    
-    init(_ passkey: CoreSDK.AuthNCredential) {
-        id = Passkey.Id(passkey.id.value)
-        localCreated = passkey.localCreated
-        localUpdated = passkey.localUpdated
-        apiBaseUrl = passkey.apiBaseURL
-        keyHandle = KeyHandle(passkey.keyHandle.value)
-        state = Passkey.State(passkey.state)
-        created = passkey.created
-        updated = passkey.updated
-        tenant = Tenant(passkey.tenant)
-        realm = Realm(passkey.realm)
-        identity = Identity(passkey.identity)
-        theme = Theme(passkey.theme)
-    }
 }
 
 extension Passkey {
@@ -102,15 +87,6 @@ extension Passkey {
         case active
         /// Passkey is revoked
         case revoked
-        
-        init(_ state: CoreSDK.AuthNCredentialState){
-            switch state {
-            case .active:
-                self = .active
-            case .revoked:
-                self = .revoked
-            }
-        }
     }
 }
 
