@@ -1,5 +1,5 @@
 ```swift
-Embedded.shared.deletePasskey { result in
+Embedded.shared.deletePasskey(for: passkeyId) { result in
     switch result {
     case .success():
         print("Successfully deleted passkey")
