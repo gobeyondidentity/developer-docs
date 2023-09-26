@@ -31,26 +31,27 @@ const config = {
   },
   themes: [
     '@docusaurus/theme-mermaid',
-    '@docusaurus/theme-live-codeblock', 
+    '@docusaurus/theme-live-codeblock',
     'docusaurus-theme-redoc',
   ],
   staticDirectories: ['static'],
 
   presets: [
-    ['docusaurus-preset-classic',
-    {
-      gtag: {
-        trackingID: 'GTM-K3TCQSV',
-        anonymizeIP: false,
-      },
-      docs: {
-        breadcrumbs: true,
-        sidebarPath: require.resolve('./sidebars.js'),
-      //  routeBasePath: '/',
-        path: 'docs',
-        showLastUpdateTime: true,
-        editUrl:
-          'https://github.com/gobeyondidentity/developer-docs/edit/main',
+    [
+      'docusaurus-preset-classic',
+      {
+        gtag: {
+          trackingID: 'GTM-K3TCQSV',
+          anonymizeIP: false,
+        },
+        docs: {
+          breadcrumbs: true,
+          sidebarPath: require.resolve('./sidebars.js'),
+          // routeBasePath: '/',
+          path: 'docs',
+          showLastUpdateTime: true,
+          editUrl:
+            'https://github.com/gobeyondidentity/developer-docs/edit/main',
           versions: {
             current: {
               label: "v2",
@@ -64,15 +65,15 @@ const config = {
               label: "v0",
               path: "v0",
             },
+          },
+          lastVersion: "current",
         },
-        lastVersion: "current",
-
+        blog: false,
+        theme: {
+          customCss: require.resolve("./src/css/custom.css"),
+        },
       },
-      blog: false,
-      theme: {
-        customCss: require.resolve("./src/css/custom.css"),
-      },
-    }],
+    ],
     [
       'redocusaurus',
       {
@@ -132,21 +133,19 @@ const config = {
     ],
   ],
   plugins: [
-    
-
     require.resolve("docusaurus-plugin-image-zoom"),
 
-//    '@chatwoot/docusaurus-plugin',
-//    [
-//      require.resolve("@easyops-cn/docusaurus-search-local"),
-//      {
-//        indexDocs: true,
-//        indexBlog: false,
-//        indexPages: true,
-//        language: "en",
-//        hashed: true
-//      }
-//    ],
+    // "@chatwoot/docusaurus-plugin",
+    // [
+    //   require.resolve("@easyops-cn/docusaurus-search-local"),
+    //   {
+    //     indexDocs: true,
+    //     indexBlog: false,
+    //     indexPages: true,
+    //     language: "en",
+    //     hashed: true,
+    //   },
+    // ],
   ],
   scripts: [
     {

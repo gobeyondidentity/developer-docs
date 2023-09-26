@@ -1,24 +1,21 @@
 ---
 title: Platform Overview
 id: platform-overview
-description: 'Beyond Identity uses the Beyond Identity Cloud and Beyond Identity Authenticators to establish user identity and authorization. The Cloud hosts user directories, authentication servers, event logs, and policy rules, while Authenticators are endpoint components embedded in applications that work with the Cloud to authenticate users and authorize actions based on configured policies.'
+description: "Beyond Identity uses the Beyond Identity Cloud and Beyond Identity Authenticators to establish user identity and authorization. The Cloud hosts user directories, authentication servers, event logs, and policy rules, while Authenticators are endpoint components embedded in applications that work with the Cloud to authenticate users and authorize actions based on configured policies."
 slug: /platform-overview
-keywords: 
- - get started
+keywords:
+  - get started
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 07/18/2023
-   author: Nikhil Khare
+last_update:
+  date: 09/26/2023
+  author: William May
 draft: false
 doc_type: concept
 displayed_sidebar: mainSidebar
 ---
 
-
-
-
-Beyond Identity uses the Beyond Identity Cloud and Beyond Identity Authenticators to establish user identity and authorization. 
+Beyond Identity uses the Beyond Identity Cloud and Beyond Identity Authenticators to establish user identity and authorization.
 
 The **Cloud** hosts user directories, authentication servers, event logs, and policy rules, while **Authenticators** are endpoint components embedded in applications that work with the Cloud to authenticate users and authorize actions based on configured policies.
 
@@ -48,25 +45,25 @@ flowchart TD
 
 ## Tenant
 
-import TenantDescription from '../includes/_tenant-description.mdx'; 
+import TenantDescription from "../includes/_tenant-description.mdx";
 
 <TenantDescription />
 
 <center>
 
-<img id="diagrams" width="70%" src="https://developer.beyondidentity.com/assets/images/account-setup-diagram-4c40ff55e0f3de39e87e3a82d801ed37.png" />
+<img
+  id="diagrams"
+  width="70%"
+  src="https://developer.beyondidentity.com/assets/images/account-setup-diagram-4c40ff55e0f3de39e87e3a82d801ed37.png"
+/>
 
 </center>
 
-
-
-
 ## Realm
 
-import AdminRealmDescription from '../includes/_admin-realm-description.mdx'; 
+import AdminRealmDescription from "../includes/_admin-realm-description.mdx";
 
 <AdminRealmDescription />
-
 
 ## Event
 
@@ -106,26 +103,23 @@ A Realm Policy is a collection of rules that determine how to treat any given tr
 
 Each registration (credential binding) and authentication operation consults the Realm’s Policy for an Allow or Deny decision before completion. A Deny decision results in rejection of the operation.
 
-
 ## Directory
 
 A Directory contains the Identities, associated Credentials and Groups within a Realm. Directories are not shared across Realms.
 
 Beyond Identity offers a SCIM 2.0 compliant server for standardized approach to managing Users and Groups. It uses common REST API endpoints to create, update, and delete these entities. An access token with `scim:all` scope is required to use any SCIM functionality. For more details, see [SCIM server setup](/docs/scim-server).
 
-
-import ScimDescription from '../includes/_scim-description.mdx';
+import ScimDescription from "../includes/_scim-description.mdx";
 
 <ScimDescription />
-
 
 ### Identity
 
 An identity is a unique identifier that may be used by an end-user to gain access governed by Beyond Identity. An end-user may have multiple identities. A realm can have many identities.
 
-An identity can have one or many credentials, also known as passskeys.  
+An identity can have one or many credentials, also known as passskeys.
 
-A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys]((/docs/universal-passkeys).  
+A passkey is a public-private key pair that belongs to an identity. The public key is stored in the Beyond Identity Cloud and the private key never leaves the device. Passkeys are created through binding jobs, in which a binding link is generated to bind a passkey to a specific device or browser. The passkey gets stored in the device hardware root of trust (secure enclave). All cryptographic operations that use the private key are handled by the Beyond Identity SDKs. For more details, see [Univeral Passkeys]((/docs/universal-passkeys).
 
 import { Badge } from "@nextui-org/react";
 
@@ -133,32 +127,29 @@ import { Badge } from "@nextui-org/react";
 
 A group is a logical collection of identities. A realm can have many groups. An identity can belong to many groups. Groups are commonly used as a predicate in a policy rule. (e.g. Allow group "Beyond Identity Administrators" to access the "Beyond Identity Admin Console" application)
 
-
 ## Resource Server
 
-A resource server is a logical grouping of [scopes](/docs/api-scopes). Scopes are data elements included in [access tokens](/docs/api-token-overview) that enable applications to provide fine grained levels of access control.  
+A resource server is a logical grouping of [scopes](/docs/api-scopes). Scopes are data elements included in [access tokens](/docs/api-token-overview) that enable applications to provide fine grained levels of access control.
 
-There is one built in resource server, the Beyond Identity Management API, located in the Beyond Identity Admin Realm. It is linked to the two built in Beyond Identity Admin apps: the Beyond Identity Management API and the Beyond Identity Admin Console.  
+There is one built in resource server, the Beyond Identity Management API, located in the Beyond Identity Admin Realm. It is linked to the two built in Beyond Identity Admin apps: the Beyond Identity Management API and the Beyond Identity Admin Console.
 
-In order to use scopes for your application's tokens, you must [create at least one resource server](/docs/add-resource-server) in the same realm as the application that requires scopes.  
+In order to use scopes for your application's tokens, you must [create at least one resource server](/docs/add-resource-server) in the same realm as the application that requires scopes.
 
 <br />
 
-import ResourceServerDescription from '../includes/_resource-server-description.mdx';
+import ResourceServerDescription from "../includes/_resource-server-description.mdx";
 
 <ResourceServerDescription />
 
 ## Application
 
-import AppDescription from '../includes/_application-description.mdx';
+import AppDescription from "../includes/_application-description.mdx";
 
 <AppDescription />
 
-
-
 ## Authenticator Config
 
-import AuthenticatorConfigDescription from '../includes/_authenticator-config-description.mdx';
+import AuthenticatorConfigDescription from "../includes/_authenticator-config-description.mdx";
 
 <AuthenticatorConfigDescription />
 
@@ -166,18 +157,15 @@ import AuthenticatorConfigDescription from '../includes/_authenticator-config-de
 
 For more details, see [Authenticator Types](/docs/authentication).
 
-
-
-
 ## API Token
 
-import ApiTokenDescription from '../includes/_api-token-description.mdx';
+import ApiTokenDescription from "../includes/_api-token-description.mdx";
 
 <ApiTokenDescription />
 
 ## Admin Console
 
-The Beyond Identity Admin Console provides you with a UI for administering your tenant. The Console utilizes your **Beyond Identity Admin** Realm and Console application configuration to authenticate and authorize admin logins. In addition, an initial Policy gets created in the Beyond Identity Admin Realm on the deployment of your tenant. 
+The Beyond Identity Admin Console provides you with a UI for administering your tenant. The Console utilizes your **Beyond Identity Admin** Realm and Console application configuration to authenticate and authorize admin logins. In addition, an initial Policy gets created in the Beyond Identity Admin Realm on the deployment of your tenant.
 
 When the tenant gets deployed, the **Beyond Identity Admin Console** gets created as a managed object under **Beyond Identity Admin > Apps**. As a managed object, it is not editable through the Console.
 
@@ -191,75 +179,86 @@ The **Admin Console Access** User Group is created, and the identity established
 
 :::caution important
 It's possible to lock yourself out of the Console with this policy and group control access.
-:::  
+:::
 
-
-
-
-import { Divider, Button, ConfigProvider } from 'antd';
+import { Divider, Button, ConfigProvider } from "antd";
 
 <Divider />
 
 <h2>What can you do next?</h2>
 
 <div class="container next-steps-cards">
-<div class="row">
+  <div class="row">
     <div class="col col--6">
       <div class="col-demo">
         <div class="card-demo next-steps-card">
-  <div class="card shadow--lw">
-    <div class="card__header card-header">
-      <h4>Create new realm</h4>
-    </div>
-    <div class="card__body">
-      <p>
-        Learn how to create a realm in your tenant to isolate identities and applications from other realms.
-      </p>
-    </div>
-    <div class="card__footer">
-    <ConfigProvider
-               theme={{
+          <div class="card shadow--lw">
+            <div class="card__header card-header">
+              <h4>Create new realm</h4>
+            </div>
+            <div class="card__body">
+              <p>
+                Learn how to create a realm in your tenant to isolate identities and applications from other realms.
+              </p>
+            </div>
+            <div class="card__footer">
+              <ConfigProvider
+                theme={{
                   token: {
-                     colorPrimary: '#2b4281',
-                     colorPrimaryHover: '#5686F1',
-                  }
-                  }
-               }
-            >
-      <Button size="middle" type="primary" shape="round" block href="/docs/create-realm">Learn more</Button>    
-      </ConfigProvider>  
-    </div>
-  </div>
-</div>
+                    colorPrimary: "#2b4281",
+                    colorPrimaryHover: "#5686F1",
+                  },
+                }}
+              >
+                <Button
+                  size="middle"
+                  type="primary"
+                  shape="round"
+                  block
+                  href="/docs/create-realm"
+                >
+                  Learn more
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col col--6">
       <div class="col-demo">
         <div class="card-demo next-steps-card">
-  <div class="card shadow--lw">
-    <div class="card__header card-header">
-      <h4>Add new app</h4>
-    </div>
-    <div class="card__body">
-      <p>
-        Learn how to add an application within a realm to configure your OAuth or OIDC flows. 
-      </p>
-    </div>
-    <div class="card__footer">   
-      <ConfigProvider
-               theme={{
+          <div class="card shadow--lw">
+            <div class="card__header card-header">
+              <h4>Add new app</h4>
+            </div>
+            <div class="card__body">
+              <p>
+                Learn how to add an application within a realm to configure your OAuth or OIDC flows.
+              </p>
+            </div>
+            <div class="card__footer">
+              <ConfigProvider
+                theme={{
                   token: {
-                     colorPrimary: '#2b4281',
-                     colorPrimaryHover: '#5686F1',
-                  }
-                  }
-               }
-            >
-      <Button size="middle" type="primary" shape="round" block href="/docs/add-an-application">Learn more</Button>    
-      </ConfigProvider>
-    </div>
-  </div>
-</div>
+                    colorPrimary: "#2b4281",
+                    colorPrimaryHover: "#5686F1",
+                  },
+                }}
+              >
+                <Button
+                  size="middle"
+                  type="primary"
+                  shape="round"
+                  block
+                  href="/docs/add-an-application"
+                >
+                  Learn more
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -267,59 +266,71 @@ import { Divider, Button, ConfigProvider } from 'antd';
     <div class="col col--6">
       <div class="col-demo">
         <div class="card-demo next-steps-card">
-  <div class="card shadow--lw">
-    <div class="card__header card-header">
-      <h4>Create a role</h4>
-    </div>
-    <div class="card__body">
-      <p>
-        description of topic
-      </p>
-    </div>
-    <div class="card__footer">
-      <ConfigProvider
-               theme={{
+          <div class="card shadow--lw">
+            <div class="card__header card-header">
+              <h4>Create a role</h4>
+            </div>
+            <div class="card__body">
+              <p>description of topic</p>
+            </div>
+            <div class="card__footer">
+              <ConfigProvider
+                theme={{
                   token: {
-                     colorPrimary: '#2b4281',
-                     colorPrimaryHover: '#5686F1',
-                  }
-                  }
-               }
-            >
-      <Button size="middle" type="primary" shape="round" block href="/docs/create-role">Learn more</Button>    
-      </ConfigProvider>      
-    </div>
-  </div>
-</div>
+                    colorPrimary: "#2b4281",
+                    colorPrimaryHover: "#5686F1",
+                  },
+                }}
+              >
+                <Button
+                  size="middle"
+                  type="primary"
+                  shape="round"
+                  block
+                  href="/docs/create-role"
+                >
+                  Learn more
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col col--6">
       <div class="col-demo">
         <div class="card-demo next-steps-card">
-  <div class="card shadow--lw">
-    <div class="card__header card-header">
-      <h4>Create an identity</h4>
-    </div>
-    <div class="card__body">
-      <p>
-        Learn how to add an identity to a realm so the user can start authenticating with Beyond Identity.
-      </p>
-    </div>
-    <div class="card__footer">
-      <ConfigProvider
-               theme={{
+          <div class="card shadow--lw">
+            <div class="card__header card-header">
+              <h4>Create an identity</h4>
+            </div>
+            <div class="card__body">
+              <p>
+                Learn how to add an identity to a realm so the user can start authenticating with Beyond Identity.
+              </p>
+            </div>
+            <div class="card__footer">
+              <ConfigProvider
+                theme={{
                   token: {
-                     colorPrimary: '#2b4281',
-                     colorPrimaryHover: '#5686F1',
-                  }
-                  }
-               }
-            >
-      <Button size="middle" type="primary" shape="round" block href="/docs/add-an-identity">Learn more</Button>    
-      </ConfigProvider>
-    </div>
-  </div>
-</div>
+                    colorPrimary: "#2b4281",
+                    colorPrimaryHover: "#5686F1",
+                  },
+                }}
+              >
+                <Button
+                  size="middle"
+                  type="primary"
+                  shape="round"
+                  block
+                  href="/docs/add-an-identity"
+                >
+                  Learn more
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
