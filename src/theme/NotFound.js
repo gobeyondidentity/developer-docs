@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import NotFound from '@theme-original/NotFound';
 
 function removeNext(url) {
-  return url.replace('/docs/next/', '/docs/');
+  return url.replace('/docs/next', '/docs');
 }
 
 export default function NotFoundWrapper(props) {
@@ -11,7 +11,7 @@ export default function NotFoundWrapper(props) {
 
   useEffect(() => {
     const currentUrl = window.location.href;
-    if (currentUrl.includes('/next/')) {
+    if (currentUrl.includes('/next')) {
       const newUrl = removeNext(currentUrl);
       window.history.replaceState({}, '', newUrl);
       const relativePath = new URL(newUrl).pathname;
