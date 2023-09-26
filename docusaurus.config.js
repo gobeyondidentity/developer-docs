@@ -149,14 +149,18 @@ const config = {
 //    ],
 
     [
-      '@docusaurus/plugin-client-redirects',
+      "@docusaurus/plugin-client-redirects",
       {
-        redirects: [
-          {
-            to: '/docs/platform-overview',
-            from: '/docs/next/platform-overview',
-          },
-        ],
+        createRedirects: (path) => {
+          if (path.startsWith("/platform-overview")) {
+            return [
+              path.replace(
+                "/docs/platform-overview",
+                "/docs/next/platform-overview"
+              ),
+            ];
+          }
+        },
       },
     ],
   ],
