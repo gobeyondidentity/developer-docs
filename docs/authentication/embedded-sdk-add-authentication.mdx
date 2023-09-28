@@ -199,12 +199,12 @@ Calling the `/token` endpoint is the second step in the authorization flow. In t
 The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header.
 
 <MultiLanguageCodeBlock
-curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
 -X POST \
 -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
 -H "Content-Type: application/x-www-form-urlencoded" \
 -d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)&code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
-title="/token"
+  title="/token"
 />
 </TabItem>
 
@@ -214,14 +214,14 @@ The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the body of the POST request a
 
 <MultiLanguageCodeBlock
   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
-  -X POST \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -F "grant_type=authorization_code" \
-  -F "code=$(CODE_FROM_AUTHORIZATION_RESPONSE)" \
-  -F "client_id=$(CLIENT_ID)" \
-  -F "client_secret=$(CLIENT_SECRET_FROM_CONFIDENTIAL_APPLICATION)" \
-  -F "code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)" \
-  -F "redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-F "grant_type=authorization_code" \
+-F "code=$(CODE_FROM_AUTHORIZATION_RESPONSE)" \
+-F "client_id=$(CLIENT_ID)" \
+-F "client_secret=$(CLIENT_SECRET_FROM_CONFIDENTIAL_APPLICATION)" \
+-F "code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)" \
+-F "redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
   title="/token"
 />
 

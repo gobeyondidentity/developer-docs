@@ -99,13 +99,11 @@ import CreateRealmConsole from "../includes/_create-realm-console.mdx";
 
 <details>
 
-<summary>
-Create a new realm
-</summary>
+<summary>Create a new realm</summary>
+
 <CreateRealmConsole />
 
 </details>
-
 
 ### Create a hosted web application
 
@@ -120,31 +118,29 @@ import AddAppAdminConsole from "../includes/_add-application-console.mdx";
 
 <details>
 
-<summary>
-Create a hosted web application
-</summary>
+<summary>Create a hosted web application</summary>
 
 <AddAppAdminConsole />
 
 3. On the **External Protocol** tab, use the following values to complete this tab.
 
-| Property                       | Value                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Display Name**               | Descriptive name you choose                                                                                                                                                                                                                                                                                                                                                                                                        |
-| **Protocol**                   | OIDC<br /><ProtocolOIDC/>                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Client Type**                | Confidential<br /><ClientTypeConfidential/>                                                                                                                                                                                                                                                                                                                                                                                        |
-| **PKCE**                       | S256<br /><PKCES256/>                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **Redirect URIs**              | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
-| **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/>                                                                                                                                                                                                                                                                                                                                                               |
-| **Grant Type**                 | Authorization Code<br /><GrantTypeAuthorizationCode/>                                                                                                                                                                                                                                                                                                                                                                              |
-| **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                                                                   |
+  | Property                       | Value                                                                                                                                                                                                                                                                                                                                                                                                                              |
+  | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | **Display Name**               | Descriptive name you choose                                                                                                                                                                                                                                                                                                                                                                                                        |
+  | **Protocol**                   | OIDC<br /><ProtocolOIDC/>                                                                                                                                                                                                                                                                                                                                                                                                          |
+  | **Client Type**                | Confidential<br /><ClientTypeConfidential/>                                                                                                                                                                                                                                                                                                                                                                                        |
+  | **PKCE**                       | S256<br /><PKCES256/>                                                                                                                                                                                                                                                                                                                                                                                                              |
+  | **Redirect URIs**              | Use your application's App Scheme or Universal URL.<br /><br />Your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>`beyondidentity` in this URI is the ID of the OAuth provider as configured in the providers array in NextAuth.js. `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+  | **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/>                                                                                                                                                                                                                                                                                                                                                               |
+  | **Grant Type**                 | Authorization Code<br /><GrantTypeAuthorizationCode/>                                                                                                                                                                                                                                                                                                                                                                              |
+  | **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                                                                   |
 
 4. Click the **Authenticator Config** tab
 
-| Property                   | Value                                                |
-| -------------------------- | ---------------------------------------------------- |
-| **Configuration Type**     | Hosted Web <br /><HostedWeb/>                        |
-| **Authentication Profile** | Use the recommended values for the remaining options |
+  | Property                   | Value                                                |
+  | -------------------------- | ---------------------------------------------------- |
+  | **Configuration Type**     | Hosted Web <br /><HostedWeb/>                        |
+  | **Authentication Profile** | Use the recommended values for the remaining options |
 
 5. Click **Submit** to save the new app.
 
@@ -201,45 +197,45 @@ Make the following changes to your NextAuth example app project to set up your e
 
 1. Make a copy of the file **.env.local.example** called **.env.local**
 
-2. In .env.local, configure the following variables from your Beyond Identity tenant:
+1. In .env.local, configure the following variables from your Beyond Identity tenant:
 
-| Variable Name                       | Where to find the value                                                                                                  |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **`NEXTAUTH_URL`**                  | Use the default value of http://localhost:3000                                                                           |
-| **`NEXTAUTH_SECRET`**               | generate one here: https://generate-secret.vercel.app/32                                                                 |
-| **`BEYOND_IDENTITY_CLIENT_ID`**     | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
-| **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
-| **`BEYOND_IDENTITY_DISCOVERY`**     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
+  | Variable Name                       | Where to find the value                                                                                                  |
+  | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+  | **`NEXTAUTH_URL`**                  | Use the default value of http://localhost:3000                                                                           |
+  | **`NEXTAUTH_SECRET`**               | generate one here: https://generate-secret.vercel.app/32                                                                 |
+  | **`BEYOND_IDENTITY_CLIENT_ID`**     | Copy your app’s **Client ID** from the **External Protocol** tab on the app’s configuration page in your tenant          |
+  | **`BEYOND_IDENTITY_CLIENT_SECRET`** | Copy your app’s **Client Secret** from the **External Protocol** tab on the app’s configuration page in your tenant      |
+  | **`BEYOND_IDENTITY_DISCOVERY`**     | Copy your app’s **Discovery Endpoint** from the **External Protocol** tab on the app’s configuration page in your tenant |
 
 1. Copy and paste the value from **Applications > \{New Application\} > External Protocol > Issuer**.
 
-Your **.env.local** file's contents should look something like the example below:
+  Your **.env.local** file's contents should look something like the example below:
 
-```javascript title=".env.local"
-# Next Auth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247
-...
+  ```javascript title=".env.local"
+  # Next Auth
+  NEXTAUTH_URL=http://localhost:3000
+  NEXTAUTH_SECRET=df118e1458e3490b22dc8e2d2a6f0247
+  ...
 
-# Beyond Identity
-BEYOND_IDENTITY_CLIENT_ID=Njlb6brHbCofRyCWGkiUQweTz
-BEYOND_IDENTITY_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
-BEYOND_IDENTITY_DISCOVERY=https://auth-us.beyondidentity.com/v1/tenants/000111222333/realms/444555666777888/applications/1233449b-11c4-4884-b622-0bfbaefd44d3
-```
+  # Beyond Identity
+  BEYOND_IDENTITY_CLIENT_ID=Njlb6brHbCofRyCWGkiUQweTz
+  BEYOND_IDENTITY_CLIENT_SECRET=zs2oENddYNes ... 7uamRhvRJ9d3ZJcI97X
+  BEYOND_IDENTITY_DISCOVERY=https://auth-us.beyondidentity.com/v1/tenants/000111222333/realms/444555666777888/applications/1233449b-11c4-4884-b622-0bfbaefd44d3
+  ```
 
-3. Update the contents of the file **process.d.ts** to the following:
+1. Update the contents of the file **process.d.ts** to the following:
 
-```javascript
-declare namespace NodeJS {
-  export interface ProcessEnv {
-    NEXTAUTH_URL: string
-    NEXTAUTH_SECRET: string
-    BEYOND_IDENTITY_CLIENT_ID: string
-    BEYOND_IDENTITY_CLIENT_SECRET: string
-    BEYOND_IDENTITY_DISCOVERY: string
+  ```javascript
+  declare namespace NodeJS {
+    export interface ProcessEnv {
+      NEXTAUTH_URL: string
+      NEXTAUTH_SECRET: string
+      BEYOND_IDENTITY_CLIENT_ID: string
+      BEYOND_IDENTITY_CLIENT_SECRET: string
+      BEYOND_IDENTITY_DISCOVERY: string
+    }
   }
-}
-```
+  ```
 
 ### Create OAuth provider
 
@@ -302,9 +298,9 @@ In this step, you'll start the backend and frontend to run the example app local
 
 1. In VS Code, run:
 
-```bash
-npm run dev
-```
+  ```bash
+  npm run dev
+  ```
 
 2. From the browser where you created the passkey above, navigate to `http://localhost:3000`.
 
