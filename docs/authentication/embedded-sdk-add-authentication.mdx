@@ -179,7 +179,7 @@ codeChallenge = crypto
 The [authenticate call returns](/docs/embedded-reference-authenticate#returns) an object that contains a **redirectURL** to which your app should redirect the user to complete the OIDC flow.  
 Keeping with the OIDC specifications, this URL includes the **code** and **state** parameters as query parameters.
 
-Calling the `/token` endpoint is the second step in the authorization flow. In this call, your app sends the **code** as part of an OAuth call to exchange it for an access token.  
+Calling the `/token` endpoint is the second step in the authorization flow. In this call, your app sends the **code** as part of an OAuth call to exchange it for an access token and id token.  
 
 
 1. Click the **External Protocol** tab and copy the **Token Endpoint**.

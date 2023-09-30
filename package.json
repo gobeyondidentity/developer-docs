@@ -18,6 +18,7 @@
     "@docusaurus/theme-search-algolia": "^2.4.3",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@grnet/docusaurus-terminology": "1.0.0-rc.4",
     "@mdx-js/react": "^1.6.22",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.12.1",

@@ -183,9 +183,7 @@ https://auth-$REGION.beyondidentity.com/authenticator/v1/tenants/$TENANT_ID/real
 Upon successfully completing the UI flow, the Hosted Web Authenticator will redirect the user back to your application based on the provided **redirect_uri** in the authorization request appended with an **authorization code** and a **state**.
 
 ```bash title=302
-$(REDIRECT_URI)
-&code=$(AUTHORIZATION_CODE)
-&state=$(STATE)
+$(REDIRECT_URI)?code=$(AUTHORIZATION_CODE)&state=$(STATE)
 ```
 
 The **code** is a short-lived authorization code that the client can exchange with the authorization server for an access token. The access token is what the client application uses to access protected resources on behalf of the user.
@@ -194,7 +192,7 @@ The **state** should be the same random value that the client included in the in
 
 ### Token Exchange
 
-Now that your client has recieved an **authorization code** it's time to exchange the code for an **access token**. An access token is used to access protected resources on behalf of a user.
+Now that your client has recieved an **authorization code** it's time to exchange the code for an **access token** and **id token**. An access token is used to access protected resources on behalf of a user. The id token contains information about the user and can be used to prove that the user has been authenticated.
 
 Use the **Token Endpoint** value from your application's **External Protocol** tab.
 

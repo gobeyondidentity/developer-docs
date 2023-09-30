@@ -134,7 +134,11 @@ const config = {
   ],
   plugins: [
     require.resolve("docusaurus-plugin-image-zoom"),
-
+    ['@grnet/docusaurus-terminology', {
+      termsDir: './docs/terms',
+      docsDir: './docs/',
+      glossaryFilepath: './docs/glossary.mdx'
+    }],
     // "@chatwoot/docusaurus-plugin",
     // [
     //   require.resolve("@easyops-cn/docusaurus-search-local"),
