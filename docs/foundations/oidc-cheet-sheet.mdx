@@ -76,7 +76,7 @@ The authorization URL follows the format below:
 ```http /authorize
 https://idp-auth-server/authorize
 ?response_type=code
-&scope=oidc
+&scope=openid
 &client_id=12345
 &redirect_uri=https%3A%2F%2Fyour-site.com
 ```
@@ -85,12 +85,12 @@ https://idp-auth-server/authorize
 Other parameters such as **state**, **code_challenge_method** and **code_challenge** may be set for higher security, but the above are the minimum required.
 :::
 
-| Parameter         | Value                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------ |
-| **response_type** | Set this to `code` to specify the Authorization Code grant type                                  |
-| **scope**         | Set this to `oidc` to specify an OIDC request.                                                   |
-| **client_id**     | This is a unique identifier for your application after registering it with an identity provider. |
-| **redirect_uri**  | Location to send your user after successfully authorizing.                                       |
+| Parameter         | Value                                                                                                                                                           |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **response_type** | Set this to `code` to specify the Authorization Code grant type                                                                                                 |
+| **scope**         | Set this to `openid` to specify an OIDC request. This tells the authorization server to return an [id token](/docs/terms/id-token.md) from the /token endpoint. |
+| **client_id**     | This is a unique identifier for your application after registering it with an identity provider.                                                                |
+| **redirect_uri**  | Location to send your user after successfully authorizing.                                                                                                      |
 
 <br />
 
