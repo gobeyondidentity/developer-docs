@@ -20,7 +20,7 @@ displayed_sidebar: mainSidebar
 
 ## Overview
 
-[OpenID Connect (OIDC)](/docs/terms/oidc) is an identity layer built on top of the [OAuth 2.0 framework](/docs/terms/oauth). While OAuth 2.0 helps with _authorization_ (allowing access), OIDC helps with _authentication_ (identification). OIDC enables your application to verify an end user based on authentication performed by the OIDC Provider's Authorization Server as well as to obtain basic information about the end user. Together, OAuth and OIDC provide a comprehensive solution for secure authentication and authorization used by many identity providers (think "Sign in with Google").
+[OpenID Connect (OIDC)](/docs/terms/oidc) is an identity layer built on top of the [OAuth 2.0 framework](/docs/terms/oauth). While OAuth 2.0 helps with _authorization_ (allowing access), OIDC helps with _authentication_ (identification). OIDC enables your application to verify an end user based on authentication performed by the OIDC Provider's Authorization Server as well as to obtain basic information about the end user. OIDC adds an [ID token](/docs/terms/id-token.md) to OAuth's [access token](/docs/terms/access-token.md). Together, OAuth and OIDC provide a comprehensive solution for secure authentication and authorization used by many identity providers (think "Sign in with Google").
 
 ## Authorization Code
 
@@ -82,7 +82,7 @@ https://idp-auth-server/authorize
 ```
 
 :::tip
-Other parameters such as **state**, **code_challenge_method** and **code_challenge** may be set for higher security, but the above are the minimum required.
+Other parameters such as **state**, **code_challenge_method** and **code_challenge** may be set for higher security, but the above are the minimum required. You can see an [example here](/docs/create-api-token#authorization-code-with-pkce-confidential-client)
 :::
 
 | Parameter         | Value                                                                                                                                                           |
