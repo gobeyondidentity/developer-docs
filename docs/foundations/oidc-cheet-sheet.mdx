@@ -61,11 +61,11 @@ Here's a step-by-step breakdown of the flow:
 1. The OIDC Identity Provider responds by providing the ID Token and Access Token to your application.
 1. With these tokens, your application can now consider the user as logged in and provide access to the protected resources.
 
-## ID Tokens vs Access Tokens
+## Access Tokens vs ID Tokens
 
 **Access Tokens** come from the [OAuth 2.0 framework](/docs/terms/oauth) and are used to access protected resources. [Access Tokens](/docs/terms/access-token.md) are used in API calls as [bearer tokens](/docs/terms/bearer-token.md). They do not guarantee that the user is currently authenticated.
 
-**ID Tokens** come from [OIDC](/docs/terms/oidc.md) and are used to prove that the user has been authenticated. [ID Tokens](/docs/terms/id-token.md) are always [JSON Web Tokens (JWT)](/docs/terms/jwt.md). When the payload of the JWT is inspected you will find claims, information about the user such as the user's name and email and the OIDC service. You can use this token to determine if the user is logged in.
+**ID Tokens** come from [OIDC](/docs/terms/oidc.md) and are used to prove that the user has been authenticated. [ID Tokens](/docs/terms/id-token.md) are always [JSON Web Tokens (JWT)](/docs/terms/jwt.md). When inspected, the payload of the JWT contains claims, which is information about the user such as the user's name, email, and the OIDC service. You can use this token to determine if the user is logged in.
 
 ## What to do in your application
 
@@ -97,7 +97,7 @@ Other parameters such as **state**, **code_challenge_method** and **code_challen
 When a user taps on the authorization URL, authorization begins. The user is sent to the identity provider to confirm login.
 
 :::tip
-If you are using the Beyond Identity **[Hosted Web Authenticator](/docs/authentication)**, all you need to do is set up a button for your user with the authorization URL to start the sign in flow.
+If you are using the Beyond Identity **[Hosted Web Authenticator](/docs/authentication)**, all you need to do is add a button for your user with the authorization URL to start the sign in flow.
 :::
 
 After the user confirms login, the identity provider redirects back to your application with the authorization code.
@@ -106,4 +106,4 @@ After the user confirms login, the identity provider redirects back to your appl
 https://your-site.com?code=the_authorization_code
 ```
 
-Take the authorization code and make a request to the identiy provider's token endpoint. This is called the [token exchange](/docs/terms/token-exchange.md). The result of the token exchange is the [ID token and access token](#id-tokens-vs-access-tokens). You can uses these tokens to create a session for your user.
+Take the authorization code and make a request to the identity provider's token endpoint. This is called the [token exchange](/docs/terms/token-exchange.md). The result of the token exchange is the [ID token and access token](#id-tokens-vs-access-tokens). You can uses these tokens to create a session for your user.
