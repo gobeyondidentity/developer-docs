@@ -16,6 +16,7 @@ const sidebars = {
         "foundations/universal-passkeys",
         "foundations/platform-overview",
         "foundations/api-endpoints",
+        "foundations/oidc",
       ],
     },
     {
