@@ -37,7 +37,7 @@ Before continuing, make sure that the following prerequisites have been met:
 
 ## Set up Beyond Identity as an Identity Provider
 
-To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/add-an-application) that contains the authentication flow configuration. These can be configured in you admin console that was created for you when you signed up for a developer account.
+To set up Beyond Identity as an Identity Provider, you need to create a Realm to hold identities and configuration. Inside that realm, you'll need to create an [Application](/docs/add-an-application) that contains the authentication flow configuration. These can be configured in your Admin Console that was created for you when you signed up for a developer account.
 
 ### Create a Realm
 
@@ -62,7 +62,7 @@ import AddAppAdminConsole from '../includes/\_add-application-console.mdx';
 | **Protocol**                   | OIDC<br /><ProtocolOIDC/>                                                                                                                                                                                                                                    |
 | **Client Type**                | Confidential<br /><ClientTypeConfidential/>                                                                                                                                                                                                                  |
 | **PKCE**                       | Disabled                                                                                                                                                                                                                                                     |
-| **Redirect URIs**              | This URL will also be generated for you in the OIDC plugin. You can always come back to change it.<br /><br />Your redirect URI follows the pattern:<br /><br />`https://${your-website-domain.com}/wp-admin/admin-ajax.php?action=openid-connect-authorize` |
+| **Redirect URIs**              | Your redirect URI follows the pattern:<br /><br />`https://${your-website-domain.com}/wp-admin/admin-ajax.php?action=openid-connect-authorize` |
 | **Token Endpoint Auth Method** | Client Secret Post                                                                                                                                                                                                                                           |
 | **Grant Type**                 | Authorization Code<br /><GrantTypeAuthorizationCode/>                                                                                                                                                                                                        |
 | **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                             |
@@ -85,15 +85,15 @@ At this point, your Beyond Identity Admin Console should be configured with a re
 ### Install the plugin
 
 :::note
-You're required to have administrative privileges in WordPress.
+You must have administrative privileges in WordPress.
 :::
 
 The easiest way to install and activate the plugin is directly from your admin dashboard:
 
-1. Log into you Wordpress admin console.
-1. Tap on the dashboard **Plugins** tab
-1. Search for _Beyond Identity Passwordless_ in the seach field
-1. Tap **Install** and then **Active** on the plugin card
+1. Log into your Wordpress admin console.
+1. Tap on the dashboard **Plugins** tab.
+1. Search for _Beyond Identity Passwordless_ in the seach field.
+1. Tap **Install** and then **Active** on the plugin card.
 
 ![wordpress-dashboard-install](../images/integration-guides/wordpress-dashboard-install.png)
 
