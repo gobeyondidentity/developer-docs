@@ -1,11 +1,11 @@
 import React from 'react';
-import {useColorMode} from '@docusaurus/theme-common';
-import NextJsLogoDark from '../../static/img/nextjs-dark.svg';
-import NextJsLogoLight from '../../static/img/nextjs-light.svg';
+import { useColorMode } from '@docusaurus/theme-common';
+import NextJsLogoDark from '../../docs/images/nextjs-dark.svg';
+import NextJsLogoLight from '../../docs/images/nextjs-light.svg';
 
 const NextJsLogoComponent = () => {
-  const {colorMode, setColorMode} = useColorMode();
-  
+  const { colorMode } = useColorMode();
+
   if (colorMode === 'dark') {
     return <NextJsLogoDark />;
   } else if (colorMode === 'light') {
@@ -13,6 +13,6 @@ const NextJsLogoComponent = () => {
   } else {
     return <NextJsLogoLight />;
   }
-}
+};
 
 export default NextJsLogoComponent;
