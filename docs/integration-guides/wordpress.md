@@ -103,7 +103,7 @@ You can also follow the installation steps specified in the [Beyond Identity Pas
 
 After you've installed the plugin, you'll need to configure the plugin.
 
-1. Tap on the dashboard **Beyond Identity**
+1. Tap on the dashboard **Beyond Identity** tab.
 
 ![wordpress-settings](../images/integration-guides/wordpress-settings.png)
 
