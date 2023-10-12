@@ -3,18 +3,17 @@ title: Getting Started
 id: get-started
 description: 'Create a free Beyond Identity developer account and connect it to our sample application. This application demonstrates common workflows, like creating realms, applications, and passkeys (public-private key pairs) for user authentication.'
 slug: /get-started
-keywords: 
- - get started
+keywords:
+  - get started
 pagination_next: null
 pagination_prev: null
-last_update: 
-   date: 06/09/2023
-   author: Patricia McPhee
+last_update:
+  date: 06/09/2023
+  author: Patricia McPhee
 draft: false
 doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
-
 
 When you sign up for a [free developer account](https://www.beyondidentity.com/developers/signup), you won't need to wait for an email. Instead, you'll immediately arrive at the Beyond Identity Admin Console with a <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkey</a> and <a href="#" data-tooltip="A Beyond Identity tenant represents an organization in the Beyond Identity Cloud. It serves as the root container for all other cloud components in your configuration. Your tenant has a unique identifier, a modifiable name, and contains one or more realms that make up the organization.">tenant</a> created for you automatically.
 
@@ -25,59 +24,65 @@ import AngularLogo from '../../static/img/Angular_full_color_logo.svg';
 import ReactLogo from '../../static/img/React-icon.svg';
 import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
 
-<ImageSwitcher id="workflows" lightSrc={DevSignUpFlow} darkSrc={DevSignUpFlowDark} alt="Developer account sign up workflow" />
+<ImageSwitcher
+  id="workflows"
+  alt="Developer account sign up workflow"
+  lightSrc={DevSignUpFlow}
+  darkSrc={DevSignUpFlowDark}
+/>
 
 <br />
 
-
 <section class="sdk-cards">
-<h4 class="center">Select the tech stack of your choice to get started with our sample app!</h4>
-<div class="container get-started-container">
-  <div class="row">
-   <div class="col">
-      <div class="card get-started-card">
-         <a href="/docs/get-started-react">
+  <h4 class="center">
+    Select the tech stack of your choice to get started with our sample app!
+  </h4>
+  <div class="container get-started-container">
+    <div class="row">
+      <div class="col">
+        <div class="card get-started-card">
+          <a href="/docs/get-started-react">
             <div class="get-started-card">
-               <div class="card__image">
-                  <ReactLogo />
-               </div> 
-               <div class="card__body">
-                  <h4>React</h4>
-               </div>      
+              <div class="card__image">
+                <ReactLogo />
+              </div>
+              <div class="card__body">
+                <h4>React</h4>
+              </div>
             </div>
-         </a>
+          </a>
+        </div>
       </div>
-    </div>    
-    <div class="col">
-      <div class="card get-started-card">
-         <a href="/docs/get-started-angular">
-      <div class="get-started-card">
-         <div class="card__image">
-            <AngularLogo />
-         </div> 
-         <div class="card__body">
-            <h4>Angular</h4>
-         </div>      
+      <div class="col">
+        <div class="card get-started-card">
+          <a href="/docs/get-started-angular">
+            <div class="get-started-card">
+              <div class="card__image">
+                <AngularLogo />
+              </div>
+              <div class="card__body">
+                <h4>Angular</h4>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
-         </a>
+      <div class="col">
+        <div class="card get-started-card">
+          <a href="/docs/get-started-nextjs">
+            <div class="get-started-card">
+              <div class="card__image">
+                <br />
+                <NextJsLogoComponent />
+              </div>
+              <div class="card__body">
+                <br />
+                <h4>NextJS</h4>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card get-started-card">
-         <a href="/docs/get-started-nextjs">
-      <div class="get-started-card">
-         <div class="card__image">
-         <br />
-            <NextJsLogoComponent />
-         </div> 
-         <div class="card__body">
-         <br />
-            <h4>NextJS</h4>
-         </div>      
-      </div>
-         </a>
-      </div>
-    </div>
-   </div>
-</div>
+  </div>
 </section>
