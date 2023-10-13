@@ -111,6 +111,12 @@ Successful authentication will return an `AuthenticateResponse`. The `Authentica
 
 2. To exchange a `passkeyBindingToken` for a credentialBindingLink, use the `passkeyBindingToken` as a bearer token in the [credential-binding-jobs](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) endpoint.
 
+:::tip
+OTP will create an **[identity](/docs/platform-overview#identity)**, associated with the email used, in the Beyond Identity cloud if no other such identity exists. A matching identity's username will match the associated email. 
+<br/>
+The credential binding job authorized with passkeyBindingToken will be associated with that authenticated identity.
+:::
+
 <MultiLanguageCodeBlock
   curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/credential-binding-jobs" \
 -X POST \
