@@ -174,6 +174,7 @@ const config = {
       },
       metadata: [
         { property: 'og:description', content: 'Developer Docs for passwordless authentication' },
+		{name: 'keywords', content: 'passkeys, universal passkeys, authentication, secure authentication, passwordless authentication, protect applications'},
         { property: 'og:image', content: 'https://www.beyondidentity.com/sites/default/files/2023-02/zero-trust-announce.png' },
         { name: 'twitter:card', content: 'Beyond Identity Developer Docs' }
       ],
