@@ -3,11 +3,11 @@ title: SCIM server setup
 id: scim-server
 description: ''
 slug: /scim-server
-keywords: 
+keywords:
  - scim server
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 06/01/2023
    author: Patricia McPhee
 draft: false
@@ -41,14 +41,14 @@ Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{ten
 ## Operations
 The following operations are currently supported by BI SCIM server:
 
-- Create: POST {{baseUrl}}/{{resource}}
-- Read: GET {{baseUrl}}/{{resource}}/{{id}}
-- Replace: PUT {{baseUrl}}/{{resource}}/{{id}}
-- Delete: DELETE {{baseUrl}}/{{resource}}/{{id}}
-- Search: GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}
+- Create: `POST {{baseUrl}}/{{resource}}`
+- Read: `GET {{baseUrl}}/{{resource}}/{{id}}`
+- Replace: `PUT {{baseUrl}}/{{resource}}/{{id}}`
+- Delete: `DELETE {{baseUrl}}/{{resource}}/{{id}}`
+- Search: `GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}`
 
-Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`, **resource** can either be `Groups` or `Users`, and 
-**id** represents the BI's unique identifier of the corresponding resource.  
+Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`, **resource** can either be `Groups` or `Users`, and
+**id** represents the BI's unique identifier of the corresponding resource.
 
 ### Users
 
@@ -65,7 +65,7 @@ We support the following **Users**`(urn:ietf:params:scim:schemas:core:2.0:User)`
 
 <br />
 
-SVA = single value attribute   
+SVA = single value attribute
 CMVA = complex multi value attribute
 
 If unsupported attributes are specified in the request, they will be ignored.
@@ -230,7 +230,7 @@ We support the following **Groups**`(urn:ietf:params:scim:schemas:core:2.0:Group
 SVA = single value attribute
 CMVA = complex multi value attribute
 
-:::caution note: 
+:::caution note:
 - members attribute is never returned
 :::
 
@@ -279,7 +279,7 @@ CMVA = complex multi value attribute
     HTTP/1.1 200 OK
     Date: Tue, 10 Sep 2019 05:06:25 GMT
     Content-Type: text/json;charset=UTF-8
-    
+
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
         "id": "43b03340cb6a",
@@ -364,4 +364,3 @@ For more information on filtering please see [SCIM Filtering](https://datatracke
 - [SCIM 2.0 RFC: Core Schema](https://tools.ietf.org/html/rfc7643)
 - [SCIM 2.0 RFC: Protocol](https://tools.ietf.org/html/rfc7644)
 - [SCIM 2.0 RFC: Definitions and Use Cases](https://tools.ietf.org/html/rfc7642)
-
