@@ -72,7 +72,7 @@ content-type: application/x-www-form-urlencoded
 
 where
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'
+`authorization_token` is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'
 
 -OR-
 
@@ -83,7 +83,7 @@ content-type: application/x-www-form-urlencoded
 
 where
 
-{app_client_credentials_b64} is the value of the application's Client ID and Client secret in the format {client_id}:{client_secret} and base64 encoded
+`app_client_credentials_b64` is the value of the application's Client ID and Client secret in the format `client_id:client_secret` and base64 encoded
 
 
 **Request body:**
@@ -92,7 +92,7 @@ where
 token: {token_to_introspect}
 ```
 
-where {token_to_introspect} is the base64 encoded access token you wish to validate
+where `token_to_introspect` is the base64 encoded access token you wish to validate
 
 ### Example
 
