@@ -41,7 +41,7 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
   content-type: application/x-www-form-urlencoded
   ```
 
-  where {client_credentials} is value of the app's **Client ID** and **Client Secret**, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded
+  where `{client_credentials}` is value of the app's **Client ID** and **Client Secret**, concatenated together in the format `{client_id}:{client_secret}` and base64 encoded
 
   **Request body:**
 
@@ -56,6 +56,6 @@ import AddAppAdminConsole from '../includes/_add-application-console.mdx';
 
   | Property | Value |
   | --- | --- |
-  | **scope** | {scopes} is one or more of the app's **Allowed Scopes**, space delimited. |
-  | **expiration_time** | expiration_time is an OPTIONAL parameter, and {seconds} is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting |
-  | **custom_claims** | custom_claims is an OPTIONAL parameter, and {custom_claims_json} is a JSON string containing the desired additional claims as key value pairs, for example '{"a": "b", "c": "d"}'. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims. |
+  | **scope** | `{scopes}` is one or more of the app's **Allowed Scopes**, space delimited. |
+  | **expiration_time** | expiration_time is an OPTIONAL parameter, and `{seconds}` is the desired time after minting, in seconds, for which the token will be considered valid. If included, this value must be less than or equal to the app's configured **Expires** setting |
+  | **custom_claims** | custom_claims is an OPTIONAL parameter, and `{custom_claims_json}` is a JSON string containing the desired additional claims as key value pairs, for example `{"a": "b", "c": "d"}`. Upon successful token request, the resulting token will contain additional field 'bi_custom' with the desired claims. |

@@ -9,7 +9,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore YLmGQ IKkc
     id="YLmGQPqIKkc"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Beyond Identity Swift Embedded SDK"
@@ -71,16 +70,16 @@ If the user has never set up an account with Beyond Identity, then the user will
 In either case, the end result is that the user creates a [Credential](../../core-concepts/credentials.md) on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Secure Enclave. When a user sets up an account with Beyond Identity, the device in which they register creates a Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
 
 Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
-- [User Sign-Up Flow](../../integration-guides/user-sign-up-flow.md) 
+- [User Sign-Up Flow](../../integration-guides/user-sign-up-flow.md)
 - [User Recovery Flow](../../integration-guides/user-recovery-flow.md)
 
 ### Intercepting A Redirect From A New or Recovered User
 
-After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](../../getting-started/registration-redirect-uri.md) for more information. 
+After a successful creation or recovery, the user will receive an email. When the user taps on the email link, the user will be redirected using a redirect url specified by your tenant. See [Registration Redirect URI](../../getting-started/registration-redirect-uri.md) for more information.
 
 Once the user is redirected, intercept the redirect in either your AppDelegate or SceneDelegate.
 
-:::warning 
+:::warning
 Custom Schemes offer a potential attack as iOS allows any URL Scheme to be claimed by multiple apps and thus malicious apps can hijack sensitive data. Use a Universal Link for your redirect url.
 :::
 
@@ -134,7 +133,7 @@ This flow authenticates and authorizes the user by completing the authorization 
 
 On successful authentication, you’ll receive a `TokenResponse` containing the `AccessToken` and JWT `idToken`.
 
-To use OIDC client connections for Public Client authentication, please ensure the Token Authentication Method is set to `none` and that you use your configured public clientID in initialization. 
+To use OIDC client connections for Public Client authentication, please ensure the Token Authentication Method is set to `none` and that you use your configured public clientID in initialization.
 
 #### Usage
 
@@ -209,7 +208,7 @@ Once a credential extension is initiated, you can handle importing the code on a
 
 In either case, you’ll need to take the 9 digit code and initialize a `CredentialToken` to pass into the import function. A successful import will return a list of imported credentials.
 
-#### Usage 
+#### Usage
 
 ```swift
 Embedded.shared.registerCredentials(token: tokenToImport) { result in
@@ -225,7 +224,7 @@ Embedded.shared.registerCredentials(token: tokenToImport) { result in
 ## Get a Credential
 
 This will get all current credentials on the device. If no credential is found, create a user first.
-     - Note: Only one credential per device is currently supported. 
+     - Note: Only one credential per device is currently supported.
 
 ```swift
 Embedded.shared.getCredentials { result in
