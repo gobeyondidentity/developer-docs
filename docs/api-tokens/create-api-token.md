@@ -19,6 +19,9 @@ import CodeChallengeVerifier from '../includes/_code-challenge-verifier.mdx';
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import AccessTokenCreatePublicClientPkce from '../includes/_access_token_create_public_client_pkce.mdx';
+import AccessTokenCreateConfClientPkce from '../includes/_access_token_create_conf_client_pkce.mdx';
+import AccessTokenCreateConfClientCreds from '../includes/_access_token_create_conf_client_creds.mdx';
 
 ## Prerequisites
 
@@ -39,8 +42,8 @@ import CreateApiTokenConsole from '../includes/_create-api-token-console.mdx';
 
 <CreateApiTokenConsole />
 
-:::note  
-Note that the list of **Scopes** available to request comes from the **Resource Server** associated with the app.  
+:::note
+Note that the list of **Scopes** available to request comes from the **Resource Server** associated with the app.
 :::
 
 ## API
@@ -109,19 +112,15 @@ An app that uses the authorization code grant type will have both `/authorize` a
 
 ### Client credentials grant type (Confidential client)
 
-import AccessTokenCreateConfClientCreds from '../includes/_access_token_create_conf_client_creds.mdx';
 
 <AccessTokenCreateConfClientCreds />
 
 ### Authorization code with PKCE (Public client)
 
-import AccessTokenCreatePublicClientPkce from '../includes/_access_token_create_public_client_pkce.mdx';
 
 <AccessTokenCreatePublicClientPkce />
 
 ### Authorization code with PKCE (Confidential client)
-
-import AccessTokenCreateConfClientPkce from '../includes/_access_token_create_conf_client_pkce.mdx';
 
 <AccessTokenCreateConfClientPkce />
 

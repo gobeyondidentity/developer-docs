@@ -1,6 +1,6 @@
 ---
 title: Integrate with Azure AD B2C
-last_update: 
+last_update:
    date: 01/05/2023
 ---
 
@@ -41,11 +41,11 @@ Before continuing, make sure the following prerequisites have been met:
 
 * PKCE = Disabled
 
-* Redirect URIs = https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp 
+* Redirect URIs = https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp
 
-OR 
+OR
 
-If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp 
+If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp
 
 (Replace {your-tenant-name} with the name of your Azure tenant, and {your-domain-name} with your custom domain)
 
@@ -78,11 +78,11 @@ If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.
 
 * Name = Beyond Identity
 
-* Metadata url = {enter the Beyond Identity Discovery Endpoint value noted in the previous section}
+* Metadata url = `enter the Beyond Identity Discovery Endpoint value noted in the previous section`
 
-* Client ID = {enter the Beyond Identity Client ID value noted in the previous section}
+* Client ID = `enter the Beyond Identity Client ID value noted in the previous section`
 
-* Client secret = {enter the Beyond Identity Client secret value noted in the previous section}
+* Client secret = `enter the Beyond Identity Client secret value noted in the previous section`
 
 * Scope = openid     (see "More Complex Integrations" section below for further discussion regarding scopes and claims mappings)
 
@@ -132,11 +132,11 @@ Identity provider claims mapping (when using user flow policies, Azure AD B2C is
 
 2. Enter the following values:
 
-- Email: <email_address>
+- Email: `email_address`
 
-- Username: <user_name>
+- Username: `user_name`
 
-- Name: <full_name>
+- Name: `full_name`
 
 3. Select the new user identity and take note of the ID, which you will need in the next step.
 

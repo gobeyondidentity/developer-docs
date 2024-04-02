@@ -11,7 +11,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore LcgjA Z30M
     id="LcgjAsnZ30M"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Beyond Identity Swift Embedded SDK"
@@ -23,7 +22,7 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 ## Sample App
 
-:::note 
+:::note
 Sample apps are available to explore. Check out [Example](https://github.com/gobeyondidentity/bi-sdk-android) for the Embedded SDK.
 :::
 
@@ -185,7 +184,7 @@ EmbeddedSdk.getCredentials { result ->
 
 ## Delete a Credential
 
-This will remove the current credential. If no other device contains a credential to extend, then the credential will be lost unless a recovery is done. 
+This will remove the current credential. If no other device contains a credential to extend, then the credential will be lost unless a recovery is done.
 
 
 ```
@@ -222,4 +221,3 @@ EmbeddedSdk.createPkce(pkceResponse -> {
 });
 
 ```
-

@@ -24,7 +24,7 @@ Before continuing, make sure the following prerequisites have been met:
 
 ## Configure SSO for Beyond Identity Admin portal
 
-The Beyond Identity Admin portal can either be accessed using Auth0 or using Beyond Identity as the Identity provider (default). The following steps should be implemented if Auth0 will be the SSO provider for access into Beyond Identity's Admin Portal. 
+The Beyond Identity Admin portal can either be accessed using Auth0 or using Beyond Identity as the Identity provider (default). The following steps should be implemented if Auth0 will be the SSO provider for access into Beyond Identity's Admin Portal.
 
 **Step 1. Set Up the Beyond Identity Admin Portal application**
 1. From the left side menu, select **Applications** and click **+ Create Applications**.
@@ -52,7 +52,7 @@ The Beyond Identity Admin portal can either be accessed using Auth0 or using Bey
 
 ![app-uris](../images/sso-auth0-app-uris.png)
 
-7. Scroll down to the end of the page and click **Save Changes**. 
+7. Scroll down to the end of the page and click **Save Changes**.
 
 **Note:** All other settings should be left with default values.
 
@@ -78,7 +78,7 @@ SSO Issuer is the domain URL in Auth0.
 
 ## Add Beyond Identity as an Identity Provider
 
-Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](#custom-social-oauth20-connection). 
+Depending on your Auth0 subscription (license) you can add Beyond Identity as an identity provider using the [Enterprise OIDC connection](#enterprise-oidc-connection) or as a [custom social OAuth2.0 connection](#custom-social-oauth20-connection).
 
 ### Create an Inbound OIDC client in Beyond Identity
 
@@ -86,7 +86,7 @@ Depending on your Auth0 subscription (license) you can add Beyond Identity as an
 
 2. Select **Add OIDC Client** and fill in the following fields:
 
-   * Name = Auth0 SSO 
+   * Name = Auth0 SSO
 
    * Redirect URL = `https://DOMAIN.auth0.com/login/callback`
 
@@ -96,7 +96,7 @@ Depending on your Auth0 subscription (license) you can add Beyond Identity as an
 
 Leave **Token Signing Algorithm** and **Auth Method** with their default  values.
 
-3. Click **Save Changes**. 
+3. Click **Save Changes**.
 
 ![oidc-client](../images/sso-auth0-oidc-client.png)
 
@@ -148,8 +148,8 @@ Leave **Token Signing Algorithm** and **Auth Method** with their default  values
 
 10. Under this tab, find the section called **Connection button** and check (enable) the checkbox field labelled **Display connection as a button**.
 11. Enter the ‘Button display name’ as “Beyond Identity”.
-12. Add the following URL for the :point-down:  
-      
+12. Add the following URL for the :point-down:
+
 **Button Logo URL** - https://byndid-public-assets.s3-us-west-2.amazonaws.com/logos/beyondidentity.png
 
 ![display-connection](../images/sso-auth0-display-connection.png)
@@ -204,7 +204,7 @@ function(accessToken, ctx, cb) {
 
 5. Leave the other values as default and click **Create**.
 
-6. The connection is then saved and the ‘Applications’ tab will be displayed. You can now configure which applications should use this connection. Use the toggle switches to enable the connection for the applications you wish to use Beyond identity with. 
+6. The connection is then saved and the ‘Applications’ tab will be displayed. You can now configure which applications should use this connection. Use the toggle switches to enable the connection for the applications you wish to use Beyond identity with.
 
 7. If you are using Auth0 hosted pages, the button text and button logo must be be updated. Auth0 only supports this via the API at the point rather than through the UI. You can follow the Auth0 docs here to configure this last part:
    * https://auth0.com/docs/v0/connections/social/oauth2#modify-the-icon-and-display-name
@@ -214,7 +214,7 @@ function(accessToken, ctx, cb) {
 
 8. If you are using your own login form, you can add the button manually and call the authorize endpoint specifying the connection parameter where the connection is the name of the connection you just created as documented here:
    * https://auth0.com/docs/v0/connections/social/oauth2#log-in-using-the-custom-connection
-   * Auth0’s API reference: https://auth0.com/docs/v0/api/authentication#social 
+   * Auth0’s API reference: https://auth0.com/docs/v0/api/authentication#social
 
 ### Enable the Beyond Identity connection in Auth0
 
@@ -240,7 +240,7 @@ function(accessToken, ctx, cb) {
 
 **Setting up test users**
 
-Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](ref:createuser) API. See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal. 
+Before users can start authenticating with Beyond Identity, they must be provisioned in the Beyond Identity Directory. As Auth0 does not support SCIM, users must be manually provisioned using the Beyond Identity Admin Portal or using the [Create User](ref:createuser) API. See the Admin Portal video tutorial that shows how to navigate to the directory area of the admin portal.
 
 https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
@@ -248,17 +248,16 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
 2. Enter the following values:
 
-   * External ID:** user_id in Auth0, for example: oidc | Beyond-Identity | <email_address>**
+   * External ID: **user_id in Auth0, for example: oidc | Beyond-Identity | `email_address`**
 
-   * Email: **<email_address>**
+   * Email: **`email_address`**
 
-   * Username: **<email_address>**
+   * Username: **`email_address`**
 
-   * Display Name: **<Full_Name>**
+   * Display Name: **`Full_Name`**
 
 **Note:** The External ID format above must be adhered to as this will be the user ID of the user in Auth0.
 
 ## User Deprovisioning
 
 To deprovision users from the Beyond Identity experience, access the Beyond Identity Admin Portal and manually delete the appropriate user(s).
-

@@ -8,7 +8,7 @@ title: "Overview"
 
 The EmbeddedUI SDK provides view wrappers around the Embedded SDK functions.
 
-A single `BeyondIdentityButton` handles login, recovery, and credential creation or migration. A `BeyondIdentitySettings` supplements your app settings screen handling credential creation, recovery, or migration as well as the ability to view existing credential information, delete an existing credential, or display a QR code to add the credential to another device. 
+A single `BeyondIdentityButton` handles login, recovery, and credential creation or migration. A `BeyondIdentitySettings` supplements your app settings screen handling credential creation, recovery, or migration as well as the ability to view existing credential information, delete an existing credential, or display a QR code to add the credential to another device.
 
 ![UI that shows up when you tap on Embedded SDK UI](../../images/android-embed.png)
 
@@ -17,7 +17,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore TsNU5 240Y
     id="TsNU5ll240Y"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Beyond Identity Android Embedded SDK With UI"
@@ -80,9 +79,9 @@ EmbeddedUiConfig.config = Config(
 
 ### BeyondIdentityButton
 
-The `BeyondIdentityButton` first determines if a credential exists on the device. If a credential exists and the user wishes to log in, then the button will start the login process by either calling `EmbeddedSdk.authorize` or `EmbeddedSdk.authenticate` depending on the configured `authenticationData`. On success, either an `BiEvent.Authentication` containing `TokenReponse` or `BiEevent.Authorization` containing `AuthorizationCode` will be posted. If an `AuthorizationCode` is returned then it will need to be used to make a token exchange. A `TokenResponse` contains both an [IdToken](https://www.oauth.com/oauth2-servers/openid-connect/id-tokens/) with user information and an [AccessToken](https://www.oauth.com/oauth2-servers/access-tokens/).  
+The `BeyondIdentityButton` first determines if a credential exists on the device. If a credential exists and the user wishes to log in, then the button will start the login process by either calling `EmbeddedSdk.authorize` or `EmbeddedSdk.authenticate` depending on the configured `authenticationData`. On success, either an `BiEvent.Authentication` containing `TokenReponse` or `BiEevent.Authorization` containing `AuthorizationCode` will be posted. If an `AuthorizationCode` is returned then it will need to be used to make a token exchange. A `TokenResponse` contains both an [IdToken](https://www.oauth.com/oauth2-servers/openid-connect/id-tokens/) with user information and an [AccessToken](https://www.oauth.com/oauth2-servers/access-tokens/).
 
-If a credential does not exist then the user has three options: 
+If a credential does not exist then the user has three options:
 
 #### 1. Create a new credential
 If the user wishes to create a new credential or replace the current credential with a new one, UI is provided up until registration. Instead, `BiEvent.CredentialSetup` is posted. This action should navigate the user to a registration screen provided by the developer where the Beyond Identity [create `user` API ](https://developer.beyondidentity.com/api/v0#tag/Users/operation/CreateUser) is called. An email will be sent to the user to register a new credential.
@@ -136,7 +135,7 @@ To intercept the registration link an `IntentFilter` needs to be set up.
     <!-- Accepting URIs with custom schemes "my-app://home” can be intercepted by other apps -->
 
     <!-- Needs to match the register redirect uri configred for your client -->
-    <data 
+    <data
     android:host="myhost"
     android:path="/register"
     android:scheme="myscheme" />
@@ -176,9 +175,9 @@ settingsButton.setOnClickListener {
 }
 ```
 
-If a credential already exists on the device, the Settings screen will display options to the user to view credential details, delete a credential or display a QR code to add this credential to another device. 
+If a credential already exists on the device, the Settings screen will display options to the user to view credential details, delete a credential or display a QR code to add this credential to another device.
 
-If a credential does not exist then the user will see the add credential option that additionally has three options: 
+If a credential does not exist then the user will see the add credential option that additionally has three options:
 
 #### 1. Create a new credential
 If the user wishes to create a new credential or replace the current credential with a new one, UI is provided up until registration. Instead, `BiEvent.CredentialSetup` is posted. This action should navigate the user to a registration screen provided by the developer where the Beyond Identity create `users` API is called. An email will be sent to the user to register a new credential.
@@ -201,21 +200,21 @@ class EmbeddedLoginActivity : AppCompatActivity(), BiObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         BiEventBus.registerObserver(this)
     }
-  
+
     override fun onDestroy() {
         super.onDestroy()
         BiEventBus.unRegisterObserver(this)
     }
-  
+
     override fun onEvent(event: BiEvent) {
         when (event) {
             CredentialSetup -> ...
-            CredentialRecovery -> ... 
+            CredentialRecovery -> ...
             is Authentication -> ...
             is Authorization -> ...
-            is CredentialRegistered -> ... 
+            is CredentialRegistered -> ...
             CredentialDeleted -> ...
-            is BiEventError -> ... 
+            is BiEventError -> ...
           }
     }
 }
@@ -242,7 +241,3 @@ EmbeddedSdk.getCredentials { result ->
         result.onFailure { }
     }
 ```
-
-
-
-
