@@ -19,6 +19,9 @@ import CodeChallengeVerifier from '../includes/_code-challenge-verifier.mdx';
 import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import AccessTokenCreatePublicClientPkce from '../includes/_access_token_create_public_client_pkce.mdx';
+import AccessTokenCreateConfClientPkce from '../includes/_access_token_create_conf_client_pkce.mdx';
+import AccessTokenCreateConfClientCreds from '../includes/_access_token_create_conf_client_creds.mdx';
 
 ## Prerequisites
 
@@ -39,8 +42,8 @@ import CreateApiTokenConsole from '../includes/_create-api-token-console.mdx';
 
 <CreateApiTokenConsole />
 
-:::note  
-Note that the list of **Scopes** available to request comes from the **Resource Server** associated with the app.  
+:::note
+Note that the list of **Scopes** available to request comes from the **Resource Server** associated with the app.
 :::
 
 ## API
@@ -85,11 +88,11 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 
 where:
 
-  - {tenant_id} is the [ID of the tenant](/docs/find-tenant-id) in which the app is configured
+  - `{tenant_id}` is the [ID of the tenant](/docs/find-tenant-id) in which the app is configured
 
-  - {realm_id} is the **Realm Id** of the realm in which the application is configured
+  - `{realm_id}` is the **Realm Id** of the realm in which the application is configured
 
-  - {application_id} is the **Application ID** of the app
+  - `{application_id}` is the **Application ID** of the app
 
 ### Finding app endpoint URLs
 
@@ -109,19 +112,15 @@ An app that uses the authorization code grant type will have both `/authorize` a
 
 ### Client credentials grant type (Confidential client)
 
-import AccessTokenCreateConfClientCreds from '../includes/_access_token_create_conf_client_creds.mdx';
 
 <AccessTokenCreateConfClientCreds />
 
 ### Authorization code with PKCE (Public client)
 
-import AccessTokenCreatePublicClientPkce from '../includes/_access_token_create_public_client_pkce.mdx';
 
 <AccessTokenCreatePublicClientPkce />
 
 ### Authorization code with PKCE (Confidential client)
-
-import AccessTokenCreateConfClientPkce from '../includes/_access_token_create_conf_client_pkce.mdx';
 
 <AccessTokenCreateConfClientPkce />
 
@@ -207,7 +206,7 @@ This parameter is used to set a custom expiration time on individual tokens, to 
   --data-urlencode "response_type=code" \
   --data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
   --data-urlencode "redirect_uri=$(REDIRECT_URI)" \
-  --data-urlencode "scope={SCOPES}" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
+  --data-urlencode "scope=$(SCOPES)" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
   --data-urlencode "state=$(STATE)" \
   --data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
   --data-urlencode "code_challenge_method=S256"'
@@ -231,7 +230,7 @@ This parameter is used to set a custom expiration time on individual tokens, to 
   -X POST \
   -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600"'
+  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=$(REDIRECT_URI)&client_id=$(CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600"'
   title="/token"
   />
 
@@ -288,7 +287,7 @@ The `custom_claims` parameter allows for additional information to be stored wit
   -X POST \
   -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=client_credentials&scope=$(SCOPES)&custom_claims={"a": "b", "c": "d"}"'
+  -d "grant_type=client_credentials&scope=$(SCOPES)&custom_claims=$("a": "b", "c": "d")"'
   title="/token"
   />
 
@@ -308,7 +307,7 @@ The `custom_claims` parameter allows for additional information to be stored wit
   --data-urlencode "response_type=code" \
   --data-urlencode "client_id=$(APPLICATION_CLIENT_ID)" \
   --data-urlencode "redirect_uri=$(REDIRECT_URI)" \
-  --data-urlencode "scope={SCOPES}" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
+  --data-urlencode "scope=$(SCOPES)" \	//for example scope=openid%20myapp%3Aread%20myapp%3Awrite
   --data-urlencode "state=$(STATE)" \
   --data-urlencode "code_challenge=$(CODE_CHALLENGE)" \
   --data-urlencode "code_challenge_method=S256"'
@@ -332,7 +331,7 @@ The `custom_claims` parameter allows for additional information to be stored wit
   -X POST \
   -u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=${REDIRECT_URI}&client_id=$(APP_CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600&custom_claims={"a": "b", "c": "d"}"'
+  -d "grant_type=authorization_code&code=$(CODE)&redirect_uri=$(REDIRECT_URI)&client_id=$(APP_CLIENT_ID)&code_verifier=$(CODE_VERIFIER)&expiration_time=3600&custom_claims=("a": "b", "c": "d")"'
   title="/token"
   />
 

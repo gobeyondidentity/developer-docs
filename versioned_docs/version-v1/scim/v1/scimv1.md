@@ -7,7 +7,7 @@ SCIM is a REST and JSON-based protocol that defines a client and server role. A 
 
 Beyond Identity’s (BI) SCIM server implementation follows the [tenant/realm](https://developer.beyondidentity.com/docs/v1/platform-overview/architecture) paradigm.  That is, a separate SCIM server is available for each realm.
 
-The SCIM user resource is equivalent to a BI identity object.  When the SCIM client creates a user, our SCIM service will create an identity.  The SCIM group resource maps to BI’s group.  The BI SCIM configuration can be inspected via standard SCIM discovery endpoints.  
+The SCIM user resource is equivalent to a BI identity object.  When the SCIM client creates a user, our SCIM service will create an identity.  The SCIM group resource maps to BI’s group.  The BI SCIM configuration can be inspected via standard SCIM discovery endpoints.
 
 ## Setup
 The SCIM server is available by default whenever the customer creates a new realm.  However, in order to use any SCIM functionality, an access token with `scim:all` scope is required.  For more information on setting up tenants, realms, applications and obtaining access tokens with specified scope, please see [Getting Started](https://developer.beyondidentity.com/docs/v1/getting-started) and [Using Beyond Identity for Authentication](https://developer.beyondidentity.com/docs/v1/using-bi-for-auth).
@@ -27,14 +27,14 @@ Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{ten
 ## Operations
 The following operations are currently supported by BI SCIM server:
 
-- Create: POST {{baseUrl}}/{{resource}}
-- Read: GET {{baseUrl}}/{{resource}}/{{id}}
-- Replace: PUT {{baseUrl}}/{{resource}}/{{id}}
-- Delete: DELETE {{baseUrl}}/{{resource}}/{{id}}
-- Search: GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}
+- Create: `POST {{baseUrl}}/{{resource}}`
+- Read: `GET {{baseUrl}}/{{resource}}/{{id}}`
+- Replace: `PUT {{baseUrl}}/{{resource}}/{{id}}`
+- Delete: `DELETE {{baseUrl}}/{{resource}}/{{id}}`
+- Search: `GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}`
 
-Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`. **resource** can either be `Groups`, `Users`. 
-**id** represents the BI's unique identifier of the corresponding resource.  
+Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`. **resource** can either be `Groups`, `Users`.
+**id** represents the BI's unique identifier of the corresponding resource.
 
 ### Users
 
@@ -214,7 +214,7 @@ We support the following **Groups**`(urn:ietf:params:scim:schemas:core:2.0:Group
 SVA = single value attribute
 CMVA = complex multi value attribute
 
-:::caution note: 
+:::caution note:
 - members attribute is never returned
 :::
 
@@ -263,7 +263,7 @@ CMVA = complex multi value attribute
     HTTP/1.1 200 OK
     Date: Tue, 10 Sep 2019 05:06:25 GMT
     Content-Type: text/json;charset=UTF-8
-    
+
     {
         "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
         "id": "43b03340cb6a",

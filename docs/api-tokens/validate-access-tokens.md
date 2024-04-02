@@ -3,12 +3,12 @@ title: Validate an access token
 id: validate-access-tokens
 description: ''
 slug: /validate-access-tokens
-keywords: 
+keywords:
  - api-tokens
  - configuration
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 08/22/2023
    author: Jen Field
 draft: false
@@ -16,83 +16,83 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';  
+import MultiLanguageCodeBlock from '@site/src/components/CodeBlocks/MultiLanguageCodeBlock';
 
-If your app consumes access tokens, you need to know how to validate them. This article will show you how to do that.  
+If your app consumes access tokens, you need to know how to validate them. This article will show you how to do that.
 
-The easiest and most recommended way to validate tokens is by using the token validation API. 
+The easiest and most recommended way to validate tokens is by using the token validation API.
 
-Both `self-contained` and `referential` tokens can be validated online via the API.    
+Both `self-contained` and `referential` tokens can be validated online via the API.
 
-If your app has specific requirements such as accepting revoked tokens, then you can validate tokens within your own code using the steps [at the end of this article](#offline-validation). 
+If your app has specific requirements such as accepting revoked tokens, then you can validate tokens within your own code using the steps [at the end of this article](#offline-validation).
 
-:::note  
-Access tokens cannot be validated in the Admin Console  
-:::  
+:::note
+Access tokens cannot be validated in the Admin Console
+:::
 
 ## Prerequisites
 
-In order to validate an access token, you need the following:  
+In order to validate an access token, you need the following:
 
-- the base64 encoded access token you wish to validate (can be self contained or referential)  
+- the base64 encoded access token you wish to validate (can be self contained or referential)
 
 - the client credentials (client ID and client secret) of the app for which the token was issued, or otherwise a bearer token with the `tokens:introspect` scope and audience 'beyondidentity' for authorization (to create a Beyond Identity API token, see the examples in [Create an access token](/docs/create-api-token#example-create-tokens-for-the-beyond-identity-management-api)).
 
 ## Token validation API
 
-The token validation API consists of the '/introspect' endpoint, which is compliant with 
-[RFC-7662](https://datatracker.ietf.org/doc/html/rfc7662).   
+The token validation API consists of the '/introspect' endpoint, which is compliant with
+[RFC-7662](https://datatracker.ietf.org/doc/html/rfc7662).
 
 ### Introspection endpoint
 
-The introspection endpoint has the following structure:  
-
-```http
-https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect  
-```
-
-### Token validation request  
-
-Create the HTTP request with the following properties:  
-
-**Request method:** POST  
-
-**Request URL:** 
+The introspection endpoint has the following structure:
 
 ```http
 https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
 ```
 
-**Request headers:**  
+### Token validation request
+
+Create the HTTP request with the following properties:
+
+**Request method:** POST
+
+**Request URL:**
+
+```http
+https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/introspect
+```
+
+**Request headers:**
 
 ```http
 Authorization: Bearer {authorization_token}
-content-type: application/x-www-form-urlencoded  
+content-type: application/x-www-form-urlencoded
 ```
 
-where 
+where
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'  
+`authorization_token` is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'
 
 -OR-
 
 ```http
 Authorization: Basic {app_client_credentials_b64}
-content-type: application/x-www-form-urlencoded  
+content-type: application/x-www-form-urlencoded
 ```
 
-where 
+where
 
-{app_client_credentials_b64} is the value of the application's Client ID and Client secret in the format {client_id}:{client_secret} and base64 encoded  
+`app_client_credentials_b64` is the value of the application's Client ID and Client secret in the format `client_id:client_secret` and base64 encoded
 
 
-**Request body:**  
+**Request body:**
 
 ```http
-token: {token_to_introspect} 
+token: {token_to_introspect}
 ```
 
-where {token_to_introspect} is the base64 encoded access token you wish to validate  
+where `token_to_introspect` is the base64 encoded access token you wish to validate
 
 ### Example
 
@@ -159,7 +159,7 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 
 3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. It is sufficient if at least one of the allowed audiences is in the token `aud` claim.
 
-4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
+4. Check timestamps in JWT claims where `nbf <=` current time as unix timestamp in seconds `<= exp`
 
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 
