@@ -103,7 +103,6 @@ div[class^='announcementBar_'] .close {
 */
 body {
   line-height: 1.4;
-  letter-spacing: 107%;
   background-color: var(--ifm-background-color);
   font-weight: 400;
   -webkit-hyphens: none;
