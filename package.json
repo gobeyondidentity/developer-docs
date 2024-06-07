@@ -5,7 +5,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
     "@badgateway/oauth2-client": "^2.2.3",
-    "@beyondidentity/bi-sdk-js": "^2.0.5",
+    "@beyondidentity/bi-sdk-js": "^3.0.1",
     "@docusaurus/core": "^2.4.3",
     "@docusaurus/plugin-debug": "^2.4.3",
     "@docusaurus/plugin-google-gtag": "^2.4.3",
