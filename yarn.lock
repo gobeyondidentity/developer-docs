@@ -1264,10 +1264,10 @@
   resolved "https://registry.yarnpkg.com/@badgateway/oauth2-client/-/oauth2-client-2.2.3.tgz#4c30fffd1f57a4d860e98902f184ec23d0c77098"
   integrity sha512-5y/0dzWfy16SJuB91oZaoIdMsNxG8QyTOz4EQoMZgxOTzvharPr9LTffqdQkECNvBufXaixDeJ3eY7EaC62zDA==
 
-"@beyondidentity/bi-sdk-js@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@beyondidentity/bi-sdk-js/-/bi-sdk-js-3.0.1.tgz#bba832da4708dbb4f68b22ad63ebbee0a6d31902"
-  integrity sha512-gKZBppisDKlXQaokC4cWUKXZi4ul4XHQcFlAxtYnJf3/EHg80+z317OnrbObFS2X5o2ZwHMREXCaRE/tLg6ndA==
+"@beyondidentity/bi-sdk-js@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@beyondidentity/bi-sdk-js/-/bi-sdk-js-3.0.2.tgz#e77dcc17089c9e362f09108980bc9b127ebe1745"
+  integrity sha512-K726K99bFQ4C6ttjg3znleZiOizHl4QWjQoVUndRXIHUd4u6HV/sakRajh0GkOLF2PCmBj9IXTu9NsPLrG1dIg==
 
 "@braintree/sanitize-url@^6.0.0":
   version "6.0.2"
