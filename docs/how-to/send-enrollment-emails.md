@@ -33,9 +33,9 @@ An Authenticator Configuration indicates to the system how to bind the passkey.
 
 The user will need to register a credential (passkey) in order to be able to authenticate via the application you created. For production usage, the user/credential registration flow would be implemented by your application, but for testing purposes, the user passkey will be created and delivered manually. (In future, this will be possible to perform via the Admin portal)
 
-With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (https://auth-{us|eu}.beyondidentity.com) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
+With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (`https://auth-us.beyondidentity.com` or `https://auth-eu.beyondidentity.com`) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
 
-Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result browsers will not permit that passkey to be used in order to access your own application.
+Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either `https://console-us.beyondidentity.com` or `https://console-eu.beyondidentity.com`. As a result browsers will not permit that passkey to be used in order to access your own application.
 
  1. Within the Beyond Identity Admin portal, select your application and choose the **Authenticator Config** tab.
 

@@ -139,6 +139,7 @@ const config = {
       docsDir: './docs/',
       glossaryFilepath: './docs/glossary.mdx'
     }],
+    '@docusaurus/plugin-svgr',
     // "@chatwoot/docusaurus-plugin",
     // [
     //   require.resolve("@easyops-cn/docusaurus-search-local"),
