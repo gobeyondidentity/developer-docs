@@ -1,6 +1,6 @@
 ---
 title: API Tokens
-last_update: 
+last_update:
    date: 06/28/2023
 ---
 
@@ -230,7 +230,7 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 1. Parse the [host](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2) of the URI in the `jku` header field. If it equals `auth-$REGION.beyondidentity.com`, then proceed. Otherwise, reject the token.
 2. Download the public key for token validation from the `jku` in the JWT header. The key can be cached for the number of seconds specified by the [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#response_directives) max-age directive. Check the token signature against the key with matching `kid` downloaded from `jku`.
 3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. It is sufficient if at least one of the allowed audiences is in the token `aud` claim.
-4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
+4. Check timestamps in JWT claims where `nbf <=` current time as unix timestamp in seconds `<= exp`
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 6. Check that JWT claims has the expected scopes.
 

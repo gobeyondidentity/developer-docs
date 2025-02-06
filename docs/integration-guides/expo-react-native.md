@@ -3,11 +3,11 @@ title: Integrate with Expo
 id: expo-react-native
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider for a React Native application that uses Expo."
 slug: /expo-react-native
-keywords: 
+keywords:
  - expo react native
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 08/27/2023
    author: Jen Field
 draft: false
@@ -49,7 +49,7 @@ In this guide, you'll:
 
 ## Install the React Native SDK
 
-To use Beyond Identity as a passwordless authentication provider in your Expo application, you'll need to install the SDK. The SDK is a wrapper around our native SDKs ([Android](https://github.com/gobeyondidentity/bi-sdk-android) and [iOS](https://github.com/gobeyondidentity/bi-sdk-swift)), so it has [custom native code](https://docs.expo.dev/workflow/customizing/). It provides functionality from passkey creation to passwordless authentication. 
+To use Beyond Identity as a passwordless authentication provider in your Expo application, you'll need to install the SDK. The SDK is a wrapper around our native SDKs ([Android](https://github.com/gobeyondidentity/bi-sdk-android) and [iOS](https://github.com/gobeyondidentity/bi-sdk-swift)), so it has [custom native code](https://docs.expo.dev/workflow/customizing/). It provides functionality from passkey creation to passwordless authentication.
 
 
 :::note important
@@ -95,28 +95,28 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-3. On the **External Protocol** tab, use the following values to complete this tab.  
+3. On the **External Protocol** tab, use the following values to complete this tab.
 
-  | Property | Value | 
+  | Property | Value |
   | ----------- | ----------- |
   | **Protocol** | OIDC<br /><ProtocolOIDC/> |
-  | **Client Type** | Confidential<br /><ClientTypeConfidential/> | 
+  | **Client Type** | Confidential<br /><ClientTypeConfidential/> |
   | **PKCE** | S256<br /><PKCES256/> |
-  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an app scheme, your redirect URI may follow the pattern:<br /><br /> `myapp://` <br /> <br />Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app) | 
-  | **Token Endpoint Auth Method** | Client Secret Post | 
+  | **Redirect URIs** | Use your application's App Scheme or Universal URL.<br /><br />If you are using an app scheme, your redirect URI may follow the pattern:<br /><br /> `myapp://` <br /> <br />Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app) |
+  | **Token Endpoint Auth Method** | Client Secret Post |
   | **Grant Type** | Authorization Code<br /><GrantTypeAuthorizationCode/> |
-  | **All other options** | Use the default values for the remaining options |  
+  | **All other options** | Use the default values for the remaining options |
 
-1. Click the **Authenticator Config** tab and use the following values. 
+1. Click the **Authenticator Config** tab and use the following values.
 
-  | Property | Value | 
+  | Property | Value |
   | ----------- | ----------- |
   | **Configuration Type** | Embedded SDK |
   | **Invocation Type** | Automatic or Manual |
-  | **Invoke URL** | Use your application's App Scheme or Universal URL. | 
-  | **Trusted Origin** | Use your application's App Scheme or Universal URL. | 
+  | **Invoke URL** | Use your application's App Scheme or Universal URL. |
+  | **Trusted Origin** | Use your application's App Scheme or Universal URL. |
 
-1. Click **Submit** to save the new app.  
+1. Click **Submit** to save the new app.
 
 ## Create an Identity and generate a passkey
 
@@ -124,7 +124,7 @@ Once you have an application in the admin console you are ready to provision use
 
 ### Create an Identity
 
-Creating a user can be done either in the admin console or through an API. This guide will use the admin console. 
+Creating a user can be done either in the admin console or through an API. This guide will use the admin console.
 
 import AddAnIdentity from '../includes/_add-an-identity.mdx';
 
@@ -134,7 +134,7 @@ For more information about identities, see [Directory](/docs/platform-overview#d
 
 ### Generate a passkey
 
-Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API. 
+Once you have an identity you can generate a passkey. This step can also be done either in the admin console or through an API.
 
 import BindPasskeyToAnIdentity from '../includes/_bind-passkey-to-an-identity-send-an-email-to-user.mdx';
 
@@ -146,7 +146,7 @@ For more information, [Add a passkey](/docs/add-passkey).
 
 When the user clicks or taps the link in the enrollment email, they are redirected to your application. Links that launched your app can be observed using [Linking](https://docs.expo.dev/versions/latest/sdk/linking/).
 
-1. Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app).  
+1. Follow Expo's [deep linking guide](https://docs.expo.dev/guides/deep-linking/) and [linking to your development build](https://docs.expo.dev/guides/linking/#linking-to-your-app).
 
 2. Register a scheme in your Expo config under the scheme key.
 
@@ -164,7 +164,7 @@ When the user clicks or taps the link in the enrollment email, they are redirect
   $invoke_url/bind?api_base_url=<api_base_url>&tenant_id=<tenant_id>&realm_id=<realm_id>&identity_id=<identity_id>&job_id=<job_id>&token=<token>
   ```
 
-2. Pass the link from the enrollment email into the SDK to complete the binding process. 
+2. Pass the link from the enrollment email into the SDK to complete the binding process.
 
   You can validate the incoming URL with `isBindPasskeyUrl`. Upon success, a private key will have been created in the device's hardware trust module and the corresponding public key will have been sent to the Beyond Identity Cloud. At this point the user has a passkey enrolled on this device.
 
@@ -190,7 +190,7 @@ Once you have one passkey bound to a device, you can use it to [authenticate](#a
 
 ### Craft an Authorization URL
 
-Crafting an authorization URL is the first step in the authorization flow. 
+Crafting an authorization URL is the first step in the authorization flow.
 
 1. In the Admin Console, under Apps, select the **External Protocol** tab, copy the **Authorization Endpoint** value and add it to the query parameters:
 
@@ -211,19 +211,19 @@ Crafting an authorization URL is the first step in the authorization flow.
 
 1. Copy and paste the **Redirect URI**, which is your application's App Scheme or Universal URL, to the query parameters.
 
-3. Set the PKCE (code_challenge_method) to **S256** or **Plain**.  The PKCE code challenge methods supported for applications are defined by [RFC-7636](https://datatracker.ietf.org/doc/html/rfc7636). 
+3. Set the PKCE (code_challenge_method) to **S256** or **Plain**.  The PKCE code challenge methods supported for applications are defined by [RFC-7636](https://datatracker.ietf.org/doc/html/rfc7636).
 
   :::note PKCE
   Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you must store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
   :::
 
-1. Generate a random string from your application for **STATE** value and is returned back to you in the response. 
+1. Generate a random string from your application for **STATE** value and is returned back to you in the response.
 
   The `STATE` parameter mitigates [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery) by embedding a unique value for each authentication.
 
 ### Authenticate
 
-There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/authentication#invocation-type). 
+There are two ways to authenticate depending on your Application Config's [Invocation Type](/docs/authentication#invocation-type).
 
 - **Automatic**
 - **Manual**
@@ -238,7 +238,7 @@ If you select **Automatic**, Beyond Identity does the heavy lifting for you. If 
 
 To handle a web browser based authentication you can use Expo's [Auth Session](https://docs.expo.dev/versions/latest/sdk/auth-session/).
 
-:::note 
+:::note
 The `response` from `useAuthRequest` hook does not need to be of type 'success'. It's sufficient if it has a `url` becasue the state value is stored in a JWT in the URL 'request' paramater. The URL is validated through the Beyond Identity Embedded SDK.
 :::
 
@@ -303,7 +303,7 @@ export default function App() {
 </TabItem>
 <TabItem value="manual" label="Manual">
 
-If you select **Manual**, you'll have a lot more control and flexibity when redirecting to your native app. For example, you can write your own intelligent routing layer using the Beyond Identity authentication URL to authenticate against passkeys. 
+If you select **Manual**, you'll have a lot more control and flexibity when redirecting to your native app. For example, you can write your own intelligent routing layer using the Beyond Identity authentication URL to authenticate against passkeys.
 
 <br />
 
@@ -350,4 +350,4 @@ Calling the token endpoint is the second step in the authorization flow and usua
 
 Parse the `redirectUrl` returned when calling the function `Embedded.authenticate` for a `code` in the query parameters and then exchange that code for an access token.
 
-For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/embedded-sdk-add-authentication#call-the-token-endpoint-for-token-exchange).  
+For more information on code for token exchange with a Beyond Identity app, see [call the token endpoint for token exchange](/docs/embedded-sdk-add-authentication#call-the-token-endpoint-for-token-exchange).

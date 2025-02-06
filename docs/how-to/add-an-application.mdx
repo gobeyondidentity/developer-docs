@@ -26,8 +26,9 @@ import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 import InvocationTypeTable from '../includes/_invocation-type-table.mdx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
+import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
 import AppExternalProtocolProperties from '../includes/_app_external_protocol_properties.mdx';
+import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
 
 <AppDescription />
 
@@ -60,39 +61,41 @@ After saving, the values entered will be used to generate OIDC configuration end
 
 Select the [authenticator configuration type](/docs/authentication).
 
-  <Tabs groupId="authenticator-config">
-    <TabItem value="hosted-web" label="Hosted Web">
-      <p>Select the <b>Hosted Web</b> option if you want Beyond Identity to do the heavy lifting. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. </p><br /><p>Hosted Web Authenticator comes preconfigured with the following values:</p><ul><li><b>Invocation Type</b>: automatic </li><li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li><li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li><li>
-      <b>Authentication Profile</b>: The Authentication Profile allows you to customize the authentication flow for new or returning users.<br/><br/> 
-      
-      <b>Email verification for sign-up and new browser login</b>
+<Tabs groupId="authenticator-config">
+  <TabItem value="hosted-web" label="Hosted Web">
+    <p>Select the <b>Hosted Web</b> option if you want Beyond Identity to do the heavy lifting. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. </p><br /><p>Hosted Web Authenticator comes preconfigured with the following values:</p>
+    - **Invocation Type**: automatic
+    - **Invoke URL**: `https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/`
+    - **Trusted Origin**: `[https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]`
+    - **Authentication Profile**: The Authentication Profile allows you to customize the authentication flow for new or returning users.
 
-This configuration allows you to customize the authentication flow for user registration.
-This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.
+    **Email verification for sign-up and new browser login**
 
-Currently the following authentication factors are supported and more are coming soon:
+    This configuration allows you to customize the authentication flow for user registration.
+    This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.
 
-import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
+    Currently the following authentication factors are supported and more are coming soon:
 
-<AuthenticationProfileTable1 />
-<br />
 
-<b>Authentication method for returning login</b>
+    <AuthenticationProfileTable1 />
 
-This configuration allows you to customize the authentication flow for user login.
+    **Authentication method for returning login**
 
-Currently, the following authentication factors are supported and more are coming soon:
+    This configuration allows you to customize the authentication flow for user login.
 
-import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
+    Currently, the following authentication factors are supported and more are coming soon:
 
-<AuthenticationProfileTable2 /></li></ul>
-    </TabItem>
+    <AuthenticationProfileTable2 />
+
+  </TabItem>
     <TabItem value="embedded" label="Embedded SDK">
-    <p>Select the <b>Embedded SDK</b> option if you want to custom-build your end-user authentication experience. This option requires more configuration and code:</p>
+    Select the **Embedded SDK** option if you want to custom-build your end-user authentication experience. This option requires more configuration and code:
     <div class="tabs-list">
-    <ol><li>Set an <b>Invocation Type</b> to specify how an authentication URL is delivered to your application.<p><InvocationTypeTable /></p></li><li>Set an <b>Invoke URL</b> that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.<p><AppSchemeCaution/></p></li><li>Set <b>Trusted Origins</b> with your website's URL to add it to a whitelist. By default, cross origin requests are blocked by our server.</li></ol>
+      1. Set an **Invocation Type** to specify how an authentication URL is delivered to your application.<InvocationTypeTable />
+      2. Set an **Invoke URL** that "points" to where your application is. In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or an Universal URL / App Link. In the case of a web application, this is just a URL to your web application or a specific page of your web application.<AppSchemeCaution/>
+      3. Set **Trusted Origins** with your website's URL to add it to a whitelist. By default, cross origin requests are blocked by our server.
     </div>
-    </TabItem>
+  </TabItem>
   </Tabs>
 
 Click **Submit**. You'll be taken to the app page for the new application. Here, you'll be able to a number of things, such as edit the basic and advanced settings or configure the signup/login experience.
@@ -142,7 +145,9 @@ Before creating an application by API, you must have an [API access token](/docs
 
   | Option           | What to do                                                                                                                            |
   | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-  | **confidential** | set the `token_endpoint_auth_method` to one of the following:<ul><li>**client_secret_post**</li><li>**client_secret_basic**</li></ul> |
+  | **confidential** | set the `token_endpoint_auth_method` to one of the following:
+  - **client_secret_post**
+  - **client_secret_basic** |
   | **public**       | set the `token_endpoint_auth_method` to **none**                                                                                      |
 
   <MultiLanguageCodeBlock

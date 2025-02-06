@@ -1,6 +1,6 @@
 ---
 title: Integrate with Azure AD B2C
-last_update: 
+last_update:
    date: 01/05/2023
 ---
 
@@ -41,13 +41,13 @@ Before continuing, make sure the following prerequisites have been met:
 
 * PKCE = Disabled
 
-* Redirect URIs = https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp 
+* Redirect URIs = https://(your-tenant-name).b2clogin.com/(your-tenant-name).onmicrosoft.com/oauth2/authresp
 
-OR 
+OR
 
-If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp 
+If you use a custom domain, enter https://(your-domain-name)/(your-tenant-name).onmicrosoft.com/oauth2/authresp
 
-(Replace {your-tenant-name} with the name of your Azure tenant, and {your-domain-name} with your custom domain)
+(Replace (your-tenant-name) with the name of your Azure tenant, and (your-domain-name) with your custom domain)
 
 - Token Endpoint Auth Method = Client Secret Post
 
@@ -78,11 +78,11 @@ If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.
 
 * Name = Beyond Identity
 
-* Metadata url = {enter the Beyond Identity Discovery Endpoint value noted in the previous section}
+* Metadata url = `enter the Beyond Identity Discovery Endpoint value noted in the previous section`
 
-* Client ID = {enter the Beyond Identity Client ID value noted in the previous section}
+* Client ID = `enter the Beyond Identity Client ID value noted in the previous section`
 
-* Client secret = {enter the Beyond Identity Client secret value noted in the previous section}
+* Client secret = `enter the Beyond Identity Client secret value noted in the previous section`
 
 * Scope = openid     (see "More Complex Integrations" section below for further discussion regarding scopes and claims mappings)
 
@@ -132,11 +132,11 @@ Identity provider claims mapping (when using user flow policies, Azure AD B2C is
 
 2. Enter the following values:
 
-- Email: <email_address>
+- Email: `email_address`
 
-- Username: <user_name>
+- Username: `user_name`
 
-- Name: <full_name>
+- Name: `full_name`
 
 3. Select the new user identity and take note of the ID, which you will need in the next step.
 
@@ -145,9 +145,9 @@ Identity provider claims mapping (when using user flow policies, Azure AD B2C is
 
 The user will need to register a credential (passkey) in order to be able to authenticate via the application you created. For production usage, the user/credential registration flow would be implemented by your application, but for testing purposes, the user passkey will be created and delivered manually. (In future, this will be possible to perform via the Admin portal)
 
-With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (https://auth-{us|eu}.beyondidentity.com) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
+With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (`https://auth-us.beyondidentity.com` or `https://auth-eu.beyondidentity.com`) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
 
-Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result browsers will not permit that passkey to be used in order to access your own application.
+Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either `https://console-us.beyondidentity.com` or `https://console-eu.beyondidentity.com`. As a result browsers will not permit that passkey to be used in order to access your own application.
 
  1. Within the Beyond Identity Admin portal, select your application and choose the **Authenticator Config** tab.
 

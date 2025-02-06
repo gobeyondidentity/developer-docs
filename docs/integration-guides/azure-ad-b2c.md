@@ -3,11 +3,11 @@ title: Integrate with Azure AD B2C
 id: azure-ad-b2c
 description: "Learn how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment."
 slug: /azure-ad-b2c
-keywords: 
+keywords:
  - azure ad b2c
 pagination_next: null
 pagination_prev: null
-last_update: 
+last_update:
    date: 08/27/2023
    author: Jen Field
 draft: false
@@ -22,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 
 
-This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment. 
+This guide provides information on how to set up Beyond Identity as a passwordless authentication provider in an Azure AD environment.
 
 In this scenario, you'll use the Beyond Identity Hosted Web Authenticator, but an almost identical process can be followed should you wish to use the Beyond Identity Embedded SDK.
 
@@ -51,7 +51,7 @@ import CreateRealmAdminConsole from '../includes/_create-realm-console.mdx';
 
 <CreateRealmAdminConsole />
 
-### Create OIDC Application 
+### Create OIDC Application
 
 The application you create in this step will represent the Azure AD B2C client.
 
@@ -59,34 +59,34 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
 <AddAppAdminConsole />
 
-3. On the **External Protocol** tab, use the following values to complete this tab.  
+3. On the **External Protocol** tab, use the following values to complete this tab.
 
   <h4>Client Configuration</h4>
 
-  | Property | Value | 
+  | Property | Value |
   | ----------- | ----------- |
   | **Protocol** | OIDC |
-  | **Client Type** | Confidential | 
-  | **PKCE** | Disabled  | 
-  | **Redirect URIs** | https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp<br /><br />If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp <br /><br />Replace **{your-tenant-name}** with the name of your Azure tenant, and **{your-domain-name}** with your custom domain.  | 
-  | **Token Endpoint Auth Method** | Client Secret Post | 
+  | **Client Type** | Confidential |
+  | **PKCE** | Disabled  |
+  | **Redirect URIs** | https://(your-tenant-name).b2clogin.com/(your-tenant-name).onmicrosoft.com/oauth2/authresp<br /><br />If you use a custom domain, enter https://(your-domain-name)/(your-tenant-name).onmicrosoft.com/oauth2/authresp <br /><br />Replace **(your-tenant-name)** with the name of your Azure tenant, and **(your-domain-name)** with your custom domain.  |
+  | **Token Endpoint Auth Method** | Client Secret Post |
   | **Resource Server** | None |
-  | **Grant Type** | Authorization Code | 
-  | **Token Format** | Use the default value | 
+  | **Grant Type** | Authorization Code |
+  | **Token Format** | Use the default value |
 
   <h4>Token Configuration</h4>
 
-  | Property | Value | 
+  | Property | Value |
   | --- | --- |
   | **Expires** | Use the default value |
-  | **Subject** | email | 
+  | **Subject** | email |
 
 1. Click the **Authenticator Config** tab, select **Hosted Web** as the Configuration Type, and click **Submit**.
 
   ![](../images/application.png)
 
 1. Select the newly created OIDC client configuration, copy and save the following values because you'll need them in the next step:
-   
+
    - **Discovery Endpoint**
 
    - **Client ID**
@@ -97,13 +97,13 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 ## Configure Azure AD B2C
 In your Azure AD B2C tenant, you'll need to register an application and configure an OIDC provider.
 
-1. First, register a web application following [this tutorial from Microsoft]](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga). 
+1. First, register a web application following [this tutorial from Microsoft]](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga).
 
 2. Next, in the Azure portal, select **Identity Providers > New OpenID Connect provider** and use the following values. Then click **Save**.
-  
+
   ![](../images/azure-ad-b2c-identity-providers-new-oidc-connection.png)
 
-  | Property | Value | 
+  | Property | Value |
   | ----------- | ----------- |
   | **Name** | Beyond Identity |
   | **Metadata url** | Beyond Identity Discovery Endpoint value |
@@ -117,7 +117,7 @@ In your Azure AD B2C tenant, you'll need to register an application and configur
   | **Email** | sub |
   | **All other options** | Use the default values for the remaining options |
 
-1. Under **Policies**, select **User flows**, and then select **New user flow**. 
+1. Under **Policies**, select **User flows**, and then select **New user flow**.
 
     ![](https://learn.microsoft.com/en-us/azure/active-directory-b2c/media/tutorial-create-user-flows/sign-up-sign-in-user-flow.png)
 
@@ -131,17 +131,17 @@ In your Azure AD B2C tenant, you'll need to register an application and configur
 
 4. Enter a **Name** for the user flow. For example, *Signup\_Signin\_BI*. Note ***B2C\_1\_*** will prepend the name.
 
-5. For **Identity providers**, select the **Custom identity provider** (Beyond Identity) you created earlier. 
+5. For **Identity providers**, select the **Custom identity provider** (Beyond Identity) you created earlier.
 
   :::tip
   Optionally, select **Email signup** if you want to have the ability to support local accounts (using passwords).
   :::
 
-4. For **User attributes and claims**, select the option to collect **Email address**. In this scenario, we're using the Beyond Identity-provided email address. 
+4. For **User attributes and claims**, select the option to collect **Email address**. In this scenario, we're using the Beyond Identity-provided email address.
 
-5. Select **Show more** to expand the list and, in the **Return claim** column, select the following: 
-  
-   - **Email Addresses** 
+5. Select **Show more** to expand the list and, in the **Return claim** column, select the following:
+
+   - **Email Addresses**
 
    - **Identity Provider**
 
@@ -150,7 +150,7 @@ In your Azure AD B2C tenant, you'll need to register an application and configur
 
 
 ## Test the configuration
-To test your application's integration easily, Azure AD B2C includes a test utility. 
+To test your application's integration easily, Azure AD B2C includes a test utility.
 
 ### Invoke Authentication Flow
 1. Select the **User flow** you created earlier in the Azure portal.

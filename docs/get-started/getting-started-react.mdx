@@ -42,31 +42,20 @@ import DeveloperSignUpProcess from '../includes/_developer-sign-up-process.mdx';
 Before you start working in the Admin Console of your developer account, let's clone the sample app hosted on [Github](https://github.com/gobeyondidentity/getting-started). Then you'll want to make sure you have the tools and dependencies installed. The Beyond Identity example application uses [node.js](https://nodejs.org) for the backend and [NextJS](https://next-auth.js.org/) for the front end. So you'll need everything to get up and running quickly.
 
 
-
-<details><summary>Set up your environment</summary>
-<Tabs>
-	<TabItem value="macOS" label="macOS" default>
-    <ol>
-		<li>Install Git using xcode-select from the terminal.<p>
-<pre>xcode-select --install</pre></p>
-</li>
-		<li>Download and install <a href="https://nodejs.org/en/download/">NodeJS</a>.<br /><br /></li>
-		<li>Install the yarn package manager.<p>
-<pre>sudo npm install --global yarn</pre></p>
-		</li>
-	</ol>
-  </TabItem>
-	<TabItem value="Windows" label="Windows">
-    <ol>
-		<li>Download and install <a href="https://git-scm.com/downloads">Git</a>.<br /><br /></li>
-		<li>Download and install <a href="https://nodejs.org/en/download/">NodeJS</a>.<br /><br /></li>
-		<li>Install the yarn package manager.<p>
-<pre>npm install --global yarn</pre></p>
-</li>
-	</ol>
-  </TabItem>
-</Tabs>
-
+<details>
+  <summary>Set up your environment</summary>
+  <Tabs>
+    <TabItem value="macOS" label="macOS" default>
+        1. Install Git using xcode-select from the terminal. `xcode-select --install`
+        2. Download and install [NodeJS](https://nodejs.org/en/download/)
+        3. Install the yarn package manager. `sudo npm install --global yarn`
+    </TabItem>
+    <TabItem value="Windows" label="Windows">
+        1. Download and install [Git](https://git-scm.com/downloads)
+        2. Download and install [NodeJS](https://nodejs.org/en/download/)
+        3. Install the yarn package manager. `npm install --global yarn`
+    </TabItem>
+  </Tabs>
 </details>
 
 ```bash
@@ -391,4 +380,3 @@ A new browser tab opens automatically. If it doesn't, open a web browser and nav
 You can also see this example in action by visiting: [https://acme.beyondidentity.com/](https://acme.beyondidentity.com/)
 
 ---
-
