@@ -18,7 +18,7 @@ const versions = require('./versions.json');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Beyond Identity Developer Docs",
-  tagline: "The easiest way to implement passwordless secure authentication with passkeys on Web, iOS, Android, React Native and Flutter",
+  tagline: "Passwordless authentication with passkeys on Web, iOS, Android, React Native, and Flutter",
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "warn",

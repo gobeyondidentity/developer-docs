@@ -9,3 +9,12 @@
   height: 20px;
   width: 20px;
 }
+
+/* tighten spacing between title and description */
+:global(.card__title) {
+  margin-bottom: 0.25rem; /* change to 0 for no space at all */
+}
+
+:global(.card__subtitle) {
+  margin-top: 0; /* ensures description hugs the title */
+}
