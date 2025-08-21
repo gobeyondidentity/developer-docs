@@ -186,7 +186,7 @@ const config = {
         title: 'Developer Documentation',
         logo: {
           alt: 'Beyond Identity Logo',
-          src: 'img/BYD_ID-LOGO_FINAL_blue_RGB.svg',
+          src: 'img/BYID-logo-black.svg',
           className: 'header-logo',
         },
         items: [
