@@ -187,6 +187,7 @@ const config = {
         logo: {
           alt: 'Beyond Identity Logo',
           src: 'img/BYID-logo-black.svg',
+          srcDark: 'img/new-logo-mz.svg',
           className: 'header-logo',
         },
         items: [
