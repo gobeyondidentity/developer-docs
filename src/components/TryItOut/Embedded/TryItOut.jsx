@@ -257,6 +257,8 @@ const StepThree = ({ progressState, setProgressState }) => {
   const [selectedPasskeyId, setSelectedPasskeyId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [tokenResponse, setTokenResponse] = useState(null);
+  const [customClaims, setCustomClaims] = useState("");
+  const [customClaimsError, setCustomClaimsError] = useState(null);
 
   var parentClassNames = function () {
     if (progressState.step.three === IN_PROGRESS || progressState.step.three === COMPLETE) {
@@ -295,6 +297,20 @@ const StepThree = ({ progressState, setProgressState }) => {
       setLoading(false);
       return;
     }
+    // Validate optional custom claims JSON
+    let customClaimsParam = null;
+    if (customClaims && customClaims.trim().length > 0) {
+      try {
+        JSON.parse(customClaims);
+        customClaimsParam = encodeURIComponent(customClaims);
+        setCustomClaimsError(null);
+      } catch (e) {
+        setCustomClaimsError("Invalid JSON for custom claims.");
+        toast.error("Custom claims JSON is invalid. Please fix it and try again.");
+        setLoading(false);
+        return;
+      }
+    }
 
     const origin = encodeURIComponent((new URL(document.location.href)).origin);
     const state = generateRandomStringOfLength(15);
@@ -329,7 +345,13 @@ const StepThree = ({ progressState, setProgressState }) => {
       let tokenResponse = await fetch(tokenURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`,
+        body: (function () {
+          let base = `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`;
+          if (customClaimsParam) {
+            base += `&custom_claims=${customClaimsParam}`;
+          }
+          return base;
+        })(),
       });
 
       let jsonTokenResponse = await tokenResponse.json();
@@ -425,7 +447,28 @@ const StepThree = ({ progressState, setProgressState }) => {
             centered={true}>
           </Button>}
       </div>
-      <div className={classNames(padding["mt-1"])}>
+      <div className={classNames(padding["mt-1"]) }>
+        <div className={classNames(styles["step-input"], "container")}>
+          <label htmlFor="custom-claims">Optional: Custom Claims (JSON)</label>
+          <textarea
+            id="custom-claims"
+            value={customClaims}
+            onChange={(e) => {
+              setCustomClaims(e.target.value);
+              if (customClaimsError) {
+                setCustomClaimsError(null);
+              }
+            }}
+            rows={4}
+            style={{ width: "100%" }}
+            placeholder='{"claim_a": "value_a", "values": ["Alice", "Bob"]}'>
+          </textarea>
+          {customClaimsError ? (
+            <small style={{ color: "#e74c3c" }}>{customClaimsError}</small>
+          ) : null}
+        </div>
+      </div>
+      <div className={classNames(padding["mt-1"]) }>
         {passkeys !== null ? <Button
           name="Login"
           isDisabled={false}
