@@ -94,7 +94,7 @@ div[class^='announcementBar_'] {
   border-left: 4px solid var(--ifm-color-primary-lighter);
 }
 
-/* Hide the top gray hero section on the docs home page */
+/* Hide the top gray hero section on the docs home page, This is for the v2 docs home page */
 .intro-visual,
 .theme-doc-markdown > h5,
 .theme-doc-markdown > p.intro-text,
