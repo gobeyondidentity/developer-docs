@@ -1,0 +1,45 @@
+```kotlin
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
+
+val url = "authenticate-url"
+
+CoroutineScope(Dispatchers.Main).launch {
+    // Fetch all passkeys for this device
+    EmbeddedSdk.getPasskeys(Dispatchers.IO).collect { result ->
+        result.onSuccess { passkeys ->
+            // Check if there are any passkeys available
+            if (passkeys.isNotEmpty()) {
+                // TODO: Instead of automatically selecting the first passkey, 
+                // present a UI to the user to let them select the desired passkey.
+                // For the purpose of this example, we're using the first passkey.
+                val passkeyId = passkeys.first().passkeyId
+
+                EmbeddedSdk.isAuthenticateUrl(url, Dispatchers.IO).collect { isValid ->
+                    if (isValid) {
+                        // The URL is valid for authenticating against a passkey
+                        EmbeddedSdk.authenticate(url, passkeyId, Dispatchers.IO).collect { authResult ->
+                            authResult.onSuccess { response ->
+                                print("Successfully authenticated against passkey bound to this device. Response: $response")
+                            }
+                            authResult.onFailure { e ->
+                                print("Error authenticating against a passkey: $e")
+                            }
+                        }
+                    } else {
+                        print("The URL is not a valid Authenticate Passkey URL")
+                    }
+                }
+            } else {
+                print("No passkeys available for this device")
+            }
+        }
+        result.onFailure { e ->
+            print("Error fetching passkeys: $e")
+        }
+    }
+}
+```

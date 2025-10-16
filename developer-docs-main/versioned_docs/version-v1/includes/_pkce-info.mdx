@@ -1,0 +1,5 @@
+:::info PKCE
+Note that the following query parameters includes [PKCE](https://www.rfc-editor.org/rfc/rfc7636) as it is recommeded, but optional. If you send an authorization request with PKCE, you will need to store the hash of the `code_challenge` so that it can be passed to the token exchange endpoint later as a `code_verifier`.
+
+You will need to set PKCE as a Client Configuration in your Application Config.
+:::

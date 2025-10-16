@@ -1,0 +1,134 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import DeepLinking from './_deeplinking-native-sdk.mdx';
+
+:::tip
+Remember to initialize your SDK ahead of time. For more information, see [**SDK Setup**](/docs/sdk-setup).
+:::
+
+<Tabs groupId="bind-platform">
+<TabItem value="javascript" label="Javascript">
+
+```javascript
+const bindResponse = await embedded.bindPasskey(bindingLink);
+console.log(bindResponse);
+```
+
+</TabItem>
+<TabItem value="nextjs" label="Next.js">
+
+Create a `bind.tsx` page under `/pages`. Copy the following code snippet into that page:
+
+```javascript
+import { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+
+const BindPasskeyFromRedirect = () => {
+  const [bindPasskeyResult, setBindPasskeyResult] = useState('');
+
+  useEffect(() => {
+    // -- 1
+    const bindPasskey = async () => {
+      const BeyondIdentityEmbeddedSdk = await import(
+        '@beyondidentity/bi-sdk-js'
+      );
+      let embedded = await BeyondIdentityEmbeddedSdk.Embedded.initialize();
+      // -- 2
+      if (embedded.isBindPasskeyUrl(window.location.href)) {
+        // Only bind if the URL is a "bind" URL
+        let bindPasskeyUrl = window.location.href;
+        // -- 3
+        embedded
+          .bindPasskey(bindPasskeyUrl)
+          .then(setBindPasskeyResult)
+          .catch((error) => {
+            setBindPasskeyResult(error.toString());
+          });
+      }
+    };
+
+    bindPasskey().catch(console.error);
+  }, []);
+
+  return (
+    <div className="container">
+      {JSON.stringify(bindPasskeyResult, null, 2)}
+    </div>
+  );
+};
+
+export default BindPasskeyFromRedirect;
+```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+Validate the incoming URL with `isBindPasskeyUrl` in your Activity either using `onCreate` or `onNewIntent`. When the URL is intercepted, pass it to `bindPasskey`.
+
+```kotlin
+intent?.data?.let { uri ->
+    when {
+        EmbeddedSdk.isBindPasskeyUrl(uri.toString()) -> {
+            EmbeddedSdk.bindPasskey(
+                url = uri.toString(),
+            ) {
+                ...
+            }
+        }
+        ...
+    }
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+Catch a url from your AppDelegate or SceneDelegate. You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
+
+```swift
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if let url = URLContexts.first?.url, Embedded.shared.isBindPasskeyUrl(url) {
+        Embedded.shared.bindPasskey(url: bindingLink) { result in
+            switch result {
+            case let .success(bindResponse):
+                print(bindResponse)
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
+
+```javascript
+const isBindUrl = await Embedded.isBindPasskeyUrl(url);
+if (isBindUrl) {
+  const bindResponse = await Embedded.bindPasskey(bindingLink);
+  console.log(bindResponse);
+}
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+Use Flutter's `getInitialUri` from uni_links to intercept the Url. You can validate the incoming URL with `isBindPasskeyUrl`. When the URL is intercepted, pass it to `bindPasskey`.
+
+```dart
+final uri = await getInitialUri();
+if (uri != null) {
+  bool isBindUrl = await EmbeddedSdk.isBindPasskeyUrl(uri);
+
+  if (isBindUrl) {
+      BindPasskeyResponse bindResponse = await EmbeddedSdk.bindPasskey(uri);
+      debugPrint(bindResponse);
+  }
+}
+```
+
+</TabItem>
+</Tabs>

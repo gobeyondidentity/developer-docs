@@ -1,0 +1,45 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```bash
+npx expo install @beyondidentity/bi-sdk-react-native
+```
+
+Add the SDK [config plugin](https://docs.expo.dev/guides/config-plugins/) to the [plugins array](https://docs.expo.dev/versions/latest/config/app/#plugins) of your app.{json,config.js,config.ts}:
+
+```json
+{
+  "expo": {
+    "plugins": [["@beyondidentity/bi-sdk-react-native"]]
+  }
+}
+```
+
+The SDK requires certain minimum native versions. Set these requirments with [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/).
+
+```bash
+npx expo install expo-build-properties
+```
+
+```json
+{
+  "expo": {
+    "plugins": [
+      ["@beyondidentity/bi-sdk-react-native"],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Finally, rebuild your app as described in Expo's [Adding custom native code guide](https://docs.expo.dev/workflow/customizing/#generate-native-projects-with-prebuild).

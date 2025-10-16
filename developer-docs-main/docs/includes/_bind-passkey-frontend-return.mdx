@@ -1,0 +1,62 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::tip
+Remember to initialize your SDK ahead of time. For more information, see [**SDK Setup**](/docs/sdk-setup).
+:::
+
+<Tabs groupId="bind-platform">
+<TabItem value="javascript" label="Javascript">
+
+```javascript
+const bindResponse = await embedded.bindPasskey(bindingLink);
+console.log(bindResponse);
+```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+```kotlin
+EmbeddedSdk.bindPasskey(url = bindingLink)
+.onEach { result ->
+    result.onSuccess { success ->
+        Timber.d("Bind Passkey success = $success")
+    }
+    result.onFailure { failure ->
+        Timber.e("Bind Passkey failure = $failure")
+    }
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+```swift
+Embedded.shared.bindPasskey(url: bindingLink) { result in
+    switch result {
+    case let .success(bindResponse):
+        print(bindResponse)
+    case let .failure(error):
+        print(error.localizedDescription)
+    }
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+```javascript
+const bindResponse = await Embedded.bindPasskey(bindingLink);
+console.log(bindResponse);
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+```dart
+var bindResponse = await EmbeddedSdk.bindPasskey(bindingLink);
+debugPrint(bindResponse);
+```
+
+</TabItem>
+</Tabs>

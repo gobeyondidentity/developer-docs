@@ -1,0 +1,43 @@
+### Swift Package Manager
+
+#### From Xcode
+
+1. From the Xcode `File` menu, select `Add Packages` and add the following url:
+
+```http
+https://github.com/gobeyondidentity/bi-sdk-swift
+```
+
+2. Select a version and hit Next.
+3. Select a target matching the SDK you wish to use.
+
+#### From Package.swift
+
+1. With [Swift Package Manager](https://swift.org/package-manager),
+   add the following `dependency` to your `Package.swift`:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/gobeyondidentity/bi-sdk-swift.git", from: [version])
+]
+```
+
+2. Run `swift build`
+
+### Cocoapods
+
+Add the pod to your Podfile:
+
+```swift
+pod 'BeyondIdentityEmbedded'
+```
+
+And then run:
+```swift
+pod install
+```
+
+After installing import with
+```swift
+import BeyondIdentityEmbedded
+```

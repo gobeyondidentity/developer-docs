@@ -1,0 +1,74 @@
+---
+title: Send enrollment emails
+id: send-enrollment-emails
+description: ''
+slug: /send-enrollment-emails 
+keywords: 
+ - enrollment emails
+pagination_next: null
+pagination_prev: null
+last_update: 
+   date: 06/01/2023
+   author: Patricia McPhee
+draft: false
+doc_type: how-to
+displayed_sidebar: mainSidebar
+---
+
+In Beyond Identity, passkeys get created within the device's default Browser or specific SDK instance associated with an Application. 
+
+
+To start, you'll need to create an Authenticator Configuration of type hosted_web for a given Realm. The authenticator configuration id is required to create a Credential Binding Job of type EMAIL for a given identity. The identity must be Active and have a valid email associated with it.
+
+To complete this step you'll need the IDENTITY_ID for which the passkey is being created. You can find the correct value by logging into the Admin Console, or use the API to list all identities.
+
+
+
+An Authenticator Configuration indicates to the system how to bind the passkey.
+
+
+---
+
+
+
+The user will need to register a credential (passkey) in order to be able to authenticate via the application you created. For production usage, the user/credential registration flow would be implemented by your application, but for testing purposes, the user passkey will be created and delivered manually. (In future, this will be possible to perform via the Admin portal)
+
+With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (https://auth-{us|eu}.beyondidentity.com) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
+
+Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result browsers will not permit that passkey to be used in order to access your own application.
+
+ 1. Within the Beyond Identity Admin portal, select your application and choose the **Authenticator Config** tab.
+
+ 2. Take note of the **Authenticator Config ID** value
+
+ 3. Make an API call to create the credential binding job. Use a delivery methd of "**EMAIL**" to receive the binding token url within an email, or use "**RETURN**" to receive the url within the API response. In either case, open the link within the browser you wish to use for testing. For more information see https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob.
+
+**Request:**
+
+```mac tab
+curl -X POST \
+-H "Authorization: Bearer $API_TOKEN" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{
+  "job": {
+    "delivery_method": "EMAIL",
+    "authenticator_config_id": "$AUTH_CONFIG_ID"
+  }
+}' https://api-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/identities/$IDENTITY_ID/credential-binding-jobs
+```
+```win tab
+curl -X POST \
+-H "Authorization: Bearer %API_TOKEN%" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{
+  "job": {
+    "delivery_method": "EMAIL",
+    "authenticator_config_id": "%AUTH_CONFIG_ID%"
+  }
+}' "https://api-%REGION%.beyondidentity.com/v1/tenants/%TENANT_ID%/realms/%REALM_ID%/identities/%IDENTITY_ID%/credential-binding-jobs"
+```
+
+
+The user now has a registered passkey within their chosen browser which is able to be used for authentcation to any application that is using the Hosted Web Authenticator within your tenant/realm.

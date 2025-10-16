@@ -1,0 +1,224 @@
+{
+  "mainSidebar:": [
+    {
+      "type": "link",
+      "label": "REST API v0",
+      "href": "/api/v0"
+    },
+    "version-v0/introduction",
+    {
+      "type": "category",
+      "label": "Getting Started",
+      "collapsed": false,
+      "items": [
+        "getting-started/create-a-tenant",
+        "getting-started/oidc-configuration",
+        "getting-started/registration-redirect-uri",
+        "getting-started/account-configuration"        
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Core Concepts",
+      "collapsed": false,
+      "items": [
+        "core-concepts/credentials"        
+      ]
+    },
+    {
+      "type": "category",
+      "label": "SDKs",
+      "collapsed": false,
+      "items": [
+        {
+          "type": "category",
+          "label": "Web",
+          "collapsed": true,
+          "items": [
+            "sdks/web/web-authenticator",
+            "sdks/web/platform-authenticator"        
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Swift",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "Embedded SDK",
+              "collapsed": false,
+              "items": [
+                "sdks/swift/embedded-sdk",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example/Sources/EmbeddedExample"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/"
+                }        
+              ]
+            },
+            {
+              "type": "category",
+              "label": "Embedded SDK with UI",
+              "collapsed": false,
+              "items": [
+                "sdks/swift/embedded-sdk-with-ui",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example/Sources/EmbeddedUIExample"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/"
+                }        
+              ]
+            },
+            {
+              "type": "category",
+              "label": "Authenticator SDK",
+              "collapsed": false,
+              "items": [
+                "sdks/swift/authenticator-sdk",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/tree/main/Example/Sources/AuthenticatorExample"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-swift/"
+                },
+                {
+                  "type": "link",
+                  "label": "Live Demo",
+                  "href": "https://acme-app.byndid.com"
+                }        
+              ]
+            }   
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Android",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "Embedded SDK",
+              "collapsed": false,
+              "items": [
+                "sdks/android/embedded-sdk",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android/tree/main/embedded"
+                }        
+              ]
+            },
+            {
+              "type": "category",
+              "label": "Embedded SDK with UI",
+              "collapsed": false,
+              "items": [
+                "sdks/android/embedded-sdk-with-ui",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android/tree/main/embedded-ui"
+                }        
+              ]
+            },
+            {
+              "type": "category",
+              "label": "Authenticator SDK",
+              "collapsed": false,
+              "items": [
+                "sdks/android/authenticator-sdk",
+                {
+                  "type": "link",
+                  "label": "Sample App",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android"
+                },
+                {
+                  "type": "link",
+                  "label": "Library Source Code",
+                  "href": "https://github.com/gobeyondidentity/bi-sdk-android"
+                }        
+              ]
+            }   
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Flutter",
+          "collapsed": true,
+          "items": [
+               "sdks/flutter/embedded-sdk"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "React Native",
+          "collapsed": true,
+          "items": [
+               "sdks/react-native/embedded-sdk"
+          ]
+        }    
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Integration Guides",
+      "collapsed": false,
+      "items": [
+        "integration-guides/user-sign-up-flow",
+        "integration-guides/user-recovery-flow",
+        {
+          "type": "category",
+          "label": "SSO Integrations",
+          "collapsed": false,
+          "items": [
+            "integration-guides/integrate-with-auth0",
+            "integration-guides/integrate-with-keycloak",
+            "integration-guides/integrate-with-curity"
+          ]
+        }        
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Other useful links",
+      "collapsed": false,
+      "items": [
+        {
+          "type": "link",
+          "label": "Support",
+          "href": "https://support.beyondidentity.com/"
+        },
+        {
+          "type": "link",
+          "label": "Service Status Page",
+          "href": "https://status.beyondidentity.com"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+| Type | When to use |
+| --- | --- |
+| **[Hosted Web](/docs/authentication#hosted-web)** | In this model, Beyond Identity's hosted web app handles passkey registration and authentication for you, including generating new passkeys, presenting users with authenticator choice options as needed, and validating passkey assertions. With this model, your app simply needs to redirect to Beyond Identity's hosted web authenticator, and we do the rest. |
+| **[Embedded SDK](/docs/authentication#embedded-sdk)** | With this model you have more control over the authentication user experience, but your app must do the work of registering and enumerating passkeys for the user, presenting a passkey selection page if required, initiating authentication and verifying passkey assertions. |
+| **None** | If the authenticator configuration type is set to "none", it means that the application uses the client credentials grant type and does not use an authenticator. This configuration is designed to be used for machine to machine authentication |

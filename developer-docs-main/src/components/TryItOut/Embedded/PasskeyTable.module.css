@@ -1,0 +1,29 @@
+.passkey:hover {
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: light) {
+  .passkey {
+    background-color: #ffffff;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    line-height: 50px;
+    height: 50px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .passkey {
+    background-color: #1b1b1d;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    line-height: 50px;
+    height: 50px;
+  }
+}

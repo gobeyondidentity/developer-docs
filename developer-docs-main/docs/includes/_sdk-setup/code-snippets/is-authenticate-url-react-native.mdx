@@ -1,0 +1,33 @@
+```javascript
+const url = "authenticate-url";
+
+try {
+  // Fetch all passkeys for this device
+  const passkeys = await Embedded.getPasskeys();
+
+  // Check if there are any passkeys available
+  if (passkeys.length > 0) {
+    // TODO: Instead of automatically selecting the first passkey, 
+    // present a UI to the user to let them select the desired passkey.
+    // For the purpose of this example, we're using the first passkey.
+    const passkeyId = passkeys[0].passkeyId;
+
+    const isValid = await Embedded.isAuthenticateUrl(url);
+    if (isValid) {
+      // The URL is valid for authenticating against a passkey
+      try {
+        const response = await Embedded.authenticate(url, passkeyId);
+        console.log("Successfully authenticated against passkey bound to this device. Response:", response);
+      } catch (e) {
+        console.error("Error authenticating against a passkey:", e);
+      }
+    } else {
+      console.log("The URL is not a valid Authenticate Passkey URL");
+    }
+  } else {
+    console.log("No passkeys available for this device");
+  }
+} catch (error) {
+  console.error("Error fetching passkeys:", error);
+}
+```

@@ -1,0 +1,31 @@
+### Pub.Dev
+
+Add the Beyond Identity Embedded SDK to your dependencies
+
+```gradle
+dependencies:
+  bi_sdk_flutter: x.y.z
+```
+
+and run an implicit `flutter pub get`.
+
+### Update Android
+
+Please make sure your `android/build.gradle` supports `minSdkVersion` 26 or later.
+
+```gradle
+buildscript {
+  ext {
+    minSdkVersion = 26
+  }
+}
+```
+
+### Update iOS
+
+Please make sure your project supports "minimum deployment target" 13.0 or later.
+In your `ios/Podfile` set:
+
+```sh
+platform :ios, '13.0'
+```

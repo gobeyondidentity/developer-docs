@@ -1,0 +1,19 @@
+```swift
+let url = URL(string: "credential-binding-url")!
+
+if Embedded.shared.isBindPasskeyUrl(url) {
+  // The URL is valid for binding a passkey
+  Embedded.shared.bindPasskey(url: url) { result in
+    switch result {
+    case .success(let bindPasskeyResponse):
+      // Handle successful binding
+      print("Successfully bound the passkey. Response: \(bindPasskeyResponse)")
+    case .failure(let error):
+      // Handle failure
+      print("Failed to bind the passkey. Error: \(error.localizedDescription)")
+    }
+  }
+} else {
+  print("The URL is not a valid Bind Passkey URL.")
+}
+```

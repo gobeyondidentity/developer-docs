@@ -1,0 +1,16 @@
+```javascript
+const url = "credential-binding-url";
+
+if (EmbeddedSdk.isBindPasskeyUrl(url)) {
+  // The URL is valid for binding a passkey
+  EmbeddedSdk.bindPasskey(url)
+    .then(response => {
+      console.log("Success:", response);
+    })
+    .catch(err => {
+      console.error("Error:", err.message);
+    });
+} else {
+  console.log("The URL is not a valid Bind Passkey URL");
+}
+```

@@ -1,0 +1,131 @@
+---
+title: Integrate With Okta
+last_update: 
+   date: 02/07/2023
+---
+
+This guide describes how to configure Okta to delegate to Beyond Identity for authentication during an OAuth2 authorization flow.
+
+## Prerequisites
+
+- [Integrate With Okta](../../guides/integrate-with-okta.md)
+- [React Native SDK Setup](../../workflows/sdk-setup.mdx?sdks=reactnative)
+
+Before calling [`Embedded.authenticate`](../../workflows/sdk-setup.mdx?sdks=reactnative#authentication), we must [Authorize With Okta](#authorize-with-okta).
+
+## Authorize With Okta
+
+![../../images/integrate-with-okta-flow](../../images/integrate-with-okta-flow.png)
+
+### Using an SDK
+
+See Okta's [Developer Site](https://developer.okta.com/code/#mobile-native) for the latest React Native SDKs or Widgets.
+
+Note: At this time, there is no way to intercept the first URL to authenticate with Beyond Identity, so we recommend [using the Web](#using-the-web).
+
+### Using the Web
+
+Pick a webview library that follows the best practices set out in [RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252). The library should use `SFAuthenticationSession` and `SFSafariViewController` on iOS and [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) on Android for authorization requests. `UIWebView` and `WKWebView` on iOS and `WebView` on Android are explicitly _not_ supported due to the security and usability reasons explained in [Section 8.12 of RFC 8252](https://tools.ietf.org/html/rfc8252#section-8.12). For these reasons, unfortunately, the [react-native-community/react-native-webview](https://github.com/react-native-community/react-native-webview) is _not_ recommended. The below examples will use [InAppBrowser](https://github.com/proyecto26/react-native-inappbrowser), however, we noticed some issues with caching the authentication session on Android with [InAppBrowser](https://github.com/proyecto26/react-native-inappbrowser):
+
+- Step 1: Configuring the Authenticator Config
+
+Make sure the [Authenticator Config](../../platform-overview/authenticator-config#embedded-sdk) in the Beyond Identity Console is set to type `Embedded` and that the Invoke URL points to your application with either an App Scheme or a Universal Link.
+
+- Step 2: Okta Authorize URL
+
+To start the authorization flow, build a `CustomTabsIntent` or `ASWebAuthenticationSession`, and load the OAuth2 authorization request URL provided by Okta.
+
+Note: `ephemeralWebSession` default is `false` which means cookies or other browsing data will be shared across the authentication session and the user will not need to sign in again if they are already authenticated on the system browser. However, the example below sets `ephemeralWebSession` to `true` so that the user is prompted each time for demo consistency.
+
+![../../images/okta-identity-provider-example](../../images/okta-identity-provider-example.png)
+
+```javascript
+if (await InAppBrowser.isAvailable()) {
+  let response = await InAppBrowser.openAuth(oktaAuthUrl, 'yourScheme://', {
+    ephemeralWebSession: true,
+  });
+}
+```
+
+- Step 3: Invoke URL
+
+During the first web session, a URL with the invoke URL scheme should be returned from Okta.
+Call `Embedded.authenticate` with this url. You can confirm the validity of the URL with `Embedded.isAuthenticateUrl`.
+
+```javascript
+if (await InAppBrowser.isAvailable()) {
+  const response = await InAppBrowser.openAuth(oktaAuthUrl, 'yourScheme://', {
+    ephemeralWebSession: true,
+  });
+
+  if (await Embedded.isAuthenticateUrl(response.url)) {
+    const authResponse = await Embedded.authenticate(
+      response.url,
+      selectedPasskeyId
+    );
+  } else {
+    /*
+        session may be cached and the user is already logged in.
+        Try to exchange the authorization code for an id_token using Okta's token endpoint.
+    */
+  }
+}
+```
+
+- Step 4: Redirect URL
+
+A `redirectUrl` is returned from a successful authenticate response that needs to be resolved by launching another web session to complete the initial Okta flow. On completion of the second web session, another `redirectUrl` will be returned that contains an authorization code that can be used to exchange for an ID token.
+
+```javascript
+if (await Embedded.isAuthenticateUrl(response.url)) {
+  const authResponse = await Embedded.authenticate(
+    response.url,
+    selectedPasskeyId
+  );
+  if (await InAppBrowser.isAvailable()) {
+    const secondWebResponse = await InAppBrowser.openAuth(
+      authResponse.redirectUrl,
+      'yourScheme://',
+      { ephemeralWebSession: true }
+    );
+
+    // This URL contains authorization code and state parameters
+    // Exchange the authorization code for an id_token using Okta's token endpoint.
+    const url = secondWebResponse.url;
+  }
+}
+```
+
+#### Full Example
+
+```javascript
+if (await InAppBrowser.isAvailable()) {
+  const response = await InAppBrowser.openAuth(oktaAuthUrl, 'yourScheme://', {
+    ephemeralWebSession: false,
+  });
+
+  if (await Embedded.isAuthenticateUrl(response.url)) {
+    const selectedPasskeyId = await presentPasskeySelection();
+    const authResponse = await Embedded.authenticate(
+      response.url,
+      selectedPasskeyId
+    );
+    if (await InAppBrowser.isAvailable()) {
+      const secondWebResponse = await InAppBrowser.openAuth(
+        authResponse.redirectUrl,
+        'yourScheme://',
+        { ephemeralWebSession: true }
+      );
+
+      // This URL contains authorization code and state parameters
+      // Exchange the authorization code for an id_token using Okta's token endpoint.
+      const url = secondWebResponse.url;
+    }
+  }
+}
+
+function presentPasskeySelection(): selectedPasskeyId {
+  // Where you can perform some logic here to select a passkey, or
+  // present UI to a user to enable them to select a passkey.
+}
+```

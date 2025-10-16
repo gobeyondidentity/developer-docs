@@ -1,0 +1,6 @@
+<svg class="ionicon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+	<title>Hardware Chip</title>
+	<rect fill="none" height="352" rx="48" ry="48" stroke="#5077c5" stroke-linejoin="round" stroke-width="32" width="352" x="80" y="80"/>
+	<rect fill="none" height="224" rx="16" ry="16" stroke="#5077c5" stroke-linejoin="round" stroke-width="32" width="224" x="144" y="144"/>
+	<path d="M256 80V48M336 80V48M176 80V48M256 464v-32M336 464v-32M176 464v-32M432 256h32M432 336h32M432 176h32M48 256h32M48 336h32M48 176h32" fill="none" stroke="#5077c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+</svg>

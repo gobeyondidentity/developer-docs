@@ -1,0 +1,11 @@
+@media (prefers-color-scheme: light) {
+  .title {
+    border-bottom: 1px solid #e8eaed;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    border-bottom: 1px solid #61676f;
+  }
+}

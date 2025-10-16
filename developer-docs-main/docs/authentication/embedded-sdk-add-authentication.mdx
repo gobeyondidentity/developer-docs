@@ -1,0 +1,230 @@
+---
+title: Add authentication
+id: embedded-sdk-add-authentication
+description: ""
+slug: /embedded-sdk-add-authentication
+keywords:
+  - scenario
+pagination_next: null
+pagination_prev: null
+last_update:
+  date: 08/25/2023
+  author: Jen Field
+draft: false
+hide_table_of_contents: false
+hide_title: false
+hide_breadcrumbs: false
+doc_type: quickstart
+displayed_sidebar: mainSidebar
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import WebAuth from "../includes/_authentication-via-automatic.mdx";
+import SilentAuth from "../includes/_authentication-via-return.mdx";
+import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
+import InvocationDiagram from "../includes/_invocation-url-diagram.mdx";
+import AppSchemeCaution from "../includes/_app-scheme-caution.mdx";
+import InvocationTip from "../includes/_invocation-type-tip.mdx";
+
+import ProtocolOIDC from '../includes/_protocol_oidc.mdx';
+import PKCES256 from '../includes/_pkce_s256.mdx';
+import ScopeOpenid from '../includes/_scope_openid.mdx';
+import HostedWeb from '../includes/_hosted-web.mdx';
+import ClientTypeConfidential from '../includes/_client-type_confidential.mdx';
+import GrantTypeAuthorizationCode from '../includes/_grant-type_authorization-code.mdx';
+import TokenEndpointAuthMethodClientSecretBasic from '../includes/_token-endpoint-auth-method_client-secret-basic.mdx';
+import HWADiagram from '../includes/_hwa-diagram.mdx';
+
+import OIDCLibrary from '../includes/_configure_oidc_client_library.mdx';
+
+import { Alert, Col, Row } from "antd";
+
+
+
+This guide describes how to add authentication to your application using the Beyond Identity Embedded SDK and a standard OAuth2/OIDC flow.  
+
+The OAuth2/OIDC calls can be set up using an OpenID Connect client library. Many frameworks and languages have their own. 
+If you wish to find an OpenID Connect client, we recommend looking for one on the list of [certified OpenID Connect clients](https://openid.net/developers/certified/).
+
+In response to an OIDC request to the Beyond Identity `/authorize` endpoint, Beyond Identity initiates passwordless authentication by returning an authentication challenge and other information to your app. Before authenticating, your app can use the Beyond Identity SDK to enumerate available passkeys and should perform some logic to select one, such as presenting selection UI to the user. Once a passkey is selected, you can then use the SDK to complete authentication and finally perform the OAuth code for token exchange.  
+
+## Overview
+
+With this guide you will:
+
+1. Create a Beyond Identity application using the Embedded SDK configuration type.
+2. Configure an OpenID Connect client library or build your own OIDC calls.  
+3. Invoke and consume Beyond Identity authentication calls in your app using the Embedded SDK.  
+
+
+## Create your Beyond Identity application
+
+### Prerequisites
+
+- [x] A [developer account](https://www.beyondidentity.com/developers)
+- [x] Logged into your admin console
+
+Depending on the region you chose when you signed up, you can access the Beyond Identity admin console for your tenant at:
+
+- [BI admin console US](https://console-us.beyondidentity.com/login)
+- [BI admin console EU](https://console-eu.beyondidentity.com/login)
+
+:::tip  
+_If you are signing in from a different computer or browser, you can enter the email address you used when you signed up. Beyond Identity will send you a one time link you can use to sign in and enroll a passkey from the new browser._  
+:::
+
+### Create a new realm
+
+So far, you have the Beyond Identity Admin Realm for your Beyond Identity tenant only. In this step, you'll create a new Realm to hold your users' identities and the configuration.
+
+import CreateRealmConsole from '../includes/_create-realm-console.mdx';
+
+<CreateRealmConsole />
+
+### Create an application
+
+In this step, you'll create a new Application containing the configuration for your users.
+
+import AddAppAdminConsole from '../includes/_add-application-console.mdx';
+
+<AddAppAdminConsole />
+
+On the **External Protocol** tab, use the following values to complete this tab.
+
+| Property                       | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Display Name**               | Descriptive name you choose                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **Protocol**                   | OIDC<br /><ProtocolOIDC/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| **Client Type**                | Confidential<br /><ClientTypeConfidential/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **PKCE**                       | S256<br /><PKCES256/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **Redirect URIs**              | Use a route in your app that is capable of handling the authorization code exchange.<br /><br />If you are using an OpenID Connect client library, a redirect URI may be specified for you. <br /><br />For example: In a Next.js application using NextAuth, your redirect URI follows the pattern:<br /><br /><pre>http://localhost:3000/api/auth/callback/beyondidentity</pre><div class= "note-message note-message-table"><p>where `beyondidentity` in this URI is the ID of the Auth provider as configured in the providers array in NextAuth.js and `/api/auth/callback/` is based on the Next.js route file structure.</p></div> |
+| **Token Endpoint Auth Method** | Client Secret Basic<br /><TokenEndpointAuthMethodClientSecretBasic/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **Grant Type**                 | Authorization Code<br /><GrantTypeAuthorizationCode/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **All other options**          | Use the default values for the remaining options                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+
+On the **Authenticator Config** tab, use the following values to complete this tab.
+
+| Property                   | Value                                                |
+| -------------------------- | ---------------------------------------------------- |
+| **Configuration Type**     | Embedded SDK                        |
+| **Invocation Type**     |  In the case of a web application, this is just a URL to your web application such as 'http://localhost:3000'. <br />In the case of a native application (iOS, Android, Flutter, React Native), this is either an App Scheme or a Universal URL / App Link.<br/> <div class= "note-message note-message-table"><p>While app schemes are generally easier to set up, Universal URLs and App Links are recommended as they provide protection against App Scheme hijacking.</p></div>|
+| **Trusted Origins**     | Enter your app's hostname and port, such as 'http://localhost:3000' |
+
+:::tip **CHECKPOINT**
+Congrats!
+You've created and configured a Beyond Identity application. You're now ready to use the values from this applications for your OpenID Connect client.
+:::
+
+## Configure an OpenID Connect client library
+
+<OIDCLibrary />
+
+## Craft your own authorization request
+If you are not using a library, you will need to configure your own authorization and token calls using the **Authorization Endpoint** and **Token Endpoint** found in your application's **External Protocol** tab.
+
+Crafting an authorization URL is the first step in the authorization flow.
+
+1. In the Admin Console, under Apps, select the **External Protocol** tab, copy the **Authorization Endpoint** value and add it to the query parameters:
+
+![Authorize Url](../images/authentication-auth-url.png)
+
+```bash title="/authorize"
+https://auth-$REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications/$APPLICATION_ID/authorize?
+response_type=code
+&client_id=$CLIENT_ID
+&redirect_uri=$REDIRECT_URI
+&scope=openid
+&state=$STATE
+&code_challenge_method=256
+&code_challenge=$PKCE_CODE_CHALLENGE
+```
+
+| Parameter                 | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **response_type**         | code <br /><br />This parameter specifies that the authorization server should return an authorization code to the client. The code will be used by the client to request an access token.<div class= "note-message note-message-table"><p>**Grant Type** must be set to **Authorization Code** in the console application. </p></div>                                                                                                                                                                                                                                                                      |
+| **client_id**             | Copy and paste the **Client ID** value from your application's **External Protocol** tab.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **redirect_uri**          | This parameter specifies the URL to which the authorization server can send an authorization code. If a state parameter was specified in the /authorize request, then that will be echoed back to this URL as well.<br /><br /><div class= "note-message note-message-table"><p>This must match one of the **Redirect URIs** registered in your console application.</p></div>                                                                                                                                                                                                                              |
+| **scope**                 | openid <ScopeOpenid/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **state**                 | This parameter is a random value generated by the client. It is included in the authorization request and returned in the response. This parameter helps the client maintain state between the request and the callback to prevent cross-site request forgery (CSRF) attacks.                                                                                                                                                                                                                                                                                                                               |
+| **code_challenge_method** | 256 <br /><PKCES256/><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be enabled to **S256** in the console application. If it is not enabled then you should not send the **code_challenge_method** or **code_challenge** parameters.</p></div>                                                                                                                                                                                                                                                                                                                      |
+| **code_challenge**        | This used in conjunction with **code_challenge_method** ensures that the authorization code obtained by the client can only be used by the client that originally requested it.<br /><br />You will need to store the hash of the **code_challenge** so that it can be passed to the token exchange endpoint later as a **code_verifier**.<br /><br /><div class= "note-message note-message-table"><p>This value is optional. **PKCE** must be enabled in the console application. If it is not enabled then you should not send the **code_challenge_method** or **code_challenge** parameters.</p></div> |
+
+:::tip
+The **code_challenge** is generated as defined in [**RFC 7636**](https://datatracker.ietf.org/doc/html/rfc7636#section-4.2), example JavaScript snippet below:
+
+```javascript
+codeVerifier = crypto.randomBytes(32).toString('base64url');
+codeChallenge = crypto
+  .createHash('sha256')
+  .update(codeVerifier)
+  .digest()
+  .toString('base64url');
+```
+
+:::  
+
+
+2. Start authorization for Invocation Type.
+
+<Tabs groupId="authenticate-invocation-type" queryString>
+  <TabItem value="manual" label="Manual">
+    <SilentAuth />
+  </TabItem>
+  <TabItem value="automatic" label="Automatic">
+    <WebAuth />
+  </TabItem>
+</Tabs>
+
+## Call the token endpoint for token exchange
+The [authenticate call returns](/docs/embedded-reference-authenticate#returns) an object that contains a **redirectURL** to which your app should redirect the user to complete the OIDC flow.  
+Keeping with the OIDC specifications, this URL includes the **code** and **state** parameters as query parameters.
+
+Calling the `/token` endpoint is the second step in the authorization flow. In this call, your app sends the **code** as part of an OAuth call to exchange it for an [access token](/docs/terms/access-token.md) and [id token](/docs/terms/id-token.md).  
+
+
+1. Click the **External Protocol** tab and copy the **Token Endpoint**.
+
+2. Scroll down to **Client Configuration** and make a note of the **Token Endpoint Auth Method** selected. It determines how to make the token exchange call.
+
+   - **Client Secret Post**
+
+   - **Client Secret Basic**  
+
+
+3. <a name="token-exchange"></a>Start the token exchange.
+
+<Tabs groupId="token-auth-method" queryString>
+<TabItem value="client_secret_basic" label="Client Secret Basic">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the Basic Authorization header.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-u "$(CLIENT_ID):$(CLIENT_SECRET)" --basic \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=authorization_code&code=$(CODE_FROM_AUTHORIZATION_RESPONSE)&code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)&redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+  title="/token"
+/>
+</TabItem>
+
+<TabItem value="client_secret_post" label="Client Secret Post">
+
+The `$CLIENT_ID` and `$CLIENT_SECRET` are sent in the body of the POST request as a form parameter.
+
+<MultiLanguageCodeBlock
+  curl='curl "https://auth-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/token" \
+-X POST \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-F "grant_type=authorization_code" \
+-F "code=$(CODE_FROM_AUTHORIZATION_RESPONSE)" \
+-F "client_id=$(CLIENT_ID)" \
+-F "client_secret=$(CLIENT_SECRET_FROM_CONFIDENTIAL_APPLICATION)" \
+-F "code_verifier=$(CODE_VERIFIER_IF_USED_PKCE_IN_AUTHORIZATION_REQUEST)" \
+-F "redirect_uri=$(REDIRECT_URI_MUST_MATCH_VALUE_USED_IN_AUTHORIZATION_REQUEST)"'
+  title="/token"
+/>
+
+</TabItem>
+</Tabs>

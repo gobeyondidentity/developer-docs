@@ -1,0 +1,56 @@
+---
+title: isBindPasskeyUrl
+id: embedded-reference-isBindPasskeyUrl
+description: ""
+slug: /embedded-reference-isBindPasskeyUrl
+keywords:
+  - embedded sdk
+pagination_next: null
+pagination_prev: null
+last_update:
+  date: 08/01/2023
+  author: William May
+draft: false
+doc_type: reference
+displayed_sidebar: sdkSidebar
+---
+
+Validates that a URL is able to be used by the **bindPasskey** function.
+
+## Dependencies
+
+The **isBindPasskeyUrl** function requires the Beyond Identity SDK.
+
+<InstallationAll />
+
+## Prerequisites
+
+Before making a call to **isBindPasskeyUrl**, you must complete the following prerequisite calls:
+
+1. Import the required types and functions from the SDK.
+
+  <ImportAll />
+
+2. Initialize the SDK.
+
+  <InitializeAll />
+
+## Parameters
+
+<IsBindPasskeyUrlParametersAll />
+
+## Returns
+
+Returns a boolean.
+
+## Examples
+
+### Example: Call **bindPasskey** after validating URL
+
+<IsBindPasskeyUrlAll />
+
+import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
+import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
+import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import IsBindPasskeyUrlParametersAll from "../parameters/is-bind-passkey-url-all.mdx";
+import IsBindPasskeyUrlAll from "../../includes/_sdk-setup/code-snippets/is-bind-passkey-url-all.mdx";

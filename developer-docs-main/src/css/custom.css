@@ -1,0 +1,104 @@
+:root {
+  --ifm-color-primary: #222222; /* primary black */
+  --ifm-color-primary-dark: #1a1a1a;
+  --ifm-color-primary-darker: #111111;
+  --ifm-color-primary-darkest: #000000;
+  --ifm-color-primary-light: #444444;
+  --ifm-color-primary-lighter: #666666;
+  --ifm-color-primary-lightest: #888888;
+  --ifm-color-hero-primary: #111111;
+
+  --ifm-code-font-size: 90%;
+  --ifm-color-secondary: #faf9fb;
+  --ifm-color-content: rgba(7, 0, 20, 0.87);
+  --ifm-color-content-secondary: rgba(7, 0, 20, 0.6);
+  --ifm-border-color: rgba(7, 0, 19, 0.12);  
+  --ifm-background-color: var(--ifm-color-secondary);
+
+  --ifm-global-shadow-lw: rgba(7, 0, 20, 0.03) 0px 0px 0px 1px,
+    rgba(7, 0, 20, 0.1) 0px 1px 2px 0px;
+  --ifm-global-shadow-md: rgba(7, 0, 20, 0.06) 0px 0px 0px 1px,
+    rgba(7, 0, 20, 0.1) 0px 10px 15px -3px, rgba(7, 0, 20, 0.05) 0px 4px 6px,
+    rgba(7, 0, 20, 0.05) 0px 30px 40px;
+  --ifm-global-shadow-tl: rgba(7, 0, 20, 0.08) 0px 0px 0px 1px,
+    rgba(7, 0, 20, 0.25) 0px 25px 50px -12px, rgba(7, 0, 20, 0.06) 0px 50px 80px;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* neutral palette */
+  --black: #000000;
+  --white: #ffffff;
+  --dark-gray: #b3bfcc;
+  --light-gray: #f6f7fc;
+  --mid-gray: #444444;
+}
+
+/* For readability concerns, you should choose lighter grays in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #bbbbbb;
+  --ifm-color-primary-dark: #999999;
+  --ifm-color-primary-darker: #777777;
+  --ifm-color-primary-darkest: #555555;
+  --ifm-color-primary-light: #cccccc;
+  --ifm-color-primary-lighter: #dddddd;
+  --ifm-color-primary-lightest: #f2f2f2;
+
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* Adjust announcement bar (remove blue striping, use grays) */
+div[class^='announcementBar_'] {
+  --stripe-color1: #e0e0e0;
+  --stripe-color2: #c0c0c0;
+}
+
+/* Replace blue in cards, headers, intro, etc. */
+.card-header h4,
+.card__title,
+.bold-blue {
+  color: var(--ifm-color-primary); /* now black/gray instead of blue */
+}
+
+.card-header {
+  background-color: #eaeaea;
+}
+
+.intro-visual {
+  background-color: rgba(50, 50, 50, 0.1); /* soft gray instead of blue */
+}
+
+.intro-visual h5,
+.intro-visual h4,
+.intro-text p,
+.intro-card h3 {
+  color: var(--ifm-color-primary-darkest) !important;
+}
+
+[data-theme='dark'] .intro-visual {
+  background-color: #333333;
+}
+
+/* Table of contents active link bar */
+.table-of-contents__link--active::before {
+  background-color: var(--ifm-color-primary);
+}
+
+/* Admonitions */
+.note-message {
+  color: var(--ifm-color-primary-darkest);
+  background-color: #e0e0e0;
+  border-left: 4px solid var(--ifm-color-primary-darkest);
+}
+[data-theme='dark'] .note-message {
+  color: var(--ifm-color-primary-lightest);
+  border-left: 4px solid var(--ifm-color-primary-lighter);
+}
+
+/* Hide the top gray hero section on the docs home page */
+.intro-visual,
+.theme-doc-markdown > h5,
+.theme-doc-markdown > p.intro-text,
+.theme-doc-markdown > h4.intro-text {
+  display: none !important;
+}
+

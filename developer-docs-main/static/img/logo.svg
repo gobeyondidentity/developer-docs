@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="109px" height="109px" viewBox="0 0 109 109" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo">
+            <rect id="Rectangle" fill-opacity="0.08" fill="#35AFE5" x="0" y="0" width="109" height="109" rx="20"></rect>
+            <polygon id="Path" fill="#5077C5" fill-rule="nonzero" points="81 0.1 53 55.9 39.8 29.5 30.3 29.5 53.1 72.4 90.4 0.1"></polygon>
+            <polygon id="Path" fill="#5077C5" fill-rule="nonzero" points="49.9 91.6 49.9 101.4 58.4 101.4 58.4 75.2"></polygon>
+        </g>
+    </g>
+</svg>

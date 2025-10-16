@@ -1,0 +1,15 @@
+1. In the Admin Console, under **Directory**, select **Identities**.
+
+2. Select the identity you want to bind a passkey to and click **Add a passkey**.
+
+3. Select the app that you would like the user to be able to authenticate into and then select one of the two delivery methods:
+
+   - **Send an email to user**
+
+   - **Generate curl for link from the API**
+
+  ![Create a new passkey dialog box](../images/create-a-new-passkey.png)
+
+4. Click **Proceed & send email**. 
+
+  A device enrollment email is sent to your user's primary email address with a link to create their passkey. Clicking or tapping the link redirects your user to the Beyond Identity Cloud. The Beyond Identity Cloud then looks up the Authenticator Config associated with that passkey creation link. Finally, it redirects your user to your application using the Authenticator Config's Invoke URL specified.

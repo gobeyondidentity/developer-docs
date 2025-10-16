@@ -1,0 +1,11 @@
+<details className="detailsContainer"><summary className="summaryHeading">How does SCIM work with Beyond Identity?</summary>
+
+The **System for Cross-domain Identity Management (SCIM)** is a [protocol](https://www.rfc-editor.org/rfc/rfc7643.html) and [schema](https://www.rfc-editor.org/rfc/rfc7644.html) that simplifies identity management in multi-domain scenarios. SCIM makes user data more secure and simplifies the user experience by automating the user identity lifecycle management process. With SCIM, user identities can be created in external systems, such as OKTA or Active directory. As SCIM is a standard, directory data (users and groups they belong to), can be stored consistently and communicated via SCIM to different applications.
+<br />
+
+SCIM is a REST and JSON-based protocol that defines a client and server role. A client is usually an identity provider (IDP), like Okta, that contains a robust directory of user identities. A service provider (SP) like Beyond Identity needs a subset of information from those identities. When changes to identities are made in the IdP, including create, update, and delete, they are automatically synced to the SP according to the SCIM protocol. The IdP can also read identities from the SP to add to its directory and to detect incorrect values in the SP that could create security vulnerabilities.
+<br />
+
+Beyond Identity’s (BI) SCIM server implementation follows the [tenant/realm](/docs/platform-overview) paradigm, where a separate SCIM server is available for each realm. The SCIM user resource is equivalent to a BI identity object. When the SCIM client creates a user, the BI SCIM service will create an identity. The SCIM group resource maps to BI’s group. The BI SCIM configuration can be inspected via standard SCIM discovery endpoints.
+
+</details>

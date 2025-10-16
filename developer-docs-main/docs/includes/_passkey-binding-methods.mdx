@@ -1,0 +1,6 @@
+Passkeys are created through binding jobs where a binding link gets generated to bind a passkey to a specific device or browser. This passkey gets stored in the user's device's hardware root of trust (i.e., secure enclave).
+
+| Method | When to use |
+| --- | --- |
+| RETURN | You want to generate a passkey link and deliver it to your users however you wish (in-line, SMS, email, etc.). This is the suggested method to create a passkey without a user leaving your application. It's also the fastest way to get a binding link. |
+| EMAIL | You want to send your users an email with a link to create their passkey. Clicking or tapping the link redirects your user to the Beyond Identity Cloud. The Beyond Identity Cloud then looks up the Authenticator Config associated with that passkey creation link. Finally, it redirects your user to your application using the Authenticator Config's Invoke URL specified. |

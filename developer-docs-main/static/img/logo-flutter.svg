@@ -1,0 +1,22 @@
+<svg width="1em" height="1em" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#FlutterLogo_svg__a)">
+    <path d="M26.307 14.77h-9.833L7.87 23.385l4.915 4.922 13.522-13.539ZM5.41 20.924.494 16l15.98-16h9.834L5.41 20.924Z" fill="#54C5F8"></path>
+    <path d="m12.785 28.307 3.689 3.694h9.833l-8.604-8.615-4.918 4.921Z" fill="#01579B"></path>
+    <path d="m12.785 28.307 7.293-2.526-2.375-2.395-4.918 4.921Z" fill="url(#FlutterLogo_svg__b)"></path>
+    <path d="m12.786 18.463-4.917 4.923 4.917 4.922 4.916-4.922-4.916-4.923Z" fill="#29B6F6"></path>
+    <path d="m25.813 14.77-8.604 8.615L25.813 32H15.98l-3.688-3.692-4.917-4.924 8.604-8.616 9.834.001ZM15.98 0 0 16l4.917 4.924L25.813 0H15.98Z" fill="url(#FlutterLogo_svg__c)"></path>
+  </g>
+  <defs>
+    <radialGradient id="FlutterLogo_svg__c" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(39.1012 0 0 39.1507 .726 2.182)">
+      <stop stop-color="#fff" stop-opacity="0.1"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+    </radialGradient>
+    <linearGradient id="FlutterLogo_svg__b" x1="14.22" y1="29.259" x2="17.886" y2="25.596" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A237E" stop-opacity="0.4"></stop>
+      <stop offset="1" stop-color="#1A237E" stop-opacity="0"></stop>
+    </linearGradient>
+    <clipPath id="FlutterLogo_svg__a">
+      <path fill="#fff" d="M0 0h32v32H0z"></path>
+    </clipPath>
+  </defs>
+</svg>

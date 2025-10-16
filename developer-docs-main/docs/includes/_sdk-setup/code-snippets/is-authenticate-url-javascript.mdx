@@ -1,0 +1,28 @@
+```javascript
+const url = "authenticate-url";
+
+try {
+  // Fetch all passkeys for this browser
+  const passkeys = await embedded.getPasskeys();
+
+  // Check if there are any passkeys available
+  if (passkeys.length > 0) {
+    // TODO: Instead of automatically selecting the first passkey, 
+    // present a UI to the user to let them select the desired passkey.
+    // For the purpose of this example, we're using the first passkey.
+    const passkeyId = passkeys[0].passkeyId;
+
+    if (embedded.isAuthenticateUrl(url)) {
+      // The URL is valid for authenticating against a passkey
+      const response = await embedded.authenticate(url, passkeyId);
+      console.log(`Successfully authenticated against passkey bound to this browser. Response: ${JSON.stringify(response)}`);
+    } else {
+      console.log("The URL is not a valid Authenticate Passkey URL");
+    }
+  } else {
+    console.log("No passkeys available for this browser");
+  }
+} catch (error) {
+  console.error(`Error: ${error}`);
+}
+```
