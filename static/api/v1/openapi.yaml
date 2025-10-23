@@ -214,6 +214,11 @@ info:
 servers:
   - url: 'https://api-us.beyondidentity.com'
 tags:
+  - name: Launch Mechanisms
+    description: |
+      Launch Mechanisms define how the authenticating user agent communicates with the Platform Authenticator to request access during authentication. They are a critical component of the authentication process that determines the security level of the connection between the browser and the authenticator.
+      There are multiple launch mechanisms with varying levels of phishing resistance. While these mechanisms, or flow types, are automatically defaulted for the tenant/realm, individual mechanisms can be enabled or disabled such as copy-paste.
+      A super admin or a user with appropriate scopes should be able to configure these.
   - name: Tenants
     description: |
       A tenant represents an organization in the Beyond Identity Cloud. Tenants contain all data necessary for that organization to operate.
@@ -7036,6 +7041,138 @@ paths:
               examples:
                 Internal Error:
                   $ref: '#/paths/~1v1~1tenants~1%7Btenant_id%7D~1realms~1%7Brealm_id%7D~1scim~1v2~1Users/get/responses/500/content/application~1json/examples/Internal%20Error'
+  '/v1/tenants/{tenant_id}/realms/{realm_id}/flow-type-config':
+    get:
+      tags:
+        - Launch Mechanisms
+      summary: Get flow type configuration
+      description: Retrieves the flow type configuration for a given tenant and realm or creates a default configuration if one does not exist and returns that.
+      operationId: GetFlowTypeConfig
+      security:
+        - DirectoryAuth:
+            - 'tenants:read'
+            - 'realms:read'
+            - 'flow-type:read'
+            - 'flow-type:create'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowTypeConfig'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Launch Mechanisms
+      summary: Update flow type configuration
+      description: Updates the flow type configuration for a given tenant and realm by enabling or disabling specific launch mechanisms. Note that this will also create a default configuration if one does not exist.
+      operationId: UpdateFlowTypeConfig
+      security:
+        - DirectoryAuth:
+            - 'tenants:read'
+            - 'realms:read'
+            - 'flow-type:read'
+            - 'flow-type:create'
+            - 'flow-type:update'
+      parameters:
+        - $ref: '#/components/parameters/tenant_id'
+        - $ref: '#/components/parameters/realm_id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlatformFlowTypeConfig'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowTypeConfig'
+        '400':
+          description: |
+            Bad request. If the request failed due to invalid fields, the error details will include a FieldViolations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: |
+            Permission denied. The error details will include a ResourceInfo describing the authorization failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: |
+            Not found. The error details will include a ResourceInfo describing the required resource that was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: |
+            Already exists. The error details will include a ResourceInfo describing the conflicting resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   '/v1/tenants/{tenant_id}/realms/{realm_id}/scim/v2/ResourceTypes':
     get:
       tags:
@@ -7734,6 +7871,196 @@ components:
             A time value given in ISO8601 combined date and time format that represents when the tenant was last updated. This is automatically updated when the tenant is updated. This field is read-only.
           readOnly: true
           example: 2022-04-19T15:17:21.186Z
+    FlowTypeConfig:
+      title: FlowTypeConfig
+      description: Flow type configuration for a tenant
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            ID of the flow type configuration. This is automatically generated on creation. This field is immutable and output-only.
+          minLength: 1
+          readOnly: true
+        tenant_id:
+          type: string
+          description: ID of the tenant this configuration belongs to
+          readOnly: true
+        realm_id:
+          type: string
+          description: ID of the realm this configuration belongs to
+          readOnly: true
+        create_time:
+          type: string
+          format: date-time
+          description: Timestamp when the flow type configuration was created
+          readOnly: true
+        update_time:
+          type: string
+          format: date-time
+          description: Timestamp when the flow type configuration was last updated
+          readOnly: true
+        platform_config:
+          $ref: '#/components/schemas/PlatformFlowTypeConfig'
+      required:
+        - id
+        - tenant_id
+        - realm_id
+        - create_time
+        - update_time
+        - platform_config
+    PlatformFlowTypeConfig:
+      title: PlatformFlowTypeConfig
+      description: Platform-specific flow type configurations
+      type: object
+      properties:
+        android:
+          $ref: '#/components/schemas/FlowTypeSet'
+        macos:
+          $ref: '#/components/schemas/FlowTypeSet'
+        ios:
+          $ref: '#/components/schemas/FlowTypeSet'
+        windows:
+          $ref: '#/components/schemas/FlowTypeSet'
+        web:
+          $ref: '#/components/schemas/FlowTypeSet'
+        linux:
+          $ref: '#/components/schemas/FlowTypeSet'
+        chromeos:
+          $ref: '#/components/schemas/FlowTypeSet'
+        chromeosweb:
+          $ref: '#/components/schemas/FlowTypeSet'
+      required:
+        - android
+        - macos
+        - ios
+        - windows
+        - web
+        - linux
+        - chromeos
+        - chromeosweb
+    FlowTypeSet:
+      title: FlowTypeSet
+      description: Set of flow type configurations for a platform
+      type: object
+      properties:
+        unknown:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        scheme:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        embedded:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        copy:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        roaming_auth:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        android_autofill:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        android_accessibility:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        pipe:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        localhost:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        universal_link:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        safari_extension:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        layered_auth_qr_code:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+        secure_localhost:
+          $ref: '#/components/schemas/FlowTypeConfiguration'
+      required:
+        - unknown
+        - scheme
+        - embedded
+        - copy
+        - roaming_auth
+        - android_autofill
+        - android_accessibility
+        - pipe
+        - localhost
+        - universal_link
+        - safari_extension
+        - layered_auth_qr_code
+        - secure_localhost
+    FlowTypeConfiguration:
+      title: FlowTypeConfiguration
+      description: Configuration for a specific flow type
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the this flow type is allowed to be used.
+        valid:
+          type: boolean
+          description: Whether the flow type is valid and expected on a given platform
+      required:
+        - enabled
+        - valid
+    UpdatePlatformFlowTypeConfig:
+      title: UpdatePlatformFlowTypeConfig
+      description: Platform-specific flow type configurations for updates
+      type: object
+      properties:
+        android:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        macos:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        ios:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        windows:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        web:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        linux:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        chromeos:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+        chromeosweb:
+          $ref: '#/components/schemas/UpdateFlowTypeSet'
+    UpdateFlowTypeSet:
+      title: UpdateFlowTypeSet
+      description: Set of flow type configurations for a platform (update version)
+      type: object
+      properties:
+        unknown:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        scheme:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        embedded:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        copy:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        roaming_auth:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        android_autofill:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        android_accessibility:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        pipe:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        localhost:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        universal_link:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        safari_extension:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        layered_auth_qr_code:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+        secure_localhost:
+          $ref: '#/components/schemas/UpdateFlowTypeConfiguration'
+    UpdateFlowTypeConfiguration:
+      title: UpdateFlowTypeConfiguration
+      description: Configuration for a specific flow type (update version)
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Whether the customer allows this flow type to be used.
+        valid:
+          type: boolean
+          description: Whether the flow type is valid and expected on a given platform
     Realm:
       title: Realm
       type: object
