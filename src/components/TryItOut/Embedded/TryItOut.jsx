@@ -9,15 +9,19 @@ import SelectPasskeyTable from "./SelectPasskeyTable";
 import PasskeyModal from "./PasskeyModal";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { generateRandomStringOfLength, generateCodeChallenge } from "../../../utils/pkce";
-import { getPasskeys, bindPasskey, authenticate, deletePasskey } from "../../../utils/bi-sdk-js";
+import { getPasskeys, bindPasskey, authenticate, deletePasskey, authenticateOtp, redeemOtp } from "../../../utils/bi-sdk-js";
 import { getOffsetForElementById } from "../../../utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 const StepOne = ({ progressState, setProgressState }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [bindingUrl, setBindingUrl] = useState("");
+  const [authenticateUrl, setAuthenticateUrl] = useState("");
 
   var parentClassNames = function () {
     if (progressState.step.one === IN_PROGRESS || progressState.step.one === COMPLETE) {
@@ -26,21 +30,27 @@ const StepOne = ({ progressState, setProgressState }) => {
     return classNames(styles.blur);
   }();
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     setLoading(true);
 
-    if (username.match(/\s/)) {
-      toast.error("Username cannot contain spaces");
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address");
       setLoading(false);
       return;
     }
 
+    // Step 1: Call backend to validate email and get credential_binding_link
     const rawResponse = await fetch(
       `https://acme-cloud.byndid.com/passkey`,
       {
         body: JSON.stringify({
-          username: username,
+          username: email,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -56,14 +66,63 @@ const StepOne = ({ progressState, setProgressState }) => {
       return;
     }
 
+    // Step 2: Get authenticate_url from /authorize endpoint
+    const origin = encodeURIComponent((new URL(document.location.href)).origin);
+    const state = generateRandomStringOfLength(15);
+    const codeVerifier = generateRandomStringOfLength(43);
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    const authURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/authorize?response_type=code&client_id=vs2gorSMyEmhf26lH1U_sDky&redirect_uri=${origin}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+
+    const authResponse = await fetch(authURL);
+    let authJsonResponse = await authResponse.json();
+    if (authResponse.status !== 200 || authJsonResponse === null) {
+      console.error(authJsonResponse);
+      toast.error("Failed to initiate authentication. Please try again.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await bindPasskey(response.credential_binding_link);
+      // Step 3: Call authenticateOtp to send OTP to email
+      const otpResponse = await authenticateOtp(authJsonResponse.authenticate_url, email);
+      setBindingUrl(response.credential_binding_link);
+      setAuthenticateUrl(otpResponse.url); // Use the URL from OtpChallengeResponse
+      setOtpSent(true);
+      setLoading(false);
+      toast.success("OTP sent to your email!");
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to send OTP. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleOtpVerification = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    if (otp.length !== 6) {
+      toast.error("OTP must be 6 characters");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Redeem OTP using the URL from authenticateOtp response
+      await redeemOtp(authenticateUrl, otp);
+
+      // Now bind the passkey using credential_binding_link
+      await bindPasskey(bindingUrl);
       window.postMessage("update-passkeys", "*");
       setLoading(false);
       setProgressState(nextProgressState(progressState, STEP_ONE, STEP_TWO));
 
       // Reset state for next time around
-      setUsername("");
+      setEmail("");
+      setOtp("");
+      setOtpSent(false);
+      setBindingUrl("");
+      setAuthenticateUrl("");
       setLoading(false);
 
       // Scroll to Step Two
@@ -77,7 +136,21 @@ const StepOne = ({ progressState, setProgressState }) => {
       });
     } catch (e) {
       console.error(e);
-      toast.error("Failed to create a passkey. Please try again.");
+      toast.error("Failed to verify OTP or create passkey. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setLoading(true);
+    try {
+      const otpResponse = await authenticateOtp(authenticateUrl, email);
+      setAuthenticateUrl(otpResponse.url); // Update with new URL from response
+      toast.success("OTP resent to your email!");
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to resend OTP. Please try again.");
       setLoading(false);
     }
   };
@@ -85,22 +158,64 @@ const StepOne = ({ progressState, setProgressState }) => {
   return (
     <div className={parentClassNames}>
       <h2>1. Register a User</h2>
-      <p>Enter a username to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
+      <p>Enter an email to create a passkey on this browser. Our Universal Passkeys work on any browser, even the ones where passkeys are not officially supported.</p>
       <br />
       <div className={classNames(styles["step-input"], "container")}>
-        <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
-          <label className={classNames(styles.username)} htmlFor="username">Username:</label>
-          <input className={classNames(styles["username-input"])} value={username} type="text" id="username" name="username" onChange={e => setUsername(e.target.value)}></input>
-        </form>
+        {!otpSent ? (
+          <form id="passkey_creation" onSubmit={handleSubmit} className={classNames(styles["username-form"])} autoComplete="off" autoCapitalize="none">
+            <label className={classNames(styles.username)} htmlFor="email">Email:</label>
+            <input className={classNames(styles["username-input"])} value={email} type="email" id="email" name="email" onChange={e => setEmail(e.target.value)}></input>
+          </form>
+        ) : (
+          <form id="otp_verification" onSubmit={handleOtpVerification} className={classNames(styles["username-form"])} autoComplete="off">
+            <label className={classNames(styles.username)} htmlFor="otp">Enter OTP:</label>
+            <input
+              className={classNames(styles["username-input"])}
+              value={otp}
+              type="text"
+              id="otp"
+              name="otp"
+              maxLength="6"
+              onChange={e => setOtp(e.target.value)}
+              placeholder="6-character code">
+            </input>
+          </form>
+        )}
       </div>
       <div>
         <br />
-        <Button
-          name="Create passkey"
-          isLoading={loading}
-          isDisabled={username.length === 0}
-          form="passkey_creation">
-        </Button>
+        {!otpSent ? (
+          <Button
+            name="Send OTP"
+            isLoading={loading}
+            isDisabled={email.length === 0}
+            form="passkey_creation">
+          </Button>
+        ) : (
+          <div>
+            <Button
+              name="Verify OTP"
+              isLoading={loading}
+              isDisabled={otp.length !== 6}
+              form="otp_verification">
+            </Button>
+            <br />
+            <button
+              type="button"
+              onClick={handleResendOtp}
+              disabled={loading}
+              style={{
+                marginTop: '10px',
+                background: 'none',
+                border: 'none',
+                color: '#0066cc',
+                textDecoration: 'underline',
+                cursor: 'pointer'
+              }}>
+              Resend OTP
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -259,6 +374,10 @@ const StepThree = ({ progressState, setProgressState }) => {
   const [tokenResponse, setTokenResponse] = useState(null);
   const [customClaims, setCustomClaims] = useState("");
   const [customClaimsError, setCustomClaimsError] = useState(null);
+  const [authMethod, setAuthMethod] = useState("passkey");
+  const [authOtpSent, setAuthOtpSent] = useState(false);
+  const [authOtp, setAuthOtp] = useState("");
+  const [authenticateUrlForOtp, setAuthenticateUrlForOtp] = useState("");
 
   var parentClassNames = function () {
     if (progressState.step.three === IN_PROGRESS || progressState.step.three === COMPLETE) {
@@ -328,6 +447,29 @@ const StepThree = ({ progressState, setProgressState }) => {
       return;
     }
 
+    // If OTP method is selected, send OTP first
+    if (authMethod === "passkey-otp") {
+      try {
+        const selectedPasskey = passkeys.find(p => p.id === selectedPasskeyId);
+        const email = selectedPasskey.identity.username;
+
+        const otpResponse = await authenticateOtp(jsonResponse.authenticate_url, email);
+        setAuthenticateUrlForOtp(otpResponse.url); // Use URL from OtpChallengeResponse
+        setAuthOtpSent(true);
+        setLoading(false);
+        toast.success("OTP sent to your email!");
+
+        // Store the state and other params for later use
+        window.tempAuthState = { state, codeVerifier, tokenURL, origin, customClaimsParam };
+      } catch (e) {
+        console.error(e);
+        toast.error("Failed to send OTP. Please try again.");
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Regular passkey-only authentication
     try {
       let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedPasskeyId);
 
@@ -377,6 +519,111 @@ const StepThree = ({ progressState, setProgressState }) => {
     } catch (e) {
       console.error(e);
       toast.error("Failed to authenticate. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleOtpAuthentication = async () => {
+    setLoading(true);
+
+    if (authOtp.length !== 6) {
+      toast.error("OTP must be 6 characters");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Step 1: Redeem OTP
+      await redeemOtp(authenticateUrlForOtp, authOtp);
+
+      // Step 2: Make a NEW /authorize call to get a fresh authenticate_url for passkey authentication
+      const { origin, customClaimsParam } = window.tempAuthState;
+      const state = generateRandomStringOfLength(15);
+      const codeVerifier = generateRandomStringOfLength(43);
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
+      const authURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/authorize?response_type=code&client_id=vs2gorSMyEmhf26lH1U_sDky&redirect_uri=${origin}&scope=openid&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+      const tokenURL = `https://auth-us.beyondidentity.com/v1/tenants/00012da391ea206d/realms/b464b5a49669c5e0/applications/619a2804-0147-4d72-9fb7-95b38a66c478/token`;
+
+      const response = await fetch(authURL);
+      let jsonResponse = await response.json();
+      if (response.status !== 200 || jsonResponse === null) {
+        console.error(jsonResponse);
+        toast.error("Failed to authenticate. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Step 3: Now authenticate with the passkey using the new authenticate_url
+      let authenticateResult = await authenticate(jsonResponse.authenticate_url, selectedPasskeyId);
+
+      const urlParams = new Proxy(new URLSearchParams(new URL(authenticateResult.redirectUrl).search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+
+      if (urlParams.state !== state) {
+        console.error(`State mismatch. Incoming state: ${urlParams.state} does not match outgoing state: ${state}.`);
+        toast.error("State does not match. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      let tokenResponse = await fetch(tokenURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: (function () {
+          let base = `grant_type=authorization_code&code=${urlParams.code}&client_id=vs2gorSMyEmhf26lH1U_sDky&code_verifier=${codeVerifier}&redirect_uri=${origin}`;
+          if (customClaimsParam) {
+            base += `&custom_claims=${customClaimsParam}`;
+          }
+          return base;
+        })(),
+      });
+
+      let jsonTokenResponse = await tokenResponse.json();
+      if (tokenResponse.status !== 200 || jsonTokenResponse === null) {
+        console.error(jsonTokenResponse);
+        toast.error("Failed to get token. Please try again.");
+        setLoading(false);
+        return;
+      }
+      setTokenResponse(jsonTokenResponse);
+      setLoading(false);
+
+      // Reset OTP state
+      setAuthOtp("");
+      setAuthOtpSent(false);
+      setAuthenticateUrlForOtp("");
+      delete window.tempAuthState;
+
+      // Scroll to Authenticate Result
+      const offset = getOffsetForElementById("authenticate-result");
+      setTimeout(() => {
+        window.scrollTo({
+          top: offset.top,
+          left: offset.left,
+          behavior: 'smooth'
+        });
+      });
+
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to verify OTP or authenticate. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleResendAuthOtp = async () => {
+    setLoading(true);
+    try {
+      const selectedPasskey = passkeys.find(p => p.id === selectedPasskeyId);
+      const email = selectedPasskey.identity.username;
+      const otpResponse = await authenticateOtp(authenticateUrlForOtp, email);
+      setAuthenticateUrlForOtp(otpResponse.url); // Update with new URL from response
+      toast.success("OTP resent to your email!");
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to resend OTP. Please try again.");
       setLoading(false);
     }
   };
@@ -447,6 +694,81 @@ const StepThree = ({ progressState, setProgressState }) => {
             centered={true}>
           </Button>}
       </div>
+      {passkeys !== null && !authOtpSent ? (
+        <div className={classNames(padding["mt-1"])}>
+          <div className={classNames(styles["step-input"], "container")}>
+            <label style={{ display: 'block', marginBottom: '10px' }}>Authentication Method:</label>
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="authMethod"
+                  value="passkey"
+                  checked={authMethod === "passkey"}
+                  onChange={(e) => setAuthMethod(e.target.value)}
+                  style={{ marginRight: '8px' }}
+                />
+                Passkey only
+              </label>
+              <label style={{ display: 'block', cursor: 'pointer' }}>
+                <input
+                  type="radio"
+                  name="authMethod"
+                  value="passkey-otp"
+                  checked={authMethod === "passkey-otp"}
+                  onChange={(e) => setAuthMethod(e.target.value)}
+                  style={{ marginRight: '8px' }}
+                />
+                Passkey + OTP
+              </label>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {authOtpSent ? (
+        <div className={classNames(padding["mt-1"])}>
+          <div className={classNames(styles["step-input"], "container")}>
+            <label htmlFor="auth-otp">Enter OTP:</label>
+            <input
+              type="text"
+              id="auth-otp"
+              value={authOtp}
+              onChange={(e) => setAuthOtp(e.target.value)}
+              maxLength="6"
+              placeholder="6-character code"
+              style={{
+                width: '100%',
+                padding: '8px',
+                marginTop: '8px',
+                marginBottom: '10px',
+                borderRadius: '4px',
+                border: '1px solid #ccc'
+              }}
+            />
+            <Button
+              name="Verify OTP & Authenticate"
+              isLoading={loading}
+              isDisabled={authOtp.length !== 6}
+              onClick={handleOtpAuthentication}>
+            </Button>
+            <br />
+            <button
+              type="button"
+              onClick={handleResendAuthOtp}
+              disabled={loading}
+              style={{
+                marginTop: '10px',
+                background: 'none',
+                border: 'none',
+                color: '#0066cc',
+                textDecoration: 'underline',
+                cursor: 'pointer'
+              }}>
+              Resend OTP
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className={classNames(padding["mt-1"]) }>
         <div className={classNames(styles["step-input"], "container")}>
           <label htmlFor="custom-claims">Optional: Custom Claims (JSON)</label>
@@ -469,7 +791,7 @@ const StepThree = ({ progressState, setProgressState }) => {
         </div>
       </div>
       <div className={classNames(padding["mt-1"]) }>
-        {passkeys !== null ? <Button
+        {passkeys !== null && !authOtpSent ? <Button
           name="Login"
           isDisabled={false}
           isLoading={loading}

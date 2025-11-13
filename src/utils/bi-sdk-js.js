@@ -25,3 +25,13 @@ export async function deletePasskey(passkeyId) {
   const embedded = await initialized();
   return await embedded.deletePasskey(passkeyId);
 }
+
+export async function authenticateOtp(url, email) {
+  const embedded = await initialized();
+  return await embedded.authenticateOtp(url, email);
+}
+
+export async function redeemOtp(url, otp) {
+  const embedded = await initialized();
+  return await embedded.redeemOtp(url, otp);
+}
