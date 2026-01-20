@@ -198,48 +198,20 @@ const config = {
           },  
           { to: "/api/v1", label: "REST API", position: "left" },
           {
+            to: 'https://github.com/gobeyondidentity',
+            position: 'left',
+            label: 'GitHub',
+            },
+          {
             to: 'https://www.beyondidentity.com/developers/blog',
             position: 'left',
             label: 'Blog',
             },
-            {
-            label: 'Community',
-            type: 'dropdown',
-            position: 'left',
-            items: [
-              {
-                to: 'https://github.com/gobeyondidentity',
-                label: 'GitHub',
-                },
-                {
-                to: 'https://stackoverflow.com/questions/tagged/beyondidentity',
-                label: 'Stack Overflow',
-                },
-                {
-                to: 'https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ',
-                label: 'Slack',
-                },
-                {
-                to: 'https://twitter.com/BI_Developers',
-                label: 'Twitter',
-                },
-                {
-                to: 'https://dev.to/beyondidentity',
-                label: 'DevTo',
-                },
-            ],
-          },
           {
             type: "docsVersionDropdown",
             position: "right",
             dropdownItemsBefore: [],
             dropdownActiveClassDisabled: true,
-          },
-
-          {
-            href: "https://www.beyondidentity.com/developers/signup",
-            label: "Signup",
-            position: 'right',
           },
           {
             type: 'dropdown',
@@ -256,12 +228,6 @@ const config = {
               },
             ],
           },
-/*          {
-            href: "https://join.slack.com/t/byndid/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ",
-            label: "Join Slack",
-            position: "right",
-          },
-*/          
         ],
       },
       footer: {

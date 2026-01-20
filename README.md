@@ -7,12 +7,11 @@
 
 <div align="center">
    <br/>
-   <a href="https://developers.beyondidentity.com" target="_blank"><img src="https://user-images.githubusercontent.com/238738/178780350-489309c5-8fae-4121-a20b-562e8025c0ee.png" width="150px" ></a>
-   <h3>Beyond Identity</h3>
-   <p>Universal Passkeys for Developers</p>
+   <a href="https://developers.beyondidentity.com" target="_blank"><img width="702" height="112" alt="Beyond Identity" src="https://github.com/user-attachments/assets/16ff184b-cbc3-45c2-a36a-e42acd0024a0"></a>
+   <h3>Universal Passkeys for Developers</h3>
    <p>
    All devices. Any protocol. Zero shared secrets. 
-   </p>
+   </p><br><br>
    <h1>Developer documentation</h1>
 </div>
 
