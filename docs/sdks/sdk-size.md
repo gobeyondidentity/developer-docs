@@ -22,9 +22,9 @@ This page outlines the size of the Beyond Identity SDKs.
 These are approximations as the size can vary based on architecture and device type.
 :::
 
-The numbers below are updated as of version 2.0.0 of the SDK.
+The numbers below are updated as of version 2.1.0 of the SDK.
 
 | Platform | Download Size | Install Size |
 | -------- | ------------- | ------------ |
-| Kotlin   | 9.8 MB        | 19.6 MB      |
-| Swift    | 10.35 MB      | 31.75 MB     |
+| Kotlin   | 26.9 MB       | 56.5 MB      |
+| Swift    | 18.2 MB       | 49.0 MB      |
