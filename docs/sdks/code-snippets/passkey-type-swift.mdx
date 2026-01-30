@@ -5,7 +5,10 @@
 public struct Passkey: Equatable, Identifiable, Hashable {
     /// The globally unique identifier of the passkey.
     public let id: Id
-    
+
+    /// The external (cloud) identifier of the passkey.
+    public let passkeyId: String
+
     /// The time when this passkey was created locally. This could be different from "created" which is the time when this passkey was created on the server.
     public let localCreated: Date
     
@@ -41,6 +44,7 @@ public struct Passkey: Equatable, Identifiable, Hashable {
     
     public init(
         id: Passkey.Id,
+        passkeyId: String,
         localCreated: Date,
         localUpdated: Date,
         apiBaseUrl: URL,
@@ -54,6 +58,7 @@ public struct Passkey: Equatable, Identifiable, Hashable {
         theme: Theme
     ){
         self.id = id
+        self.passkeyId = passkeyId
         self.localCreated = localCreated
         self.localUpdated = localUpdated
         self.apiBaseUrl = apiBaseUrl
