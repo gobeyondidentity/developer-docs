@@ -248,13 +248,13 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
 2. Enter the following values:
 
-   * External ID:** user_id in Auth0, for example: oidc | Beyond-Identity | <email_address>**
+   * External ID:** user_id in Auth0, for example: oidc | Beyond-Identity | `<email_address>`**
 
-   * Email: **<email_address>**
+   * Email: **`<email_address>`**
 
-   * Username: **<email_address>**
+   * Username: **`<email_address>`**
 
-   * Display Name: **<Full_Name>**
+   * Display Name: **`<Full_Name>`**
 
 **Note:** The External ID format above must be adhered to as this will be the user ID of the user in Auth0.
 

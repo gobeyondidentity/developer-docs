@@ -85,11 +85,11 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
 
 where:
 
-  - {tenant_id} is the [ID of the tenant](/docs/find-tenant-id) in which the app is configured
+  - `{tenant_id}` is the [ID of the tenant](/docs/find-tenant-id) in which the app is configured
 
-  - {realm_id} is the **Realm Id** of the realm in which the application is configured
+  - `{realm_id}` is the **Realm Id** of the realm in which the application is configured
 
-  - {application_id} is the **Application ID** of the app
+  - `{application_id}` is the **Application ID** of the app
 
 ### Finding app endpoint URLs
 

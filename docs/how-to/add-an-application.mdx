@@ -26,6 +26,8 @@ import AuthenticatorTypeTable from '../includes/_authenticator-type-table.mdx';
 import InvocationTypeTable from '../includes/_invocation-type-table.mdx';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
+import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
 
 import AppExternalProtocolProperties from '../includes/_app_external_protocol_properties.mdx';
 
@@ -62,30 +64,33 @@ Select the [authenticator configuration type](/docs/authentication).
 
   <Tabs groupId="authenticator-config">
     <TabItem value="hosted-web" label="Hosted Web">
-      <p>Select the <b>Hosted Web</b> option if you want Beyond Identity to do the heavy lifting. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. </p><br /><p>Hosted Web Authenticator comes preconfigured with the following values:</p><ul><li><b>Invocation Type</b>: automatic </li><li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li><li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li><li>
-      <b>Authentication Profile</b>: The Authentication Profile allows you to customize the authentication flow for new or returning users.<br/><br/> 
-      
-      <b>Email verification for sign-up and new browser login</b>
+      <p>Select the <b>Hosted Web</b> option if you want Beyond Identity to do the heavy lifting. This option requires less configuration and code because Beyond Identity handles the end-user authentication via a redirect. </p>
 
-This configuration allows you to customize the authentication flow for user registration.
-This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.
+      <p>Hosted Web Authenticator comes preconfigured with the following values:</p>
 
-Currently the following authentication factors are supported and more are coming soon:
+      <ul>
+        <li><b>Invocation Type</b>: automatic </li>
+        <li><b>Invoke URL</b>: https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/</li>
+        <li><b>Trusted Origin</b>: [https://auth-&#123;REGION&#125;.beyondidentity.com/authenticator/]</li>
+        <li><b>Authentication Profile</b>: The Authentication Profile allows you to customize the authentication flow for new or returning users.</li>
+      </ul>
 
-import AuthenticationProfileTable1 from '../includes/_authentication-profile-table1.mdx';
+      <p><b>Email verification for sign-up and new browser login</b></p>
 
-<AuthenticationProfileTable1 />
-<br />
+      <p>This configuration allows you to customize the authentication flow for user registration.
+      This includes users who are registering for the first time or for the first time on a new browser, which includes browsers on the same device or a different device.</p>
 
-<b>Authentication method for returning login</b>
+      <p>Currently the following authentication factors are supported and more are coming soon:</p>
 
-This configuration allows you to customize the authentication flow for user login.
+      <AuthenticationProfileTable1 />
 
-Currently, the following authentication factors are supported and more are coming soon:
+      <p><b>Authentication method for returning login</b></p>
 
-import AuthenticationProfileTable2 from '../includes/_authentication-profile-table2.mdx';
+      <p>This configuration allows you to customize the authentication flow for user login.</p>
 
-<AuthenticationProfileTable2 /></li></ul>
+      <p>Currently, the following authentication factors are supported and more are coming soon:</p>
+
+      <AuthenticationProfileTable2 />
     </TabItem>
     <TabItem value="embedded" label="Embedded SDK">
     <p>Select the <b>Embedded SDK</b> option if you want to custom-build your end-user authentication experience. This option requires more configuration and code:</p>

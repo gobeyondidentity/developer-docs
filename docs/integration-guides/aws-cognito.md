@@ -171,7 +171,7 @@ Now you'll use AWS Cognito's "Hosted UI" test tool to test the integration.
 
 5. Under **Hosted UI**, click **View Hosted UI**.
 
-As a result of this test, you should have an authorization code returned to your app client's redirect URI, such as 'http://localhost:3000/?code={authorization_code}'.
+As a result of this test, you should have an authorization code returned to your app client's redirect URI, such as 'http://localhost:3000/?code=`{authorization_code}`'.
 
 ## Obtain code and tokens in your app
 The Hosted UI test tool above submits a request to the `/authorize` endpoint of your user pool domain, which then redirects to the [Cognito /login endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/login-endpoint.html) with a request like the following:  

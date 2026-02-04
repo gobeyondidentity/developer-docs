@@ -5,7 +5,7 @@
       "label": "REST API v0",
       "href": "/api/v0"
     },
-    "version-v0/introduction",
+    "introduction",
     {
       "type": "category",
       "label": "Getting Started",

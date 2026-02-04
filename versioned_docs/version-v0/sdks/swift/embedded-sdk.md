@@ -9,7 +9,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore YLmGQ IKkc
     id="YLmGQPqIKkc"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Beyond Identity Swift Embedded SDK"

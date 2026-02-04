@@ -64,7 +64,7 @@ https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}
     "grant_type": "refresh_token",
     "refresh_token": "{refresh_token}"
 ```
-where {refresh_token} is the base64 encoded refresh_token returned from the previous access token request  
+where `{refresh_token}` is the base64 encoded refresh_token returned from the previous access token request  
 
 ### Example
 
