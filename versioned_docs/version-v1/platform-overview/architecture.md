@@ -48,7 +48,7 @@ It is possible that you never need to create another Realm for your use case.
 
 The Beyond Identity Console creates a UI experience for you to administer your tenant. The Console utilizes your Beyond Identity tenant (specifically the “Beyond Identity Admin” Realm and Console application configuration) to authenticate and authorize admin logins. An initial Policy is instantiated in the Beyond Identity Admin Realm on deployment of your tenant.
 
-The “Admin Console Access” User Group is created and the identity established at sign up is added to that group.
+The "Admin Console Access" User Group is created and the identity established during provisioning is added to that group.
 
 Addition of user’s into the group will allow them to log into the Console as Administrators of your tenant utilizing any credentials established within the Admin Realm.
 

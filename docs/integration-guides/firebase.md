@@ -35,7 +35,7 @@ This guide will cover:
 
 ## Prerequisites
 
-- Set up a [developer account](https://www.beyondidentity.com/developers/signup)
+- A Beyond Identity developer account. If you don't have one, contact your administrator.
 
 ## Firebase
 

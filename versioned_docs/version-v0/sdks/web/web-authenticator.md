@@ -21,11 +21,7 @@ This guide provides information on how to implement the Beyond Identity Web Auth
 
 ## User Registration
 
-To register new users for use with the platform authenticator you will need to create a self-service sign-up flow using the [API](ref:createuser) or provision users manually via the admin console for testing purposes. 
-
-We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-Up flow](../../integration-guides/user-sign-up-flow.md) guide or take a look at the [Create User](ref:createuser) endpoint.
-
-You can see an example self-service registration flow on the [Live Demo Application](https://www.solemate.me) we have provided.
+To register new users for use with the platform authenticator, provision users using the [API](ref:createuser) or via the admin console for testing purposes.
 
 ### Tenant Configuration
 
@@ -114,7 +110,7 @@ The 9 digit code will be displayed
 
 ### User Recovery
 
-You will need to implement a self-service recovery flow for users who no longer have access to their credential (lost/stolen device). We have provided some guidance on how we recommended creating a self service recovery flow with Beyond Identity's APIs. You can follow the [User Recovery Flow](../../integration-guides/user-recovery-flow.md) guide or take a look at the [Recover User](ref:recoveruser-1) endpoint.
+You will need to implement a user recovery flow for users who no longer have access to their credential (lost/stolen device). We have provided some guidance on how we recommend creating a user recovery flow with Beyond Identity's APIs. You can follow the [User Recovery Flow](../../integration-guides/user-recovery-flow.md) guide or take a look at the [Recover User](ref:recoveruser-1) endpoint.
 
 
 

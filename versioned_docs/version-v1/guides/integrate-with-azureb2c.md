@@ -19,7 +19,7 @@ This guide will cover:
 Before continuing, make sure the following prerequisites have been met:
 
 * Access to an Azure AD B2C tenant with admin privileges
-* Access to a Beyond Identity tenant with admin privileges. If necessary, sign up for a tenant at https://www.beyondidentity.com/developers/signup
+* Access to a Beyond Identity tenant with admin privileges. If you don't have one, contact your administrator.
 * Add a realm to your Beyond Identity tenant to contain your application and users (separate to the default Admin realm). See https://developer.beyondidentity.com/docs/v1/using-bi-for-auth
 
 ## Configure Beyond Identity as an Identity Provider
@@ -147,7 +147,7 @@ The user will need to register a credential (passkey) in order to be able to aut
 
 With WebAuthn, browsers restrict passkey usage to the domain where registration took place. This domain could relate to the hosted Web Authenticator (`https://auth-{us|eu}.beyondidentity.com`) or the customer's own application (when using an embedded SDK). As a result, when generating a credential binding job, it is important to reference the specific configured authenticator for the application.
 
-Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant signup process can NOT be used for testing access, as it was registered for the admin console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result browsers will not permit that passkey to be used in order to access your own application.
+Note; the admin user credential/passkey automatically generated as part of the Beyond Identity tenant creation process can NOT be used for testing access, as it was registered for the admin console service at either https://console-us.beyondidentity.com or https://console-eu.beyondidentity.com. As a result browsers will not permit that passkey to be used in order to access your own application.
 
  1. Within the Beyond Identity Admin portal, select your application and choose the **Authenticator Config** tab.
 

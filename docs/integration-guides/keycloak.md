@@ -28,8 +28,7 @@ Before continuing, make sure you have the following:
 
 * A Keycloak instance with Administration Console access allowing you to configure a new Identity Provider under an existing or new realm in your Keycloak instance.
 
-* A Beyond Identity tenant
-Navigate here to [Create a Tenant](https://www.beyondidentity.com/developers/signup).
+* A Beyond Identity tenant. If you don't have one, contact your administrator.
 
 Once your tenant has been created with Beyond Identity, you can continue to create an Application. 
 

@@ -43,7 +43,7 @@ In this guide, you'll:
 
 ## Prerequisites
 
-- A [Beyond Identity developer account](https://www.beyondidentity.com/developers/signup)
+- A Beyond Identity developer account. If you don't have one, contact your administrator.
 
 - An Expo application using a development build or prebuild
 

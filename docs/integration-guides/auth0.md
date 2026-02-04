@@ -34,7 +34,7 @@ Before continuing, make sure you've met the following prerequisites:
 
 * Ensure that you have an Auth0 account with admin privileges
 
-* Access to a Beyond Identity tenant. If you still need to, [sign up for a tenant](https://www.beyondidentity.com/developers/signup).
+* Access to a Beyond Identity tenant. If you don't have one, contact your administrator.
 
 ## Add Beyond Identity as an Identity Provider
 

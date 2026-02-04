@@ -59,7 +59,7 @@ cd getting-started
 
 ## 3. Create a Tenant
 
-Head to the [signup form](https://www.beyondidentity.com/developers/signup) and fill out your info.
+Head to the [signup form](contact your administrator) and fill out your info.
 
 If you've already created a tenant, you can log in using the following links:
 

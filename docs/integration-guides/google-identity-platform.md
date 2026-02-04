@@ -30,7 +30,7 @@ import GoogleFirebaseDiagram from '../images/goog-firebox-diagram.jpg';
 
 These are the things you'll need for this walkthrough.
 
-- Beyond Identity tenant, which was created when you signed up for a free [developer account](https://www.beyondidentity.com/developers/signup).
+- Beyond Identity tenant. If you don't have one, contact your administrator.
 
 - A Google Cloud project with Identity Platform enabled, upgraded to [Firebase Authentication with Identity Platform](https://firebase.google.com/docs/auth#identity-platform).  
 

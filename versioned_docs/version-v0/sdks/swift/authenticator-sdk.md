@@ -41,13 +41,13 @@ The public client (mobile app) queries for the authorization code and your confi
 ### View Setup
 For either flow you'll want to create and add an `AuthView` in your `ViewController`. This view contains both Beyond Identity Sign In and Sign Up buttons.
 
-When the user taps the "Sign In" button, an instance of [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) is created and will start. A secure, embedded web view loads and displays the page, from which the user can authenticate. When the user taps "Sign Up" button the AuthView will trigger your sign up action. 
+When the user taps the "Sign In" button, an instance of [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) is created and will start. A secure, embedded web view loads and displays the page, from which the user can authenticate. When the user taps "Sign Up" button the AuthView will trigger your sign up action.
 
 The `AuthView` accepts five parameters. This first four are parameters from [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession).
 - `url`: A URL with the http or https scheme pointing to the authentication webpage.
 - `callbackURLScheme`: The custom URL scheme that the app expects in the callback URL.
 - `completionHandler`: A completion handler the session calls when it completes successfully, or when the user cancels the session.
-- `prefersEphemeralWebBrowserSession`: A Boolean value that indicates whether the session should ask the browser for a private authentication session. Set to true to request that the browser doesn’t share cookies or other browsing data between the authentication session and the user’s normal browser session. The value of this property is false by default.
+- `prefersEphemeralWebBrowserSession`: A Boolean value that indicates whether the session should ask the browser for a private authentication session. Set to true to request that the browser doesn't share cookies or other browsing data between the authentication session and the user's normal browser session. The value of this property is false by default.
 - `signUpAction`: A closure triggered when the user taps the AuthView "Sign Up" button. Your sign up action should include a call to the Beyond Identity API to create a user credential as well as a way for the user to [download the Beyond Identity App](https://app.byndid.com/downloads) to store the credential associated with your app. 
 
 :::warning

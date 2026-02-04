@@ -58,7 +58,7 @@ Before you get started, please set up the following.
 
 - A free account on [bubble.io](https://bubble.io) and some basic familiarity with their UI
 
-- A free account in your region on [Beyond Identity Secure Customer](https://www.beyondidentity.com/developers/signup)
+- A Beyond Identity account in your region. If you don't have one, contact your administrator.
 
 - A [realm](../how-to/create-realm.mdx) and [application](/docs/add-an-application) set up in Beyond Identity. 
 
