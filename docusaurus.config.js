@@ -1,8 +1,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const {themes} = require("prism-react-renderer");
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.dracula;
 
 /*
 function getNextVersionName() {
@@ -22,23 +23,24 @@ const config = {
   url: "https://developer.beyondidentity.com",
   baseUrl: "/",
   onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "gobeyondidentity", // The GitHub org/user name.
   projectName: "developer-docs", // The repo name.
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
   },
   themes: [
     '@docusaurus/theme-mermaid',
     '@docusaurus/theme-live-codeblock',
-    'docusaurus-theme-redoc',
   ],
   staticDirectories: ['static'],
 
   presets: [
     [
-      'docusaurus-preset-classic',
+      '@docusaurus/preset-classic',
       {
         gtag: {
           trackingID: 'GTM-K3TCQSV',
@@ -133,8 +135,8 @@ const config = {
     ],
   ],
   plugins: [
-    require.resolve("docusaurus-plugin-image-zoom"),
-    ['@grnet/docusaurus-terminology', {
+    require.resolve("docusaurus-plugin-medium-zoom"),
+    ['@lunaticmuch/docusaurus-terminology', {
       termsDir: './docs/terms',
       docsDir: './docs/',
       glossaryFilepath: './docs/glossary.mdx'

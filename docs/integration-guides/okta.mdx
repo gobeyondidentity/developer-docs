@@ -98,10 +98,10 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
 
   | Name | Value|
   | --- | --- |
-  | **Issuer** | https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id} |
-  | **Authorization endpoint** | https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/authorize |
-  | **Token endpoint** | https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/token |
-  | **JWKS endpoint** | https://auth-us.beyondidentity.com/v1/tenants/${tenant_id}/realms/${realm_id}/applications/${application_id}/.well-known/jwks.json |
+  | **Issuer** | https://auth-us.beyondidentity.com/v1/tenants/$`{tenant_id}`/realms/$`{realm_id}`/applications/$`{application_id}` |
+  | **Authorization endpoint** | https://auth-us.beyondidentity.com/v1/tenants/$`{tenant_id}`/realms/$`{realm_id}`/applications/$`{application_id}`/authorize |
+  | **Token endpoint** | https://auth-us.beyondidentity.com/v1/tenants/$`{tenant_id}`/realms/$`{realm_id}`/applications/$`{application_id}`/token |
+  | **JWKS endpoint** | https://auth-us.beyondidentity.com/v1/tenants/$`{tenant_id}`/realms/$`{realm_id}`/applications/$`{application_id}`/.well-known/jwks.json |
 
 6. In the **Authentication settings** section, select **idpuser.externalId** for **IdP Username**.
 

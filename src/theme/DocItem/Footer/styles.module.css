@@ -22,9 +22,20 @@ footer li {
 
 footer a {
   text-decoration: none;
+  color: var(--ifm-link-color);
 }
 
 footer a:hover {
   font-weight: 600;
   text-decoration: none;
+  color: var(--ifm-link-hover-color);
+}
+
+/* Dark mode link colors */
+[data-theme='dark'] footer a {
+  color: var(--ifm-color-primary-lighter);
+}
+
+[data-theme='dark'] footer a:hover {
+  color: var(--ifm-color-primary-lightest);
 }

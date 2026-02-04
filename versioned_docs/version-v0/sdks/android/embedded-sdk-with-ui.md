@@ -17,7 +17,6 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 <div className="video-container">
   <LiteYouTubeEmbed
-    // cSpell:ignore TsNU5 240Y
     id="TsNU5ll240Y"
     params="autoplay=1&autohide=1&showinfo=0&rel=0"
     title="Beyond Identity Android Embedded SDK With UI"

@@ -57,9 +57,9 @@ Create the HTTP request with the following properties:
 https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/tokens?principal_type={principal_type}  
 ```
 
-where  
+where
 
-{principal_type} is either 'application' or 'identity' (see [List Tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) for more details on query parameters) 
+`{principal_type}` is either 'application' or 'identity' (see [List Tokens API](https://developer.beyondidentity.com/api/v1#tag/Tokens/operation/ListTokens) for more details on query parameters) 
 
 :::note
 The list tokens API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
@@ -72,9 +72,9 @@ Authorization: {authorization_token}
 content-type: application/x-www-form-urlencoded  
 ```
 
-where 
+where
 
-{authorization_token} contains scope 'tokens:read' and audience 'beyondidentity'  
+`{authorization_token}` contains scope 'tokens:read' and audience 'beyondidentity'  
 
 ### Example: List access tokens for an application
 

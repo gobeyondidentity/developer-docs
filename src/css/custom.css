@@ -43,6 +43,13 @@
   --ifm-color-primary-lighter: #dddddd;
   --ifm-color-primary-lightest: #f2f2f2;
 
+  /* Fix text colors for dark mode */
+  --ifm-color-content: rgba(255, 255, 255, 0.87);
+  --ifm-color-content-secondary: rgba(255, 255, 255, 0.6);
+  --ifm-border-color: rgba(255, 255, 255, 0.12);
+  --ifm-background-color: #1b1b1d;
+  --ifm-color-secondary: #1b1b1d;
+
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
 }
 
@@ -63,6 +70,181 @@ div[class^='announcementBar_'] {
   background-color: #eaeaea;
 }
 
+[data-theme='dark'] .card-header {
+  background-color: #2a2a2a;
+}
+
+/* Fix homepage hero text in dark mode */
+[data-theme='dark'] .hero__title,
+[data-theme='dark'] .hero__subtitle {
+  color: var(--ifm-color-primary-lightest);
+}
+
+/* Fix homepage card text in dark mode */
+[data-theme='dark'] .card__title,
+[data-theme='dark'] .card__subtitle {
+  color: var(--ifm-color-content);
+}
+
+/* Fix general heading colors in dark mode */
+[data-theme='dark'] h1,
+[data-theme='dark'] h2,
+[data-theme='dark'] h3,
+[data-theme='dark'] h4,
+[data-theme='dark'] h5,
+[data-theme='dark'] h6 {
+  color: var(--ifm-color-content);
+}
+
+/* Fix paragraph text in dark mode */
+[data-theme='dark'] p {
+  color: var(--ifm-color-content);
+}
+
+/* Fix breadcrumbs in dark mode */
+[data-theme='dark'] .breadcrumbs__item,
+[data-theme='dark'] .breadcrumbs__link {
+  color: var(--ifm-color-content-secondary);
+}
+
+[data-theme='dark'] .breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--ifm-color-content);
+}
+
+/* Fix footer links in dark mode */
+[data-theme='dark'] .footer a,
+[data-theme='dark'] .footer__link-item {
+  color: var(--ifm-color-primary-lighter);
+}
+
+[data-theme='dark'] .footer a:hover,
+[data-theme='dark'] .footer__link-item:hover {
+  color: var(--ifm-color-primary-lightest);
+}
+
+/* Fix doc footer (prev/next navigation) in dark mode */
+[data-theme='dark'] .pagination-nav__link,
+[data-theme='dark'] .pagination-nav__label,
+[data-theme='dark'] .pagination-nav__sublabel {
+  color: var(--ifm-color-content);
+}
+
+/* Fix sidebar category labels in dark mode */
+[data-theme='dark'] .menu__list-item-collapsible,
+[data-theme='dark'] .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible,
+[data-theme='dark'] .menu__link--sublist,
+[data-theme='dark'] .menu__link,
+[data-theme='dark'] .menu__caret,
+[data-theme='dark'] .theme-doc-sidebar-item-category > div > a,
+[data-theme='dark'] .theme-doc-sidebar-item-link {
+  color: var(--ifm-color-content) !important;
+}
+
+[data-theme='dark'] .menu__link:hover,
+[data-theme='dark'] .menu__link--active {
+  color: var(--ifm-color-primary-lightest) !important;
+}
+
+/* Fix table of contents (TOC) in dark mode */
+[data-theme='dark'] .table-of-contents__link {
+  color: var(--ifm-color-content-secondary);
+}
+
+[data-theme='dark'] .table-of-contents__link:hover,
+[data-theme='dark'] .table-of-contents__link--active {
+  color: var(--ifm-color-primary-lightest);
+}
+
+[data-theme='dark'] .table-of-contents__link--active {
+  font-weight: 600;
+}
+
+/* Fix navbar links in dark mode */
+[data-theme='dark'] .navbar__link,
+[data-theme='dark'] .navbar__item,
+[data-theme='dark'] .navbar__title {
+  color: var(--ifm-color-content);
+}
+
+[data-theme='dark'] .navbar__link:hover,
+[data-theme='dark'] .navbar__link--active,
+[data-theme='dark'] .navbar__title:hover {
+  color: var(--ifm-color-primary-lightest) !important;
+}
+
+[data-theme='dark'] .navbar__link--active {
+  font-weight: 600;
+}
+
+/* Fix navbar brand/logo link */
+[data-theme='dark'] .navbar__brand,
+[data-theme='dark'] .navbar__brand:hover {
+  color: var(--ifm-color-primary-lightest) !important;
+}
+
+/* Fix carousel/navigation arrows in dark mode */
+[data-theme='dark'] .carousel-arrow,
+[data-theme='dark'] .carousel button,
+[data-theme='dark'] .slick-arrow,
+[data-theme='dark'] .slick-prev,
+[data-theme='dark'] .slick-next {
+  color: var(--ifm-color-primary-lighter) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='dark'] .carousel-arrow:hover,
+[data-theme='dark'] .carousel button:hover,
+[data-theme='dark'] .slick-arrow:hover {
+  color: var(--ifm-color-primary-lightest) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Fix dropdown menus in dark mode */
+[data-theme='dark'] .dropdown__menu,
+[data-theme='dark'] .navbar__item.dropdown .dropdown__menu {
+  background-color: #2a2a2a;
+}
+
+[data-theme='dark'] .dropdown__link,
+[data-theme='dark'] .dropdown__item {
+  color: var(--ifm-color-content) !important;
+}
+
+[data-theme='dark'] .dropdown__link:hover,
+[data-theme='dark'] .dropdown__link--active {
+  color: var(--ifm-color-primary-lightest) !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Fix tabs in dark mode */
+[data-theme='dark'] .tabs__item {
+  color: var(--ifm-color-content-secondary);
+}
+
+[data-theme='dark'] .tabs__item:hover {
+  color: var(--ifm-color-content);
+}
+
+[data-theme='dark'] .tabs__item--active {
+  color: var(--ifm-color-primary-lightest) !important;
+  border-bottom-color: var(--ifm-color-primary-lighter) !important;
+  font-weight: 600;
+}
+
+/* Fix inline content links in dark mode */
+[data-theme='dark'] .markdown a,
+[data-theme='dark'] .theme-doc-markdown a,
+[data-theme='dark'] article a {
+  color: var(--ifm-color-primary-lighter);
+}
+
+[data-theme='dark'] .markdown a:hover,
+[data-theme='dark'] .theme-doc-markdown a:hover,
+[data-theme='dark'] article a:hover {
+  color: var(--ifm-color-primary-lightest);
+  text-decoration: underline;
+}
+
 .intro-visual {
   background-color: rgba(50, 50, 50, 0.1); /* soft gray instead of blue */
 }
@@ -76,6 +258,13 @@ div[class^='announcementBar_'] {
 
 [data-theme='dark'] .intro-visual {
   background-color: #333333;
+}
+
+[data-theme='dark'] .intro-visual h5,
+[data-theme='dark'] .intro-visual h4,
+[data-theme='dark'] .intro-text p,
+[data-theme='dark'] .intro-card h3 {
+  color: var(--ifm-color-primary-lightest) !important;
 }
 
 /* Table of contents active link bar */

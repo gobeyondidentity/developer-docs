@@ -42,41 +42,55 @@ const MultiLanguageCodeBlock = ({ curl, title }) => {
     })()
   );
 
-  if (ExecutionEnvironment.canUseDOM) {
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', (event) => {
-        if (event.matches) {
-          //dark mode
-          setTheme(DARK_MODE_THEME);
-        } else {
-          //light mode
-          setTheme(LIGHT_MODE_THEME);
-        }
-      });
-  }
-
-  useEffect(async () => {
-    const rawResponse = await fetch(
-      `https://curl-converter-backend.vercel.app/api/convert`,
-      {
-        body: JSON.stringify({
-          curl: curl,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-        },
-        method: 'POST',
-      }
-    );
-    let jsonResponse = await rawResponse.json();
-    if (rawResponse.status !== 200) {
-      console.error(jsonResponse);
+  // Fix Bug 1: Move event listener into useEffect with cleanup
+  useEffect(() => {
+    if (!ExecutionEnvironment.canUseDOM) {
       return;
     }
-    setResponse(jsonResponse);
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (event) => {
+      if (event.matches) {
+        setTheme(DARK_MODE_THEME);
+      } else {
+        setTheme(LIGHT_MODE_THEME);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    // Cleanup function
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
   }, []);
+
+  // Fix Bug 2: Don't make useEffect callback async
+  useEffect(() => {
+    const fetchData = async () => {
+      const rawResponse = await fetch(
+        `https://curl-converter-backend.vercel.app/api/convert`,
+        {
+          body: JSON.stringify({
+            curl: curl,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+          method: 'POST',
+        }
+      );
+      let jsonResponse = await rawResponse.json();
+      if (rawResponse.status !== 200) {
+        console.error(jsonResponse);
+        return;
+      }
+      setResponse(jsonResponse);
+    };
+
+    fetchData();
+  }, [curl]);
 
   return (
     <div>

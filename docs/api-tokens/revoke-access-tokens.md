@@ -98,7 +98,7 @@ Authorization: Basic {client_credentials}
 content-type: application/x-www-form-urlencoded  
 ```
  
-where {client_credentials} is the value of the **Client ID** and **Client Secret** of the app that issued the token, concatenated together in the format '{client_id}:{client_secret}' and base64 encoded
+where `{client_credentials}` is the value of the **Client ID** and **Client Secret** of the app that issued the token, concatenated together in the format `{client_id}:{client_secret}` and base64 encoded
 
 :::note important
 Using client credentials for authorization only works for apps configured with **Protocol** setting 'OAuth2'. Apps configured with **Protocol** 'OIDC' need to use bearer authorization as described below.  
@@ -113,14 +113,14 @@ content-type: application/x-www-form-urlencoded
 
 where 
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'  
+`{authorization_token}` is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity'  
 
 **Request body**:  
 ```json
   "token": "{token_to_revoke}"
 ```
 
-where {token_to_revoke} is the base64 encoded token you wish to revoke  
+where `{token_to_revoke}` is the base64 encoded token you wish to revoke  
 
 **Response**
 
@@ -147,7 +147,7 @@ Create the HTTP request as follows:
 https://api-$(REGION).beyondidentity.com/v1/tenants/$(TENANT_ID)/realms/$(REALM_ID)/applications/$(APPLICATION_ID)/tokens/$(TOKEN_ID)  
 ```
 
-where {TOKEN_ID} is the id of the token as returned from a call to the [list tokens API](/docs/list-access-tokens) for the app that issued the token
+where `{TOKEN_ID}` is the id of the token as returned from a call to the [list tokens API](/docs/list-access-tokens) for the app that issued the token
 
 :::note
 The revoke token by ID API hostname is prefixed with "api-us" or "api-eu", not "auth-us" or "auth-eu"  
@@ -164,7 +164,7 @@ content-type: application/x-www-form-urlencoded
 
 where 
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity' (to create a Beyond Identity API token, see examples [here](/docs/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
+`{authorization_token}` is a Bearer token that contains the scope 'tokens:delete' and audience 'beyondidentity' (to create a Beyond Identity API token, see examples [here](/docs/create-api-token#example-create-tokens-for-the-beyond-identity-management-api))  
 
 **Response**
 

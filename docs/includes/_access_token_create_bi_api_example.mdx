@@ -65,7 +65,7 @@ Follow the steps below based on the flow you wish to use, either client credenti
     Create the `/authorize` call to obtain an authorization code:
 
     <MultiLanguageCodeBlock
-    curl='curl -G "https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/authorize" \
+    curl='curl -G "https://auth-{us|eu}.beyondidentity.com/v1/tenants/`{tenant_id}`/realms/`{realm_id}`/applications/`{application_id}`/authorize" \
     --data-urlencode "response_type=code" \
     --data-urlencode "client_id=$(client_id)" \
     --data-urlencode "redirect_uri=$(redirect_uri)" \
@@ -102,11 +102,11 @@ Follow the steps below based on the flow you wish to use, either client credenti
     Then create the`/token` call to create an access token:
 
     <MultiLanguageCodeBlock
-      curl='curl "https://auth-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/applications/{application_id}/token" \
+      curl='curl "https://auth-{us|eu}.beyondidentity.com/v1/tenants/`{tenant_id}`/realms/`{realm_id}`/applications/`{application_id}`/token" \
       -X POST \
       -u "$(client_id):$(client_secret)" --basic \
       -H "Content-Type: application/x-www-form-urlencoded" \
-      -d "grant_type=authorization_code&code=$(authorization_code)&redirect_uri=${redirect_uri}&client_id=$(client_id)&code_verifier=$(CODE_VERIFIER)"'
+      -d "grant_type=authorization_code&code=$(authorization_code)&redirect_uri=$`{redirect_uri}`&client_id=$(client_id)&code_verifier=$(CODE_VERIFIER)"'
       title="/token"
     />
 

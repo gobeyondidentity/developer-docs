@@ -18,20 +18,20 @@ You can use the following endpoints to discover the implementation details of BI
 
 | Endpoint                                 | SCIM spec                                     |
 |:-----------------------------------------|:----------------------------------------------|
-| `{{baseUrl}}/scim/ServiceProviderConfig` | https://tools.ietf.org/html/rfc7643#section-5 |
-| `{{baseUrl}}/scim/ResourceTypes`         | https://tools.ietf.org/html/rfc7643#section-6 |
-| `{{baseUrl}}/scim/Schemas`               | https://tools.ietf.org/html/rfc7643#section-7 |
+| `{baseUrl}/scim/ServiceProviderConfig` | https://tools.ietf.org/html/rfc7643#section-5 |
+| `{baseUrl}/scim/ResourceTypes`         | https://tools.ietf.org/html/rfc7643#section-6 |
+| `{baseUrl}/scim/Schemas`               | https://tools.ietf.org/html/rfc7643#section-7 |
 
 Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.  Note that the URL's subdomain will change according to your region, either _us_ or _eu_.
 
 ## Operations
 The following operations are currently supported by BI SCIM server:
 
-- Create: POST {{baseUrl}}/{{resource}}
-- Read: GET {{baseUrl}}/{{resource}}/{{id}}
-- Replace: PUT {{baseUrl}}/{{resource}}/{{id}}
-- Delete: DELETE {{baseUrl}}/{{resource}}/{{id}}
-- Search: GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}
+- Create: POST `{baseUrl}`/`{resource}`
+- Read: GET `{baseUrl}`/`{resource}`/`{id}`
+- Replace: PUT `{baseUrl}`/`{resource}`/`{id}`
+- Delete: DELETE `{baseUrl}`/`{resource}`/`{id}`
+- Search: GET `{baseUrl}`/`{resource}`?ﬁlter=`{attribute}``{op}``{value}`
 
 Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`. **resource** can either be `Groups`, `Users`. 
 **id** represents the BI's unique identifier of the corresponding resource.  

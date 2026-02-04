@@ -68,7 +68,7 @@ import AddAppAdminConsole  from '../includes/_add-application-console.mdx';
   | **Protocol** | OIDC |
   | **Client Type** | Confidential | 
   | **PKCE** | Disabled  | 
-  | **Redirect URIs** | https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp<br /><br />If you use a custom domain, enter https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp <br /><br />Replace **{your-tenant-name}** with the name of your Azure tenant, and **{your-domain-name}** with your custom domain.  | 
+  | **Redirect URIs** | `https://{your-tenant-name}.b2clogin.com/{your-tenant-name}.onmicrosoft.com/oauth2/authresp`<br /><br />If you use a custom domain, enter `https://{your-domain-name}/{your-tenant-name}.onmicrosoft.com/oauth2/authresp` <br /><br />Replace **`{your-tenant-name}`** with the name of your Azure tenant, and **`{your-domain-name}`** with your custom domain.  | 
   | **Token Endpoint Auth Method** | Client Secret Post | 
   | **Resource Server** | None |
   | **Grant Type** | Authorization Code | 

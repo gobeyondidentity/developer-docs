@@ -70,9 +70,9 @@ Authorization: Bearer {authorization_token}
 content-type: application/x-www-form-urlencoded  
 ```
 
-where 
+where
 
-{authorization_token} is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'  
+`{authorization_token}` is a Bearer token that contains the scope 'tokens:introspect' and audience 'beyondidentity'  
 
 -OR-
 
@@ -81,9 +81,9 @@ Authorization: Basic {app_client_credentials_b64}
 content-type: application/x-www-form-urlencoded  
 ```
 
-where 
+where
 
-{app_client_credentials_b64} is the value of the application's Client ID and Client secret in the format {client_id}:{client_secret} and base64 encoded  
+`{app_client_credentials_b64}` is the value of the application's Client ID and Client secret in the format `{client_id}:{client_secret}` and base64 encoded  
 
 
 **Request body:**  
@@ -92,7 +92,7 @@ where
 token: {token_to_introspect} 
 ```
 
-where {token_to_introspect} is the base64 encoded access token you wish to validate  
+where `{token_to_introspect}` is the base64 encoded access token you wish to validate  
 
 ### Example
 
@@ -159,7 +159,7 @@ In order to validate a token offline, the JWT header and claims must be decoded.
 
 3. Check that either the application id or resource server identifier is listed in the `aud` of the JWT claims. It is sufficient if at least one of the allowed audiences is in the token `aud` claim.
 
-4. Check timestamps in JWT claims where `nbf` <= current time as unix timestamp in seconds <= `exp`
+4. Check timestamps in JWT claims where `nbf` &lt;= current time as unix timestamp in seconds &lt;= `exp`
 
 5. Check that JWT claims target tenant `bi_t` and target realm `bi_r` match the tenant and realm for the given application.
 

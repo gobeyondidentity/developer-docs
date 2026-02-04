@@ -176,11 +176,11 @@ https://www.beyondidentity.com/resources/beyond-identity-admin-console-overview
 
 - Enter the following values:
 
-   - **Email**: <email_address>
+   - **Email**: `<email_address>`
 
-   - **Username**: <user_name>
+   - **Username**: `<user_name>`
 
-   - **Name**: <full_name>
+   - **Name**: `<full_name>`
 
 ## User Deprovisioning
 

@@ -1,14 +1,10 @@
 import React from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@docusaurus/router";
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import {useDoc} from '@docusaurus/theme-common/internal';
+import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import Heading from '@theme/Heading';
 import MDXContent from '@theme/MDXContent';
-import LastUpdatedDateHeader from '../Footer/index';
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import LastUpdated from '@theme/LastUpdated';
 import DocItemHeader from './LastUpdatedDateHeader';
 import styles from './styles.module.css';
 

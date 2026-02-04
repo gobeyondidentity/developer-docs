@@ -36,16 +36,16 @@ You can use the following endpoints to discover the implementation details of BI
 
 <br />
 
-Where **base_url** is `https://api-{{us|eu}}.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`.  Note that the URL's subdomain will change according to your region, either _us_ or _eu_.
+Where **base_url** is `https://api-{us|eu}.beyondidentity.com/v1/tenants/{tenant_id}/realms/{realm_id}/scim/v2`.  Note that the URL's subdomain will change according to your region, either _us_ or _eu_.
 
 ## Operations
 The following operations are currently supported by BI SCIM server:
 
-- Create: POST {{baseUrl}}/{{resource}}
-- Read: GET {{baseUrl}}/{{resource}}/{{id}}
-- Replace: PUT {{baseUrl}}/{{resource}}/{{id}}
-- Delete: DELETE {{baseUrl}}/{{resource}}/{{id}}
-- Search: GET {{baseUrl}}/{{resource}}?ﬁlter={{attribute}}{{op}}{{value}}
+- Create: POST `{baseUrl}/{resource}`
+- Read: GET `{baseUrl}/{resource}/{id}`
+- Replace: PUT `{baseUrl}/{resource}/{id}`
+- Delete: DELETE `{baseUrl}/{resource}/{id}`
+- Search: GET `{baseUrl}/{resource}?filter={attribute}{op}{value}`
 
 Where **base_url** is `https://api-us.beyondidentity.com/v1/tenants/{{tenant_id}}/realms/{{realm_id}}/scim/v2`, **resource** can either be `Groups` or `Users`, and 
 **id** represents the BI's unique identifier of the corresponding resource.  

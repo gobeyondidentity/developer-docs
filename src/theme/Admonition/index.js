@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 
 function NoteIcon() {
   return (
-    <svg width="24" height="24" viewBox="24 24">
+    <svg width="24" height="24" viewBox="0 0 24 24">
       <path 
 
         fillRule="evenodd"
@@ -20,7 +20,7 @@ function NoteIcon() {
 }
 function TipIcon() {
   return (
-    <svg width="24" height="24" viewBox="24 24">
+    <svg width="24" height="24" viewBox="0 0 24 24">
       <path
         fillRule="evenodd"
         d="M 9 21 C 9 21.55 9.45 22 10 22 H 14 C 14.55 22 15 21.55 15 21 V 20 H 9 V 21 Z M 12 2 C 8.14 2 5 5.14 5 9 C 5 11.38 6.19 13.47 8 14.74 V 17 C 8 17.55 8.45 18 9 18 H 15 C 15.55 18 16 17.55 16 17 V 14.74 C 17.81 13.47 19 11.38 19 9 C 19 5.14 15.86 2 12 2 Z M 14.85 13.1 L 14 13.7 V 16 H 10 V 13.7 L 9.15 13.1 C 7.8 12.16 7 10.63 7 9 C 7 6.24 9.24 4 12 4 C 14.76 4 17 6.24 17 9 C 17 10.63 16.2 12.16 14.85 13.1 Z"
@@ -30,7 +30,7 @@ function TipIcon() {
 }
 function DangerIcon() {
   return (
-    <svg width="24" height="24" viewBox="24 24">
+    <svg width="24" height="24" viewBox="0 0 24 24">
       <path
         fillRule="evenodd"
         d="M 14.59 8 L 12 10.59 L 9.41 8 L 8 9.41 L 10.59 12 L 8 14.59 L 9.41 16 L 12 13.41 L 14.59 16 L 16 14.59 L 13.41 12 L 16 9.41 L 14.59 8 Z M 12 2 C 6.47 2 2 6.47 2 12 C 2 17.53 6.47 22 12 22 C 17.53 22 22 17.53 22 12 C 22 6.47 17.53 2 12 2 Z M 12 20 C 7.59 20 4 16.41 4 12 C 4 7.59 7.59 4 12 4 C 16.41 4 20 7.59 20 12 C 20 16.41 16.41 20 12 20 Z"
@@ -50,7 +50,7 @@ function InfoIcon() {
 }
 function CautionIcon() {
   return (
-   <svg width="24" height="24" viewBox="24 24">
+   <svg width="24" height="24" viewBox="0 0 24 24">
       <path
         fillRule="evenodd"
         d="M 12 6.49 L 19.53 19.5 H 4.47 L 12 6.49 Z M 12 2.5 L 1 21.5 H 23 L 12 2.5 Z M 13 16.5 H 11 V 18.5 H 13 V 16.5 Z M 13 10.5 H 11 V 14.5 H 13 V 10.5 Z"
