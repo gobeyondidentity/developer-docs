@@ -94,9 +94,8 @@ If the user has never set up an account with Beyond Identity, then the user will
 
 In either case, the end result is that the user creates a Credential on the device in question. At a high level, a Credential can be thought of as an X.509 Certificate (in fact, it’s just a wrapper on top of one). Each Credential contains a public/private key pair where the private key is stored securely in the Secure Enclave (iOS) or Keystore (Android). When a user sets up an account with Beyond Identity, the device in which they register creates a Credential that becomes their identity. This private key associated with this Credential can never be removed from the device in question. It is however possible to extend the Credential’s chain of trust by creating a new Credential on a different device and signing it with the private key of the first Credential. This process is covered in the Adding a New Device section.
 
-Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guides to integrate registration and recovery into your application:
+Registration and recovery are not offered as functions in the Embedded SDK. Instead, please use the following guide to integrate recovery into your application:
 
-- [User Sign-Up Flow](../../integration-guides/user-sign-up-flow.md) 
 - [User Recovery Flow](../../integration-guides/user-recovery-flow.md)
 
 ## Intercepting A Redirect From A New or Recovered User

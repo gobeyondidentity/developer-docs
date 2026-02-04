@@ -79,8 +79,6 @@ The UserInfo endpoint can be used to retrieve other values associated with the u
 
 ## Enroll users
 
-To register new users for use with the platform authenticator you will need to create a self-service sign-up flow or provision users manually either via the admin console or [API](ref:createuser).
-
-We have provided some guidance on how we recommended creating a self service sign-up flow with Beyond Identity's APIs. You can follow the [User Sign-up flow](../../integration-guides/user-sign-up-flow.md) guide or take a look at the [Create User](ref:createuser) endpoint.
+To register new users for use with the platform authenticator, provision users via the admin console or [API](ref:createuser).
 
 

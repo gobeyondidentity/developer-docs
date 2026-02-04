@@ -189,7 +189,6 @@
       "label": "Integration Guides",
       "collapsed": false,
       "items": [
-        "integration-guides/user-sign-up-flow",
         "integration-guides/user-recovery-flow",
         {
           "type": "category",
@@ -200,7 +199,7 @@
             "integration-guides/integrate-with-keycloak",
             "integration-guides/integrate-with-curity"
           ]
-        }        
+        }
       ]
     },
     {

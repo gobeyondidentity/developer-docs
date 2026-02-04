@@ -40,15 +40,14 @@ Currently, Beyond Identity only supports clients with a backend. This allows for
 
 ![android-authenticator-2](../../images/android-authenticator-2.png)
 
-For either flow you'll want to create and add an `AuthView` in your `Activity/Fragment`. This view contains both Beyond Identity Sign In and Sign Up buttons.
-When the user taps the "Sign In" button, your session will start. When the user taps "Sign Up" button the AuthView will trigger your sign up action.
+For either flow you'll want to create and add an `AuthView` in your `Activity/Fragment`. This view contains a Beyond Identity Sign In button.
+When the user taps the "Sign In" button, your session will start.
 
 ```kotlin
 val authView = findViewById<AuthView>(R.id.auth_view)
 
 authView.initAuthView(
-    signInUri: Uri,
-    signUpOnClickListener: View.OnClickListener,
+    signInUri: Uri
 )
 ```
 

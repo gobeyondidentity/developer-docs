@@ -18,7 +18,7 @@ The user flow to set up a passwordless account is:
 1. The user can login now and in the future with their email, which will trigger a step-up (on most devices) and retrieve the credential.
 1. That credential is presented to Beyond Identity to authenticate the user.
 
-More details are [available here on how BI Secure Customer](https://www.beyondidentity.com/developers/signup) works. You can sign up for a **free account** there.
+More details are [available here on how BI Secure Customer](reach out to Beyond Identity Support) works. You can sign up for a **free account** there.
 
 # bubble.io
 
@@ -44,7 +44,7 @@ Before you get started, please set up the following.
 
 - A free account on [bubble.io](https://bubble.io) and some basic familiarity with their UI
 
-- A free account on [Beyond Identity Secure Customer](https://www.beyondidentity.com/developers/signup)
+- A free account on [Beyond Identity Secure Customer](reach out to Beyond Identity Support)
 
 - A tenant, realm, and application set up in Beyond Identity. On our [Getting Started](https://developer.beyondidentity.com/docs/v1/getting-started#3-create-a-tenant) guide, go through steps 3, 6, 7, and 8. 
 

@@ -1,9 +1,9 @@
 ---
 title: "User Recovery Flow"
-description: "How to implement a self-service user recovery flow"
+description: "How to implement a user recovery flow"
 ---
 
-This guide provides details on how to implement a self-service recovery flow for passwordless users. 
+This guide provides details on how to implement a user recovery flow for passwordless users. 
 
 Recovery is required when the user has lost access to all of their devices with a registered credential or they have accidentally deleted the credential from their only enrolled device.
 
@@ -18,7 +18,7 @@ Beyond identity establishes trust by only allowing a recovery flow via the users
 
 To recover a user which exists in the Beyond Identity directory, use the manage users API, by issuing a HTTP POST to https://api.byndid.com/v1/manage/recover-user. See API definition [here](https://developer.beyondidentity.com/api/v0#tag/Users/operation/RecoverUser).
 
-Beyond identity requires an `API_TOKEN` in order to recover a user so this request must be called from your secure backend. We recommend implementing a self service recovery flow similar to the digram provided below.
+Beyond identity requires an `API_TOKEN` in order to recover a user so this request must be called from your secure backend. We recommend implementing a user recovery flow similar to the diagram provided below.
 
 ![User Recovery flow](../images/user-recovery-flow.png)
 

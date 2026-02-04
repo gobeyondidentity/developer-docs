@@ -9,7 +9,7 @@ This guide describes how to configure Beyond Identity as an Identity Provider fo
 
 ## Setup a Beyond Identity tenant
 
-[Create a tenant](https://www.beyondidentity.com/developers/signup) via the sign up form.
+[Create a tenant](reach out to Beyond Identity Support) via the sign up form.
 
 After a tenant and a local passkey is created, you will be automatically redirected to the [Admin Console](http://console-us.beyondidentity.run/).
 

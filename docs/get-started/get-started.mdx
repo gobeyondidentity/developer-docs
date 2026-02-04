@@ -15,21 +15,11 @@ doc_type: how-to
 displayed_sidebar: mainSidebar
 ---
 
-When you start using your developer account, the Beyond Identity Admin Console has your <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user’s devices’ hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkey</a> and <a href="#" data-tooltip="A Beyond Identity tenant represents an organization in the Beyond Identity Cloud. It serves as the root container for all other cloud components in your configuration. Your tenant has a unique identifier, a modifiable name, and contains one or more realms that make up the organization.">tenant</a> ready.
+When you start using your developer account, the Beyond Identity Admin Console has your <a href="#" data-tooltip="A public and private key pair. The private key is generated and stored and never leaves the user's devices' hardware root of trust. The public key, on the other hand, is sent to the Beyond Identity cloud. All keys are cryptographically linked to the user and can be centrally managed using our APIs.">passkey</a> and <a href="#" data-tooltip="A Beyond Identity tenant represents an organization in the Beyond Identity Cloud. It serves as the root container for all other cloud components in your configuration. Your tenant has a unique identifier, a modifiable name, and contains one or more realms that make up the organization.">tenant</a> ready.
 
-import DevSignUpFlow from '../images/sign-up-flow.png';
-import DevSignUpFlowDark from '../images/sign-up-flow-dark.png';
-import ImageSwitcher from '../../src/components/ImageSwitcher';
 import AngularLogo from '../../static/img/Angular_full_color_logo.svg';
 import ReactLogo from '../../static/img/React-icon.svg';
 import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
-
-<ImageSwitcher
-  id="workflows"
-  alt="Developer account sign up workflow"
-  lightSrc={DevSignUpFlow}
-  darkSrc={DevSignUpFlowDark}
-/>
 
 <br />
 
@@ -42,9 +32,9 @@ import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
       <div class="col">
         <div class="card get-started-card">
           <a href="/docs/get-started-react">
-            <div class="get-started-card">
-              <div class="card__image">
-                <ReactLogo />
+            <div class="get-started-card" style={{ textAlign: 'center' }}>
+              <div class="card__image" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120px' }}>
+                <ReactLogo style={{ maxWidth: '100px', maxHeight: '100px' }} />
               </div>
               <div class="card__body">
                 <h4>React</h4>
@@ -56,9 +46,9 @@ import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
       <div class="col">
         <div class="card get-started-card">
           <a href="/docs/get-started-angular">
-            <div class="get-started-card">
-              <div class="card__image">
-                <AngularLogo />
+            <div class="get-started-card" style={{ textAlign: 'center' }}>
+              <div class="card__image" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120px' }}>
+                <AngularLogo style={{ maxWidth: '100px', maxHeight: '100px' }} />
               </div>
               <div class="card__body">
                 <h4>Angular</h4>
@@ -70,13 +60,11 @@ import NextJsLogoComponent from '../../src/components/NextJsLogoComponent';
       <div class="col">
         <div class="card get-started-card">
           <a href="/docs/get-started-nextjs">
-            <div class="get-started-card">
-              <div class="card__image">
-                <br />
-                <NextJsLogoComponent />
+            <div class="get-started-card" style={{ textAlign: 'center' }}>
+              <div class="card__image" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120px' }}>
+                <NextJsLogoComponent style={{ maxWidth: '100px', maxHeight: '100px' }} />
               </div>
               <div class="card__body">
-                <br />
                 <h4>NextJS</h4>
               </div>
             </div>
