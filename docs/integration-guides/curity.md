@@ -25,7 +25,7 @@ This short guide provides details on how to configure Beyond Identity as an Iden
 * An installation of the Curity Identity Server. A good starting point is to follow the [Getting Started Guide.](https://curity.io/resources/getting-started/)
 
 ### Create a Tenant
-If you don't have a Beyond Identity tenant, contact your administrator.
+If you don't have a Beyond Identity tenant, reach out to Beyond Identity Support.
 
 Once your tenant has been created with Beyond Identity, you can continue to create an Application. 
 

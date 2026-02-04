@@ -9,7 +9,7 @@ import Arcade, {Clip} from '@site/src/components/Arcade.tsx';
 
 ## Sign up for a developer account
 
-To get started, sign up using the following link: contact your administrator. Completing the form will generate several things behind the scenes:
+To get started, sign up using the following link: reach out to Beyond Identity Support. Completing the form will generate several things behind the scenes:
 
 1. You will be given a [tenant](../platform-overview/architecture), which serves as a root container for all your cloud components. 
 2. Inside this tenant you will find a "Beyond Identity Admin" [realm](../platform-overview/architecture).

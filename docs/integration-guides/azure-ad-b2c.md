@@ -38,7 +38,7 @@ Before continuing, make sure you've met the following prerequisites:
 
 * Access to an Azure AD B2C tenant with admin privileges
 
-* Access to a Beyond Identity tenant with admin privileges. If you don't have a tenant, contact your administrator.
+* Access to a Beyond Identity tenant with admin privileges. If you don't have a tenant, reach out to Beyond Identity Support.
 
 ## Configure Beyond Identity as an Identity Provider
 

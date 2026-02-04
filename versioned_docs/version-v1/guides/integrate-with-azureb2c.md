@@ -19,7 +19,7 @@ This guide will cover:
 Before continuing, make sure the following prerequisites have been met:
 
 * Access to an Azure AD B2C tenant with admin privileges
-* Access to a Beyond Identity tenant with admin privileges. If you don't have one, contact your administrator.
+* Access to a Beyond Identity tenant with admin privileges. If you don't have one, reach out to Beyond Identity Support.
 * Add a realm to your Beyond Identity tenant to contain your application and users (separate to the default Admin realm). See https://developer.beyondidentity.com/docs/v1/using-bi-for-auth
 
 ## Configure Beyond Identity as an Identity Provider
