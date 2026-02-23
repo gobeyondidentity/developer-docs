@@ -65,10 +65,7 @@ export default function DocItemFooter() {
               <h4>Join our community!</h4>
                 <ul className={clsx('no-style', styles.indent)}>
                     <li class="no-style"><FaGithub />&nbsp;&nbsp;<a href="https://github.com/gobeyondidentity" target="_blank">GitHub</a></li>
-                    <li class="no-style"><FaStackOverflow />&nbsp;&nbsp;<a href="https://stackoverflow.com/questions/tagged/beyondidentity" target="_blank">Stack Overflow</a></li>
                     <li class="no-style"><FaSlack />&nbsp;&nbsp;<a href="https://byndid.slack.com/join/shared_invite/zt-1anns8n83-NQX4JvW7coi9dksADxgeBQ#/shared-invite/email" target="_blank">Slack</a></li>
-                    <li class="no-style"><FaTwitter />&nbsp;&nbsp;<a href="https://twitter.com/BI_Developers" target="_blank">Twitter</a></li>
-                    <li class="no-style"><FaDev />&nbsp;&nbsp;<a href="https://dev.to/beyondidentity" target="_blank">DevTo</a></li>
                   </ul>
               </div>
           </div>
