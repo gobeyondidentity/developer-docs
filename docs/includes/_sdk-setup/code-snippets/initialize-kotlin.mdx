@@ -10,10 +10,10 @@ EmbeddedSdk.init(
 // --- Initialize with required and optional arguments
 EmbeddedSdk.init(
   app = this,
+  biometricAskPrompt = "Please provide your biometric",
   logger = { logMessage ->
     Log.d("BeyondIdentityLog", logMessage)
   },
-  biometricAskPrompt = "Please provide your biometric",
   allowedDomains = listOf("example.com", "another-example.com")
 )
 
