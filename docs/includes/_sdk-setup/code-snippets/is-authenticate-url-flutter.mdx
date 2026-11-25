@@ -9,7 +9,7 @@ if (passkeys.isNotEmpty) {
   // TODO: Instead of automatically selecting the first passkey, 
   // present a UI to the user to let them select the desired passkey.
   // For the purpose of this example, we're using the first passkey.
-  String passkeyId = passkeys.first.passkeyId;
+  String passkeyId = passkeys.first.id;
 
   bool isValid = await EmbeddedSdk.isAuthenticateUrl(url);
   if (isValid) {

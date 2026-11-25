@@ -16,7 +16,7 @@ CoroutineScope(Dispatchers.Main).launch {
                 // TODO: Instead of automatically selecting the first passkey, 
                 // present a UI to the user to let them select the desired passkey.
                 // For the purpose of this example, we're using the first passkey.
-                val passkeyId = passkeys.first().passkeyId
+                val passkeyId = passkeys.first().id
 
                 EmbeddedSdk.isAuthenticateUrl(url, Dispatchers.IO).collect { isValid ->
                     if (isValid) {

@@ -1,6 +1,6 @@
 ```swift
 // --- Initialize with required arguments
-Embedded.shared.initialize(
+Embedded.initialize(
   biometricAskPrompt: "Please provide your biometric"
 ) { result in
   switch result {
@@ -12,7 +12,7 @@ Embedded.shared.initialize(
 }
 
 // --- Initialize with required and optional arguments
-Embedded.shared.initialize(
+Embedded.initialize(
   allowedDomains: ["example.com", "another-example.com"],
   biometricAskPrompt: "Please provide your biometric",
   logger: { (logType, message) in

@@ -7,7 +7,7 @@ public struct Passkey: Equatable, Identifiable, Hashable {
     public let id: Id
 
     /// The external (cloud) identifier of the passkey.
-    public let passkeyId: String
+    public let passkeyId: PasskeyId
 
     /// The time when this passkey was created locally. This could be different from "created" which is the time when this passkey was created on the server.
     public let localCreated: Date
@@ -44,7 +44,7 @@ public struct Passkey: Equatable, Identifiable, Hashable {
     
     public init(
         id: Passkey.Id,
-        passkeyId: String,
+        passkeyId: Passkey.PasskeyId,
         localCreated: Date,
         localUpdated: Date,
         apiBaseUrl: URL,
@@ -85,6 +85,17 @@ extension Passkey {
 }
 
 extension Passkey {
+    /// The external (cloud) identifier of the passkey.
+    public struct PasskeyId: Equatable, Hashable, Codable {
+        public let value: String
+        
+        public init(_ value: String) {
+            self.value = value
+        }
+    }
+}
+
+extension Passkey {
     /// State of a given `Passkey`.
     @frozen
     public enum State: String, CaseIterable, Equatable, Hashable {
@@ -103,5 +114,32 @@ public struct KeyHandle: Equatable, Hashable {
     public init(_ value: String) {
         self.value = value
     }
+}
+
+/// Tenant information associated with a passkey.
+public struct Tenant: Equatable, Hashable {
+    public let id: Id                // Tenant.Id, wrapping a String `value`
+    public let displayName: String
+}
+
+/// Realm information associated with a passkey.
+public struct Realm: Equatable, Hashable {
+    public let id: Id                // Realm.Id, wrapping a String `value`
+    public let displayName: String
+}
+
+/// Identity information associated with a passkey.
+public struct Identity: Equatable, Hashable {
+    public let id: Id                // Identity.Id, wrapping a String `value`
+    public let displayName: String
+    public let username: String
+    public let primaryEmailAddress: String?
+}
+
+/// Theme information associated with a passkey.
+public struct Theme: Equatable, Hashable {
+    public let logoLightUrl: URL
+    public let logoDarkUrl: URL
+    public let supportUrl: URL
 }
 ```

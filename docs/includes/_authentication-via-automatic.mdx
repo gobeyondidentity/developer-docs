@@ -537,7 +537,7 @@ var result = await FlutterWebAuth.authenticate(
 2. The result will be a URL with the Invoke URL scheme. You can call `EmbeddedSdk.authenticate()`, using the result. You can confirm the validity of the URL with `EmbeddedSdk.isAuthenticateUrl()`.
 
 ```dart
-var authenticateResponse = await Embeddedsdk.authenticate(
+var authenticateResponse = await EmbeddedSdk.authenticate(
   result,
   selectedPasskeyId
 );
@@ -561,7 +561,7 @@ selectPasskeyId((selectedPasskeyId) async {
         callbackUrlScheme: CALLBACK_URL_SCHEME,
     );
 
-    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
+    var authenticateResponse = await EmbeddedSdk.authenticate(result, selectedPasskeyId);
 
     // This URL contains authorization code and state parameters
     // Exchange the authorization code for an id_token using Beyond Identity's token endpoint.

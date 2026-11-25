@@ -13,7 +13,7 @@ EmbeddedSdk.init(
   logger = { logMessage ->
     Log.d("BeyondIdentityLog", logMessage)
   },
-  biometricAskPrompt = getString(R.string.embedded_export_biometric_prompt_title),
+  biometricAskPrompt = "Please provide your biometric",
   allowedDomains = listOf("example.com", "another-example.com")
 )
 

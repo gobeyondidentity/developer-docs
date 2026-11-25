@@ -1,6 +1,6 @@
 ```swift
-struct BindPasskeyResponse: Codable, Equatable {
-    let passkey: Passkey
-    let postBindingRedirectUri: URL?
+public struct BindPasskeyResponse: Equatable, Hashable {
+    public let passkey: Passkey
+    public let postBindingRedirectUri: URL?
 }
 ```

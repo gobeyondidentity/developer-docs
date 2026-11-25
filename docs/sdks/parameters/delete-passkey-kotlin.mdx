@@ -1,3 +1,12 @@
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **id** | String | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/embedded-reference-passkey-type) that is available on the device. |
+| **id** | `String` | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/embedded-reference-passkey-type) that is available on the device. |
+| **callback** | `(Result<Unit>) -> Unit` | Required. Called with `Unit` on success, or a `Throwable` on failure. |
+
+<br />
+<b>Alternatively, call the overload that takes a dispatcher instead of a callback. It returns a <code>Flow</code> that emits the result once it is collected:</b>
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **id** | `String` | Required. The ID of the passkey to be deleted. This should match the **id** property of a [Passkey](/docs/embedded-reference-passkey-type) that is available on the device. |
+| **dispatcher** | `CoroutineDispatcher` | Optional. The coroutine dispatcher to run on. Defaults to `Dispatchers.Default`. |

@@ -1,3 +1,10 @@
 ```kotlin
-EmbeddedSdk.deletePasskey(passkeyId)
+EmbeddedSdk.deletePasskey(passkeyId) { result ->
+    result.onSuccess {
+        print("Successfully deleted passkey")
+    }
+    result.onFailure { e ->
+        print("Error deleting passkey: $e")
+    }
+}
 ```
