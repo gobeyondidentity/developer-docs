@@ -8,14 +8,14 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/01/2023
+  date: 11/25/2026
   author: William May
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
 
-The **initialize** function creates an instance of the Beyond Identity SDK class `Embedded`, providing access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
+The **initialize** function sets up the Beyond Identity SDK and gives your app access to the rest of the SDK functions. The **initialize** function must be called first, before any other SDK functions.
 
 ## Dependencies
 
@@ -25,7 +25,7 @@ The **initialize** function requires the Beyond Identity SDK.
 
 ## Prerequisites
 
-Before making a call to **initialize**, you must import the Embedded namespace from the SDK.
+Before making a call to **initialize**, you must import the SDK.
 
 <ImportAll />
 
@@ -35,11 +35,51 @@ Before making a call to **initialize**, you must import the Embedded namespace f
 
 ## Returns
 
-On success, returns an instance of the **Embedded** class.
+<Tabs groupId="sdks" queryString>
+<TabItem value="javascript" label="JavaScript">
+
+On success, returns a Promise that resolves to an instance of the **Embedded** class. Call the other SDK functions on this instance.
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+`EmbeddedSdk` is a singleton `object`, so `init` returns nothing. Call the other SDK functions on `EmbeddedSdk` once it returns.
+
+`init` throws a `DatabaseSetupException` if the SDK cannot set up its local database. The other functions report failure as a `Throwable` in their `Result`.
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+The callback receives `.success(())`, or `.failure(BISDKError)`. The `async throws` variant returns nothing and throws a `BISDKError` on failure. Once it succeeds, call the other SDK functions on `Embedded.shared`.
+
+Every Swift SDK function reports failure as a `BISDKError`:
+
+| Case | Meaning |
+| --- | --- |
+| `description(String)` | A failure described by the associated message. |
+| `passkeyNotFound` | The passkey does not exist on this device. |
+| `invalidUrlType` | The URL is not valid for this function. |
+| `initializationIncomplete` | `Embedded.shared` was used before `Embedded.initialize` completed. |
+| `outOfMemory` | There is not enough disk space to complete the operation. |
+| `insufficientWritePermission(String)`, `insufficientReadPermission(String)` | The SDK cannot write to or read from the directory at the given path. |
+| `unknownWritePermission(String)`, `unknownReadPermission(String)` | An unknown error occurred writing to or reading from the directory at the given path. |
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+On success, returns a Promise that resolves to the string `'success'`. Call the other SDK functions on `Embedded` once it resolves. On failure, the Promise rejects with an error.
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+Returns a `Future<void>` that completes once the SDK is initialized, and completes with an error if initialization fails. Call the other SDK functions on `EmbeddedSdk` once it completes.
+
+</TabItem>
+</Tabs>
 
 ## Examples
 
-### Example: create an instance of the Embedded namespace prior to calling its functions
+### Example: initialize the SDK before calling its functions
 
 <InitializeAll />
 
@@ -47,3 +87,5 @@ import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeParametersAll from "../parameters/initialize-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";

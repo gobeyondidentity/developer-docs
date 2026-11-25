@@ -8,19 +8,12 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/01/2023
+  date: 11/25/2026
   author: William May
 draft: false
 doc_type: reference
 displayed_sidebar: sdkSidebar
 ---
-
-<mark>
-This function is only available on the JavaScript SDK. Support for more SDKs will be coming soon.
-</mark>
-
-<br />
-<br />
 
 The **redeemOtp** function enables an app using the Beyond Identity SDK to redeem an otp for a grant code. This function is used in conjunction with [authenticateOtp](embedded-reference-authenticateOtp).
 
@@ -42,28 +35,124 @@ Before making a call to **redeemOtp**, you must complete the following prerequis
 
   <InitializeAll />
 
-3. Use **authenticateOtp** to initiate authentication using an OTP
+3. Use [authenticateOtp](embedded-reference-authenticateOtp) to initiate authentication using an OTP, and keep the **url** of the **OtpChallengeResponse** it returns.
 
-  ```javascript
-  await embedded.authenticateOtp(url, email);
-  ```
-
-4. Use **redeemOtp** to redeem an otp for a grant code
-
-  ```javascript
-  await embedded.redeemOtp(url, otp);
-  ```
+4. Use **redeemOtp** to redeem the OTP the user received (see [example](#example-call-redeemotp) below).
 
 ## Parameters
 
+<Tabs groupId="sdks" queryString>
+<TabItem value="javascript" label="JavaScript">
+
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | string | Required. The authentication URL of the current transaction. This url is generated from [authenticateOtp](embedded-reference-authenticateOtp). |
-| **otp** | string | Required. The OTP to redeem. |
+| **url** | `string` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `string` | Required. The OTP to redeem. |
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `String` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `String` | Required. The OTP to redeem. |
+| **callback** | `(Result<RedeemOtpResponse>) -> Unit` | Required. Called with the response on success, or a `Throwable` on failure. |
+
+<br />
+<b>Alternatively, call the overload that takes a dispatcher instead of a callback. It returns a <code>Flow</code> that emits the result once it is collected:</b>
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `String` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `String` | Required. The OTP to redeem. |
+| **dispatcher** | `CoroutineDispatcher` | Optional. The coroutine dispatcher to run on. Defaults to `Dispatchers.Default`. |
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `URL` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `String` | Required. The OTP to redeem. |
+| **callback** | `@escaping (Result<RedeemOtpResponse, BISDKError>) -> Void` | Required. Called with the result. |
+
+The `async throws` variant takes the same parameters without **callback**, returns the result directly, and throws a `BISDKError` on failure.
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `string` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `string` | Required. The OTP to redeem. |
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `String` | Required. The **url** of the **OtpChallengeResponse** returned by [authenticateOtp](embedded-reference-authenticateOtp), or by a previous failed **redeemOtp**. |
+| **otp** | `String` | Required. The OTP to redeem. |
+
+</TabItem>
+</Tabs>
 
 ## Returns
 
-On success, the **redeemOtp** function returns a Promise that resolves to an **AuthenticateResponse**, which itself is a JSON object that contains the following keys:
+The **redeemOtp** function returns either an [AuthenticateResponse](embedded-reference-authenticate#returns) if the OTP was correct, or an **OtpChallengeResponse** if it was not:
+
+<Tabs groupId="sdks" queryString>
+<TabItem value="javascript" label="JavaScript">
+
+The Promise resolves to an **AuthenticateResponse** on success, or an **OtpChallengeResponse** if the OTP was wrong.
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+```kotlin
+sealed class RedeemOtpResponse {
+    data class Success(val authenticateResponse: AuthenticateResponse) : RedeemOtpResponse()
+    data class FailedOtp(val otpChallengeResponse: OtpChallengeResponse) : RedeemOtpResponse()
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+```swift
+public enum RedeemOtpResponse: Equatable, Hashable {
+    case success(AuthenticateResponse)
+    case failedOtp(OtpChallengeResponse)
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+```javascript
+redeemOtp(url: string, otp: string): Promise<AuthenticateResponse | OtpChallengeResponse>
+```
+
+Check for `redirectUrl` in the response to tell the two apart.
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+```dart
+class RedeemOtpResponse {
+  final AuthenticateResponse? success;
+  final OtpChallengeResponse? failedOtp;
+  bool get isSuccess;
+  bool get isFailedOtp;
+}
+```
+
+</TabItem>
+</Tabs>
+
+On Kotlin, the result is delivered to the callback, or emitted by the returned `Flow`. On Swift, it is delivered to the callback, or returned by the `async throws` variant. On JavaScript, React Native and Flutter, the function returns a Promise or `Future`.
+
+On success, the **AuthenticateResponse** contains the following keys:
 
 - **redirectUrl**: string containing the redirect URL that originates from the /authorize call's `redirect_uri` parameter. The OAuth2 authorization `code` and the `state` parameter of the /authorize call are attached with the "code" and "state" parameters to this URL.
 
@@ -85,20 +174,88 @@ const response = await fetch(
 
 This response will contain a `credential_binding_link`, which can be used by [isBindPasskeyUrl](embedded-reference-isBindPasskeyUrl) and [bindPasskey](embedded-reference-bindPasskey) to bind the credential.
 
-On failure, the **redeemOtp** function returns a Promise that resolves to an **OtpChallengeResponse**, which itself is a JSON object that contains the following keys:
+If the OTP was wrong, the **OtpChallengeResponse** contains the following key:
 
-Note: This url should be used when calling [redeemOtp](embedded-reference-redeemOtp) or [authenticateOtp](embedded-reference-authenticateOtp) on retries.
-
-- **url**: object containing a URL containing the state of the authentication.
+- **url**: a URL containing the state of the authentication. Use it when calling **redeemOtp** or [authenticateOtp](embedded-reference-authenticateOtp) again.
 
 ## Examples
 
 ### Example: Call **redeemOtp**
 
+<Tabs groupId="sdks" queryString>
+<TabItem value="javascript" label="JavaScript">
+
 ```javascript
-let authenticateResponse = await embedded.redeemOtp(url, otp);
+let response = await embedded.redeemOtp(url, otp);
 ```
+
+</TabItem>
+<TabItem value="kotlin" label="Kotlin">
+
+```kotlin
+import com.beyondidentity.embedded.sdk.EmbeddedSdk
+import com.beyondidentity.embedded.sdk.models.RedeemOtpResponse
+
+EmbeddedSdk.redeemOtp(url, otp) { result ->
+    result.onSuccess { response ->
+        when (response) {
+            is RedeemOtpResponse.Success ->
+                print("Authenticated. Redirect to ${response.authenticateResponse.redirectUrl}")
+            is RedeemOtpResponse.FailedOtp ->
+                print("Incorrect OTP. Retry with ${response.otpChallengeResponse.url}")
+        }
+    }
+    result.onFailure { e ->
+        print("Error redeeming OTP: $e")
+    }
+}
+```
+
+</TabItem>
+<TabItem value="swift" label="Swift">
+
+```swift
+Embedded.shared.redeemOtp(url: url, otp: otp) { result in
+    switch result {
+    case .success(.success(let authenticateResponse)):
+        print("Authenticated. Redirect to \(authenticateResponse.redirectUrl)")
+    case .success(.failedOtp(let otpChallengeResponse)):
+        print("Incorrect OTP. Retry with \(otpChallengeResponse.url)")
+    case .failure(let error):
+        print("Error redeeming OTP: \(error.localizedDescription)")
+    }
+}
+```
+
+</TabItem>
+<TabItem value="reactnative" label="React Native">
+
+```javascript
+const response = await Embedded.redeemOtp(url, otp);
+if ("redirectUrl" in response) {
+  console.log("Authenticated. Redirect to", response.redirectUrl);
+} else {
+  console.log("Incorrect OTP. Retry with", response.url);
+}
+```
+
+</TabItem>
+<TabItem value="flutter" label="Flutter">
+
+```dart
+RedeemOtpResponse response = await EmbeddedSdk.redeemOtp(url, otp);
+if (response.isSuccess) {
+  print("Authenticated. Redirect to ${response.success!.redirectUrl}");
+} else if (response.isFailedOtp) {
+  print("Incorrect OTP. Retry with ${response.failedOtp!.url}");
+}
+```
+
+</TabItem>
+</Tabs>
 
 import InstallationAll from "../../includes/_sdk-setup/_installation-all.mdx";
 import ImportAll from "../../includes/_sdk-setup/_import-all.mdx";
 import InitializeAll from "../../includes/_sdk-setup/code-snippets/initialize-all.mdx";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";

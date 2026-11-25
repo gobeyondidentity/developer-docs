@@ -3,9 +3,12 @@ import com.beyondidentity.embedded.sdk.EmbeddedSdk
 
 EmbeddedSdk.init(
     app: Application,
-    keyguardPrompt: (((allow: Boolean, exception: Exception?) -> Unit) -> Unit)?,
-    logger: (String) -> Unit,
     biometricAskPrompt: String, /* Optional */
+    logger: (String) -> Unit,
     allowedDomains: List<String>?, /* Optional */
 )
 ```
+
+:::note
+Biometric prompts require a `FragmentActivity` (for example, `AppCompatActivity`). If you call `init()` from an Activity, call `EmbeddedSdk.setActivity(this)` immediately afterwards. The SDK tracks later Activity changes automatically.
+:::

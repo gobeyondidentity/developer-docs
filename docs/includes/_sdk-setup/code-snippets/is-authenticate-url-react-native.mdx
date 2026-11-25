@@ -10,7 +10,7 @@ try {
     // TODO: Instead of automatically selecting the first passkey, 
     // present a UI to the user to let them select the desired passkey.
     // For the purpose of this example, we're using the first passkey.
-    const passkeyId = passkeys[0].passkeyId;
+    const passkeyId = passkeys[0].id;
 
     const isValid = await Embedded.isAuthenticateUrl(url);
     if (isValid) {

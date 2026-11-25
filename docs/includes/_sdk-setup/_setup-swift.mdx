@@ -2,9 +2,9 @@
 import BeyondIdentityEmbedded
 
 Embedded.initialize(
-    allowedDomains: [String] = ["beyondidentity.com"],
+    allowedDomains: [String]? = nil, /* Optional */
     biometricAskPrompt: String,
-    logger: ((OSLogType, String) -> Void)? = nil,
+    logger: ((OSLogType, String) -> Void)? = nil, /* Optional */
     callback: @escaping(Result<Void, BISDKError>) -> Void
 )
 ```

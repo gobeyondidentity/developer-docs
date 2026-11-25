@@ -6,8 +6,8 @@ EmbeddedSdk.initialize('Please provide your biometric');
 EmbeddedSdk.initialize(
   'Please provide your biometric',
   allowedDomains: ["example.com", "another-example.com"],
-  logger: EmbeddedSdk.enableLogger
-).then(() {
+  logger: EmbeddedSdk.enableLogger(),
+).then((_) {
   print('Initialization successful');
 }).catchError((error) {
   print('Initialization failed: $error');

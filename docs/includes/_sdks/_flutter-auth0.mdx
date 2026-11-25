@@ -45,7 +45,7 @@ var result = await FlutterWebAuth.authenticate(
 The result will be a URL with the Invoke URL scheme. You can call [`EmbeddedSdk.authenticate()`](/docs/sdk-setup?sdks=flutter#authentication), using the result. You can confirm the validity of the URL with [`EmbeddedSdk.isAuthenticateUrl()`](/docs/sdk-setup?sdks=flutter#authenticate-url-validation).
 
 ```javascript
-var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
+var authenticateResponse = await EmbeddedSdk.authenticate(result, selectedPasskeyId);
 ```
 
 #### Step 4. Redirect URL
@@ -71,7 +71,7 @@ selectPasskeyId((selectedPasskeyId) async {
         callbackUrlScheme: CALLBACK_URL_SCHEME,
     );
 
-    var authenticateResponse = await Embeddedsdk.authenticate(result, selectedPasskeyId);
+    var authenticateResponse = await EmbeddedSdk.authenticate(result, selectedPasskeyId);
 
     var redirectUrlResult = await FlutterWebAuth.authenticate(
         url: authenticateResponse.redirectUrl,

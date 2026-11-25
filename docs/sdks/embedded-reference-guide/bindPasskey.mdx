@@ -8,7 +8,7 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/01/2023
+  date: 11/25/2026
   author: William May
 draft: false
 doc_type: reference
@@ -51,11 +51,17 @@ Before making a call to **bindPasskey**, you must complete the following prerequ
 
 ## Returns
 
-On success, the **bindPasskey** function returns a Promise that resolves to a **BindPasskeyResponse**, which itself is an object that contains the following keys:
+On success, the **bindPasskey** function returns a **BindPasskeyResponse**:
+
+<BindPasskeyResponseAll />
+
+On Kotlin, the result is delivered to the callback, or emitted by the returned `Flow`. On Swift, it is delivered to the callback, or returned by the `async throws` variant. On JavaScript, React Native and Flutter, the function returns a Promise or `Future`.
+
+The response contains the following keys:
 
 - **passkey**: an object representing the newly created passkey. See example [passkey](/docs/embedded-reference-passkey-type).
 
-- **postBindRedirect**: a string containing the URL to redirect to upon successfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
+- **postBindingRedirectUri**: an optional URL to redirect to upon successfully binding a passkey. This is the URL that you specified in the earlier call to the [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs) to get the passkey binding link
 
 ## Notes
 
@@ -303,3 +309,4 @@ import IsBindPasskeyUrl from "../code-snippets/is-bind-passkey-url-all.mdx";
 import BindPasskeyUrlParametersAll from "../parameters/bind-passkey-url-all.mdx";
 import IsBindPasskeyUrlExample from "../../includes/_sdk-setup/code-snippets/is-bind-passkey-url-all.mdx";
 import MultiLanguageCodeBlock from "@site/src/components/CodeBlocks/MultiLanguageCodeBlock";
+import BindPasskeyResponseAll from "../code-snippets/bind-passkey-response-all.mdx";

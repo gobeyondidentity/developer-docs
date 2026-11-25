@@ -1,12 +1,12 @@
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | String | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
-| **callback** | (`Result<BindPasskeyResponse>`) -> Unit | A callback that returns a result of type `BindPasskeyResponse`. |
+| **url** | `String` | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
+| **callback** | `(Result<BindPasskeyResponse>) -> Unit` | Required. Called with the `BindPasskeyResponse` on success, or a `Throwable` on failure. |
 
 <br />
-<b>Alternatively, you can use an overloaded version of this function to specify a dispatcher:</b>
+<b>Alternatively, call the overload that takes a dispatcher instead of a callback. It returns a <code>Flow</code> that emits the result once it is collected:</b>
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | String | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
-| **dispatcher** | CoroutineDispatcher | Optional. Specifies which coroutine dispatcher to use. Default is `Dispatchers.Default`. |
+| **url** | `String` | Required. Passkey binding link URL. Using our public [API](https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob), this can be fetched directly or sent to the email address associated with the identity. This URL enables **bindPasskey** to kick off the passkey creation and binding sequence for the identity that you specify. |
+| **dispatcher** | `CoroutineDispatcher` | Optional. The coroutine dispatcher to run on. Defaults to `Dispatchers.Default`. |

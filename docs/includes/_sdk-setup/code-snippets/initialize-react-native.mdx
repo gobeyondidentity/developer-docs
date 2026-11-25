@@ -10,9 +10,9 @@ try {
 // --- Initialize with required and optional arguments
 try {
   const response = await Embedded.initialize(
-    "Please provide your biometric", [
-    ("example.com", "another-example.com"),
-  ]);
+    "Please provide your biometric",
+    ["example.com", "another-example.com"]
+  );
   console.log(response);
 
   Embedded.logEventEmitter.addListener(

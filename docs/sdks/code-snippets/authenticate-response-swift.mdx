@@ -1,6 +1,7 @@
 ```swift
-struct AuthenticateResponse: Codable, Equatable {
-    let redirectUrl: URL
-    let message: String?
+public struct AuthenticateResponse: Equatable, Hashable {
+    public let redirectUrl: URL
+    public let message: String?
+    public let passkeyBindingToken: String?
 }
 ```

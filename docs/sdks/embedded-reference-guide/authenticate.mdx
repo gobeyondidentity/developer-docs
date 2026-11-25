@@ -8,7 +8,7 @@ keywords:
 pagination_next: null
 pagination_prev: null
 last_update:
-  date: 08/01/2023
+  date: 11/25/2026
   author: William May
 draft: false
 doc_type: reference
@@ -35,9 +35,9 @@ Before making a call to **authenticate**, you must complete the following prereq
 
   <InitializeAll />
 
-1. Identify the passkey you wish to authenticate with and obtain its passkey ID.
+1. Identify the passkey you wish to authenticate with and obtain its ID.
 
-  > _How you achieve this depends upon your app, but you can obtain a list of passkeys available on the device via the [**getPasskeys**](./embedded-reference-getPasskeys) function. This returns an array of passkeys that you can use, for example, to prompt the user interactively to select one. The **id** property of the selected [**Passkey**](./embedded-reference-passkey-type) is the passkey id this function expects_
+  > _How you achieve this depends upon your app, but you can obtain a list of passkeys available on the device via the [**getPasskeys**](./embedded-reference-getPasskeys) function. This returns an array of passkeys that you can use, for example, to prompt the user interactively to select one. The **id** property of the selected [**Passkey**](./embedded-reference-passkey-type), not its **passkeyId**, is the ID this function expects_
 
 4. Use isAuthenticateUrl to verify the `url` parameter you intend to send to the function
 
@@ -53,11 +53,15 @@ On success, the **authenticate** function returns the following response:
 
 <AuthenticateResponseAll />
 
-- **redirectURL**: string containing the complete URL to which your app should redirect the user to complete the OIDC flow.
+- **redirectUrl**: the complete URL to which your app should redirect the user to complete the OIDC flow.
 
   Keeping with the OIDC specifications, this includes the code and state parameters as query parameters to the redirect_url specified in the original OIDC request to the `/authorize` endpoint for the authentication URL.
 
-- **message**: string containing a message your app may optionally consume or display.
+- **message**: an optional message, defined by policy, that your app may display.
+
+- **passkeyBindingToken**: an optional one-time token that can be exchanged for a passkey binding link. It is set only when the user authenticated with [redeemOtp](./embedded-reference-redeemOtp).
+
+On Kotlin, the result is delivered to the callback, or emitted by the returned `Flow`. On Swift, it is delivered to the callback, or returned by the `async throws` variant. On JavaScript, React Native and Flutter, the function returns a Promise or `Future`.
 
 ## Notes
 

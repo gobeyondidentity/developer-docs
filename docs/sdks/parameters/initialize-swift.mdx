@@ -1,6 +1,8 @@
 | Parameter | Type | Description |
 | --- | --- | --- |
 | **allowedDomains** | `[String]?` | An optional array of whitelisted domains for network operations. This will default to Beyond Identity's allowed domains when not provided or is empty. |
-| **biometricAskPrompt** | `String` | **Required.** A prompt the user will see when asked for biometrics. |
+| **biometricAskPrompt** | `String` | **Required.** The title of the biometric prompt the user sees when authenticating or binding a passkey. |
 | **logger** | `((OSLogType, String) -> Void)?` | Optional function to log output. |
 | **callback** | `@escaping (Result<Void, BISDKError>) -> Void` | **Required.** A callback function that returns the result of the initialization operation. |
+
+The `async throws` variant takes the same parameters without **callback**, returns the result directly, and throws a `BISDKError` on failure.

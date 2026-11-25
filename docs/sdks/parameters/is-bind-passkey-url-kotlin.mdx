@@ -1,3 +1,13 @@
 | Parameter | Type | Description |
 | --- | --- | --- |
-| **url** | String | Required. Url to be validated as Beyond Identity passkey binding url. |
+| **url** | `String` | Required. URL to be validated as a Beyond Identity passkey binding URL. |
+
+Returns a `Boolean`.
+
+<br />
+<b>Alternatively, call the overload that takes a dispatcher. It returns a <code>Flow</code> that emits the result once it is collected:</b>
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| **url** | `String` | Required. URL to be validated as a Beyond Identity passkey binding URL. |
+| **dispatcher** | `CoroutineDispatcher` | Optional. The coroutine dispatcher to run on. Defaults to `Dispatchers.IO`. |
