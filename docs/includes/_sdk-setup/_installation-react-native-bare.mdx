@@ -1,3 +1,5 @@
+The SDK requires React Native 0.88.0 or later.
+
 Install the SDK with yarn or npm:
 
 ```yarn tab
@@ -12,10 +14,10 @@ Update native requirements in your ios and android folders:
 
 #### **iOS**
 
-Make sure your `ios/Podfile` supports "minimum deployment target" 13.0 or later
+Make sure your `ios/Podfile` supports "minimum deployment target" 15.1 or later
 
 ```sh title="ios/Podfile"
-platform :ios, '13.0'
+platform :ios, '15.1'
 ```
 
 Navigate to your ios folder and run:
@@ -47,3 +49,5 @@ allprojects {
   }
 }
 ```
+
+For biometric prompts to work on Android, your Activity must extend `FragmentActivity`. The default `ReactActivity` already does.

@@ -1,3 +1,5 @@
+The SDK requires Flutter 3.44.0 or later.
+
 ### Pub.Dev
 
 Add the Beyond Identity Embedded SDK to your dependencies
@@ -21,11 +23,19 @@ buildscript {
 }
 ```
 
+For biometric prompts to work on Android, your Activity must extend `FragmentActivity`. Use `FlutterFragmentActivity` instead of `FlutterActivity`:
+
+```kotlin title="android/app/src/main/kotlin/.../MainActivity.kt"
+import io.flutter.embedding.android.FlutterFragmentActivity
+
+class MainActivity : FlutterFragmentActivity()
+```
+
 ### Update iOS
 
-Please make sure your project supports "minimum deployment target" 13.0 or later.
+Please make sure your project supports "minimum deployment target" 15.1 or later.
 In your `ios/Podfile` set:
 
 ```sh
-platform :ios, '13.0'
+platform :ios, '15.1'
 ```
