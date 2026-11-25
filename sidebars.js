@@ -301,6 +301,7 @@ const sidebars = {
         id: "sdks/embedded-sdk",
       },
       items: [
+        "sdks/sdk-setup",
         {
           type: "category",
           label: "Reference",
